@@ -32,8 +32,8 @@ export const bots: BotMeta[] = [
   { id: 'whale-signal', emoji: '⚡', status: 'production', accent: 'fuchsia' },
 ];
 
-export const TELEGRAM_URL = 'https://t.me/HarrierOnChain';
-export const GITHUB_OWNER = 'HarrierOnChain';
+export const TELEGRAM_URL = 'https://t.me/tarpboi';
+export const GITHUB_OWNER = 'tarpboi';
 export const GITHUB_URL = `https://github.com/${GITHUB_OWNER}/Prediction-Markets-Trading-Bot-Toolkits`;
 
 export interface VenueMeta {

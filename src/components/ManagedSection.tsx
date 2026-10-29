@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useT } from '../messages';
 
-const REPO = 'HarrierOnChain/Prediction-Markets-Trading-Bot-Toolkits';
+const REPO = 'tarpboi/Prediction-Markets-Trading-Bot-Toolkits';
 
 // The star count used to be typed into the i18n copy, so it silently went stale
 // (it read 359+ while the repo was at 433). Read it from GitHub instead and fall
