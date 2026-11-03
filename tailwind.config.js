@@ -14,6 +14,7 @@ export default {
           strong: '#2a2a38',
         },
         brand: {
+          predictfun: '#f0b90b',
           polymarket: '#6e40c9',
           kalshi: '#0066cc',
           limitless: '#00b894',

@@ -21,15 +21,15 @@ export interface BotMeta {
 
 export const bots: BotMeta[] = [
   { id: 'copy-trading', emoji: '🎯', status: 'production', accent: 'purple' },
-  { id: 'btc-arb', emoji: '⚡', status: 'production', accent: 'amber' },
-  { id: 'cross-arb', emoji: '💰', status: 'production', accent: 'emerald' },
-  { id: 'directional-arb', emoji: '🎯', status: 'production', accent: 'cyan' },
-  { id: 'spread-farming', emoji: '📈', status: 'production', accent: 'pink' },
-  { id: 'sports', emoji: '🏆', status: 'production', accent: 'orange' },
-  { id: 'resolution-sniper', emoji: '🎯', status: 'production', accent: 'rose' },
-  { id: 'orderbook-imbalance', emoji: '📊', status: 'production', accent: 'sky' },
-  { id: 'market-making', emoji: '💰', status: 'production', accent: 'indigo' },
-  { id: 'whale-signal', emoji: '⚡', status: 'production', accent: 'fuchsia' },
+  { id: 'btc-arb', emoji: '⚡', status: 'development', accent: 'amber' },
+  { id: 'cross-arb', emoji: '💰', status: 'development', accent: 'emerald' },
+  { id: 'directional-arb', emoji: '🎯', status: 'development', accent: 'cyan' },
+  { id: 'spread-farming', emoji: '📈', status: 'development', accent: 'pink' },
+  { id: 'sports', emoji: '🏆', status: 'development', accent: 'orange' },
+  { id: 'resolution-sniper', emoji: '🎯', status: 'development', accent: 'rose' },
+  { id: 'orderbook-imbalance', emoji: '📊', status: 'development', accent: 'sky' },
+  { id: 'market-making', emoji: '💰', status: 'development', accent: 'indigo' },
+  { id: 'whale-signal', emoji: '⚡', status: 'development', accent: 'fuchsia' },
 ];
 
 export const TELEGRAM_URL = 'https://t.me/tarpboi';
@@ -53,6 +53,9 @@ export const botById: Record<string, BotMeta> = Object.fromEntries(bots.map((b) 
 
 // Mirrors the hub README venue coverage tables + the per-venue spoke repos.
 export const venues: VenueMeta[] = [
+  { repo: 'Predict.fun', name: 'Predict.fun', domain: 'predict.fun',
+    strategies: ['copy-trading', 'btc-arb', 'cross-arb', 'directional-arb', 'spread-farming', 'resolution-sniper', 'orderbook-imbalance', 'market-making'],
+    type: { en: 'Decentralized (BNB Chain / USDT)', zh: '去中心化（BNB Chain / USDT）', ru: 'Децентрализованная (BNB Chain / USDT)' } },
   { repo: 'Polymarket', name: 'Polymarket', domain: 'polymarket.com', strategies: ALL_STRATS,
     type: { en: 'Decentralized (Polygon / USDC)', zh: '去中心化（Polygon / USDC）', ru: 'Децентрализованная (Polygon / USDC)' } },
   { repo: 'Kalshi', name: 'Kalshi', domain: 'kalshi.com',

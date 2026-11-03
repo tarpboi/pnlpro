@@ -35,6 +35,8 @@ export function Hero() {
               {t.hero.badge}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-zinc-200 backdrop-blur-sm">
+              <span className="text-brand-predictfun">Predict.fun</span>
+              <span className="text-zinc-600">·</span>
               <span className="text-brand-polymarket">Polymarket</span>
               <span className="text-zinc-600">·</span>
               <span className="text-brand-kalshi">Kalshi</span>
@@ -51,6 +53,7 @@ export function Hero() {
 
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300 md:text-xl">
             {interp(t.hero.description, {
+              predictfun: <span className="font-semibold text-brand-predictfun">Predict.fun</span>,
               polymarket: <span className="font-semibold text-brand-polymarket">Polymarket</span>,
               kalshi: <span className="font-semibold text-brand-kalshi">Kalshi</span>,
               limitless: <span className="font-semibold text-brand-limitless">Limitless</span>,
