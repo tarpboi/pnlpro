@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0DTE 期权详解：末日期权的风险与策略 | PnL Profit</title>
+<meta name="description" content="什么是 0DTE 期权，当日到期的 SPX、SPY 和 QQQ 期权为何爆火，极端 Gamma 与时间衰减如何运作，常见策略，以及买卖双方面临的风险。">
+<meta name="keywords" content="0DTE期权, 末日期权, SPX 0DTE, 0DTE策略, 0DTE风险">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/0dte-options/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/0dte-options/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="0DTE 期权详解：末日期权的风险与策略 | PnL Profit">
+<meta property="og:description" content="什么是 0DTE 期权，当日到期的 SPX、SPY 和 QQQ 期权为何爆火，极端 Gamma 与时间衰减如何运作，常见策略，以及买卖双方面临的风险。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/options/0dte-options/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="0DTE 期权详解：末日期权的风险与策略 | PnL Profit">
+<meta name="twitter:description" content="什么是 0DTE 期权，当日到期的 SPX、SPY 和 QQQ 期权为何爆火，极端 Gamma 与时间衰减如何运作，常见策略，以及买卖双方面临的风险。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"0DTE 期权详解：末日期权的风险与策略","description":"什么是 0DTE 期权，当日到期的 SPX、SPY 和 QQQ 期权为何爆火，极端 Gamma 与时间衰减如何运作，常见策略，以及买卖双方面临的风险。","keywords":"0DTE期权, 末日期权, SPX 0DTE, 0DTE策略, 0DTE风险","articleSection":"期权交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/options/0dte-options/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"期权交易","item":"https://pnlpro.fit/zh/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"0DTE期权","item":"https://pnlpro.fit/zh/encyclopedia/options/0dte-options/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"期权里的 0DTE 是什么意思？","acceptedAnswer":{"@type":"Answer","text":"0DTE 指距到期零天：期权在交易当天收盘时到期。SPX、SPY 和 QQQ 每个交易日都有期权到期。"}},{"@type":"Question","name":"0DTE 期权能赚钱吗？","acceptedAnswer":{"@type":"Answer","text":"单笔交易可能赚钱，但它们的 Gamma 和时间衰减极端。从历史上看，散户作为一个整体在短期期权上是亏钱的，而且买入的 0DTE 期权大多到期作废。"}},{"@type":"Question","name":"交易者为什么偏好用 SPX 做 0DTE？","acceptedAnswer":{"@type":"Answer","text":"SPX 期权采用现金结算和欧式行权，因此不存在提前指派，到期时也不会产生股票头寸。在美国，它们还可能适用 Section 1256 税务待遇。"}},{"@type":"Question","name":"做 0DTE 期权会亏得比投入的更多吗？","acceptedAnswer":{"@type":"Answer","text":"买方最多亏掉所付的权利金。无保护 0DTE 期权的卖方可能亏损远超所收取的权利金，价差卖方最多可能亏掉价差的全部宽度减去收取的权利金。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/options/0dte-options/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/0dte-options/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/options/0dte-options/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/0dte-options/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/0dte-options/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/0dte-options/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/0dte-options/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/0dte-options/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/0dte-options/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>期权交易</h3><ul><li><a href="/zh/encyclopedia/options/options-basics/">期权基础</a></li><li><a href="/zh/encyclopedia/options/options-greeks/">希腊字母</a></li><li><a href="/zh/encyclopedia/options/implied-volatility/">隐含波动率</a></li><li><a href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/">备兑看涨与现金担保看跌</a></li><li><a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a></li><li><a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰式与蝶式</a></li><li><a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a></li><li><a href="/zh/encyclopedia/options/0dte-options/" class="on" aria-current="page">0DTE期权</a></li><li><a href="/zh/encyclopedia/options/options-expiration-and-assignment/">到期与行权指派</a></li><li><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma敞口与做市商对冲</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/" class="on">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/options/">期权交易</a></div>
+<h1 class="title">0DTE 期权</h1>
+<div class="meta">阅读约 5 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>期权交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/options/options-basics/">期权基础</a></li><li><a href="/zh/encyclopedia/options/options-greeks/">希腊字母</a></li><li><a href="/zh/encyclopedia/options/implied-volatility/">隐含波动率</a></li><li><a href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/">备兑看涨与现金担保看跌</a></li><li><a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a></li><li><a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰式与蝶式</a></li><li><a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a></li><li><a href="/zh/encyclopedia/options/0dte-options/" class="on" aria-current="page">0DTE期权</a></li><li><a href="/zh/encyclopedia/options/options-expiration-and-assignment/">到期与行权指派</a></li><li><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma敞口与做市商对冲</a></li></ul></details>
+<article><p>0DTE 期权是“zero days to expiration”（距到期零天）的缩写，指在到期当天交易的期权，国内交易者也常叫它“末日期权”。它最常见于标普 500 指数（SPX）以及 SPY、QQQ 等最大的指数 ETF，这些品种如今每个交易日都有到期合约。由于只剩几个小时的寿命，0DTE 期权以美元计很便宜，对小幅价格变动极其敏感，剩余的时间价值会在收盘前全部流失。这样的组合让它对投机者很有吸引力，对几乎所有人来说也很危险。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点总结</h2>
+<ul>
+<li>0DTE 期权在交易当天到期，因此其全部外在价值会在几小时内消失。</li>
+<li>SPX 在 2022 年实现了每个工作日都有到期合约，此后 0DTE 交易已增长到占指数期权成交量的很大一部分。</li>
+<li>平值 0DTE 期权的 Gamma 非常高，小幅波动就能让它的 Delta 和价值从接近零摆动到很大。</li>
+<li>买方通常会亏掉权利金，卖方经常赚小钱、却可能突然遭受大额亏损，而双方都必须快速决策，几乎没有时间纠正错误。</li>
+<li>从历史上看，散户作为一个整体在短期期权上是亏钱的，快节奏还可能助长类似赌博的行为。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#0dte">0DTE 交易为何爆发</a></li><li><a href="#spx-spy-qqq">SPX、SPY 与 QQQ 对比</a></li><li><a href="#gamma">Gamma 风险与时间衰减</a></li><li><a href="#0dte">常见 0DTE 策略</a></li><li><a href="#section-8">买方的风险</a></li><li><a href="#section-9">卖方的风险</a></li><li><a href="#section-10">对整体市场的影响</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="0dte">0DTE 交易为何爆发</h2>
+<p>短期期权已经存在多年，最初是月度到期，后来有了周度到期。Cboe 在 2022 年增加了周二和周四的 SPX 到期合约，加上原有的周一、周三和周五到期合约，SPX 从此每个工作日都有合约到期。随后，SPY 和 QQQ 等主要 ETF 也推出了每日到期合约。根据 Cboe 公布的数据，近几年当日到期期权约占 SPX 期权成交量的一半。</p>
+<p>推动增长的因素有好几个：</p>
+<ul>
+<li><strong>单张价格低</strong>：只剩几小时寿命的期权，价格可能只有长期期权的一小部分，吸引了小账户。</li>
+<li><strong>没有隔夜风险</strong>：头寸在当天收盘前平仓或结算。</li>
+<li><strong>精准的事件交易</strong>：交易者可以针对某一天的经济数据发布或央行决议进行交易。</li>
+<li><strong>机构使用</strong>：基金和做市商用当日期权来对冲，或针对特定交易时段调整敞口。</li>
+<li><strong>门槛低</strong>：零佣金交易 App 和简化的期权界面降低了散户的进入门槛。</li>
+</ul>
+<h2 id="spx-spy-qqq">SPX、SPY 与 QQQ 对比</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>特征</th>
+<th>SPX</th>
+<th>SPY</th>
+<th>QQQ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标的</td>
+<td>标普 500 指数</td>
+<td>SPDR 标普 500 ETF</td>
+<td>Invesco QQQ ETF（纳斯达克 100）</td>
+</tr>
+<tr>
+<td>结算方式</td>
+<td>现金</td>
+<td>实物（股票）</td>
+<td>实物（股票）</td>
+</tr>
+<tr>
+<td>行权方式</td>
+<td>欧式</td>
+<td>美式</td>
+<td>美式</td>
+</tr>
+<tr>
+<td>名义规模</td>
+<td>约为 SPY 的 10 倍</td>
+<td>较小</td>
+<td>较小</td>
+</tr>
+<tr>
+<td>到期前的指派风险</td>
+<td>无</td>
+<td>有</td>
+<td>有</td>
+</tr>
+</tbody></table></div>
+<p>SPX 期权的合约规模大得多。指数在 5,000 点、乘数为 $100 时，一张合约对应 $500,000 的名义敞口。Mini-SPX 期权（XSP）的规模是其十分之一，同样采用现金结算。对美国纳税人来说，SPX 等宽基指数期权一般被视为 Section 1256 合约，ETF 期权则不是；请核实现行规定。结算方式的差异详见<a href="/zh/encyclopedia/options/options-expiration-and-assignment/">期权到期与指派</a>。</p>
+<h2 id="gamma">Gamma 风险与时间衰减</h2>
+<p>0DTE 期权的表现与长期期权不同，因为有两个希腊字母会变得极端。定义参见<a href="/zh/encyclopedia/options/options-greeks/">期权希腊字母</a>。</p>
+<ul>
+<li><strong>Gamma</strong>：只剩几小时时，平值期权的 Delta 可能因为零点几个百分点的波动，就从约 0.50 摆动到 0.80 或更高，或者降到 0.20 甚至更低。</li>
+<li><strong>Theta</strong>：所有剩余的外在价值必须在收盘前消失。美东时间下午 4:00 处于虚值的期权会作废，不管它在盘中离行权价有多近。</li>
+</ul>
+<h3 id="0dte-spx">实例：最后一小时的 0DTE SPX 看涨期权</h3>
+<p>交易时段还剩约一小时，SPX 位于 5,000 点。假设一张行权价 5,000 的看涨期权售价 $7.00，即每张合约 $700，Delta 接近 0.50。</p>
+<ul>
+<li><strong>SPX 上涨 15 点（0.3%），收于 5,015</strong>：看涨期权以 $15.00 结算，价值 $1,500。利润：$1,500 - $700 = $800，回报率 114%。</li>
+<li><strong>SPX 收于 5,007</strong>：看涨期权以 $7.00 结算。利润：$0。</li>
+<li><strong>SPX 收于 5,000 或以下</strong>：看涨期权作废。亏损：$700，即 100%。</li>
+</ul>
+<p>指数 0.3% 的波动带来了超过 100% 的收益，而完全不动则导致全部亏损。这种摆动就是 Gamma 在起作用，也是 0DTE 头寸能在几分钟内大幅改变价值的原因。</p>
+<h2 id="0dte">常见 0DTE 策略</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>说明</th>
+<th>主要风险</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>买入看涨或看跌期权</td>
+<td>押注盘中方向性波动</td>
+<td>行情若不能很快到来，权利金会衰减到零</td>
+</tr>
+<tr>
+<td>买入跨式或宽跨式</td>
+<td>押注任一方向的大幅波动，常在数据发布日使用</td>
+<td>实际波动小于已计入价格的幅度</td>
+</tr>
+<tr>
+<td>卖出信用价差</td>
+<td>在交易者预计守得住的一侧收取权利金</td>
+<td>尾盘剧烈波动击穿卖出行权价</td>
+</tr>
+<tr>
+<td>铁鹰与蝶式价差</td>
+<td>指数停留在区间内或目标附近即可获利</td>
+<td>单边趋势日打破区间</td>
+</tr>
+<tr>
+<td>对冲</td>
+<td>为投资组合或期货头寸提供短期保护</td>
+<td>反复买入保护的成本</td>
+</tr>
+</tbody></table></div>
+<p>相关策略详见<a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a>、<a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a>以及<a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰与蝶式价差</a>。</p>
+<h3 id="0dte">实例：0DTE 信用价差</h3>
+<p>早盘时 SPX 位于 5,000 点。一位交易者以 $1.00 卖出 4,950/4,940 看跌价差，每组收取 $100。</p>
+<ul>
+<li><strong>SPX 收于 4,950 以上</strong>：两张看跌期权都作废；利润为 $100。</li>
+<li><strong>SPX 收于 4,940 或以下</strong>：价差价值 $10.00；亏损为 $10.00 - $1.00 = $9.00，即 $900。</li>
+<li><strong>盈亏平衡点</strong>：4,950 - 1.00 = 4,949。</li>
+</ul>
+<p>这笔交易只需从 5,000 跌到 4,940，即下跌 1.2%，就会亏掉最多的 $900。相当于九个盈利日的权利金在一个交易日内亏光。在平静的市场中，这种幅度的盘中下跌并不常见，但在波动剧烈的年份并不罕见。</p>
+<h2 id="section-8">买方的风险</h2>
+<ul>
+<li><strong>大多数 0DTE 期权到期作废</strong>。价格低，反映的是到期时处于实值的概率低。</li>
+<li><strong>时机必须近乎完美</strong>。方向看对了但晚了一个小时，和看错没有区别。</li>
+<li><strong>买卖价差和滑点影响更大</strong>。对于便宜的期权，几美分的买卖价差就可能占权利金的很大比例。</li>
+</ul>
+<h2 id="section-9">卖方的风险</h2>
+<ul>
+<li><strong>赚小钱，亏大钱</strong>。卖出深度虚值期权胜率高，但一次剧烈波动就可能亏掉权利金的许多倍。</li>
+<li><strong>临近收盘的 Gamma</strong>。美东时间下午 3:00 看起来很安全的头寸，到 3:55 可能已深度实值。</li>
+<li><strong>保证金与强制平仓</strong>。随着风险上升，券商可能提高保证金要求或自动平仓。</li>
+<li><strong>ETF 期权的指派</strong>。到期时处于实值的 SPY 或 QQQ 卖出期权会被指派，产生的股票头寸会把风险带入盘后交易。</li>
+</ul>
+<h2 id="section-10">对整体市场的影响</h2>
+<p>一些分析人士认为，大量 0DTE 交易可能放大或抑制盘中波动，具体取决于做市商如何对冲。另一些人则认为，由于头寸往往是平衡的，这种影响比新闻标题所暗示的要小。相关证据仍有争议。参见<a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma 敞口与做市商对冲</a>。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>把 0DTE 期权当彩票</strong>。偶尔的大赢让人印象深刻，但众多小额亏损会不断累积。</li>
+<li><strong>摊低成本</strong>（越跌越买）。在时间所剩无几时给亏损的 0DTE 头寸加仓，只会让亏损叠加。</li>
+<li><strong>卖出权利金却不设止损</strong>。一个单边趋势日就可能抹掉几周的权利金收入。</li>
+<li><strong>没有计划就在数据发布时交易</strong>。CPI、非农就业报告和央行决议可能在几秒内让指数大幅波动。</li>
+<li><strong>忽视时间</strong>。整个下午衰减都在加速，临近收盘时流动性也可能变薄。</li>
+</ul>
+<p>关于赌博的提醒：0DTE 期权的速度、低廉的单张价格和类似彩票的回报结构，可能助长强迫性行为。如果你感觉交易已经停不下来，或者在追逐亏损，请考虑暂时离开，并联系你所在国家或地区的问题赌博求助服务。参见<a href="/zh/encyclopedia/psychology/handling-losses-and-tilt/">应对亏损与上头情绪</a>。</p>
+<h2 id="faq">常见问题</h2>
+<h3 id="0dte">期权里的 0DTE 是什么意思？</h3>
+<p>0DTE 指距到期零天：期权在交易当天收盘时到期。SPX、SPY 和 QQQ 每个交易日都有期权到期。</p>
+<h3 id="0dte">0DTE 期权能赚钱吗？</h3>
+<p>单笔交易可能赚钱，但它们的 Gamma 和时间衰减极端。从历史上看，散户作为一个整体在短期期权上是亏钱的，而且买入的 0DTE 期权大多到期作废。</p>
+<h3 id="spx-0dte">交易者为什么偏好用 SPX 做 0DTE？</h3>
+<p>SPX 期权采用现金结算和欧式行权，因此不存在提前指派，到期时也不会产生股票头寸。在美国，它们还可能适用 Section 1256 税务待遇。</p>
+<h3 id="0dte">做 0DTE 期权会亏得比投入的更多吗？</h3>
+<p>买方最多亏掉所付的权利金。无保护 0DTE 期权的卖方可能亏损远超所收取的权利金，价差卖方最多可能亏掉价差的全部宽度减去收取的权利金。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/options/options-greeks/"><div class="k">期权交易</div><b>希腊字母</b><span>Delta、Gamma、Theta、Vega 和 Rho 分别衡量什么，附计算实例，讲解希腊字母如何随时间和价值状态变化，以及如何解读持仓希腊值。</span></a><a class="card" href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/"><div class="k">期权交易</div><b>Gamma敞口与做市商对冲</b><span>做市商如何进行 Delta 对冲，做市商正 Gamma 与负 Gamma，Gamma 挤压，GEX 估算的原理与局限，期权到期日（OPEX）效应，以及 Vanna 和 Charm。</span></a><a class="card" href="/zh/encyclopedia/options/options-expiration-and-assignment/"><div class="k">期权交易</div><b>到期与行权指派</b><span>行权和指派如何运作，除息前的提前指派，实值 $0.01 即自动行权，钉住风险，SPX 与 SPY 的结算差异，以及到期日盘后风险。</span></a><a class="card" href="/zh/encyclopedia/psychology/handling-losses-and-tilt/"><div class="k">交易心理</div><b>应对亏损与情绪失控</b><span>如何应对连续亏损和上头：警示信号、单日亏损上限等熔断规则、大亏之后如何重启、何时该停手，以及赌博问题的危险信号。</span></a><a class="card" href="/zh/encyclopedia/options/options-basics/"><div class="k">期权交易</div><b>期权基础</b><span>期权怎么运作：看涨与看跌期权、行权价、到期日、权利金、内在价值与时间价值、价值状态，买方和卖方的盈亏示例，以及期权交易权限等级。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/options/straddles-and-strangles/"><small>← 上一篇</small>跨式与宽跨式</a><a class="next" href="/zh/encyclopedia/options/options-expiration-and-assignment/"><small>下一篇 →</small>到期与行权指派</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

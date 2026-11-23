@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>博彩交易所交易：Back、Lay 与锁定利润详解 | PnL Profit</title>
+<meta name="description" content="博彩交易所如何运作：支持（back）与反对（lay）投注，滚球赔率交易，附计算实例的锁定利润（greening up），佣金、合法性以及与预测市场的比较。">
+<meta name="keywords" content="博彩交易所交易, back和lay投注, 锁定利润 greening up, Betfair交易, 滚球交易, lay投注是什么">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="博彩交易所交易：Back、Lay 与锁定利润详解 | PnL Profit">
+<meta property="og:description" content="博彩交易所如何运作：支持（back）与反对（lay）投注，滚球赔率交易，附计算实例的锁定利润（greening up），佣金、合法性以及与预测市场的比较。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/other-markets/sports-betting-exchange-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="博彩交易所交易：Back、Lay 与锁定利润详解 | PnL Profit">
+<meta name="twitter:description" content="博彩交易所如何运作：支持（back）与反对（lay）投注，滚球赔率交易，附计算实例的锁定利润（greening up），佣金、合法性以及与预测市场的比较。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"博彩交易所交易：Back、Lay 与锁定利润详解","description":"博彩交易所如何运作：支持（back）与反对（lay）投注，滚球赔率交易，附计算实例的锁定利润（greening up），佣金、合法性以及与预测市场的比较。","keywords":"博彩交易所交易, back和lay投注, 锁定利润 greening up, Betfair交易, 滚球交易, lay投注是什么","articleSection":"大宗商品、债券及其他","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/other-markets/sports-betting-exchange-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"大宗商品、债券及其他","item":"https://pnlpro.fit/zh/encyclopedia/other-markets/"},{"@type":"ListItem","position":3,"name":"博彩交易所交易","item":"https://pnlpro.fit/zh/encyclopedia/other-markets/sports-betting-exchange-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"支持（back）和反对（lay）有什么区别？","acceptedAnswer":{"@type":"Answer","text":"支持是押某个结果会发生。反对是押它不会发生，这意味着你充当庄家，如果该结果确实发生，你要支付支持方的奖金。"}},{"@type":"Question","name":"锁定利润（greening up）是什么意思？","acceptedAnswer":{"@type":"Answer","text":"锁定利润是指在新的赔率下下一笔方向相反的注，使你无论结果如何都获得相同的利润。通常是在赔率朝有利于你的方向变动后，对你此前以更高赔率支持的结果进行反对投注。"}},{"@type":"Question","name":"博彩交易所交易能赚钱吗？","acceptedAnswer":{"@type":"Answer","text":"少数技术娴熟或资源充足的交易者能够盈利，但扣除佣金、价差以及来自更快交易者的竞争后，大多数参与者都在亏钱。应该把它当作赌博，而不是可靠的收入来源。"}},{"@type":"Question","name":"博彩交易所合法吗？","acceptedAnswer":{"@type":"Answer","text":"这取决于国家。它们在英国、爱尔兰和澳大利亚等地获得许可，但在许多其他地区受到限制或无法使用，包括美国的大部分地区，因此使用前请先了解当地法律。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/other-markets/sports-betting-exchange-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/other-markets/sports-betting-exchange-trading/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/other-markets/sports-betting-exchange-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/other-markets/sports-betting-exchange-trading/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/other-markets/sports-betting-exchange-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/other-markets/sports-betting-exchange-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/other-markets/sports-betting-exchange-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/other-markets/sports-betting-exchange-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/other-markets/sports-betting-exchange-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>大宗商品、债券及其他</h3><ul><li><a href="/zh/encyclopedia/other-markets/commodities-trading/">大宗商品交易</a></li><li><a href="/zh/encyclopedia/other-markets/gold-and-precious-metals/">黄金与贵金属</a></li><li><a href="/zh/encyclopedia/other-markets/oil-and-energy-trading/">原油与能源</a></li><li><a href="/zh/encyclopedia/other-markets/bonds-and-interest-rate-trading/">债券与利率</a></li><li><a href="/zh/encyclopedia/other-markets/stock-indices-trading/">股票指数交易</a></li><li><a href="/zh/encyclopedia/other-markets/volatility-trading-vix/">波动率与VIX</a></li><li><a href="/zh/encyclopedia/other-markets/sports-betting-exchange-trading/" class="on" aria-current="page">博彩交易所交易</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/" class="on">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a></div>
+<h1 class="title">博彩交易所交易</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>大宗商品、债券及其他中的更多文章</summary><ul><li><a href="/zh/encyclopedia/other-markets/commodities-trading/">大宗商品交易</a></li><li><a href="/zh/encyclopedia/other-markets/gold-and-precious-metals/">黄金与贵金属</a></li><li><a href="/zh/encyclopedia/other-markets/oil-and-energy-trading/">原油与能源</a></li><li><a href="/zh/encyclopedia/other-markets/bonds-and-interest-rate-trading/">债券与利率</a></li><li><a href="/zh/encyclopedia/other-markets/stock-indices-trading/">股票指数交易</a></li><li><a href="/zh/encyclopedia/other-markets/volatility-trading-vix/">波动率与VIX</a></li><li><a href="/zh/encyclopedia/other-markets/sports-betting-exchange-trading/" class="on" aria-current="page">博彩交易所交易</a></li></ul></details>
+<article><p>博彩交易所（betting exchange）是一个让人们彼此对赌、而不是与博彩公司对赌的市场。用户可以<strong>支持</strong>（back）某个结果，即押它会发生；也可以<strong>反对</strong>（lay）它，即押它不会发生。交易所负责撮合方向相反的订单，并从净盈利中抽取佣金。由于赔率在赛前和比赛过程中不断变化，一些用户会像交易价格一样交易赔率：在一个价位支持、在另一个价位反对，以锁定利润或限制亏损。其机制类似于金融市场的订单簿，但它本质上仍是赌博，各国对其合法性的规定差别很大，而且扣除佣金后大多数参与者都在亏钱。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>支持（back）是押某个结果会发生；反对（lay）是押它不会发生，相当于充当庄家，承担的赔付责任可能是投注额的好几倍。</li>
+<li>小数赔率换算为隐含概率的方法是用 1 除以赔率，因此 2.50 的赔率意味着 40% 的概率。</li>
+<li>&quot;锁定利润&quot;（greening up）是指在新的赔率下下一笔方向相反的注，使交易者无论结果如何都获得相同的利润，或承担相同但更小的亏损。</li>
+<li>佣金、滚球投注的延迟以及速度更快的参与者，使持续盈利变得很难。</li>
+<li>博彩交易所在英国等部分国家获得许可，在许多其他国家则无法使用；使用前请先了解当地法律。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">博彩交易所如何运作</a></li><li><a href="#section-5">交易赔率变动</a></li><li><a href="#section-8">成本与实际摩擦</a></li><li><a href="#section-9">与预测市场的比较</a></li><li><a href="#section-10">合法性与税务</a></li><li><a href="#section-11">赌博风险</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">博彩交易所如何运作</h2>
+<p>最知名的例子是 Betfair Exchange，其他还有 Smarkets、Matchbook 和 Betdaq。每个市场，比如一场足球比赛的&quot;比赛结果&quot;（Match Odds）市场，都会列出所有可能的结果，每个结果两侧都有一列价格阶梯：</p>
+<ul>
+<li><strong>支持价（back price）</strong>：你可以支持某个结果的赔率，由想要反对该结果的用户提供。</li>
+<li><strong>反对价（lay price）</strong>：你可以反对某个结果的赔率，由想要支持该结果的用户提供。</li>
+</ul>
+<p>这是一个有买价和卖价的双边订单簿，与股票交易所的<a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿</a>非常相似。你可以立即接受当前最优价格，也可以挂出自己的赔率等待撮合。热门市场，比如顶级足球联赛、重大赛马和网球大满贯，流动性可能很深；冷门赛事则可能很清淡，支持价和反对价之间差距很大。</p>
+<h3 id="section-3">赔率与隐含概率</h3>
+<p>交易所通常显示<strong>小数赔率</strong>（decimal odds），其中包含退还的本金。以 3.00 的赔率支持 £10，如果赢了会返还 £30：£20 利润加上 £10 本金。</p>
+<p>隐含概率 = 1 / 小数赔率。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>小数赔率</th>
+<th>隐含概率</th>
+<th>支持 £10 的利润</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.50</td>
+<td>66.7%</td>
+<td>£5</td>
+</tr>
+<tr>
+<td>2.00</td>
+<td>50.0%</td>
+<td>£10</td>
+</tr>
+<tr>
+<td>2.50</td>
+<td>40.0%</td>
+<td>£15</td>
+</tr>
+<tr>
+<td>3.00</td>
+<td>33.3%</td>
+<td>£20</td>
+</tr>
+<tr>
+<td>5.00</td>
+<td>20.0%</td>
+<td>£40</td>
+</tr>
+</tbody></table></div>
+<p>在流动性好的交易所市场中，所有结果最优支持价的隐含概率之和接近 100%，而博彩公司的赔率之和通常明显高于 100%，多出来的部分就是博彩公司的抽水。这与<a href="/zh/encyclopedia/prediction-markets/prediction-market-pricing/">预测市场价格</a>作为概率的运作方式类似。</p>
+<h3 id="section-4">反对投注与赔付责任</h3>
+<p>反对投注意味着你站在庄家一方。如果你以 3.00 的赔率反对 £10：</p>
+<ul>
+<li>如果该结果没有发生，你赢得支持方的 £10 投注额。</li>
+<li>如果该结果发生，你要支付支持方的利润：£10 × (3.00 − 1) = £20。这就是你的<strong>赔付责任</strong>（liability）。</li>
+</ul>
+<p>以高赔率做反对投注，可能承担巨大的赔付责任。以 21.0 的赔率反对 £10，要冒 £200 的风险去赢 £10。</p>
+<h2 id="section-5">交易赔率变动</h2>
+<p>随着资金流入和信息出现，赔率会发生变化：球队阵容消息、天气、进球、红牌、破发。交易者试图从这些变动中获利，而不在乎谁赢。</p>
+<ul>
+<li><strong>赛前交易</strong>：在赛事开始前，针对预期中的赔率变动建立仓位，比如赛马开跑前最后一小时资金涌入导致赔率缩短，或者对球队阵容公布作出反应。</li>
+<li><strong>滚球交易</strong>（in-play trading）：在赛事进行中交易，此时价格变动最快。交易所会对滚球订单施加几秒钟的短暂<strong>投注延迟</strong>（bet delay），以削弱那些观看比电视直播更快的数据源的参与者的优势。</li>
+<li><strong>剥头皮</strong>（scalping）：在流动性好的市场中反复捕捉一两个价格跳动，这种策略直接与自动化交易者竞争。</li>
+</ul>
+<h3 id="section-6">实例：盈利交易的锁定利润</h3>
+<p>一位交易者在赛前以 3.00 的赔率支持一支球队 £100。这支球队很早就进球了，其赔率缩短到 2.50。交易者希望无论结果如何都锁定利润。</p>
+<p>使各种结果收益相等的反对投注额为：</p>
+<p>反对投注额 = 支持投注额 × 支持赔率 / 反对赔率 = 100 × 3.00 / 2.50 = <strong>£120</strong>。</p>
+<p>这笔反对投注的赔付责任 = 120 × (2.50 − 1) = £180。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>结果</th>
+<th>支持投注</th>
+<th>反对投注</th>
+<th>净额</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>球队获胜</td>
+<td>+£200（100 × 2.00 的利润）</td>
+<td>−£180</td>
+<td><strong>+£20</strong></td>
+</tr>
+<tr>
+<td>球队未获胜</td>
+<td>−£100</td>
+<td>+£120</td>
+<td><strong>+£20</strong></td>
+</tr>
+</tbody></table></div>
+<p>交易者在扣除佣金前稳获 £20，许多交易所界面会把它显示为绿色，&quot;greening up&quot;由此得名。如果交易所对市场净盈利收取 5% 的佣金，交易者最终得到 £20 − £1 = <strong>£19</strong>。</p>
+<h3 id="section-7">实例：止损</h3>
+<p>现在假设这支球队反而先失球，其赔率从 3.00 漂移到 3.60。</p>
+<p>反对投注额 = 100 × 3.00 / 3.60 = £83.33。赔付责任 = 83.33 × 2.60 = £216.67。</p>
+<ul>
+<li>球队获胜：+£200 − £216.67 = <strong>−£16.67</strong>。</li>
+<li>球队未获胜：−£100 + £83.33 = <strong>−£16.67</strong>。</li>
+</ul>
+<p>交易者接受了确定的 £16.67 亏损，而不是冒着输掉全部 £100 的风险。这就相当于博彩中的止损。由于该市场净亏损，不收取佣金。</p>
+<h2 id="section-8">成本与实际摩擦</h2>
+<ul>
+<li><strong>佣金</strong>：交易所对每个市场的净盈利收取一定比例的佣金，通常是几个百分点，费率因交易所、国家、市场和账户而异。一些交易所会对持续盈利的客户额外收费。请查阅最新条款。</li>
+<li><strong>支持价与反对价之间的价差</strong>：在清淡的市场中，每次跨越价差都要花钱。</li>
+<li><strong>投注延迟与暂停</strong>：市场会在进球或点球等关键时刻暂停，因此在最大的变动发生时你无法离场。</li>
+<li><strong>速度更快的竞争者</strong>：在最繁忙的市场中，自动化交易者、职业投注团队和拥有低延迟数据的人占有优势。</li>
+<li><strong>规则含糊</strong>：与任何事件合约一样，结算规则（例如加时赛是否计入）决定了谁能拿到钱。务必仔细阅读。</li>
+</ul>
+<h2 id="section-9">与预测市场的比较</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>博彩交易所</th>
+<th>预测市场</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>典型事件</td>
+<td>体育、赛马，以及部分政治和娱乐事件</td>
+<td>政治、经济、加密货币、体育、文化</td>
+</tr>
+<tr>
+<td>价格形式</td>
+<td>小数赔率</td>
+<td>每份合约价格在 $0 至 $1 之间，可视为概率</td>
+</tr>
+<tr>
+<td>监管</td>
+<td>通常作为博彩业获得许可</td>
+<td>在美国，部分平台作为衍生品交易所受 CFTC 监管；基于加密货币的平台情况各异</td>
+</tr>
+<tr>
+<td>结算</td>
+<td>交易所根据官方结果结算</td>
+<td>依据结算规则，有时借助预言机；参见<a href="/zh/encyclopedia/prediction-markets/prediction-markets-explained/">预测市场详解</a></td>
+</tr>
+<tr>
+<td>费用</td>
+<td>对净盈利收取佣金</td>
+<td>交易费或点差，因平台而异</td>
+</tr>
+</tbody></table></div>
+<p>在美国，受 CFTC 监管的平台上与体育相关的事件合约，已成为传统体育博彩一种备受争议的替代品，截至 2026 年，已有多个州对其提出法律挑战。最新情况参见<a href="/zh/encyclopedia/prediction-markets/prediction-market-regulation/">预测市场监管</a>。</p>
+<h2 id="section-10">合法性与税务</h2>
+<p>博彩交易所在英国、爱尔兰、澳大利亚和其他几个国家等司法管辖区持博彩牌照运营，在许多其他地区则受到限制或无法使用，包括美国的大部分地区。规则会变化，因此请查阅你所在地的法律以及交易所的条款。税务处理也各不相同：截至 2026 年，在英国，个人的博彩奖金一般不征税，而许多其他国家会将其作为收入征税。具体情况请咨询合格的顾问。</p>
+<h2 id="section-11">赌博风险</h2>
+<p>交易所交易可能让人感觉像是金融交易，但它就是赌博，而快节奏的滚球市场可能助长追亏。请设定固定预算，在交易所提供的情况下使用存款限额和暂停功能，一旦投注变得负担不起或不再有乐趣就停止。许多国家都有问题赌博援助服务，比如英国的 GamCare 和美国的 National Council on Problem Gambling。<a href="/zh/encyclopedia/psychology/handling-losses-and-tilt/">应对亏损与情绪失控</a>一文介绍了相关的警示信号。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>以高赔率做反对投注</strong>，却没有意识到赔付责任可能是潜在收益的许多倍。</li>
+<li><strong>在计算一笔小交易是否值得时忽视佣金。</strong></li>
+<li><strong>在支持价和反对价相差很远的冷门市场中交易。</strong></li>
+<li><strong>对亏损仓位听之任之</strong>，指望赔率会回来，而不是及时止损。</li>
+<li><strong>以为自己在滚球中有优势</strong>，而这些优势早已被速度更快的自动化参与者拿走了。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="back-lay">支持（back）和反对（lay）有什么区别？</h3>
+<p>支持是押某个结果会发生。反对是押它不会发生，这意味着你充当庄家，如果该结果确实发生，你要支付支持方的奖金。</p>
+<h3 id="greening-up">锁定利润（greening up）是什么意思？</h3>
+<p>锁定利润是指在新的赔率下下一笔方向相反的注，使你无论结果如何都获得相同的利润。通常是在赔率朝有利于你的方向变动后，对你此前以更高赔率支持的结果进行反对投注。</p>
+<h3 id="section-16">博彩交易所交易能赚钱吗？</h3>
+<p>少数技术娴熟或资源充足的交易者能够盈利，但扣除佣金、价差以及来自更快交易者的竞争后，大多数参与者都在亏钱。应该把它当作赌博，而不是可靠的收入来源。</p>
+<h3 id="section-17">博彩交易所合法吗？</h3>
+<p>这取决于国家。它们在英国、爱尔兰和澳大利亚等地获得许可，但在许多其他地区受到限制或无法使用，包括美国的大部分地区，因此使用前请先了解当地法律。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/prediction-markets/prediction-markets-explained/"><div class="k">预测市场</div><b>预测市场详解</b><span>什么是预测市场，$1 事件合约如何运作，从爱荷华电子市场到 Polymarket 和 Kalshi 的发展史，以及它与博彩和期权有何不同。</span></a><a class="card" href="/zh/encyclopedia/prediction-markets/prediction-market-pricing/"><div class="k">预测市场</div><b>定价与概率</b><span>预测市场价格如何对应概率，YES 和 NO 为何相加等于 $1，抽水（overround），赔率换算，手续费，时间价值和冷门偏差，附计算实例。</span></a><a class="card" href="/zh/encyclopedia/prediction-markets/prediction-market-regulation/"><div class="k">预测市场</div><b>监管</b><span>截至 2026 年 11 月预测市场如何受监管：CFTC 事件合约、Kalshi 的法律战、各州对体育合约的挑战，以及 Polymarket 在美国的历程。</span></a><a class="card" href="/zh/encyclopedia/psychology/handling-losses-and-tilt/"><div class="k">交易心理</div><b>应对亏损与情绪失控</b><span>如何应对连续亏损和上头：警示信号、单日亏损上限等熔断规则、大亏之后如何重启、何时该停手，以及赌博问题的危险信号。</span></a><a class="card" href="/zh/encyclopedia/basics/order-book-and-market-depth/"><div class="k">交易基础</div><b>订单簿与市场深度</b><span>限价订单簿和撮合引擎如何运作，价格时间优先原则，Level 1 与 Level 2 行情的区别，如何解读深度，幌骗，以及与做市商市场和 AMM 的对比。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/other-markets/volatility-trading-vix/"><small>← 上一篇</small>波动率与VIX</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

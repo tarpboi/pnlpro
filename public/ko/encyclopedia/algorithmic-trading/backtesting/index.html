@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>트레이딩 전략 백테스트 제대로 하는 법 | PnL Profit</title>
+<meta name="description" content="스스로를 속이지 않는 백테스트 방법: 데이터 품질, 생존 편향과 미래 참조 편향, 비용 반영, 워크포워드 테스트, 핵심 성과 지표를 정리합니다.">
+<meta name="keywords" content="백테스트, 백테스팅 방법, 미래 참조 편향, 생존 편향, 샤프 지수, 워크포워드 분석">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="트레이딩 전략 백테스트 제대로 하는 법 | PnL Profit">
+<meta property="og:description" content="스스로를 속이지 않는 백테스트 방법: 데이터 품질, 생존 편향과 미래 참조 편향, 비용 반영, 워크포워드 테스트, 핵심 성과 지표를 정리합니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/backtesting/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="트레이딩 전략 백테스트 제대로 하는 법 | PnL Profit">
+<meta name="twitter:description" content="스스로를 속이지 않는 백테스트 방법: 데이터 품질, 생존 편향과 미래 참조 편향, 비용 반영, 워크포워드 테스트, 핵심 성과 지표를 정리합니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"트레이딩 전략 백테스트 제대로 하는 법","description":"스스로를 속이지 않는 백테스트 방법: 데이터 품질, 생존 편향과 미래 참조 편향, 비용 반영, 워크포워드 테스트, 핵심 성과 지표를 정리합니다.","keywords":"백테스트, 백테스팅 방법, 미래 참조 편향, 생존 편향, 샤프 지수, 워크포워드 분석","articleSection":"알고리즘·퀀트 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/backtesting/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"알고리즘·퀀트 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"백테스트","item":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/backtesting/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"백테스트에서 좋은 샤프 지수는 어느 정도인가요?","acceptedAnswer":{"@type":"Answer","text":"많은 실무자는 단일 전략의 연환산 샤프 지수가 1을 넘으면 유망하다고 봅니다. 일간 전략에서 3을 넘는 것처럼 지나치게 높은 백테스트 값은 실제 엣지보다는 오류, 미래 참조 편향, 과최적화를 가리키는 경우가 더 많습니다."}},{"@type":"Question","name":"백테스트에는 과거 데이터가 얼마나 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"상승장, 하락장, 횡보장, 그리고 최소 한 번의 스트레스 구간처럼 서로 다른 시장 국면을 포함할 만큼 필요합니다. 일간 전략이라면 보통 10년 이상이고, 일중 전략이라면 거래가 많이 담겨 있는 한 더 짧은 기간으로도 충분할 수 있습니다."}},{"@type":"Question","name":"백테스트와 모의매매는 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"백테스트는 과거 데이터를 재생하는 것이고, 모의매매는 실제 돈 없이 실시간 가격으로 전략을 돌리는 것입니다. 모의매매는 백테스트가 잡아낼 수 없는 체결 문제와 소프트웨어 문제를 잡아냅니다."}},{"@type":"Question","name":"실전 결과는 왜 백테스트 결과와 다른가요?","acceptedAnswer":{"@type":"Answer","text":"흔한 원인은 과소평가된 비용과 슬리피지, 과거 노이즈에 대한 과최적화, 데이터의 편향, 시장 행태의 변화입니다. 어느 정도의 차이는 정상이지만, 차이가 크다면 백테스트에 결함이 있었다는 뜻입니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/backtesting/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/backtesting/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/backtesting/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/backtesting/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/backtesting/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/backtesting/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/backtesting/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/backtesting/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/backtesting/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>알고리즘·퀀트 트레이딩</h3><ul><li><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">알고리즘 트레이딩 입문</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/backtesting/" class="on" aria-current="page">백테스트</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/trend-following/">추세추종</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/">평균회귀</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">페어 트레이딩과 통계적 차익거래</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-making/">마켓 메이킹</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/">집행 알고리즘</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/">트레이딩 봇 만들기</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">카피·소셜 트레이딩</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">트레이딩과 머신러닝</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/">시장 데이터</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/" class="on">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a></div>
+<h1 class="title">트레이딩 전략 백테스트하는 법</h1>
+<div class="meta">7분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>알고리즘·퀀트 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">알고리즘 트레이딩 입문</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/backtesting/" class="on" aria-current="page">백테스트</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/trend-following/">추세추종</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/">평균회귀</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">페어 트레이딩과 통계적 차익거래</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-making/">마켓 메이킹</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/">집행 알고리즘</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/">트레이딩 봇 만들기</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">카피·소셜 트레이딩</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">트레이딩과 머신러닝</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/">시장 데이터</a></li></ul></details>
+<article><p>백테스트(backtesting)는 일련의 매매 규칙을 과거 데이터에 적용해 그 전략이 어떤 성과를 냈을지 추정하는 과정입니다. <a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">알고리즘 트레이딩</a>의 핵심 리서치 도구이자, 스스로를 속이기 가장 쉬운 곳이기도 합니다. 신중한 백테스트는 데이터, 비용, 타이밍을 현실적으로 모델링합니다. 허술한 백테스트는 인상적인 숫자를 만들어 내지만, 그 숫자는 실제 돈이 들어가는 순간 사라집니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>백테스트의 수준은 데이터의 수준을 넘지 못합니다. 가장 치명적인 두 가지 오류는 생존 편향과 미래 참조 편향입니다.</li>
+<li>수수료, 스프레드, 슬리피지는 보수적으로 모델링하십시오. 비용이 전략의 수익성 여부 자체를 결정하는 경우가 많습니다.</li>
+<li>전략이 한 번도 보지 않은 데이터를 표본 외 테스트용으로 남겨 두고, 주기적으로 재조정이 필요한 전략에는 워크포워드 분석을 쓰십시오.</li>
+<li>샤프 지수, 소르티노 지수, 최대 낙폭, 프로핏 팩터, 거래 횟수 등 여러 지표를 함께 보고 전략을 판단하십시오.</li>
+<li>좋은 백테스트는 확신을 높여 줄 뿐, 미래 성과를 보장하지는 않습니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">백테스트의 작동 방식</a></li><li><a href="#section-3">데이터 품질</a></li><li><a href="#section-4">백테스트를 망치는 편향</a></li><li><a href="#section-8">비용과 슬리피지 모델링</a></li><li><a href="#section-9">표본 내, 표본 외, 워크포워드</a></li><li><a href="#section-10">성과 지표</a></li><li><a href="#section-11">계산 예시</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">백테스트의 작동 방식</h2>
+<p>가장 단순한 형태의 백테스트는 과거 데이터를 봉 하나씩 차례로 진행합니다. 각 단계에서 그 시점에 이용할 수 있었던 정보만으로 규칙이 무엇을 했을지 묻고, 가상의 주문과 체결을 기록하며, 계좌 자산을 추적합니다.</p>
+<p>흔히 쓰는 설계는 두 가지입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>설계</th>
+<th>작동 방식</th>
+<th>장점</th>
+<th>단점</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>벡터화 방식</td>
+<td>배열 연산으로 전체 시계열의 신호와 수익률을 한 번에 계산</td>
+<td>매우 빠르고 초기 리서치에 적합</td>
+<td>미래 참조 편향이 끼어들기 쉽고, 주문 체결·손절·포지션 한도를 모델링하기 어려움</td>
+</tr>
+<tr>
+<td>이벤트 기반 방식</td>
+<td>실전 시스템처럼 각 봉이나 틱을 이벤트로 처리</td>
+<td>주문 처리가 현실적이고, 코드를 실전매매에 재사용할 수 있는 경우가 많음</td>
+<td>느리고 구축에 손이 많이 감</td>
+</tr>
+</tbody></table></div>
+<p>많은 리서처가 벡터화 테스트로 아이디어를 걸러 낸 뒤, 유망한 것은 이벤트 기반 시뮬레이터에서 확인합니다.</p>
+<h2 id="section-3">데이터 품질</h2>
+<p>나쁜 데이터는 확신에 차 있지만 의미 없는 결과를 만듭니다. 최소한 다음을 점검하고, 더 자세한 내용은 <a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/">시장 데이터</a> 문서를 참고하십시오.</p>
+<ul>
+<li><strong>기업 행위(corporate actions).</strong> 주가는 분할과 배당을 반영해 수정되어야 합니다. 그렇지 않으면 백테스트가 가짜 폭락을 보게 되고 배당 수익을 놓칩니다.</li>
+<li><strong>선물 롤오버.</strong> 연속 선물 시계열은 계약 만기 사이를 일관된 방식으로 이어 붙여야 합니다.</li>
+<li><strong>잘못된 틱과 공백.</strong> 오류 체결 기록, 누락된 봉, 중복 레코드는 가짜 신호를 만듭니다.</li>
+<li><strong>시간대와 타임스탬프.</strong> 거래소 시간, 현지 시간, UTC를 섞어 쓰면 신호가 몇 시간씩 밀릴 수 있습니다.</li>
+<li><strong>봉 구성 방식.</strong> 업체마다 일봉의 마감 시각이 다를 수 있으며, 24시간 거래되는 외환과 크립토에서 특히 그렇습니다.</li>
+</ul>
+<h2 id="section-4">백테스트를 망치는 편향</h2>
+<h3 id="section-5">생존 편향</h3>
+<p>생존 편향(survivorship bias)은 테스트 대상에 오늘날까지 존재하는 자산만 포함될 때 생깁니다. 파산하거나, 상장폐지되거나, 인수된 기업은 많은 무료 데이터셋에서 사라집니다. 현재 지수 구성 종목만으로 테스트한 전략은 승자들만으로 테스트된 셈이어서 수익률이 부풀려지며, 낙폭이 큰 주식을 사는 전략에서 특히 심합니다. 크립토도 마찬가지입니다. 무너진 수천 개의 토큰이 현재 코인 목록에서 빠져 있습니다. 해결책은 사라진 종목과 시점별(point-in-time) 지수 구성 정보를 포함한, 생존 편향이 없는 데이터셋을 쓰는 것입니다.</p>
+<h3 id="section-6">미래 참조 편향</h3>
+<p>미래 참조 편향(look-ahead bias)은 매매 시점에는 알 수 없었던 정보를 사용하는 것입니다. 흔한 예는 다음과 같습니다.</p>
+<ul>
+<li>그날 종가로 신호를 만들면서, 같은 종가에 매수했다고 가정하는 것.</li>
+<li>재무제표 데이터를 실제 공시일이 아니라 결산 기준일에 사용하는 것.</li>
+<li>미래를 포함한 전체 표본으로 계산한 통계(평균, 최댓값)로 데이터를 정규화하는 것.</li>
+<li>트레이더들이 실제로 본 최초 발표치 대신 수정된 경제 지표를 사용하는 것.</li>
+</ul>
+<p>유용한 습관은 모든 신호를 봉 하나만큼 뒤로 미루는 것입니다. 그러면 봉 t에서 계산한 신호는 빨라도 봉 t+1에서 매매됩니다.</p>
+<h3 id="section-7">그 밖의 편향</h3>
+<ul>
+<li><strong>선택 편향:</strong> 이미 올랐다는 것을 아는 시장에서만 테스트하는 것.</li>
+<li><strong>데이터 스누핑:</strong> 여러 변형을 테스트한 뒤 가장 좋은 것만 보고하는 것. <a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화와 데이터 스누핑</a>에서 다룹니다.</li>
+<li><strong>유동성 편향:</strong> 얇은 시장에서 큰 규모를 호가 그대로 매매할 수 있다고 가정하는 것.</li>
+</ul>
+<h2 id="section-8">비용과 슬리피지 모델링</h2>
+<p>모든 가상 거래에 현실적인 비용을 부과해야 합니다.</p>
+<ul>
+<li><strong>수수료와 거래소 수수료</strong>, 크립토 거래소의 메이커/테이커 수수료 포함.</li>
+<li><strong>스프레드.</strong> 매도호가에 사고 매수호가에 팔면 왕복 거래마다 <a href="/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/">호가 스프레드</a> 전체를 비용으로 치릅니다.</li>
+<li><strong>슬리피지와 시장 충격.</strong> 시장가 주문과 손절 주문은 마지막 가격보다 불리하게 체결되는 경우가 많으며, 빠른 장세와 큰 규모에서 특히 그렇습니다.</li>
+<li><strong>자금 조달 비용.</strong> 오버나이트 스왑, 무기한 선물의 펀딩비, 공매도 시 주식 대차 수수료.</li>
+</ul>
+<p>합리적인 방법은 가능하면 실제 체결 내역으로 비용을 추정한 뒤, 그 비용의 두 배로 백테스트를 다시 돌려 보는 것입니다. 낙관적인 비용 수준에서만 통하는 전략이라면 아마 통하지 않는 전략입니다.</p>
+<h2 id="section-9">표본 내, 표본 외, 워크포워드</h2>
+<p>시작하기 전에 과거 데이터를 나누십시오. 표본 내(in-sample) 구간에서 전략을 만들고 조정한 뒤, 표본 외(out-of-sample) 구간에서 한 번만 테스트합니다. 규칙을 손보려고 표본 외 데이터로 계속 돌아간다면, 그 데이터는 더 이상 표본 외가 아닙니다.</p>
+<p>워크포워드 분석(walk-forward analysis)은 이 과정을 시간 순서대로 반복합니다. 예를 들어 2015<del>2018년으로 파라미터를 최적화하고 2019년으로 테스트합니다. 이어서 2016</del>2019년으로 최적화하고 2020년으로 테스트하는 식입니다. 테스트 구간을 이어 붙이면, 전략을 실시간으로 재조정했다면 어땠을지를 반영하는 표본 외 자산 곡선이 나옵니다. 표본 내 결과와 워크포워드 결과의 차이가 크다면 과최적화를 의심해야 합니다.</p>
+<h2 id="section-10">성과 지표</h2>
+<p>전략을 숫자 하나로 담아낼 수는 없습니다. 여러 지표를 함께 쓰십시오.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>지표</th>
+<th>공식</th>
+<th>알려 주는 것</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CAGR</td>
+<td>(Ending equity / Starting equity)^(1 / years) − 1</td>
+<td>연평균 복리 성장률</td>
+</tr>
+<tr>
+<td>샤프 지수</td>
+<td>Mean(R − Rf) / StdDev(R − Rf), √(연간 기간 수)를 곱해 연환산</td>
+<td>전체 변동성 한 단위당 수익</td>
+</tr>
+<tr>
+<td>소르티노 지수</td>
+<td>(Mean(R) − T) / Downside deviation, 같은 방식으로 연환산</td>
+<td>하방 변동성 한 단위당 수익</td>
+</tr>
+<tr>
+<td>최대 낙폭(MDD)</td>
+<td>자산의 고점 대비 저점까지 가장 큰 하락폭, 고점 대비 비율</td>
+<td>과거 최악의 고통</td>
+</tr>
+<tr>
+<td>프로핏 팩터</td>
+<td>Gross profit / Gross loss (절댓값)</td>
+<td>1달러 손실당 번 달러</td>
+</tr>
+<tr>
+<td>승률과 기대값</td>
+<td>이긴 거래의 비율, 거래당 평균 이익</td>
+<td>수익의 분포 방식</td>
+</tr>
+</tbody></table></div>
+<p>여기서 R은 기간당 전략 수익률, Rf는 기간당 무위험 이자율, T는 목표 수익률(흔히 0)입니다. 하방 편차(downside deviation)는 모든 기간에 대해 min(0, R − T)²의 평균을 구한 뒤 제곱근을 취한 값이므로, 목표를 웃돈 기간은 0으로 계산됩니다. 일간 데이터라면 일간 비율에 √252, 약 15.87을 곱합니다. 낙폭과 회복 계산은 <a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">낙폭과 파산 위험</a>에서, 기대값은 <a href="/ko/encyclopedia/risk-management/risk-reward-and-expectancy/">손익비와 기대값</a>에서 다룹니다.</p>
+<p>아래 함수들은 수익률 시계열, 자산 곡선, 거래별 손익 목록으로 이 지표들을 계산합니다.</p>
+<pre><code class="language-python">import numpy as np
+
+def sharpe(returns, rf_per_period=0.0, periods_per_year=252):
+    excess = np.asarray(returns) - rf_per_period
+    return np.sqrt(periods_per_year) * excess.mean() / excess.std(ddof=1)
+
+def sortino(returns, target=0.0, periods_per_year=252):
+    r = np.asarray(returns)
+    downside = np.minimum(r - target, 0.0)
+    downside_dev = np.sqrt(np.mean(downside ** 2))
+    return np.sqrt(periods_per_year) * (r.mean() - target) / downside_dev
+
+def max_drawdown(equity):
+    equity = np.asarray(equity, dtype=float)
+    peaks = np.maximum.accumulate(equity)
+    return ((peaks - equity) / peaks).max()
+
+def profit_factor(trade_pnls):
+    pnl = np.asarray(trade_pnls, dtype=float)
+    gross_loss = -pnl[pnl &lt; 0].sum()
+    return pnl[pnl &gt; 0].sum() / gross_loss if gross_loss &gt; 0 else np.inf
+</code></pre>
+<h2 id="section-11">계산 예시</h2>
+<p>10,000달러로 시작한 전략이 다음과 같은 결과(단위: 달러)로 10번 거래했습니다: +300, −200, +150, −100, −250, +400, −150, +200, −300, +250.</p>
+<ul>
+<li><strong>총이익:</strong> 300 + 150 + 400 + 200 + 250 = 1,300.</li>
+<li><strong>총손실:</strong> 200 + 100 + 250 + 150 + 300 = 1,000.</li>
+<li><strong>프로핏 팩터:</strong> 1,300 / 1,000 = 1.30.</li>
+<li><strong>순이익:</strong> 300달러이므로 기대값은 거래당 30달러, 승률은 50%입니다.</li>
+<li><strong>자산 경로:</strong> 10,300; 10,100; 10,250; 10,150; 9,900; 10,300; 10,150; 10,350; 10,050; 10,300.</li>
+<li><strong>최대 낙폭:</strong> 고점 10,300에서 저점 9,900까지, 400 / 10,300 ≈ 3.9% 하락.</li>
+</ul>
+<p>위험 조정 비율을 보기 위해, 더 긴 테스트에서 일간 평균 수익률 0.05%, 일간 표준편차 1.0%, 하방 편차 0.7%가 나왔고 무위험 이자율은 0이라고 가정합시다. 연환산 샤프 지수는 0.05 / 1.0 × 15.87 ≈ 0.79이고, 소르티노 지수는 0.05 / 0.7 × 15.87 ≈ 1.13입니다.</p>
+<p>거래 10번으로는 이 숫자들을 전혀 믿을 수 없습니다. 대략적인 기준으로, 많은 리서처는 통계를 의미 있게 보기 전에 다양한 시장 상황에 걸친 최소 수백 건의 거래를 원합니다.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>신호를 만든 봉에서 매매합니다.</strong> 종가로 계산한 신호는 그 종가에 체결될 수 없습니다.</li>
+<li><strong>현재 지수 구성 종목을 씁니다.</strong> 모든 결과에 생존 편향이 끼어듭니다.</li>
+<li><strong>비용을 0이나 아주 작게 가정합니다.</strong> 회전율이 높은 전략은 특히 민감합니다.</li>
+<li><strong>표본 외 데이터를 재사용합니다.</strong> 한 번 들여다볼 때마다 표본 내 데이터로 바뀝니다.</li>
+<li><strong>거래 횟수가 너무 적습니다.</strong> 큰 수익 거래 몇 건만으로도 화려하지만 의미 없는 백테스트가 나올 수 있습니다.</li>
+<li><strong>수용 용량(capacity)을 무시합니다.</strong> 1,000달러로는 통하던 전략이 100,000달러에서는 주문이 가격을 움직이는 바람에 실패할 수 있습니다.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-14">백테스트에서 좋은 샤프 지수는 어느 정도인가요?</h3>
+<p>많은 실무자는 단일 전략의 연환산 샤프 지수가 1을 넘으면 유망하다고 봅니다. 일간 전략에서 3을 넘는 것처럼 지나치게 높은 백테스트 값은 실제 엣지보다는 오류, 미래 참조 편향, 과최적화를 가리키는 경우가 더 많습니다.</p>
+<h3 id="section-15">백테스트에는 과거 데이터가 얼마나 필요한가요?</h3>
+<p>상승장, 하락장, 횡보장, 그리고 최소 한 번의 스트레스 구간처럼 서로 다른 시장 국면을 포함할 만큼 필요합니다. 일간 전략이라면 보통 10년 이상이고, 일중 전략이라면 거래가 많이 담겨 있는 한 더 짧은 기간으로도 충분할 수 있습니다.</p>
+<h3 id="section-16">백테스트와 모의매매는 무엇이 다른가요?</h3>
+<p>백테스트는 과거 데이터를 재생하는 것이고, 모의매매는 실제 돈 없이 실시간 가격으로 전략을 돌리는 것입니다. 모의매매는 백테스트가 잡아낼 수 없는 체결 문제와 소프트웨어 문제를 잡아냅니다.</p>
+<h3 id="section-17">실전 결과는 왜 백테스트 결과와 다른가요?</h3>
+<p>흔한 원인은 과소평가된 비용과 슬리피지, 과거 노이즈에 대한 과최적화, 데이터의 편향, 시장 행태의 변화입니다. 어느 정도의 차이는 정상이지만, 차이가 크다면 백테스트에 결함이 있었다는 뜻입니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">알고리즘·퀀트 트레이딩</div><b>과최적화</b><span>훌륭한 백테스트가 실전에서 실패하는 이유: 커브 피팅, 다중 검정, 불안정한 파라미터, 디플레이티드 샤프 지수, 과최적화 방지법.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">알고리즘·퀀트 트레이딩</div><b>시장 데이터</b><span>틱·봉 데이터, 레벨 1·2·3 피드, 과거 데이터 출처, 비용과 라이선스, 타임스탬프와 시계 동기화, 데이터 정제를 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">알고리즘·퀀트 트레이딩</div><b>알고리즘 트레이딩 입문</b><span>알고리즘 트레이딩의 개념, 개인과 기관 알고 트레이딩의 차이, 아이디어에서 실전 봇까지의 과정, 주요 언어와 현실적인 기대치를 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">리스크 관리와 자금 관리</div><b>낙폭과 파산 위험</b><span>최대 낙폭의 의미, 손실 회복에 필요한 수익률, 연패가 나올 확률, 포지션 크기가 파산 위험을 어떻게 바꾸는지 표로 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">리스크 관리와 자금 관리</div><b>손익비와 기대값</b><span>R 배수, 승률, 손익비가 어떻게 기대값을 만드는지 설명합니다. 공식, 손익분기 승률표, 승률이 높아도 돈을 잃는 이유를 다룹니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><small>← 이전 글</small>알고리즘 트레이딩 입문</a><a class="next" href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><small>다음 글 →</small>과최적화</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

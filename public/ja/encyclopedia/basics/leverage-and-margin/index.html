@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>レバレッジと証拠金とは？追証とロスカットの仕組み | PnL Profit</title>
+<meta name="description" content="レバレッジと証拠金の仕組み、当初証拠金と維持証拠金、追証、ロスカット、クロスマージンと分離マージン、計算例、各国のレバレッジ規制を解説します。">
+<meta name="keywords" content="レバレッジ 証拠金 仕組み, 追証 とは, 維持証拠金 とは, クロスマージン 分離マージン 違い, レバレッジ取引 とは">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/leverage-and-margin/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="レバレッジと証拠金とは？追証とロスカットの仕組み | PnL Profit">
+<meta property="og:description" content="レバレッジと証拠金の仕組み、当初証拠金と維持証拠金、追証、ロスカット、クロスマージンと分離マージン、計算例、各国のレバレッジ規制を解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/basics/leverage-and-margin/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="レバレッジと証拠金とは？追証とロスカットの仕組み | PnL Profit">
+<meta name="twitter:description" content="レバレッジと証拠金の仕組み、当初証拠金と維持証拠金、追証、ロスカット、クロスマージンと分離マージン、計算例、各国のレバレッジ規制を解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"レバレッジと証拠金とは？追証とロスカットの仕組み","description":"レバレッジと証拠金の仕組み、当初証拠金と維持証拠金、追証、ロスカット、クロスマージンと分離マージン、計算例、各国のレバレッジ規制を解説します。","keywords":"レバレッジ 証拠金 仕組み, 追証 とは, 維持証拠金 とは, クロスマージン 分離マージン 違い, レバレッジ取引 とは","articleSection":"トレードの基礎","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/basics/leverage-and-margin/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"トレードの基礎","item":"https://pnlpro.fit/ja/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"レバレッジと証拠金","item":"https://pnlpro.fit/ja/encyclopedia/basics/leverage-and-margin/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"レバレッジ10倍とはどういう意味ですか？","acceptedAnswer":{"@type":"Answer","text":"ポジションが差し入れた資金の10倍の大きさであるという意味です。価格が1%動くと有効証拠金は約10%変動し、10%逆行すれば資金がすべて消えることもあります。"}},{"@type":"Question","name":"当初証拠金と維持証拠金の違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"当初証拠金はポジションを建てるのに必要な預け入れ額です。維持証拠金はポジションを保有している間に維持しなければならない、より低い最低額で、これを下回ると追証またはロスカットが発生します。"}},{"@type":"Question","name":"レバレッジ取引で入金額以上の損失を出すことはありますか？","acceptedAnswer":{"@type":"Answer","text":"口座によってはあります。相場が窓を開けてロスカット水準を飛び越えた場合、損失が証拠金を上回ることがあります。EUと英国の個人向けCFD顧客にはマイナス残高保護がありますが、どこでもそうというわけではありません。"}},{"@type":"Question","name":"クロスマージンと分離マージンはどちらが安全ですか？","acceptedAnswer":{"@type":"Answer","text":"分離マージンは各ポジションの損失をそこに割り当てた証拠金までに限定するため、口座の残りの資金を守れます。クロスマージンは残高全体を使ってロスカットを遅らせますが、その分、1回の失敗トレードですべてを失う可能性があります。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/basics/leverage-and-margin/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/leverage-and-margin/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/basics/leverage-and-margin/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/leverage-and-margin/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/leverage-and-margin/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/leverage-and-margin/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/leverage-and-margin/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/leverage-and-margin/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/basics/leverage-and-margin/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>トレードの基礎</h3><ul><li><a href="/ja/encyclopedia/basics/what-is-trading/">トレードとは</a></li><li><a href="/ja/encyclopedia/basics/financial-markets-overview/">金融市場の全体像</a></li><li><a href="/ja/encyclopedia/basics/trading-styles/">トレードスタイル</a></li><li><a href="/ja/encyclopedia/basics/order-types/">注文の種類</a></li><li><a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板と市場の厚み</a></li><li><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">スプレッドと流動性</a></li><li><a href="/ja/encyclopedia/basics/leverage-and-margin/" class="on" aria-current="page">レバレッジと証拠金</a></li><li><a href="/ja/encyclopedia/basics/long-and-short-positions/">ロングとショート</a></li><li><a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コストと手数料</a></li><li><a href="/ja/encyclopedia/basics/brokers-and-exchanges/">ブローカーと取引所</a></li><li><a href="/ja/encyclopedia/basics/market-participants/">市場参加者</a></li><li><a href="/ja/encyclopedia/basics/market-hours-and-sessions/">取引時間とセッション</a></li><li><a href="/ja/encyclopedia/basics/how-to-start-trading/">トレードの始め方</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/" class="on">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/basics/">トレードの基礎</a></div>
+<h1 class="title">レバレッジと証拠金</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>トレードの基礎の他の記事</summary><ul><li><a href="/ja/encyclopedia/basics/what-is-trading/">トレードとは</a></li><li><a href="/ja/encyclopedia/basics/financial-markets-overview/">金融市場の全体像</a></li><li><a href="/ja/encyclopedia/basics/trading-styles/">トレードスタイル</a></li><li><a href="/ja/encyclopedia/basics/order-types/">注文の種類</a></li><li><a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板と市場の厚み</a></li><li><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">スプレッドと流動性</a></li><li><a href="/ja/encyclopedia/basics/leverage-and-margin/" class="on" aria-current="page">レバレッジと証拠金</a></li><li><a href="/ja/encyclopedia/basics/long-and-short-positions/">ロングとショート</a></li><li><a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コストと手数料</a></li><li><a href="/ja/encyclopedia/basics/brokers-and-exchanges/">ブローカーと取引所</a></li><li><a href="/ja/encyclopedia/basics/market-participants/">市場参加者</a></li><li><a href="/ja/encyclopedia/basics/market-hours-and-sessions/">取引時間とセッション</a></li><li><a href="/ja/encyclopedia/basics/how-to-start-trading/">トレードの始め方</a></li></ul></details>
+<article><p>レバレッジとは、差し入れた資金よりも大きなポジションを動かすことで、証拠金とは、そのポジションを保有するためにブローカーや取引所が預け入れを求める現金や担保のことです。レバレッジは利益と損失を同じ倍率で拡大させるため、高レバレッジのポジションでは、わずかな逆行で口座が吹き飛ぶことがあります。証拠金のルールによって、いつ追加入金を求められ、いつポジションが強制的に決済されるかが決まります。レバレッジは、個人トレーダーが短期間でお金を失う最大の原因です。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>レバレッジはポジションサイズを自己資金で割ったものです。10:1なら、価格が1%動くと有効証拠金（エクイティ）が10%変動します。</li>
+<li>当初証拠金はポジションを建てるのに必要な額で、維持証拠金はポジションを保有し続けるために最低限維持しなければならない額です。</li>
+<li>維持証拠金を下回ると追証（マージンコール）が発生するか、多くのブローカーや暗号資産取引所では自動的にロスカット（強制決済）されます。</li>
+<li>クロスマージンでは口座残高全体を複数のポジションで共有し、分離マージン（アイソレートマージン）では各ポジションの損失をそこに割り当てた証拠金までに限定します。</li>
+<li>多くの地域で規制当局が個人向けのレバレッジに上限を設けており、その上限は国によって異なり、時とともに変わります。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">レバレッジとは</a></li><li><a href="#section-4">当初証拠金と維持証拠金</a></li><li><a href="#section-5">追証とロスカット</a></li><li><a href="#section-6">計算例</a></li><li><a href="#section-10">クロスマージンと分離マージン</a></li><li><a href="#section-11">レバレッジ規制</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">レバレッジとは</h2>
+<p><strong>レバレッジ倍率 = ポジション金額 / 有効証拠金。</strong> 自己資金$5,000で$50,000のポジションを持っているなら、レバレッジは10:1、つまり10倍です。</p>
+<p>ポジションの残りの部分は、実質的に借り入れで賄われています。株式の信用取引口座では、ブローカーが現金を貸し付けて金利を取ります。先物、CFD、暗号資産の無期限先物では全額を借りるわけではなく、履行保証として証拠金を差し入れ、価格変動の全額分の損益を受け取ります。</p>
+<h3 id="section-3">レバレッジが損益をどう拡大するか</h3>
+<p>コストを無視した場合、5%の価格変動が有効証拠金に与える影響は次のとおりです。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>レバレッジ</th>
+<th>価格が5%上昇した場合の利益</th>
+<th>価格が5%下落した場合の損失</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1:1</td>
+<td>+5%</td>
+<td>-5%</td>
+</tr>
+<tr>
+<td>5:1</td>
+<td>+25%</td>
+<td>-25%</td>
+</tr>
+<tr>
+<td>10:1</td>
+<td>+50%</td>
+<td>-50%</td>
+</tr>
+<tr>
+<td>20:1</td>
+<td>+100%</td>
+<td>-100%（資金が全損）</td>
+</tr>
+<tr>
+<td>50:1</td>
+<td>+250%</td>
+<td>2%の下落で全損</td>
+</tr>
+</tbody></table></div>
+<p>便利な目安：レバレッジがLのとき、約1/Lの逆行で資金はすべて消えます。20:1なら5%、100:1なら1%の値動きです。多くの資産は1日でそれくらい動きます。</p>
+<h2 id="section-4">当初証拠金と維持証拠金</h2>
+<ul>
+<li><strong>当初証拠金</strong>とは、ポジションを建てるのに必要な預け入れ額です。ポジション金額に対する割合（たとえば10%）で示されることもあれば、1枚あたりの固定額で示されることもあります。</li>
+<li><strong>維持証拠金</strong>とは、ポジションを保有している間に維持しなければならない最低限の有効証拠金です。当初証拠金より低く設定されています。</li>
+</ul>
+<p><strong>有効証拠金（エクイティ）</strong>とは、預け入れた資金に含み損益を加減したものです。有効証拠金が維持証拠金を下回ると、ブローカーが対応に動きます。</p>
+<h2 id="section-5">追証とロスカット</h2>
+<p><strong>追証（マージンコール）</strong>とは、追加入金するかポジションを減らすことで、口座を必要な水準以上に戻すよう求めるものです。従来型の株式・先物ブローカーは短い猶予期間を与えることがありますが、相場が急変しているときに待つ義務はありません。</p>
+<p><strong>ロスカット（強制決済）</strong>とは、ポジションを強制的に決済することです。多くのCFDブローカー、FXブローカー、暗号資産取引所は、有効証拠金が一定の水準に達した時点で、追証の通知なしに自動でロスカットします。EUと英国では、個人向けCFDブローカーは有効証拠金が必要証拠金の50%まで減った時点でポジションを決済しなければなりません。暗号資産取引所は通常、有効証拠金が維持証拠金の水準に達するとロスカットし、清算手数料を徴収することもあります。<a href="/ja/encyclopedia/crypto/crypto-liquidations/">暗号資産のロスカット（清算）</a>をご覧ください。</p>
+<p>ロスカットは、証拠金以上の損失が出ないことを保証するセーフティネットではありません。窓開けや急変時には、決済価格がロスカット水準より不利になることがあり、口座の種類によっては借金を背負う可能性もあります。マイナス残高保護（いわゆるゼロカット）は、EUと英国では個人向けCFD顧客に義務付けられており、それ以外の一部のブローカーも提供しています。これにより、口座残高を超える損失は発生しません。</p>
+<h2 id="section-6">計算例</h2>
+<h3 id="section-7">株式の信用取引口座（米国型）</h3>
+<p>米国では、レギュレーションTが長らく株式購入時の当初証拠金を50%と定めており、FINRAは少なくとも25%の維持証拠金を求めています。ただし、多くのブローカーはそれ以上を求めています。</p>
+<p>$10,000を持つトレーダーが$10,000を借りて$20,000分の株式を買うとします。レバレッジは2:1です。</p>
+<ul>
+<li>株価がどう動いても、借入額は$10,000のままです。</li>
+<li>追証が発生するのは、有効証拠金 / ポジション金額が25%まで下がったときです：(V - 10,000) / V = 0.25。</li>
+<li>これを解くと：V = 10,000 / 0.75 = $13,333.33。</li>
+</ul>
+<p>ポジションは$20,000から約$13,333まで、つまり3分の1下落するまで、25%の最低基準による追証は発生しません。その時点でトレーダーの有効証拠金は$3,333となり、元の$10,000の3分の2を失っています。</p>
+<h3 id="30-1-fx">レバレッジ30:1のFX</h3>
+<p>EUR/USDの1スタンダードロットは100,000ユーロです。レートが1.1000なら、エクスポージャーは$110,000になります。EUと英国の主要通貨ペアに対する個人向け上限30:1では、必要証拠金は$110,000 / 30 = $3,666.67です。</p>
+<p>110 pips（1.1000から1.0890）の値動き、つまり1%の変動で、110 x $10 = $1,100の損失になります。これは証拠金の30%にあたります。3.3%動けば証拠金は完全に消えますが、それよりずっと前にブローカーの50%ロスカットルールが発動します。</p>
+<h3 id="10">暗号資産の無期限先物、10倍、分離マージン</h3>
+<p>あるトレーダーが分離マージンで$1,000を差し入れ、$50,000のビットコインに$10,000のロングポジション、つまり0.2 BTCを建てたとします。取引所の維持証拠金はポジション金額の0.5%、つまり$50と仮定します。</p>
+<ul>
+<li>ロスカットは、損失がおおよそ$1,000 - $50 = $950に達したときに起こります。</li>
+<li>その原因となる価格下落幅：$950 / 0.2 = $4,750。</li>
+<li>おおよそのロスカット価格：$50,000 - $4,750 = $45,250、9.5%の下落です。</li>
+</ul>
+<p>実際の取引所は独自の計算式、マーク価格、手数料を使うため、実際の水準は多少異なります。重要なのは、10倍のポジションは10%未満の値動きで決済されてしまうということであり、ビットコインは1日のうちにそれだけ動いたことが何度もあります。</p>
+<h2 id="section-10">クロスマージンと分離マージン</h2>
+<p>これらの用語は暗号資産のデリバティブ取引所でよく使われますが、考え方は他の市場にも当てはまります。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>分離マージン</th>
+<th>クロスマージン</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>担保</td>
+<td>そのポジションに割り当てた証拠金のみ</td>
+<td>口座残高全体</td>
+</tr>
+<tr>
+<td>1ポジションあたりの最大損失</td>
+<td>分離した証拠金（窓開けや手数料を除く）</td>
+<td>口座全体に及ぶ可能性がある</td>
+</tr>
+<tr>
+<td>ロスカットまでの距離</td>
+<td>近い（ポジションを支える担保が少ないため）</td>
+<td>遠い（残高全体がポジションを支えるため）</td>
+</tr>
+<tr>
+<td>向いている用途</td>
+<td>1回のトレードによるダメージを限定したいとき</td>
+<td>ヘッジや相殺し合うポジション</td>
+</tr>
+</tbody></table></div>
+<p>クロスマージンでは負けポジションを長く持ち続けられるため安全に感じられますが、1回の失敗トレードで口座全体を失うことにもなりかねません。分離マージンはポジションごとの損失に上限を設けますが、ロスカットは早く起こります。</p>
+<h2 id="section-11">レバレッジ規制</h2>
+<p>多くの規制当局が、個人顧客に提供されるレバレッジを制限しています。2026年時点での大まかな状況は次のとおりですが、ルールは変わりますし、プロ顧客には別のルールが適用されるため、お住まいの地域の最新ルールを確認してください。</p>
+<ul>
+<li><strong>EUと英国（CFDとスプレッドベット）：</strong> 主要通貨ペアは30:1、主要以外の通貨ペア、金、主要株価指数は20:1、その他のコモディティとマイナーな株価指数は10:1、個別株は5:1、そしてEUでは暗号資産が2:1です。英国では暗号資産デリバティブの個人顧客への販売そのものが禁止されています。</li>
+<li><strong>オーストラリア：</strong> 個人向けCFD顧客にはEUと同様の上限があります。</li>
+<li><strong>米国：</strong> 個人向けFXのレバレッジは主要通貨ペアで50:1、その他で20:1が上限です。個人向けCFDは認められておらず、株式の信用取引はレギュレーションTとFINRAのルールで規制されています。</li>
+<li><strong>日本：</strong> 個人向けFXのレバレッジ上限は25:1（25倍）です。</li>
+<li><strong>海外ブローカーと海外取引所：</strong> FXで500:1以上、暗号資産で100倍超を提供しているところもあります。使えるレバレッジが高いほど、顧客保護は弱いのが普通です。<a href="/ja/encyclopedia/basics/brokers-and-exchanges/">ブローカーと取引所</a>をご覧ください。</li>
+</ul>
+<p>先物のレバレッジ上限は、取引所の証拠金要件を通じて間接的に決まり、ボラティリティに応じて変わります。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>使える最大のレバレッジを使う。</strong> ブローカーが提供するレバレッジは上限であって推奨値ではありません。実効レバレッジは口座の設定ではなく、<a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイジング</a>から決めるべきです。</li>
+<li><strong>証拠金とリスクを混同する。</strong> 20倍のポジションに$1,000の証拠金を差し入れても、$1,000を安全にリスクにさらしているわけではありません。5%動けばトレードが終わるということです。</li>
+<li><strong>負けトレードを救うために証拠金を追加する。</strong> ロスカットを避けるために何度も入金すると、小さな損失が大きな損失に変わることがよくあります。</li>
+<li><strong>資金調達コストを無視する。</strong> レバレッジをかけたポジションを翌日に持ち越すと、通常は金利、スワップ、ファンディングレートを支払います。<a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コストと手数料</a>をご覧ください。</li>
+<li><strong>窓開けを忘れる。</strong> 週末、ニュース、取引停止によって、価格がロスカット水準を飛び越えることがあります。過去の破綻事例は<a href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/">レバレッジのリスクとブラックスワン</a>で取り上げています。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="10">レバレッジ10倍とはどういう意味ですか？</h3>
+<p>ポジションが差し入れた資金の10倍の大きさであるという意味です。価格が1%動くと有効証拠金は約10%変動し、10%逆行すれば資金がすべて消えることもあります。</p>
+<h3 id="section-15">当初証拠金と維持証拠金の違いは何ですか？</h3>
+<p>当初証拠金はポジションを建てるのに必要な預け入れ額です。維持証拠金はポジションを保有している間に維持しなければならない、より低い最低額で、これを下回ると追証またはロスカットが発生します。</p>
+<h3 id="section-16">レバレッジ取引で入金額以上の損失を出すことはありますか？</h3>
+<p>口座によってはあります。相場が窓を開けてロスカット水準を飛び越えた場合、損失が証拠金を上回ることがあります。EUと英国の個人向けCFD顧客にはマイナス残高保護がありますが、どこでもそうというわけではありません。</p>
+<h3 id="section-17">クロスマージンと分離マージンはどちらが安全ですか？</h3>
+<p>分離マージンは各ポジションの損失をそこに割り当てた証拠金までに限定するため、口座の残りの資金を守れます。クロスマージンは残高全体を使ってロスカットを遅らせますが、その分、1回の失敗トレードですべてを失う可能性があります。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/basics/long-and-short-positions/"><div class="k">トレードの基礎</div><b>ロングとショート</b><span>ロングとショートの意味、借株・CFD・先物・無期限先物・プットによる売りの方法、ショートのリスクが無限大になる理由、ヘッジの仕組みを解説します。</span></a><a class="card" href="/ja/encyclopedia/crypto/crypto-liquidations/"><div class="k">暗号資産トレード</div><b>清算</b><span>暗号資産の清算の仕組みを解説。ロングとショートの清算価格の計算、クロスマージンと分離マージン、連鎖清算、清算ヒートマップ、建玉の見方まで。</span></a><a class="card" href="/ja/encyclopedia/risk-management/position-sizing/"><div class="k">リスク管理と資金管理</div><b>ポジションサイジング</b><span>口座のリスク許容額と損切り幅からポジションサイズを計算する方法を解説。定率法、定額法、ATR法を株式、FX、暗号資産の例で紹介します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/"><div class="k">リスク管理と資金管理</div><b>レバレッジのリスクとブラックスワン</b><span>2015年のフランショック、2020年の原油マイナス価格、GameStop、LUNA、FTXの事例から、レバレッジ取引が破綻する仕組みと教訓を解説します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">リスク管理と資金管理</div><b>リスク管理の基本</b><span>リスク管理がエントリーより重要な理由を解説。1トレードあたりのリスク、1日の損失上限、50%の損失を取り戻す計算、トレードの主なリスクの種類をまとめます。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/"><small>← 前へ</small>スプレッドと流動性</a><a class="next" href="/ja/encyclopedia/basics/long-and-short-positions/"><small>次へ →</small>ロングとショート</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

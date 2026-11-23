@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thanh lý crypto: cách tính giá thanh lý và tránh bị thanh lý</title>
+<meta name="description" content="Thanh lý trong crypto hoạt động ra sao: cách tính giá thanh lý cho lệnh long và short, cross và isolated margin, thanh lý dây chuyền, heatmap và open interest.">
+<meta name="keywords" content="thanh lý crypto, cách tính giá thanh lý, cách tránh bị thanh lý, thanh lý dây chuyền, cross và isolated margin">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/crypto-liquidations/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Thanh lý crypto: cách tính giá thanh lý và tránh bị thanh lý">
+<meta property="og:description" content="Thanh lý trong crypto hoạt động ra sao: cách tính giá thanh lý cho lệnh long và short, cross và isolated margin, thanh lý dây chuyền, heatmap và open interest.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/crypto/crypto-liquidations/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Thanh lý crypto: cách tính giá thanh lý và tránh bị thanh lý">
+<meta name="twitter:description" content="Thanh lý trong crypto hoạt động ra sao: cách tính giá thanh lý cho lệnh long và short, cross và isolated margin, thanh lý dây chuyền, heatmap và open interest.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Thanh lý crypto: cách tính giá thanh lý và tránh bị thanh lý","description":"Thanh lý trong crypto hoạt động ra sao: cách tính giá thanh lý cho lệnh long và short, cross và isolated margin, thanh lý dây chuyền, heatmap và open interest.","keywords":"thanh lý crypto, cách tính giá thanh lý, cách tránh bị thanh lý, thanh lý dây chuyền, cross và isolated margin","articleSection":"Giao dịch crypto","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/crypto/crypto-liquidations/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch crypto","item":"https://pnlpro.fit/vi/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"Thanh lý","item":"https://pnlpro.fit/vi/encyclopedia/crypto/crypto-liquidations/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Giá thanh lý được tính như thế nào?","acceptedAnswer":{"@type":"Answer","text":"Với lệnh long tuyến tính isolated, xấp xỉ bằng giá vào × (1 − 1/đòn bẩy + tỷ lệ ký quỹ duy trì). Với lệnh short, là giá vào × (1 + 1/đòn bẩy − tỷ lệ ký quỹ duy trì). Các sàn còn tính thêm phí và tỷ lệ ký quỹ theo bậc, nên hãy dùng con số sàn hiển thị."}},{"@type":"Question","name":"Tiền của tôi sẽ ra sao khi bị thanh lý?","acceptedAnswer":{"@type":"Answer","text":"Bạn mất phần ký quỹ đỡ cho vị thế, hoặc gần như toàn bộ, sau khi trừ phí thanh lý nếu có. Với isolated margin, mức mất giới hạn ở ký quỹ của vị thế; với cross margin, có thể là phần lớn số dư tài khoản."}},{"@type":"Question","name":"Cross margin hay isolated margin tốt hơn?","acceptedAnswer":{"@type":"Answer","text":"Isolated margin đặt trần mức lỗ cho từng vị thế, giúp kiểm soát rủi ro dễ hơn. Cross margin dời giá thanh lý ra xa hơn nhưng phơi toàn bộ tài khoản, và một lệnh xấu có thể ảnh hưởng tất cả các vị thế đang mở."}},{"@type":"Question","name":"Điều gì gây ra thanh lý dây chuyền?","acceptedAnswer":{"@type":"Answer","text":"Một biến động giá kích hoạt các lệnh thanh lý cưỡng bức, được thực thi dưới dạng lệnh thị trường đẩy giá đi xa hơn và kích hoạt thêm thanh lý. Thanh lý dây chuyền dễ xảy ra nhất khi đòn bẩy, funding và open interest cao và thanh khoản mỏng."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/crypto/crypto-liquidations/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/crypto-liquidations/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/crypto-liquidations/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/crypto-liquidations/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/crypto-liquidations/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/crypto-liquidations/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/crypto-liquidations/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/crypto-liquidations/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/crypto-liquidations/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch crypto</h3><ul><li><a href="/vi/encyclopedia/crypto/crypto-trading-basics/">Giao dịch crypto cơ bản</a></li><li><a href="/vi/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX so với DEX</a></li><li><a href="/vi/encyclopedia/crypto/crypto-market-cycles/">Chu kỳ thị trường crypto</a></li><li><a href="/vi/encyclopedia/crypto/perpetual-futures/">Hợp đồng vĩnh cửu</a></li><li><a href="/vi/encyclopedia/crypto/funding-rates/">Funding rate</a></li><li><a href="/vi/encyclopedia/crypto/crypto-liquidations/" class="on" aria-current="page">Thanh lý</a></li><li><a href="/vi/encyclopedia/crypto/on-chain-analysis/">Phân tích on-chain</a></li><li><a href="/vi/encyclopedia/crypto/altcoin-trading/">Giao dịch altcoin</a></li><li><a href="/vi/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics và mở khóa token</a></li><li><a href="/vi/encyclopedia/crypto/defi-trading/">Giao dịch DeFi</a></li><li><a href="/vi/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV và tấn công sandwich</a></li><li><a href="/vi/encyclopedia/crypto/crypto-arbitrage/">Arbitrage crypto</a></li><li><a href="/vi/encyclopedia/crypto/stablecoins/">Stablecoin</a></li><li><a href="/vi/encyclopedia/crypto/crypto-wallet-security/">Bảo mật ví</a></li><li><a href="/vi/encyclopedia/crypto/airdrops-and-points-farming/">Airdrop và cày điểm</a></li><li><a href="/vi/encyclopedia/crypto/nft-trading/">Giao dịch NFT</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/" class="on">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a></div>
+<h1 class="title">Thanh lý trong crypto</h1>
+<div class="meta">10 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch crypto</summary><ul><li><a href="/vi/encyclopedia/crypto/crypto-trading-basics/">Giao dịch crypto cơ bản</a></li><li><a href="/vi/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX so với DEX</a></li><li><a href="/vi/encyclopedia/crypto/crypto-market-cycles/">Chu kỳ thị trường crypto</a></li><li><a href="/vi/encyclopedia/crypto/perpetual-futures/">Hợp đồng vĩnh cửu</a></li><li><a href="/vi/encyclopedia/crypto/funding-rates/">Funding rate</a></li><li><a href="/vi/encyclopedia/crypto/crypto-liquidations/" class="on" aria-current="page">Thanh lý</a></li><li><a href="/vi/encyclopedia/crypto/on-chain-analysis/">Phân tích on-chain</a></li><li><a href="/vi/encyclopedia/crypto/altcoin-trading/">Giao dịch altcoin</a></li><li><a href="/vi/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics và mở khóa token</a></li><li><a href="/vi/encyclopedia/crypto/defi-trading/">Giao dịch DeFi</a></li><li><a href="/vi/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV và tấn công sandwich</a></li><li><a href="/vi/encyclopedia/crypto/crypto-arbitrage/">Arbitrage crypto</a></li><li><a href="/vi/encyclopedia/crypto/stablecoins/">Stablecoin</a></li><li><a href="/vi/encyclopedia/crypto/crypto-wallet-security/">Bảo mật ví</a></li><li><a href="/vi/encyclopedia/crypto/airdrops-and-points-farming/">Airdrop và cày điểm</a></li><li><a href="/vi/encyclopedia/crypto/nft-trading/">Giao dịch NFT</a></li></ul></details>
+<article><p>Thanh lý (liquidation) là việc buộc đóng một vị thế dùng đòn bẩy khi ký quỹ của trader tụt xuống dưới mức sàn yêu cầu. Trong crypto, nơi perpetual futures được giao dịch với đòn bẩy cao suốt ngày đêm, thanh lý diễn ra liên tục, và trong các cú biến động mạnh chúng có thể kích hoạt chuỗi bán hoặc mua cưỡng bức đẩy giá đi xa hơn nhiều so với những gì yếu tố cơ bản đáng có. Biết chính xác giá thanh lý của mình nằm ở đâu và vì sao là điều sống còn cơ bản với bất kỳ ai dùng đòn bẩy.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Thanh lý xảy ra khi vốn của bạn trong vị thế tụt xuống mức ký quỹ duy trì, chứ không phải khi nó về 0.</li>
+<li>Ở đòn bẩy 10x, một biến động khoảng 9.5% ngược hướng có thể thanh lý một vị thế isolated; ở 50x, khoảng 1.5%.</li>
+<li>Cross margin đẩy giá thanh lý ra xa hơn nhưng đặt cả tài khoản vào rủi ro.</li>
+<li>Thanh lý dây chuyền xảy ra khi các lệnh cưỡng bức đẩy giá vào cụm mức thanh lý tiếp theo.</li>
+<li>Cách đáng tin cậy nhất để tránh thanh lý là dùng đòn bẩy thấp hơn cộng với stop-loss đặt trước giá thanh lý một khoảng đủ xa.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#thanh-l-ho-t-ng-nh-th-n-o">Thanh lý hoạt động như thế nào</a></li><li><a href="#c-ch-t-nh-gi-thanh-l">Cách tính giá thanh lý</a></li><li><a href="#cross-v-isolated-margin">Cross và isolated margin</a></li><li><a href="#thanh-l-d-y-chuy-n">Thanh lý dây chuyền</a></li><li><a href="#open-interest-v-heatmap-thanh-l">Open interest và heatmap thanh lý</a></li><li><a href="#c-ch-tr-nh-b-thanh-l">Cách tránh bị thanh lý</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="thanh-l-ho-t-ng-nh-th-n-o">Thanh lý hoạt động như thế nào</h2>
+<p>Khi bạn mở một vị thế dùng đòn bẩy trên <a href="/vi/encyclopedia/crypto/perpetual-futures/">hợp đồng tương lai vĩnh cửu</a>, bạn nộp ký quỹ ban đầu. Sàn cũng đặt một <strong>tỷ lệ ký quỹ duy trì (MMR)</strong>, một tỷ lệ phần trăm nhỏ hơn của giá trị vị thế mà bạn phải giữ làm vốn. Vốn là ký quỹ của bạn cộng với lãi hoặc lỗ chưa thực hiện, đo bằng giá đánh dấu (mark price).</p>
+<p>Khi vốn tụt xuống mức yêu cầu duy trì, công cụ thanh lý của sàn tiếp quản vị thế và đóng nó. Tùy sàn, bạn mất toàn bộ ký quỹ của vị thế hoặc phần còn lại sau khi trừ phí thanh lý. Một số sàn thử thanh lý một phần trước để đưa vị thế trở lại trên mức duy trì.</p>
+<p>Cơ chế chung của <a href="/vi/encyclopedia/basics/leverage-and-margin/">đòn bẩy và ký quỹ</a> áp dụng cho mọi thị trường. Điều khiến crypto đặc biệt là mức đòn bẩy có sẵn (thường 50x đến 100x hoặc hơn ở một số hợp đồng), thị trường 24/7 và tốc độ các lệnh thanh lý tác động vào giá.</p>
+<h2 id="c-ch-t-nh-gi-thanh-l">Cách tính giá thanh lý</h2>
+<p>Các ví dụ sau dùng hợp đồng tuyến tính (ký quỹ bằng USDT) với isolated margin, tỷ lệ ký quỹ duy trì 0.5%, và bỏ qua phí và funding. Các sàn thật dùng MMR theo bậc và có thể trừ phí, khiến giá thanh lý hơi gần giá vào lệnh hơn.</p>
+<h3 id="v-th-long">Vị thế long</h3>
+<p>Một trader mua 1 BTC trên perp ở $60,000 với đòn bẩy 10x.</p>
+<ul>
+<li>Giá trị danh nghĩa: $60,000. Ký quỹ ban đầu: $6,000.</li>
+<li>Ở giá P, vốn = $6,000 + (P − $60,000).</li>
+<li>Yêu cầu duy trì = 0.005 × P.</li>
+</ul>
+<p>Thanh lý xảy ra khi vốn bằng mức yêu cầu:</p>
+<p>6,000 + P − 60,000 = 0.005P
+0.995P = 54,000
+P = $54,271.36</p>
+<p>Kiểm tra: ở $54,271.36, vốn = 6,000 − 5,728.64 = $271.36, và 0.5% của $54,271.36 là $271.36. Vị thế bị thanh lý sau khi giá giảm khoảng 9.55%, chứ không phải 10% như &quot;10x&quot; gợi ý.</p>
+<h3 id="v-th-short">Vị thế short</h3>
+<p>Cũng trader đó, lần này short 1 BTC ở $60,000 với đòn bẩy 10x.</p>
+<ul>
+<li>Ở giá P, vốn = $6,000 + ($60,000 − P).</li>
+</ul>
+<p>6,000 + 60,000 − P = 0.005P
+66,000 = 1.005P
+P = $65,671.64</p>
+<p>Kiểm tra: vốn ở $65,671.64 = 6,000 − 5,671.64 = $328.36, và 0.5% của $65,671.64 là $328.36. Lệnh short bị thanh lý sau khi giá tăng khoảng 9.45%.</p>
+<h3 id="c-ng-th-c-t-t">Công thức tắt</h3>
+<p>Với một vị thế tuyến tính isolated, giá thanh lý xấp xỉ:</p>
+<ul>
+<li>Long: giá vào × (1 − 1/đòn bẩy + MMR)</li>
+<li>Short: giá vào × (1 + 1/đòn bẩy − MMR)</li>
+</ul>
+<p>Với lệnh long ở trên: 60,000 × (1 − 0.1 + 0.005) = $54,300. Con số xấp xỉ này sát với giá chính xác $54,271.36 và đủ dùng để kiểm tra nhanh, nhưng giá thanh lý mà sàn của bạn hiển thị mới là con số có giá trị.</p>
+<h3 id="n-b-y-thay-i-kho-ng-c-ch-t-i-thanh-l-th-n-o">Đòn bẩy thay đổi khoảng cách tới thanh lý thế nào</h3>
+<p>Dùng cùng MMR 0.5% cho lệnh long:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Đòn bẩy</th>
+<th>Biến động xấp xỉ để bị thanh lý</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2x</td>
+<td>khoảng 50%</td>
+</tr>
+<tr>
+<td>5x</td>
+<td>khoảng 20%</td>
+</tr>
+<tr>
+<td>10x</td>
+<td>khoảng 9.5%</td>
+</tr>
+<tr>
+<td>20x</td>
+<td>khoảng 4.5%</td>
+</tr>
+<tr>
+<td>50x</td>
+<td>khoảng 1.5%</td>
+</tr>
+<tr>
+<td>100x</td>
+<td>khoảng 0.5%</td>
+</tr>
+</tbody></table></div>
+<p>Ở 20x, giá thanh lý long chính xác cho giá vào $60,000 là (60,000 − 3,000) / 0.995 = $57,286.43. Bitcoin thường xuyên biến động 4.5% trong một ngày, và các coin nhỏ hơn có thể làm vậy chỉ trong vài phút. Ở 100x, nhiễu thông thường cũng thanh lý vị thế. Tỷ lệ duy trì cao hơn ở các vị thế lớn còn thu hẹp thêm các khoảng cách này.</p>
+<h2 id="cross-v-isolated-margin">Cross và isolated margin</h2>
+<p>Với <strong>isolated margin</strong>, chỉ phần ký quỹ gán cho vị thế có thể bị mất. Với <strong>cross margin</strong>, toàn bộ số dư tài khoản hỗ trợ tất cả các vị thế đang mở.</p>
+<p>Giả sử trader ở trên giữ $20,000 trong tài khoản cross margin và mở cùng lệnh long 1 BTC ở $60,000.</p>
+<p>20,000 + P − 60,000 = 0.005P
+0.995P = 40,000
+P = $40,201.01</p>
+<p>Giá thanh lý xa hơn nhiều, nhưng nếu chạm tới, trader mất gần hết $20,000 thay vì $6,000. Cross margin cũng liên kết các vị thế: khoản lỗ ở một lệnh có thể làm thanh lý lệnh khác. Isolated margin cho mức lỗ rõ ràng, có trần cho mỗi lệnh, điều mà nhiều trader thấy dễ quản lý hơn.</p>
+<h2 id="thanh-l-d-y-chuy-n">Thanh lý dây chuyền</h2>
+<p>Thanh lý là lệnh thị trường. Một lệnh long bị thanh lý trở thành lệnh bán cưỡng bức; một lệnh short bị thanh lý trở thành lệnh mua cưỡng bức. Khi nhiều vị thế có mức thanh lý gần nhau, việc bán cưỡng bức đẩy giá xuống tới cụm tiếp theo, kích hoạt thêm bán cưỡng bức. Đó là thanh lý dây chuyền ở phía long. Phiên bản đi lên là short squeeze.</p>
+<p>Thanh lý dây chuyền dễ xảy ra hơn khi:</p>
+<ul>
+<li><a href="/vi/encyclopedia/crypto/funding-rates/">Funding rate</a> cao, cho thấy vị thế đòn bẩy đang quá đông.</li>
+<li>Open interest tăng nhanh.</li>
+<li>Thanh khoản mỏng, chẳng hạn vào cuối tuần hoặc ban đêm ở các khu vực giao dịch chính.</li>
+<li>Một cú sốc vĩ mô ập đến khi thị trường đã căng sẵn.</li>
+</ul>
+<p>Vào ngày 10 và 11 tháng 10 năm 2025, sau khi Mỹ công bố thuế quan mới đối với hàng hóa Trung Quốc, thị trường crypto chứng kiến khoảng $19 tỷ thanh lý trong 24 giờ theo đơn vị tổng hợp dữ liệu Coinglass, phần lớn là các vị thế long và là tổng một ngày lớn nhất từng ghi nhận. Một số altcoin tạm thời giao dịch thấp hơn nhiều so với giá trước đó trên từng sàn, và một số sàn báo cáo đã kích hoạt cơ chế tự động giảm đòn bẩy (auto-deleveraging). Các đợt dây chuyền lớn trước đó xảy ra vào tháng 3 năm 2020 và tháng 5 năm 2021. Xem <a href="/vi/encyclopedia/risk-management/leverage-risk-and-black-swans/">rủi ro đòn bẩy và thiên nga đen</a> để biết các sự kiện đuôi khác.</p>
+<h2 id="open-interest-v-heatmap-thanh-l">Open interest và heatmap thanh lý</h2>
+<p><strong>Open interest (OI)</strong> là tổng số lượng hoặc giá trị các hợp đồng phái sinh chưa tất toán. OI tăng nghĩa là các vị thế mới đang được mở; OI giảm nghĩa là các vị thế đang đóng, kể cả qua thanh lý. OI giảm mạnh trong lúc giá sụp là dấu hiệu điển hình của thanh lý dây chuyền.</p>
+<p><strong>Heatmap thanh lý</strong> là các biểu đồ từ nhà cung cấp dữ liệu ước tính vị trí các cụm mức thanh lý, dựa trên thay đổi OI, đòn bẩy phổ biến và lịch sử giá. Một số trader coi các cụm này là &quot;nam châm&quot; mà giá có thể săn tới. Cần nhớ:</p>
+<ul>
+<li>Heatmap chỉ là ước tính. Các sàn không công bố giá thanh lý của từng trader, trừ các perp DEX minh bạch.</li>
+<li>Các cụm dịch chuyển khi trader mở, đóng và điều chỉnh vị thế.</li>
+<li>Dữ liệu có thể không đầy đủ; một số sàn báo cáo thanh lý ở dạng bị giới hạn tần suất.</li>
+</ul>
+<p>Thống kê thanh lý cũng bị đếm thiếu vì cùng lý do, nên hãy coi tổng thanh lý hằng ngày chỉ là xấp xỉ.</p>
+<h2 id="c-ch-tr-nh-b-thanh-l">Cách tránh bị thanh lý</h2>
+<ol>
+<li><strong>Dùng đòn bẩy thấp.</strong> Ở 2x hoặc 3x, biến động bình thường hiếm khi chạm giá thanh lý.</li>
+<li><strong>Chia quy mô theo rủi ro, không theo ký quỹ.</strong> Quyết định bạn sẵn sàng mất bao nhiêu, rồi chia quy mô vị thế sao cho stop-loss giới hạn khoản lỗ đó. Xem <a href="/vi/encyclopedia/risk-management/position-sizing/">quy mô vị thế</a>.</li>
+<li><strong>Đặt stop-loss trước giá thanh lý một khoảng đủ xa.</strong> Một lệnh dừng ở mức đã lên kế hoạch lỗ ít hơn thanh lý và tránh được phí thanh lý. Lưu ý rằng lệnh dừng có thể trượt giá khi thị trường chạy nhanh.</li>
+<li><strong>Theo dõi giá đánh dấu (mark price)</strong>, không chỉ giá khớp gần nhất.</li>
+<li><strong>Tính đến funding và phí</strong>, những khoản này từ từ làm giảm ký quỹ của các vị thế giữ lâu.</li>
+<li><strong>Tránh phản xạ nạp thêm ký quỹ vào vị thế đang lỗ.</strong> Việc đó dời giá thanh lý nhưng làm tăng số tiền đang rủi ro.</li>
+<li><strong>Chỉ giữ vốn giao dịch trên các sàn phái sinh.</strong></li>
+</ol>
+<p>Phần lớn trader cá nhân dùng đòn bẩy cao trên perp crypto đều thua lỗ theo thời gian. Giao dịch đòn bẩy cao cũng có thể trở thành cưỡng chế. Nếu giao dịch bắt đầu giống cờ bạc mà bạn không thể dừng, ở nhiều nước có các dịch vụ hỗ trợ người nghiện cờ bạc.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Cho rằng 10x nghĩa là vùng đệm 10%.</strong> Ký quỹ duy trì và phí làm nó nhỏ hơn.</li>
+<li><strong>Dùng cross margin mà không nhận ra</strong> toàn bộ số dư đang bị phơi ra.</li>
+<li><strong>Đặt lệnh dừng ngoài giá thanh lý,</strong> nơi chúng không bao giờ được kích hoạt.</li>
+<li><strong>Giao dịch quanh các tin lớn hoặc cuối tuần</strong> với đòn bẩy cao.</li>
+<li><strong>Tin rằng heatmap thanh lý là chính xác.</strong></li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="gi-thanh-l-c-t-nh-nh-th-n-o">Giá thanh lý được tính như thế nào?</h3>
+<p>Với lệnh long tuyến tính isolated, xấp xỉ bằng giá vào × (1 − 1/đòn bẩy + tỷ lệ ký quỹ duy trì). Với lệnh short, là giá vào × (1 + 1/đòn bẩy − tỷ lệ ký quỹ duy trì). Các sàn còn tính thêm phí và tỷ lệ ký quỹ theo bậc, nên hãy dùng con số sàn hiển thị.</p>
+<h3 id="ti-n-c-a-t-i-s-ra-sao-khi-b-thanh-l">Tiền của tôi sẽ ra sao khi bị thanh lý?</h3>
+<p>Bạn mất phần ký quỹ đỡ cho vị thế, hoặc gần như toàn bộ, sau khi trừ phí thanh lý nếu có. Với isolated margin, mức mất giới hạn ở ký quỹ của vị thế; với cross margin, có thể là phần lớn số dư tài khoản.</p>
+<h3 id="cross-margin-hay-isolated-margin-t-t-h-n">Cross margin hay isolated margin tốt hơn?</h3>
+<p>Isolated margin đặt trần mức lỗ cho từng vị thế, giúp kiểm soát rủi ro dễ hơn. Cross margin dời giá thanh lý ra xa hơn nhưng phơi toàn bộ tài khoản, và một lệnh xấu có thể ảnh hưởng tất cả các vị thế đang mở.</p>
+<h3 id="i-u-g-g-y-ra-thanh-l-d-y-chuy-n">Điều gì gây ra thanh lý dây chuyền?</h3>
+<p>Một biến động giá kích hoạt các lệnh thanh lý cưỡng bức, được thực thi dưới dạng lệnh thị trường đẩy giá đi xa hơn và kích hoạt thêm thanh lý. Thanh lý dây chuyền dễ xảy ra nhất khi đòn bẩy, funding và open interest cao và thanh khoản mỏng.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/crypto/perpetual-futures/"><div class="k">Giao dịch crypto</div><b>Hợp đồng vĩnh cửu</b><span>Perp crypto hoạt động ra sao: không đáo hạn, giá đánh dấu so với giá chỉ số và giá khớp, funding, đòn bẩy, quỹ bảo hiểm, ADL, inverse và linear, cùng perp DEX.</span></a><a class="card" href="/vi/encyclopedia/crypto/funding-rates/"><div class="k">Giao dịch crypto</div><b>Funding rate</b><span>Cách funding của perpetual futures hoạt động: chu kỳ, cách tính và quy theo năm, đọc funding dương và âm, cùng arbitrage cash-and-carry.</span></a><a class="card" href="/vi/encyclopedia/basics/leverage-and-margin/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Đòn bẩy và ký quỹ</b><span>Đòn bẩy và ký quỹ hoạt động thế nào: ký quỹ ban đầu và duy trì, margin call, thanh lý, cross và isolated margin, ví dụ tính toán và mức trần đòn bẩy.</span></a><a class="card" href="/vi/encyclopedia/risk-management/position-sizing/"><div class="k">Quản trị rủi ro và vốn</div><b>Quy mô vị thế</b><span>Cách tính quy mô vị thế từ rủi ro tài khoản và khoảng cách cắt lỗ: fixed fractional, số tiền cố định và ATR, kèm ví dụ cổ phiếu, forex và crypto.</span></a><a class="card" href="/vi/encyclopedia/risk-management/leverage-risk-and-black-swans/"><div class="k">Quản trị rủi ro và vốn</div><b>Rủi ro đòn bẩy và thiên nga đen</b><span>Sự kiện đuôi xóa sổ trader dùng đòn bẩy ra sao: franc Thụy Sĩ 2015, dầu âm 2020, GameStop, LUNA và FTX, cùng rủi ro gap, thanh khoản biến mất và bài học.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/crypto/funding-rates/"><small>← Bài trước</small>Funding rate</a><a class="next" href="/vi/encyclopedia/crypto/on-chain-analysis/"><small>Bài tiếp →</small>Phân tích on-chain</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tỷ lệ cược prediction market: giá, xác suất hàm ý và phí | PnL Profit</title>
+<meta name="description" content="Giá prediction market quy ra xác suất ra sao, vì sao YES và NO cộng lại bằng $1, overround, quy đổi tỷ lệ cược, phí, giá trị thời gian và thiên lệch long-shot.">
+<meta name="keywords" content="tỷ lệ cược prediction market, xác suất hàm ý, định giá prediction market, quy đổi odds sang xác suất, thiên lệch long-shot">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/prediction-markets/prediction-market-pricing/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Tỷ lệ cược prediction market: giá, xác suất hàm ý và phí | PnL Profit">
+<meta property="og:description" content="Giá prediction market quy ra xác suất ra sao, vì sao YES và NO cộng lại bằng $1, overround, quy đổi tỷ lệ cược, phí, giá trị thời gian và thiên lệch long-shot.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/prediction-markets/prediction-market-pricing/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tỷ lệ cược prediction market: giá, xác suất hàm ý và phí | PnL Profit">
+<meta name="twitter:description" content="Giá prediction market quy ra xác suất ra sao, vì sao YES và NO cộng lại bằng $1, overround, quy đổi tỷ lệ cược, phí, giá trị thời gian và thiên lệch long-shot.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Tỷ lệ cược prediction market: giá, xác suất hàm ý và phí","description":"Giá prediction market quy ra xác suất ra sao, vì sao YES và NO cộng lại bằng $1, overround, quy đổi tỷ lệ cược, phí, giá trị thời gian và thiên lệch long-shot.","keywords":"tỷ lệ cược prediction market, xác suất hàm ý, định giá prediction market, quy đổi odds sang xác suất, thiên lệch long-shot","articleSection":"Thị trường dự đoán","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/prediction-markets/prediction-market-pricing/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Thị trường dự đoán","item":"https://pnlpro.fit/vi/encyclopedia/prediction-markets/"},{"@type":"ListItem","position":3,"name":"Định giá và xác suất","item":"https://pnlpro.fit/vi/encyclopedia/prediction-markets/prediction-market-pricing/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Làm sao tính xác suất hàm ý từ giá prediction market?","acceptedAnswer":{"@type":"Answer","text":"Chia giá cho khoản chi trả. Một cổ phần YES giá 35 cent trên khoản chi trả $1 hàm ý 35 phần trăm. Trong thị trường nhiều kết cục, hãy chia mỗi giá cho tổng của mọi giá để loại bỏ overround."}},{"@type":"Question","name":"Vì sao giá YES và NO cộng lại hơn $1?","acceptedAnswer":{"@type":"Answer","text":"Vì bạn mua ở giá ask ở cả hai phía, và mỗi ask nằm trên điểm giữa. Khoảng chênh đó là spread bid-ask. Tại các điểm giữa, YES và NO cộng lại bằng khoảng $1."}},{"@type":"Question","name":"Làm sao quy đổi odds kiểu Mỹ sang xác suất?","acceptedAnswer":{"@type":"Answer","text":"Với odds âm, chia odds cho odds cộng 100: −150 thành 150 ÷ 250 = 60 phần trăm. Với odds dương, chia 100 cho odds cộng 100: +300 thành 100 ÷ 400 = 25 phần trăm."}},{"@type":"Question","name":"Thiên lệch long-shot là gì?","acceptedAnswer":{"@type":"Answer","text":"Đó là xu hướng các kết cục khó xảy ra giao dịch ở mức giá cao hơn xác suất thật của chúng, thấy ở đua ngựa và nhiều thị trường cá cược. Nó gợi ý rằng các hợp đồng rẻ thường có giá trị kém hơn vẻ ngoài."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/prediction-markets/prediction-market-pricing/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/prediction-markets/prediction-market-pricing/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/prediction-markets/prediction-market-pricing/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/prediction-markets/prediction-market-pricing/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/prediction-markets/prediction-market-pricing/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/prediction-markets/prediction-market-pricing/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/prediction-markets/prediction-market-pricing/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/prediction-markets/prediction-market-pricing/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/prediction-markets/prediction-market-pricing/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Thị trường dự đoán</h3><ul><li><a href="/vi/encyclopedia/prediction-markets/prediction-markets-explained/">Thị trường dự đoán là gì</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-pricing/" class="on" aria-current="page">Định giá và xác suất</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-platforms/">So sánh các nền tảng</a></li><li><a href="/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/">Giải quyết kết quả và oracle</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-strategies/">Tổng quan chiến lược</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitrage</a></li><li><a href="/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-regulation/">Quy định</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/" class="on">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a></div>
+<h1 class="title">Định giá prediction market và xác suất hàm ý</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Thị trường dự đoán</summary><ul><li><a href="/vi/encyclopedia/prediction-markets/prediction-markets-explained/">Thị trường dự đoán là gì</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-pricing/" class="on" aria-current="page">Định giá và xác suất</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-platforms/">So sánh các nền tảng</a></li><li><a href="/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/">Giải quyết kết quả và oracle</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-strategies/">Tổng quan chiến lược</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitrage</a></li><li><a href="/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-regulation/">Quy định</a></li></ul></details>
+<article><p>Trong một prediction market, giá của một hợp đồng trả $1 nếu sự kiện xảy ra có thể được đọc như ước tính của thị trường về xác suất sự kiện đó: 25 cent nghĩa là khoảng 25 phần trăm khả năng. Cách đọc này chỉ mang tính xấp xỉ, vì spread, phí, giá trị thời gian của tiền và các thiên lệch có hệ thống đều đẩy giá lệch khỏi tỷ lệ cược thật. Biết cách điều chỉnh cho những yếu tố này là nền tảng của mọi quyết định giao dịch trên các nền tảng này, từ đầu cơ đơn giản đến <a href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/">arbitrage</a>.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Giá của một hợp đồng chia cho khoản chi trả $1 cho ra xác suất hàm ý, trước chi phí.</li>
+<li>Giá YES và NO trên cùng một thị trường nhị phân là các đại lượng bù nhau, cộng lại nên bằng khoảng $1.</li>
+<li>Khi giá của mọi kết cục cộng lại hơn $1, phần dư là overround, và chia cho tổng sẽ loại bỏ nó.</li>
+<li>Phí, spread và chi phí khóa tiền đến khi giải quyết làm tăng xác suất bạn cần để hòa vốn.</li>
+<li>Long shot có xu hướng bị định giá quá cao trong thị trường cá cược và prediction market, nên giá rẻ không tự động là món hời.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#gi-nh-x-c-su-t-h-m">Giá như xác suất hàm ý</a></li><li><a href="#yes-v-no-l-hai-i-l-ng-b-nhau">YES và NO là hai đại lượng bù nhau</a></li><li><a href="#overround-trong-th-tr-ng-nhi-u-k-t-c-c">Overround trong thị trường nhiều kết cục</a></li><li><a href="#quy-i-gi-a-c-c-nh-d-ng-t-l-c-c">Quy đổi giữa các định dạng tỷ lệ cược</a></li><li><a href="#ph-thay-i-gi-tr-h-p-l-nh-th-n-o">Phí thay đổi giá trị hợp lý như thế nào</a></li><li><a href="#gi-tr-th-i-gian-v-sao-h-p-ng-g-n-nh-ch-c-ch-n-giao-d-ch-d-i-1">Giá trị thời gian: vì sao hợp đồng gần như chắc chắn giao dịch dưới <div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Giá của một hợp đồng chia cho khoản chi trả $1 cho ra xác suất hàm ý, trước chi phí.</li>
+<li>Giá YES và NO trên cùng một thị trường nhị phân là các đại lượng bù nhau, cộng lại nên bằng khoảng $1.</li>
+<li>Khi giá của mọi kết cục cộng lại hơn $1, phần dư là overround, và chia cho tổng sẽ loại bỏ nó.</li>
+<li>Phí, spread và chi phí khóa tiền đến khi giải quyết làm tăng xác suất bạn cần để hòa vốn.</li>
+<li>Long shot có xu hướng bị định giá quá cao trong thị trường cá cược và prediction market, nên giá rẻ không tự động là món hời.</li>
+</ul></div></a></li><li><a href="#thi-n-l-ch-long-shot">Thiên lệch long-shot</a></li><li><a href="#g-p-l-i-l-i-th-v-nh-c-l-nh">Gộp lại: lợi thế và định cỡ lệnh</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="gi-nh-x-c-su-t-h-m">Giá như xác suất hàm ý</h2>
+<p>Một hợp đồng nhị phân trả $1 nếu kết cục là YES và $0 trong trường hợp còn lại. Nếu bạn trả giá <em>P</em> và xác suất thật là <em>q</em>, lợi nhuận kỳ vọng của bạn trên mỗi hợp đồng, trước phí, là:</p>
+<p><strong>Lợi nhuận kỳ vọng = q × $1 − P</strong></p>
+<p>Mức giá tại đó lợi nhuận kỳ vọng bằng không là <em>P = q</em>. Đó là lý do giá và xác suất khớp nhau: nếu nhà giao dịch nghĩ khả năng cao hơn giá, họ sẽ mua cho đến khi nó tăng, và ngược lại.</p>
+<p>Trong thực tế không có một mức giá duy nhất. Có giá bid tốt nhất (mức cao nhất ai đó sẵn sàng trả) và giá ask tốt nhất (mức thấp nhất ai đó sẵn sàng bán). Điểm giữa của hai giá là xác suất &quot;tiêu đề&quot; thông thường. Nếu YES có bid ở 60 cent và chào bán ở 62 cent, điểm giữa là 61 cent, tức 61 phần trăm. Người mua trả 62 cent và người bán nhận 60 cent, nên <a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">spread</a> là một chi phí thật.</p>
+<h2 id="yes-v-no-l-hai-i-l-ng-b-nhau">YES và NO là hai đại lượng bù nhau</h2>
+<p>Vì đúng một phía của thị trường nhị phân trả $1, một cổ phần YES cộng một cổ phần NO luôn có giá trị $1 khi giải quyết. Điều đó có nghĩa là:</p>
+<ul>
+<li>Mua NO ở 40 cent về mặt kinh tế giống như bán YES ở 60 cent.</li>
+<li>Một bid YES 60 cent hàm ý một ask NO 40 cent, và một ask YES 62 cent hàm ý một bid NO 38 cent.</li>
+</ul>
+<p>Nhiều nền tảng hiển thị cả hai sổ lệnh nhưng ghép chúng với nhau, nên hai sổ luôn phản chiếu nhau. Nếu bạn thấy ask YES cộng ask NO dưới $1 trên cùng một thị trường, mua cả hai sẽ khóa được lợi nhuận trước phí. Điều đó hiếm khi kéo dài, và <a href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/">bài về arbitrage</a> giải thích vì sao.</p>
+<h2 id="overround-trong-th-tr-ng-nhi-u-k-t-c-c">Overround trong thị trường nhiều kết cục</h2>
+<p>Trong một thị trường có nhiều kết cục, các ask YES trên mọi kết cục thường cộng lại hơn $1 một chút. Phần dư gọi là overround, hay vig trong ngôn ngữ cá cược. Đó là chi phí mua mọi kết cục cùng lúc.</p>
+<h3 id="v-d-minh-h-a-lo-i-b-overround">Ví dụ minh họa: loại bỏ overround</h3>
+<p>Một cuộc đua ba ứng viên hiển thị các ask YES sau:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ứng viên</th>
+<th>Ask YES</th>
+<th>Xác suất đã chuẩn hóa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>$0.52</td>
+<td>0.52 ÷ 1.04 = 50.0%</td>
+</tr>
+<tr>
+<td>B</td>
+<td>$0.31</td>
+<td>0.31 ÷ 1.04 = 29.8%</td>
+</tr>
+<tr>
+<td>C</td>
+<td>$0.21</td>
+<td>0.21 ÷ 1.04 = 20.2%</td>
+</tr>
+<tr>
+<td><strong>Tổng</strong></td>
+<td><strong>$1.04</strong></td>
+<td><strong>100.0%</strong></td>
+</tr>
+</tbody></table></div>
+<p>Các ask cộng lại bằng $1.04, tức overround 4 phần trăm. Chia mỗi giá cho $1.04 cho ra các xác suất có tổng 100 phần trăm. Phương pháp tỷ lệ đơn giản này phổ biến, dù nó đánh giá cao long shot hơi quá mức nếu overround không được phân bổ đều.</p>
+<h2 id="quy-i-gi-a-c-c-nh-d-ng-t-l-c-c">Quy đổi giữa các định dạng tỷ lệ cược</h2>
+<p>Nhà cái và sàn cá cược niêm yết tỷ lệ cược (odds) thay vì giá. Các phép quy đổi dùng xác suất hàm ý <em>p</em>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Định dạng</th>
+<th>Từ xác suất</th>
+<th>Ví dụ ở p = 0.25</th>
+<th>Ví dụ ở p = 0.60</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Giá (cent)</td>
+<td>100 × p</td>
+<td>25 cent</td>
+<td>60 cent</td>
+</tr>
+<tr>
+<td>Odds thập phân</td>
+<td>1 ÷ p</td>
+<td>4.00</td>
+<td>1.67</td>
+</tr>
+<tr>
+<td>Odds phân số</td>
+<td>(1 − p) ÷ p</td>
+<td>3/1</td>
+<td>2/3</td>
+</tr>
+<tr>
+<td>Odds kiểu Mỹ</td>
+<td>Nếu p &lt; 0.5: +100 × (1 − p) ÷ p; nếu p ≥ 0.5: −100 × p ÷ (1 − p)</td>
+<td>+300</td>
+<td>−150</td>
+</tr>
+</tbody></table></div>
+<p>Để đi chiều ngược lại, odds thập phân 4.00 cho p = 1 ÷ 4.00 = 0.25. Odds kiểu Mỹ −150 cho p = 150 ÷ (150 + 100) = 0.60, và +300 cho p = 100 ÷ (300 + 100) = 0.25.</p>
+<p>Một kèo nhà cái điển hình −110 ở cả hai phía của một trận đấu hàm ý 110 ÷ 210 = 52.4 phần trăm cho mỗi phía. Hai phía cộng lại 104.8 phần trăm, một biên lợi nhuận tích hợp khoảng 4.8 phần trăm. So sánh con số đó với điểm giữa của prediction market là cách nhanh để thấy giá khác nhau ở đâu.</p>
+<h2 id="ph-thay-i-gi-tr-h-p-l-nh-th-n-o">Phí thay đổi giá trị hợp lý như thế nào</h2>
+<p>Phí làm tăng xác suất bạn cần để một lệnh hòa vốn. Hình dạng của phí rất quan trọng:</p>
+<ul>
+<li><strong>Phần trăm cố định của giá trị giao dịch.</strong> Phí taker 1 phần trăm trên một lần mua 50 cent tốn nửa cent mỗi cổ phần.</li>
+<li><strong>Phí theo hình dạng xác suất.</strong> Một số sàn được quản lý, trong đó có Kalshi, đã dùng phí taker tỷ lệ với <em>P × (1 − P)</em>, lớn nhất gần 50 cent và nhỏ nhất gần hai đầu mút. Với hệ số 0.07, phí ở 50 cent là 0.07 × 0.5 × 0.5 = 1.75 cent mỗi hợp đồng, và ở 90 cent là 0.07 × 0.9 × 0.1 = 0.63 cent.</li>
+<li><strong>Không có phí giao dịch.</strong> Một số thị trường không tính phí giao dịch nhưng có thể tính cho việc nạp, rút hoặc giao dịch blockchain.</li>
+</ul>
+<p>Biểu phí thay đổi và khác nhau theo loại thị trường, nên hãy kiểm tra biểu phí hiện hành của từng nền tảng.</p>
+<h3 id="v-d-minh-h-a-x-c-su-t-h-a-v-n">Ví dụ minh họa: xác suất hòa vốn</h3>
+<p>Bạn mua YES ở 50 cent và trả phí 1.75 cent. Tổng chi phí của bạn là 51.75 cent, nên bạn cần sự kiện xảy ra hơn 51.75 phần trăm số lần để có lãi trung bình. Nếu bạn cũng định bán trước khi giải quyết, bạn trả spread và có thể một khoản phí thứ hai, nâng ngưỡng lên nữa. Đọc thêm về sự bào mòn do chi phí trong <a href="/vi/encyclopedia/basics/trading-costs-and-fees/">chi phí giao dịch và phí</a>.</p>
+<h2 id="gi-tr-th-i-gian-v-sao-h-p-ng-g-n-nh-ch-c-ch-n-giao-d-ch-d-i-1">Giá trị thời gian: vì sao hợp đồng gần như chắc chắn giao dịch dưới $1</h2>
+<p>Tiền bị buộc trong một hợp đồng không thể sinh lãi ở nơi khác. Với một thị trường dài hạn, ngay cả một kết cục gần như chắc chắn cũng giao dịch ở mức chiết khấu.</p>
+<h3 id="v-d-minh-h-a">Ví dụ minh họa</h3>
+<p>Một kết cục có 98 phần trăm khả năng xảy ra, và thị trường được giải quyết sau sáu tháng. Nếu tiền mặt có thể kiếm 4 phần trăm một năm ở nơi khác, lãi sáu tháng là khoảng 2 phần trăm. Một mức giá hợp lý sơ bộ là:</p>
+<p>0.98 ÷ 1.02 = 0.961, tức khoảng 96 cent.</p>
+<p>Một nhà giao dịch mua ở 96 cent và đúng sẽ kiếm 4 cent, tức khoảng 4.2 phần trăm trong sáu tháng. Tính theo trọng số 2 phần trăm khả năng mất tất cả, lợi suất kỳ vọng là khoảng 0.98 ÷ 0.96 − 1 = 2.1 phần trăm, gần bằng những gì tiền mặt sẽ kiếm được mà hoàn toàn không rủi ro. Đây là một lý do &quot;tiền miễn phí&quot; ở 95 cent thường không miễn phí. Bài hướng dẫn trên blog về <a href="/blog/resolution-sniping-guide.html">resolution sniping</a> bàn về phiên bản ngắn hạn của lệnh này.</p>
+<h2 id="thi-n-l-ch-long-shot">Thiên lệch long-shot</h2>
+<p>Các nghiên cứu về đua ngựa và các thị trường cá cược khác từ nhiều thập kỷ trước đã thấy rằng long shot có xu hướng bị định giá quá cao còn các ứng viên được ưu ái thì bị định giá thấp đôi chút. Các nhà nghiên cứu đã báo cáo những mô hình tương tự ở một số prediction market. Các lý do được đề xuất gồm:</p>
+<ul>
+<li>Con người thích khả năng nhỏ của một khoản chi trả lớn và trả giá quá cao cho nó.</li>
+<li>Nhà giao dịch đánh giá quá cao các xác suất nhỏ, một mô hình được mô tả trong kinh tế học hành vi.</li>
+<li>Bán một long shot (mua NO ở 97 cent) buộc nhiều vốn để lấy khoản lãi nhỏ, nên ít nhà giao dịch làm vậy.</li>
+<li>Bước giá tối thiểu 1 cent nghĩa là một kết cục có xác suất thật 0.3 phần trăm không thể giao dịch dưới 1 cent.</li>
+</ul>
+<p>Điểm thực tế là một hợp đồng ở 3 cent không có nghĩa là 3 phần trăm khả năng. Con số thật có thể thấp hơn. Nhận thức điều này là một phần của việc tránh <a href="/vi/encyclopedia/psychology/cognitive-biases-in-trading/">các thiên kiến nhận thức</a>.</p>
+<h2 id="g-p-l-i-l-i-th-v-nh-c-l-nh">Gộp lại: lợi thế và định cỡ lệnh</h2>
+<p>Lợi thế (edge) của bạn là khoảng chênh giữa ước tính xác suất của bạn và tổng chi phí:</p>
+<p><strong>Lợi thế mỗi hợp đồng = xác suất của bạn − (giá + phí + chi phí spread kỳ vọng)</strong></p>
+<p>Nếu bạn nghĩ một kết cục có 40 phần trăm khả năng, ask là 33 cent và phí là 1 cent, lợi thế ước tính của bạn là 0.40 − 0.34 = 6 cent mỗi hợp đồng. Trên khoản chi trả $1, đó là con số trông đẹp, nhưng nó hoàn toàn phụ thuộc vào việc mức 40 phần trăm của bạn tốt hơn mức 33 phần trăm của thị trường. Hầu hết nhà giao dịch đánh giá quá cao lợi thế của mình. <a href="/vi/encyclopedia/risk-management/kelly-criterion/">Tiêu chí Kelly</a> cung cấp một khung để định cỡ các cược như vậy, và <a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">tỷ lệ lợi nhuận/rủi ro và kỳ vọng</a> trình bày phần toán tổng quát.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Dùng giao dịch cuối cùng làm giá.</strong> Giao dịch cuối có thể đã lỗi thời. Hãy nhìn bid, ask và độ sâu hiện tại.</li>
+<li><strong>Bỏ qua spread trên các hợp đồng rẻ.</strong> Spread 1 cent trên hợp đồng 4 cent là chi phí khứ hồi 25 phần trăm.</li>
+<li><strong>Quên overround.</strong> Đọc giá thô trong thị trường nhiều kết cục làm đánh giá quá cao mọi kết cục một chút.</li>
+<li><strong>Cho rằng long shot là giá trị.</strong> Bằng chứng lịch sử trung bình chỉ theo hướng ngược lại.</li>
+<li><strong>Bỏ qua giá trị thời gian.</strong> Một hợp đồng 95 cent dài hạn có thể trả ít hơn tài khoản tiết kiệm sau khi tính đến rủi ro.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="l-m-sao-t-nh-x-c-su-t-h-m-t-gi-prediction-market">Làm sao tính xác suất hàm ý từ giá prediction market?</h3>
+<p>Chia giá cho khoản chi trả. Một cổ phần YES giá 35 cent trên khoản chi trả $1 hàm ý 35 phần trăm. Trong thị trường nhiều kết cục, hãy chia mỗi giá cho tổng của mọi giá để loại bỏ overround.</p>
+<h3 id="v-sao-gi-yes-v-no-c-ng-l-i-h-n-1">Vì sao giá YES và NO cộng lại hơn $1?</h3>
+<p>Vì bạn mua ở giá ask ở cả hai phía, và mỗi ask nằm trên điểm giữa. Khoảng chênh đó là spread bid-ask. Tại các điểm giữa, YES và NO cộng lại bằng khoảng $1.</p>
+<h3 id="l-m-sao-quy-i-odds-ki-u-m-sang-x-c-su-t">Làm sao quy đổi odds kiểu Mỹ sang xác suất?</h3>
+<p>Với odds âm, chia odds cho odds cộng 100: −150 thành 150 ÷ 250 = 60 phần trăm. Với odds dương, chia 100 cho odds cộng 100: +300 thành 100 ÷ 400 = 25 phần trăm.</p>
+<h3 id="thi-n-l-ch-long-shot-l-g">Thiên lệch long-shot là gì?</h3>
+<p>Đó là xu hướng các kết cục khó xảy ra giao dịch ở mức giá cao hơn xác suất thật của chúng, thấy ở đua ngựa và nhiều thị trường cá cược. Nó gợi ý rằng các hợp đồng rẻ thường có giá trị kém hơn vẻ ngoài.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/prediction-markets/prediction-markets-explained/"><div class="k">Thị trường dự đoán</div><b>Thị trường dự đoán là gì</b><span>Prediction market là gì, hợp đồng sự kiện $1 hoạt động ra sao, lịch sử từ Iowa đến Polymarket và Kalshi, và chúng khác cá cược và quyền chọn ở điểm nào.</span></a><a class="card" href="/vi/encyclopedia/risk-management/kelly-criterion/"><div class="k">Quản trị rủi ro và vốn</div><b>Tiêu chuẩn Kelly</b><span>Công thức Kelly cho cược nhị phân và dạng liên tục, ví dụ minh họa gồm hợp đồng thị trường dự đoán, và lý do hầu hết trader dùng fractional Kelly.</span></a><a class="card" href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/"><div class="k">Thị trường dự đoán</div><b>Arbitrage</b><span>Cách arbitrage prediction market hoạt động: arb YES/NO bổ sung và nhiều kết cục, chênh lệch chéo sàn, phí, vốn bị khóa và rủi ro lệch quy tắc giữa thị trường.</span></a><a class="card" href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Quản trị rủi ro và vốn</div><b>Risk/Reward và kỳ vọng</b><span>Bội số R, tỷ lệ thắng và tỷ lệ lãi lỗ kết hợp thành kỳ vọng ra sao. Công thức, bảng tỷ lệ thắng hòa vốn và vì sao tỷ lệ thắng cao vẫn có thể thua tiền.</span></a><a class="card" href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Spread và thanh khoản</b><span>Giá bid, ask, spread và giá giữa là gì; thanh khoản, trượt giá và tác động thị trường vận hành ra sao; vì sao spread nới rộng và cách tính chi phí khứ hồi.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/prediction-markets/prediction-markets-explained/"><small>← Bài trước</small>Thị trường dự đoán là gì</a><a class="next" href="/vi/encyclopedia/prediction-markets/prediction-market-platforms/"><small>Bài tiếp →</small>So sánh các nền tảng</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ペアトレードと統計的裁定取引（スタットアーブ）とは | PnL Profit</title>
+<meta name="description" content="ペアトレードと統計的裁定の仕組みを解説。共和分と相関の違い、ヘッジ比率、スプレッドのzスコア、売買ルール、エッジの劣化、2007年のクオンツ・クエイク。">
+<meta name="keywords" content="ペアトレード とは, 統計的裁定取引, 共和分 トレード, ペアトレード 戦略, ヘッジ比率, クオンツショック 2007">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="ペアトレードと統計的裁定取引（スタットアーブ）とは | PnL Profit">
+<meta property="og:description" content="ペアトレードと統計的裁定の仕組みを解説。共和分と相関の違い、ヘッジ比率、スプレッドのzスコア、売買ルール、エッジの劣化、2007年のクオンツ・クエイク。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ペアトレードと統計的裁定取引（スタットアーブ）とは | PnL Profit">
+<meta name="twitter:description" content="ペアトレードと統計的裁定の仕組みを解説。共和分と相関の違い、ヘッジ比率、スプレッドのzスコア、売買ルール、エッジの劣化、2007年のクオンツ・クエイク。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"ペアトレードと統計的裁定取引（スタットアーブ）とは","description":"ペアトレードと統計的裁定の仕組みを解説。共和分と相関の違い、ヘッジ比率、スプレッドのzスコア、売買ルール、エッジの劣化、2007年のクオンツ・クエイク。","keywords":"ペアトレード とは, 統計的裁定取引, 共和分 トレード, ペアトレード 戦略, ヘッジ比率, クオンツショック 2007","articleSection":"アルゴリズム取引とクオンツ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"アルゴリズム取引とクオンツ","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"ペアトレードと統計的裁定","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"ペアトレードは無リスクですか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。2つの資産の関係は崩れることがあり、スプレッドは縮まる前にさらに広がることがあり、混雑したポジションは突然巻き戻されることがあります。ペアトレードは市場の方向へのエクスポージャーを減らしますが、別のリスクを加えます。"}},{"@type":"Question","name":"共和分と相関の違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"相関は、2つの資産のリターンが期間ごとに一緒に動くかどうかを測るものです。共和分は、両者の価格の組み合わせが安定した平均に戻る傾向のあるスプレッドを形成することを意味し、ペアトレードが依拠しているのはこちらです。"}},{"@type":"Question","name":"ペアトレードではどの zスコアを使うべきですか？","acceptedAnswer":{"@type":"Answer","text":"多くのトレーダーは±2前後でエントリーし、0付近でエグジットし、±4などより大きな値にストップを置きます。最適な閾値はコスト、スプレッドの半減期、ペアそのものによって異なり、アウトオブサンプルで検証すべきです。"}},{"@type":"Question","name":"ペアトレードは今でも通用しますか？","acceptedAnswer":{"@type":"Answer","text":"学術研究によれば、戦略が広く知られるにつれて、単純なペアトレードのルールのリターンは時とともに減少しました。機会は今でも存在しますが、以前より小さく、速く、競争が激しくなる傾向があります。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>アルゴリズム取引とクオンツ</h3><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/" class="on">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a></div>
+<h1 class="title">ペアトレードと統計的裁定取引</h1>
+<div class="meta">約7分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>アルゴリズム取引とクオンツの他の記事</summary><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul></details>
+<article><p>ペアトレードとは、密接に関連する2つの資産の価格関係が異常に大きく開いたときに、一方を買い、もう一方を空売りして、その差が縮まることに賭けるマーケットニュートラル戦略です。統計的裁定取引（スタットアーブ）は、この考え方を、統計モデルで選んだ多数のポジションからなる大規模なポートフォリオに拡張したものです。どちらも、単一の価格ではなく相対的な価格に適用した<a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a>の一形態であり、弱まったり崩れたりしうる関係に依存しています。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>ペアトレードは、市場全体の方向ではなく、2つの資産の間のスプレッドの変化から利益を得ます。</li>
+<li>相関よりも重要なのは共和分、つまりスプレッドそのものが安定した水準に戻る傾向があることです。</li>
+<li>ヘッジ比率は、スプレッドが釣り合うようにそれぞれの資産をどれだけ取引するかを決めます。</li>
+<li>エントリーとエグジットは通常、スプレッドの zスコアで定義され、関係が崩れた場合に備えてストップも設定します。</li>
+<li>公表されているペアトレードの利益は時とともに減少しており、2007年8月のように、混雑した統計的裁定のポジションが激しく巻き戻されることがあります。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">ペアトレードの仕組み</a></li><li><a href="#section-3">相関と共和分</a></li><li><a href="#section-4">スプレッドの作り方</a></li><li><a href="#section-7">エントリーとエグジットのルール</a></li><li><a href="#section-8">ペアトレードから統計的裁定へ</a></li><li><a href="#section-9">劣化と混雑</a></li><li><a href="#section-12">計算例</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">ペアトレードの仕組み</h2>
+<p>典型的な例は、大手石油会社2社、決済ネットワーク2社、同じ企業の2種類の株式クラスなど、同じ業種で事業内容の似た2社です。それらの価格は多くの共通の要因によって動きます。明確な理由なく一方が他方に比べて急騰したとき、ペアトレーダーは値上がりしたほうを空売りし、出遅れたほうを買います。関係が維持されれば差は縮まり、市場全体が上昇しても下落しても、この取引は利益を生みます。</p>
+<p>ペアトレードの起源は、1980年代のウォール街のトレーディングデスクにあったクオンツチームにさかのぼるとされることが多く、Morgan Stanley のチームがその功労者としてよく挙げられます。広く引用されている2006年の研究で、Gatev、Goetzmann、Rouwenhorst は、米国株で単純なルールを検証しました。正規化した価格が最も近い動きをする銘柄同士を組み合わせ、それらが乖離したときに取引するというものです。過去の超過リターンは確認されましたが、サンプルの後半ほど利益が小さくなっていることもわかり、その後の研究でも同じパターンが報告されています。</p>
+<h2 id="section-3">相関と共和分</h2>
+<p>相関と共和分はよく混同されますが、その違いは重要です。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>測るもの</th>
+<th>ペアトレードに有用か</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>相関</td>
+<td>2つの系列のリターンが期間ごとに一緒に上下するかどうか</td>
+<td>それだけでは不十分。相関の高い2銘柄でも、恒久的に離れていくことがある</td>
+</tr>
+<tr>
+<td>共和分</td>
+<td>2つの価格系列の何らかの組み合わせ（スプレッド）が定常的、つまり安定した平均に戻る傾向があるかどうか</td>
+<td>有用。ペアトレードが実際に賭けているのはこれ</td>
+</tr>
+</tbody></table></div>
+<p>2つの銘柄の日次リターンの相関が高くても、一方が何年にもわたってもう一方より少しずつ速く成長することがあります。その場合スプレッドはトレンドを描き、「割高な」ほうを空売りしたトレーダーは着実に損をします。逆に、共和分の関係にある系列は、日次の相関はそれほど高くなくても、長期的には安定した関係を保つことがあります。</p>
+<p>一般的な検定方法は、1987年に Engle と Granger が導入した Engle-Granger の2段階法です。一方の価格をもう一方の価格に回帰させて関係を推定し、次に残差のスプレッドが定常かどうかを検定します。3つ以上の資産を扱う場合はヨハンセン検定を使います。ポートフォリオ全体で相関がどう振る舞うかについては、<a href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/">相関とポートフォリオのリスク</a>を参照してください。</p>
+<h2 id="section-4">スプレッドの作り方</h2>
+<h3 id="section-5">ヘッジ比率</h3>
+<p>ヘッジ比率 β は、資産 A の1単位を相殺するのに資産 B が何単位必要かを表します。多くの場合、一定の計算期間にわたって A の価格を B の価格（または対数価格）に回帰させて推定します。</p>
+<p>Spread = Price_A − β × Price_B</p>
+<p>ドルニュートラルのペアは、買いと売りを同じ金額で持ちます。ベータニュートラルのペアは、市場に対する感応度の違いを調整します。ヘッジ比率は変化していくため、多くのトレーダーはローリングウィンドウで再推定するか、カルマンフィルターを使って継続的に更新します。</p>
+<h3 id="section-6">半減期</h3>
+<p>半減期は、スプレッドが平均からの乖離の半分を埋めるのに通常どれくらいかかるかを推定したものです。スプレッドの変化をその前の水準に回帰させて求めます。半減期が5日から20日ならスイングトレードに向いています。半減期が数か月だと資金が拘束され、先に関係が崩れてしまう可能性が高まります。</p>
+<pre><code class="language-python">import numpy as np
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import coint
+
+def pair_stats(a: np.ndarray, b: np.ndarray):
+    &quot;&quot;&quot;a, b：時点をそろえた価格の配列（対数価格がよく使われる）。&quot;&quot;&quot;
+    beta = sm.OLS(a, sm.add_constant(b)).fit().params[1]
+    spread = a - beta * b
+    coint_p = coint(a, b)[1]          # Engle-Granger 検定。p が小さければ共和分の可能性
+    lagged = spread[:-1]
+    delta = np.diff(spread)
+    lam = sm.OLS(delta, sm.add_constant(lagged)).fit().params[1]
+    half_life = -np.log(2) / lam if lam &lt; 0 else np.inf
+    return beta, coint_p, half_life
+</code></pre>
+<h2 id="section-7">エントリーとエグジットのルール</h2>
+<p>ほとんどのペアトレードのシステムは、スプレッドの zスコア、つまりローリング平均からの距離を標準偏差の個数で表したものを使って取引します。</p>
+<ul>
+<li><strong>エントリー：</strong> z が約+2を上回ったらスプレッドを売り（A を空売りし、B を β 単位買う）、z が約−2を下回ったらスプレッドを買います。</li>
+<li><strong>エグジット：</strong> z が0付近に戻ったら決済します。</li>
+<li><strong>ストップ：</strong> z が±4などの極端な値に達した場合、または取引が半減期の数倍以上続いた場合に決済します。</li>
+<li><strong>再検定：</strong> 直近のデータで共和分の検定が通らなくなったら、そのペアの取引を停止します。</li>
+</ul>
+<h2 id="section-8">ペアトレードから統計的裁定へ</h2>
+<p>統計的裁定は、同じロジックを大規模に適用するものです。1組のペアではなく、統計的裁定のファンドは何百、何千もの小さな買いと売りのポジションを保有することがあります。一般的な手法には次のものがあります。</p>
+<ul>
+<li>各銘柄を、同じセクターの同業他社のバスケットに対して取引する。</li>
+<li>ファクターモデルや主成分分析を使って市場やセクターの動きを取り除き、回帰が見込まれる残差リターンを取引する。Avellaneda と Lee は2010年の論文で、米国株に対するこの手法を説明しました。</li>
+<li>回帰のシグナルを、注文フローや出来高の情報と組み合わせた短期モデル。</li>
+</ul>
+<p>名前に反して、統計的裁定は、<a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">裁定取引戦略</a>で説明している無リスクという意味での裁定ではありません。多数のポジション全体で平均的に成り立つ確率に依存しているのです。</p>
+<h2 id="section-9">劣化と混雑</h2>
+<h3 id="section-10">エッジの劣化</h3>
+<p>似たようなモデルを運用するトレーダーが増えるにつれ、狙われるスプレッドはより速く縮まり、機会は小さくなります。最もきれいなシグナルは、より速い競争相手が取ってしまいます。かつては何週間もポジションを保有していた戦略が、今では数分で動かなければならなかったり、まったく機能しなくなったりしていることもあります。</p>
+<h3 id="2007-8">2007年8月のクオンツ・クエイク</h3>
+<p>2007年8月6日の週、多くのクオンツ型の株式マーケットニュートラル・ファンドが、突然の大きな損失に見舞われました。よく知られた分析で、Khandani と Lo は、おそらく資金の確保や他の部分でのリスク削減のために、1つまたは複数の大手ファンドが急速にポジションを巻き戻したことが引き金になった可能性が高いと論じました。多くのファンドが似たような買いと売りのポジションを持っていたため、強制的な売りがすべてのファンドにとって同時に不利な方向に価格を動かし、さらなるリスク削減を引き起こしたのです。損失の多くは数日のうちに戻りましたが、底値でポジションを削減したファンドは損失を確定させてしまいました。教訓は、戦略がマーケットニュートラルであっても、集中した混雑リスクを抱えうるということです。</p>
+<h2 id="section-12">計算例</h2>
+<p>2つの銘柄の推定ヘッジ比率が1.2だとします。過去のスプレッド A − 1.2 × B の平均は2.00ドル、標準偏差は0.50ドルでした。</p>
+<ul>
+<li>今日、A は51.50ドル、B は40.00ドルで取引されています。スプレッド = 51.50 − 1.2 × 40.00 = 51.50 − 48.00 = 3.50ドル。</li>
+<li>z = (3.50 − 2.00) / 0.50 = 3.0 で、エントリー水準の+2を上回っているため、トレーダーはスプレッドを売ります。A を1,000株空売りし（51,500ドル）、B を1,200株買います（48,000ドル）。</li>
+<li>2週間後、A は51.00、B は40.75です。スプレッド = 51.00 − 48.90 = 2.10ドル、z = 0.2 となったので、トレーダーは決済します。</li>
+<li>A の空売りの利益：(51.50 − 51.00) × 1,000 = 500ドル。B の買いの利益：(40.75 − 40.00) × 1,200 = 900ドル。合計1,400ドル。</li>
+<li>検算：スプレッドは3.50から2.10へと1.40ドル縮小し、スプレッド1,000単位分を掛けると1,400ドルです。</li>
+</ul>
+<p>ここから、4つのレッグの売買手数料、それぞれで支払うスプレッド、空売りした株式の貸株料を差し引きます。空売りの仕組みとコストについては<a href="/ja/encyclopedia/stocks/short-selling/">空売り</a>で解説しています。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>相関だけでペアを選ぶ。</strong> 相関が高くても、スプレッドが回帰するとは限りません。</li>
+<li><strong>何千ものペアを掘り起こして、バックテストの成績が最も良いものを取引する。</strong> 候補が十分に多ければ、偶然に共和分の関係があるように見えるペアが出てきます。<a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティングとデータスヌーピング</a>を参照してください。</li>
+<li><strong>構造的な変化を無視する。</strong> 合併、スピンオフ、新たな規制、事業構成の変化によって、関係が恒久的に崩れることがあります。</li>
+<li><strong>スプレッドにストップを置かない。</strong> 崩れたペアは、何か月も乖離し続けることがあります。</li>
+<li><strong>空売り側のコストを過小評価する。</strong> 貸株料、貸株の返還要求（リコール）、空売り規制によって、薄いエッジは消えてしまうことがあります。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-15">ペアトレードは無リスクですか？</h3>
+<p>いいえ。2つの資産の関係は崩れることがあり、スプレッドは縮まる前にさらに広がることがあり、混雑したポジションは突然巻き戻されることがあります。ペアトレードは市場の方向へのエクスポージャーを減らしますが、別のリスクを加えます。</p>
+<h3 id="section-16">共和分と相関の違いは何ですか？</h3>
+<p>相関は、2つの資産のリターンが期間ごとに一緒に動くかどうかを測るものです。共和分は、両者の価格の組み合わせが安定した平均に戻る傾向のあるスプレッドを形成することを意味し、ペアトレードが依拠しているのはこちらです。</p>
+<h3 id="z">ペアトレードではどの zスコアを使うべきですか？</h3>
+<p>多くのトレーダーは±2前後でエントリーし、0付近でエグジットし、±4などより大きな値にストップを置きます。最適な閾値はコスト、スプレッドの半減期、ペアそのものによって異なり、アウトオブサンプルで検証すべきです。</p>
+<h3 id="section-18">ペアトレードは今でも通用しますか？</h3>
+<p>学術研究によれば、戦略が広く知られるにつれて、単純なペアトレードのルールのリターンは時とともに減少しました。機会は今でも存在しますが、以前より小さく、速く、競争が激しくなる傾向があります。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">アルゴリズム取引とクオンツ</div><b>平均回帰</b><span>平均回帰トレードの仕組みを解説。短期リバーサル、zスコア、ボリンジャーバンドとRSIのシステム、負の歪度、相場局面のリスク、失敗する条件。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/"><div class="k">アルゴリズム取引とクオンツ</div><b>アービトラージ戦略</b><span>純粋裁定と統計的裁定、指数・ETF裁定、合併裁定、取引所間・三角裁定、ベーシス取引、無リスクの裁定が稀な理由を解説します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/"><div class="k">リスク管理と資金管理</div><b>相関とポートフォリオリスク</b><span>相関の高いポジションが1つの大きな賭けになる理由、危機時に相関が急上昇する理由、分散の限界、エクスポージャー上限、ヘッジとベータを数字で解説します。</span></a><a class="card" href="/ja/encyclopedia/stocks/short-selling/"><div class="k">株式トレード</div><b>空売り</b><span>空売りの仕組みを解説。株の借入れと貸株料、空売り残高と買い戻し日数、踏み上げ（ショートスクイーズ）、米国のSSR規制、配当相当額、空売りの代替手段まで。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">アルゴリズム取引とクオンツ</div><b>オーバーフィッティング</b><span>優れたバックテストの多くが実運用で失敗する理由。カーブフィッティング、多重検定、不安定なパラメーター、デフレーテッド・シャープレシオと防止策を解説。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/"><small>← 前へ</small>平均回帰</a><a class="next" href="/ja/encyclopedia/algorithmic-trading/market-making/"><small>次へ →</small>マーケットメイク</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

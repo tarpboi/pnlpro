@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>リスクリワードレシオと期待値：計算例で解説 | PnL Profit</title>
+<meta name="description" content="Rマルチプル、勝率、損益比がどう組み合わさって期待値になるかを解説。計算式、損益分岐勝率の表、勝率が高くても負ける理由を紹介します。">
+<meta name="keywords" content="リスクリワード, リスクリワードレシオ, トレード 期待値 計算, 損益分岐 勝率, Rマルチプル">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="リスクリワードレシオと期待値：計算例で解説 | PnL Profit">
+<meta property="og:description" content="Rマルチプル、勝率、損益比がどう組み合わさって期待値になるかを解説。計算式、損益分岐勝率の表、勝率が高くても負ける理由を紹介します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="リスクリワードレシオと期待値：計算例で解説 | PnL Profit">
+<meta name="twitter:description" content="Rマルチプル、勝率、損益比がどう組み合わさって期待値になるかを解説。計算式、損益分岐勝率の表、勝率が高くても負ける理由を紹介します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"リスクリワードレシオと期待値：計算例で解説","description":"Rマルチプル、勝率、損益比がどう組み合わさって期待値になるかを解説。計算式、損益分岐勝率の表、勝率が高くても負ける理由を紹介します。","keywords":"リスクリワード, リスクリワードレシオ, トレード 期待値 計算, 損益分岐 勝率, Rマルチプル","articleSection":"リスク管理と資金管理","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/risk-management/risk-reward-and-expectancy/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"リスク管理と資金管理","item":"https://pnlpro.fit/ja/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"リスクリワードと期待値","item":"https://pnlpro.fit/ja/encyclopedia/risk-management/risk-reward-and-expectancy/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"トレードに適したリスクリワードレシオはどれくらいですか？","acceptedAnswer":{"@type":"Answer","text":"勝率によって変わるため、唯一の適切な比率はありません。コスト控除前で、1:1の比率なら勝率50%超で、3:1の比率なら勝率25%超で利益が出ます。重要なのは組み合わせであり、それは期待値で測ります。"}},{"@type":"Question","name":"トレードの期待値はどうやって計算しますか？","acceptedAnswer":{"@type":"Answer","text":"勝率に平均利益を掛け、そこから負け率に平均損失を掛けたものを引きます。たとえば0.40 × $250 − 0.60 × $100 = 1トレードあたり$40です。ある程度の回数のトレードで実現した、コスト控除後の結果を使いましょう。"}},{"@type":"Question","name":"利益を出すにはどれくらいの勝率が必要ですか？","acceptedAnswer":{"@type":"Answer","text":"コスト控除前の損益分岐勝率は、1を(1 + R)で割ったものです。ここでRは平均利益を平均損失で割った値です。2Rなら33.3%超、1Rなら50%超が必要です。コストを考慮すると、これらの数字はさらに上がります。"}},{"@type":"Question","name":"Rマルチプルとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"Rマルチプルとは、トレードの損益を当初リスクにさらした金額で割ったものです。$100をリスクにさらして$300稼げば、そのトレードは+3Rです。Rを使うと、ポジションサイズの異なるトレードや戦略を簡単に比較できます。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>リスク管理と資金管理</h3><ul><li><a href="/ja/encyclopedia/risk-management/risk-management-fundamentals/">リスク管理の基本</a></li><li><a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイジング</a></li><li><a href="/ja/encyclopedia/risk-management/stop-loss-strategies/">損切り戦略</a></li><li><a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/" class="on" aria-current="page">リスクリワードと期待値</a></li><li><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">ドローダウンと破産リスク</a></li><li><a href="/ja/encyclopedia/risk-management/kelly-criterion/">ケリー基準</a></li><li><a href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/">相関とポートフォリオリスク</a></li><li><a href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/">レバレッジのリスクとブラックスワン</a></li><li><a href="/ja/encyclopedia/risk-management/trading-plan/">トレードプランの作り方</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/" class="on">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a></div>
+<h1 class="title">リスクリワードと期待値</h1>
+<div class="meta">約6分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>リスク管理と資金管理の他の記事</summary><ul><li><a href="/ja/encyclopedia/risk-management/risk-management-fundamentals/">リスク管理の基本</a></li><li><a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイジング</a></li><li><a href="/ja/encyclopedia/risk-management/stop-loss-strategies/">損切り戦略</a></li><li><a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/" class="on" aria-current="page">リスクリワードと期待値</a></li><li><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">ドローダウンと破産リスク</a></li><li><a href="/ja/encyclopedia/risk-management/kelly-criterion/">ケリー基準</a></li><li><a href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/">相関とポートフォリオリスク</a></li><li><a href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/">レバレッジのリスクとブラックスワン</a></li><li><a href="/ja/encyclopedia/risk-management/trading-plan/">トレードプランの作り方</a></li></ul></details>
+<article><p>期待値（エクスペクタンシー）とは、多数のトレードを重ねたときに、トレード戦略が1トレードあたり平均でいくら稼ぐか、または失うかを表すものです。期待値は、別々に語られることの多い2つの数字、つまりトレードがどれくらいの頻度で勝つかと、勝ちトレードが負けトレードに比べてどれくらい大きいかを組み合わせたものです。期待値がプラスの戦略でも長期間負け続けることはありますが、期待値がマイナスの戦略は、どれだけ頻繁に勝っても時間とともに負けていきます。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>Rマルチプルは、トレードの結果をリスクにさらした金額の倍数で表したものです。$200をリスクにさらして$500稼いだら+2.5Rのトレードです。</li>
+<li>期待値 =（勝率 × 平均利益）−（負け率 × 平均損失）です。</li>
+<li>リワードとリスクの比率がRのとき、コスト控除前の損益分岐勝率は1 ÷ (1 + R)です。</li>
+<li>高い勝率はそれだけでは何の意味もありません。勝ちと負けの大きさとあわせて判断する必要があります。</li>
+<li>コストはすべてのトレードで期待値を引き下げ、損益分岐に必要な勝率を引き上げます。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#r">Rマルチプル</a></li><li><a href="#section-3">期待値の計算式</a></li><li><a href="#section-5">勝率が高くても負ける理由</a></li><li><a href="#section-6">損益分岐勝率の表</a></li><li><a href="#section-8">関連する指標</a></li><li><a href="#section-9">期待値は平均であって約束ではない</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="r">Rマルチプル</h2>
+<p>Rとは、トレードの当初のリスク、つまり損切りに達したときに失う金額のことです。結果をRで表すことで、サイズの異なるトレード同士を比較できるようになります。</p>
+<ul>
+<li>$200をリスクにさらし、トレードで$500稼いだ場合：<strong>+2.5R</strong></li>
+<li>$200をリスクにさらし、損切りにかかって$200を失った場合：<strong>−1R</strong></li>
+<li>$200をリスクにさらしたが、価格が損切りを飛び越えるギャップを空けて$300を失った場合：<strong>−1.5R</strong></li>
+</ul>
+<p>計画したトレードの<strong>リスクリワードレシオ</strong>は、目標までの距離を損切りまでの距離で割ったものです。損切りが$2先、目標が$6先にあるトレードの計画上の比率は3:1で、よく3Rと書かれます。逆に「リスクリワード1:3」と書く人もいます。どちらも、見込める利益が見込まれる損失の3倍であることを意味します。</p>
+<p>計画上のRと実現したRは異なります。目標に必ず届くとは限らず、損切りではスリッページが生じ、多くのトレードは途中で決済されます。期待値は実現した結果から計算すべきであり、それが<a href="/ja/encyclopedia/psychology/trading-journal/">トレード日誌</a>をつけるべき理由の1つです。</p>
+<h2 id="section-3">期待値の計算式</h2>
+<p>金額で表すと、次のようになります。</p>
+<p><strong>期待値 = (W × 平均利益) − ((1 − W) × 平均損失)</strong></p>
+<p>ここでWは小数で表した勝率です。</p>
+<p>平均損失が約1Rの場合、Rで表すと次のようになります。</p>
+<p><strong>期待値（R） = (W × Rで表した平均利益) − (1 − W)</strong></p>
+<p>Rで表した期待値は、リスク1単位あたりの平均リターンを示します。これに1トレードあたりのリスク金額を掛け、さらにトレード回数を掛けると、ばらつきを考慮する前の、ある期間の期待される結果が得られます。</p>
+<h3 id="section-4">例：勝率が低くても稼げる戦略</h3>
+<p>ある戦略の勝率は40%です。勝ちトレードの平均は2.5R、負けトレードの平均は1Rです。</p>
+<ul>
+<li>期待値 = 0.40 × 2.5 − 0.60 × 1 = 1.0 − 0.6 = <strong>1トレードあたり+0.4R</strong></li>
+</ul>
+<p>1Rが$100なら、この戦略は1トレードあたり平均$40を稼ぎます。100回のトレードでの期待される結果は約$4,000ですが、実際の結果はこれよりかなり多くなることも少なくなることもあります。</p>
+<h2 id="section-5">勝率が高くても負ける理由</h2>
+<p>100回のトレードを行う2つのシステムを考えてみましょう。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>システムA</th>
+<th>システムB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>勝率</td>
+<td>70%</td>
+<td>35%</td>
+</tr>
+<tr>
+<td>平均利益</td>
+<td>$100</td>
+<td>$300</td>
+</tr>
+<tr>
+<td>平均損失</td>
+<td>$300</td>
+<td>$100</td>
+</tr>
+<tr>
+<td>1トレードあたりの期待値</td>
+<td>0.70 × 100 − 0.30 × 300 = <strong>−$20</strong></td>
+<td>0.35 × 300 − 0.65 × 100 = <strong>+$40</strong></td>
+</tr>
+<tr>
+<td>100回のトレードでの期待される結果</td>
+<td>−$2,000</td>
+<td>+$4,000</td>
+</tr>
+</tbody></table></div>
+<p>システムAは10回中7回勝つのにお金を失います。システムBは3回中2回近く負けるのにお金を稼ぎます。たいていの日は、システムAのほうがトレードしていて気分が良いものです。だからこそ、このような戦略はよく見られるのです。</p>
+<p>勝率が高いのに期待値がマイナスになるパターンは、多くの場合次のようなことから生じます。</p>
+<ul>
+<li><strong>利益はすぐに確定し、損失は放置する（損大利小）。</strong> これはディスポジション効果と呼ばれ、<a href="/ja/encyclopedia/psychology/cognitive-biases-in-trading/">トレードにおける認知バイアス</a>で解説しています。</li>
+<li><strong>オプションの売りなど、テールリスクを売る。</strong> 小さな利益を頻繁に得る代わりに、ときどき大きな損失を出します。</li>
+<li><strong>ナンピンやマーチンゲール法によるサイズ決定。</strong> 負けトレードの大半を小さな勝ちに変えますが、いずれ1回が非常に大きな損失になります。</li>
+<li><strong>ほぼ確実な結果を買う。</strong> 予測市場でYESを$0.90で買うと、勝てば$0.10、負ければ$0.90です。手数料控除前の損益分岐勝率は90%なので、勝率90%でようやくトントンです。<a href="/ja/encyclopedia/prediction-markets/prediction-market-pricing/">予測市場の価格</a>を参照してください。</li>
+</ul>
+<h2 id="section-6">損益分岐勝率の表</h2>
+<p>勝ちトレードの平均が負けトレードの平均のR倍である戦略の場合、コスト控除前に損益分岐に必要な勝率は次のとおりです。</p>
+<p><strong>損益分岐勝率 = 1 ÷ (1 + R)</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>平均利益 ÷ 平均損失（R）</th>
+<th>損益分岐勝率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.33（3のリスクで1を稼ぐ）</td>
+<td>75.0%</td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>66.7%</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>50.0%</td>
+</tr>
+<tr>
+<td>1.5</td>
+<td>40.0%</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>33.3%</td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>25.0%</td>
+</tr>
+<tr>
+<td>4.0</td>
+<td>20.0%</td>
+</tr>
+</tbody></table></div>
+<p>戦略が利益を生むのは、実際の勝率が、実際の損益比に対する損益分岐勝率を上回る場合だけです。勝率45%は、1.5Rなら利益が出ますが、1Rでは損失になります。</p>
+<h3 id="section-7">コストによって損益分岐点はどう動くか</h3>
+<p>スプレッド、手数料、ファンディング、スリッページといったコストは、すべての勝ちを小さくし、すべての負けを大きくします。往復コストの平均をRで表してcとすると、損益分岐勝率は次のようになります。</p>
+<p><strong>コスト込みの損益分岐勝率 = (1 + c) ÷ (1 + R)</strong></p>
+<p>1トレードあたりのコストが0.1Rの2R戦略なら、損益分岐勝率は33.3%から1.1 ÷ 3 = 36.7%に上がります。スキャルピングのように目標が小さい戦略では、コストがRの大きな割合を占めることがあり、一見利益の出るシステムを負けるシステムに変えてしまいかねません。<a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コストと手数料</a>で詳しく計算しています。</p>
+<h2 id="section-8">関連する指標</h2>
+<ul>
+<li><strong>プロフィットファクター</strong> = 総利益 ÷ 総損失。1.0を上回れば、そのサンプル期間で戦略がお金を稼いだことを意味します。上のシステムBの場合、プロフィットファクター = (0.35 × 300) ÷ (0.65 × 100) = 105 ÷ 65 ≈ 1.62です。</li>
+<li><strong>1トレードあたりの平均R</strong>は、日誌のデータから計算したRベースの期待値と同じものです。</li>
+<li><strong>勝率</strong>と<strong>損益比（ペイオフレシオ）</strong>は2つの構成要素であり、どちらも単独では意味を持ちません。</li>
+</ul>
+<h2 id="section-9">期待値は平均であって約束ではない</h2>
+<p>プラスの期待値は長期的な姿を表すものです。短いサンプルでは、結果は大きくばらつきます。勝率40%で2Rの戦略の期待値は1トレードあたり+0.2Rですが、任意の10回のトレードで見ると、約38%の確率でマイナスに終わります。10回中3回以下しか勝たないことはよくあるからです。こうしたばらつきがあるからこそ、<a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイズ</a>や<a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">ドローダウンと破産確率</a>で解説しているように、サイズを小さく保つのです。</p>
+<p>期待値の推定には、それなりのサンプル（多くの場合100回以上のトレード）も必要です。また、過去のデータに合わせ込んだバックテストでは、期待値が大きく水増しされることがあります。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>勝率だけで戦略を判断する。</strong> 損益比がわからなければ、勝率は収益性について何も語りません。</li>
+<li><strong>実現したRではなく計画上のRを使う。</strong> めったに届かない目標があると、計画上の比率は現実より良く見えます。</li>
+<li><strong>コストを無視する。</strong> コストは損益分岐点を動かし、その幅が大きいこともあります。</li>
+<li><strong>10回や20回のトレードから結論を出す。</strong> 小さなサンプルでは運の影響が支配的です。</li>
+<li><strong>勝ちを「確保」するために利益を早く確定する。</strong> 平均利益が下がり、期待値がマイナスになることがあります。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-12">トレードに適したリスクリワードレシオはどれくらいですか？</h3>
+<p>勝率によって変わるため、唯一の適切な比率はありません。コスト控除前で、1:1の比率なら勝率50%超で、3:1の比率なら勝率25%超で利益が出ます。重要なのは組み合わせであり、それは期待値で測ります。</p>
+<h3 id="section-13">トレードの期待値はどうやって計算しますか？</h3>
+<p>勝率に平均利益を掛け、そこから負け率に平均損失を掛けたものを引きます。たとえば0.40 × $250 − 0.60 × $100 = 1トレードあたり$40です。ある程度の回数のトレードで実現した、コスト控除後の結果を使いましょう。</p>
+<h3 id="section-14">利益を出すにはどれくらいの勝率が必要ですか？</h3>
+<p>コスト控除前の損益分岐勝率は、1を(1 + R)で割ったものです。ここでRは平均利益を平均損失で割った値です。2Rなら33.3%超、1Rなら50%超が必要です。コストを考慮すると、これらの数字はさらに上がります。</p>
+<h3 id="r">Rマルチプルとは何ですか？</h3>
+<p>Rマルチプルとは、トレードの損益を当初リスクにさらした金額で割ったものです。$100をリスクにさらして$300稼げば、そのトレードは+3Rです。Rを使うと、ポジションサイズの異なるトレードや戦略を簡単に比較できます。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">リスク管理と資金管理</div><b>リスク管理の基本</b><span>リスク管理がエントリーより重要な理由を解説。1トレードあたりのリスク、1日の損失上限、50%の損失を取り戻す計算、トレードの主なリスクの種類をまとめます。</span></a><a class="card" href="/ja/encyclopedia/risk-management/position-sizing/"><div class="k">リスク管理と資金管理</div><b>ポジションサイジング</b><span>口座のリスク許容額と損切り幅からポジションサイズを計算する方法を解説。定率法、定額法、ATR法を株式、FX、暗号資産の例で紹介します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/stop-loss-strategies/"><div class="k">リスク管理と資金管理</div><b>損切り戦略</b><span>チャートの節目、ATR、パーセント、時間を使った損切りの置き方を解説。トレーリングストップ、ギャップ、ストップ狩り、利確の位置も紹介します。</span></a><a class="card" href="/ja/encyclopedia/psychology/trading-journal/"><div class="k">トレード心理</div><b>トレード日誌</b><span>トレード日誌に記録すべきこと、記録項目の例、セットアップとミスのタグ付け、週次の振り返り手順、計算すべき指標を具体的な計算例とともに解説します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/kelly-criterion/"><div class="k">リスク管理と資金管理</div><b>ケリー基準</b><span>二択の賭けのケリー公式と連続版、予測市場の契約を含む計算例を解説し、多くのトレーダーがフラクショナル・ケリーを使う理由を紹介します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/risk-management/stop-loss-strategies/"><small>← 前へ</small>損切り戦略</a><a class="next" href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><small>次へ →</small>ドローダウンと破産リスク</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

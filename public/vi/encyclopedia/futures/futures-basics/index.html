@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiến thức cơ bản về futures: hợp đồng, ký quỹ, tick và đáo hạn</title>
+<meta name="description" content="Cách hợp đồng tương lai hoạt động: sàn giao dịch, quy cách hợp đồng, giá trị tick, mã tháng, mark-to-market hằng ngày, ký quỹ, thanh toán và người dùng futures.">
+<meta name="keywords" content="giao dịch futures cho người mới, hợp đồng tương lai là gì, giá trị tick futures, mã tháng futures, ký quỹ futures">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/futures/futures-basics/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Kiến thức cơ bản về futures: hợp đồng, ký quỹ, tick và đáo hạn">
+<meta property="og:description" content="Cách hợp đồng tương lai hoạt động: sàn giao dịch, quy cách hợp đồng, giá trị tick, mã tháng, mark-to-market hằng ngày, ký quỹ, thanh toán và người dùng futures.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/futures/futures-basics/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kiến thức cơ bản về futures: hợp đồng, ký quỹ, tick và đáo hạn">
+<meta name="twitter:description" content="Cách hợp đồng tương lai hoạt động: sàn giao dịch, quy cách hợp đồng, giá trị tick, mã tháng, mark-to-market hằng ngày, ký quỹ, thanh toán và người dùng futures.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Kiến thức cơ bản về futures: hợp đồng, ký quỹ, tick và đáo hạn","description":"Cách hợp đồng tương lai hoạt động: sàn giao dịch, quy cách hợp đồng, giá trị tick, mã tháng, mark-to-market hằng ngày, ký quỹ, thanh toán và người dùng futures.","keywords":"giao dịch futures cho người mới, hợp đồng tương lai là gì, giá trị tick futures, mã tháng futures, ký quỹ futures","articleSection":"Giao dịch hợp đồng tương lai","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/futures/futures-basics/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch hợp đồng tương lai","item":"https://pnlpro.fit/vi/encyclopedia/futures/"},{"@type":"ListItem","position":3,"name":"Hợp đồng tương lai cơ bản","item":"https://pnlpro.fit/vi/encyclopedia/futures/futures-basics/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Cần bao nhiêu tiền để giao dịch futures?","acceptedAnswer":{"@type":"Answer","text":"Tùy thuộc hợp đồng và broker. Các hợp đồng micro như MES có yêu cầu ký quỹ chỉ bằng một phần nhỏ của E-mini đủ quy mô, nên có thể giao dịch với vài nghìn đô la, nhưng việc có đủ vốn để chịu được những nhịp dao động bình thường quan trọng hơn việc đạt mức tối thiểu."}},{"@type":"Question","name":"Futures có đáo hạn không?","acceptedAnswer":{"@type":"Answer","text":"Có. Mỗi hợp đồng futures đều có ngày giao dịch cuối cùng. Trader muốn giữ mức phơi nhiễm sẽ đóng hợp đồng sắp đáo hạn và mở tháng kế tiếp, gọi là roll."}},{"@type":"Question","name":"Giao dịch futures có thể lỗ nhiều hơn số tiền đã nạp không?","acceptedAnswer":{"@type":"Answer","text":"Có. Vì lỗ được thanh toán hằng ngày và vị thế dùng đòn bẩy, một nhịp di chuyển lớn hoặc gap có thể tạo ra số dư tài khoản âm, và bạn có trách nhiệm với broker về khoản thâm hụt đó."}},{"@type":"Question","name":"Futures và quyền chọn khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"Hợp đồng futures bắt buộc cả hai bên phải giao dịch ở mức giá đã thỏa thuận. Quyền chọn cho bên mua quyền, nhưng không phải nghĩa vụ, mua hoặc bán, đổi lại việc trả một khoản phí. Xem kiến thức cơ bản về quyền chọn."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/futures/futures-basics/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/futures/futures-basics/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/futures/futures-basics/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/futures/futures-basics/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/futures/futures-basics/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/futures/futures-basics/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/futures/futures-basics/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/futures/futures-basics/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/futures/futures-basics/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch hợp đồng tương lai</h3><ul><li><a href="/vi/encyclopedia/futures/futures-basics/" class="on" aria-current="page">Hợp đồng tương lai cơ bản</a></li><li><a href="/vi/encyclopedia/futures/index-futures/">Hợp đồng tương lai chỉ số (ES, NQ)</a></li><li><a href="/vi/encyclopedia/futures/commodity-futures/">Hợp đồng tương lai hàng hóa</a></li><li><a href="/vi/encyclopedia/futures/contango-backwardation-and-rollover/">Contango, Backwardation và Rollover</a></li><li><a href="/vi/encyclopedia/futures/futures-vs-other-instruments/">Futures so với cổ phiếu, CFD và hợp đồng vĩnh cửu</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/" class="on">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a></div>
+<h1 class="title">Kiến thức cơ bản về giao dịch futures</h1>
+<div class="meta">13 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch hợp đồng tương lai</summary><ul><li><a href="/vi/encyclopedia/futures/futures-basics/" class="on" aria-current="page">Hợp đồng tương lai cơ bản</a></li><li><a href="/vi/encyclopedia/futures/index-futures/">Hợp đồng tương lai chỉ số (ES, NQ)</a></li><li><a href="/vi/encyclopedia/futures/commodity-futures/">Hợp đồng tương lai hàng hóa</a></li><li><a href="/vi/encyclopedia/futures/contango-backwardation-and-rollover/">Contango, Backwardation và Rollover</a></li><li><a href="/vi/encyclopedia/futures/futures-vs-other-instruments/">Futures so với cổ phiếu, CFD và hợp đồng vĩnh cửu</a></li></ul></details>
+<article><p>Hợp đồng tương lai (futures) là một thỏa thuận chuẩn hóa, niêm yết trên sàn, để mua hoặc bán một số lượng cố định của một tài sản ở một mức giá định sẵn vào một ngày trong tương lai. Futures tồn tại trên chỉ số chứng khoán, lãi suất, tiền tệ, năng lượng, kim loại, ngũ cốc, gia súc và crypto, và nằm trong số những công cụ được giao dịch nhiều nhất thế giới. Vì một khoản ký quỹ nhỏ kiểm soát một vị thế lớn, futures có thể khuếch đại cả lãi lẫn lỗ, nên việc hiểu cơ chế hợp đồng là điều thiết yếu trước khi đặt lệnh.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Hợp đồng futures cố định số lượng, chất lượng, ngày đáo hạn và phương thức thanh toán, nên mọi hợp đồng trên một sàn đều thay thế được cho nhau.</li>
+<li>Mỗi hợp đồng có bước giá (tick size) và giá trị tick (tick value), và hai con số này cho bạn biết chính xác một nhịp di chuyển của giá đáng giá bao nhiêu tiền.</li>
+<li>Lãi lỗ được thanh toán bằng tiền mặt mỗi ngày thông qua đánh giá theo thị trường (mark-to-market), nên một vị thế thua lỗ có thể kích hoạt margin call từ rất lâu trước ngày đáo hạn.</li>
+<li>Hầu hết hợp đồng được đóng hoặc roll trước khi đáo hạn; một số thanh toán bằng tiền mặt và một số yêu cầu giao nhận vật chất.</li>
+<li>Ký quỹ futures là một khoản bảo đảm thực hiện, không phải khoản vay, và đòn bẩy nó mang lại đủ lớn để xóa sạch một tài khoản nhanh chóng.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#h-p-ng-futures-l-g">Hợp đồng futures là gì</a></li><li><a href="#c-c-s-n-futures-l-n">Các sàn futures lớn</a></li><li><a href="#quy-c-ch-h-p-ng">Quy cách hợp đồng</a></li><li><a href="#th-ng-o-h-n-v-m-th-ng">Tháng đáo hạn và mã tháng</a></li><li><a href="#nh-gi-theo-th-tr-ng-h-ng-ng-y">Đánh giá theo thị trường hằng ngày</a></li><li><a href="#k-qu-kho-n-b-o-m-th-c-hi-n">Ký quỹ: khoản bảo đảm thực hiện</a></li><li><a href="#thanh-to-n-b-ng-ti-n-m-t-so-v-i-giao-nh-n-v-t-ch-t">Thanh toán bằng tiền mặt so với giao nhận vật chất</a></li><li><a href="#b-n-ph-ng-ng-a-r-i-ro-so-v-i-nh-u-c">Bên phòng ngừa rủi ro so với nhà đầu cơ</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="h-p-ng-futures-l-g">Hợp đồng futures là gì</h2>
+<p>Về bản chất, hợp đồng futures là một lời hứa. Bên mua (vị thế &quot;long&quot;) đồng ý nhận tài sản ở mức giá đã thỏa thuận vào ngày đáo hạn, và bên bán (vị thế &quot;short&quot;) đồng ý giao nó. Không bên nào trả toàn bộ giá từ đầu. Thay vào đó, cả hai ký quỹ với broker của mình, và tổ chức bù trừ (clearinghouse) của sàn đứng giữa họ.</p>
+<p>Tổ chức bù trừ đó là một phần lớn lý do futures vận hành được. Khi một giao dịch được khớp, clearinghouse trở thành bên mua của mọi bên bán và bên bán của mọi bên mua. Bạn không cần tin người ở phía bên kia giao dịch, chỉ cần tin clearinghouse và broker của bạn. Cơ chế này gọi là bù trừ trung tâm, và là một trong những khác biệt chính giữa futures với các sản phẩm OTC như hợp đồng kỳ hạn (forward) hay nhiều loại <a href="/vi/encyclopedia/forex/cfds-and-spread-betting/">CFD</a>.</p>
+<p>Futures phát triển từ các hợp đồng kỳ hạn mà nông dân và thương nhân sử dụng. Hợp đồng kỳ hạn là một thỏa thuận riêng, tùy chỉnh. Futures là cùng ý tưởng đó nhưng được chuẩn hóa và có thể giao dịch trên sàn, cho phép bất kỳ ai vào hoặc thoát lệnh bất cứ lúc nào trong giờ giao dịch.</p>
+<h2 id="c-c-s-n-futures-l-n">Các sàn futures lớn</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Nhóm sàn</th>
+<th>Địa điểm</th>
+<th>Hợp đồng nổi tiếng</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CME Group (CME, CBOT, NYMEX, COMEX)</td>
+<td>Hoa Kỳ</td>
+<td>E-mini S&amp;P 500, futures trái phiếu kho bạc, dầu thô WTI, vàng, ngô, đậu nành</td>
+</tr>
+<tr>
+<td>ICE (Intercontinental Exchange)</td>
+<td>Mỹ, Anh và châu Âu</td>
+<td>Dầu thô Brent, softs như cà phê, ca cao và đường, khí đốt châu Âu</td>
+</tr>
+<tr>
+<td>Eurex</td>
+<td>Đức</td>
+<td>DAX, Euro Stoxx 50, futures trái phiếu chính phủ Đức (Bund)</td>
+</tr>
+<tr>
+<td>Japan Exchange Group (Osaka Exchange)</td>
+<td>Nhật Bản</td>
+<td>Futures Nikkei 225</td>
+</tr>
+<tr>
+<td>Các sàn khác</td>
+<td>Toàn cầu</td>
+<td>Singapore Exchange, Hong Kong Exchanges, B3 ở Brazil, NSE ở Ấn Độ</td>
+</tr>
+</tbody></table></div>
+<p>Hầu hết trader futures cá nhân tiếp cận các thị trường này qua một broker futures, đôi khi gọi là futures commission merchant (FCM) ở Mỹ, hoặc qua một introducing broker bù trừ thông qua một FCM.</p>
+<h2 id="quy-c-ch-h-p-ng">Quy cách hợp đồng</h2>
+<p>Mỗi hợp đồng futures đều có một bảng quy cách được công bố. Những trường quan trọng nhất với trader là:</p>
+<ul>
+<li><strong>Tài sản cơ sở và quy mô:</strong> hợp đồng đại diện cho cái gì. Một hợp đồng dầu thô WTI của CME (CL) là 1,000 thùng. Một hợp đồng vàng COMEX (GC) là 100 troy ounce.</li>
+<li><strong>Hệ số nhân (multiplier):</strong> với futures chỉ số, giá trị bằng đô la của một điểm chỉ số. E-mini S&amp;P 500 (ES) là $50 nhân với chỉ số.</li>
+<li><strong>Bước giá (tick size):</strong> thay đổi giá nhỏ nhất được phép.</li>
+<li><strong>Giá trị tick:</strong> lãi hoặc lỗ từ một nhịp di chuyển một tick trên một hợp đồng. Giá trị tick bằng bước giá nhân với quy mô hợp đồng hoặc hệ số nhân.</li>
+<li><strong>Tháng hợp đồng và đáo hạn:</strong> những tháng nào được niêm yết và khi nào ngừng giao dịch.</li>
+<li><strong>Phương thức thanh toán:</strong> tiền mặt hoặc giao nhận vật chất.</li>
+<li><strong>Giờ giao dịch:</strong> nhiều hợp đồng CME giao dịch gần 24 giờ mỗi ngày, năm ngày một tuần, với một khoảng nghỉ bảo trì ngắn hằng ngày. Xem <a href="/vi/encyclopedia/basics/market-hours-and-sessions/">giờ và phiên giao dịch thị trường</a>.</li>
+</ul>
+<h3 id="v-d-v-b-c-gi-v-gi-tr-tick">Ví dụ về bước giá và giá trị tick</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Hợp đồng</th>
+<th>Sàn</th>
+<th>Quy mô hoặc hệ số nhân</th>
+<th>Bước giá</th>
+<th>Giá trị tick</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E-mini S&amp;P 500 (ES)</td>
+<td>CME</td>
+<td>$50 x chỉ số</td>
+<td>0.25 điểm</td>
+<td>$12.50</td>
+</tr>
+<tr>
+<td>Micro E-mini S&amp;P 500 (MES)</td>
+<td>CME</td>
+<td>$5 x chỉ số</td>
+<td>0.25 điểm</td>
+<td>$1.25</td>
+</tr>
+<tr>
+<td>E-mini Nasdaq-100 (NQ)</td>
+<td>CME</td>
+<td>$20 x chỉ số</td>
+<td>0.25 điểm</td>
+<td>$5.00</td>
+</tr>
+<tr>
+<td>Micro E-mini Nasdaq-100 (MNQ)</td>
+<td>CME</td>
+<td>$2 x chỉ số</td>
+<td>0.25 điểm</td>
+<td>$0.50</td>
+</tr>
+<tr>
+<td>Dầu thô WTI (CL)</td>
+<td>NYMEX</td>
+<td>1,000 thùng</td>
+<td>$0.01 mỗi thùng</td>
+<td>$10.00</td>
+</tr>
+<tr>
+<td>Vàng (GC)</td>
+<td>COMEX</td>
+<td>100 troy ounce</td>
+<td>$0.10 mỗi ounce</td>
+<td>$10.00</td>
+</tr>
+<tr>
+<td>Ngô (ZC)</td>
+<td>CBOT</td>
+<td>5,000 bushel</td>
+<td>1/4 cent mỗi bushel</td>
+<td>$12.50</td>
+</tr>
+</tbody></table></div>
+<p>Quy cách thỉnh thoảng thay đổi, nên hãy luôn xác nhận trên trang hợp đồng của chính sàn trước khi giao dịch.</p>
+<h2 id="th-ng-o-h-n-v-m-th-ng">Tháng đáo hạn và mã tháng</h2>
+<p>Futures được niêm yết cho các tháng giao nhận cụ thể. Trader và nguồn dữ liệu nhận diện mỗi tháng bằng một chữ cái, kết hợp với mã gốc và năm. Ví dụ, ESZ6 là E-mini S&amp;P 500 đáo hạn tháng 12 năm 2026, và CLF7 là dầu thô WTI giao hàng tháng 1 năm 2027.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tháng</th>
+<th>Mã</th>
+<th>Tháng</th>
+<th>Mã</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tháng 1</td>
+<td>F</td>
+<td>Tháng 7</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Tháng 2</td>
+<td>G</td>
+<td>Tháng 8</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>Tháng 3</td>
+<td>H</td>
+<td>Tháng 9</td>
+<td>U</td>
+</tr>
+<tr>
+<td>Tháng 4</td>
+<td>J</td>
+<td>Tháng 10</td>
+<td>V</td>
+</tr>
+<tr>
+<td>Tháng 5</td>
+<td>K</td>
+<td>Tháng 11</td>
+<td>X</td>
+</tr>
+<tr>
+<td>Tháng 6</td>
+<td>M</td>
+<td>Tháng 12</td>
+<td>Z</td>
+</tr>
+</tbody></table></div>
+<p>Futures chỉ số chứng khoán niêm yết các tháng theo quý (tháng 3, 6, 9, 12). Dầu thô niêm yết mọi tháng. Ngũ cốc theo các chu kỳ gắn với mùa vụ, như tháng 3, 5, 7, 9 và 12 với ngô. Hợp đồng có khối lượng lớn nhất, thường là hợp đồng gần nhất, gọi là tháng gần (front month). Chuyển một vị thế từ tháng này sang tháng kế tiếp gọi là roll, được trình bày trong <a href="/vi/encyclopedia/futures/contango-backwardation-and-rollover/">contango, backwardation và roll hợp đồng</a>.</p>
+<h2 id="nh-gi-theo-th-tr-ng-h-ng-ng-y">Đánh giá theo thị trường hằng ngày</h2>
+<p>Lãi và lỗ của futures không được để tích lũy cho đến khi bạn đóng lệnh. Vào cuối mỗi ngày giao dịch, sàn xác lập một giá thanh toán (settlement price), và mọi vị thế đang mở được định giá lại theo giá đó. Bên lãi được cộng tiền mặt vào tài khoản, bên lỗ bị trừ tiền mặt. Cơ chế này gọi là mark-to-market, hay ký quỹ biến động (variation margin).</p>
+<h3 id="v-d-minh-h-a-m-t-h-p-ng-es-trong-ba-ng-y">Ví dụ minh họa: một hợp đồng ES trong ba ngày</h3>
+<p>Giả sử bạn mua một hợp đồng ES ở 5,000.00. Giá trị danh nghĩa của hợp đồng là 5,000 x $50 = $250,000.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ngày</th>
+<th>Giá thanh toán</th>
+<th>Thay đổi (điểm)</th>
+<th>Lãi lỗ trong ngày</th>
+<th>Lãi lỗ cộng dồn</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vào lệnh</td>
+<td>5,000.00</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Ngày 1</td>
+<td>5,012.50</td>
+<td>+12.50</td>
+<td>+$625</td>
+<td>+$625</td>
+</tr>
+<tr>
+<td>Ngày 2</td>
+<td>4,980.00</td>
+<td>-32.50</td>
+<td>-$1,625</td>
+<td>-$1,000</td>
+</tr>
+<tr>
+<td>Ngày 3</td>
+<td>4,995.25</td>
+<td>+15.25</td>
+<td>+$762.50</td>
+<td>-$237.50</td>
+</tr>
+</tbody></table></div>
+<p>Mỗi điểm đáng giá $50, nên mức tăng 12.50 điểm là 12.50 x $50 = $625. Mức giảm 32.50 điểm gây thiệt hại 32.50 x $50 = $1,625. Ở Ngày 3, 15.25 điểm là 61 tick, và 61 x $12.50 = $762.50. Nếu bạn giao dịch một hợp đồng MES thay vào đó, mọi con số sẽ nhỏ hơn mười lần: khoản lỗ cộng dồn sau Ngày 3 sẽ là $23.75.</p>
+<h2 id="k-qu-kho-n-b-o-m-th-c-hi-n">Ký quỹ: khoản bảo đảm thực hiện</h2>
+<p>Ký quỹ futures là khoản tiền đặt cọc thiện chí cho thấy bạn có thể bù đắp các khoản lỗ hằng ngày. Nó không phải khoản trả trước, và bạn không vay phần còn lại của giá trị hợp đồng hay trả lãi cho nó.</p>
+<ul>
+<li><strong>Ký quỹ ban đầu (initial margin)</strong> là số tiền bạn phải có để mở một vị thế.</li>
+<li><strong>Ký quỹ duy trì (maintenance margin)</strong> là mức thấp hơn mà tài khoản của bạn phải giữ ở trên. Nếu khoản lỗ đẩy tài khoản xuống dưới mức duy trì, bạn nhận margin call và phải nạp thêm tiền hoặc giảm vị thế, nếu không broker có thể đóng vị thế thay bạn.</li>
+<li><strong>Ký quỹ day trading</strong> là mức thấp hơn mà một số broker cho phép với các vị thế đóng trước khi phiên kết thúc. Mức này do broker đặt, không phải sàn, và nghĩa là đòn bẩy còn cao hơn.</li>
+</ul>
+<p>Sàn đặt và thay đổi yêu cầu ký quỹ dựa trên biến động, và thường tăng mạnh trong thị trường hỗn loạn. Broker có thể yêu cầu nhiều hơn mức tối thiểu của sàn.</p>
+<h3 id="l-n-b-y-c-n-o">Đó là đòn bẩy cỡ nào</h3>
+<p>Giả sử, chỉ để minh họa, ký quỹ ban đầu cho một hợp đồng ES là $15,000 so với giá trị danh nghĩa $250,000. Đó là đòn bẩy khoảng 16.7 trên 1. Chỉ số giảm 1 phần trăm (50 điểm) sẽ gây thiệt hại $2,500, khoảng một phần sáu số ký quỹ. Giảm 6 phần trăm sẽ gây thiệt hại $15,000 và xóa sạch toàn bộ khoản ký quỹ. Mức ký quỹ thực tế thay đổi theo thời gian, nên hãy kiểm tra con số hiện tại của broker. Cơ chế chung của đòn bẩy được trình bày trong <a href="/vi/encyclopedia/basics/leverage-and-margin/">đòn bẩy và ký quỹ</a>.</p>
+<h2 id="thanh-to-n-b-ng-ti-n-m-t-so-v-i-giao-nh-n-v-t-ch-t">Thanh toán bằng tiền mặt so với giao nhận vật chất</h2>
+<p>Khi một hợp đồng đáo hạn, nó được thanh toán theo một trong hai cách.</p>
+<ul>
+<li>Hợp đồng <strong>thanh toán bằng tiền mặt</strong> trả hoặc thu chênh lệch giữa giá giao dịch của bạn và giá thanh toán cuối cùng. Futures chỉ số chứng khoán như ES và NQ thanh toán bằng tiền mặt. Không có cổ phiếu nào đổi chủ.</li>
+<li>Hợp đồng <strong>giao nhận vật chất</strong> yêu cầu bên bán giao, và bên mua nhận, tài sản thực tại một địa điểm được chấp thuận. Dầu thô WTI, vàng, ngô và nhiều futures trái phiếu kho bạc được giao nhận vật chất.</li>
+</ul>
+<p>Trader cá nhân hầu như không bao giờ muốn nhận hàng. Hầu hết broker yêu cầu khách hàng đóng hoặc roll các hợp đồng giao nhận vật chất trước ngày thông báo đầu tiên, ngày đầu tiên mà bên bán có thể công bố ý định giao hàng. Một số broker sẽ tự động thanh lý vị thế trước ngày đó. Rủi ro khi giữ đến giai đoạn giao nhận được trình bày trong <a href="/vi/encyclopedia/futures/commodity-futures/">futures hàng hóa</a>.</p>
+<h2 id="b-n-ph-ng-ng-a-r-i-ro-so-v-i-nh-u-c">Bên phòng ngừa rủi ro so với nhà đầu cơ</h2>
+<p>Thị trường futures quy tụ hai nhóm lớn.</p>
+<p><strong>Bên phòng ngừa rủi ro (hedger)</strong> dùng futures để giảm một rủi ro họ đã có. Một nông dân trồng ngô dự kiến thu hoạch 50,000 bushel có thể bán 10 hợp đồng ngô vào mùa xuân để chốt một mức giá. Nếu giá ngô giảm vào lúc thu hoạch, khoản lãi từ futures bù cho giá thấp hơn nhận được từ vụ mùa. Một hãng hàng không có thể mua futures dầu thô hoặc dầu sưởi để bảo vệ trước chi phí nhiên liệu tăng. Một quỹ hưu trí có thể bán futures chỉ số để giảm mức phơi nhiễm cổ phiếu nhanh chóng mà không phải bán từng cổ phiếu riêng lẻ.</p>
+<p><strong>Nhà đầu cơ (speculator)</strong> chấp nhận rủi ro giá với hy vọng có lợi nhuận. Họ gồm trader cá nhân, công ty giao dịch tự doanh, quỹ phòng hộ và các nhà tư vấn giao dịch hàng hóa (CTA) vận hành các hệ thống <a href="/vi/encyclopedia/algorithmic-trading/trend-following/">theo xu hướng</a>. Nhà đầu cơ cung cấp thanh khoản mà bên phòng ngừa rủi ro cần, và gánh rủi ro mà bên phòng ngừa muốn trút bỏ.</p>
+<p>Ủy ban Giao dịch Hàng hóa Tương lai Mỹ (CFTC) công bố báo cáo Commitments of Traders hằng tuần, phân tích các vị thế đang mở theo loại trader. Một số trader dùng nó như thước đo tâm lý, được mô tả trong <a href="/vi/encyclopedia/fundamental-analysis/market-sentiment-indicators/">chỉ báo tâm lý thị trường</a>.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Không biết giá trị tick.</strong> Giao dịch NQ trong khi bạn định giao dịch MNQ khiến mọi nhịp di chuyển lớn gấp mười lần. Hãy kiểm tra hợp đồng và giá trị tick trước mỗi lệnh.</li>
+<li><strong>Tính khối lượng theo ký quỹ thay vì giá trị danh nghĩa.</strong> Khoản ký quỹ không nói gì về rủi ro. Một hợp đồng ES đơn lẻ vận động mức phơi nhiễm chỉ số trị giá $250,000 ở mức giá 5,000.</li>
+<li><strong>Quên ngày đáo hạn và ngày thông báo đầu tiên.</strong> Giữ hợp đồng giao nhận vật chất quá lâu có thể dẫn đến bị thanh lý cưỡng bức hoặc nghĩa vụ giao nhận.</li>
+<li><strong>Bỏ qua các phiên qua đêm.</strong> Giao dịch gần 24 giờ nghĩa là giá có thể đi rất xa trong lúc bạn ngủ. Lệnh dừng lỗ có thể khớp cách xa giá kích hoạt khi thị trường chạy nhanh hoặc ở phiên mở cửa Chủ nhật.</li>
+<li><strong>Cho rằng ký quỹ là cố định.</strong> Sàn và broker có thể tăng ký quỹ với rất ít thông báo, thường đúng lúc thị trường đi ngược chiều bạn.</li>
+</ul>
+<p>Futures là sản phẩm cấp chuyên nghiệp. Bằng chứng từ nhiều thị trường cho thấy hầu hết trader cá nhân dùng đòn bẩy cao ở khung thời gian ngắn đều thua lỗ, và đòn bẩy của futures là cao. Bắt đầu với các hợp đồng micro và <a href="/vi/encyclopedia/risk-management/position-sizing/">tính khối lượng lệnh</a> nghiêm ngặt giúp sai lầm trong tầm chi trả khi bạn đang học.</p>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="c-n-bao-nhi-u-ti-n-giao-d-ch-futures">Cần bao nhiêu tiền để giao dịch futures?</h3>
+<p>Tùy thuộc hợp đồng và broker. Các hợp đồng micro như MES có yêu cầu ký quỹ chỉ bằng một phần nhỏ của E-mini đủ quy mô, nên có thể giao dịch với vài nghìn đô la, nhưng việc có đủ vốn để chịu được những nhịp dao động bình thường quan trọng hơn việc đạt mức tối thiểu.</p>
+<h3 id="futures-c-o-h-n-kh-ng">Futures có đáo hạn không?</h3>
+<p>Có. Mỗi hợp đồng futures đều có ngày giao dịch cuối cùng. Trader muốn giữ mức phơi nhiễm sẽ đóng hợp đồng sắp đáo hạn và mở tháng kế tiếp, gọi là roll.</p>
+<h3 id="giao-d-ch-futures-c-th-l-nhi-u-h-n-s-ti-n-n-p-kh-ng">Giao dịch futures có thể lỗ nhiều hơn số tiền đã nạp không?</h3>
+<p>Có. Vì lỗ được thanh toán hằng ngày và vị thế dùng đòn bẩy, một nhịp di chuyển lớn hoặc gap có thể tạo ra số dư tài khoản âm, và bạn có trách nhiệm với broker về khoản thâm hụt đó.</p>
+<h3 id="futures-v-quy-n-ch-n-kh-c-nhau-th-n-o">Futures và quyền chọn khác nhau thế nào?</h3>
+<p>Hợp đồng futures bắt buộc cả hai bên phải giao dịch ở mức giá đã thỏa thuận. Quyền chọn cho bên mua quyền, nhưng không phải nghĩa vụ, mua hoặc bán, đổi lại việc trả một khoản phí. Xem <a href="/vi/encyclopedia/options/options-basics/">kiến thức cơ bản về quyền chọn</a>.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/futures/index-futures/"><div class="k">Giao dịch hợp đồng tương lai</div><b>Hợp đồng tương lai chỉ số (ES, NQ)</b><span>Cách futures chỉ số chứng khoán hoạt động: E-mini và Micro E-mini S&amp;P 500, Nasdaq, Dow, Russell, DAX, Nikkei, giá trị tick, giá trị hợp lý và phiên giao dịch.</span></a><a class="card" href="/vi/encyclopedia/futures/commodity-futures/"><div class="k">Giao dịch hợp đồng tương lai</div><b>Hợp đồng tương lai hàng hóa</b><span>Cách futures hàng hóa hoạt động với dầu thô, khí tự nhiên, vàng, bạc, đồng, ngũ cốc, softs và gia súc, kèm quy cách hợp đồng, báo cáo và rủi ro giao nhận.</span></a><a class="card" href="/vi/encyclopedia/futures/contango-backwardation-and-rollover/"><div class="k">Giao dịch hợp đồng tương lai</div><b>Contango, Backwardation và Rollover</b><span>Contango và backwardation là gì, roll yield hoạt động ra sao, cách và thời điểm roll futures, vì sao ETF hàng hóa tụt sau giá giao ngay, dầu tháng 4 năm 2020.</span></a><a class="card" href="/vi/encyclopedia/futures/futures-vs-other-instruments/"><div class="k">Giao dịch hợp đồng tương lai</div><b>Futures so với cổ phiếu, CFD và hợp đồng vĩnh cửu</b><span>So sánh futures với cổ phiếu, CFD và hợp đồng vĩnh cửu crypto về đòn bẩy, chi phí, bù trừ, quản lý, thuế Section 1256 của Mỹ và quy tắc pattern day trader.</span></a><a class="card" href="/vi/encyclopedia/basics/leverage-and-margin/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Đòn bẩy và ký quỹ</b><span>Đòn bẩy và ký quỹ hoạt động thế nào: ký quỹ ban đầu và duy trì, margin call, thanh lý, cross và isolated margin, ví dụ tính toán và mức trần đòn bẩy.</span></a></div></section>
+<div class="pager"><span></span><a class="next" href="/vi/encyclopedia/futures/index-futures/"><small>Bài tiếp →</small>Hợp đồng tương lai chỉ số (ES, NQ)</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

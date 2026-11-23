@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>执行算法详解：TWAP、VWAP、POV与执行差额 | PnL Profit</title>
+<meta name="description" content="执行算法如何运作：TWAP、VWAP、POV 与执行差额算法，智能订单路由，滑点的衡量，以及执行为何影响收益。">
+<meta name="keywords" content="执行算法, TWAP和VWAP区别, 执行差额, 智能订单路由, 滑点衡量">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="执行算法详解：TWAP、VWAP、POV与执行差额 | PnL Profit">
+<meta property="og:description" content="执行算法如何运作：TWAP、VWAP、POV 与执行差额算法，智能订单路由，滑点的衡量，以及执行为何影响收益。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/execution-algorithms/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="执行算法详解：TWAP、VWAP、POV与执行差额 | PnL Profit">
+<meta name="twitter:description" content="执行算法如何运作：TWAP、VWAP、POV 与执行差额算法，智能订单路由，滑点的衡量，以及执行为何影响收益。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"执行算法详解：TWAP、VWAP、POV与执行差额","description":"执行算法如何运作：TWAP、VWAP、POV 与执行差额算法，智能订单路由，滑点的衡量，以及执行为何影响收益。","keywords":"执行算法, TWAP和VWAP区别, 执行差额, 智能订单路由, 滑点衡量","articleSection":"算法与量化交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/execution-algorithms/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"算法与量化交易","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"执行算法","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/execution-algorithms/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"TWAP 和 VWAP 有什么区别？","acceptedAnswer":{"@type":"Answer","text":"TWAP 把订单在时间上均匀分布，而 VWAP 根据一天中该时段的典型成交量确定每笔子单的规模。VWAP 通常在开盘和收盘附近交易得更多，因为股票市场的大部分成交量都发生在这些时段。"}},{"@type":"Question","name":"什么是执行差额？","acceptedAnswer":{"@type":"Answer","text":"它是以决策价格即时成交的理想交易结果与实际结果之间的差距，包括滑点、费用以及未能成交部分的成本。它被认为是最全面的交易成本衡量指标之一。"}},{"@type":"Question","name":"散户需要执行算法吗？","acceptedAnswer":{"@type":"Answer","text":"大多数散户订单足够小，在流动性好的市场中用简单的限价单就够了。拆单、避开剧烈波动时段等执行技巧，在清淡市场中以及对交易频繁的策略而言更为重要。"}},{"@type":"Question","name":"什么是智能订单路由？","acceptedAnswer":{"@type":"Answer","text":"智能订单路由是一种软件，它把每一笔订单或订单的每一部分，发往在价格、数量、费用和成交可能性方面综合最优的交易场所。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>算法与量化交易</h3><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/" class="on" aria-current="page">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/" class="on">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a></div>
+<h1 class="title">执行算法</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>算法与量化交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/" class="on" aria-current="page">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul></details>
+<article><p>执行算法（execution algorithms）是把大额订单拆成小单、随时间逐步发往市场的程序，目标是以较好的平均价格买入或卖出，同时不过度推动市场。它们回答的是“该怎么交易”，而不是“该交易什么”。即使是拥有真实优势的策略，也可能因执行糟糕而亏钱，所以无论规模大小，这对任何系统化交易者都是一个重要课题。</p>
+<div class="takeaways"><h2 id="key-takeaways">核心要点</h2>
+<ul>
+<li>大额订单会推动价格；分时拆单可以降低市场冲击，但会增加暴露于价格漂移的风险。</li>
+<li>TWAP 把订单在时间上均匀分布，VWAP 跟随典型的成交量模式，POV 按实时成交量的固定比例交易。</li>
+<li>执行差额算法在市场冲击与等待期间价格跑开的风险之间取得平衡。</li>
+<li>智能订单路由把每一笔子单发往价格和流动性最好的交易场所。</li>
+<li>衡量执行质量时，要以你决定交易那一刻的价格为基准，而不只是对比当天的平均价格。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">执行为何重要</a></li><li><a href="#section-3">主要算法类型</a></li><li><a href="#section-8">智能订单路由</a></li><li><a href="#section-9">衡量滑点</a></li><li><a href="#section-10">实例：执行差额</a></li><li><a href="#section-12">散户与系统化交易者的执行</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">执行为何重要</h2>
+<p>每笔交易除了佣金之外，还要支付其他成本：</p>
+<ul>
+<li><strong>点差：</strong> 相对于中间价，从买价跨到卖价，每一边都要付出<a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">买卖价差</a>的一半。</li>
+<li><strong>市场冲击：</strong> 大额订单会消耗可用流动性并推动价格。其中一部分波动是暂时的，停止交易后会恢复；另一部分是永久的，因为你的交易泄露了信息。</li>
+<li><strong>时机风险：</strong> 如果为了降低冲击而慢慢交易，价格可能会因为不相关的原因离你而去。</li>
+</ul>
+<p>执行设计就是在冲击（慢慢交易）与时机风险（快速交易）之间权衡。经典的形式化处理是2000年前后提出的 Almgren-Chriss 框架，它求解的交易计划使预期成本加上对成本不确定性的惩罚项最小。</p>
+<p>一条被广泛引用的经验法则——平方根定律——认为，市场冲击大致随订单规模相对于日成交量的平方根增长：</p>
+<p>冲击 ≈ c × 日波动率 × √(订单规模 / 日均成交量)</p>
+<p>其中 c 是一个常数，通常估计在1左右。应将其视为粗略参考，而非精确预测。</p>
+<h2 id="section-3">主要算法类型</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>算法</th>
+<th>交易方式</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TWAP（时间加权平均价格）</td>
+<td>在设定时段内按固定间隔等量拆单</td>
+<td>简单、可预测、容易实现</td>
+<td>忽略成交量模式；规律的拆单可能被识别</td>
+</tr>
+<tr>
+<td>VWAP（成交量加权平均价格）</td>
+<td>按历史日内成交量曲线确定每笔子单规模</td>
+<td>流动性高时多交易；匹配常用基准</td>
+<td>依赖历史成交量；仍是固定计划</td>
+</tr>
+<tr>
+<td>POV（成交量百分比）</td>
+<td>按实时市场成交量的固定比例（如10%）交易</td>
+<td>适应实际流动性</td>
+<td>完成时间不确定；可能追逐成交量突增</td>
+</tr>
+<tr>
+<td>执行差额（到达价格）</td>
+<td>开始时交易较快，根据紧迫性和风险进行调整</td>
+<td>使相对于决策价格的成本最小</td>
+<td>更复杂；前期冲击更大</td>
+</tr>
+<tr>
+<td>寻找流动性</td>
+<td>在明盘和暗盘场所寻找大单流动性，通常伺机而动</td>
+<td>适合流动性差的品种</td>
+<td>有信息泄露风险</td>
+</tr>
+</tbody></table></div>
+<h3 id="twap">TWAP</h3>
+<p>TWAP 把订单分成等量的若干份，按固定间隔发出，例如每五分钟1,000股。许多加密货币交易所直接提供 TWAP 订单。好的实现会对子单规模和时间做轻微随机化，使其他交易者难以识别其规律。</p>
+<pre><code class="language-python">import random
+
+def twap_schedule(total_qty, start_ts, end_ts, n_slices, jitter=0.2):
+    &quot;&quot;&quot;把 total_qty 拆成 n_slices 份，均匀分布在两个时间戳（秒）之间。&quot;&quot;&quot;
+    step = (end_ts - start_ts) / n_slices
+    base, remainder = divmod(total_qty, n_slices)
+    schedule = []
+    for i in range(n_slices):
+        qty = base + (1 if i &lt; remainder else 0)
+        offset = random.uniform(0.0, jitter) * step   # 避免完全规律的模式
+        schedule.append((start_ts + i * step + offset, qty))
+    return schedule
+</code></pre>
+<h3 id="vwap">VWAP</h3>
+<p>在大多数股票市场中，日内成交量呈 U 形分布：开盘和收盘时成交密集，午间较为清淡。VWAP 算法利用历史成交量分布，在市场最活跃时多交易。成交量加权平均价格本身（详见<a href="/zh/encyclopedia/technical-analysis/vwap/">VWAP</a>）也是评判成交质量最常用的基准。</p>
+<h3 id="pov">POV</h3>
+<p>POV 或参与率算法会观察实时成交量，并按设定比例参与交易。如果市场一分钟内成交50,000股、参与率为10%，算法的目标就是交易5,000股。它能适应真实的市场状况，但无法保证订单何时完成。</p>
+<h3 id="section-7">执行差额</h3>
+<p>执行差额（implementation shortfall）的概念由 André Perold 于1988年提出，衡量的是以决策价格即时成交的纸面组合收益与实际取得的收益之间的差距。执行差额算法试图最小化这一差距，通常的做法是在前期更积极地交易，以减少暴露于价格漂移的时间。</p>
+<h2 id="section-8">智能订单路由</h2>
+<p>许多市场分散在多家交易所和另类交易场所。智能订单路由（SOR）会检查各场所的价格和可成交数量，在考虑费用、返佣、成交概率和延迟后，把每一笔子单发往最佳场所。在加密货币领域，聚合器在各交易所或 DEX 流动性池之间发挥类似作用。在美国，Regulation NMS 等规则要求券商不得以劣于其他交易所展示的更优价格成交；其他地区也有各自的最佳执行规则。</p>
+<h2 id="section-9">衡量滑点</h2>
+<p>不衡量，就无法改进执行。常用基准：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>基准</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>到达价格</td>
+<td>订单发出时的中间价</td>
+<td>衡量总执行成本最诚实的指标</td>
+</tr>
+<tr>
+<td>决策价格</td>
+<td>策略产生信号时的价格</td>
+<td>能捕捉从信号到下单之间的延迟</td>
+</tr>
+<tr>
+<td>区间 VWAP</td>
+<td>订单存续期间的市场 VWAP</td>
+<td>很流行，但只要顺着有利方向交易就能“跑赢”它</td>
+</tr>
+<tr>
+<td>收盘价</td>
+<td>官方收盘价</td>
+<td>适用于以收盘价为基准的策略</td>
+</tr>
+</tbody></table></div>
+<p>成本通常以基点（bps）表示，1 bp = 0.01%。对于买单，滑点 = (平均成交价 − 基准价) / 基准价。对于卖单，符号相反。</p>
+<h2 id="section-10">实例：执行差额</h2>
+<p>某策略在价格为50.00美元时决定买入10,000股。纸面组合价值为10,000 × 50.00 = 500,000美元。</p>
+<ul>
+<li>算法以平均50.12美元买入了8,000股。剩余的2,000股在价格涨到50.60美元之前未能成交，订单被撤销。</li>
+<li>执行成本：8,000 × (50.12 − 50.00) = 960美元。</li>
+<li>未成交股份的机会成本：2,000 × (50.60 − 50.00) = 1,200美元。</li>
+<li>佣金：40美元。</li>
+<li>总执行差额：960 + 1,200 + 40 = 2,200美元，即2,200 / 500,000 = 0.44%（44 bps）。</li>
+</ul>
+<p>如果只看成交的8,000股，这笔订单看起来执行得不错，但错过剩余股份的代价比滑点本身还大。</p>
+<h3 id="section-11">估算市场冲击</h3>
+<p>某股票日波动率为2%，日均成交量为1,000,000股。一笔10,000股的订单相当于日成交量的1%。取 c = 1，平方根法则给出的冲击约为2% × √0.01 = 2% × 0.1 = 0.2%，即20 bps。把订单扩大四倍到40,000股，估计冲击只翻一倍，约为40 bps，因为 √0.04 = 0.2。</p>
+<h2 id="section-12">散户与系统化交易者的执行</h2>
+<p>散户订单相对于市场成交量通常很小，因此在流动性好的市场中冲击很小。但执行仍然重要：</p>
+<ul>
+<li>在合适的场合用限价单代替市价单；<a href="/zh/encyclopedia/basics/order-types/">订单类型</a>一文解释了各种选择。</li>
+<li>避免在开盘和收盘的最初与最后几分钟以及重大消息前后交易，那时点差会扩大。</li>
+<li>在小盘股、山寨币或事件合约等清淡市场中，几千美元就可能推动价格；拆单会有帮助。</li>
+<li>在每一步记录信号时间、下单时间、成交价和中间价，再把实盘成本与回测假设进行比较。参见<a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a>。</li>
+</ul>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>只以 VWAP 为基准衡量。</strong> 它可能掩盖延迟和未成交的成本。</li>
+<li><strong>忽视未成交订单。</strong> 在盈利品种上错过的交易，是一种真实且往往很大的成本。</li>
+<li><strong>可预测的拆单。</strong> 相同间隔、相同规模的子单可能被识别并被针对性交易。</li>
+<li><strong>在薄订单簿中使用市价单。</strong> 一笔订单就可能连吃好几档价格。</li>
+<li><strong>假设回测成交等于实盘成交。</strong> 始终要把真实执行与假设进行核对。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="twap-vwap">TWAP 和 VWAP 有什么区别？</h3>
+<p>TWAP 把订单在时间上均匀分布，而 VWAP 根据一天中该时段的典型成交量确定每笔子单的规模。VWAP 通常在开盘和收盘附近交易得更多，因为股票市场的大部分成交量都发生在这些时段。</p>
+<h3 id="section-16">什么是执行差额？</h3>
+<p>它是以决策价格即时成交的理想交易结果与实际结果之间的差距，包括滑点、费用以及未能成交部分的成本。它被认为是最全面的交易成本衡量指标之一。</p>
+<h3 id="section-17">散户需要执行算法吗？</h3>
+<p>大多数散户订单足够小，在流动性好的市场中用简单的限价单就够了。拆单、避开剧烈波动时段等执行技巧，在清淡市场中以及对交易频繁的策略而言更为重要。</p>
+<h3 id="section-18">什么是智能订单路由？</h3>
+<p>智能订单路由是一种软件，它把每一笔订单或订单的每一部分，发往在价格、数量、费用和成交可能性方面综合最优的交易场所。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/technical-analysis/vwap/"><div class="k">技术分析</div><b>VWAP</b><span>VWAP如何计算、机构为何把它当作基准、日内交易者如何围绕它交易，以及锚定VWAP、VWAP通道和该指标的局限。</span></a><a class="card" href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">交易基础</div><b>点差与流动性</b><span>什么是买价、卖价、点差和中间价，流动性、滑点和市场冲击如何运作，点差为何会扩大，以及如何计算一次往返交易的成本。</span></a><a class="card" href="/zh/encyclopedia/basics/order-types/"><div class="k">交易基础</div><b>订单类型</b><span>各类订单的作用、适用场景，以及让交易者亏钱的常见错误。涵盖市价单、限价单、止损单、止损限价单、追踪止损、OCO 和订单有效期。</span></a><a class="card" href="/zh/encyclopedia/basics/trading-costs-and-fees/"><div class="k">交易基础</div><b>交易成本与费用</b><span>佣金、点差、maker/taker 手续费、隔夜利息、资金费、融券费、订单流付费、gas 费、滑点和税负，附一个高频交易成本累积的计算示例。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">算法与量化交易</div><b>高频交易</b><span>高频交易公司到底做什么：托管机房、延迟军备竞赛、电子化做市与延迟套利、相关争议，以及散户为何无法在速度上与之竞争。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/"><small>← 上一篇</small>高频交易</a><a class="next" href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/"><small>下一篇 →</small>搭建交易机器人</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

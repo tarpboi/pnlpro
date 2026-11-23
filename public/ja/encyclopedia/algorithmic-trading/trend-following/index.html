@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>トレンドフォロー戦略とは？システムトレードの仕組み | PnL Profit</title>
+<meta name="description" content="トレンドフォローの仕組みを解説。時系列モメンタム、CTAとマネージド・フューチャーズ、ブレイクアウトと移動平均のシステム、タートルズ、正の歪度とドローダウン。">
+<meta name="keywords" content="トレンドフォロー 戦略, 順張り システムトレード, 時系列モメンタム, マネージド・フューチャーズ, タートルズ 売買ルール">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="トレンドフォロー戦略とは？システムトレードの仕組み | PnL Profit">
+<meta property="og:description" content="トレンドフォローの仕組みを解説。時系列モメンタム、CTAとマネージド・フューチャーズ、ブレイクアウトと移動平均のシステム、タートルズ、正の歪度とドローダウン。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/trend-following/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="トレンドフォロー戦略とは？システムトレードの仕組み | PnL Profit">
+<meta name="twitter:description" content="トレンドフォローの仕組みを解説。時系列モメンタム、CTAとマネージド・フューチャーズ、ブレイクアウトと移動平均のシステム、タートルズ、正の歪度とドローダウン。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"トレンドフォロー戦略とは？システムトレードの仕組み","description":"トレンドフォローの仕組みを解説。時系列モメンタム、CTAとマネージド・フューチャーズ、ブレイクアウトと移動平均のシステム、タートルズ、正の歪度とドローダウン。","keywords":"トレンドフォロー 戦略, 順張り システムトレード, 時系列モメンタム, マネージド・フューチャーズ, タートルズ 売買ルール","articleSection":"アルゴリズム取引とクオンツ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/trend-following/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"アルゴリズム取引とクオンツ","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"トレンドフォロー","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/trend-following/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"トレンドフォローは今でも通用しますか？","acceptedAnswer":{"@type":"Answer","text":"トレンドフォローには、多くの市場と数十年にわたる長い実績がありますが、成績は時期によって大きく異なり、何年も低調なリターンが続く期間もあります。将来の結果は誰にも約束できず、コストや混雑がリターンを押し下げることもあります。"}},{"@type":"Question","name":"トレンドフォローとモメンタムの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"トレンドフォロー、つまり時系列モメンタムは、各資産自身の過去のリターンを見ます。クロスセクション・モメンタムは資産同士を順位づけし、たとえすべてが下落していても相対的な勝ち組を買います。"}},{"@type":"Question","name":"トレンドフォロワーの勝率が低いのはなぜですか？","acceptedAnswer":{"@type":"Answer","text":"多くのブレイクアウトはすぐに反転するため、システムは頻繁に小さな損失を出します。利益は、典型的な損失よりはるかに大きく伸びる少数の大きなトレンドからもたらされ、それによって勝率が50%を下回っていても全体の結果はプラスになりえます。"}},{"@type":"Question","name":"トレンドフォローに最適な市場はどこですか？","acceptedAnswer":{"@type":"Answer","text":"プロのトレンドフォロワーは通常、流動性の高い先物と通貨の分散されたポートフォリオで取引します。流動性はコストを低く抑え、分散はどの時点でもいずれかの市場でトレンドが出ている可能性を高めます。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/trend-following/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/trend-following/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/trend-following/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/trend-following/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/trend-following/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/trend-following/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/trend-following/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/trend-following/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/trend-following/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>アルゴリズム取引とクオンツ</h3><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/" class="on">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a></div>
+<h1 class="title">トレンドフォロー</h1>
+<div class="meta">約7分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>アルゴリズム取引とクオンツの他の記事</summary><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul></details>
+<article><p>トレンドフォローとは、価格が上昇している資産を買い、価格が下落している資産を売る（または空売りする）システマティックな戦略で、トレンドが続く限りポジションを保有し続けます。<a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引</a>の中でも最も古く、最もよく研究されている手法の一つで、多くのマネージド・フューチャーズ・ファンドが採用しています。小さな損失を頻繁に出し、ときどき大きな利益を上げる傾向があるため、ある時期には利益を生む一方、別の時期には心理的に続けるのが難しい戦略です。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>トレンドフォローの土台は時系列モメンタムです。過去の実績では、資産自身の過去のリターンが近い将来の方向を予測するのに役立ってきました。</li>
+<li>典型的なシステムは、価格のブレイクアウトや移動平均線を使い、ボラティリティに基づくポジションサイジングと多数の市場への分散を組み合わせます。</li>
+<li>リターンは正の歪度（ポジティブスキュー）を持つ傾向があります。小さな損失が多く、大きな利益が少数です。</li>
+<li>何年も続くこともある長い横ばいや損失の期間は、この戦略にとって普通の特徴です。</li>
+<li>トレンドフォローは、長期化した危機の一部では過去に好成績を上げてきましたが、急激で突然の暴落に対する信頼できるヘッジではありません。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">時系列モメンタム</a></li><li><a href="#cta">CTA とマネージド・フューチャーズ</a></li><li><a href="#section-4">代表的なトレンドシステム</a></li><li><a href="#section-8">タートルズ</a></li><li><a href="#section-9">正の歪度と長い横ばい期間</a></li><li><a href="#section-10">計算例</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">時系列モメンタム</h2>
+<p>研究には2種類のモメンタムが登場します。クロスセクション・モメンタムは資産同士を比較して相対的な勝ち組を買うもので、1993年に Jegadeesh と Titman が米国株で実証しました。これについては<a href="/ja/encyclopedia/stocks/momentum-trading/">モメンタムトレード</a>で取り上げています。時系列モメンタムは各資産を単独で見るもので、過去数か月のリターンがプラスなら買い、マイナスなら売ります。</p>
+<p>2012年の論文で、Moskowitz、Ooi、Pedersen は、株価指数、通貨、商品、債券を含む数十の先物市場で時系列モメンタムを実証しました。過去12か月のリターンは翌月のリターンを予測する傾向があり、その効果はより長い時間軸では一部反転することがわかりました。提示されている説明には、投資家がニュースに最初は過小反応し、その後に過剰反応すること、さらにヘッジやリスク管理のためのフローが長期間にわたって価格を同じ方向に押すことなどがあります。</p>
+<h2 id="cta">CTA とマネージド・フューチャーズ</h2>
+<p>プロのトレンドフォロワーの多くは、顧客のために先物取引を運用する登録業者である商品投資顧問業者（CTA）です。この業界はマネージド・フューチャーズとも呼ばれます。典型的な分散型のトレンドプログラムは次のようなものです。</p>
+<ul>
+<li>株価指数、国債、金利、通貨、エネルギー、金属、農産物など、流動性の高い先物とFXの幅広い市場で取引する。</li>
+<li>買いと売りの両方のポジションを取るため、上昇相場だけでなく下落相場でも利益を上げられる。</li>
+<li>各ポジションのサイズをボラティリティで決めるため、値動きの穏やかな債券先物と値動きの激しい原油先物が、おおむね同等のリスクを担う。</li>
+<li>ポジションを数週間から数か月保有する。</li>
+</ul>
+<p>分散が中心的な役割を果たします。単一の市場がトレンドを描くのはときどきにすぎませんが、50以上の市場を見れば、たいていどこかでトレンドが出ています。トレンドフォロー・ファンド全体としては、2008年や2022年など、長期化した弱気相場やインフレショックの一部で利益を上げており、この戦略が「クライシス・アルファ」と呼ばれることがあるのはそのためです。しかし2010年代の大半は、多くのトレンドフォロワーにとって苦しい時期でしたし、事前にトレンドのない突然の暴落は彼らに打撃を与えることがあります。</p>
+<h2 id="section-4">代表的なトレンドシステム</h2>
+<h3 id="section-5">ブレイクアウト・システム</h3>
+<p>ブレイクアウト・システムは、価格が過去 N 日間の最高値を上回ったら買い、過去 N 日間の最安値を下回ったら空売りします。最高値と最安値を結んだ線は、システマティックなトレンドトレードの初期の先駆者である Richard Donchian にちなんで、ドンチャン・チャネルと呼ばれます。手仕舞いには、反対方向のより短いチャネルやトレーリングストップを使います。</p>
+<h3 id="section-6">移動平均線システム</h3>
+<p><a href="/ja/encyclopedia/technical-analysis/moving-averages/">移動平均線</a>のシステムは、短期の平均が長期の平均を上回っているとき（たとえば50日線が200日線より上）に買い、下回っているときに売ります。単一の平均線に対する価格の位置や、平均線の傾きを使う変形版もあります。</p>
+<h3 id="section-7">リターンに基づくシグナル</h3>
+<p>過去3か月、6か月、12か月のリターンの符号をそのまま使うシステムもあり、多くの場合、特定の期間への依存を減らすために複数の計算期間を組み合わせます。</p>
+<p>ブレイクアウトのロジックは数行で書けます。チャネルを1バーずらして、シグナルが現在のバー自身の高値や安値を決して使わないようにし、各日のポジションは翌日のリターンに適用します。</p>
+<pre><code class="language-python">import pandas as pd
+
+def donchian_positions(close: pd.Series, entry=55, exit=20) -&gt; pd.Series:
+    upper = close.rolling(entry).max().shift(1)
+    lower = close.rolling(entry).min().shift(1)
+    exit_high = close.rolling(exit).max().shift(1)
+    exit_low = close.rolling(exit).min().shift(1)
+    pos, out = 0, []
+    for px, up, lo, xh, xl in zip(close, upper, lower, exit_high, exit_low):
+        if pos == 0 and px &gt; up:
+            pos = 1
+        elif pos == 0 and px &lt; lo:
+            pos = -1
+        elif pos == 1 and px &lt; xl:
+            pos = 0
+        elif pos == -1 and px &gt; xh:
+            pos = 0
+        out.append(pos)
+    return pd.Series(out, index=close.index)
+</code></pre>
+<h2 id="section-8">タートルズ</h2>
+<p>トレンドフォローで最も有名な逸話は、シカゴの成功した先物トレーダーである Richard Dennis と、そのパートナーの William Eckhardt にまつわるものです。1980年代初め、2人はトレードを教えることができるかどうかで意見が分かれました。Dennis は新聞広告で訓練生を募集し、ルールに基づくトレンドシステムを短期間で教え込み、取引用の資金を与えました。訓練生たちはタートルズとして知られるようになりました。</p>
+<p>後に元タートルズが公表した記録によれば、そのシステムは、ドンチャン・ブレイクアウト（20日版と55日版）、反対方向のより短いブレイクアウトでの手仕舞い、直近のボラティリティの数倍の距離に置くストップ、そして各市場の典型的な1日の値動きが資産の小さな一定割合になるように調整したポジションサイズで構成されていました。訓練生の何人かは、その後自分のファンドを運用するようになりました。この出来事は、規律あるシステムが直感より重要であることの証拠としてよく引用されますが、有名な成功談の常として、語り継がれ方には生存者バイアスも影響しています。</p>
+<h2 id="section-9">正の歪度と長い横ばい期間</h2>
+<p>トレンドフォローの勝率は通常、低くなります。多くのブレイクアウトはすぐに失敗し、小さな損失で決済されます。利益は、大きく持続的な値動きを捉えた少数の取引からもたらされます。</p>
+<p>このパターンは正の歪度、つまりリターンの分布に長い右側の裾を生み出します。勝つことが多く、ときどき大きく負ける傾向のある<a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a>とは正反対です。</p>
+<p>代償は心理面にあります。小さな損失が長く続くのは普通のことで、戦略が何年も資産の最高値を更新できないこともあります。多くのトレーダーは、まさにそうした時期、次の大きなトレンドの直前にトレンドシステムを放棄してしまいます。</p>
+<h2 id="section-10">計算例</h2>
+<h3 id="section-11">勝率が低い場合の期待値</h3>
+<p>あるトレンドシステムの勝率は35%です。平均的な勝ちトレードは3R、平均的な負けトレードは1R の損失で、R は1取引あたりのリスク額です。</p>
+<ul>
+<li>期待値 = 0.35 × 3R − 0.65 × 1R = 1.05R − 0.65R = 1取引あたり0.40R。</li>
+<li>1取引あたり1,000ドルをリスクにさらすなら、多数の取引を通じて平均で1取引あたり400ドルになります。</li>
+<li>ある特定の10回連続の取引がすべて負けになる確率は 0.65^10 ≈ 1.3% です。数百回の取引を重ねれば、どこかでそれほど長い連敗が起きる可能性は高くなります。</li>
+</ul>
+<h3 id="section-12">ボラティリティに基づくサイジング</h3>
+<p>100,000ドルの口座で、1取引あたり1%、つまり1,000ドルをリスクにさらすとします。ある株式は50ドルで取引されており、<a href="/ja/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR（アベレージ・トゥルー・レンジ）</a>は1.25ドルです。ストップは2 ATR 離れた位置、つまり2.50ドル先に置きます。</p>
+<ul>
+<li>ポジションサイズ = 1,000 / 2.50 = 400株で、金額にして20,000ドルです。</li>
+<li>ATR が0.50ドルの値動きの穏やかな株式なら、ストップは1.00ドル先になり、同じリスク額で1,000株のポジションになります。</li>
+</ul>
+<p>これで、値動きが穏やかでも激しくても、各ポジションが同程度のリスクを担うことになります。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>1つの市場だけで取引する。</strong> 分散がなければ、長い横ばい期間がさらに長くなります。</li>
+<li><strong>損失の後にシステムを無視する。</strong> 次のシグナルを見送ると、連敗を取り返してくれるはずの取引を逃すことがよくあります。</li>
+<li><strong>計算期間を精密に最適化する。</strong> トレンドのシグナルは幅広い計算期間で頑健です。微調整はほとんどの場合ノイズに合わせているだけです。</li>
+<li><strong>ロールのコストとギャップを無視する。</strong> 先物はロールが必要で、ストップは一夜のうちにギャップで飛び越えられることがあります。<a href="/ja/encyclopedia/futures/futures-basics/">先物取引の基礎</a>を参照してください。</li>
+<li><strong>滑らかな資産曲線を期待する。</strong> プロのトレンドプログラムでも、20%以上のドローダウンはよくあることでした。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-15">トレンドフォローは今でも通用しますか？</h3>
+<p>トレンドフォローには、多くの市場と数十年にわたる長い実績がありますが、成績は時期によって大きく異なり、何年も低調なリターンが続く期間もあります。将来の結果は誰にも約束できず、コストや混雑がリターンを押し下げることもあります。</p>
+<h3 id="section-16">トレンドフォローとモメンタムの違いは何ですか？</h3>
+<p>トレンドフォロー、つまり時系列モメンタムは、各資産自身の過去のリターンを見ます。クロスセクション・モメンタムは資産同士を順位づけし、たとえすべてが下落していても相対的な勝ち組を買います。</p>
+<h3 id="section-17">トレンドフォロワーの勝率が低いのはなぜですか？</h3>
+<p>多くのブレイクアウトはすぐに反転するため、システムは頻繁に小さな損失を出します。利益は、典型的な損失よりはるかに大きく伸びる少数の大きなトレンドからもたらされ、それによって勝率が50%を下回っていても全体の結果はプラスになりえます。</p>
+<h3 id="section-18">トレンドフォローに最適な市場はどこですか？</h3>
+<p>プロのトレンドフォロワーは通常、流動性の高い先物と通貨の分散されたポートフォリオで取引します。流動性はコストを低く抑え、分散はどの時点でもいずれかの市場でトレンドが出ている可能性を高めます。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/technical-analysis/moving-averages/"><div class="k">テクニカル分析</div><b>移動平均線</b><span>単純・指数平滑・加重移動平均線の計算方法、20・50・200期間の意味、ゴールデンクロスとデッドクロス、そして遅行性とのトレードオフを解説します。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">アルゴリズム取引とクオンツ</div><b>平均回帰</b><span>平均回帰トレードの仕組みを解説。短期リバーサル、zスコア、ボリンジャーバンドとRSIのシステム、負の歪度、相場局面のリスク、失敗する条件。</span></a><a class="card" href="/ja/encyclopedia/technical-analysis/atr-and-volatility-indicators/"><div class="k">テクニカル分析</div><b>ATRとボラティリティ</b><span>ATRの仕組みと、それを使った損切り幅とポジションサイズの決め方、ヒストリカル・ボラティリティ、ケルトナーチャネル、ボラティリティが群れる理由を解説します。</span></a><a class="card" href="/ja/encyclopedia/stocks/momentum-trading/"><div class="k">株式トレード</div><b>モメンタムトレード</b><span>株のモメンタム・トレードの仕組みを解説。材料（カタリスト）、相対出来高、浮動株、ブレイクアウトと売買停止、研究結果、伸びきった値動きを追うリスクまで。</span></a><a class="card" href="/ja/encyclopedia/futures/futures-basics/"><div class="k">先物取引</div><b>先物の基礎</b><span>先物取引の仕組みを解説。取引所、取引要綱、ティックバリュー、限月コード、日々の値洗い、証拠金、決済方法、そして誰がなぜ先物を使うのかを紹介します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><small>← 前へ</small>オーバーフィッティング</a><a class="next" href="/ja/encyclopedia/algorithmic-trading/mean-reversion/"><small>次へ →</small>平均回帰</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>订单类型详解：市价单、限价单、止损单等 | PnL Profit</title>
+<meta name="description" content="各类订单的作用、适用场景，以及让交易者亏钱的常见错误。涵盖市价单、限价单、止损单、止损限价单、追踪止损、OCO 和订单有效期。">
+<meta name="keywords" content="订单类型, 限价单, 止损单, 市价单和限价单的区别, 止损限价单, 订单有效期">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/order-types/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/order-types/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="订单类型详解：市价单、限价单、止损单等 | PnL Profit">
+<meta property="og:description" content="各类订单的作用、适用场景，以及让交易者亏钱的常见错误。涵盖市价单、限价单、止损单、止损限价单、追踪止损、OCO 和订单有效期。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/basics/order-types/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="订单类型详解：市价单、限价单、止损单等 | PnL Profit">
+<meta name="twitter:description" content="各类订单的作用、适用场景，以及让交易者亏钱的常见错误。涵盖市价单、限价单、止损单、止损限价单、追踪止损、OCO 和订单有效期。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"订单类型详解：市价单、限价单、止损单等","description":"各类订单的作用、适用场景，以及让交易者亏钱的常见错误。涵盖市价单、限价单、止损单、止损限价单、追踪止损、OCO 和订单有效期。","keywords":"订单类型, 限价单, 止损单, 市价单和限价单的区别, 止损限价单, 订单有效期","articleSection":"交易基础","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/basics/order-types/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"交易基础","item":"https://pnlpro.fit/zh/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"订单类型","item":"https://pnlpro.fit/zh/encyclopedia/basics/order-types/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"市价单和限价单有什么区别？","acceptedAnswer":{"@type":"Answer","text":"市价单以最优可得价格立即成交，但不保证价格。限价单保证最高买入价或最低卖出价，但可能不会成交。"}},{"@type":"Question","name":"止损单和止损限价单有什么区别？","acceptedAnswer":{"@type":"Answer","text":"两者都在止损价被触发。之后止损单变为市价单，成交价不确定；而止损限价单变为限价单，不会以超出限价的价格成交，因此可能根本不会成交。"}},{"@type":"Question","name":"止损单能保证我的出场价格吗？","acceptedAnswer":{"@type":"Answer","text":"不能。标准止损单在触发时变为市价单，因此在快速行情或价格跳空时，成交价可能远低于止损价。只有在提供保证止损单的地方，使用这种订单才能锁定价格。"}},{"@type":"Question","name":"交易中的 GTC 是什么意思？","acceptedAnswer":{"@type":"Answer","text":"GTC 是 good till canceled 的缩写，即撤销前有效。订单会跨交易时段保持有效，直到成交或你主动撤销，不过许多经纪商会在一段设定时间后自动撤销 GTC 订单。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/basics/order-types/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/order-types/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/basics/order-types/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/order-types/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/order-types/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/order-types/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/order-types/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/order-types/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/order-types/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>交易基础</h3><ul><li><a href="/zh/encyclopedia/basics/what-is-trading/">什么是交易？</a></li><li><a href="/zh/encyclopedia/basics/financial-markets-overview/">金融市场概览</a></li><li><a href="/zh/encyclopedia/basics/trading-styles/">交易风格</a></li><li><a href="/zh/encyclopedia/basics/order-types/" class="on" aria-current="page">订单类型</a></li><li><a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿与市场深度</a></li><li><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">点差与流动性</a></li><li><a href="/zh/encyclopedia/basics/leverage-and-margin/">杠杆与保证金</a></li><li><a href="/zh/encyclopedia/basics/long-and-short-positions/">做多与做空</a></li><li><a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a></li><li><a href="/zh/encyclopedia/basics/brokers-and-exchanges/">经纪商与交易所</a></li><li><a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a></li><li><a href="/zh/encyclopedia/basics/market-hours-and-sessions/">交易时间与时段</a></li><li><a href="/zh/encyclopedia/basics/how-to-start-trading/">如何开始交易</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/" class="on">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/basics/">交易基础</a></div>
+<h1 class="title">订单类型</h1>
+<div class="meta">阅读约 7 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>交易基础中的更多文章</summary><ul><li><a href="/zh/encyclopedia/basics/what-is-trading/">什么是交易？</a></li><li><a href="/zh/encyclopedia/basics/financial-markets-overview/">金融市场概览</a></li><li><a href="/zh/encyclopedia/basics/trading-styles/">交易风格</a></li><li><a href="/zh/encyclopedia/basics/order-types/" class="on" aria-current="page">订单类型</a></li><li><a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿与市场深度</a></li><li><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">点差与流动性</a></li><li><a href="/zh/encyclopedia/basics/leverage-and-margin/">杠杆与保证金</a></li><li><a href="/zh/encyclopedia/basics/long-and-short-positions/">做多与做空</a></li><li><a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a></li><li><a href="/zh/encyclopedia/basics/brokers-and-exchanges/">经纪商与交易所</a></li><li><a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a></li><li><a href="/zh/encyclopedia/basics/market-hours-and-sessions/">交易时间与时段</a></li><li><a href="/zh/encyclopedia/basics/how-to-start-trading/">如何开始交易</a></li></ul></details>
+<article><p>订单是你向经纪商或交易所发出的买卖指令，而订单类型决定了它以何种方式、在何时成交。核心的取舍在于成交确定性与价格控制之间：市价单几乎立即以当时可得的任何价格成交，而限价单能保证价格，却可能永远不成交。止损单、追踪止损单、括号单和订单有效期设置，都是在这两种基本订单的基础上衍生出来的。用错订单类型，是最常见也最容易避免的亏损来源之一。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点总结</h2>
+<ul>
+<li>市价单以当前最优可得价格立即成交，但不保证价格，在流动性稀薄或行情急速变化的市场中尤其如此。</li>
+<li>限价单设定了你能接受的最差价格，但可能根本不会成交。</li>
+<li>止损单在触发价被触及前处于休眠状态，触发后变为市价单（止损单）或限价单（止损限价单）。</li>
+<li>DAY、GTC、IOC 和 FOK 等订单有效期设置决定了订单保持有效的时长。</li>
+<li>并非每家经纪商或交易所都提供所有订单类型，而且有些“止损单”由经纪商而非交易所持有，因此请务必弄清你所用平台的运作方式。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">市价单</a></li><li><a href="#section-4">限价单</a></li><li><a href="#section-5">止损单</a></li><li><a href="#section-6">止损限价单</a></li><li><a href="#section-8">追踪止损</a></li><li><a href="#section-9">组合订单</a></li><li><a href="#section-10">订单有效期</a></li><li><a href="#section-11">特殊订单类型</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">市价单</h2>
+<p><strong>市价单</strong>会立即以最优卖价买入，或以最优买价卖出。这是进出市场最简单的方式。</p>
+<p>其风险在于价格。市价单会吃掉<a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿</a>中挂着的任何流动性。如果订单数量大于最优价位上的挂单量，就会以越来越差的价格成交。你预期的价格与实际成交价格之间的差额，称为滑点。</p>
+<h3 id="section-3">计算示例：市价单的滑点</h3>
+<p>某只股票显示如下卖单：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>卖价</th>
+<th>可成交股数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$10.00</td>
+<td>100</td>
+</tr>
+<tr>
+<td>$10.02</td>
+<td>200</td>
+</tr>
+<tr>
+<td>$10.05</td>
+<td>300</td>
+</tr>
+</tbody></table></div>
+<p>一笔买入 500 股的市价单成交情况如下：</p>
+<ul>
+<li>100 股，价格 $10.00 = $1,000</li>
+<li>200 股，价格 $10.02 = $2,004</li>
+<li>200 股，价格 $10.05 = $2,010</li>
+<li>合计：500 股共 $5,014，均价 $10.028</li>
+</ul>
+<p>交易者在屏幕上看到的是 $10.00，但平均每股多付了 2.8 美分，总计多付 $14。在流动性稀薄的市场或新闻发布期间，这个差距可能大得多。参见<a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">买卖价差与流动性</a>。</p>
+<p><strong>适用场景：</strong> 速度比几个最小变动价位更重要时；在流动性充足的市场中；或需要紧急平仓时。</p>
+<h2 id="section-4">限价单</h2>
+<p><strong>限价单</strong>为买单设定最高价格，或为卖单设定最低价格。$9.95 的买入限价单只会在 $9.95 或更低价格成交；$10.10 的卖出限价单只会在 $10.10 或更高价格成交。</p>
+<p>如果限价偏离当前价格，订单会挂在订单簿中，直到市场价格触及该价位；届时它要排在同一价位上更早提交的订单之后。即使价格触及，如果前面还有排队的订单，也不能保证你的订单会成交。</p>
+<p>挂在当前市价或更优一侧的限价单（例如高于当前卖价的买入限价单）称为<strong>可成交限价单</strong>（marketable limit order）。它会像市价单一样立即成交，但为你能接受的滑点设定了上限。</p>
+<p><strong>适用场景：</strong> 价格比成交确定性更重要时；在计划好的价位入场时；或在目标价位止盈时。</p>
+<h2 id="section-5">止损单</h2>
+<p><strong>止损单</strong>（用于平仓时常称为止损）在市场价格触及或穿过触发价（即止损价）之前一直处于非激活状态，触发后变为市价单。</p>
+<ul>
+<li><strong>卖出止损单</strong>设在当前价格下方，用于平掉多头仓位或开立空头仓位。</li>
+<li><strong>买入止损单</strong>设在当前价格上方，用于平掉空头仓位或在突破时入场。</li>
+</ul>
+<p>由于触发后的订单是市价单，成交价可能比止损价更差。如果市场跳空越过你的止损价（例如隔夜跳空），你会以第一个可得价格成交，而这个价格可能相去甚远。止损应该设在哪里，请参见<a href="/zh/encyclopedia/risk-management/stop-loss-strategies/">止损策略</a>。</p>
+<h2 id="section-6">止损限价单</h2>
+<p><strong>止损限价单</strong>有两个价格：触发订单的止损价，以及限制成交价的限价。一旦触发，它就变为限价单。</p>
+<h3 id="section-7">计算示例：跳空时止损单与止损限价单的区别</h3>
+<p>某交易者以 $50 买入 100 股，希望在 $48 附近获得保护。</p>
+<ul>
+<li>如果设置<strong>$48 的卖出止损单</strong>，股票因利空消息在次日早上以 $46 开盘，止损被触发，在 $46 附近成交。亏损约为每股 $4，即 $400。</li>
+<li>如果设置<strong>卖出止损限价单，止损价 $48、限价 $47.80</strong>，同样的跳空会触发订单，但 $46 低于 $47.80 的限价，因此无法成交。交易者仍然持有股票。如果价格继续跌到 $40，亏损将扩大到 $1,000。</li>
+</ul>
+<p>止损限价单能避免糟糕的成交价，却可能让你继续持有本想退出的仓位。普通止损单能让你出场，但成交价不确定。</p>
+<h2 id="section-8">追踪止损</h2>
+<p><strong>追踪止损</strong>会在市场朝有利方向变动时，按固定金额或百分比自动移动止损价，而且永远不会往回移。</p>
+<p>举例：你以 $50 买入，设置 $2 的追踪止损，因此止损价起始于 $48。股价涨到 $56，止损价随之上移到 $54。随后股价下跌；在 $54 时止损被触发，以市价卖出，成交价可能是 $53.95。你锁定了每股约 $3.95 的利润，而峰值浮盈为 $6。如果股价从 $50 直接下跌，止损就会在 $48 触发。</p>
+<p>追踪止损简单，但很机械。追踪距离太近，会被正常的价格波动扫掉；距离太远，又会回吐大部分利润。</p>
+<h2 id="section-9">组合订单</h2>
+<ul>
+<li><strong>OCO（二选一订单，one cancels the other）：</strong> 两个相互关联的订单，其中一个成交后，另一个自动撤销。常见用法是在价格上方挂止盈限价单、下方挂止损单。</li>
+<li><strong>括号单（bracket order）：</strong> 附带一对 OCO 订单的入场订单。例如，以 $50 买入，止损设在 $48，止盈设在 $55。入场单成交后，两个出场订单同时生效，先成交的那个会自动撤销另一个。</li>
+<li><strong>OTO（触发式订单，one triggers the other）：</strong> 第二个订单只有在第一个订单成交后才会激活。</li>
+</ul>
+<p>括号单有助于执行<a href="/zh/encyclopedia/risk-management/trading-plan/">交易计划</a>，因为出场规则在情绪介入之前就已经确定。</p>
+<h2 id="section-10">订单有效期</h2>
+<p>订单有效期（time in force）规定了订单保持有效的时长。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>设置</th>
+<th>含义</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DAY（当日有效）</td>
+<td>若未成交，则在交易时段结束时失效</td>
+<td>许多股票经纪商的默认设置</td>
+</tr>
+<tr>
+<td>GTC（撤销前有效，good till canceled）</td>
+<td>在成交或撤销前一直有效；许多经纪商会在一段设定时间后将其撤销</td>
+<td>波段交易中挂着的止损单和目标价单</td>
+</tr>
+<tr>
+<td>IOC（立即成交否则撤销，immediate or cancel）</td>
+<td>立即成交能成交的部分，其余撤销</td>
+<td>吃掉现有流动性，又不留下挂单</td>
+</tr>
+<tr>
+<td>FOK（全部成交否则撤销，fill or kill）</td>
+<td>整笔订单立即全部成交，否则全部撤销</td>
+<td>部分成交毫无意义时</td>
+</tr>
+<tr>
+<td>GTD（指定日期前有效，good till date）</td>
+<td>在选定日期前有效</td>
+<td>与某一事件挂钩的订单</td>
+</tr>
+</tbody></table></div>
+<p>有些经纪商还提供用于开盘或收盘集合竞价的订单，以及在盘前盘后时段有效的订单。许多股票经纪商在常规交易时间之外只接受限价单；参见<a href="/zh/encyclopedia/stocks/premarket-and-after-hours-trading/">盘前与盘后交易</a>。</p>
+<h2 id="section-11">特殊订单类型</h2>
+<ul>
+<li><strong>只做 Maker（post-only）：</strong> 一种如果会立即成交就被撤销的限价单，因此它只会为订单簿增加流动性。这在加密货币交易所很常见，因为提供流动性通常可以享受更低的“maker”手续费。参见<a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a>。</li>
+<li><strong>只减仓（reduce-only）：</strong> 只能减少现有仓位、绝不会开新仓或反手的订单。这在加密货币期货和<a href="/zh/encyclopedia/crypto/perpetual-futures/">永续合约</a>交易所很常见，用于止损和止盈时很有用，可以避免一张过时的订单意外开出新仓。</li>
+<li><strong>冰山订单（iceberg / reserve order）：</strong> 一种大额限价单，每次只在订单簿中显示一小部分数量，每成交一部分就自动补充。机构用它来避免暴露全部交易意图。</li>
+<li><strong>触价市价单（market-if-touched，MIT）：</strong> 价格被触及时变为市价单，但触发点在有利的一侧，类似于一张会转为市价单的限价单。</li>
+</ul>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>在流动性稀薄的市场使用市价单。</strong> 小盘股、流动性差的加密代币以及盘前盘后时段，都可能出现令人震惊的成交价。</li>
+<li><strong>以为止损单能保证价格。</strong> 标准止损单会变为市价单；跳空时会在市场开盘的任何价位成交。只有部分差价合约经纪商收费提供的保证止损单，才能保证价格。</li>
+<li><strong>忘记 GTC 订单。</strong> 一张遗留在系统中的旧订单，可能在几个月后你已经不想要时成交。</li>
+<li><strong>把止损设在显眼的整数关口。</strong> 那里聚集着大量其他止损单，价格往往会快速穿过这些价位。</li>
+<li><strong>不清楚自己的止损单由谁持有。</strong> 有些经纪商把止损单保存在自己的服务器上，只在触发时才发送出去；在系统故障和跳空期间，表现会有所不同。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-14">市价单和限价单有什么区别？</h3>
+<p>市价单以最优可得价格立即成交，但不保证价格。限价单保证最高买入价或最低卖出价，但可能不会成交。</p>
+<h3 id="section-15">止损单和止损限价单有什么区别？</h3>
+<p>两者都在止损价被触发。之后止损单变为市价单，成交价不确定；而止损限价单变为限价单，不会以超出限价的价格成交，因此可能根本不会成交。</p>
+<h3 id="section-16">止损单能保证我的出场价格吗？</h3>
+<p>不能。标准止损单在触发时变为市价单，因此在快速行情或价格跳空时，成交价可能远低于止损价。只有在提供保证止损单的地方，使用这种订单才能锁定价格。</p>
+<h3 id="gtc">交易中的 GTC 是什么意思？</h3>
+<p>GTC 是 good till canceled 的缩写，即撤销前有效。订单会跨交易时段保持有效，直到成交或你主动撤销，不过许多经纪商会在一段设定时间后自动撤销 GTC 订单。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/basics/order-book-and-market-depth/"><div class="k">交易基础</div><b>订单簿与市场深度</b><span>限价订单簿和撮合引擎如何运作，价格时间优先原则，Level 1 与 Level 2 行情的区别，如何解读深度，幌骗，以及与做市商市场和 AMM 的对比。</span></a><a class="card" href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">交易基础</div><b>点差与流动性</b><span>什么是买价、卖价、点差和中间价，流动性、滑点和市场冲击如何运作，点差为何会扩大，以及如何计算一次往返交易的成本。</span></a><a class="card" href="/zh/encyclopedia/risk-management/stop-loss-strategies/"><div class="k">风险与资金管理</div><b>止损策略</b><span>如何依据结构、ATR、百分比和时间设置止损，以及移动止损、保证止损、跳空、扫止损和止盈位置的设置方法。</span></a><a class="card" href="/zh/encyclopedia/basics/trading-costs-and-fees/"><div class="k">交易基础</div><b>交易成本与费用</b><span>佣金、点差、maker/taker 手续费、隔夜利息、资金费、融券费、订单流付费、gas 费、滑点和税负，附一个高频交易成本累积的计算示例。</span></a><a class="card" href="/zh/encyclopedia/basics/long-and-short-positions/"><div class="k">交易基础</div><b>做多与做空</b><span>什么是做多和做空，如何通过融券、差价合约、期货、永续合约和看跌期权做空，为什么空头风险无上限，以及对冲的原理。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/basics/trading-styles/"><small>← 上一篇</small>交易风格</a><a class="next" href="/zh/encyclopedia/basics/order-book-and-market-depth/"><small>下一篇 →</small>订单簿与市场深度</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

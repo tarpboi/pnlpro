@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>감마 익스포저(GEX)와 딜러 헤지의 원리 | PnL Profit</title>
+<meta name="description" content="마켓메이커의 델타 헤지, 딜러의 양·음의 감마, 감마 스퀴즈, GEX 추정 방식과 한계, OPEX 효과, 반나와 참까지 정리합니다.">
+<meta name="keywords" content="감마 익스포저, GEX 옵션, 딜러 감마, 감마 스퀴즈, 마켓메이커 델타 헤지">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="감마 익스포저(GEX)와 딜러 헤지의 원리 | PnL Profit">
+<meta property="og:description" content="마켓메이커의 델타 헤지, 딜러의 양·음의 감마, 감마 스퀴즈, GEX 추정 방식과 한계, OPEX 효과, 반나와 참까지 정리합니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="감마 익스포저(GEX)와 딜러 헤지의 원리 | PnL Profit">
+<meta name="twitter:description" content="마켓메이커의 델타 헤지, 딜러의 양·음의 감마, 감마 스퀴즈, GEX 추정 방식과 한계, OPEX 효과, 반나와 참까지 정리합니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"감마 익스포저(GEX)와 딜러 헤지의 원리","description":"마켓메이커의 델타 헤지, 딜러의 양·음의 감마, 감마 스퀴즈, GEX 추정 방식과 한계, OPEX 효과, 반나와 참까지 정리합니다.","keywords":"감마 익스포저, GEX 옵션, 딜러 감마, 감마 스퀴즈, 마켓메이커 델타 헤지","articleSection":"옵션 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"옵션 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"감마 익스포저와 딜러","item":"https://pnlpro.fit/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"음의 감마는 시장에 무엇을 뜻합니까?","acceptedAnswer":{"@type":"Answer","text":"딜러가 순 숏 감마로 추정되면, 헤지를 위해 가격이 오를 때 사고 내릴 때 팔아야 합니다. 이는 움직임을 증폭하고 변동성을 키울 수 있지만, 다른 흐름이 이를 압도할 수도 있습니다."}},{"@type":"Question","name":"감마 스퀴즈란 무엇입니까?","acceptedAnswer":{"@type":"Answer","text":"감마 스퀴즈는 대량 콜 매수가 그 콜을 판 딜러들로 하여금 가격이 오를수록 기초자산을 사게 만들고, 그 매수가 가격을 더 올려 또다시 매수를 요구할 때 일어납니다. 공매도가 많은 종목에서는 숏 스퀴즈와 겹칠 수 있습니다."}},{"@type":"Question","name":"GEX는 얼마나 정확합니까?","acceptedAnswer":{"@type":"Answer","text":"GEX는 딜러가 각 옵션에서 롱인지 숏인지에 대한 가정에 의존하는 추정치이며, 하루에 한 번만 갱신되는 미결제약정에 기댑니다. 제공업체마다 숫자가 다른 경우가 많습니다."}},{"@type":"Question","name":"왜 만기 때 주가가 행사가에 붙습니까?","acceptedAnswer":{"@type":"Answer","text":"한 행사가 근처에 미결제약정이 크게 쌓여 있으면, 만기가 다가올수록 딜러 헤지가 가격을 그 근처에 붙잡아 두는 경향이 있을 수 있습니다. 연구에 따르면 옵션이 상장된 주식은 만기일에 우연으로 설명되는 것보다 더 자주 행사가 근처에 모입니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>옵션 트레이딩</h3><ul><li><a href="/ko/encyclopedia/options/options-basics/">옵션 기초</a></li><li><a href="/ko/encyclopedia/options/options-greeks/">옵션 그릭스</a></li><li><a href="/ko/encyclopedia/options/implied-volatility/">내재 변동성</a></li><li><a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">커버드 콜과 CSP</a></li><li><a href="/ko/encyclopedia/options/vertical-spreads/">버티컬 스프레드</a></li><li><a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a></li><li><a href="/ko/encyclopedia/options/straddles-and-strangles/">스트래들과 스트랭글</a></li><li><a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a></li><li><a href="/ko/encyclopedia/options/options-expiration-and-assignment/">만기와 배정</a></li><li><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/" class="on" aria-current="page">감마 익스포저와 딜러</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/" class="on">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/options/">옵션 트레이딩</a></div>
+<h1 class="title">감마 익스포저와 딜러 헤지</h1>
+<div class="meta">6분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>옵션 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/options/options-basics/">옵션 기초</a></li><li><a href="/ko/encyclopedia/options/options-greeks/">옵션 그릭스</a></li><li><a href="/ko/encyclopedia/options/implied-volatility/">내재 변동성</a></li><li><a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">커버드 콜과 CSP</a></li><li><a href="/ko/encyclopedia/options/vertical-spreads/">버티컬 스프레드</a></li><li><a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a></li><li><a href="/ko/encyclopedia/options/straddles-and-strangles/">스트래들과 스트랭글</a></li><li><a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a></li><li><a href="/ko/encyclopedia/options/options-expiration-and-assignment/">만기와 배정</a></li><li><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/" class="on" aria-current="page">감마 익스포저와 딜러</a></li></ul></details>
+<article><p>감마 익스포저는 옵션 딜러, 주로 마켓메이커가 기초자산 가격이 움직일 때 헤지 상태를 유지하려면 기초자산을 얼마나 사거나 팔아야 하는지를 나타냅니다. 딜러는 보통 델타 중립을 목표로 하므로, 그들의 헤지 거래는 보유한 옵션의 감마에 따라 달라집니다. 딜러가 전체적으로 숏 감마이면 헤지 거래가 가격을 이미 움직이는 방향으로 더 밀어붙일 수 있고, 롱 감마이면 헤지가 움직임에 맞서는 경향이 있습니다. 트레이더들은 변동성에 대한 단서를 얻으려고 감마 익스포저(GEX) 추정치를 지켜보지만, 그 추정치는 자주 틀리는 가정 위에 서 있습니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>옵션 마켓메이커는 보통 기초자산을 거래해 보유 재고의 델타를 헤지하며, 가격이 움직일 때 얼마나 조정해야 하는지는 감마가 결정합니다.</li>
+<li>딜러가 순 롱 감마이면 헤지는 상승 시 매도, 하락 시 매수가 되어 변동성을 누그러뜨리는 경향이 있습니다.</li>
+<li>딜러가 순 숏 감마이면 헤지는 상승 시 매수, 하락 시 매도가 되어 움직임을 증폭하고 감마 스퀴즈에 일조할 수 있습니다.</li>
+<li>공개된 GEX 수치는 누가 어떤 옵션을 보유하는지에 대한 가정으로 만든 추정치이며, 크게 틀릴 수 있습니다.</li>
+<li>월물 옵션 만기와 그 전후의 반나·참 효과는 헤지 흐름을 바꿀 수 있지만, 이는 경향일 뿐 믿을 만한 신호가 아닙니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">딜러가 헤지하는 이유</a></li><li><a href="#section-5">감마 스퀴즈</a></li><li><a href="#gex">GEX 추정 방식</a></li><li><a href="#gex">GEX의 한계</a></li><li><a href="#opex">OPEX 효과</a></li><li><a href="#section-10">반나와 참, 간단히</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">딜러가 헤지하는 이유</h2>
+<p>마켓메이커는 방향에 베팅해서가 아니라 매수호가에 사고 매도호가에 팔아서 돈을 법니다. 고객이 콜을 사면, 그 콜을 판 마켓메이커는 콜 숏 포지션을 떠안게 되며 이 포지션은 주가가 오르면 손실이 납니다. 이 방향성 위험을 없애기 위해 마켓메이커는 옵션의 델타만큼 기초자산을 삽니다. 이를 델타 헤지라고 합니다. 호가를 내고 재고를 관리하는 일반적인 업무는 <a href="/ko/encyclopedia/algorithmic-trading/market-making/">마켓 메이킹</a>에서 다룹니다.</p>
+<p>델타는 가격이 움직이면 변하며, 그 변화율이 감마입니다. 따라서 지금 맞는 헤지도 가격이 움직이고 나면 틀리게 되고, 딜러는 다시 거래해야 합니다. 정의는 <a href="/ko/encyclopedia/options/options-greeks/">옵션 그릭스</a>에 있습니다.</p>
+<h3 id="section-3">계산 예시: 콜 숏 포지션 헤지</h3>
+<p>한 딜러가 주가 $100인 주식의 콜 1,000계약을 팝니다. 각 콜의 델타는 0.40, 감마는 0.05이고, 계약당 100주입니다.</p>
+<ul>
+<li><strong>초기 헤지:</strong> 딜러의 델타는 1,000 x 100 x 0.40 = 40,000주 상당의 숏이므로, 40,000주를 삽니다.</li>
+<li><strong>주가가 $1 올라 $101이 되면:</strong> 델타는 약 0.45로 커집니다. 딜러는 이제 45,000주 상당의 숏이므로 약 1,000 x 100 x 0.05 = 5,000주를 추가로 삽니다.</li>
+<li><strong>반대로 주가가 $1 내려 $99가 되면:</strong> 델타는 약 0.35로 떨어지고, 딜러는 약 5,000주를 팝니다.</li>
+</ul>
+<p>이 딜러는 숏 감마입니다. 헤지 상태를 유지하려면 가격이 오를 때 사고 내릴 때 팔아야 합니다. 이 거래는 시장이 이미 움직이고 있는 방향에 힘을 보탭니다.</p>
+<h3 id="section-4">반대의 경우: 롱 감마</h3>
+<p>만약 딜러가 고객에게서, 예컨대 커버드 콜을 파는 투자자에게서 같은 콜 1,000계약을 샀다면, 40,000주를 공매도해 헤지할 것입니다. $1 상승 시 델타는 0.45로 커지고 딜러는 상승장에 5,000주를 추가로 팝니다. $1 하락 시에는 하락장에서 5,000주를 되삽니다. 롱 감마 헤지는 움직임에 맞섭니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>딜러 포지션</th>
+<th>가격 상승 시 헤지</th>
+<th>가격 하락 시 헤지</th>
+<th>예상되는 시장 영향</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>순 롱 감마</td>
+<td>매도</td>
+<td>매수</td>
+<td>움직임 완화, 범위가 좁아질 수 있음</td>
+</tr>
+<tr>
+<td>순 숏 감마</td>
+<td>매수</td>
+<td>매도</td>
+<td>움직임 증폭, 변동성이 커질 수 있음</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-5">감마 스퀴즈</h2>
+<p>감마 스퀴즈는 주로 단기 만기 외가격 콜옵션에 대한 대량 매수가, 그 콜을 판 딜러들로 하여금 가격이 오를수록 기초자산을 사게 만들 때 일어납니다. 딜러의 매수가 가격을 더 밀어 올리면 콜의 델타가 더 커지고, 더 많은 매수가 강제됩니다. 이 효과는 주식 거래량에 비해 옵션 거래량이 큰 종목에서 가장 강합니다.</p>
+<p>2021년 1월 GameStop 급등은 대량 콜 매수와 딜러 헤지가 높은 공매도 잔고로 인한 숏 스퀴즈에 힘을 보탠 사례로 자주 거론됩니다. 그런 움직임 가운데 헤지에서 나온 몫이 얼마인지 따로 떼어 내기는 어렵습니다. 숏 스퀴즈의 원리는 <a href="/ko/encyclopedia/stocks/short-selling/">공매도</a>를, 이 사건의 전체적인 맥락은 <a href="/ko/encyclopedia/risk-management/leverage-risk-and-black-swans/">레버리지 리스크와 블랙 스완</a>을 참고하십시오.</p>
+<p>감마 스퀴즈는 아래쪽으로도 일어날 수 있습니다. 대량 풋 매수가 풋을 판 딜러들로 하여금 하락장에서 기초자산을 팔게 만드는 경우입니다.</p>
+<h2 id="gex">GEX 추정 방식</h2>
+<p>GEX는 한 기초자산의 모든 행사가와 만기에 걸쳐 딜러가 보유한 총 감마를 추정하려는 것입니다. 흔한 방법은 다음과 같습니다.</p>
+<ol>
+<li>상장된 모든 옵션의 미결제약정을 가져옵니다.</li>
+<li>가격 결정 모형으로 각 옵션의 감마를 계산합니다.</li>
+<li>딜러가 어느 쪽에 있는지 가정합니다. 가장 흔한 가정은 딜러가 고객이 판 콜을 매수하고, 고객이 산 풋을 매도하고 있다는 것입니다.</li>
+<li>감마에 미결제약정과 계약 승수를 곱해 합산하며, 보통 1% 움직임당 헤지 금액(달러)으로 표시합니다.</li>
+</ol>
+<h3 id="gex">계산 예시: GEX 수치 읽기</h3>
+<p>어떤 추정치가 $100짜리 주식의 딜러들이 $1 움직임당 20,000주에 해당하는 순 숏 감마를 갖고 있다고 말한다고 합시다. 주가가 $2 떨어지면 딜러들의 순 델타는 20,000 x 2 = 40,000주 늘어납니다. 중립을 유지하려면 하락장에서 약 40,000주를 팔아야 합니다. 같은 추정치가 딜러들이 $1당 20,000주의 롱 감마를 갖고 있다고 보여 줬다면, 주가가 떨어질 때 약 40,000주를 사야 합니다.</p>
+<p>많은 GEX 도구는 추정 딜러 감마가 양에서 음으로 바뀌는 가격, 즉 &quot;감마 플립&quot; 수준도 표시합니다. 일부 트레이더는 그 수준 위에서는 더 차분한 거래를, 아래에서는 더 변동성 큰 거래를 예상합니다.</p>
+<h2 id="gex">GEX의 한계</h2>
+<p>GEX 수치는 널리 공유되지만, 불확실한 입력값 위에 만들어집니다.</p>
+<ul>
+<li><strong>미결제약정은 누가 롱이고 누가 숏인지 보여 주지 않습니다.</strong> 공개 데이터는 미결제 계약이 몇 개인지 알려 줄 뿐, 딜러가 샀는지 고객이 샀는지는 알려 주지 않습니다. 표준 가정은 단순화이며, 특정 행사가나 기간에는 틀릴 수 있습니다.</li>
+<li><strong>미결제약정은 하루에 한 번 갱신됩니다.</strong> <a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a>을 포함한 당일 거래는 다음 날까지 미결제약정에 나타나지 않습니다.</li>
+<li><strong>딜러는 여러 방식으로 헤지합니다.</strong> 기초자산뿐 아니라 다른 옵션, 선물, 관련 자산으로 감마를 상쇄할 수 있습니다.</li>
+<li><strong>감마만이 동인은 아닙니다.</strong> 펀더멘털 뉴스, 매크로 자금 흐름, 대량 주문이 헤지를 쉽게 압도할 수 있습니다.</li>
+<li><strong>제공업체마다 숫자가 다릅니다.</strong> 방법이 제각각이고, 어느 것도 딜러의 실제 장부로 검증되지 않았습니다.</li>
+</ul>
+<p>GEX는 유용한 관점이 될 수 있지만, 검증된 실적을 가진 예측 도구는 아니며 그 자체로 믿을 만한 신호로 취급해서는 안 됩니다.</p>
+<h2 id="opex">OPEX 효과</h2>
+<p>흔히 OPEX라고 부르는 월물 옵션 만기는 미국 표준 주식·지수옵션의 경우 매월 셋째 금요일입니다. 대량의 미결제약정이 한꺼번에 만기되므로 딜러의 헤지 수요가 급격히 바뀔 수 있습니다.</p>
+<ul>
+<li><strong>피닝:</strong> 한 행사가 근처에 미결제약정이 크게 쌓여 있으면, 헤지 흐름이 만기까지 가격을 그 행사가 근처에 붙잡아 두는 경향이 있을 수 있습니다. 니(Ni), 피어슨(Pearson), 포테시먼(Poteshman)의 연구를 비롯한 학계 연구는 옵션이 상장된 주식이 만기일에 우연으로 설명되는 것보다 더 자주 행사가 근처에 모인다는 점을 보여 주었습니다.</li>
+<li><strong>감마 소멸(gamma roll-off):</strong> 대규모 만기 뒤에는 움직임을 완화하거나 증폭하던 감마가 사라지며, 일부 트레이더는 그 뒤 며칠 동안 변동성이 바뀔 것으로 예상합니다.</li>
+</ul>
+<p>일간 만기가 늘어나면서 이런 효과의 일부가 한 주 전체로 분산되었습니다. 만기 구조는 <a href="/ko/encyclopedia/options/options-expiration-and-assignment/">옵션 만기와 배정</a>에서 다룹니다.</p>
+<h2 id="section-10">반나와 참, 간단히</h2>
+<p>두 가지 2차 그릭스는 가격이 전혀 움직이지 않아도 헤지 흐름에 영향을 줍니다.</p>
+<ul>
+<li><strong>반나</strong>(vanna)는 내재변동성이 변할 때 델타가 어떻게 변하는지를 측정합니다. 내재변동성이 떨어지면 외가격 옵션의 델타가 줄어들어 딜러는 헤지를 조정합니다. 딜러가 지수 풋을 매도하고 선물 공매도로 헤지하고 있다는 흔한 가정 아래에서는, 내재변동성 하락이 딜러가 그 헤지 일부를 되사게 만들어 가격을 지지합니다. <a href="/ko/encyclopedia/options/implied-volatility/">내재변동성</a>을 참고하십시오.</li>
+<li><strong>참</strong>(charm)은 시간이 지나면서 델타가 어떻게 변하는지를 측정합니다. 만기가 다가오면 외가격 옵션의 델타가 줄어들고, 딜러는 그에 대한 헤지를 풉니다. 분석가들이 OPEX 전 며칠 동안의 헤지 흐름을 이야기하는 이유 가운데 하나입니다.</li>
+</ul>
+<p>두 효과 모두 GEX 자체와 마찬가지로 딜러 포지션에 대한 불확실한 가정에 의존합니다.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>GEX 수준을 지지와 저항으로 취급한다.</strong> 호가창에 쌓인 주문이 아니라 모형 추정치입니다.</li>
+<li><strong>딜러가 항상 숏 감마라고 가정한다.</strong> 딜러 포지션은 종목, 행사가, 시기에 따라 다릅니다.</li>
+<li><strong>당일 거래를 무시한다.</strong> 단기 만기 옵션이 지배하는 시장에서는 가장 중요한 흐름이 미결제약정에 나타나지 않을 수 있습니다.</li>
+<li><strong>움직임을 헤지 탓으로 과하게 돌린다.</strong> 대개 뉴스와 매크로 흐름이 더 중요합니다.</li>
+<li><strong>모든 OPEX를 똑같이 거래한다.</strong> 만기 효과는 일관되지 않으며, 얼마나 많은 미결제약정이 어디에서 만기되는지에 따라 달라집니다.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-13">음의 감마는 시장에 무엇을 뜻합니까?</h3>
+<p>딜러가 순 숏 감마로 추정되면, 헤지를 위해 가격이 오를 때 사고 내릴 때 팔아야 합니다. 이는 움직임을 증폭하고 변동성을 키울 수 있지만, 다른 흐름이 이를 압도할 수도 있습니다.</p>
+<h3 id="section-14">감마 스퀴즈란 무엇입니까?</h3>
+<p>감마 스퀴즈는 대량 콜 매수가 그 콜을 판 딜러들로 하여금 가격이 오를수록 기초자산을 사게 만들고, 그 매수가 가격을 더 올려 또다시 매수를 요구할 때 일어납니다. 공매도가 많은 종목에서는 숏 스퀴즈와 겹칠 수 있습니다.</p>
+<h3 id="gex">GEX는 얼마나 정확합니까?</h3>
+<p>GEX는 딜러가 각 옵션에서 롱인지 숏인지에 대한 가정에 의존하는 추정치이며, 하루에 한 번만 갱신되는 미결제약정에 기댑니다. 제공업체마다 숫자가 다른 경우가 많습니다.</p>
+<h3 id="section-16">왜 만기 때 주가가 행사가에 붙습니까?</h3>
+<p>한 행사가 근처에 미결제약정이 크게 쌓여 있으면, 만기가 다가올수록 딜러 헤지가 가격을 그 근처에 붙잡아 두는 경향이 있을 수 있습니다. 연구에 따르면 옵션이 상장된 주식은 만기일에 우연으로 설명되는 것보다 더 자주 행사가 근처에 모입니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/options/options-greeks/"><div class="k">옵션 트레이딩</div><b>옵션 그릭스</b><span>델타, 감마, 세타, 베가, 로가 무엇을 측정하는지 계산 예시로 설명하고, 시간과 머니니스에 따른 변화와 포지션 그릭스 읽는 법을 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/options/0dte-options/"><div class="k">옵션 트레이딩</div><b>0DTE 옵션</b><span>0DTE 옵션의 정의, SPX·SPY·QQQ 당일 만기 옵션이 급성장한 배경, 극단적인 감마와 시간가치 감소, 주요 전략과 위험을 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/market-making/"><div class="k">알고리즘·퀀트 트레이딩</div><b>마켓 메이킹</b><span>마켓 메이킹 교과서 가이드: 양방향 호가, 스프레드 수익, 재고 스큐, 역선택, 대기열 순번, 리베이트와 Avellaneda-Stoikov.</span></a><a class="card" href="/ko/encyclopedia/basics/market-participants/"><div class="k">트레이딩 기초</div><b>시장 참여자</b><span>개인 트레이더, 기관, 헤지펀드, 마켓 메이커, HFT, 헤저, 중앙은행, 고래가 각자 무엇을 원하며 내가 실제로 누구와 거래하는지 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/options/implied-volatility/"><div class="k">옵션 트레이딩</div><b>내재 변동성</b><span>내재변동성의 정의와 역사적 변동성과의 차이, IV 랭크와 IV 백분위, IV 크러시, 변동성 스큐, 예상 변동폭 공식을 예시와 함께 설명합니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/options/options-expiration-and-assignment/"><small>← 이전 글</small>만기와 배정</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

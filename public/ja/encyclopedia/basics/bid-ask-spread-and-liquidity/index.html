@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>スプレッドと流動性とは？スリッページと往復コストを解説 | PnL Profit</title>
+<meta name="description" content="ビッド・アスク・スプレッド・仲値の意味、流動性とスリッページ、マーケットインパクトの仕組み、スプレッドが広がる理由、往復コストの計算方法を解説します。">
+<meta name="keywords" content="スプレッド とは, ビッド アスク 違い, 流動性 とは 株, スリッページ とは, マーケットインパクト">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="スプレッドと流動性とは？スリッページと往復コストを解説 | PnL Profit">
+<meta property="og:description" content="ビッド・アスク・スプレッド・仲値の意味、流動性とスリッページ、マーケットインパクトの仕組み、スプレッドが広がる理由、往復コストの計算方法を解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="スプレッドと流動性とは？スリッページと往復コストを解説 | PnL Profit">
+<meta name="twitter:description" content="ビッド・アスク・スプレッド・仲値の意味、流動性とスリッページ、マーケットインパクトの仕組み、スプレッドが広がる理由、往復コストの計算方法を解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"スプレッドと流動性とは？スリッページと往復コストを解説","description":"ビッド・アスク・スプレッド・仲値の意味、流動性とスリッページ、マーケットインパクトの仕組み、スプレッドが広がる理由、往復コストの計算方法を解説します。","keywords":"スプレッド とは, ビッド アスク 違い, 流動性 とは 株, スリッページ とは, マーケットインパクト","articleSection":"トレードの基礎","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"トレードの基礎","item":"https://pnlpro.fit/ja/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"スプレッドと流動性","item":"https://pnlpro.fit/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"良いスプレッドの目安はどのくらいですか？","acceptedAnswer":{"@type":"Answer","text":"市場によって異なります。主要通貨ペアや最大級の銘柄は、スプレッドが数百分の1パーセント程度で取引されることが多い一方、小型株、流動性の低いトークン、ニッチなコントラクトでは数パーセントに達することもあります。1回の取引で見込む利益とスプレッドを比べてみてください。"}},{"@type":"Question","name":"スプレッドのパーセンテージはどう計算しますか？","acceptedAnswer":{"@type":"Answer","text":"アスクからビッドを引き、仲値で割って100を掛けます。ビッドが$25.00、アスクが$25.05なら、0.05 / 25.025 x 100で、約0.20%になります。"}},{"@type":"Question","name":"スリッページはなぜ起こるのですか？","acceptedAnswer":{"@type":"Answer","text":"スリッページは、注文が想定より不利な価格で約定したときに発生します。主な原因は、注文が最良気配の数量より大きいこと、注文が届く前に価格が動いたこと、あるいは相場が窓を開けて逆指値の水準を飛び越えたことです。"}},{"@type":"Question","name":"なぜ夜間はスプレッドが広がるのですか？","acceptedAnswer":{"@type":"Answer","text":"メインセッション以外の時間帯は、活動しているトレーダーやマーケットメイカーが少ないため、狭い気配を出そうとする競争が弱まり、1つひとつの気配が抱えるリスクも大きくなります。スプレッドはニュースの前後やFXの日次ロールオーバーの時間帯にも広がりやすくなります。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>トレードの基礎</h3><ul><li><a href="/ja/encyclopedia/basics/what-is-trading/">トレードとは</a></li><li><a href="/ja/encyclopedia/basics/financial-markets-overview/">金融市場の全体像</a></li><li><a href="/ja/encyclopedia/basics/trading-styles/">トレードスタイル</a></li><li><a href="/ja/encyclopedia/basics/order-types/">注文の種類</a></li><li><a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板と市場の厚み</a></li><li><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/" class="on" aria-current="page">スプレッドと流動性</a></li><li><a href="/ja/encyclopedia/basics/leverage-and-margin/">レバレッジと証拠金</a></li><li><a href="/ja/encyclopedia/basics/long-and-short-positions/">ロングとショート</a></li><li><a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コストと手数料</a></li><li><a href="/ja/encyclopedia/basics/brokers-and-exchanges/">ブローカーと取引所</a></li><li><a href="/ja/encyclopedia/basics/market-participants/">市場参加者</a></li><li><a href="/ja/encyclopedia/basics/market-hours-and-sessions/">取引時間とセッション</a></li><li><a href="/ja/encyclopedia/basics/how-to-start-trading/">トレードの始め方</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/" class="on">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/basics/">トレードの基礎</a></div>
+<h1 class="title">ビッド・アスク・スプレッドと流動性</h1>
+<div class="meta">約7分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>トレードの基礎の他の記事</summary><ul><li><a href="/ja/encyclopedia/basics/what-is-trading/">トレードとは</a></li><li><a href="/ja/encyclopedia/basics/financial-markets-overview/">金融市場の全体像</a></li><li><a href="/ja/encyclopedia/basics/trading-styles/">トレードスタイル</a></li><li><a href="/ja/encyclopedia/basics/order-types/">注文の種類</a></li><li><a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板と市場の厚み</a></li><li><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/" class="on" aria-current="page">スプレッドと流動性</a></li><li><a href="/ja/encyclopedia/basics/leverage-and-margin/">レバレッジと証拠金</a></li><li><a href="/ja/encyclopedia/basics/long-and-short-positions/">ロングとショート</a></li><li><a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コストと手数料</a></li><li><a href="/ja/encyclopedia/basics/brokers-and-exchanges/">ブローカーと取引所</a></li><li><a href="/ja/encyclopedia/basics/market-participants/">市場参加者</a></li><li><a href="/ja/encyclopedia/basics/market-hours-and-sessions/">取引時間とセッション</a></li><li><a href="/ja/encyclopedia/basics/how-to-start-trading/">トレードの始め方</a></li></ul></details>
+<article><p>ビッド・アスク・スプレッド（bid-ask spread）とは、買い手が支払ってもよい最も高い価格（ビッド、買い気配）と、売り手が受け入れる最も安い価格（アスク、売り気配）の差のことです。流動性とは、ある資産を価格を大きく動かさずに、まとまった量で売買できる度合いを指します。この2つは取引コストの大部分を左右し、手数料より大きくなることも珍しくありません。特に短期トレーダーにとっては、スプレッドとスリッページを理解しておくことが、その戦略でそもそも利益が出せるのかを判断するうえで欠かせません。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>アスクで買ってビッドで売る以上、どの往復取引もスプレッド分の損失からスタートします。</li>
+<li>スプレッドはセント、pips、ティック、あるいは仲値に対するパーセンテージで表され、パーセンテージで見ると異なる市場同士を比較できます。</li>
+<li>流動性にはいくつかの側面があります。スプレッドの狭さ、各価格帯の板の厚さ、そして大口取引の後にどれだけ早く回復するかです。</li>
+<li>注文が大きいとき、市場が薄いとき、価格が急変しているときは、スプレッドに加えてスリッページとマーケットインパクトのコストが上乗せされます。</li>
+<li>スプレッドはニュースの前後、取引の開始時と終了時、流動性の低い時間帯、そして市場が混乱しているときに広がります。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">ビッド、アスク、スプレッド、仲値</a></li><li><a href="#section-3">スプレッドの測り方</a></li><li><a href="#section-4">計算例：往復取引のコスト</a></li><li><a href="#section-5">流動性</a></li><li><a href="#section-6">スリッページとマーケットインパクト</a></li><li><a href="#section-7">スプレッドが広がる理由</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">ビッド、アスク、スプレッド、仲値</h2>
+<ul>
+<li><strong>ビッド（買い気配）：</strong> 現時点で誰かが買ってもよいと提示している最良の価格です。すぐに売る場合は、ビッドで売ることになります。</li>
+<li><strong>アスク（オファー、売り気配）：</strong> 現時点で誰かが売ってもよいと提示している最良の価格です。すぐに買う場合は、アスクで買うことになります。</li>
+<li><strong>スプレッド：</strong> アスクからビッドを引いた値です。</li>
+<li><strong>仲値（ミッドプライス）：</strong> 両者の中間点で、(bid + ask) / 2 で求めます。チャートや気配値には仲値や直近の約定価格が表示されることが多いものの、通常は仲値で取引することはできません。</li>
+</ul>
+<p>これらの価格は、取引所の<a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板（オーダーブック）</a>から、あるいはFXのような店頭（OTC）市場ではディーラーの提示レートから生まれます。</p>
+<p>スプレッドは流動性を提供する側、典型的にはマーケットメイカーへの対価です。マーケットメイカーは常にビッドで買い、アスクで売る用意をしています。平均するとスプレッド分を稼ぎますが、抱えている在庫に対して価格が不利に動くリスクを負っています。詳しくは<a href="/ja/encyclopedia/basics/market-participants/">市場参加者</a>をご覧ください。</p>
+<h2 id="section-3">スプレッドの測り方</h2>
+<p>スプレッドの表示単位は市場によって異なるため、仲値に対するパーセンテージやベーシスポイント（1ベーシスポイントは0.01%）に換算すると比較しやすくなります。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>市場の例</th>
+<th>ビッド</th>
+<th>アスク</th>
+<th>スプレッド</th>
+<th>仲値に対するスプレッドの割合</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大型株</td>
+<td>$25.00</td>
+<td>$25.05</td>
+<td>$0.05</td>
+<td>約0.20%</td>
+</tr>
+<tr>
+<td>小型株</td>
+<td>$2.00</td>
+<td>$2.10</td>
+<td>$0.10</td>
+<td>約4.9%</td>
+</tr>
+<tr>
+<td>EUR/USD</td>
+<td>1.08500</td>
+<td>1.08510</td>
+<td>1 pip</td>
+<td>約0.009%</td>
+</tr>
+<tr>
+<td>予測市場のコントラクト</td>
+<td>$0.42</td>
+<td>$0.45</td>
+<td>$0.03</td>
+<td>約6.9%</td>
+</tr>
+</tbody></table></div>
+<p>計算式：0.05 / 25.025 = 0.20%、0.10 / 2.05 = 4.88%、0.0001 / 1.08505 = 0.0092%、0.03 / 0.435 = 6.90%。数値は説明用であり現在の気配値ではありませんが、傾向としては典型的です。主要通貨や大型株は低コストで取引できる一方、小型株、流動性の低いトークン、ニッチなコントラクトでは往復で数パーセントのコストがかかることがあります。</p>
+<h2 id="section-4">計算例：往復取引のコスト</h2>
+<p>あるトレーダーが上の表の大型株を1,000株買い、数分後に価格が変わらないまま売却したとします。</p>
+<ul>
+<li>アスクで買う：1,000 x $25.05 = $25,050</li>
+<li>ビッドで売る：1,000 x $25.00 = $25,000</li>
+<li>スプレッドによる損失：$50</li>
+<li>片道$1の手数料を加えると、合計コストは$52</li>
+</ul>
+<p>これはポジション金額の0.21%にあたり、相場がまったく動かなかった取引で支払ったコストです。これを1日10回繰り返すトレーダーは、1日あたり$520を支払うことになります。250営業日では、一度に$25,000を回転させるポジションに対して、年間$130,000のコストになります。</p>
+<p>同じ計算はFXにも当てはまります。EUR/USDの1スタンダードロット（100,000ユーロ）は1 pipあたり$10の価値があるため、1 pipのスプレッドは往復で$10のコストとなり、これに手数料が加わります。暗号資産や予測市場ではスプレッドがさらに広いことが多く、そのうえ取引所手数料もかかります。コストの全体像は<a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コストと手数料</a>にまとめています。</p>
+<h2 id="section-5">流動性</h2>
+<p>流動性の高い市場では、直近の価格に近い値段で、ある程度の量を素早く取引できます。トレーダーは流動性を次の3つの側面で捉えるのが一般的です。</p>
+<ul>
+<li><strong>タイトネス（狭さ）：</strong> スプレッドがどれだけ狭いか。</li>
+<li><strong>デプス（厚み）：</strong> 最良気配とその近辺にどれだけの数量があるか。</li>
+<li><strong>レジリエンス（回復力）：</strong> 大口取引で流動性が消費された後、板がどれだけ早く埋まり直すか。</li>
+</ul>
+<p>スプレッドは狭いのに板は薄い、という市場もあります。たとえばスプレッドは1セントでも、売り買いそれぞれに100株しか並んでいないケースです。10,000株を売買する必要があるトレーダーにとっては、表示されているスプレッドよりも板の厚みのほうが重要です。</p>
+<p>流動性は時間によっても変わります。同じ資産でも、メインセッションの寄り付きでは非常に流動性が高く、夜間や祝日、パニック時には極端に薄くなることがあります。</p>
+<h2 id="section-6">スリッページとマーケットインパクト</h2>
+<p><strong>スリッページ</strong>とは、想定していた価格と実際に約定した価格の差のことです。主な原因は3つあります。</p>
+<ol>
+<li><strong>板を食う。</strong> 最良気配の数量を上回る注文は、複数の価格帯にまたがって約定します。<a href="/ja/encyclopedia/basics/order-types/">注文の種類</a>の計算例をご覧ください。</li>
+<li><strong>レイテンシ（遅延）。</strong> クリックしてから注文が届くまでの間に価格が動きます。動きの速い相場では特に顕著です。</li>
+<li><strong>窓（ギャップ）。</strong> 夜間や週末をまたいで窓を開けた後に発動した逆指値は、最初に取引可能な価格で約定します。</li>
+</ol>
+<p><strong>マーケットインパクト</strong>とは、自分の売買そのものが価格に与える、より広い意味での影響です。大口注文は、分割して出したとしても需要の存在を知らせることになり、価格を自分にとって不利な方向へ押しやることがあります。プロのトレーダーは<a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a>を使ってこれを抑えます。流動性の高い市場での個人投資家サイズの取引であればインパクトは小さいものの、小型株、時価総額の小さいトークン、薄いイベントコントラクトでは、ほどほどの注文でも価格が目に見えて動くことがあります。</p>
+<h2 id="section-7">スプレッドが広がる理由</h2>
+<p>マーケットメイカーは、気配を出すリスクが高まるとスプレッドを広げます。よくある原因は次のとおりです。</p>
+<ul>
+<li><strong>予定されたニュース。</strong> 中央銀行の政策決定や重要な経済指標の発表前後には、ディーラーが気配を引っ込めたり広げたりします。<a href="/ja/encyclopedia/fundamental-analysis/news-trading-and-economic-calendar/">ニューストレードと経済指標カレンダー</a>をご覧ください。</li>
+<li><strong>流動性の低い時間帯。</strong> 夜間セッション、FXの日次ロールオーバー、暗号資産の週末は参加者が少なくなります。<a href="/ja/encyclopedia/basics/market-hours-and-sessions/">市場の取引時間とセッション</a>をご覧ください。</li>
+<li><strong>寄り付きと引け。</strong> セッション開始直後の数分間は、価格が探られている最中のためスプレッドが広がりがちです。</li>
+<li><strong>ボラティリティと市場の混乱。</strong> 価格が激しく上下すると在庫を抱えるリスクが急増するため、気配が広がったり消えたりします。</li>
+<li><strong>関心の低さ。</strong> 知名度の低い銘柄、新しいトークン、ニッチなコントラクトは、そもそも気配を出す参加者が少ないのです。</li>
+</ul>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>ビッドとアスクではなくチャート上の価格を見てしまう。</strong> 多くのチャートは仲値やビッドを描いているため、実際に支払う価格とは異なることがあります。</li>
+<li><strong>手数料ゼロだからとスプレッドのコストを無視する。</strong> 手数料無料の取引でも、スプレッド分のコストはかかります。</li>
+<li><strong>薄い市場で成行注文を使う。</strong> 広いスプレッドと薄い板が重なると、大きなスリッページが生じることがあります。</li>
+<li><strong>スプレッドの拡大を考慮せずにニュース前後で取引する。</strong> 一時的なスプレッドの急拡大で逆指値が発動することがあります。</li>
+<li><strong>出来高だけで流動性を判断する。</strong> 一部の暗号資産取引所では、公表される出来高に仮装売買（ウォッシュトレード）が含まれていることがあり、出来高は今この瞬間に利用できる板の厚みを教えてくれません。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-10">良いスプレッドの目安はどのくらいですか？</h3>
+<p>市場によって異なります。主要通貨ペアや最大級の銘柄は、スプレッドが数百分の1パーセント程度で取引されることが多い一方、小型株、流動性の低いトークン、ニッチなコントラクトでは数パーセントに達することもあります。1回の取引で見込む利益とスプレッドを比べてみてください。</p>
+<h3 id="section-11">スプレッドのパーセンテージはどう計算しますか？</h3>
+<p>アスクからビッドを引き、仲値で割って100を掛けます。ビッドが$25.00、アスクが$25.05なら、0.05 / 25.025 x 100で、約0.20%になります。</p>
+<h3 id="section-12">スリッページはなぜ起こるのですか？</h3>
+<p>スリッページは、注文が想定より不利な価格で約定したときに発生します。主な原因は、注文が最良気配の数量より大きいこと、注文が届く前に価格が動いたこと、あるいは相場が窓を開けて逆指値の水準を飛び越えたことです。</p>
+<h3 id="section-13">なぜ夜間はスプレッドが広がるのですか？</h3>
+<p>メインセッション以外の時間帯は、活動しているトレーダーやマーケットメイカーが少ないため、狭い気配を出そうとする競争が弱まり、1つひとつの気配が抱えるリスクも大きくなります。スプレッドはニュースの前後やFXの日次ロールオーバーの時間帯にも広がりやすくなります。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/basics/order-book-and-market-depth/"><div class="k">トレードの基礎</div><b>板と市場の厚み</b><span>板とマッチングエンジンの仕組み、価格優先・時間優先、Level 1とLevel 2の違い、厚みの読み方、見せ板、ディーラー市場やAMMとの比較を解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/order-types/"><div class="k">トレードの基礎</div><b>注文の種類</b><span>成行、指値、逆指値、ストップリミット、トレーリングストップ、OCO、執行条件まで、各注文方法の仕組みと使いどころ、損につながる失敗を解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/trading-costs-and-fees/"><div class="k">トレードの基礎</div><b>取引コストと手数料</b><span>手数料、スプレッド、メイカー・テイカー手数料、スワップ、ファンディング、貸株料、PFOF、ガス代、スリッページ、税金まで、取引コストを計算例とともに解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/market-hours-and-sessions/"><div class="k">トレードの基礎</div><b>取引時間とセッション</b><span>各市場の取引時間を解説。証券取引所の立会時間、時間外取引、FXの各セッションと重なる時間帯、先物の休止時間、24/7の暗号資産、週末の窓、祝日、夏時間まで。</span></a><a class="card" href="/ja/encyclopedia/basics/market-participants/"><div class="k">トレードの基礎</div><b>市場参加者</b><span>個人トレーダー、機関投資家、ヘッジファンド、マーケットメイカー、HFT業者、ヘッジャー、中央銀行、クジラ。それぞれの目的と、取引相手が誰なのかを解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/basics/order-book-and-market-depth/"><small>← 前へ</small>板と市場の厚み</a><a class="next" href="/ja/encyclopedia/basics/leverage-and-margin/"><small>次へ →</small>レバレッジと証拠金</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

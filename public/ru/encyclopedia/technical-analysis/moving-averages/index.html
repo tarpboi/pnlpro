@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Скользящие средние: SMA, EMA, золотой крест и запаздывание</title>
+<meta name="description" content="Как рассчитываются простая, экспоненциальная и взвешенная скользящие средние, что значат периоды 20, 50 и 200, золотой и мёртвый крест и цена запаздывания.">
+<meta name="keywords" content="скользящая средняя, SMA и EMA разница, 200-дневная скользящая средняя, золотой крест, крест смерти, пересечение скользящих средних">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/moving-averages/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Энциклопедия трейдинга">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Скользящие средние: SMA, EMA, золотой крест и запаздывание">
+<meta property="og:description" content="Как рассчитываются простая, экспоненциальная и взвешенная скользящие средние, что значат периоды 20, 50 и 200, золотой и мёртвый крест и цена запаздывания.">
+<meta property="og:url" content="https://pnlpro.fit/ru/encyclopedia/technical-analysis/moving-averages/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Скользящие средние: SMA, EMA, золотой крест и запаздывание">
+<meta name="twitter:description" content="Как рассчитываются простая, экспоненциальная и взвешенная скользящие средние, что значат периоды 20, 50 и 200, золотой и мёртвый крест и цена запаздывания.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Скользящие средние: SMA, EMA, золотой крест и запаздывание","description":"Как рассчитываются простая, экспоненциальная и взвешенная скользящие средние, что значат периоды 20, 50 и 200, золотой и мёртвый крест и цена запаздывания.","keywords":"скользящая средняя, SMA и EMA разница, 200-дневная скользящая средняя, золотой крест, крест смерти, пересечение скользящих средних","articleSection":"Технический анализ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/technical-analysis/moving-averages/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Технический анализ","item":"https://pnlpro.fit/ru/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"Скользящие средние","item":"https://pnlpro.fit/ru/encyclopedia/technical-analysis/moving-averages/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Чем SMA отличается от EMA?","acceptedAnswer":{"@type":"Answer","text":"SMA придаёт всем периодам в своём окне одинаковый вес, а EMA даёт больший вес самым свежим ценам. EMA быстрее реагирует на резкие изменения, но и чувствительнее к разовым всплескам."}},{"@type":"Question","name":"Какая скользящая средняя лучше для дейтрейдинга?","acceptedAnswer":{"@type":"Answer","text":"Лучшей настройки нет. Дейтрейдеры часто используют короткие EMA, например с периодом 9 или 20, на графиках от 1 до 15 минут вместе с внутридневными ориентирами вроде VWAP, но выбор нужно проверять на том рынке и таймфрейме, на которых вы торгуете."}},{"@type":"Question","name":"Что такое золотой крест?","acceptedAnswer":{"@type":"Answer","text":"Золотой крест возникает, когда 50-дневная скользящая средняя пересекает 200-дневную снизу вверх. Его широко подают как бычий признак, но это медленный сигнал, который часто приходит, когда значительная часть движения уже позади."}},{"@type":"Question","name":"Почему 200-дневная скользящая средняя так важна?","acceptedAnswer":{"@type":"Answer","text":"Это самая отслеживаемая линия долгосрочного тренда, особенно для фондовых индексов, поэтому многие трейдеры и СМИ следят за тем, находится цена выше или ниже неё. Такое внимание может вызывать реакции около неё, но это соглашение, а не закон."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
+  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/moving-averages/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/moving-averages/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/moving-averages/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/technical-analysis/moving-averages/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/moving-averages/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/moving-averages/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/moving-averages/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/moving-averages/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/moving-averages/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Технический анализ</h3><ul><li><a href="/ru/encyclopedia/technical-analysis/technical-analysis-intro/">Введение в теханализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-charts/">Как читать свечи</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-patterns/">Свечные паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/support-and-resistance/">Поддержка и сопротивление</a></li><li><a href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/">Тренды и структура рынка</a></li><li><a href="/ru/encyclopedia/technical-analysis/chart-patterns/">Графические паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/moving-averages/" class="on" aria-current="page">Скользящие средние</a></li><li><a href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/ru/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ru/encyclopedia/technical-analysis/bollinger-bands/">Полосы Боллинджера</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-analysis/">Анализ объема</a></li><li><a href="/ru/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/ru/encyclopedia/technical-analysis/fibonacci-retracement/">Инструменты Фибоначчи</a></li><li><a href="/ru/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR и волатильность</a></li><li><a href="/ru/encyclopedia/technical-analysis/multi-timeframe-analysis/">Мультитаймфреймовый анализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/price-action-trading/">Торговля по прайс-экшен</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Профиль объема и Market Profile</a></li><li><a href="/ru/encyclopedia/technical-analysis/order-flow-trading/">Торговля по ордерфлоу</a></li><li><a href="/ru/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/ru/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Волны Эллиотта и Вайкофф</a></li></ul><h3>Все темы</h3><ul><li><a href="/ru/encyclopedia/basics/">📘 Основы трейдинга</a></li><li><a href="/ru/encyclopedia/risk-management/">🛡️ Риск- и мани-менеджмент</a></li><li><a href="/ru/encyclopedia/psychology/">🧠 Психология трейдинга</a></li><li><a href="/ru/encyclopedia/technical-analysis/" class="on">📈 Технический анализ</a></li><li><a href="/ru/encyclopedia/fundamental-analysis/">🏦 Фундаментальный и макроанализ</a></li><li><a href="/ru/encyclopedia/stocks/">🏛️ Торговля акциями</a></li><li><a href="/ru/encyclopedia/forex/">💱 Торговля на форекс</a></li><li><a href="/ru/encyclopedia/futures/">📊 Торговля фьючерсами</a></li><li><a href="/ru/encyclopedia/options/">🎯 Торговля опционами</a></li><li><a href="/ru/encyclopedia/crypto/">₿ Торговля криптовалютой</a></li><li><a href="/ru/encyclopedia/meme-coins/">🐸 Торговля мемкоинами</a></li><li><a href="/ru/encyclopedia/prediction-markets/">🔮 Рынки предсказаний</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/">🤖 Алгоритмическая и квант-торговля</a></li><li><a href="/ru/encyclopedia/other-markets/">🛢️ Сырье, облигации и другие рынки</a></li><li><a href="/ru/encyclopedia/trading-business/">⚖️ Проп-фирмы, налоги, регулирование и мошенничество</a></li><li><a href="/ru/encyclopedia/reference/">📖 Справочник</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ru/encyclopedia/">Энциклопедия</a> › <a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a></div>
+<h1 class="title">Скользящие средние</h1>
+<div class="meta">7 мин чтения · Обновлено 23 нояб. 2026 г.</div>
+<details class="side-m"><summary>Ещё в разделе «Технический анализ»</summary><ul><li><a href="/ru/encyclopedia/technical-analysis/technical-analysis-intro/">Введение в теханализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-charts/">Как читать свечи</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-patterns/">Свечные паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/support-and-resistance/">Поддержка и сопротивление</a></li><li><a href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/">Тренды и структура рынка</a></li><li><a href="/ru/encyclopedia/technical-analysis/chart-patterns/">Графические паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/moving-averages/" class="on" aria-current="page">Скользящие средние</a></li><li><a href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/ru/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ru/encyclopedia/technical-analysis/bollinger-bands/">Полосы Боллинджера</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-analysis/">Анализ объема</a></li><li><a href="/ru/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/ru/encyclopedia/technical-analysis/fibonacci-retracement/">Инструменты Фибоначчи</a></li><li><a href="/ru/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR и волатильность</a></li><li><a href="/ru/encyclopedia/technical-analysis/multi-timeframe-analysis/">Мультитаймфреймовый анализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/price-action-trading/">Торговля по прайс-экшен</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Профиль объема и Market Profile</a></li><li><a href="/ru/encyclopedia/technical-analysis/order-flow-trading/">Торговля по ордерфлоу</a></li><li><a href="/ru/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/ru/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Волны Эллиотта и Вайкофф</a></li></ul></details>
+<article><p>Скользящая средняя (moving average, MA) — это средняя цена за заданное число последних периодов, которая пересчитывается с каждым новым баром и поэтому «скользит» по графику. Она сглаживает краткосрочный шум и помогает увидеть направление тренда. Скользящие средние — самый популярный технический индикатор и строительный блок для многих других, включая MACD и полосы Боллинджера. Их главное ограничение — запаздывание: поскольку они усредняют прошлые цены, они всегда реагируют после того, как цена уже сдвинулась.</p>
+<div class="takeaways"><h2 id="key-takeaways">Ключевые выводы</h2>
+<ul>
+<li>Простая скользящая средняя (SMA) придаёт всем периодам одинаковый вес; экспоненциальная (EMA) и взвешенная (WMA) дают больший вес недавним ценам.</li>
+<li>Распространённые периоды — 20 (краткосрочный), 50 (среднесрочный) и 200 (долгосрочный), и их популярность отчасти поддерживает сама себя.</li>
+<li>Золотой крест (50 выше 200) и мёртвый крест, или крест смерти (50 ниже 200), широко освещаются, но это медленные сигналы, которые дают «пилу» на боковом рынке.</li>
+<li>Любая скользящая средняя меняет отзывчивость на гладкость; настройки, которая была бы одновременно быстрой и свободной от ложных сигналов, не существует.</li>
+<li>Правила на основе скользящих средних — ключевая часть систематического следования за трендом, которое исторически работало на некоторых рынках с долгими убыточными периодами.</li>
+</ul></div><details class="toc"><summary>Содержание</summary><ol><li><a href="#section-2">Виды скользящих средних</a></li><li><a href="#sma-ema-wma">Пример: SMA, EMA и WMA</a></li><li><a href="#section-7">Распространённые периоды и их применение</a></li><li><a href="#section-8">Как пользоваться скользящими средними</a></li><li><a href="#section-13">Цена запаздывания</a></li><li><a href="#section-14">Что говорят доказательства</a></li><li><a href="#common-mistakes">Частые ошибки</a></li></ol></details>
+<h2 id="section-2">Виды скользящих средних</h2>
+<h3 id="sma">Простая скользящая средняя (SMA)</h3>
+<p>SMA складывает N последних цен закрытия и делит на N. 20-дневная SMA — это средняя цена закрытия за последние 20 торговых дней. Когда добавляется новый день, самый старый выпадает.</p>
+<p>Поскольку все дни учитываются одинаково, SMA может прыгнуть, когда из окна выпадает крупное движение, даже если сегодняшняя цена никуда не сдвинулась. Это иногда называют эффектом выпадения (drop-off effect).</p>
+<h3 id="ema">Экспоненциальная скользящая средняя (EMA)</h3>
+<p>EMA придаёт наибольший вес последней цене и постепенно всё меньший — более старым, без жёсткой отсечки. Каждое новое значение равно:</p>
+<ul>
+<li>EMA сегодня = EMA вчера + k x (закрытие сегодня - EMA вчера)</li>
+<li>где k = 2 / (N + 1)</li>
+</ul>
+<p>Для 20-периодной EMA k = 2 / 21, около 0.095. Для 5-периодной EMA k = 2 / 6, около 0.333. EMA нужно начальное значение, обычно SMA, и первые значения зависят от этой «затравки».</p>
+<h3 id="wma">Взвешенная скользящая средняя (WMA)</h3>
+<p>WMA назначает линейные веса: в 5-периодной WMA последнее закрытие умножается на 5, предыдущее на 4 и так далее до 1, а сумма делится на сумму весов (15). Она реагирует быстрее, чем SMA.</p>
+<p>Существуют и другие варианты, включая скользящую среднюю Халла, двойную и тройную EMA и сглаживание Уайлдера (используется внутри <a href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a> и <a href="/ru/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR</a>). Все они по-разному пытаются найти баланс между гладкостью и скоростью.</p>
+<h2 id="sma-ema-wma">Пример: SMA, EMA и WMA</h2>
+<p>Пять дневных закрытий: $10, $11, $12, $13, $14.</p>
+<ul>
+<li><strong>5-дневная SMA</strong> = (10 + 11 + 12 + 13 + 14) / 5 = 60 / 5 = <strong>$12.00</strong></li>
+<li>Допустим, 5-дневная EMA на этот момент тоже равна $12.00 (за затравку взята SMA).</li>
+</ul>
+<p>Следующий день закрывается на <strong>$16</strong> — скачок больше обычного.</p>
+<ul>
+<li><strong>Новая SMA:</strong> убираем $10, добавляем $16. (11 + 12 + 13 + 14 + 16) / 5 = 66 / 5 = <strong>$13.20</strong></li>
+<li><strong>Новая EMA:</strong> k = 2 / 6 = 1/3. EMA = 12.00 + (1/3) x (16 - 12.00) = 12.00 + 1.33 = <strong>$13.33</strong></li>
+<li><strong>Новая WMA:</strong> (11 x 1 + 12 x 2 + 13 x 3 + 14 x 4 + 16 x 5) / 15 = (11 + 24 + 39 + 56 + 80) / 15 = 210 / 15 = <strong>$14.00</strong></li>
+</ul>
+<p>Все три ниже последней цены $16 — это и есть запаздывание. Ближе всего к цене подошла WMA, потому что она придаёт наибольший вес последнему бару; меньше всего сдвинулась SMA.</p>
+<h2 id="section-7">Распространённые периоды и их применение</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Период</th>
+<th>Типичное применение</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>9 или 10</td>
+<td>Очень краткосрочный тренд; на внутридневных графиках часто EMA</td>
+</tr>
+<tr>
+<td>20 или 21</td>
+<td>Краткосрочный тренд; примерно месяц торговых дней. Средняя линия <a href="/ru/encyclopedia/technical-analysis/bollinger-bands/">полос Боллинджера</a></td>
+</tr>
+<tr>
+<td>50</td>
+<td>Среднесрочный тренд; за ней много следят на дневных графиках акций</td>
+</tr>
+<tr>
+<td>100</td>
+<td>Промежуточный; встречается реже</td>
+</tr>
+<tr>
+<td>200</td>
+<td>Долгосрочный тренд; самая отслеживаемая средняя для фондовых индексов</td>
+</tr>
+</tbody></table></div>
+<p>У этих периодов нет особых математических свойств. Они стали соглашениями, а из-за их популярности многие трейдеры следят за одними и теми же линиями. Например, финансовые СМИ часто сообщают, когда крупный индекс пересекает свою 200-дневную скользящую среднюю. Такое внимание может вызывать краткосрочные реакции около этих средних — отчасти как самосбывающийся эффект.</p>
+<p>Скользящие средние можно рассчитывать на любом таймфрейме. 50-периодная средняя на 5-минутном графике охватывает примерно четыре часа, а не 50 дней.</p>
+<h2 id="section-8">Как пользоваться скользящими средними</h2>
+<h3 id="section-9">Фильтр тренда</h3>
+<p>Самое простое применение — направление: цена выше растущей 200-дневной средней считается долгосрочным восходящим трендом, ниже падающей — нисходящим. Многие трейдеры открывают только длинные сделки, когда цена выше выбранной средней, и только короткие — когда ниже. Наклон важен не меньше, чем положение: горизонтальная средняя указывает на диапазон. См. <a href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/">тренды и структуру рынка</a>.</p>
+<h3 id="section-10">Пересечения</h3>
+<p>Система пересечений использует две средние — быструю и медленную. Сигнал на покупку возникает, когда быстрая средняя пересекает медленную снизу вверх, а сигнал на продажу — когда сверху вниз.</p>
+<ul>
+<li><strong>Золотой крест:</strong> 50-дневная пересекает 200-дневную снизу вверх.</li>
+<li><strong>Мёртвый крест:</strong> 50-дневная пересекает 200-дневную сверху вниз.</li>
+</ul>
+<p>Золотой и мёртвый кресты медленные по своей природе. К тому моменту, когда 50-дневная средняя пересекает 200-дневную, цена обычно уже прошла большой путь. На боковом рынке средние могут многократно пересекаться туда и обратно, давая серию мелких убытков, которую называют «пилой» (whipsaw). Пересечение ценой одной средней (например, закрытие выше 50-дневной) — более быстрый, но более шумный вариант той же идеи.</p>
+<h3 id="section-11">Динамическая поддержка и сопротивление</h3>
+<p>В устойчивом тренде цена часто откатывает к скользящей средней, а затем продолжает движение. Трейдеры рассматривают среднюю как подвижный вариант <a href="/ru/encyclopedia/technical-analysis/support-and-resistance/">поддержки и сопротивления</a>. Для этого на акциях популярны 20 и 50. Как и горизонтальные уровни, средняя — это зона, а не точная линия, и она регулярно не срабатывает, особенно когда тренд заканчивается.</p>
+<h3 id="section-12">Строительный блок для других индикаторов</h3>
+<p><a href="/ru/encyclopedia/technical-analysis/macd/">MACD</a> — это разность двух EMA. Полосы Боллинджера — скользящая средняя плюс и минус стандартные отклонения. Каналы Кельтнера используют EMA и ATR. Понимание скользящих средних облегчает интерпретацию этих инструментов.</p>
+<h2 id="section-13">Цена запаздывания</h2>
+<p>Все скользящие средние запаздывают. На ровном прямолинейном тренде N-периодная SMA отстаёт от цены примерно на (N - 1) / 2 бара. 20-дневная SMA отстаёт примерно на 9.5 дня, 200-дневная — примерно на 100 дней.</p>
+<p>У N-периодной EMA на ровном тренде среднее запаздывание примерно такое же. Её преимущество в том, что она раньше реагирует на резкую смену направления цены, потому что последний бар весит больше. Обратная сторона — она сильнее реагирует и на случайные всплески.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Выбор</th>
+<th>Преимущество</th>
+<th>Цена</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Более короткий период</td>
+<td>Более ранние сигналы, ближе к цене</td>
+<td>Больше ложных сигналов и «пилы»</td>
+</tr>
+<tr>
+<td>Более длинный период</td>
+<td>Глаже, меньше ложных сигналов</td>
+<td>Более поздние входы и выходы, больше отданной прибыли</td>
+</tr>
+<tr>
+<td>EMA или WMA вместо SMA</td>
+<td>Более быстрая реакция на развороты</td>
+<td>Чувствительнее к разовым всплескам</td>
+</tr>
+</tbody></table></div>
+<p>Настройки, которая устранила бы этот компромисс, нет. Оптимизация периода на прошлых данных в поисках «лучшего» обычно даёт настройки, которые подогнаны под прошлое и не работают в будущем. См. <a href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">переобучение</a>.</p>
+<h2 id="section-14">Что говорят доказательства</h2>
+<p>Правила на основе скользящих средних — одни из самых изученных технических инструментов. Brock, Lakonishok и LeBaron (1992) обнаружили, что простые правила скользящих средних на индексе Dow Jones обладали предсказательной силой на длинной исторической выборке, но более поздние работы, учитывавшие подгонку под данные, показали, что на более свежих данных эффект не сохранился. Шире говоря, академические исследования моментума временного ряда подтверждают, что правила следования за трендом, часто построенные на скользящих средних, исторически приносили доходность на диверсифицированных фьючерсных портфелях на длинных периодах. Этот успех сопровождался долгими периодами без роста или с убытками и зависит от торговли многими рынками с дисциплинированным контролем риска. См. <a href="/ru/encyclopedia/algorithmic-trading/trend-following/">следование за трендом</a>.</p>
+<p>Для отдельной акции или криптоактива правило пересечений может как обогнать стратегию «купи и держи», так и отстать от неё в зависимости от тестируемого периода. Результаты чувствительны к периоду, активу и издержкам.</p>
+<h2 id="common-mistakes">Частые ошибки</h2>
+<ul>
+<li><strong>Ждать от средних предсказаний.</strong> Скользящая средняя подытоживает прошлое. Пересечения подтверждают движение, которое уже произошло.</li>
+<li><strong>Использовать пересечения в диапазоне.</strong> Боковой рынок даёт повторяющуюся «пилу» и череду мелких убытков.</li>
+<li><strong>Переоптимизировать период.</strong> 47-дневная средняя, лучше всего работавшая в прошлом году, вряд ли окажется особенной в следующем.</li>
+<li><strong>Нагромождать множество средних.</strong> Пять скользящих средних на одном графике — это пять версий одной и той же информации.</li>
+<li><strong>Считать 200-дневную стеной.</strong> Цена может пройти и проходит сквозь средние, за которыми следят многие.</li>
+</ul>
+<h2 id="faq">Часто задаваемые вопросы</h2>
+<h3 id="sma-ema">Чем SMA отличается от EMA?</h3>
+<p>SMA придаёт всем периодам в своём окне одинаковый вес, а EMA даёт больший вес самым свежим ценам. EMA быстрее реагирует на резкие изменения, но и чувствительнее к разовым всплескам.</p>
+<h3 id="section-18">Какая скользящая средняя лучше для дейтрейдинга?</h3>
+<p>Лучшей настройки нет. Дейтрейдеры часто используют короткие EMA, например с периодом 9 или 20, на графиках от 1 до 15 минут вместе с внутридневными ориентирами вроде VWAP, но выбор нужно проверять на том рынке и таймфрейме, на которых вы торгуете.</p>
+<h3 id="section-19">Что такое золотой крест?</h3>
+<p>Золотой крест возникает, когда 50-дневная скользящая средняя пересекает 200-дневную снизу вверх. Его широко подают как бычий признак, но это медленный сигнал, который часто приходит, когда значительная часть движения уже позади.</p>
+<h3 id="200">Почему 200-дневная скользящая средняя так важна?</h3>
+<p>Это самая отслеживаемая линия долгосрочного тренда, особенно для фондовых индексов, поэтому многие трейдеры и СМИ следят за тем, находится цена выше или ниже неё. Такое внимание может вызывать реакции около неё, но это соглашение, а не закон.</p>
+</article>
+<div class="disclaimer"><strong>Только образовательный материал.</strong> Ничто здесь не является финансовой, инвестиционной, юридической или налоговой консультацией. Торговля сопряжена с высоким риском потерь, а с кредитным плечом можно потерять больше, чем вы внесли. Правила, комиссии и условия площадок меняются: перед сделкой проверяйте актуальные условия у брокера, биржи или регулятора.</div>
+<section class="related"><h2>Похожие статьи</h2><div class="cards"><a class="card" href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/"><div class="k">Технический анализ</div><b>Тренды и структура рынка</b><span>Как трейдеры определяют восходящий и нисходящий тренд и боковик по swing-максимумам и минимумам, линиям тренда, каналам, слому структуры и индикатору ADX.</span></a><a class="card" href="/ru/encyclopedia/technical-analysis/macd/"><div class="k">Технический анализ</div><b>MACD</b><span>Как MACD строится из двух EMA, что показывают сигнальная линия и гистограмма, как читать пересечения и дивергенции, настройки 12/26/9 и проблема запаздывания.</span></a><a class="card" href="/ru/encyclopedia/technical-analysis/bollinger-bands/"><div class="k">Технический анализ</div><b>Полосы Боллинджера</b><span>Как полосы Боллинджера строятся по 20-периодной средней и 2 стандартным отклонениям: сжатие, «прогулка по полосе», %B, ширина полос и каналы Кельтнера.</span></a><a class="card" href="/ru/encyclopedia/algorithmic-trading/trend-following/"><div class="k">Алгоритмическая и квант-торговля</div><b>Следование за трендом</b><span>Как работает следование за трендом: моментум временных рядов, CTA и managed futures, пробойные системы и скользящие средние, «черепахи», асимметрия и просадки.</span></a><a class="card" href="/ru/encyclopedia/technical-analysis/support-and-resistance/"><div class="k">Технический анализ</div><b>Поддержка и сопротивление</b><span>Что такое поддержка и сопротивление, почему они возникают, как рисовать их зонами, смена ролей, круглые числа и как отличить пробой от ложного пробоя.</span></a></div></section>
+<div class="pager"><a href="/ru/encyclopedia/technical-analysis/chart-patterns/"><small>← Назад</small>Графические паттерны</a><a class="next" href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/"><small>Далее →</small>RSI</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ru/encyclopedia/basics/">Основы трейдинга</a><a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a><a href="/ru/encyclopedia/psychology/">Психология трейдинга</a><a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a><a href="/ru/encyclopedia/fundamental-analysis/">Фундаментальный и макроанализ</a><a href="/ru/encyclopedia/stocks/">Торговля акциями</a><a href="/ru/encyclopedia/forex/">Торговля на форекс</a><a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a><a href="/ru/encyclopedia/options/">Торговля опционами</a><a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a><a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a><a href="/ru/encyclopedia/prediction-markets/">Рынки предсказаний</a><a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a><a href="/ru/encyclopedia/other-markets/">Сырье, облигации и другие рынки</a><a href="/ru/encyclopedia/trading-business/">Проп-фирмы, налоги, регулирование и мошенничество</a><a href="/ru/encyclopedia/reference/">Справочник</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Открытый набор торговых ботов</a></div>
+  <p>PnL Profit Энциклопедия трейдинга: бесплатные независимые объяснения того, как работают крупнейшие рынки. Только образовательный материал, не инвестиционная рекомендация. Контакты: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ru/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Ничего не найдено. Загляните в глоссарий.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

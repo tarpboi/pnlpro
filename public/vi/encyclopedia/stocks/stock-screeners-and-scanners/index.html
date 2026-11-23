@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bộ lọc và bộ quét cổ phiếu: tiêu chí, ví dụ và danh sách theo dõi</title>
+<meta name="description" content="Bộ lọc cổ phiếu và bộ quét thời gian thực hoạt động thế nào, lọc cơ bản và kỹ thuật, tiêu chí mẫu cho swing trader và day trader, cách xây danh sách theo dõi.">
+<meta name="keywords" content="bộ lọc cổ phiếu, bộ quét cổ phiếu, scanner day trading, cài đặt screener cổ phiếu tốt nhất, cách lập watchlist">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Bộ lọc và bộ quét cổ phiếu: tiêu chí, ví dụ và danh sách theo dõi">
+<meta property="og:description" content="Bộ lọc cổ phiếu và bộ quét thời gian thực hoạt động thế nào, lọc cơ bản và kỹ thuật, tiêu chí mẫu cho swing trader và day trader, cách xây danh sách theo dõi.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/stocks/stock-screeners-and-scanners/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bộ lọc và bộ quét cổ phiếu: tiêu chí, ví dụ và danh sách theo dõi">
+<meta name="twitter:description" content="Bộ lọc cổ phiếu và bộ quét thời gian thực hoạt động thế nào, lọc cơ bản và kỹ thuật, tiêu chí mẫu cho swing trader và day trader, cách xây danh sách theo dõi.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Bộ lọc và bộ quét cổ phiếu: tiêu chí, ví dụ và danh sách theo dõi","description":"Bộ lọc cổ phiếu và bộ quét thời gian thực hoạt động thế nào, lọc cơ bản và kỹ thuật, tiêu chí mẫu cho swing trader và day trader, cách xây danh sách theo dõi.","keywords":"bộ lọc cổ phiếu, bộ quét cổ phiếu, scanner day trading, cài đặt screener cổ phiếu tốt nhất, cách lập watchlist","articleSection":"Giao dịch cổ phiếu","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/stocks/stock-screeners-and-scanners/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch cổ phiếu","item":"https://pnlpro.fit/vi/encyclopedia/stocks/"},{"@type":"ListItem","position":3,"name":"Bộ lọc và scanner cổ phiếu","item":"https://pnlpro.fit/vi/encyclopedia/stocks/stock-screeners-and-scanners/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Bộ lọc cổ phiếu và bộ quét khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"Bộ lọc lọc cổ phiếu theo các tiêu chí cố định, thường với dữ liệu cuối ngày, để xây danh sách nghiên cứu. Bộ quét cập nhật theo thời gian thực trong phiên để gắn cờ những cổ phiếu đang di chuyển ngay lúc này."}},{"@type":"Question","name":"Cài đặt bộ lọc tốt cho day trading là gì?","acceptedAnswer":{"@type":"Answer","text":"Các tiêu chí day trading thường gặp gồm một cú gap hoặc nhịp đi vài phần trăm, khối lượng tương đối cao hơn nhiều so với bình thường, giá cổ phiếu tối thiểu như 5 USD, khối lượng trung bình đủ lớn và một chất xúc tác tin tức. Cài đặt phụ thuộc vào chiến lược và các cổ phiếu bạn giao dịch."}},{"@type":"Question","name":"Bộ lọc cổ phiếu miễn phí có đủ tốt không?","acceptedAnswer":{"@type":"Answer","text":"Bộ lọc miễn phí thường ổn cho các bộ lọc cơ bản và kỹ thuật cuối ngày. Bộ quét day trading thời gian thực thường cần dữ liệu trả phí, vì dữ liệu miễn phí có thể bị trễ."}},{"@type":"Question","name":"Danh sách theo dõi nên có bao nhiêu cổ phiếu?","acceptedAnswer":{"@type":"Answer","text":"Hầu hết day trader giữ một nhúm, thường dưới 10, để theo dõi sát từng mã. Swing trader có thể theo dõi vài chục mã và cập nhật danh sách hằng tuần."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch cổ phiếu</h3><ul><li><a href="/vi/encyclopedia/stocks/stock-market-basics/">Thị trường chứng khoán cơ bản</a></li><li><a href="/vi/encyclopedia/stocks/day-trading-stocks/">Day trading cổ phiếu</a></li><li><a href="/vi/encyclopedia/stocks/swing-trading-stocks/">Swing trading cổ phiếu</a></li><li><a href="/vi/encyclopedia/stocks/short-selling/">Bán khống</a></li><li><a href="/vi/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny stock và cổ phiếu vốn hóa nhỏ</a></li><li><a href="/vi/encyclopedia/stocks/premarket-and-after-hours-trading/">Giao dịch trước và sau giờ</a></li><li><a href="/vi/encyclopedia/stocks/earnings-trading/">Giao dịch mùa báo cáo thu nhập</a></li><li><a href="/vi/encyclopedia/stocks/gap-trading/">Giao dịch gap</a></li><li><a href="/vi/encyclopedia/stocks/momentum-trading/">Giao dịch động lượng</a></li><li><a href="/vi/encyclopedia/stocks/etfs-and-index-trading/">ETF và giao dịch chỉ số</a></li><li><a href="/vi/encyclopedia/stocks/stock-screeners-and-scanners/" class="on" aria-current="page">Bộ lọc và scanner cổ phiếu</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/" class="on">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a></div>
+<h1 class="title">Bộ lọc và bộ quét cổ phiếu</h1>
+<div class="meta">10 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch cổ phiếu</summary><ul><li><a href="/vi/encyclopedia/stocks/stock-market-basics/">Thị trường chứng khoán cơ bản</a></li><li><a href="/vi/encyclopedia/stocks/day-trading-stocks/">Day trading cổ phiếu</a></li><li><a href="/vi/encyclopedia/stocks/swing-trading-stocks/">Swing trading cổ phiếu</a></li><li><a href="/vi/encyclopedia/stocks/short-selling/">Bán khống</a></li><li><a href="/vi/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny stock và cổ phiếu vốn hóa nhỏ</a></li><li><a href="/vi/encyclopedia/stocks/premarket-and-after-hours-trading/">Giao dịch trước và sau giờ</a></li><li><a href="/vi/encyclopedia/stocks/earnings-trading/">Giao dịch mùa báo cáo thu nhập</a></li><li><a href="/vi/encyclopedia/stocks/gap-trading/">Giao dịch gap</a></li><li><a href="/vi/encyclopedia/stocks/momentum-trading/">Giao dịch động lượng</a></li><li><a href="/vi/encyclopedia/stocks/etfs-and-index-trading/">ETF và giao dịch chỉ số</a></li><li><a href="/vi/encyclopedia/stocks/stock-screeners-and-scanners/" class="on" aria-current="page">Bộ lọc và scanner cổ phiếu</a></li></ul></details>
+<article><p>Bộ lọc cổ phiếu (screener) thu hàng nghìn cổ phiếu xuống một danh sách ngắn đáp ứng các tiêu chí đã đặt, như chỉ số định giá, xu hướng giá hoặc mức khối lượng. Bộ quét (scanner) là phiên bản thời gian thực, cập nhật xuyên suốt phiên để gắn cờ những cổ phiếu đang di chuyển ngay lúc này. Với hàng chục nghìn cổ phiếu niêm yết trên toàn thế giới, lọc là cách trader quyết định nên nhìn vào đâu. Một bộ lọc tốt tiết kiệm thời gian và giữ kỷ luật, nhưng nó chỉ thu hẹp phạm vi; nó không cho bạn biết nên mua gì.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Bộ lọc cơ bản lọc theo dữ liệu doanh nghiệp như định giá, tăng trưởng và nợ, trong khi bộ lọc kỹ thuật lọc theo giá, khối lượng và chỉ báo.</li>
+<li>Bộ quét thời gian thực cho day trader tìm gap, khối lượng tương đối bất thường, đỉnh mới và halt ngay khi chúng xảy ra.</li>
+<li>Mọi bộ lọc nên bắt đầu bằng các bộ lọc thanh khoản để loại những cổ phiếu quá mỏng không thể giao dịch với chi phí hợp lý.</li>
+<li>Danh sách theo dõi hiệu quả nhất khi ngắn, với các mức giá và kế hoạch được đánh dấu cho từng mã.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#b-l-c-v-b-qu-t">Bộ lọc và bộ quét</a></li><li><a href="#b-l-c-thanh-kho-n-i-tr-c">Bộ lọc thanh khoản đi trước</a></li><li><a href="#b-l-c-c-b-n">Bộ lọc cơ bản</a></li><li><a href="#b-l-c-k-thu-t">Bộ lọc kỹ thuật</a></li><li><a href="#b-qu-t-th-i-gian-th-c-cho-day-trader">Bộ quét thời gian thực cho day trader</a></li><li><a href="#x-y-d-ng-danh-s-ch-theo-d-i">Xây dựng danh sách theo dõi</a></li><li><a href="#ki-m-tra-m-t-b-l-c">Kiểm tra một bộ lọc</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="b-l-c-v-b-qu-t">Bộ lọc và bộ quét</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Bộ lọc (screener)</th>
+<th>Bộ quét thời gian thực (scanner)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dữ liệu</td>
+<td>Giá cuối ngày, dữ liệu cơ bản</td>
+<td>Giá, khối lượng và tin tức trực tiếp</td>
+</tr>
+<tr>
+<td>Người dùng điển hình</td>
+<td>Nhà đầu tư, swing trader</td>
+<td>Day trader, trader momentum</td>
+</tr>
+<tr>
+<td>Khi nào dùng</td>
+<td>Buổi tối, cuối tuần</td>
+<td>Trước giờ mở cửa và trong phiên</td>
+</tr>
+<tr>
+<td>Kết quả</td>
+<td>Danh sách ứng viên để nghiên cứu</td>
+<td>Cảnh báo về cổ phiếu đang di chuyển ngay lúc này</td>
+</tr>
+<tr>
+<td>Ví dụ tiêu chí</td>
+<td>P/E, tăng trưởng doanh thu, trên đường trung bình 200 ngày</td>
+<td>Tăng 5% với khối lượng gấp 3 lần bình thường trong 15 phút qua</td>
+</tr>
+</tbody></table></div>
+<p>Hầu hết các nền tảng broker và dịch vụ biểu đồ đều có cả hai. Các ví dụ nổi tiếng gồm bộ lọc của TradingView và Finviz, và bộ quét tích hợp trong các nền tảng như thinkorswim và Trader Workstation của Interactive Brokers. Các dịch vụ quét thời gian thực chuyên dụng cũng tồn tại. Xem <a href="/vi/encyclopedia/trading-business/trading-platforms-and-tools/">nền tảng và công cụ giao dịch</a>. Phạm vi dữ liệu khác nhau, nhất là với các sàn ngoài Mỹ, nên hãy kiểm tra công cụ có bao phủ các thị trường bạn giao dịch không.</p>
+<h2 id="b-l-c-thanh-kho-n-i-tr-c">Bộ lọc thanh khoản đi trước</h2>
+<p>Trước khi tìm setup, hãy loại những cổ phiếu bạn không thể giao dịch hiệu quả. Các bộ lọc khởi đầu thường gặp:</p>
+<ul>
+<li><strong>Giá cổ phiếu tối thiểu,</strong> ví dụ 5 USD hoặc 10 USD, để tránh những spread rộng nhất và đầu thị trường <a href="/vi/encyclopedia/stocks/penny-stocks-and-small-caps/">penny stock</a>.</li>
+<li><strong>Khối lượng trung bình hằng ngày tối thiểu,</strong> ví dụ 500,000 cổ phiếu.</li>
+<li><strong>Giá trị giao dịch trung bình hằng ngày tối thiểu (dollar volume),</strong> là giá nhân khối lượng trung bình. Một cổ phiếu 25 USD giao dịch 400,000 cổ phiếu mỗi ngày có dollar volume là 25 USD × 400,000 = 10 triệu USD. Dollar volume so sánh thanh khoản giữa các mức giá cổ phiếu rất khác nhau tốt hơn so với khối lượng cổ phiếu.</li>
+<li><strong>Vốn hóa thị trường,</strong> ví dụ trên 1 tỷ USD cho swing trade.</li>
+<li><strong>Sàn,</strong> để loại cổ phiếu OTC nếu bạn chỉ muốn cổ phiếu niêm yết.</li>
+</ul>
+<p>Cổ phiếu mỏng có thể trông tuyệt trên biểu đồ nhưng vẫn không giao dịch được khi tính đến <a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">spread</a> và trượt giá.</p>
+<h2 id="b-l-c-c-b-n">Bộ lọc cơ bản</h2>
+<p>Bộ lọc cơ bản lọc theo dữ liệu công ty từ báo cáo tài chính và ước tính của giới phân tích (xem <a href="/vi/encyclopedia/fundamental-analysis/valuation-ratios/">chỉ số định giá</a> và <a href="/vi/encyclopedia/fundamental-analysis/earnings-and-financial-statements/">báo cáo lợi nhuận và báo cáo tài chính</a>).</p>
+<p>Ví dụ: bộ lọc &quot;chất lượng ở mức giá hợp lý&quot;.</p>
+<ul>
+<li>Vốn hóa thị trường trên 2 tỷ USD.</li>
+<li>P/E dự phóng dưới 20.</li>
+<li>Tăng trưởng doanh thu trên 10% trong năm qua.</li>
+<li>Nợ trên vốn chủ sở hữu dưới 1.</li>
+<li>Dòng tiền tự do dương.</li>
+</ul>
+<p>Bộ lọc như thế này cho một danh sách nghiên cứu, không phải danh sách mua. Chỉ số thấp có thể báo hiệu một cổ phiếu rẻ hoặc một doanh nghiệp đang gặp rắc rối. Các nhà cung cấp dữ liệu cũng tính chỉ số theo cách khác nhau, nên cùng một bộ lọc có thể trả về các cổ phiếu khác nhau trên các nền tảng khác nhau.</p>
+<h2 id="b-l-c-k-thu-t">Bộ lọc kỹ thuật</h2>
+<p>Bộ lọc kỹ thuật lọc theo hành vi giá và khối lượng. Các bộ lọc mẫu cho <a href="/vi/encyclopedia/stocks/swing-trading-stocks/">swing trading</a>:</p>
+<p><strong>Xu hướng mạnh, gần đỉnh:</strong></p>
+<ul>
+<li>Giá trên <a href="/vi/encyclopedia/technical-analysis/moving-averages/">đường trung bình động</a> 50 ngày và 200 ngày.</li>
+<li>Đường trung bình 50 ngày nằm trên đường trung bình 200 ngày.</li>
+<li>Giá cách đỉnh 52 tuần không quá 5%.</li>
+<li>Khối lượng trung bình trên 500,000 cổ phiếu.</li>
+</ul>
+<p><strong>Nhịp lùi trong xu hướng tăng:</strong></p>
+<ul>
+<li>Giá trên đường trung bình 200 ngày.</li>
+<li>Giá cách đường trung bình 20 ngày hoặc 50 ngày không quá 2%.</li>
+<li><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a> 14 ngày trong khoảng 40 đến 50, cho thấy một nhịp lùi nhưng chưa phải sụp đổ.</li>
+</ul>
+<p><strong>Breakout theo khối lượng:</strong></p>
+<ul>
+<li>Giá đóng cửa ở đỉnh 20 ngày.</li>
+<li>Khối lượng hôm nay ít nhất gấp hai lần trung bình 50 ngày.</li>
+</ul>
+<h2 id="b-qu-t-th-i-gian-th-c-cho-day-trader">Bộ quét thời gian thực cho day trader</h2>
+<p>Day trader chạy bộ quét từ trước giờ mở cửa suốt phiên. Các lần quét thường gặp:</p>
+<ul>
+<li><strong>Cổ phiếu gap trước giờ mở cửa:</strong> cổ phiếu tăng hoặc giảm quá một tỷ lệ phần trăm đã đặt so với giá đóng cửa trước, với khối lượng trước giờ mở cửa đáng kể (xem <a href="/vi/encyclopedia/stocks/gap-trading/">giao dịch gap</a>).</li>
+<li><strong>Top tăng và giảm:</strong> các nhịp đi phần trăm lớn nhất của phiên.</li>
+<li><strong>Khối lượng tương đối:</strong> cổ phiếu giao dịch cao hơn nhiều so với khối lượng bình thường cùng thời điểm trong ngày (xem <a href="/vi/encyclopedia/stocks/momentum-trading/">giao dịch momentum</a>).</li>
+<li><strong>Đỉnh và đáy mới:</strong> các đỉnh trong ngày, theo ngày hoặc 52 tuần đang bị phá.</li>
+<li><strong>Halt và mở lại:</strong> cổ phiếu bị tạm dừng vì biến động hoặc tin tức.</li>
+<li><strong>Hoạt động quyền chọn bất thường:</strong> khối lượng quyền chọn lớn hoặc bất thường, mà một số trader coi là tín hiệu, với kết quả không đồng nhất.</li>
+</ul>
+<h3 id="v-d-minh-h-a-c-m-t-d-ng-c-a-b-qu-t">Ví dụ minh họa: đọc một dòng của bộ quét</h3>
+<p>Lúc 9:00 sáng, một bộ quét trước giờ mở cửa hiển thị một cổ phiếu với:</p>
+<ul>
+<li>Giá đóng cửa trước 7.20 USD, giá trước giờ mở cửa hiện tại 8.10 USD.</li>
+<li>Gap: (8.10 USD − 7.20 USD) ÷ 7.20 USD = 0.90 USD ÷ 7.20 USD = 12.5%.</li>
+<li>Khối lượng trước giờ mở cửa 900,000 cổ phiếu. Khối lượng trước giờ mở cửa trung bình của nó tính đến 9:00 sáng là 60,000 cổ phiếu, nên khối lượng tương đối là 900,000 ÷ 60,000 = 15.</li>
+<li>Khối lượng trung bình hằng ngày 2 triệu cổ phiếu, nên dollar volume trung bình khoảng 7.20 USD × 2,000,000 = 14.4 triệu USD.</li>
+<li>Chất xúc tác: một thông báo hợp đồng.</li>
+</ul>
+<p>Cổ phiếu này vượt qua một lần quét gap điển hình: gap trên 5%, khối lượng tương đối lớn, đủ thanh khoản hằng ngày và có lý do rõ ràng. Bước tiếp theo là đánh dấu các mức giá (đỉnh và đáy trước giờ mở cửa, đỉnh của ngày hôm trước, giá đóng cửa trước) và quyết định điểm vào, điểm dừng lỗ và kích thước trước giờ mở cửa.</p>
+<h2 id="x-y-d-ng-danh-s-ch-theo-d-i">Xây dựng danh sách theo dõi</h2>
+<p>Một bộ lọc có thể trả về 50 hoặc 200 mã. Một danh sách theo dõi dùng được thì ngắn hơn nhiều.</p>
+<ol>
+<li><strong>Chạy bộ lọc</strong> vào một giờ cố định, như sau giờ đóng cửa hoặc một tiếng trước giờ mở cửa.</li>
+<li><strong>Xem lại biểu đồ</strong> và loại bất cứ mã nào không có setup, mức giá hay chất xúc tác rõ ràng.</li>
+<li><strong>Kiểm tra sự kiện:</strong> ngày báo cáo lợi nhuận, ngày ex-dividend và tin tức đang chờ (xem <a href="/vi/encyclopedia/stocks/earnings-trading/">giao dịch earnings</a>).</li>
+<li><strong>Kiểm tra tương quan:</strong> nếu hầu hết các mã thuộc một ngành, thực chất bạn đang nhìn vào một lệnh (xem <a href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/">tương quan và rủi ro danh mục</a>).</li>
+<li><strong>Viết kế hoạch:</strong> với mỗi mã, ghi giá kích hoạt, điểm dừng lỗ, mục tiêu và kích thước vị thế.</li>
+<li><strong>Đặt cảnh báo</strong> tại các mức kích hoạt thay vì nhìn từng biểu đồ.</li>
+</ol>
+<p>Day trader thường giữ 3 đến 10 mã. Swing trader có thể theo dõi 10 đến 30 mã và cập nhật hằng tuần.</p>
+<h2 id="ki-m-tra-m-t-b-l-c">Kiểm tra một bộ lọc</h2>
+<p>Để xem một bộ lọc trong quá khứ có chọn ra những cổ phiếu sau đó làm tốt hay không, bạn cần dữ liệu lịch sử bao gồm cả những công ty sau này bị hủy niêm yết. Chỉ kiểm tra các cổ phiếu đang niêm yết hôm nay đưa vào thiên kiến người sống sót, vì những trường hợp thất bại đã biến mất. Các chỉ số cũng cần theo &quot;đúng thời điểm&quot; (point in time), nghĩa là những gì đã biết vào mỗi ngày, không phải số liệu đã được điều chỉnh lại. Xem <a href="/vi/encyclopedia/algorithmic-trading/backtesting/">backtest</a>.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Bỏ qua bộ lọc thanh khoản.</strong> Những mã biến động mạnh nhất thường là những mã khó giao dịch nhất.</li>
+<li><strong>Nhồi quá nhiều tiêu chí vào một bộ lọc.</strong> Hai mươi bộ lọc được tinh chỉnh theo những kẻ thắng cuộc trong quá khứ thường không trả về thứ gì hữu ích trong tương lai.</li>
+<li><strong>Coi kết quả bộ lọc là tín hiệu mua.</strong> Bộ lọc là điểm khởi đầu của phân tích.</li>
+<li><strong>Thay đổi bộ lọc mỗi ngày.</strong> Sự nhất quán cho phép bạn học được một tập tiêu chí hành xử ra sao.</li>
+<li><strong>Theo dõi quá nhiều mã.</strong> Sự chú ý có hạn, và kế hoạch bị bỏ lỡ dẫn đến những lệnh bốc đồng.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="b-l-c-c-phi-u-v-b-qu-t-kh-c-nhau-th-n-o">Bộ lọc cổ phiếu và bộ quét khác nhau thế nào?</h3>
+<p>Bộ lọc lọc cổ phiếu theo các tiêu chí cố định, thường với dữ liệu cuối ngày, để xây danh sách nghiên cứu. Bộ quét cập nhật theo thời gian thực trong phiên để gắn cờ những cổ phiếu đang di chuyển ngay lúc này.</p>
+<h3 id="c-i-t-b-l-c-t-t-cho-day-trading-l-g">Cài đặt bộ lọc tốt cho day trading là gì?</h3>
+<p>Các tiêu chí day trading thường gặp gồm một cú gap hoặc nhịp đi vài phần trăm, khối lượng tương đối cao hơn nhiều so với bình thường, giá cổ phiếu tối thiểu như 5 USD, khối lượng trung bình đủ lớn và một chất xúc tác tin tức. Cài đặt phụ thuộc vào chiến lược và các cổ phiếu bạn giao dịch.</p>
+<h3 id="b-l-c-c-phi-u-mi-n-ph-c-t-t-kh-ng">Bộ lọc cổ phiếu miễn phí có đủ tốt không?</h3>
+<p>Bộ lọc miễn phí thường ổn cho các bộ lọc cơ bản và kỹ thuật cuối ngày. Bộ quét day trading thời gian thực thường cần dữ liệu trả phí, vì dữ liệu miễn phí có thể bị trễ.</p>
+<h3 id="danh-s-ch-theo-d-i-n-n-c-bao-nhi-u-c-phi-u">Danh sách theo dõi nên có bao nhiêu cổ phiếu?</h3>
+<p>Hầu hết day trader giữ một nhúm, thường dưới 10, để theo dõi sát từng mã. Swing trader có thể theo dõi vài chục mã và cập nhật danh sách hằng tuần.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/stocks/swing-trading-stocks/"><div class="k">Giao dịch cổ phiếu</div><b>Swing trading cổ phiếu</b><span>Cách swing trader giữ cổ phiếu vài ngày đến vài tuần: breakout, nhịp lùi về đường trung bình, mô hình nền giá, rủi ro qua đêm và earnings, quản lý lệnh.</span></a><a class="card" href="/vi/encyclopedia/stocks/day-trading-stocks/"><div class="k">Giao dịch cổ phiếu</div><b>Day trading cổ phiếu</b><span>Day trading cổ phiếu vận hành thế nào: quy tắc PDT của Mỹ và quy định thay thế năm 2026, tài khoản cash và margin, thanh toán T+1, setup và xác suất thực tế.</span></a><a class="card" href="/vi/encyclopedia/stocks/gap-trading/"><div class="k">Giao dịch cổ phiếu</div><b>Giao dịch gap</b><span>Gap giá hình thành thế nào và trader giao dịch ra sao: gap thường, breakaway, runaway và exhaustion, lấp gap, opening range breakout và bộ quét gap.</span></a><a class="card" href="/vi/encyclopedia/fundamental-analysis/valuation-ratios/"><div class="k">Phân tích cơ bản và vĩ mô</div><b>Các tỷ số định giá</b><span>Cách tính và đọc P/E, P/E dự phóng, PEG, P/S, P/B, EV/EBITDA, tỷ suất dòng tiền tự do và cổ tức, vì sao bối cảnh ngành quan trọng và các giới hạn của chúng.</span></a><a class="card" href="/vi/encyclopedia/trading-business/trading-platforms-and-tools/"><div class="k">Prop firm, thuế, quy định và lừa đảo</div><b>Nền tảng và công cụ</b><span>Hướng dẫn trung lập về nền tảng và công cụ giao dịch: biểu đồ, MT4/MT5, cTrader, nền tảng futures và broker, terminal crypto, nhật ký, bộ lọc và chi phí.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/stocks/etfs-and-index-trading/"><small>← Bài trước</small>ETF và giao dịch chỉ số</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

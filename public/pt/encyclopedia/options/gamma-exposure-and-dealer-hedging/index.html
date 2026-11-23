@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exposição gama (GEX) e hedge dos dealers: opções movem o mercado</title>
+<meta name="description" content="Como os market makers fazem delta hedge, gama positivo e negativo, gamma squeeze, como funcionam as estimativas de GEX e seus limites, OPEX, vanna e charm.">
+<meta name="keywords" content="exposição gama, gex opções, gama dos dealers, gamma squeeze, delta hedge market makers">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Exposição gama (GEX) e hedge dos dealers: opções movem o mercado">
+<meta property="og:description" content="Como os market makers fazem delta hedge, gama positivo e negativo, gamma squeeze, como funcionam as estimativas de GEX e seus limites, OPEX, vanna e charm.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Exposição gama (GEX) e hedge dos dealers: opções movem o mercado">
+<meta name="twitter:description" content="Como os market makers fazem delta hedge, gama positivo e negativo, gamma squeeze, como funcionam as estimativas de GEX e seus limites, OPEX, vanna e charm.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Exposição gama (GEX) e hedge dos dealers: opções movem o mercado","description":"Como os market makers fazem delta hedge, gama positivo e negativo, gamma squeeze, como funcionam as estimativas de GEX e seus limites, OPEX, vanna e charm.","keywords":"exposição gama, gex opções, gama dos dealers, gamma squeeze, delta hedge market makers","articleSection":"Opções","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Opções","item":"https://pnlpro.fit/pt/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Exposição gama e dealers","item":"https://pnlpro.fit/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"O que gama negativo significa para o mercado?","acceptedAnswer":{"@type":"Answer","text":"Quando se estima que os dealers estão vendidos em gama no líquido, o hedge deles exige comprar quando os preços sobem e vender quando caem. Isso pode amplificar os movimentos e aumentar a volatilidade, embora outros fluxos possam pesar mais."}},{"@type":"Question","name":"O que é um gamma squeeze?","acceptedAnswer":{"@type":"Answer","text":"Um gamma squeeze ocorre quando a compra pesada de calls obriga os dealers que as venderam a comprar o ativo-objeto à medida que o preço sobe, o que empurra o preço para cima e exige ainda mais compras. Ele pode se combinar com um short squeeze em ações muito vendidas a descoberto."}},{"@type":"Question","name":"Quão preciso é o GEX?","acceptedAnswer":{"@type":"Answer","text":"O GEX é uma estimativa que depende de premissas sobre se os dealers estão comprados ou vendidos em cada opção, e se baseia num open interest atualizado apenas uma vez por dia. Fornecedores diferentes muitas vezes dão números diferentes."}},{"@type":"Question","name":"Por que as ações ficam \"pinadas\" nos strikes no vencimento?","acceptedAnswer":{"@type":"Answer","text":"Quando há grande open interest perto de um strike, o hedge dos dealers pode tender a manter o preço por perto à medida que o vencimento se aproxima. A pesquisa constatou que ações com opções se agrupam perto dos strikes nos dias de vencimento com mais frequência do que o acaso sugeriria."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Opções</h3><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/" class="on" aria-current="page">Exposição gama e dealers</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/" class="on">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/options/">Opções</a></div>
+<h1 class="title">Exposição gama e hedge dos dealers</h1>
+<div class="meta">10 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Opções</summary><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/" class="on" aria-current="page">Exposição gama e dealers</a></li></ul></details>
+<article><p>A exposição gama descreve quanto os dealers de opções, principalmente os market makers, precisam comprar ou vender do ativo-objeto para continuar protegidos à medida que o preço se move. Os dealers geralmente buscam ficar delta neutros, então as operações de hedge deles dependem do gama das opções que carregam. Quando os dealers estão, no conjunto, vendidos em gama, o hedge pode empurrar os preços ainda mais na direção em que já estão indo; quando estão comprados em gama, o hedge tende a ir contra os movimentos. Os traders acompanham as estimativas de exposição gama (GEX) em busca de pistas sobre a volatilidade, mas essas estimativas se apoiam em premissas que muitas vezes estão erradas.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>Os market makers de opções normalmente fazem hedge do delta do seu estoque operando o ativo-objeto, e o gama determina quanto eles precisam ajustar à medida que o preço se move.</li>
+<li>Quando os dealers estão comprados em gama no líquido, o hedge significa vender nas altas e comprar nas quedas, o que tende a amortecer a volatilidade.</li>
+<li>Quando os dealers estão vendidos em gama no líquido, o hedge significa comprar nas altas e vender nas quedas, o que pode amplificar os movimentos e contribuir para gamma squeezes.</li>
+<li>Os números públicos de GEX são estimativas construídas sobre premissas a respeito de quem tem quais opções, e podem estar muito errados.</li>
+<li>O vencimento mensal de opções e os efeitos de vanna e charm em torno dele podem mudar os fluxos de hedge, mas são tendências, não sinais confiáveis.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#por-que-os-dealers-fazem-hedge">Por que os dealers fazem hedge</a></li><li><a href="#gamma-squeezes">Gamma squeezes</a></li><li><a href="#como-funcionam-as-estimativas-de-gex">Como funcionam as estimativas de GEX</a></li><li><a href="#os-limites-do-gex">Os limites do GEX</a></li><li><a href="#efeitos-do-opex">Efeitos do OPEX</a></li><li><a href="#vanna-e-charm-em-poucas-palavras">Vanna e charm, em poucas palavras</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="por-que-os-dealers-fazem-hedge">Por que os dealers fazem hedge</h2>
+<p>Um market maker ganha dinheiro comprando no bid e vendendo no ask, não apostando na direção. Quando um cliente compra uma call, o market maker que a vende fica vendido na call, uma posição que perde dinheiro se a ação subir. Para eliminar esse risco direcional, o market maker compra uma parte do ativo-objeto, numa quantidade definida pelo delta da opção. Isso se chama delta hedge. O negócio de cotar e gerenciar estoque em geral é tratado em <a href="/pt/encyclopedia/algorithmic-trading/market-making/">market making</a>.</p>
+<p>O delta muda à medida que o preço se move, numa taxa medida pelo gama. Então um hedge que está correto agora fica errado depois de um movimento, e o dealer precisa operar de novo. As definições estão em <a href="/pt/encyclopedia/options/options-greeks/">gregas das opções</a>.</p>
+<h3 id="exemplo-pr-tico-hedge-de-uma-posi-o-vendida-em-calls">Exemplo prático: hedge de uma posição vendida em calls</h3>
+<p>Um dealer vende 1,000 contratos de call de uma ação cotada a $100. Cada call tem delta de 0.40 e gama de 0.05, e cada contrato cobre 100 ações.</p>
+<ul>
+<li><strong>Hedge inicial:</strong> o dealer está vendido em 1,000 x 100 x 0.40 = 40,000 ações equivalentes de delta, então compra 40,000 ações.</li>
+<li><strong>A ação sobe $1, para $101:</strong> o delta sobe para cerca de 0.45. O dealer agora está vendido em 45,000 ações equivalentes e compra cerca de 1,000 x 100 x 0.05 = 5,000 ações a mais.</li>
+<li><strong>Se, em vez disso, a ação cair $1, para $99:</strong> o delta cai para cerca de 0.35, e o dealer vende cerca de 5,000 ações.</li>
+</ul>
+<p>O dealer está vendido em gama. Para continuar protegido, ele compra quando o preço sobe e vende quando o preço cai. Essas operações reforçam a direção em que o mercado já está indo.</p>
+<h3 id="o-caso-oposto-comprado-em-gama">O caso oposto: comprado em gama</h3>
+<p>Se, em vez disso, o dealer tivesse comprado 1,000 dessas calls de um cliente, por exemplo de um investidor fazendo lançamento coberto, ele faria o hedge vendendo 40,000 ações a descoberto. Numa alta de $1, o delta cresce para 0.45 e o dealer vende mais 5,000 ações na alta. Numa queda de $1, ele recompra 5,000 ações na queda. O hedge comprado em gama vai contra os movimentos.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Posição do dealer</th>
+<th>Hedge quando o preço sobe</th>
+<th>Hedge quando o preço cai</th>
+<th>Possível efeito no mercado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Comprado em gama no líquido</td>
+<td>Vende</td>
+<td>Compra</td>
+<td>Amortece os movimentos, pode comprimir as faixas</td>
+</tr>
+<tr>
+<td>Vendido em gama no líquido</td>
+<td>Compra</td>
+<td>Vende</td>
+<td>Amplifica os movimentos, pode aumentar a volatilidade</td>
+</tr>
+</tbody></table></div>
+<h2 id="gamma-squeezes">Gamma squeezes</h2>
+<p>Um gamma squeeze acontece quando uma compra pesada de calls, muitas vezes de prazo curto e fora do dinheiro, obriga os dealers que venderam essas calls a comprar o ativo-objeto à medida que o preço sobe. A compra deles pode empurrar o preço para cima, o que eleva ainda mais o delta das calls e força mais compras. O efeito é mais forte em ações em que o volume de opções é grande em relação ao volume negociado das próprias ações.</p>
+<p>A alta da GameStop em janeiro de 2021 é frequentemente citada como exemplo em que a compra pesada de calls e o hedge dos dealers se somaram a um short squeeze impulsionado por um alto volume de posições vendidas. Isolar quanto de um movimento desses veio do hedge é difícil. Veja <a href="/pt/encyclopedia/stocks/short-selling/">venda a descoberto</a> para entender como funcionam os short squeezes, e <a href="/pt/encyclopedia/risk-management/leverage-risk-and-black-swans/">risco de alavancagem e cisnes negros</a> para o episódio em contexto mais amplo.</p>
+<p>Gamma squeezes também podem ocorrer para baixo, quando uma compra pesada de puts obriga os dealers que venderam puts a vender o ativo-objeto durante uma queda.</p>
+<h2 id="como-funcionam-as-estimativas-de-gex">Como funcionam as estimativas de GEX</h2>
+<p>O GEX tenta estimar o gama total carregado pelos dealers em todos os strikes e vencimentos de um ativo-objeto. Uma abordagem comum:</p>
+<ol>
+<li>Pegar o contrato em aberto (open interest) de cada opção listada.</li>
+<li>Calcular o gama de cada opção com um modelo de precificação.</li>
+<li>Supor de que lado estão os dealers, na maioria das vezes que eles estão comprados nas calls que os clientes venderam e vendidos nas puts que os clientes compraram.</li>
+<li>Multiplicar o gama pelo open interest e pelo multiplicador do contrato e somar os totais, geralmente expressos em dólares de hedge por movimento de 1%.</li>
+</ol>
+<h3 id="exemplo-pr-tico-lendo-um-n-mero-de-gex">Exemplo prático: lendo um número de GEX</h3>
+<p>Suponha que uma estimativa diga que os dealers de uma ação de $100 estão vendidos em gama no líquido o equivalente a 20,000 ações por movimento de $1. Se a ação cair $2, o delta líquido dos dealers sobe 20,000 x 2 = 40,000 ações. Para continuar neutros, eles precisariam vender cerca de 40,000 ações durante a queda. Se a mesma estimativa tivesse mostrado os dealers comprados em 20,000 ações de gama por $1, eles precisariam comprar cerca de 40,000 ações enquanto ela caísse.</p>
+<p>Muitas ferramentas de GEX também marcam um nível de &quot;gamma flip&quot;, o preço em que o gama estimado dos dealers passa de positivo para negativo. Alguns traders esperam negociação mais calma acima desse nível e mais volátil abaixo dele.</p>
+<h2 id="os-limites-do-gex">Os limites do GEX</h2>
+<p>Os números de GEX são amplamente compartilhados, mas são construídos sobre dados incertos.</p>
+<ul>
+<li><strong>O open interest não mostra quem está comprado ou vendido.</strong> Os dados públicos dizem quantos contratos estão em aberto, não se foram os dealers ou os clientes que os compraram. A premissa padrão é uma simplificação e pode estar errada para strikes ou períodos específicos.</li>
+<li><strong>O open interest é atualizado uma vez por dia.</strong> As operações do mesmo dia, incluindo as <a href="/pt/encyclopedia/options/0dte-options/">opções 0DTE</a>, ficam invisíveis no open interest até o dia seguinte.</li>
+<li><strong>Os dealers fazem hedge de muitas formas.</strong> Eles podem compensar o gama com outras opções, futuros ou ativos relacionados, não só com o ativo-objeto.</li>
+<li><strong>O gama não é o único motor.</strong> Notícias fundamentais, fluxos macro e ordens grandes podem facilmente pesar mais do que o hedge.</li>
+<li><strong>Fornecedores diferentes dão números diferentes.</strong> Os métodos variam, e nenhum é verificado contra os livros reais dos dealers.</li>
+</ul>
+<p>O GEX pode ser uma lente útil, mas não é uma ferramenta de previsão com histórico comprovado e não deve ser tratado como um sinal confiável por si só.</p>
+<h2 id="efeitos-do-opex">Efeitos do OPEX</h2>
+<p>O vencimento mensal de opções, muitas vezes chamado de OPEX, cai na terceira sexta-feira do mês para as opções padrão dos EUA sobre ações e índices. Grandes quantidades de open interest vencem de uma vez, o que pode mudar abruptamente as necessidades de hedge dos dealers.</p>
+<ul>
+<li><strong>Pinning:</strong> quando há grande open interest perto de um strike, os fluxos de hedge podem tender a manter o preço perto desse strike até o vencimento. A pesquisa acadêmica, incluindo o trabalho de Ni, Pearson e Poteshman, documentou que ações com opções listadas tendem a se agrupar perto dos strikes nas datas de vencimento com mais frequência do que o acaso sugeriria.</li>
+<li><strong>Saída do gama (gamma roll-off):</strong> depois de um grande vencimento, o gama que vinha amortecendo ou amplificando os movimentos desaparece, e alguns traders esperam uma mudança na volatilidade nos dias seguintes.</li>
+</ul>
+<p>O surgimento dos vencimentos diários espalhou parte desses efeitos ao longo da semana. A mecânica do vencimento é tratada em <a href="/pt/encyclopedia/options/options-expiration-and-assignment/">vencimento e exercício de opções</a>.</p>
+<h2 id="vanna-e-charm-em-poucas-palavras">Vanna e charm, em poucas palavras</h2>
+<p>Duas gregas de segunda ordem afetam os fluxos de hedge sem nenhum movimento de preço.</p>
+<ul>
+<li><strong>Vanna</strong> mede como o delta muda quando a volatilidade implícita muda. Se a volatilidade implícita cai, os deltas das opções fora do dinheiro encolhem, e os dealers ajustam seus hedges. Sob a premissa comum de que os dealers estão vendidos em puts de índice e fazem hedge vendendo futuros, uma queda da volatilidade implícita os leva a recomprar parte desses hedges, o que sustenta os preços. Veja <a href="/pt/encyclopedia/options/implied-volatility/">volatilidade implícita</a>.</li>
+<li><strong>Charm</strong> mede como o delta muda com a passagem do tempo. À medida que o vencimento se aproxima, as opções fora do dinheiro perdem delta, e os dealers desmontam os hedges contra elas. É um dos motivos pelos quais os analistas falam em fluxos de hedge nos dias anteriores ao OPEX.</li>
+</ul>
+<p>Os dois efeitos dependem das mesmas premissas incertas sobre o posicionamento dos dealers que o próprio GEX.</p>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Tratar níveis de GEX como suporte e resistência.</strong> São estimativas de modelo, não ordens paradas no livro.</li>
+<li><strong>Supor que os dealers estão sempre vendidos em gama.</strong> O posicionamento dos dealers varia entre ações, strikes e ao longo do tempo.</li>
+<li><strong>Ignorar a atividade do mesmo dia.</strong> Em mercados dominados por opções de prazo curto, os fluxos mais importantes podem não aparecer no open interest.</li>
+<li><strong>Atribuir movimentos demais ao hedge.</strong> Notícias e fluxos macro geralmente importam mais.</li>
+<li><strong>Operar todo OPEX do mesmo jeito.</strong> Os efeitos do vencimento são inconsistentes e dependem de quanto open interest está vencendo e onde.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="o-que-gama-negativo-significa-para-o-mercado">O que gama negativo significa para o mercado?</h3>
+<p>Quando se estima que os dealers estão vendidos em gama no líquido, o hedge deles exige comprar quando os preços sobem e vender quando caem. Isso pode amplificar os movimentos e aumentar a volatilidade, embora outros fluxos possam pesar mais.</p>
+<h3 id="o-que-um-gamma-squeeze">O que é um gamma squeeze?</h3>
+<p>Um gamma squeeze ocorre quando a compra pesada de calls obriga os dealers que as venderam a comprar o ativo-objeto à medida que o preço sobe, o que empurra o preço para cima e exige ainda mais compras. Ele pode se combinar com um short squeeze em ações muito vendidas a descoberto.</p>
+<h3 id="qu-o-preciso-o-gex">Quão preciso é o GEX?</h3>
+<p>O GEX é uma estimativa que depende de premissas sobre se os dealers estão comprados ou vendidos em cada opção, e se baseia num open interest atualizado apenas uma vez por dia. Fornecedores diferentes muitas vezes dão números diferentes.</p>
+<h3 id="por-que-as-a-es-ficam-pinadas-nos-strikes-no-vencimento">Por que as ações ficam &quot;pinadas&quot; nos strikes no vencimento?</h3>
+<p>Quando há grande open interest perto de um strike, o hedge dos dealers pode tender a manter o preço por perto à medida que o vencimento se aproxima. A pesquisa constatou que ações com opções se agrupam perto dos strikes nos dias de vencimento com mais frequência do que o acaso sugeriria.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/options/options-greeks/"><div class="k">Opções</div><b>As gregas</b><span>O que medem delta, gama, theta, vega e rho, com exemplos práticos, como as gregas mudam com o tempo e o moneyness e como ler as gregas de uma posição.</span></a><a class="card" href="/pt/encyclopedia/options/0dte-options/"><div class="k">Opções</div><b>Opções 0DTE</b><span>O que são opções 0DTE, por que as opções de SPX, SPY e QQQ do mesmo dia explodiram, como funcionam o gama e o decaimento extremos, estratégias e riscos.</span></a><a class="card" href="/pt/encyclopedia/algorithmic-trading/market-making/"><div class="k">Trading algorítmico e quantitativo</div><b>Market making</b><span>Guia de market making: cotar os dois lados, captura do spread, ajuste pelo estoque, seleção adversa, posição na fila, rebates e Avellaneda-Stoikov.</span></a><a class="card" href="/pt/encyclopedia/basics/market-participants/"><div class="k">Fundamentos do trading</div><b>Participantes do mercado</b><span>Pessoa física, institucionais, hedge funds, formadores de mercado, HFT, hedgers, bancos centrais e baleias: o que cada um quer e contra quem você opera de fato.</span></a><a class="card" href="/pt/encyclopedia/options/implied-volatility/"><div class="k">Opções</div><b>Volatilidade implícita</b><span>O que é volatilidade implícita, como ela difere da histórica, IV rank e IV percentil, IV crush, skew e a fórmula do movimento esperado com exemplos.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/options/options-expiration-and-assignment/"><small>← Anterior</small>Vencimento e exercício</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

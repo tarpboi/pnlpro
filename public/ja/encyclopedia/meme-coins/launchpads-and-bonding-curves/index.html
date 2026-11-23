@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ローンチパッドとボンディングカーブの仕組み【pump.fun型】 | PnL Profit</title>
+<meta name="description" content="ボンディングカーブ型ローンチパッドが新規トークンの価格をどう決めるのか、卒業のしきい値と作成者手数料、「フェアローンチ」が実態と合わない理由を解説します。">
+<meta name="keywords" content="ボンディングカーブ とは, pump.fun 仕組み, pump.fun 卒業, ミームコイン ローンチパッド, フェアローンチ, ポンプファン">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="ローンチパッドとボンディングカーブの仕組み【pump.fun型】 | PnL Profit">
+<meta property="og:description" content="ボンディングカーブ型ローンチパッドが新規トークンの価格をどう決めるのか、卒業のしきい値と作成者手数料、「フェアローンチ」が実態と合わない理由を解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ローンチパッドとボンディングカーブの仕組み【pump.fun型】 | PnL Profit">
+<meta name="twitter:description" content="ボンディングカーブ型ローンチパッドが新規トークンの価格をどう決めるのか、卒業のしきい値と作成者手数料、「フェアローンチ」が実態と合わない理由を解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"ローンチパッドとボンディングカーブの仕組み【pump.fun型】","description":"ボンディングカーブ型ローンチパッドが新規トークンの価格をどう決めるのか、卒業のしきい値と作成者手数料、「フェアローンチ」が実態と合わない理由を解説します。","keywords":"ボンディングカーブ とは, pump.fun 仕組み, pump.fun 卒業, ミームコイン ローンチパッド, フェアローンチ, ポンプファン","articleSection":"ミームコイントレード","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"ミームコイントレード","item":"https://pnlpro.fit/ja/encyclopedia/meme-coins/"},{"@type":"ListItem","position":3,"name":"ローンチパッドとボンディングカーブ","item":"https://pnlpro.fit/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"暗号資産のボンディングカーブとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"ボンディングカーブとは、供給のうちどれだけが販売されたかに基づく計算式で決まる価格で、トークンを売買するスマートコントラクトです。ミームコインのローンチパッドでは、トークンがDEXプールへ卒業するまで、それがトークンの唯一の市場として機能します。"}},{"@type":"Question","name":"pump.funのトークンが卒業するにはどれくらい必要ですか？","acceptedAnswer":{"@type":"Answer","text":"2025年から2026年にかけて、pump.funのしきい値は一般に約85 SOLの調達と報じられており、これに相当する時価総額はSOLの価格とともに変動します。プラットフォームはこれを変更できるため、最新のドキュメントを確認してください。"}},{"@type":"Question","name":"pump.funの作成者は報酬を受け取れますか？","acceptedAnswer":{"@type":"Answer","text":"2025年以降、pump.funをはじめとするいくつかのローンチパッドは、取引手数料の一部をトークン作成者と分け合っています。正確な料率やモデルは何度も変わっているため、最新の条件を確認してください。"}},{"@type":"Question","name":"ボンディングカーブでのローンチは通常のDEXローンチより安全ですか？","acceptedAnswer":{"@type":"Answer","text":"コントラクトが標準化され、卒業時にLPがロックされるため、作成者がプールの流動性を引き抜いたり隠れた税を追加したりといった一部のリスクはなくなります。しかしインサイダー、バンドラー、スナイパーが早く買って後の買い手に売ることは止められません。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>ミームコイントレード</h3><ul><li><a href="/ja/encyclopedia/meme-coins/meme-coins-explained/">ミームコインとは</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coin-lifecycle/">ミームコインのライフサイクル</a></li><li><a href="/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/" class="on" aria-current="page">ローンチパッドとボンディングカーブ</a></li><li><a href="/ja/encyclopedia/meme-coins/finding-meme-coins/">ミームコインの探し方</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coin-due-diligence/">ミームコインのデューデリジェンス</a></li><li><a href="/ja/encyclopedia/meme-coins/rug-pulls-and-honeypots/">ラグプルとハニーポット</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coin-trading-bots/">トレーディングボット（Telegram）</a></li><li><a href="/ja/encyclopedia/meme-coins/sniping-new-launches/">新規ローンチのスナイプ</a></li><li><a href="/ja/encyclopedia/meme-coins/copy-trading-wallets/">ウォレットのコピートレード</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coin-risk-and-exits/">リスクと出口戦略</a></li><li><a href="/ja/encyclopedia/meme-coins/kols-insiders-and-cabals/">KOL・インサイダー・カバル</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coins-by-chain/">チェーン別ミームコイン</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/" class="on">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a></div>
+<h1 class="title">ローンチパッドとボンディングカーブ</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>ミームコイントレードの他の記事</summary><ul><li><a href="/ja/encyclopedia/meme-coins/meme-coins-explained/">ミームコインとは</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coin-lifecycle/">ミームコインのライフサイクル</a></li><li><a href="/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/" class="on" aria-current="page">ローンチパッドとボンディングカーブ</a></li><li><a href="/ja/encyclopedia/meme-coins/finding-meme-coins/">ミームコインの探し方</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coin-due-diligence/">ミームコインのデューデリジェンス</a></li><li><a href="/ja/encyclopedia/meme-coins/rug-pulls-and-honeypots/">ラグプルとハニーポット</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coin-trading-bots/">トレーディングボット（Telegram）</a></li><li><a href="/ja/encyclopedia/meme-coins/sniping-new-launches/">新規ローンチのスナイプ</a></li><li><a href="/ja/encyclopedia/meme-coins/copy-trading-wallets/">ウォレットのコピートレード</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coin-risk-and-exits/">リスクと出口戦略</a></li><li><a href="/ja/encyclopedia/meme-coins/kols-insiders-and-cabals/">KOL・インサイダー・カバル</a></li><li><a href="/ja/encyclopedia/meme-coins/meme-coins-by-chain/">チェーン別ミームコイン</a></li></ul></details>
+<article><p>ミームコインのローンチパッドとは、誰でも1分以内にトークンを作成して取引を始められるプラットフォームです。事前の流動性は不要で、トークンはボンディングカーブに沿って販売されます。ボンディングカーブとは、供給が買われるほど価格が上がる固定の計算式です。カーブが満たされると、ローンチパッドはトークンを通常の分散型取引所（DEX）のプールへ移します。このステップを卒業（グラデュエーション）またはマイグレーションと呼びます。このモデルは2024年にSolana上のPump.funが広め、現在では主要チェーンのほとんどに同様のローンチパッドがあります。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>ボンディングカーブとは計算式で決まる価格でトークンを販売するスマートコントラクトで、最初の買い手は後から来る買い手が払う価格のごく一部しか払いません。</li>
+<li>価格は流入する資金よりも速く上昇します。典型的なpump.fun型のカーブでは、カーブ内のSOL準備金（初期の仮想準備金を含む）が2倍になると価格はおよそ4倍になります。</li>
+<li>卒業のしきい値、手数料、移行先のDEXはプラットフォームごとに異なり、頻繁に変わります。必ず最新の条件を確認してください。</li>
+<li>ローンチパッドはすべての取引で手数料を得ており、作成者も手数料を得ていることが多いため、トレーダーが儲かるかどうかにかかわらずプラットフォームは利益を得ます。</li>
+<li>「フェアローンチ」とはプレセールがないという意味であり、インサイダーがバンドルやスナイパーを使って早く買えないという意味ではありません。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">ローンチパッドが従来の方法に取って代わった理由</a></li><li><a href="#section-3">価格の計算式の仕組み</a></li><li><a href="#section-5">卒業のしきい値</a></li><li><a href="#section-6">手数料：誰が受け取っているのか</a></li><li><a href="#section-7">フェアローンチ：うたい文句と実態</a></li><li><a href="#section-8">ほかのチェーンのローンチパッド</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">ローンチパッドが従来の方法に取って代わった理由</h2>
+<p>ローンチパッド以前は、DEXでトークンをローンチするには、トークンを作成したうえで、そのトークンとSOLやETHなどのクオート資産の両方を入れて流動性プールに資金を供給する必要がありました。これには資金とある程度の技術的スキルが必要で、作成者にプールの支配権を与えるため、「流動性を引き抜く」ことが古典的な<a href="/ja/encyclopedia/meme-coins/rug-pulls-and-honeypots/">ラグプル</a>になっていました。</p>
+<p>ボンディングカーブ型ローンチパッドは、次の3点を変えました。</p>
+<ol>
+<li><strong>初期の流動性が不要。</strong> カーブそのものが市場です。</li>
+<li><strong>コントラクトが標準化されている。</strong> プラットフォーム上のすべてのトークンが同じ監査済みテンプレートを使うため、トークン自体に隠れた税（タックス）や売却ブロックはなく、ミント権限も通常は放棄されています。</li>
+<li><strong>卒業時に流動性がロックされる。</strong> プラットフォームがDEXプールに流動性を供給し、通常はLPトークンをバーンまたはロックするため、作成者は引き出せません。</li>
+</ol>
+<p>これによって古い詐欺の一部はなくなりましたが、新たな問題が生まれました。ローンチの数が爆発的に増え、競争の舞台はスピード、バンドル、そして注目度へと移ったのです。</p>
+<h2 id="section-3">価格の計算式の仕組み</h2>
+<p>pump.fun型のカーブの多くは、「仮想リザーブ（virtual reserves）」を用いた定数積の式を使っています。コントラクトは、x単位のSOLとy単位のトークンからなるプールを保有しているかのように振る舞い、xとyの積は常に定数kに等しくなります。開始時点では、どちらのリザーブも完全に実在するわけではありません。仮想SOLリザーブがあるおかげで、誰も流動性を預けなくても価格がゼロでない水準から始まります。</p>
+<ul>
+<li>スポット価格（1トークンあたりのSOL）= x / y</li>
+<li>買うと、SOLがxに加わり、xとyの積がkに等しいまま保たれるようyが減少します。yから取り除かれたトークンがあなたの受け取る分です。</li>
+<li>売るときはその逆になります。</li>
+</ul>
+<p>y = k / x なので、スポット価格はxの2乗をkで割った値に等しくなります。SOLが入るほど価格の上昇が速くなるのはこのためです。SOLリザーブが2倍になると、価格は約4倍に上がります。</p>
+<h3 id="section-4">説明用パラメーターを使った計算例</h3>
+<p>以下の数字は、2024年に広く知られていた当初のpump.funの設計に近いものですが、あくまで説明用です。実際のパラメーターは変更されることがあり、プラットフォームによっても異なります。</p>
+<ul>
+<li>総供給量：1,000,000,000トークン</li>
+<li>ローンチ時の仮想リザーブ：x = 30 SOL、y = 1,073,000,000トークン</li>
+<li>k = 30 × 1,073,000,000 = 32,190,000,000</li>
+<li>開始時のスポット価格 = 30 / 1,073,000,000 ≈ 1トークンあたり0.0000000280 SOL</li>
+<li>開始時の時価総額 = 価格 × 10億 ≈ 28 SOL。SOL価格が150ドルなら約4,200ドルです。</li>
+</ul>
+<p><strong>買い手Aがローンチ直後に1 SOLで買う</strong>（手数料は無視）：</p>
+<ul>
+<li>新しいx = 31 SOL。新しいy = 32,190,000,000 / 31 ≈ 1,038,387,097</li>
+<li>受け取るトークン = 1,073,000,000 − 1,038,387,097 ≈ 34,612,903。供給量の約3.46%です。</li>
+</ul>
+<p><strong>その後、実際のSOLが30 SOLカーブに入った時点</strong>（x = 60）：</p>
+<ul>
+<li>y = 32,190,000,000 / 60 = 536,500,000</li>
+<li>スポット価格 = 60 / 536,500,000 ≈ 0.000000112 SOLで、開始価格の4倍です。</li>
+<li>買い手Aのトークンはスポット価格で約3.87 SOLの価値があります。しかし売れば価格は下がります。34,612,903トークンを加えるとy ≈ 571,112,903となり、xは約56.36まで下がるので、買い手Aが受け取るのは約3.64 SOLです。手数料控除前で、1 SOLに対して3.6倍のリターンです。</li>
+</ul>
+<p><strong>実際のSOLが約85 SOL入った時点</strong>（x = 115）：</p>
+<ul>
+<li>y = 32,190,000,000 / 115 ≈ 279,913,043なので、カーブからは約7億9,300万トークンが売れたことになります。</li>
+<li>スポット価格 ≈ 0.000000411 SOLで、開始価格のおよそ14.7倍です。</li>
+<li>時価総額 ≈ 411 SOL。1 SOL = 150ドルなら約61,600ドルです。</li>
+</ul>
+<p>当初のpump.funの設計では、おおむねこの時点で卒業が発動しました。残りのトークン（約2億枚）と集まったSOL（手数料控除後）がDEXプールに供給されたのです。教訓はこの比率にあります。最初の買い手が払った価格は、卒業時の買い手が払った価格の約15分の1でした。</p>
+<h2 id="section-5">卒業のしきい値</h2>
+<p>各ローンチパッドは、カーブ段階を終わらせるしきい値を設定しています。通常はチェーンのネイティブ資産（調達されたSOL、ETH、BNBの量）または販売済み供給量の割合で定義されるため、ドル換算の時価総額はネイティブ資産の価格とともに変動します。2025年から2026年にかけて、pump.funのしきい値は一般に約85 SOLの調達と報じられており、SOLの価格次第で時価総額にして60,000ドル〜100,000ドルの範囲のどこかと説明されることがよくあります。ほかのプラットフォームは別の数字を使っています。どの数字もその時点のスナップショットとして扱い、プラットフォーム自身のドキュメントを確認してください。</p>
+<p>卒業時には移行先が重要です。Pump.funは当初トークンをRaydiumへ移行していましたが、2025年3月に独自のDEXであるPumpSwapに切り替えました。ほかのローンチパッドはRaydium、Meteora、Uniswap、PancakeSwap、あるいは独自のプールへ移行します。</p>
+<h2 id="section-6">手数料：誰が受け取っているのか</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>手数料の種類</th>
+<th>受け取る人</th>
+<th>典型的な形（最新の条件を確認）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>カーブ取引手数料</td>
+<td>ローンチパッド、場合により作成者</td>
+<td>1取引あたり約1%が一般的だった</td>
+</tr>
+<tr>
+<td>卒業後のプール手数料</td>
+<td>ローンチパッド、作成者、流動性提供者</td>
+<td>まちまち。時価総額に応じて段階を設けるプラットフォームもある</td>
+</tr>
+<tr>
+<td>作成手数料</td>
+<td>ローンチパッド</td>
+<td>ゼロかごく少額であることが多い</td>
+</tr>
+<tr>
+<td>マイグレーション手数料</td>
+<td>ローンチパッド</td>
+<td>調達資金の一部を取るプラットフォームもある</td>
+</tr>
+<tr>
+<td>ボットやフロントエンドの手数料</td>
+<td>サードパーティのアプリ</td>
+<td>1取引あたり約1%が上乗せされることが多い</td>
+</tr>
+</tbody></table></div>
+<p>2025年以降、いくつかのローンチパッドは作成者手数料を導入または拡大し、取引高の一部をトークン作成者に支払うようになりました。支持者は、コミュニティを築く作成者に報いる仕組みだと言います。批判的な人は、大量のトークンをローンチして出来高を回転させることにも作成者に報酬を払うことになると指摘しています。2026年後半の時点で、主要プラットフォームの手数料モデルはまだ変化しており、作成者が手数料体系を選べるオプションなども登場しています。</p>
+<p>トレーダーの視点で押さえるべき事実は、結果に関係なく、すべての買いとすべての売りで手数料がかかるということです。50銘柄を売買して出入りすれば、手数料を100回払うことになります。<a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コストと手数料</a>を参照してください。</p>
+<h2 id="section-7">フェアローンチ：うたい文句と実態</h2>
+<p>ローンチパッドは、プレセールなし、チーム割り当てなし、全員が同じカーブから買う、という公平さを売りにしています。狭い意味ではそれは本当です。しかし実際には次のとおりです。</p>
+<ul>
+<li><strong>作成者が最初に買う。</strong> デプロイヤーは作成トランザクションの中に最安値での買いを含めることができます。</li>
+<li><strong>バンドルが集中度を隠す。</strong> 作成者は同じブロック内で多数の新規ウォレットから買えるため、保有者リストは分散しているように見えます。<a href="/ja/encyclopedia/meme-coins/meme-coin-due-diligence/">ミームコインのデューデリジェンス</a>を参照してください。</li>
+<li><strong>スナイパーは人間より速い。</strong> ボットは最初のブロックか最初の数秒で買います。<a href="/ja/encyclopedia/meme-coins/sniping-new-launches/">新規ローンチのスナイプ</a>を参照してください。</li>
+<li><strong>事前に示し合わせたグループ</strong>がトークンの誕生前に銘柄を決め、一斉に買います。</li>
+</ul>
+<p>つまりカーブは、全員が同じ計算式に向き合うという意味では公平です。しかし全員が同じように早く買えるという意味では公平ではありません。</p>
+<h2 id="section-8">ほかのチェーンのローンチパッド</h2>
+<p>ボンディングカーブのモデルは広く模倣されています。例としては、SolanaのRaydium LaunchLabとLetsBonk、BNB ChainのFour.meme、そしてBase上のさまざまなランチャーがあり、後者には投稿やキャストを軸にトークンを作成するZoraやClankerのようなソーシャルアプリ連携型も含まれます。シェアは大きく揺れ動いており、2025年半ばにはLetsBonkが一部の日次指標で一時的にpump.funを上回り、その後pump.funが首位を奪還しました。仕組み、しきい値、手数料はそれぞれ異なります。<a href="/ja/encyclopedia/meme-coins/meme-coins-by-chain/">チェーン別のミームコイン</a>を参照してください。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>カーブ上の価格を評価額だと思い込む。</strong> それは現在入っている資金量に対する計算式の出力にすぎません。</li>
+<li><strong>卒業間近で跳ね上がりを期待して買う。</strong> カーブ上の買い手の多くはマイグレーション時に売ります。</li>
+<li><strong>売れば価格が動くことを忘れる。</strong> スポット価格での含み評価額は、実際に手にできる金額を過大に見せます。</li>
+<li><strong>プラットフォームの条件を確認しない。</strong> 手数料、しきい値、移行先は変わります。前の四半期に正しかったことが今も正しいとは限りません。</li>
+<li><strong>「標準コントラクト」を「安全なトークン」と同一視する。</strong> クリーンなコントラクトでも、インサイダーの売り崩しは止められません。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-11">暗号資産のボンディングカーブとは何ですか？</h3>
+<p>ボンディングカーブとは、供給のうちどれだけが販売されたかに基づく計算式で決まる価格で、トークンを売買するスマートコントラクトです。ミームコインのローンチパッドでは、トークンがDEXプールへ卒業するまで、それがトークンの唯一の市場として機能します。</p>
+<h3 id="pump-fun">pump.funのトークンが卒業するにはどれくらい必要ですか？</h3>
+<p>2025年から2026年にかけて、pump.funのしきい値は一般に約85 SOLの調達と報じられており、これに相当する時価総額はSOLの価格とともに変動します。プラットフォームはこれを変更できるため、最新のドキュメントを確認してください。</p>
+<h3 id="pump-fun">pump.funの作成者は報酬を受け取れますか？</h3>
+<p>2025年以降、pump.funをはじめとするいくつかのローンチパッドは、取引手数料の一部をトークン作成者と分け合っています。正確な料率やモデルは何度も変わっているため、最新の条件を確認してください。</p>
+<h3 id="dex">ボンディングカーブでのローンチは通常のDEXローンチより安全ですか？</h3>
+<p>コントラクトが標準化され、卒業時にLPがロックされるため、作成者がプールの流動性を引き抜いたり隠れた税を追加したりといった一部のリスクはなくなります。しかしインサイダー、バンドラー、スナイパーが早く買って後の買い手に売ることは止められません。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/meme-coins/meme-coin-lifecycle/"><div class="k">ミームコイントレード</div><b>ミームコインのライフサイクル</b><span>ミームコインがたどる段階（ローンチ、ボンディングカーブ、DEX卒業、初期の上昇、もみ合い、CEX上場、衰退）と、各段階で誰が売っているのかを解説します。</span></a><a class="card" href="/ja/encyclopedia/meme-coins/meme-coins-explained/"><div class="k">ミームコイントレード</div><b>ミームコインとは</b><span>ドージコインからローンチパッド時代までのミームコインの正体、取引される理由、注目度で価格が決まる仕組み、ほとんどがゼロになる理由を解説します。</span></a><a class="card" href="/ja/encyclopedia/meme-coins/sniping-new-launches/"><div class="k">ミームコイントレード</div><b>新規ローンチのスナイプ</b><span>新規トークンのスナイプとは何か、優先手数料とレイテンシーが勝者を決める仕組み、インサイダーやバンドラーがスナイパーに勝つ理由、損失を抑える方法を解説します。</span></a><a class="card" href="/ja/encyclopedia/meme-coins/meme-coin-due-diligence/"><div class="k">ミームコイントレード</div><b>ミームコインのデューデリジェンス</b><span>ミームコインの実践チェックリスト。ミント権限とフリーズ権限、LPの状態、保有の集中度、バンドル、スナイパー、税、SNS、トークンチェッカーの限界を解説します。</span></a><a class="card" href="/ja/encyclopedia/meme-coins/meme-coins-by-chain/"><div class="k">ミームコイントレード</div><b>チェーン別ミームコイン</b><span>Solana、イーサリアム、Base、BNB Chainなどのミームコイン取引の違い。手数料、速度、ローンチパッド、ツール、リスク、文化、ブリッジを解説。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/meme-coins/meme-coin-lifecycle/"><small>← 前へ</small>ミームコインのライフサイクル</a><a class="next" href="/ja/encyclopedia/meme-coins/finding-meme-coins/"><small>次へ →</small>ミームコインの探し方</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

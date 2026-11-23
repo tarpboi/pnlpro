@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATR e indicadores de volatilidad: el Average True Range explicado</title>
+<meta name="description" content="Cómo funciona el Average True Range, el ATR para stops y tamaño de posición, la volatilidad histórica, los canales de Keltner y la volatilidad en clústeres.">
+<meta name="keywords" content="average true range, indicador atr, stop loss con atr, volatilidad histórica, canales de keltner">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="ATR e indicadores de volatilidad: el Average True Range explicado">
+<meta property="og:description" content="Cómo funciona el Average True Range, el ATR para stops y tamaño de posición, la volatilidad histórica, los canales de Keltner y la volatilidad en clústeres.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ATR e indicadores de volatilidad: el Average True Range explicado">
+<meta name="twitter:description" content="Cómo funciona el Average True Range, el ATR para stops y tamaño de posición, la volatilidad histórica, los canales de Keltner y la volatilidad en clústeres.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"ATR e indicadores de volatilidad: el Average True Range explicado","description":"Cómo funciona el Average True Range, el ATR para stops y tamaño de posición, la volatilidad histórica, los canales de Keltner y la volatilidad en clústeres.","keywords":"average true range, indicador atr, stop loss con atr, volatilidad histórica, canales de keltner","articleSection":"Análisis técnico","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Análisis técnico","item":"https://pnlpro.fit/es/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"ATR y volatilidad","item":"https://pnlpro.fit/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Qué múltiplo de ATR es bueno para un stop loss?","acceptedAnswer":{"@type":"Answer","text":"Muchos traders usan de 1.5 a 3 veces el ATR, pero no hay un valor universalmente correcto. El múltiplo adecuado depende del mercado, la temporalidad y la estrategia, y debe probarse en lugar de darse por supuesto."}},{"@type":"Question","name":"¿Qué significa un ATR alto?","acceptedAnswer":{"@type":"Answer","text":"Un ATR alto significa que el activo ha tenido movimientos grandes recientemente, medidos en unidades de precio. No dice nada sobre la dirección y conviene compararlo con el propio historial del activo o convertirlo en un porcentaje del precio."}},{"@type":"Question","name":"¿Cuál es la diferencia entre el ATR y la desviación estándar?","acceptedAnswer":{"@type":"Answer","text":"El ATR promedia el tamaño del rango completo de cada barra, incluidos los gaps, en unidades de precio. La desviación estándar mide cuán dispersos están los rendimientos alrededor de su promedio y es la base de la volatilidad histórica y de las bandas de Bollinger."}},{"@type":"Question","name":"¿Qué periodo debo usar para el ATR?","acceptedAnswer":{"@type":"Answer","text":"Catorce periodos es el valor predeterminado más común, siguiendo a Wilder. Los periodos más cortos reaccionan más rápido a los cambios pero tienen más ruido; los más largos son más suaves pero tardan más en reflejar un nuevo régimen de volatilidad."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/atr-and-volatility-indicators/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/atr-and-volatility-indicators/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/technical-analysis/atr-and-volatility-indicators/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/atr-and-volatility-indicators/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/atr-and-volatility-indicators/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/atr-and-volatility-indicators/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Análisis técnico</h3><ul><li><a href="/es/encyclopedia/technical-analysis/technical-analysis-intro/">Introducción al análisis técnico</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-charts/">Cómo leer velas japonesas</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-patterns/">Patrones de velas</a></li><li><a href="/es/encyclopedia/technical-analysis/support-and-resistance/">Soporte y resistencia</a></li><li><a href="/es/encyclopedia/technical-analysis/trends-and-market-structure/">Tendencias y estructura de mercado</a></li><li><a href="/es/encyclopedia/technical-analysis/chart-patterns/">Patrones chartistas</a></li><li><a href="/es/encyclopedia/technical-analysis/moving-averages/">Medias móviles</a></li><li><a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/es/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/es/encyclopedia/technical-analysis/bollinger-bands/">Bandas de Bollinger</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-analysis/">Análisis de volumen</a></li><li><a href="/es/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/es/encyclopedia/technical-analysis/fibonacci-retracement/">Herramientas de Fibonacci</a></li><li><a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/" class="on" aria-current="page">ATR y volatilidad</a></li><li><a href="/es/encyclopedia/technical-analysis/multi-timeframe-analysis/">Análisis multitemporal</a></li><li><a href="/es/encyclopedia/technical-analysis/price-action-trading/">Trading con price action</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile y Market Profile</a></li><li><a href="/es/encyclopedia/technical-analysis/order-flow-trading/">Trading con order flow</a></li><li><a href="/es/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/es/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Ondas de Elliott y Wyckoff</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/" class="on">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a></div>
+<h1 class="title">ATR e indicadores de volatilidad</h1>
+<div class="meta">9 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Análisis técnico</summary><ul><li><a href="/es/encyclopedia/technical-analysis/technical-analysis-intro/">Introducción al análisis técnico</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-charts/">Cómo leer velas japonesas</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-patterns/">Patrones de velas</a></li><li><a href="/es/encyclopedia/technical-analysis/support-and-resistance/">Soporte y resistencia</a></li><li><a href="/es/encyclopedia/technical-analysis/trends-and-market-structure/">Tendencias y estructura de mercado</a></li><li><a href="/es/encyclopedia/technical-analysis/chart-patterns/">Patrones chartistas</a></li><li><a href="/es/encyclopedia/technical-analysis/moving-averages/">Medias móviles</a></li><li><a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/es/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/es/encyclopedia/technical-analysis/bollinger-bands/">Bandas de Bollinger</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-analysis/">Análisis de volumen</a></li><li><a href="/es/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/es/encyclopedia/technical-analysis/fibonacci-retracement/">Herramientas de Fibonacci</a></li><li><a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/" class="on" aria-current="page">ATR y volatilidad</a></li><li><a href="/es/encyclopedia/technical-analysis/multi-timeframe-analysis/">Análisis multitemporal</a></li><li><a href="/es/encyclopedia/technical-analysis/price-action-trading/">Trading con price action</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile y Market Profile</a></li><li><a href="/es/encyclopedia/technical-analysis/order-flow-trading/">Trading con order flow</a></li><li><a href="/es/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/es/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Ondas de Elliott y Wyckoff</a></li></ul></details>
+<article><p>Los indicadores de volatilidad miden cuánto se mueve normalmente un mercado, sin decir en qué dirección. El más usado es el Average True Range (ATR), o rango verdadero promedio, presentado por J. Welles Wilder en su libro de 1978 <em>New Concepts in Technical Trading Systems</em>. Los traders usan el ATR y medidas relacionadas para colocar stops acordes con el ruido normal del mercado, para dimensionar las posiciones de modo que cada operación tenga un riesgo similar y para reconocer cuándo un mercado ha pasado de la calma a la turbulencia.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>El rango verdadero recoge el movimiento completo de una barra, incluido cualquier gap respecto al cierre anterior; el ATR es su promedio suavizado.</li>
+<li>El ATR se mide en unidades de precio, así que no es directamente comparable entre activos con precios diferentes.</li>
+<li>Los stops y el dimensionamiento basados en el ATR adaptan el riesgo a las condiciones actuales en lugar de usar distancias fijas.</li>
+<li>La volatilidad histórica, la desviación estándar anualizada de los rendimientos, es la contraparte estadística del ATR.</li>
+<li>La volatilidad se agrupa en clústeres: a los periodos de calma suelen seguirles más calma, y a los turbulentos, más turbulencia, lo que convierte la volatilidad reciente en una guía útil, aunque imperfecta.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#rango-verdadero-y-atr">Rango verdadero y ATR</a></li><li><a href="#uso-del-atr-para-los-stops">Uso del ATR para los stops</a></li><li><a href="#uso-del-atr-para-el-tama-o-de-posici-n">Uso del ATR para el tamaño de posición</a></li><li><a href="#volatilidad-hist-rica">Volatilidad histórica</a></li><li><a href="#canales-de-keltner">Canales de Keltner</a></li><li><a href="#reg-menes-de-volatilidad-y-cl-steres">Regímenes de volatilidad y clústeres</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="rango-verdadero-y-atr">Rango verdadero y ATR</h2>
+<p>El rango simple de una barra es el máximo menos el mínimo. Eso deja fuera los gaps. Si una acción cierra en 102 y abre al día siguiente en 106, el movimiento nocturno es un riesgo real aunque no aparezca en el rango entre máximo y mínimo del día.</p>
+<p>El <strong>rango verdadero (true range, TR)</strong> es el mayor de estos valores:</p>
+<ol>
+<li>Máximo actual − mínimo actual</li>
+<li>|Máximo actual − cierre anterior|</li>
+<li>|Mínimo actual − cierre anterior|</li>
+</ol>
+<p>El <strong>ATR</strong> es un promedio del rango verdadero durante un periodo de referencia, normalmente 14 barras. Wilder usó su propio método de suavizado, que funciona como un promedio exponencial:</p>
+<p>ATR de hoy = [(ATR de ayer × 13) + TR de hoy] ÷ 14</p>
+<p>Algunas plataformas usan en su lugar un promedio simple o exponencial, así que los valores del ATR pueden variar ligeramente entre herramientas.</p>
+<h3 id="ejemplo-desarrollado-rango-verdadero">Ejemplo desarrollado: rango verdadero</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Día</th>
+<th>Cierre anterior</th>
+<th>Máximo</th>
+<th>Mínimo</th>
+<th>H − L</th>
+<th>|H − C ant.|</th>
+<th>|L − C ant.|</th>
+<th>Rango verdadero</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>100.00</td>
+<td>103.00</td>
+<td>99.00</td>
+<td>4.00</td>
+<td>3.00</td>
+<td>1.00</td>
+<td>4.00</td>
+</tr>
+<tr>
+<td>B</td>
+<td>102.00</td>
+<td>108.00</td>
+<td>105.00</td>
+<td>3.00</td>
+<td>6.00</td>
+<td>3.00</td>
+<td>6.00</td>
+</tr>
+</tbody></table></div>
+<p>El día B la acción abrió con un gap alcista. Su rango entre máximo y mínimo fue de solo 3.00, pero su rango verdadero es de 6.00 porque llegó a negociarse hasta 6.00 por encima del cierre anterior.</p>
+<p>Si el ATR de 14 días era 3.50 antes del día B, el nuevo ATR es [(3.50 × 13) + 6.00] ÷ 14 = (45.50 + 6.00) ÷ 14 = 51.50 ÷ 14 ≈ 3.68.</p>
+<h2 id="uso-del-atr-para-los-stops">Uso del ATR para los stops</h2>
+<p>Un stop colocado dentro del ruido normal de un mercado acaba saltando por movimientos aleatorios. El ATR ofrece una forma de colocar los stops en relación con ese ruido. Un enfoque habitual es un stop a cierto múltiplo del ATR, a menudo de 1.5 a 3, desde la entrada o desde un nivel estructural. Otro es el stop <strong>chandelier</strong> o trailing stop por ATR, que sigue al precio a un número fijo de ATR por debajo del máximo más alto desde la entrada.</p>
+<p>Los múltiplos del ATR son una herramienta para calibrar la distancia, no un sustituto del criterio sobre dónde queda invalidada la idea de la operación. La combinación de estructura y ATR se trata en <a href="/es/encyclopedia/risk-management/stop-loss-strategies/">estrategias de stop loss</a>.</p>
+<h2 id="uso-del-atr-para-el-tama-o-de-posici-n">Uso del ATR para el tamaño de posición</h2>
+<p>Si todas las operaciones usan un stop de 2 ATR, el riesgo en dólares por acción varía mucho entre una acción tranquila y una volátil. El dimensionamiento basado en la volatilidad lo corrige ajustando cada posición para que el riesgo en dólares sea el mismo.</p>
+<h3 id="ejemplo-desarrollado-dimensionamiento-con-atr">Ejemplo desarrollado: dimensionamiento con ATR</h3>
+<p>Una cuenta de $25,000 arriesga el 1 por ciento por operación, es decir, $250.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Acción volátil</th>
+<th>Acción tranquila</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Entrada</td>
+<td>107.00</td>
+<td>50.00</td>
+</tr>
+<tr>
+<td>ATR</td>
+<td>3.68</td>
+<td>0.80</td>
+</tr>
+<tr>
+<td>Distancia del stop (2 × ATR)</td>
+<td>7.36</td>
+<td>1.60</td>
+</tr>
+<tr>
+<td>Precio del stop</td>
+<td>99.64</td>
+<td>48.40</td>
+</tr>
+<tr>
+<td>Acciones = $250 ÷ distancia del stop</td>
+<td>33 (33.97 redondeado hacia abajo)</td>
+<td>156 (156.25 redondeado hacia abajo)</td>
+</tr>
+<tr>
+<td>Valor de la posición</td>
+<td>$3,531</td>
+<td>$7,800</td>
+</tr>
+</tbody></table></div>
+<p>Ambas operaciones arriesgan un poco menos de $250 si el stop se ejecuta a su precio ($242.88 y $249.60, tras redondear hacia abajo a acciones enteras). La acción volátil recibe una posición más pequeña. Esta es la idea central del dimensionamiento que usan muchos sistemas de <a href="/es/encyclopedia/algorithmic-trading/trend-following/">seguimiento de tendencia</a>. Las fórmulas completas, incluidos los lotes de forex y las posiciones apalancadas, están en <a href="/es/encyclopedia/risk-management/position-sizing/">tamaño de posición</a>. Ten en cuenta que los stops pueden ejecutarse peor de lo previsto en gaps y mercados rápidos, así que las pérdidas reales pueden superar la cantidad prevista.</p>
+<h2 id="volatilidad-hist-rica">Volatilidad histórica</h2>
+<p>La volatilidad histórica (o realizada) es la desviación estándar de los rendimientos de un activo, normalmente los rendimientos logarítmicos de los cierres diarios, expresada como porcentaje anual. Para anualizar la volatilidad diaria, se multiplica por la raíz cuadrada del número de periodos de negociación en un año: unos 252 días hábiles para acciones y futuros, y 365 para cripto, que cotiza todos los días.</p>
+<p><strong>Ejemplo.</strong> Los rendimientos diarios de una acción en los últimos 20 días tienen una desviación estándar del 1.5 por ciento. La volatilidad anualizada es 1.5% × √252 ≈ 1.5% × 15.87 ≈ 23.8 por ciento.</p>
+<p>La volatilidad histórica mira hacia atrás. La <a href="/es/encyclopedia/options/implied-volatility/">volatilidad implícita</a>, derivada de los precios de las opciones, es la estimación prospectiva del mercado. Compararlas es una parte básica del trading de opciones.</p>
+<h3 id="el-atr-como-porcentaje">El ATR como porcentaje</h3>
+<p>Como el ATR está en unidades de precio, un ATR de 2.00 significa algo distinto para una acción de 20 que para una de 400. Dividir el ATR entre el precio da el <strong>ATR porcentual</strong>, que hace más justas las comparaciones entre activos. Una acción de 20 con un ATR de 1.00 se mueve alrededor de un 5 por ciento al día; una acción de 400 con un ATR de 6.00 se mueve alrededor de un 1.5 por ciento.</p>
+<h2 id="canales-de-keltner">Canales de Keltner</h2>
+<p>Los canales de Keltner trazan bandas alrededor de una media móvil a un múltiplo del ATR. La versión original de Chester Keltner, de 1960, usaba una construcción distinta; la forma moderna, popularizada más tarde, suele usar una media móvil exponencial de 20 periodos con bandas a 2 × ATR por encima y por debajo.</p>
+<p><strong>Ejemplo.</strong> Una EMA de 20 en 50.00 y un ATR de 1.20 dan bandas en 50.00 ± 2.40, es decir, de 47.60 a 52.40.</p>
+<p>Los canales de Keltner se parecen a las <a href="/es/encyclopedia/technical-analysis/bollinger-bands/">bandas de Bollinger</a>, que usan la desviación estándar en lugar del ATR. Las bandas de Bollinger reaccionan con más brusquedad a los picos repentinos de precio; los canales de Keltner son más suaves. Cuando las bandas de Bollinger se contraen dentro de los canales de Keltner, algunos traders lo llaman &quot;squeeze&quot;, una señal de volatilidad inusualmente baja que puede preceder a un movimiento mayor.</p>
+<h2 id="reg-menes-de-volatilidad-y-cl-steres">Regímenes de volatilidad y clústeres</h2>
+<p>La volatilidad no es constante. A los movimientos grandes suelen seguirles movimientos grandes, de cualquier signo, y a los pequeños, movimientos pequeños. Benoit Mandelbrot describió este patrón en los precios de las materias primas en la década de 1960, y el modelo ARCH de Robert Engle (1982) y la extensión GARCH de Tim Bollerslev (1986) lo formalizaron; Engle compartió el Premio Nobel de Economía de 2003 por este trabajo sobre la volatilidad variable en el tiempo. La agrupación de la volatilidad es uno de los rasgos mejor documentados de los rendimientos financieros.</p>
+<p>Implicaciones prácticas:</p>
+<ul>
+<li><strong>La volatilidad reciente es informativa.</strong> Un mercado que lleva una semana desatado tiene más probabilidades de seguir así que de calmarse de la noche a la mañana.</li>
+<li><strong>Los regímenes cambian.</strong> Las estrategias que funcionan en condiciones de baja volatilidad y tendencia pueden sufrir en condiciones de alta volatilidad y movimientos erráticos, y viceversa. Algunos traders reducen el tamaño cuando el ATR se expande bruscamente.</li>
+<li><strong>La calma puede terminar de golpe.</strong> Los periodos largos de tranquilidad pueden llevar a los traders a tomar posiciones más grandes justo antes de que vuelva la volatilidad. Consulta <a href="/es/encyclopedia/risk-management/leverage-risk-and-black-swans/">riesgo del apalancamiento y cisnes negros</a>.</li>
+</ul>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Leer el ATR como dirección.</strong> Un ATR creciente significa movimientos más grandes, no movimientos al alza.</li>
+<li><strong>Comparar el ATR en bruto entre activos.</strong> Usa el ATR porcentual.</li>
+<li><strong>Usar un mismo múltiplo de ATR en todas partes.</strong> Un múltiplo adecuado para un futuro sobre índice líquido puede ser demasiado ajustado para una small cap o una meme coin.</li>
+<li><strong>Olvidar los gaps.</strong> Un stop por ATR no te protege de un gap que abra más allá de él.</li>
+<li><strong>Ignorar el periodo de referencia.</strong> Un ATR de 14 días sigue reflejando la calma de la semana anterior tras un shock repentino; se pone al día solo de forma gradual.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="qu-m-ltiplo-de-atr-es-bueno-para-un-stop-loss">¿Qué múltiplo de ATR es bueno para un stop loss?</h3>
+<p>Muchos traders usan de 1.5 a 3 veces el ATR, pero no hay un valor universalmente correcto. El múltiplo adecuado depende del mercado, la temporalidad y la estrategia, y debe probarse en lugar de darse por supuesto.</p>
+<h3 id="qu-significa-un-atr-alto">¿Qué significa un ATR alto?</h3>
+<p>Un ATR alto significa que el activo ha tenido movimientos grandes recientemente, medidos en unidades de precio. No dice nada sobre la dirección y conviene compararlo con el propio historial del activo o convertirlo en un porcentaje del precio.</p>
+<h3 id="cu-l-es-la-diferencia-entre-el-atr-y-la-desviaci-n-est-ndar">¿Cuál es la diferencia entre el ATR y la desviación estándar?</h3>
+<p>El ATR promedia el tamaño del rango completo de cada barra, incluidos los gaps, en unidades de precio. La desviación estándar mide cuán dispersos están los rendimientos alrededor de su promedio y es la base de la volatilidad histórica y de las bandas de Bollinger.</p>
+<h3 id="qu-periodo-debo-usar-para-el-atr">¿Qué periodo debo usar para el ATR?</h3>
+<p>Catorce periodos es el valor predeterminado más común, siguiendo a Wilder. Los periodos más cortos reaccionan más rápido a los cambios pero tienen más ruido; los más largos son más suaves pero tardan más en reflejar un nuevo régimen de volatilidad.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/risk-management/position-sizing/"><div class="k">Gestión del riesgo y del capital</div><b>Tamaño de posición</b><span>Cómo calcular el tamaño de la posición según el riesgo y la distancia al stop: fracción fija, monto fijo y ATR, con ejemplos en acciones, forex y cripto.</span></a><a class="card" href="/es/encyclopedia/risk-management/stop-loss-strategies/"><div class="k">Gestión del riesgo y del capital</div><b>Estrategias de stop loss</b><span>Cómo colocar un stop loss por estructura, ATR, porcentaje o tiempo, además de trailing stops, stops garantizados, gaps, caza de stops y take profit.</span></a><a class="card" href="/es/encyclopedia/technical-analysis/bollinger-bands/"><div class="k">Análisis técnico</div><b>Bandas de Bollinger</b><span>Cómo se construyen las Bandas de Bollinger con una media de 20 periodos y 2 desviaciones estándar: el squeeze, caminar por la banda, %B, ancho y Keltner.</span></a><a class="card" href="/es/encyclopedia/options/implied-volatility/"><div class="k">Trading de opciones</div><b>Volatilidad implícita</b><span>Qué es la volatilidad implícita, en qué se diferencia de la histórica, IV rank y percentil, IV crush, skew y la fórmula del movimiento esperado con ejemplos.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/trend-following/"><div class="k">Trading algorítmico y cuantitativo</div><b>Seguimiento de tendencia</b><span>Seguimiento de tendencia: momentum de serie temporal, CTA y managed futures, sistemas de ruptura y medias móviles, las Tortugas, asimetría positiva y drawdowns.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/technical-analysis/fibonacci-retracement/"><small>← Anterior</small>Herramientas de Fibonacci</a><a class="next" href="/es/encyclopedia/technical-analysis/multi-timeframe-analysis/"><small>Siguiente →</small>Análisis multitemporal</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

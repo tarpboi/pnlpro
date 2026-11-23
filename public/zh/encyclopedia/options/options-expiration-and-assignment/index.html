@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>期权到期与指派：行权、钉住风险与结算方式 | PnL Profit</title>
+<meta name="description" content="行权和指派如何运作，除息前的提前指派，实值 $0.01 即自动行权，钉住风险，SPX 与 SPY 的结算差异，以及到期日盘后风险。">
+<meta name="keywords" content="期权指派, 除息 提前指派, 期权自动行权, 期权钉住风险, SPX和SPY结算区别">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="期权到期与指派：行权、钉住风险与结算方式 | PnL Profit">
+<meta property="og:description" content="行权和指派如何运作，除息前的提前指派，实值 $0.01 即自动行权，钉住风险，SPX 与 SPY 的结算差异，以及到期日盘后风险。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/options/options-expiration-and-assignment/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="期权到期与指派：行权、钉住风险与结算方式 | PnL Profit">
+<meta name="twitter:description" content="行权和指派如何运作，除息前的提前指派，实值 $0.01 即自动行权，钉住风险，SPX 与 SPY 的结算差异，以及到期日盘后风险。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"期权到期与指派：行权、钉住风险与结算方式","description":"行权和指派如何运作，除息前的提前指派，实值 $0.01 即自动行权，钉住风险，SPX 与 SPY 的结算差异，以及到期日盘后风险。","keywords":"期权指派, 除息 提前指派, 期权自动行权, 期权钉住风险, SPX和SPY结算区别","articleSection":"期权交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/options/options-expiration-and-assignment/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"期权交易","item":"https://pnlpro.fit/zh/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"到期与行权指派","item":"https://pnlpro.fit/zh/encyclopedia/options/options-expiration-and-assignment/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"期权被指派会发生什么？","acceptedAnswer":{"@type":"Answer","text":"期权卖方必须履行合约。每张合约中，被指派的看涨期权卖方要以行权价卖出 100 股，被指派的看跌期权卖方要以行权价买入 100 股。"}},{"@type":"Question","name":"我会在到期前被指派吗？","acceptedAnswer":{"@type":"Answer","text":"会，如果你卖出的是美式期权，包括美国标准股票和 ETF 期权。提前指派最常见于除息日前夕的深度实值看涨期权。"}},{"@type":"Question","name":"期权会自动行权吗？","acceptedAnswer":{"@type":"Answer","text":"在美国，到期时至少实值 $0.01 的期权，除非持有人另有指示，通常会被自动行权。虚值期权到期作废。"}},{"@type":"Question","name":"期权的钉住风险是什么？","acceptedAnswer":{"@type":"Answer","text":"钉住风险是指到期时标的收盘价非常接近卖出期权的行权价所带来的不确定性。你可能被指派，也可能不被指派，而盘后波动可能让结果代价高昂。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/options/options-expiration-and-assignment/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/options-expiration-and-assignment/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/options/options-expiration-and-assignment/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/options-expiration-and-assignment/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/options-expiration-and-assignment/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/options-expiration-and-assignment/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/options-expiration-and-assignment/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/options-expiration-and-assignment/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/options-expiration-and-assignment/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>期权交易</h3><ul><li><a href="/zh/encyclopedia/options/options-basics/">期权基础</a></li><li><a href="/zh/encyclopedia/options/options-greeks/">希腊字母</a></li><li><a href="/zh/encyclopedia/options/implied-volatility/">隐含波动率</a></li><li><a href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/">备兑看涨与现金担保看跌</a></li><li><a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a></li><li><a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰式与蝶式</a></li><li><a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a></li><li><a href="/zh/encyclopedia/options/0dte-options/">0DTE期权</a></li><li><a href="/zh/encyclopedia/options/options-expiration-and-assignment/" class="on" aria-current="page">到期与行权指派</a></li><li><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma敞口与做市商对冲</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/" class="on">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/options/">期权交易</a></div>
+<h1 class="title">期权到期与指派</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>期权交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/options/options-basics/">期权基础</a></li><li><a href="/zh/encyclopedia/options/options-greeks/">希腊字母</a></li><li><a href="/zh/encyclopedia/options/implied-volatility/">隐含波动率</a></li><li><a href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/">备兑看涨与现金担保看跌</a></li><li><a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a></li><li><a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰式与蝶式</a></li><li><a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a></li><li><a href="/zh/encyclopedia/options/0dte-options/">0DTE期权</a></li><li><a href="/zh/encyclopedia/options/options-expiration-and-assignment/" class="on" aria-current="page">到期与行权指派</a></li><li><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma敞口与做市商对冲</a></li></ul></details>
+<article><p>到期是期权不复存在的时刻，指派（assignment）则是买方行权时期权卖方所经历的事。这些机制决定了期权最终变成股票、现金，还是一文不值。大多数交易者会在到期前平仓，但那些持仓到最后一天、或卖出美式期权的人，需要了解行权规则、提前指派、自动行权、钉住风险，以及现金结算与实物交割期权之间的区别。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点总结</h2>
+<ul>
+<li>看涨期权行权即以行权价买入标的，看跌期权行权即以行权价卖出标的；被指派的卖方必须承担另一方。</li>
+<li>美式期权（包括美国标准股票和 ETF 期权）可以在到期前的任何工作日行权和被指派。</li>
+<li>在美国，到期时至少实值 $0.01 的期权，除非持有人另有指示，通常会被自动行权。</li>
+<li>当标的收盘价接近卖出的行权价，让你无法确定是否会被指派时，就产生了钉住风险。</li>
+<li>SPX 等现金结算的指数期权以现金支付差额，而 SPY 等 ETF 期权交割股票。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">行权与指派基础</a></li><li><a href="#section-3">到期时间</a></li><li><a href="#section-4">自动行权</a></li><li><a href="#section-6">提前指派</a></li><li><a href="#section-10">钉住风险</a></li><li><a href="#spx-spy">现金结算与实物交割：SPX 与 SPY</a></li><li><a href="#section-16">期货期权</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">行权与指派基础</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>买入看涨</th>
+<th>买入看跌</th>
+<th>卖出看涨（被指派）</th>
+<th>卖出看跌（被指派）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实物交割期权的结果</td>
+<td>以行权价买入 100 股</td>
+<td>以行权价卖出 100 股</td>
+<td>以行权价卖出 100 股</td>
+<td>以行权价买入 100 股</td>
+</tr>
+</tbody></table></div>
+<p>持有人行权时，指令经由其券商送达清算所。在美国，清算所是期权清算公司（Options Clearing Corporation，OCC）。OCC 通过随机程序把行权分配给一家持有对应空头头寸的清算会员，清算会员再通过随机抽选或其他已向客户披露的公平方法，把它分配给某位客户。卖方通常在第二天早上得知自己被指派。</p>
+<p>大多数期权从未被行权。通过卖出来平仓通常比行权更好，因为卖出时还能收回剩余的外在价值。参见<a href="/zh/encyclopedia/options/options-basics/">期权基础</a>。</p>
+<h2 id="section-3">到期时间</h2>
+<ul>
+<li><strong>标准月度期权</strong>：美国股票和 ETF 的标准月度期权在每月第三个星期五到期。许多热门标的也有周度和每日到期合约。</li>
+<li><strong>交易时间</strong>：大多数股票期权在到期日美东时间下午 4:00 停止交易；部分指数和 ETF 期权交易到美东时间下午 4:15。</li>
+<li><strong>行权决定</strong>：OCC 规定的到期日行权指令提交截止时间一直是美东时间下午 5:30，券商往往设定更早的内部截止时间。请查看你所用券商的现行政策。</li>
+</ul>
+<p>下午 4:00 收盘与行权截止时间之间的空档带来了一种风险，下文会讨论。</p>
+<h2 id="section-4">自动行权</h2>
+<p>根据 OCC 的例外行权（exercise-by-exception）程序，到期时实值 $0.01 或以上的美国股票期权会被自动行权，除非持有人提交相反的指令。虚值期权到期作废。</p>
+<h3 id="section-5">实例</h3>
+<p>你持有一张行权价 $50 的看涨期权，到期日股价收于 $50.08。这张看涨期权实值 $0.08。除非你告诉券商不要行权，否则它会被行权，周一你将持有 100 股以 $50 买入的股票，即一笔 $5,000 的头寸。如果你的账户承担不了这笔买入，券商可能在收盘前卖掉这张期权，或者把由此产生的股票强制平仓，成交价往往不理想。</p>
+<h2 id="section-6">提前指派</h2>
+<p>美式期权可以随时行权，因此卖方可能在到期前就被指派。实际上，提前行权并不常见，因为买方要放弃期权的外在价值。主要在两种情况下它才可能发生。</p>
+<h3 id="section-7">除息日之前（看涨期权）</h3>
+<p>在除息日登记在册的股东可以获得股息，期权持有人则不能。如果看涨期权剩余的外在价值小于即将派发的股息，看涨期权持有人就可以在除息日前一天行权获利。</p>
+<p><strong>实例</strong>：某股票现价 $50，将派发 $0.50 的股息，除息日是明天。一张行权价 $40 的看涨期权报价 $10.05。它的内在价值为 $10.00，因此外在价值只有 $0.05。行权可以拿到 $0.50 的股息，代价是放弃 $0.05 的时间价值，每股净赚 $0.45。如果你卖出了这张看涨期权，今晚被指派的可能性很高。如果你在备兑看涨上被指派，你的股票会被行权买走，你将错过这笔股息。如果你在无保护看涨期权上被指派，你就会变成 100 股的空头，并需要支付这笔股息。</p>
+<h3 id="section-8">深度实值看跌期权</h3>
+<p>几乎没有外在价值的深度实值看跌期权可能被提前行权，这样持有人就能更早拿到相当于行权价的现金并赚取利息。利率较高时这种情况更常见。</p>
+<h3 id="section-9">价差与提前指派</h3>
+<p>如果价差的卖出腿被提前指派，你的买入腿仍然在保护你。例如，如果牛市看涨价差中卖出的看涨期权被指派，你就成了 100 股的空头，但你持有的低行权价看涨期权仍然限制着亏损。你可以对买入的看涨期权行权，或者把两个头寸都平掉。参见<a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a>。</p>
+<h2 id="section-10">钉住风险</h2>
+<p>当到期时标的收盘价恰好在或非常接近某个卖出期权的行权价时，就产生了钉住风险（pin risk）。你无法确定持有人是否会行权，因为他们可能根据盘后价格变动行事，或者有自己的理由。</p>
+<h3 id="section-11">到期日的盘后风险</h3>
+<p>假设你卖出了一张 $50 看跌期权，到期日美东时间下午 4:00 股价收于 $50.20。这张看跌期权处于虚值，正常情况下会作废。收盘后，公司发布利空消息，股票在盘后交易中跌到 $48。看跌期权持有人仍可以在截止时间前提交行权指令。你被指派，以 $50 买入了 100 股，而它们的交易价格是 $48，立即亏损 $200，到周一开盘时亏损可能进一步扩大。</p>
+<p>同样的风险反过来也适用于卖出的看涨期权，以及价差、铁鹰和蝶式价差的卖出腿。当价差的卖出行权价被钉住而买入行权价作废时，你可能在周末持有一笔裸露的股票头寸。参见<a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰与蝶式价差</a>。</p>
+<p>最简单的防范办法是：在到期日的最后几分钟之前，把接近平值的卖出期权平掉，即使要付出一点成本。</p>
+<h2 id="spx-spy">现金结算与实物交割：SPX 与 SPY</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>特征</th>
+<th>SPX 期权</th>
+<th>SPY 期权</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标的</td>
+<td>标普 500 指数</td>
+<td>SPDR 标普 500 ETF 股份</td>
+</tr>
+<tr>
+<td>结算方式</td>
+<td>现金</td>
+<td>实物交割股份</td>
+</tr>
+<tr>
+<td>行权方式</td>
+<td>欧式（仅到期时）</td>
+<td>美式（任何时候）</td>
+</tr>
+<tr>
+<td>提前指派风险</td>
+<td>无</td>
+<td>有</td>
+</tr>
+<tr>
+<td>合约规模</td>
+<td>$100 x 指数点位</td>
+<td>100 股</td>
+</tr>
+</tbody></table></div>
+<h3 id="section-13">实例：现金结算</h3>
+<p>你持有一张行权价 5,000 的 SPX 看涨期权。最终结算价为 5,020。你收到 (5,020 - 5,000) x $100 = $2,000 现金。没有股票易手，到期后也没有任何需要管理的东西。</p>
+<h3 id="section-14">实例：实物交割</h3>
+<p>你持有一张行权价 $500 的 SPY 看涨期权，到期日 SPY 收于 $502。这张看涨期权被自动行权，于是你以 $500 买入 100 股，这需要 $50,000 的现金或购买力。你现在持有一笔 $50,200 的股票头寸，恢复交易后它会随市场波动。</p>
+<h3 id="section-15">上午结算与下午结算</h3>
+<p>标准月度 SPX 期权采用上午结算（AM-settled）：它们在到期前一天停止交易，最终价值根据到期日早上指数成分股的开盘价计算，可能与前一日收盘价相差明显。SPX 周度和每日期权采用下午结算（PM-settled），以收盘价为准。务必确认你交易的是哪个版本。当日交易详见 <a href="/zh/encyclopedia/options/0dte-options/">0DTE 期权</a>。</p>
+<h2 id="section-16">期货期权</h2>
+<p>期货期权，例如 E-mini 标普 500 期货期权，行权后一般得到的是标的期货合约的头寸，而不是股票。如果期权与现金结算的期货同时到期，结果实际上就是现金结算。各产品的合约条款不同，请阅读合约规格。参见<a href="/zh/encyclopedia/futures/futures-basics/">期货基础</a>。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>持有接近平值的卖出期权到收盘</strong>。这会招致钉住风险和盘后意外。</li>
+<li><strong>忘记股息</strong>。除息日前处于实值的卖出看涨期权可能被提前指派。</li>
+<li><strong>没有足够现金却让买入的期权自动行权</strong>。券商可能以不利价格强制平仓，或者让你持有一笔计划外的股票头寸。</li>
+<li><strong>以为价差在到期时自动了结</strong>。一条腿可能以实值到期，另一条却作废。</li>
+<li><strong>混淆 SPX 和 SPY</strong>。一个以现金结算，一个以股票交割，合约规模相差约十倍。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-19">期权被指派会发生什么？</h3>
+<p>期权卖方必须履行合约。每张合约中，被指派的看涨期权卖方要以行权价卖出 100 股，被指派的看跌期权卖方要以行权价买入 100 股。</p>
+<h3 id="section-20">我会在到期前被指派吗？</h3>
+<p>会，如果你卖出的是美式期权，包括美国标准股票和 ETF 期权。提前指派最常见于除息日前夕的深度实值看涨期权。</p>
+<h3 id="section-21">期权会自动行权吗？</h3>
+<p>在美国，到期时至少实值 $0.01 的期权，除非持有人另有指示，通常会被自动行权。虚值期权到期作废。</p>
+<h3 id="section-22">期权的钉住风险是什么？</h3>
+<p>钉住风险是指到期时标的收盘价非常接近卖出期权的行权价所带来的不确定性。你可能被指派，也可能不被指派，而盘后波动可能让结果代价高昂。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/options/options-basics/"><div class="k">期权交易</div><b>期权基础</b><span>期权怎么运作：看涨与看跌期权、行权价、到期日、权利金、内在价值与时间价值、价值状态，买方和卖方的盈亏示例，以及期权交易权限等级。</span></a><a class="card" href="/zh/encyclopedia/options/0dte-options/"><div class="k">期权交易</div><b>0DTE期权</b><span>什么是 0DTE 期权，当日到期的 SPX、SPY 和 QQQ 期权为何爆火，极端 Gamma 与时间衰减如何运作，常见策略，以及买卖双方面临的风险。</span></a><a class="card" href="/zh/encyclopedia/options/vertical-spreads/"><div class="k">期权交易</div><b>垂直价差</b><span>垂直价差怎么运作：牛市看涨、熊市看跌、牛市看跌和熊市看涨价差，附最大收益、最大亏损和盈亏平衡点公式及计算实例。</span></a><a class="card" href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/"><div class="k">期权交易</div><b>备兑看涨与现金担保看跌</b><span>备兑看涨和现金担保看跌期权怎么运作，附具体数字的盈亏与盈亏平衡点，车轮策略（Wheel），以及收益封顶和被指派的风险。</span></a><a class="card" href="/zh/encyclopedia/options/iron-condors-and-butterflies/"><div class="k">期权交易</div><b>铁鹰式与蝶式</b><span>铁鹰、蝶式、铁蝶式和断翼蝶式价差怎么运作，附盈亏结构、盈亏平衡点和计算实例，以及持仓管理与钉住风险。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/options/0dte-options/"><small>← 上一篇</small>0DTE期权</a><a class="next" href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/"><small>下一篇 →</small>Gamma敞口与做市商对冲</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

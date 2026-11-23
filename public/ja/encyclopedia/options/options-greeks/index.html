@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>オプションのグリークスとは：デルタ・ガンマ・セータ・ベガ・ロー | PnL Profit</title>
+<meta name="description" content="デルタ、ガンマ、セータ、ベガ、ローが何を測るのかを計算例で解説。時間やマネーネスによる変化、ポジション・グリークスの読み方も紹介します。">
+<meta name="keywords" content="オプション グリークス, デルタ ガンマ セータ ベガ, デルタとは オプション, セータ 時間価値 減少, ポジション グリークス">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/options-greeks/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="オプションのグリークスとは：デルタ・ガンマ・セータ・ベガ・ロー | PnL Profit">
+<meta property="og:description" content="デルタ、ガンマ、セータ、ベガ、ローが何を測るのかを計算例で解説。時間やマネーネスによる変化、ポジション・グリークスの読み方も紹介します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/options/options-greeks/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="オプションのグリークスとは：デルタ・ガンマ・セータ・ベガ・ロー | PnL Profit">
+<meta name="twitter:description" content="デルタ、ガンマ、セータ、ベガ、ローが何を測るのかを計算例で解説。時間やマネーネスによる変化、ポジション・グリークスの読み方も紹介します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"オプションのグリークスとは：デルタ・ガンマ・セータ・ベガ・ロー","description":"デルタ、ガンマ、セータ、ベガ、ローが何を測るのかを計算例で解説。時間やマネーネスによる変化、ポジション・グリークスの読み方も紹介します。","keywords":"オプション グリークス, デルタ ガンマ セータ ベガ, デルタとは オプション, セータ 時間価値 減少, ポジション グリークス","articleSection":"オプション取引","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/options/options-greeks/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"オプション取引","item":"https://pnlpro.fit/ja/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"グリークス","item":"https://pnlpro.fit/ja/encyclopedia/options/options-greeks/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"オプションを買うのに適したデルタはいくつですか？","acceptedAnswer":{"@type":"Answer","text":"唯一の正解はありません。デルタの高いイン・ザ・マネーのオプションは株式に近い動きをし、率で見たタイム・ディケイも小さくなります。一方、デルタの低いアウト・オブ・ザ・マネーのオプションは安いものの、イン・ザ・マネーで満期を迎える可能性は低くなります。"}},{"@type":"Question","name":"なぜ満期が近づくとセータが大きくなるのですか？","acceptedAnswer":{"@type":"Answer","text":"時間価値は満期時にゼロにならなければなりません。アット・ザ・マネーのオプションでは、残った時間価値をどんどん少ない日数で失っていくため、満期が近づくほど1日あたりの減少額が大きくなります。"}},{"@type":"Question","name":"マイナスのガンマとはどういう意味ですか？","acceptedAnswer":{"@type":"Answer","text":"マイナスのガンマはオプションを売ることで生じ、原資産が動くたびにデルタが不利な方向に変化することを意味します。価格が下がるほどロングが増え、上がるほどショートが増えます。大きな値動きでは損失が加速することがあります。"}},{"@type":"Question","name":"どのグリークスが最も重要ですか？","acceptedAnswer":{"@type":"Answer","text":"戦略によって異なります。方向性のトレーダーはデルタ、短期満期のトレーダーはガンマとセータ、決算などのイベント前後でトレードする人はベガを最も注意深く見ています。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/options/options-greeks/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/options-greeks/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/options-greeks/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/options-greeks/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/options-greeks/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/options-greeks/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/options-greeks/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/options-greeks/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/options/options-greeks/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>オプション取引</h3><ul><li><a href="/ja/encyclopedia/options/options-basics/">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/" class="on" aria-current="page">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">ガンマエクスポージャーとディーラー</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/" class="on">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/options/">オプション取引</a></div>
+<h1 class="title">オプションのグリークス</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>オプション取引の他の記事</summary><ul><li><a href="/ja/encyclopedia/options/options-basics/">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/" class="on" aria-current="page">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">ガンマエクスポージャーとディーラー</a></li></ul></details>
+<article><p>グリークスとは、他の条件を一定にしたまま1つの要素だけが変化したとき、オプション価格がどれだけ変わると見込まれるかを表す指標群です。デルタは原資産価格への感応度、ガンマはデルタ自体の変化の速さ、セータは時間の経過による価値の減少、ベガはインプライド・ボラティリティへの感応度、ローは金利への感応度を測ります。これらを組み合わせることで、オプションは宝くじのようなものから、リスクを測定・比較・管理できるポジションに変わります。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>デルタは、原資産が$1動いたときにオプション価格がおおよそどれだけ動くかを示し、株数換算のエクスポージャーとしても使えます。</li>
+<li>ガンマはデルタの変化率で、満期間近のアット・ザ・マネーのオプションで最大になります。</li>
+<li>セータはオプションを保有する1日あたりのコストで、満期が近づくほど加速します。</li>
+<li>ベガはインプライド・ボラティリティの変化に対するエクスポージャーを測ります。株価が動かなくても、オプション価格はIVで動くことがあります。</li>
+<li>すべてのポジションのグリークスを合計したものがポジション・グリークスで、ポートフォリオが実際に何にさらされているかを最もわかりやすく要約してくれます。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">基準となるオプション</a></li><li><a href="#section-3">デルタ</a></li><li><a href="#section-5">ガンマ</a></li><li><a href="#section-8">セータ</a></li><li><a href="#section-11">ベガ</a></li><li><a href="#section-14">ロー</a></li><li><a href="#section-15">グリークスの連動</a></li><li><a href="#section-16">ポジション・グリークス</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">基準となるオプション</h2>
+<p>以下の例では、同じオプションを使い続けます。株価は$100です。権利行使価格$100、残存30日のコールの価格は$3.50で、インプライド・ボラティリティは約30%です。オプション価格モデルで算出した場合のおおよそのグリークス（四捨五入済み）は次のとおりです。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>グリークス</th>
+<th>値</th>
+<th>平たく言うと</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>デルタ</td>
+<td>0.52</td>
+<td>株価が$1上がると、コールは1株あたり約$0.52上がる</td>
+</tr>
+<tr>
+<td>ガンマ</td>
+<td>0.046</td>
+<td>株価が$1上がると、デルタは約0.046上がる</td>
+</tr>
+<tr>
+<td>セータ</td>
+<td>-0.06</td>
+<td>タイム・ディケイにより、コールは1日あたり1株約$0.06下がる</td>
+</tr>
+<tr>
+<td>ベガ</td>
+<td>0.11</td>
+<td>インプライド・ボラティリティが1ポイント上がると、コールは1株あたり約$0.11上がる</td>
+</tr>
+<tr>
+<td>ロー</td>
+<td>0.04</td>
+<td>金利が1ポイント上がると、コールは1株あたり約$0.04上がる</td>
+</tr>
+</tbody></table></div>
+<p>米国の標準的な株式オプションは100株分なので、1枚あたりの金額への影響を見るには各数値に100を掛けます。セータ-0.06は、1枚あたり1日約$6を意味します。グリークスはモデルによる推定値で、常に変化し続けます。契約の仕組みについては<a href="/ja/encyclopedia/options/options-basics/">オプションの基本</a>を参照してください。</p>
+<h2 id="section-3">デルタ</h2>
+<p>デルタは、原資産が$1変化したときのオプション価格の予想変化額です。コールのデルタは0から1の間のプラス、プットのデルタは0から-1の間のマイナスです。</p>
+<h3 id="section-4">デルタからわかること</h3>
+<ul>
+<li><strong>価格感応度：</strong> デルタ0.52なら、株価が$1上がるとコールは約$0.52、1枚あたり$52上がります。</li>
+<li><strong>株数換算：</strong> デルタ0.52のオプション1枚は、小さな値動きに対しておよそ52株と同じように振る舞います。</li>
+<li><strong>おおよその確率：</strong> トレーダーはデルタを、オプションがイン・ザ・マネーで満期を迎える確率の大まかな目安としてよく使います。デルタ0.30のオプションなら、おおむね30%の確率と読まれることが多いです。これは経験則であり、正確な確率ではありません。</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>マネーネス</th>
+<th>コールの典型的なデルタ</th>
+<th>プットの典型的なデルタ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ディープ・イン・ザ・マネー</td>
+<td>1.00に近い</td>
+<td>-1.00に近い</td>
+</tr>
+<tr>
+<td>アット・ザ・マネー</td>
+<td>約0.50</td>
+<td>約-0.50</td>
+</tr>
+<tr>
+<td>ディープ・アウト・オブ・ザ・マネー</td>
+<td>0に近い</td>
+<td>0に近い</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-5">ガンマ</h2>
+<p>ガンマは、原資産が$1変化したときのデルタの変化量です。オプションの買いポジションは、コールでもプットでも常にプラスのガンマを持ち、売りポジションはマイナスのガンマを持ちます。</p>
+<h3 id="section-6">計算例：デルタとガンマを組み合わせる</h3>
+<p>株価が$100から$101に上がったとします。</p>
+<ul>
+<li>新しいデルタは約0.52 + 0.046 = 0.566です。</li>
+<li>値動きの途中でデルタが増えているので、価格変化は平均デルタで見積もるほうが正確です：0.52 + (0.5 x 0.046) = 0.543。</li>
+<li>新しいコール価格は約$3.50 + $0.543 = $4.04です。</li>
+</ul>
+<p>逆に株価が$1下がった場合、デルタは約0.474に下がり、コールは約0.52 - 0.023 = $0.497下がって約$3.00になります。プラスのガンマとは、同じ幅の値動きなら、コールは上昇時に得る額のほうが下落時に失う額よりわずかに大きいということです。オプションの売り手はその逆で、株価が不利な方向に動くと損失が加速します。</p>
+<h3 id="section-7">ガンマの変化</h3>
+<p>ガンマはアット・ザ・マネーのオプションで最も高く、満期が近づくと急激に大きくなります。当日満期のアット・ザ・マネーのオプションでは、わずかな値動きでデルタが約0.50から1近く、あるいは0近くまで振れることがあります。<a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a>が非常に敏感なのはこのためであり、<a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">ガンマ・エクスポージャーとディーラーのヘッジ</a>で解説するように、ディーラーのガンマヘッジが原資産市場に影響を与え得るのもこのためです。</p>
+<h2 id="section-8">セータ</h2>
+<p>セータは、他の条件がすべて同じまま1日が経過したときのオプション価格の変化です。オプションの買いポジションはマイナスのセータ、売りポジションはプラスのセータを持ちます。セータは、オプションが与えてくれる権利を保有するためのコストです。</p>
+<h3 id="section-9">計算例</h3>
+<p>株価が横ばいでボラティリティも変わらないまま、基準のコールを5日間保有すると、コストは約5 x $0.06 = 1株あたり$0.30、1枚あたり$30で、コールは約$3.50から約$3.20になります。実際にはセータは一定ではなく、満期が近づくほど大きくなります。</p>
+<h3 id="section-10">セータの変化</h3>
+<ul>
+<li><strong>時間：</strong> アット・ザ・マネーのオプションの時間価値は、最初はゆっくり減り、最後の数週間で速く減ります。残存90日のオプションは1日数セントしか減らないかもしれませんが、同じ権利行使価格で残り1週間になると、その数倍減ることがあります。</li>
+<li><strong>マネーネス：</strong> 金額ベースのセータは、時間価値を最も多く持つアット・ザ・マネーのオプションで最大になります。ディープ・イン・ザ・マネーやディープ・アウト・オブ・ザ・マネーのオプションは、失う時間価値がそもそも少ないのです。</li>
+</ul>
+<p>オプションの売り手はセータの獲得を狙います。売り手がその対価を得られるのは、マイナスのガンマ、つまり大きな値動きのリスクも同時に引き受けているからです。</p>
+<h2 id="section-11">ベガ</h2>
+<p>ベガは、<a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a>が1ポイント変化したときのオプション価格の変化です。オプションの買いポジションはプラスのベガ、売りポジションはマイナスのベガを持ちます。</p>
+<h3 id="section-12">計算例</h3>
+<p>決算発表の前に、株価は変わらないまま、基準のコールのインプライド・ボラティリティが30%から36%に上がったとします。コールは約6 x $0.11 = $0.66上がり、約$4.16になります。発表後にインプライド・ボラティリティが30%に戻れば、株価がほとんど動かなくても、その$0.66は消えてしまいます。これをIVクラッシュと呼びます。</p>
+<h3 id="section-13">ベガの変化</h3>
+<p>ベガはアット・ザ・マネーのオプションと、満期の長いオプションで最大になります。ボラティリティが効いてくる時間が長いからです。同じ権利行使価格でも、残存1年のオプションは残存1週間のオプションよりはるかに大きなベガを持ちます。</p>
+<h2 id="section-14">ロー</h2>
+<p>ローは、金利が1ポイント変化したときのオプション価格の変化です。コールのローはプラス、プットのローはマイナスです。金利が高いほど、株を現物で買うよりコールを持つほうが相対的に有利になるためです。満期の短いオプションではローは小さく、個人トレーダーにとっては通常最も重要度の低いグリークスですが、LEAPSのような長期オプションでは無視できません。</p>
+<h2 id="section-15">グリークスの連動</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>グリークス</th>
+<th>アット・ザ・マネー</th>
+<th>ディープ・イン・ザ・マネー</th>
+<th>ディープ・アウト・オブ・ザ・マネー</th>
+<th>満期接近時（ATM）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>デルタ</td>
+<td>約±0.50</td>
+<td>±1.00付近</td>
+<td>0付近</td>
+<td>±0.50付近にとどまるが不安定になる</td>
+</tr>
+<tr>
+<td>ガンマ</td>
+<td>最大</td>
+<td>小さい</td>
+<td>小さい</td>
+<td>急上昇</td>
+</tr>
+<tr>
+<td>セータ</td>
+<td>減少が最大</td>
+<td>小さい</td>
+<td>小さい</td>
+<td>減少が加速</td>
+</tr>
+<tr>
+<td>ベガ</td>
+<td>最大</td>
+<td>小さい</td>
+<td>小さい</td>
+<td>低下</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-16">ポジション・グリークス</h2>
+<p>ポジション・グリークスとは、すべてのオプションと株式のポジションについて、各グリークスに枚数と乗数を掛けて合計したものです。株式のデルタは1株あたり1で、ガンマ、セータ、ベガはありません。</p>
+<h3 id="section-17">計算例：小さなポートフォリオ</h3>
+<p>あるトレーダーが次のポジションを持っています。</p>
+<ul>
+<li>基準のコールを5枚買い（デルタ0.52、ガンマ0.046、セータ-0.06、ベガ0.11）</li>
+<li>同じ銘柄の株を200株売り</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>グリークス</th>
+<th>コール：5 x 100 x グリークス</th>
+<th>株式</th>
+<th>ポジション合計</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>デルタ</td>
+<td>5 x 100 x 0.52 = +260</td>
+<td>-200</td>
+<td>+60株</td>
+</tr>
+<tr>
+<td>ガンマ</td>
+<td>5 x 100 x 0.046 = +23</td>
+<td>0</td>
+<td>$1あたり+23</td>
+</tr>
+<tr>
+<td>セータ</td>
+<td>5 x 100 x -0.06 = -$30</td>
+<td>0</td>
+<td>1日あたり-$30</td>
+</tr>
+<tr>
+<td>ベガ</td>
+<td>5 x 100 x 0.11 = +$55</td>
+<td>0</td>
+<td>ボラティリティ1ポイントあたり+$55</td>
+</tr>
+</tbody></table></div>
+<p>読み方：このポジションは、現時点では60株の買いと同じように振る舞います。株価が$1上がれば、デルタは約+83に増えます。何も起きなければ1日約$30を失い、インプライド・ボラティリティが1ポイント上がるごとに約$55を得ます。これはロング・ガンマ、ロング・ベガのポジションで、その特権の対価としてセータを支払っています。ほとんどの証券会社のプラットフォームはポジション・グリークスを表示しており、取引の前後に毎回確認するのは良い習慣です。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>デルタを固定値として扱う。</strong> デルタは価格、時間、ボラティリティによって変わります。今ニュートラルなポジションも、値動きの後にはそうでなくなっているかもしれません。</li>
+<li><strong>オプションの買いでセータを無視する。</strong> 方向の見立てが正しくても、動きが来るのが遅すぎれば損失になり得ます。</li>
+<li><strong>イベント前後のベガを忘れる。</strong> インプライド・ボラティリティが高いときにオプションを買い、その後IVが崩れるのを眺めることになるのは、見立てが正しいのに損をする典型的なパターンです。</li>
+<li><strong>ショート・ガンマを甘く見る。</strong> 満期間近のオプションを売れば速いペースでセータを得られますが、急な値動き1つで短時間に大きな損失が出ることがあります。</li>
+<li><strong>モデルのグリークスを鵜呑みにする。</strong> グリークスは前提条件を持つモデルから算出されます。大きな値動き、ギャップ、ボラティリティの急変は、まさにそれが最も重要な場面でグリークスを不正確にすることがあります。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-20">オプションを買うのに適したデルタはいくつですか？</h3>
+<p>唯一の正解はありません。デルタの高いイン・ザ・マネーのオプションは株式に近い動きをし、率で見たタイム・ディケイも小さくなります。一方、デルタの低いアウト・オブ・ザ・マネーのオプションは安いものの、イン・ザ・マネーで満期を迎える可能性は低くなります。</p>
+<h3 id="section-21">なぜ満期が近づくとセータが大きくなるのですか？</h3>
+<p>時間価値は満期時にゼロにならなければなりません。アット・ザ・マネーのオプションでは、残った時間価値をどんどん少ない日数で失っていくため、満期が近づくほど1日あたりの減少額が大きくなります。</p>
+<h3 id="section-22">マイナスのガンマとはどういう意味ですか？</h3>
+<p>マイナスのガンマはオプションを売ることで生じ、原資産が動くたびにデルタが不利な方向に変化することを意味します。価格が下がるほどロングが増え、上がるほどショートが増えます。大きな値動きでは損失が加速することがあります。</p>
+<h3 id="section-23">どのグリークスが最も重要ですか？</h3>
+<p>戦略によって異なります。方向性のトレーダーはデルタ、短期満期のトレーダーはガンマとセータ、決算などのイベント前後でトレードする人はベガを最も注意深く見ています。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/options/options-basics/"><div class="k">オプション取引</div><b>オプションの基礎</b><span>コールとプット、権利行使価格、満期、プレミアム、本質的価値と時間価値、マネーネス、買い手と売り手の損益、取引レベルを具体例で解説します。</span></a><a class="card" href="/ja/encyclopedia/options/implied-volatility/"><div class="k">オプション取引</div><b>インプライド・ボラティリティ</b><span>IVとヒストリカル・ボラティリティの違い、IVランクとIVパーセンタイル、IVクラッシュ、スキュー、予想変動幅の計算式を例を使って解説します。</span></a><a class="card" href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/"><div class="k">オプション取引</div><b>ガンマエクスポージャーとディーラー</b><span>マーケットメーカーのデルタヘッジ、ディーラーのプラスとマイナスのガンマ、ガンマ・スクイーズ、GEXの推計方法と限界、OPEXの影響、バンナとチャームを解説。</span></a><a class="card" href="/ja/encyclopedia/options/0dte-options/"><div class="k">オプション取引</div><b>0DTEオプション</b><span>0DTEオプションとは何か、SPX・SPY・QQQの当日満期オプションが急拡大した理由、極端なガンマと時間価値の減少、代表的な戦略、売り買い双方のリスクを解説。</span></a><a class="card" href="/ja/encyclopedia/options/straddles-and-strangles/"><div class="k">オプション取引</div><b>ストラドルとストラングル</b><span>ストラドルとストラングルの買いと売りの仕組み、損益分岐点の計算例、損益分岐点と予想変動幅の関係、決算トレード、ショート・ボラのテールリスクを解説。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/options/options-basics/"><small>← 前へ</small>オプションの基礎</a><a class="next" href="/ja/encyclopedia/options/implied-volatility/"><small>次へ →</small>インプライド・ボラティリティ</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

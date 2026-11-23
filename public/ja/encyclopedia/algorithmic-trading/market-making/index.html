@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>マーケットメイクとは？スプレッド・在庫・逆選択を解説 | PnL Profit</title>
+<meta name="description" content="マーケットメイクの教科書的解説。売買両方の気配提示、スプレッド獲得、在庫スキュー、逆選択、待ち行列、リベート、Avellaneda-Stoikov。">
+<meta name="keywords" content="マーケットメイク とは, マーケットメイク 戦略, Avellaneda-Stoikov, 在庫リスク, 逆選択, マーケットメイカー スプレッド">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="マーケットメイクとは？スプレッド・在庫・逆選択を解説 | PnL Profit">
+<meta property="og:description" content="マーケットメイクの教科書的解説。売買両方の気配提示、スプレッド獲得、在庫スキュー、逆選択、待ち行列、リベート、Avellaneda-Stoikov。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-making/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="マーケットメイクとは？スプレッド・在庫・逆選択を解説 | PnL Profit">
+<meta name="twitter:description" content="マーケットメイクの教科書的解説。売買両方の気配提示、スプレッド獲得、在庫スキュー、逆選択、待ち行列、リベート、Avellaneda-Stoikov。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"マーケットメイクとは？スプレッド・在庫・逆選択を解説","description":"マーケットメイクの教科書的解説。売買両方の気配提示、スプレッド獲得、在庫スキュー、逆選択、待ち行列、リベート、Avellaneda-Stoikov。","keywords":"マーケットメイク とは, マーケットメイク 戦略, Avellaneda-Stoikov, 在庫リスク, 逆選択, マーケットメイカー スプレッド","articleSection":"アルゴリズム取引とクオンツ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-making/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"アルゴリズム取引とクオンツ","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"マーケットメイク","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-making/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"マーケットメイカーはどうやって利益を出していますか？","acceptedAnswer":{"@type":"Answer","text":"買う価格（ビッド）と売る価格（アスク）の差に加え、取引所からのリベートがあればそれも稼ぎます。在庫が不利な方向に動いたときや、価格が動く直前に情報を持つトレーダーに気配値で約定されたときに損失を出します。"}},{"@type":"Question","name":"マーケットメイクにおける逆選択とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"逆選択とは、マーケットメイカーの気配値が、価格がまもなく動くことを知っているトレーダーによって約定されやすい傾向のことです。つまり約定は、平均すると、約定した瞬間に見えるよりも不利だということです。"}},{"@type":"Question","name":"Avellaneda-Stoikov モデルとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"マーケットメイカーのビッドとアスクを設定するための2008年の学術モデルです。在庫が積み上がっている側から気配値を遠ざけ、ボラティリティ、リスク回避度、注文の到着の仕方、残り時間に基づいてスプレッドを広げたり狭めたりします。"}},{"@type":"Question","name":"個人トレーダーでもマーケットメイカーになれますか？","acceptedAnswer":{"@type":"Answer","text":"誰でも市場の両側に指値注文を出すことはできます。しかし、流動性の高い市場でプロのマーケットメイカーと競うのは、彼らのスピード、データ、手数料の優位性のために非常に難しく、個人の試みの多くは逆選択によってお金を失っています。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/market-making/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/market-making/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/market-making/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/market-making/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/market-making/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/market-making/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/market-making/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/market-making/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/market-making/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>アルゴリズム取引とクオンツ</h3><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/" class="on">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a></div>
+<h1 class="title">マーケットメイク</h1>
+<div class="meta">約9分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>アルゴリズム取引とクオンツの他の記事</summary><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul></details>
+<article><p>マーケットメイクとは、ある資産について継続的に買いと売りの両方を提示するビジネスで、現在の価格よりわずかに低いビッド（買い気配）と、わずかに高いアスク（売り気配）を出します。マーケットメイカーは、在庫を抱えるリスクと、自分より情報に通じた相手と取引するリスクを管理しながら、多数の小さな取引を通じてその差、つまりスプレッドを稼ぐことを目指します。この記事では、公開されている学術文献に見られる標準的な教科書的見解を、Avellaneda-Stoikov モデルの概念的な説明も含めて紹介します。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>マーケットメイカーはビッド・アスク・スプレッドを稼ぎ、取引所によっては流動性供給に対するリベートも得ます。</li>
+<li>主なリスクは2つあります。在庫リスク（価格が動く間にポジションを抱えること）と逆選択（主に価格が自分に不利に動く直前に約定してしまうこと）です。</li>
+<li>マーケットメイカーは不要な在庫を減らすために気配値をスキュー（偏らせる）し、在庫をゼロに戻す側の気配をより積極的に提示します。</li>
+<li>同じ価格の注文は通常、先着順で約定するため、待ち行列の順番とレイテンシーが重要です。</li>
+<li>Avellaneda-Stoikov モデルは、在庫、ボラティリティ、リスク回避度、時間に応じて気配値をどう動かすべきかを定式化したものです。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">マーケットメイカーの仕事</a></li><li><a href="#section-3">マーケットメイカーの稼ぎ方</a></li><li><a href="#section-6">リスク</a></li><li><a href="#section-9">在庫スキュー</a></li><li><a href="#section-10">待ち行列の順番とレイテンシー</a></li><li><a href="#avellaneda-stoikov">Avellaneda-Stoikov モデル</a></li><li><a href="#section-15">計算例：スプレッド収入と逆選択</a></li><li><a href="#section-16">個人トレーダーにとってのマーケットメイク</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">マーケットメイカーの仕事</h2>
+<p>指値注文の<a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板</a>において、マーケットメイカーは売り買いの両側に指値注文を置いておきます。すぐに取引したい買い手が現れれば、その買い手はマーケットメイカーのアスクで買います。売り手が現れれば、マーケットメイカーのビッドで売ります。マーケットメイカーが99.98で買い、後に100.02で売れば、1単位あたり0.04を稼ぐことになります。</p>
+<p>マーケットメイカーには、一部の証券取引所のスペシャリストや指定マーケットメイカー、オプション取引所の流動性供給者のように正式な義務を負う指定業者から、先物や暗号資産の取引所で活動する独立したアルゴリズムトレーダーまで、さまざまな種類があります。多くの取引所は、手数料の割引やリベートによって流動性供給者に報いています。マーケットメイカーとは誰か、他のトレーダーとの関係はどうなっているかについては、<a href="/ja/encyclopedia/basics/market-participants/">市場参加者</a>で説明しています。</p>
+<h2 id="section-3">マーケットメイカーの稼ぎ方</h2>
+<h3 id="section-4">スプレッドの獲得</h3>
+<p>中心となる収入は<a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">ビッド・アスク・スプレッド</a>です。往復1回あたりの収入は小さいため、収益性は取引量と、不利な値動きによる損失をスプレッド収入より小さく抑えられるかどうかにかかっています。</p>
+<h3 id="section-5">リベートと手数料</h3>
+<p>メイカー・テイカー方式の料金体系では、指値注文を置いておくトレーダー（メイカー）は手数料が安くなるかリベートを受け取り、流動性を取るトレーダーは手数料を払います。一部のマーケットメイカーにとって、リベートは収益のかなりの部分を占めます。手数料体系は変更されることがあり、取引所や取引量のランクによっても異なるため、コストモデルには必ず最新の体系を使ってください。</p>
+<h2 id="section-6">リスク</h2>
+<h3 id="section-7">在庫リスク</h3>
+<p>約定が、買いと売りが交互にきれいに並んだペアで来ることはめったにありません。立て続けに何回か買ったマーケットメイカーは、買い持ちの状態になります。その後に価格が下落すれば、その在庫の損失はスプレッド何回分もの収入を上回ることがあります。在庫リスクは、ポジションの大きさ、資産のボラティリティ、ポジションの保有時間に応じて大きくなります。</p>
+<h3 id="section-8">逆選択</h3>
+<p>取引相手の中には、マーケットメイカーより多くを知っている、あるいはより速く反応する人がいます。ニュースを握っているトレーダー、大口注文を執行しているファンド、別の取引の場での価格変化をすでに見た高速トレーダーなどです。彼らの取引は、価格が彼らに有利な方向に動く直前にやって来る傾向があります。マーケットメイカーは「狙い撃ち（ピックオフ）」され、下落の直前に買い、上昇の直前に売ってしまいます。</p>
+<p>1985年の古典的なモデルがこれを説明しています。Glosten-Milgrom モデルでは、情報を持つトレーダーと持たないトレーダーが未知の割合で混在する状況に直面したマーケットメイカーは、情報を持たないトレーダーからの利益が情報を持つトレーダーへの損失を相殺するだけの幅にスプレッドを設定します。Kyle のモデルは、情報を持つトレーダーが情報を隠すために時間をかけて注文を分散させる方法と、価格がその情報を徐々に織り込んでいく過程を示しています。実践的な教訓は、スプレッドの一部はより良い情報を持つ相手と取引するリスクへの対価であり、ニュースの発表前後などそのリスクが高まるとスプレッドは広がる、ということです。</p>
+<h2 id="section-9">在庫スキュー</h2>
+<p>在庫を管理するために、マーケットメイカーは気配値を市場価格の中心に保つのではなく、両方の気配値を動かします。</p>
+<ul>
+<li><strong>買い持ちの在庫：</strong> ビッドとアスクの両方を下げます。アスクを下げれば誰かが自分から買う可能性が高まり、ポジションが減ります。ビッドを下げれば、さらに買い増してしまう可能性が低くなります。</li>
+<li><strong>売り持ちの在庫：</strong> 両方の気配値を上げ、逆の効果を得ます。</li>
+</ul>
+<p>マーケットメイカーは在庫のハードリミットも設けており、それを超えると片側の気配提示を止めるか、先物などの関連銘柄でヘッジします。</p>
+<h2 id="section-10">待ち行列の順番とレイテンシー</h2>
+<p>ほとんどの板は価格・時間優先の原則を採用しています。同じ価格では、最も早く出された注文が最初に約定します。ここから2つのことが言えます。</p>
+<ul>
+<li><strong>待ち行列の順番には価値があります。</strong> 最良ビッドの待ち行列の先頭近くにある注文は、価格が変わる前に情報を持たないフローによって約定する可能性が高くなります。後方の注文は、大口注文がその価格帯をまるごと食い尽くしたときにしか約定しない傾向があり、それは価格がその水準を突き抜けて動こうとしている兆候であることが多いです。</li>
+<li><strong>レイテンシーが重要です。</strong> 適正価格が変わったとき、マーケットメイカーは他者に取引される前に古い気配値を取り消すか更新しなければなりません。遅い参加者ほど逆選択を受ける頻度が高くなります。流動性の高い市場の最前線のマーケットメイクが<a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a>業者に支配されている理由の一つがこれです。</li>
+</ul>
+<h2 id="avellaneda-stoikov">Avellaneda-Stoikov モデル</h2>
+<p>2008年の論文で、Marco Avellaneda と Sasha Stoikov は、リスクにペナルティを課しつつ期待利益を最大化したいマーケットメイカーのための枠組みを示しました。その主な考え方は、完全な数学を使わなくても説明できます。</p>
+<h3 id="section-12">留保価格</h3>
+<p>モデルはまず、在庫を前提として、マーケットメイカーがもう1単位保有することに無差別となる価格、すなわち留保価格（リザベーション・プライス）を計算します。</p>
+<p>r = s − q × γ × σ² × (T − t)</p>
+<p>ここで s は仲値、q は在庫（買い持ちのときにプラス）、γ はリスク回避パラメーター、σ は仲値のボラティリティ、T − t は取引期間の残り時間です。マーケットメイカーが買い持ちのとき、r は仲値より下に位置するため、気配値は下にずれます。これは在庫スキューを式で表したものです。</p>
+<h3 id="section-13">最適スプレッド</h3>
+<p>留保価格を中心とした全体のスプレッドは次のとおりです。</p>
+<p>δ = γ × σ² × (T − t) + (2 / γ) × ln(1 + γ / k)</p>
+<p>パラメーター k は、気配値が仲値から離れるにつれて約定確率がどれだけ速く下がるかを表します。第1項はリスクが高いときに気配値の幅を広げ、第2項はより広いスプレッド（1回の約定あたりの利益が大きい）と約定回数の減少とのトレードオフを反映しています。</p>
+<pre><code class="language-python">import math
+
+def avellaneda_stoikov_quotes(mid, inventory, gamma, sigma, k, time_left):
+    &quot;&quot;&quot;教科書どおりの Avellaneda-Stoikov（2008）のビッドとアスク。&quot;&quot;&quot;
+    reservation = mid - inventory * gamma * sigma**2 * time_left
+    spread = gamma * sigma**2 * time_left + (2 / gamma) * math.log(1 + gamma / k)
+    return reservation - spread / 2, reservation + spread / 2
+
+bid, ask = avellaneda_stoikov_quotes(mid=100, inventory=2, gamma=0.1,
+                                     sigma=2, k=1.5, time_left=0.5)
+print(round(bid, 3), round(ask, 3))   # 98.855 100.345
+</code></pre>
+<p>この説明用の入力値では、σ² × (T − t) = 4 × 0.5 = 2 なので、留保価格は 100 − 2 × 0.1 × 2 = 99.6、スプレッドは 0.1 × 2 + 20 × ln(1.0667) ≈ 0.2 + 1.291 = 1.491 となります。マーケットメイカーが買い持ちのため、気配値は100ではなく99.6を中心に置かれます。</p>
+<h3 id="section-14">モデルの限界</h3>
+<p>このモデルは、仲値がボラティリティ一定のランダムウォークに従うこと、約定率が単純な指数曲線に従うこと、パラメーターが既知であることを前提としています。現実の市場には、価格の飛び、変化するボラティリティ、情報を持つフロー、待ち行列の効果があります。Guéant、Lehalle、Fernandez-Tapia による研究など、その後の研究は、在庫の上限や閉形式の近似解を加えてこの枠組みを拡張しました。実務家はこれらのモデルを、完成した戦略ではなく出発点となる構造として扱っています。</p>
+<h2 id="section-15">計算例：スプレッド収入と逆選択</h2>
+<p>あるマーケットメイカーが、1回あたり100単位で、ビッド99.98、アスク100.02の気配を提示しています。</p>
+<ul>
+<li>1回の完全な往復（99.98で100単位買い、100.02で100単位売る）で、手数料控除前に 100 × 0.04 = 4.00ドルを稼ぎます。</li>
+<li>1セッションで往復を10回完了すると、10 × 4.00 = 40.00ドルです。</li>
+<li>ある時、99.98で100単位を買った後にニュースが出て、価格が下落します。マーケットメイカーはポジションを減らすために99.68で売り、100 × 0.30 = 30.00ドルの損失を出します。</li>
+<li>差し引き：手数料とリベートを考慮する前で、40.00 − 30.00 = 10.00ドル。</li>
+</ul>
+<p>1回の不利な約定で、そのセッションのスプレッド収入の4分の3が消えました。不利な値動きが2回起きれば、そのセッションは赤字になります。マーケットメイカーが予定されたニュースの前後にスプレッドを広げたり気配を引っ込めたりするのはこのためであり、各約定後の数秒間の値動きを測定すること（マークアウトと呼ばれることが多い）が標準的な診断方法になっているのもこのためです。</p>
+<h2 id="section-16">個人トレーダーにとってのマーケットメイク</h2>
+<p>個人トレーダーも市場の両側に指値注文を出すことはできますが、流動性が高く動きの速い市場で競うのは、レイテンシーと逆選択のために非常に困難です。小規模な市場や新しい市場では、スプレッドが広いこともありますが、それに応じて流動性の薄さや突然の価格の飛びといったリスクも高くなります。予測市場はその一例です。<a href="/ja/encyclopedia/prediction-markets/market-making-on-prediction-markets/">予測市場でのマーケットメイク</a>と<a href="/blog/prediction-market-making-bot-guide.html">prediction market making bot guide</a>を参照してください。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>スプレッド収入だけを数えてマークアウトを無視する。</strong> 不利な値動きが後に続く約定こそが主なコストです。</li>
+<li><strong>在庫の上限がない。</strong> 一方向に偏った相場では、すぐに大きなポジションが積み上がることがあります。</li>
+<li><strong>ニュースの最中も気配を出し続ける。</strong> 予定された発表のタイミングこそ、情報を持つトレーダーや高速トレーダーが最も活発になるときです。</li>
+<li><strong>手数料を無視する。</strong> メイカーリベートや手数料の割引がなければ、狭いスプレッドではコストを賄えないことがあります。</li>
+<li><strong>取消のロジックが遅い。</strong> 古い気配値は、より速いトレーダーにとって無料のオプションです。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-19">マーケットメイカーはどうやって利益を出していますか？</h3>
+<p>買う価格（ビッド）と売る価格（アスク）の差に加え、取引所からのリベートがあればそれも稼ぎます。在庫が不利な方向に動いたときや、価格が動く直前に情報を持つトレーダーに気配値で約定されたときに損失を出します。</p>
+<h3 id="section-20">マーケットメイクにおける逆選択とは何ですか？</h3>
+<p>逆選択とは、マーケットメイカーの気配値が、価格がまもなく動くことを知っているトレーダーによって約定されやすい傾向のことです。つまり約定は、平均すると、約定した瞬間に見えるよりも不利だということです。</p>
+<h3 id="avellaneda-stoikov">Avellaneda-Stoikov モデルとは何ですか？</h3>
+<p>マーケットメイカーのビッドとアスクを設定するための2008年の学術モデルです。在庫が積み上がっている側から気配値を遠ざけ、ボラティリティ、リスク回避度、注文の到着の仕方、残り時間に基づいてスプレッドを広げたり狭めたりします。</p>
+<h3 id="section-22">個人トレーダーでもマーケットメイカーになれますか？</h3>
+<p>誰でも市場の両側に指値注文を出すことはできます。しかし、流動性の高い市場でプロのマーケットメイカーと競うのは、彼らのスピード、データ、手数料の優位性のために非常に難しく、個人の試みの多くは逆選択によってお金を失っています。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/basics/order-book-and-market-depth/"><div class="k">トレードの基礎</div><b>板と市場の厚み</b><span>板とマッチングエンジンの仕組み、価格優先・時間優先、Level 1とLevel 2の違い、厚みの読み方、見せ板、ディーラー市場やAMMとの比較を解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">トレードの基礎</div><b>スプレッドと流動性</b><span>ビッド・アスク・スプレッド・仲値の意味、流動性とスリッページ、マーケットインパクトの仕組み、スプレッドが広がる理由、往復コストの計算方法を解説します。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">アルゴリズム取引とクオンツ</div><b>高頻度取引</b><span>高頻度取引業者の業務、コロケーション、レイテンシー競争、マーケットメイクとレイテンシー裁定、論争点、個人が速度で勝てない理由を解説します。</span></a><a class="card" href="/ja/encyclopedia/prediction-markets/market-making-on-prediction-markets/"><div class="k">予測市場</div><b>予測市場のマーケットメイク</b><span>予測市場のマーケットメイクの教科書的ガイド。両サイドの気配提示、スプレッドの獲得、在庫リスク、ニュース前後の逆選択、流動性報酬を解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/market-participants/"><div class="k">トレードの基礎</div><b>市場参加者</b><span>個人トレーダー、機関投資家、ヘッジファンド、マーケットメイカー、HFT業者、ヘッジャー、中央銀行、クジラ。それぞれの目的と、取引相手が誰なのかを解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"><small>← 前へ</small>ペアトレードと統計的裁定</a><a class="next" href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/"><small>次へ →</small>アービトラージ戦略</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

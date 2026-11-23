@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>做市策略详解：点差、库存与逆向选择 | PnL Profit</title>
+<meta name="description" content="教科书式的做市指南：双边报价、赚取点差、库存偏移、逆向选择、排队位置、返佣，以及 Avellaneda-Stoikov 模型。">
+<meta name="keywords" content="做市, 做市策略, Avellaneda-Stoikov模型, 库存风险, 逆向选择, 做市商点差">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="做市策略详解：点差、库存与逆向选择 | PnL Profit">
+<meta property="og:description" content="教科书式的做市指南：双边报价、赚取点差、库存偏移、逆向选择、排队位置、返佣，以及 Avellaneda-Stoikov 模型。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-making/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="做市策略详解：点差、库存与逆向选择 | PnL Profit">
+<meta name="twitter:description" content="教科书式的做市指南：双边报价、赚取点差、库存偏移、逆向选择、排队位置、返佣，以及 Avellaneda-Stoikov 模型。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"做市策略详解：点差、库存与逆向选择","description":"教科书式的做市指南：双边报价、赚取点差、库存偏移、逆向选择、排队位置、返佣，以及 Avellaneda-Stoikov 模型。","keywords":"做市, 做市策略, Avellaneda-Stoikov模型, 库存风险, 逆向选择, 做市商点差","articleSection":"算法与量化交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-making/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"算法与量化交易","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"做市","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-making/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"做市商如何赚钱？","acceptedAnswer":{"@type":"Answer","text":"他们赚取买入价格（买价）与卖出价格（卖价）之间的差额，外加交易所的返佣。当库存价格对他们不利，或知情交易者恰好在价格变动前与他们的报价成交时，他们就会亏钱。"}},{"@type":"Question","name":"做市中的逆向选择是什么？","acceptedAnswer":{"@type":"Answer","text":"逆向选择是指做市商的报价更常被那些知道价格即将变动的交易者成交的倾向。这意味着平均而言，成交的实际效果比成交那一刻看上去的要差。"}},{"@type":"Question","name":"什么是 Avellaneda-Stoikov 模型？","acceptedAnswer":{"@type":"Answer","text":"它是2008年提出的一个为做市商设定买价和卖价的学术模型。它会让报价避开库存正在积累的那一侧，并根据波动率、风险厌恶程度、订单到达特征和剩余时间来扩大或收窄点差。"}},{"@type":"Question","name":"散户能做做市商吗？","acceptedAnswer":{"@type":"Answer","text":"任何人都可以在市场两侧挂限价单。但由于专业做市商在速度、数据和手续费方面的优势，在流动性好的市场中与他们竞争非常困难，许多散户的尝试都因逆向选择而亏钱。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/market-making/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/market-making/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/algorithmic-trading/market-making/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/market-making/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/market-making/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/market-making/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/market-making/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/market-making/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/market-making/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>算法与量化交易</h3><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/" class="on">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a></div>
+<h1 class="title">做市</h1>
+<div class="meta">阅读约 7 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>算法与量化交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul></details>
+<article><p>做市（market making）是一种持续报价买卖某项资产的业务：在当前价格略下方挂出买价，在略上方挂出卖价。做市商的目标是在大量小额交易中赚取二者之差，即点差，同时管理持有库存的风险以及与信息更充分的对手方交易的风险。本文介绍公开学术文献中的标准教科书观点，并从概念层面介绍 Avellaneda-Stoikov 模型。</p>
+<div class="takeaways"><h2 id="key-takeaways">核心要点</h2>
+<ul>
+<li>做市商赚取买卖价差，在某些交易场所还能获得提供流动性的返佣。</li>
+<li>两大主要风险是库存风险（价格变动时持有仓位）和逆向选择（往往恰在价格即将对你不利时成交）。</li>
+<li>做市商会让报价偏移以减少不想要的库存，在能让库存回归零的那一侧报价更积极。</li>
+<li>排队位置和延迟很重要，因为同一价格上的订单通常按先到先得的原则成交。</li>
+<li>Avellaneda-Stoikov 模型把报价应如何随库存、波动率、风险厌恶程度和时间而调整加以形式化。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">做市商做什么</a></li><li><a href="#section-3">做市商如何赚钱</a></li><li><a href="#section-6">风险</a></li><li><a href="#section-9">库存偏移</a></li><li><a href="#section-10">排队位置与延迟</a></li><li><a href="#avellaneda-stoikov">Avellaneda-Stoikov 模型</a></li><li><a href="#section-15">实例：点差收入与逆向选择</a></li><li><a href="#section-16">散户做市</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">做市商做什么</h2>
+<p>在限价<a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿</a>中，做市商在买卖两侧都挂出等待成交的限价单。当一位想立即成交的买家到来时，他会按做市商的卖价买入；当卖家到来时，他会按做市商的买价卖出。如果做市商在99.98买入、随后在100.02卖出，每单位就赚0.04。</p>
+<p>做市商的范围很广：既有承担正式义务的指定机构，比如某些股票交易所的专营商或指定做市商、期权交易所的流动性提供者，也有期货和加密货币交易平台上的独立算法交易者。许多交易所通过手续费折扣或返佣来奖励流动性提供者。他们是谁、在各类交易者中处于什么位置，参见<a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a>。</p>
+<h2 id="section-3">做市商如何赚钱</h2>
+<h3 id="section-4">赚取点差</h3>
+<p>核心收入是<a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">买卖价差</a>。每个来回的收入很少，因此能否盈利取决于交易量，以及能否让不利行情造成的亏损小于点差收入。</p>
+<h3 id="section-5">返佣与手续费</h3>
+<p>在挂单/吃单（maker-taker）收费模式下，挂出等待成交订单的交易者（挂单方）支付较低的手续费或获得返佣，而消耗流动性的交易者（吃单方）支付手续费。对一些做市商来说，返佣在收入中占相当大的比重。收费标准会变化，且因交易场所和交易量等级而异，因此任何成本模型都必须使用最新的收费标准。</p>
+<h2 id="section-6">风险</h2>
+<h3 id="section-7">库存风险</h3>
+<p>成交很少会以整齐的一买一卖交替出现。连续几次买入的做市商最终会持有多头仓位。如果价格随后下跌，这部分库存的亏损可能超过许多次点差收入。库存风险随仓位规模、资产波动率和持仓时间的增加而增大。</p>
+<h3 id="section-8">逆向选择</h3>
+<p>有些对手方比做市商知道得更多，或者反应更快：掌握消息的交易者、正在执行大额订单的基金，或是已在另一个交易场所看到价格变化的快速交易者。他们的交易往往恰好在价格向有利于他们的方向移动之前到来。做市商就这样被“狙击”：刚买入价格就下跌，刚卖出价格就上涨。</p>
+<p>1985年的经典模型描述了这一现象。在 Glosten-Milgrom 模型中，面对知情交易者与非知情交易者构成比例未知的市场，做市商会把点差设得足够宽，使从非知情交易者那里赚到的钱能够抵消亏给知情交易者的钱。Kyle 模型则展示了知情交易者如何把订单分散到不同时间以隐藏信息，以及价格如何逐步吸收这些信息。实际的教训是：点差在一定程度上是对与信息更充分者交易之风险的补偿，当这种风险上升时（比如在消息发布前后），点差就会扩大。</p>
+<h2 id="section-9">库存偏移</h2>
+<p>为了控制库存，做市商会同时移动买卖两个报价，而不是让它们始终以市场价格为中心。</p>
+<ul>
+<li><strong>持有多头库存：</strong> 同时降低买价和卖价。较低的卖价使别人更可能从你手中买入，从而减少你的仓位；较低的买价使你更不容易继续买入。</li>
+<li><strong>持有空头库存：</strong> 同时提高两个报价，效果相反。</li>
+</ul>
+<p>做市商还会设定硬性的库存上限，超过上限就停止在某一侧报价，或在相关品种（如期货合约）上进行对冲。</p>
+<h2 id="section-10">排队位置与延迟</h2>
+<p>大多数订单簿采用价格-时间优先原则：在同一价格上，最早的订单最先成交。由此带来两个结果：</p>
+<ul>
+<li><strong>排队位置有价值。</strong> 在最优买价上排在队列前部的订单，更有可能在价格变化之前与非知情订单流成交。排在后面的订单往往只有在大单扫掉整个价位时才会成交，而这通常意味着价格即将穿过这一价位。</li>
+<li><strong>延迟很重要。</strong> 当合理价格变化时，做市商必须在别人与过时报价成交之前撤销或更新这些报价。速度较慢的参与者更常遭遇逆向选择。这也是流动性好的市场中顶层做市由<a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a>公司主导的原因之一。</li>
+</ul>
+<h2 id="avellaneda-stoikov">Avellaneda-Stoikov 模型</h2>
+<p>在2008年的一篇论文中，Marco Avellaneda 和 Sasha Stoikov 为希望在惩罚风险的同时最大化预期利润的做市商描述了一个框架。其核心思想无需完整的数学推导即可说明。</p>
+<h3 id="section-12">保留价格</h3>
+<p>模型首先计算保留价格（reservation price），即在给定库存的情况下，做市商对多持有一单位无差异的价格：</p>
+<p>r = s − q × γ × σ² × (T − t)</p>
+<p>其中 s 是中间价，q 是库存（持多头时为正），γ 是风险厌恶参数，σ 是中间价的波动率，T − t 是交易周期内的剩余时间。当做市商持有多头时，r 低于中间价，因此报价向下移动，这就是用公式表达的库存偏移。</p>
+<h3 id="section-13">最优点差</h3>
+<p>围绕保留价格的总点差为：</p>
+<p>δ = γ × σ² × (T − t) + (2 / γ) × ln(1 + γ / k)</p>
+<p>参数 k 描述报价偏离中间价时成交概率下降的速度。第一项在风险较高时扩大报价；第二项反映了更宽的点差（每次成交利润更多）与更少的成交之间的权衡。</p>
+<pre><code class="language-python">import math
+
+def avellaneda_stoikov_quotes(mid, inventory, gamma, sigma, k, time_left):
+    &quot;&quot;&quot;教科书版 Avellaneda-Stoikov（2008）买价与卖价。&quot;&quot;&quot;
+    reservation = mid - inventory * gamma * sigma**2 * time_left
+    spread = gamma * sigma**2 * time_left + (2 / gamma) * math.log(1 + gamma / k)
+    return reservation - spread / 2, reservation + spread / 2
+
+bid, ask = avellaneda_stoikov_quotes(mid=100, inventory=2, gamma=0.1,
+                                     sigma=2, k=1.5, time_left=0.5)
+print(round(bid, 3), round(ask, 3))   # 98.855 100.345
+</code></pre>
+<p>使用这些示意输入时，σ² × (T − t) = 4 × 0.5 = 2，因此保留价格为100 − 2 × 0.1 × 2 = 99.6，点差为0.1 × 2 + 20 × ln(1.0667) ≈ 0.2 + 1.291 = 1.491。由于做市商持有多头，报价以99.6而不是100为中心。</p>
+<h3 id="section-14">模型的局限</h3>
+<p>该模型假设中间价服从波动率恒定的随机游走、成交率服从简单的指数曲线，并且参数已知。真实市场存在跳跃、变化的波动率、知情订单流和排队效应。后续研究，例如 Guéant、Lehalle 和 Fernandez-Tapia 的工作，在该框架中加入了库存上限并给出了闭式近似解。从业者把这些模型当作起步的框架，而不是成品策略。</p>
+<h2 id="section-15">实例：点差收入与逆向选择</h2>
+<p>某做市商以99.98的买价和100.02的卖价报价，每次100单位。</p>
+<ul>
+<li>一个完整的来回（在99.98买入100单位、在100.02卖出100单位）在扣除费用前赚100 × 0.04 = 4.00美元。</li>
+<li>一个交易时段内完成10个来回：10 × 4.00 = 40.00美元。</li>
+<li>有一次，在99.98买入100单位后，突发消息导致价格下跌。做市商在99.68卖出以削减仓位：亏损100 × 0.30 = 30.00美元。</li>
+<li>净收益：40.00 − 30.00 = 10.00美元，未计费用和返佣。</li>
+</ul>
+<p>一次不利成交就抹掉了该时段四分之三的点差收入。如果不利行情发生两次，这个时段就会亏钱。这就是做市商在预定消息发布前后扩大点差或撤回报价的原因，也是衡量每次成交后几秒内价格变动（常称为 markout）成为标准诊断手段的原因。</p>
+<h2 id="section-16">散户做市</h2>
+<p>散户可以在市场两侧挂限价单，但由于延迟和逆向选择，在流动性好、速度快的市场中竞争非常困难。规模较小或较新的市场有时点差更宽，相应的风险也更高，包括流动性稀薄和价格突然跳动。预测市场就是一个例子；参见<a href="/zh/encyclopedia/prediction-markets/market-making-on-prediction-markets/">预测市场做市</a>和<a href="/blog/prediction-market-making-bot-guide.html">预测市场做市机器人指南</a>。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>只算点差收入而忽视 markout。</strong> 成交后紧跟不利行情的那些成交才是主要成本。</li>
+<li><strong>没有库存上限。</strong> 单边市场可能很快积累起大额仓位。</li>
+<li><strong>在消息发布期间继续报价。</strong> 预定公告发布时，正是知情交易者和快速交易者最活跃的时候。</li>
+<li><strong>忽视手续费。</strong> 没有挂单返佣或手续费折扣，微薄的点差可能覆盖不了成本。</li>
+<li><strong>撤单逻辑太慢。</strong> 过时的报价就是送给更快交易者的免费期权。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-19">做市商如何赚钱？</h3>
+<p>他们赚取买入价格（买价）与卖出价格（卖价）之间的差额，外加交易所的返佣。当库存价格对他们不利，或知情交易者恰好在价格变动前与他们的报价成交时，他们就会亏钱。</p>
+<h3 id="section-20">做市中的逆向选择是什么？</h3>
+<p>逆向选择是指做市商的报价更常被那些知道价格即将变动的交易者成交的倾向。这意味着平均而言，成交的实际效果比成交那一刻看上去的要差。</p>
+<h3 id="avellaneda-stoikov">什么是 Avellaneda-Stoikov 模型？</h3>
+<p>它是2008年提出的一个为做市商设定买价和卖价的学术模型。它会让报价避开库存正在积累的那一侧，并根据波动率、风险厌恶程度、订单到达特征和剩余时间来扩大或收窄点差。</p>
+<h3 id="section-22">散户能做做市商吗？</h3>
+<p>任何人都可以在市场两侧挂限价单。但由于专业做市商在速度、数据和手续费方面的优势，在流动性好的市场中与他们竞争非常困难，许多散户的尝试都因逆向选择而亏钱。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/basics/order-book-and-market-depth/"><div class="k">交易基础</div><b>订单簿与市场深度</b><span>限价订单簿和撮合引擎如何运作，价格时间优先原则，Level 1 与 Level 2 行情的区别，如何解读深度，幌骗，以及与做市商市场和 AMM 的对比。</span></a><a class="card" href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">交易基础</div><b>点差与流动性</b><span>什么是买价、卖价、点差和中间价，流动性、滑点和市场冲击如何运作，点差为何会扩大，以及如何计算一次往返交易的成本。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">算法与量化交易</div><b>高频交易</b><span>高频交易公司到底做什么：托管机房、延迟军备竞赛、电子化做市与延迟套利、相关争议，以及散户为何无法在速度上与之竞争。</span></a><a class="card" href="/zh/encyclopedia/prediction-markets/market-making-on-prediction-markets/"><div class="k">预测市场</div><b>做市</b><span>一份教科书式的预测市场做市指南：如何双边报价、赚取买卖价差，库存风险，消息发布前后的逆向选择，以及流动性奖励。</span></a><a class="card" href="/zh/encyclopedia/basics/market-participants/"><div class="k">交易基础</div><b>市场参与者</b><span>散户、机构、对冲基金、做市商、高频交易公司、套期保值者、央行和巨鲸：各自想要什么，以及你真正在与谁交易。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"><small>← 上一篇</small>配对交易与统计套利</a><a class="next" href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/"><small>下一篇 →</small>套利策略</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

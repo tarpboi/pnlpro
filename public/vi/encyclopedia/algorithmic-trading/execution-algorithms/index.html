@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán thực thi lệnh: TWAP, VWAP, POV và shortfall | PnL Profit</title>
+<meta name="description" content="Cách thuật toán thực thi hoạt động: TWAP, VWAP, POV, implementation shortfall, định tuyến lệnh thông minh, đo slippage và vì sao thực thi quyết định lợi nhuận.">
+<meta name="keywords" content="thuật toán thực thi lệnh, twap và vwap, implementation shortfall, smart order routing, đo slippage">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Thuật toán thực thi lệnh: TWAP, VWAP, POV và shortfall | PnL Profit">
+<meta property="og:description" content="Cách thuật toán thực thi hoạt động: TWAP, VWAP, POV, implementation shortfall, định tuyến lệnh thông minh, đo slippage và vì sao thực thi quyết định lợi nhuận.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/execution-algorithms/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Thuật toán thực thi lệnh: TWAP, VWAP, POV và shortfall | PnL Profit">
+<meta name="twitter:description" content="Cách thuật toán thực thi hoạt động: TWAP, VWAP, POV, implementation shortfall, định tuyến lệnh thông minh, đo slippage và vì sao thực thi quyết định lợi nhuận.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Thuật toán thực thi lệnh: TWAP, VWAP, POV và shortfall","description":"Cách thuật toán thực thi hoạt động: TWAP, VWAP, POV, implementation shortfall, định tuyến lệnh thông minh, đo slippage và vì sao thực thi quyết định lợi nhuận.","keywords":"thuật toán thực thi lệnh, twap và vwap, implementation shortfall, smart order routing, đo slippage","articleSection":"Giao dịch thuật toán và định lượng","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/execution-algorithms/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch thuật toán và định lượng","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Thuật toán thực thi lệnh","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/execution-algorithms/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"TWAP và VWAP khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"TWAP trải đều một lệnh theo thời gian, còn VWAP xác định kích thước từng phần theo khối lượng điển hình vào thời điểm đó trong ngày. VWAP thường giao dịch nặng hơn gần lúc mở và đóng cửa, khi phần lớn khối lượng thị trường chứng khoán xuất hiện."}},{"@type":"Question","name":"Implementation shortfall là gì?","acceptedAnswer":{"@type":"Answer","text":"Đó là chênh lệch giữa kết quả của một giao dịch lý tưởng được thực hiện tức thì ở giá lúc quyết định và kết quả thực tế, bao gồm slippage, phí và chi phí của những cổ phiếu chưa bao giờ được khớp. Nó được coi là một trong những thước đo chi phí giao dịch đầy đủ nhất."}},{"@type":"Question","name":"Trader cá nhân có cần thuật toán thực thi không?","acceptedAnswer":{"@type":"Answer","text":"Hầu hết lệnh của trader cá nhân đủ nhỏ để một lệnh giới hạn đơn giản vẫn hoạt động tốt ở các thị trường thanh khoản cao. Các chiến thuật thực thi như chia nhỏ lệnh và tránh những thời điểm biến động quan trọng hơn ở thị trường mỏng và với những trader có chiến lược giao dịch thường xuyên."}},{"@type":"Question","name":"Định tuyến lệnh thông minh là gì?","acceptedAnswer":{"@type":"Answer","text":"Định tuyến lệnh thông minh là phần mềm gửi mỗi lệnh, hoặc mỗi phần của một lệnh, đến nền tảng giao dịch có sự kết hợp tốt nhất giữa giá, khối lượng, phí và khả năng khớp."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch thuật toán và định lượng</h3><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/" class="on" aria-current="page">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/" class="on">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a></div>
+<h1 class="title">Thuật toán thực thi lệnh</h1>
+<div class="meta">10 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch thuật toán và định lượng</summary><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/" class="on" aria-current="page">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul></details>
+<article><p>Thuật toán thực thi là các chương trình chia một lệnh lớn thành nhiều phần nhỏ và gửi chúng ra thị trường theo thời gian, nhằm mua hoặc bán ở mức giá trung bình tốt mà không làm thị trường dịch chuyển quá nhiều. Chúng trả lời câu hỏi &quot;tôi nên giao dịch như thế nào?&quot; chứ không phải &quot;tôi nên giao dịch cái gì?&quot;. Ngay cả một chiến lược có lợi thế thực sự cũng có thể thua lỗ vì thực thi kém, điều này khiến đây là chủ đề quan trọng với mọi trader có hệ thống, dù lớn hay nhỏ.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Lệnh lớn làm giá dịch chuyển; chia nhỏ theo thời gian làm giảm tác động thị trường nhưng tăng mức phơi nhiễm với trôi giá.</li>
+<li>TWAP trải đều lệnh theo thời gian, VWAP bám theo mô hình khối lượng điển hình, và POV giao dịch một tỷ lệ cố định của khối lượng trực tiếp.</li>
+<li>Các thuật toán implementation shortfall cân bằng giữa tác động và rủi ro giá đi xa trong lúc bạn chờ.</li>
+<li>Định tuyến lệnh thông minh gửi từng phần đến nơi có mức giá và thanh khoản tốt nhất.</li>
+<li>Hãy đo chất lượng thực thi so với giá tại thời điểm bạn quyết định giao dịch, không chỉ so với giá trung bình trong ngày.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#v-sao-th-c-thi-quan-tr-ng">Vì sao thực thi quan trọng</a></li><li><a href="#c-c-lo-i-thu-t-to-n-ch-nh">Các loại thuật toán chính</a></li><li><a href="#nh-tuy-n-l-nh-th-ng-minh">Định tuyến lệnh thông minh</a></li><li><a href="#o-slippage">Đo slippage</a></li><li><a href="#v-d-minh-h-a-implementation-shortfall">Ví dụ minh họa: implementation shortfall</a></li><li><a href="#th-c-thi-cho-trader-c-nh-n-v-trader-c-h-th-ng">Thực thi cho trader cá nhân và trader có hệ thống</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="v-sao-th-c-thi-quan-tr-ng">Vì sao thực thi quan trọng</h2>
+<p>Mỗi giao dịch đều trả những chi phí ngoài hoa hồng:</p>
+<ul>
+<li><strong>Spread:</strong> đi từ bid sang ask tốn một nửa <a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">bid-ask spread</a> ở mỗi chiều, so với giá giữa (mid).</li>
+<li><strong>Tác động thị trường:</strong> một lệnh lớn tiêu thụ thanh khoản hiện có và đẩy giá. Một phần của sự dịch chuyển đó là tạm thời, hồi lại khi bạn ngừng giao dịch; một phần là vĩnh viễn, vì hoạt động giao dịch của bạn tiết lộ thông tin.</li>
+<li><strong>Rủi ro thời điểm:</strong> nếu bạn giao dịch chậm để giảm tác động, giá có thể đi xa khỏi bạn vì những lý do không liên quan.</li>
+</ul>
+<p>Thiết kế thực thi là sự đánh đổi giữa tác động (giao dịch chậm) và rủi ro thời điểm (giao dịch nhanh). Cách xử lý hình thức kinh điển là khung Almgren-Chriss từ khoảng năm 2000, tìm ra lịch giao dịch giảm thiểu chi phí kỳ vọng cộng một khoản phạt cho độ bất định của chi phí.</p>
+<p>Một quy tắc kinh nghiệm thực chứng được trích dẫn rộng rãi, quy luật căn bậc hai (square-root law), nói rằng tác động tăng xấp xỉ theo căn bậc hai của quy mô lệnh so với khối lượng hằng ngày:</p>
+<p>Tác động ≈ c × biến động ngày × √(quy mô lệnh / khối lượng trung bình ngày)</p>
+<p>trong đó c là một hằng số thường được ước tính vào khoảng 1. Hãy coi đây là hướng dẫn sơ bộ, không phải dự báo chính xác.</p>
+<h2 id="c-c-lo-i-thu-t-to-n-ch-nh">Các loại thuật toán chính</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Thuật toán</th>
+<th>Cách giao dịch</th>
+<th>Điểm mạnh</th>
+<th>Điểm yếu</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TWAP (giá trung bình theo thời gian)</td>
+<td>Các phần bằng nhau ở những khoảng đều đặn trong một giai đoạn định sẵn</td>
+<td>Đơn giản, dễ dự đoán, dễ xây dựng</td>
+<td>Bỏ qua mô hình khối lượng; các phần đều đặn có thể bị phát hiện</td>
+</tr>
+<tr>
+<td>VWAP (giá trung bình theo khối lượng)</td>
+<td>Các phần có kích thước khớp với đường cong khối lượng trong ngày theo lịch sử</td>
+<td>Giao dịch nhiều hơn khi thanh khoản cao; khớp với một chuẩn so sánh phổ biến</td>
+<td>Dựa vào khối lượng lịch sử; vẫn là lịch cố định</td>
+</tr>
+<tr>
+<td>POV (phần trăm khối lượng)</td>
+<td>Giao dịch một tỷ lệ cố định, như 10%, của khối lượng thị trường theo thời gian thực</td>
+<td>Thích ứng với thanh khoản thực tế</td>
+<td>Không biết thời điểm hoàn tất; có thể đuổi theo các đợt khối lượng tăng vọt</td>
+</tr>
+<tr>
+<td>Implementation shortfall (giá lúc đến)</td>
+<td>Giao dịch nhanh hơn lúc đầu, điều chỉnh theo độ khẩn cấp và rủi ro</td>
+<td>Giảm thiểu chi phí so với giá lúc quyết định</td>
+<td>Phức tạp hơn; tác động lớn hơn ở giai đoạn đầu</td>
+</tr>
+<tr>
+<td>Tìm kiếm thanh khoản</td>
+<td>Tìm kiếm khối lượng trên các sàn công khai và ẩn, thường theo kiểu cơ hội</td>
+<td>Tốt cho các mã kém thanh khoản</td>
+<td>Rủi ro rò rỉ thông tin</td>
+</tr>
+</tbody></table></div>
+<h3 id="twap">TWAP</h3>
+<p>TWAP chia lệnh thành các phần bằng nhau gửi ở những khoảng cố định, chẳng hạn 1,000 cổ phiếu mỗi năm phút. Nhiều sàn crypto cung cấp trực tiếp lệnh TWAP. Các triển khai tốt ngẫu nhiên hóa nhẹ kích thước và thời điểm của từng phần để các trader khác không dễ phát hiện mô hình.</p>
+<pre><code class="language-python">import random
+
+def twap_schedule(total_qty, start_ts, end_ts, n_slices, jitter=0.2):
+    &quot;&quot;&quot;Chia total_qty thành n_slices phần trải đều giữa hai mốc thời gian (giây).&quot;&quot;&quot;
+    step = (end_ts - start_ts) / n_slices
+    base, remainder = divmod(total_qty, n_slices)
+    schedule = []
+    for i in range(n_slices):
+        qty = base + (1 if i &lt; remainder else 0)
+        offset = random.uniform(0.0, jitter) * step   # tránh một mô hình đều đặn hoàn hảo
+        schedule.append((start_ts + i * step + offset, qty))
+    return schedule
+</code></pre>
+<h3 id="vwap">VWAP</h3>
+<p>Khối lượng giao dịch ở hầu hết các thị trường chứng khoán có dạng chữ U trong ngày, nhiều lúc mở và đóng cửa và ít hơn vào giữa ngày. Thuật toán VWAP dùng các hồ sơ khối lượng lịch sử để giao dịch nhiều hơn khi thị trường nhộn nhịp nhất. Bản thân giá trung bình theo khối lượng, được giải thích trong <a href="/vi/encyclopedia/technical-analysis/vwap/">VWAP</a>, cũng là chuẩn so sánh phổ biến nhất để đánh giá các lần khớp.</p>
+<h3 id="pov">POV</h3>
+<p>Thuật toán POV hay thuật toán tham gia (participation) theo dõi khối lượng trực tiếp và giao dịch một tỷ lệ đặt trước của nó. Nếu thị trường giao dịch 50,000 cổ phiếu trong một phút và tỷ lệ tham gia là 10%, thuật toán nhắm giao dịch 5,000. Nó thích ứng với điều kiện thực tế nhưng không thể hứa khi nào lệnh sẽ hoàn tất.</p>
+<h3 id="implementation-shortfall">Implementation shortfall</h3>
+<p>Khái niệm implementation shortfall, do André Perold đưa ra năm 1988, đo chênh lệch giữa lợi suất của một danh mục trên giấy được giao dịch tức thì ở giá lúc quyết định và lợi suất thực tế đạt được. Các thuật toán shortfall cố gắng giảm thiểu khoảng chênh đó, thường bằng cách giao dịch quyết liệt hơn lúc đầu để giảm phơi nhiễm với trôi giá.</p>
+<h2 id="nh-tuy-n-l-nh-th-ng-minh">Định tuyến lệnh thông minh</h2>
+<p>Nhiều thị trường bị phân mảnh trên một số sàn và nền tảng thay thế. Bộ định tuyến lệnh thông minh (smart order router, SOR) kiểm tra giá và khối lượng sẵn có trên các nền tảng và gửi từng lệnh con đến nơi tốt nhất, cân nhắc phí, hoàn phí, xác suất khớp và độ trễ. Trong crypto, các bộ tổng hợp (aggregator) đóng vai trò tương tự trên các sàn hoặc các pool thanh khoản DEX. Ở Mỹ, các quy tắc như Regulation NMS yêu cầu broker tránh giao dịch xuyên qua mức giá tốt hơn đang hiển thị trên sàn khác; các khu vực khác có quy tắc thực thi tốt nhất (best execution) riêng.</p>
+<h2 id="o-slippage">Đo slippage</h2>
+<p>Bạn không thể cải thiện thực thi mà bạn không đo. Các chuẩn so sánh phổ biến:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Chuẩn so sánh</th>
+<th>Định nghĩa</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Giá lúc đến (arrival price)</td>
+<td>Giá giữa khi lệnh được gửi</td>
+<td>Thước đo trung thực nhất cho tổng chi phí thực thi</td>
+</tr>
+<tr>
+<td>Giá lúc quyết định</td>
+<td>Giá khi chiến lược tạo ra tín hiệu</td>
+<td>Nắm bắt độ trễ giữa tín hiệu và lệnh</td>
+</tr>
+<tr>
+<td>VWAP theo khoảng</td>
+<td>VWAP của thị trường trong suốt vòng đời của lệnh</td>
+<td>Phổ biến, nhưng có thể bị &quot;đánh bại&quot; đơn giản bằng cách giao dịch theo hướng có lợi</td>
+</tr>
+<tr>
+<td>Giá đóng cửa</td>
+<td>Giá đóng cửa chính thức</td>
+<td>Phù hợp với các chiến lược lấy giá đóng cửa làm chuẩn</td>
+</tr>
+</tbody></table></div>
+<p>Chi phí thường được biểu thị bằng điểm cơ bản (bps), trong đó 1 bp = 0.01%. Với lệnh mua, slippage = (giá khớp trung bình − chuẩn so sánh) / chuẩn so sánh. Với lệnh bán, đảo dấu.</p>
+<h2 id="v-d-minh-h-a-implementation-shortfall">Ví dụ minh họa: implementation shortfall</h2>
+<p>Một chiến lược quyết định mua 10,000 cổ phiếu khi giá là 50.00 đô la. Giá trị danh mục trên giấy là 10,000 × 50.00 = 500,000 đô la.</p>
+<ul>
+<li>Thuật toán mua 8,000 cổ phiếu ở giá trung bình 50.12 đô la. 2,000 cổ phiếu còn lại không khớp trước khi giá chạy lên 50.60 đô la, và lệnh bị hủy.</li>
+<li>Chi phí thực thi: 8,000 × (50.12 − 50.00) = 960 đô la.</li>
+<li>Chi phí cơ hội trên số cổ phiếu chưa khớp: 2,000 × (50.60 − 50.00) = 1,200 đô la.</li>
+<li>Hoa hồng: 40 đô la.</li>
+<li>Tổng shortfall: 960 + 1,200 + 40 = 2,200 đô la, tức 2,200 / 500,000 = 0.44% (44 bps).</li>
+</ul>
+<p>Lệnh trông được thực thi tốt nếu chỉ đánh giá trên 8,000 cổ phiếu đã khớp, nhưng việc bỏ lỡ số cổ phiếu còn lại tốn kém hơn cả bản thân slippage.</p>
+<h3 id="c-t-nh-t-c-ng">Ước tính tác động</h3>
+<p>Một cổ phiếu có biến động ngày 2% và khối lượng trung bình ngày 1,000,000 cổ phiếu. Một lệnh 10,000 cổ phiếu bằng 1% khối lượng ngày. Quy tắc căn bậc hai với c = 1 gợi ý tác động khoảng 2% × √0.01 = 2% × 0.1 = 0.2%, hay 20 bps. Tăng gấp bốn lệnh lên 40,000 cổ phiếu chỉ làm tác động ước tính tăng gấp đôi, lên khoảng 40 bps, vì √0.04 = 0.2.</p>
+<h2 id="th-c-thi-cho-trader-c-nh-n-v-trader-c-h-th-ng">Thực thi cho trader cá nhân và trader có hệ thống</h2>
+<p>Lệnh của trader cá nhân thường nhỏ so với khối lượng thị trường, nên tác động không đáng kể ở các thị trường thanh khoản cao. Thực thi vẫn quan trọng:</p>
+<ul>
+<li>Dùng lệnh giới hạn khi phù hợp thay vì lệnh thị trường; bài <a href="/vi/encyclopedia/basics/order-types/">các loại lệnh</a> giải thích các lựa chọn.</li>
+<li>Tránh giao dịch trong những phút đầu và cuối phiên và quanh các tin tức lớn, khi spread nới rộng.</li>
+<li>Ở các thị trường mỏng như cổ phiếu vốn hóa nhỏ, altcoin hoặc hợp đồng sự kiện, vài nghìn đô la có thể làm giá dịch chuyển; chia nhỏ lệnh sẽ giúp ích.</li>
+<li>Ghi lại thời điểm tín hiệu, thời điểm đặt lệnh, giá khớp và giá giữa ở mỗi bước, rồi so sánh chi phí thực tế với các giả định trong backtest. Xem <a href="/vi/encyclopedia/basics/trading-costs-and-fees/">chi phí và phí giao dịch</a>.</li>
+</ul>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Chỉ đo so với VWAP.</strong> Nó có thể che giấu chi phí của độ trễ và các lệnh khớp bị lỡ.</li>
+<li><strong>Bỏ qua các lệnh không khớp.</strong> Bỏ lỡ giao dịch thắng là một chi phí có thật, thường rất lớn.</li>
+<li><strong>Chia nhỏ theo cách dễ đoán.</strong> Các phần giống hệt nhau ở những khoảng giống hệt nhau có thể bị phát hiện và bị giao dịch ngược lại.</li>
+<li><strong>Dùng lệnh thị trường trong sổ lệnh mỏng.</strong> Một lệnh có thể quét xuyên qua nhiều mức giá.</li>
+<li><strong>Cho rằng lệnh khớp trong backtest bằng lệnh khớp thực tế.</strong> Luôn đối chiếu thực thi thực tế với các giả định.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="twap-v-vwap-kh-c-nhau-th-n-o">TWAP và VWAP khác nhau thế nào?</h3>
+<p>TWAP trải đều một lệnh theo thời gian, còn VWAP xác định kích thước từng phần theo khối lượng điển hình vào thời điểm đó trong ngày. VWAP thường giao dịch nặng hơn gần lúc mở và đóng cửa, khi phần lớn khối lượng thị trường chứng khoán xuất hiện.</p>
+<h3 id="implementation-shortfall-l-g">Implementation shortfall là gì?</h3>
+<p>Đó là chênh lệch giữa kết quả của một giao dịch lý tưởng được thực hiện tức thì ở giá lúc quyết định và kết quả thực tế, bao gồm slippage, phí và chi phí của những cổ phiếu chưa bao giờ được khớp. Nó được coi là một trong những thước đo chi phí giao dịch đầy đủ nhất.</p>
+<h3 id="trader-c-nh-n-c-c-n-thu-t-to-n-th-c-thi-kh-ng">Trader cá nhân có cần thuật toán thực thi không?</h3>
+<p>Hầu hết lệnh của trader cá nhân đủ nhỏ để một lệnh giới hạn đơn giản vẫn hoạt động tốt ở các thị trường thanh khoản cao. Các chiến thuật thực thi như chia nhỏ lệnh và tránh những thời điểm biến động quan trọng hơn ở thị trường mỏng và với những trader có chiến lược giao dịch thường xuyên.</p>
+<h3 id="nh-tuy-n-l-nh-th-ng-minh-l-g">Định tuyến lệnh thông minh là gì?</h3>
+<p>Định tuyến lệnh thông minh là phần mềm gửi mỗi lệnh, hoặc mỗi phần của một lệnh, đến nền tảng giao dịch có sự kết hợp tốt nhất giữa giá, khối lượng, phí và khả năng khớp.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/technical-analysis/vwap/"><div class="k">Phân tích kỹ thuật</div><b>VWAP</b><span>Cách tính VWAP, vì sao các tổ chức dùng nó làm chuẩn tham chiếu, cách day trader giao dịch quanh VWAP, anchored VWAP, dải VWAP và các hạn chế của chỉ báo.</span></a><a class="card" href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Spread và thanh khoản</b><span>Giá bid, ask, spread và giá giữa là gì; thanh khoản, trượt giá và tác động thị trường vận hành ra sao; vì sao spread nới rộng và cách tính chi phí khứ hồi.</span></a><a class="card" href="/vi/encyclopedia/basics/order-types/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Các loại lệnh</b><span>Mỗi loại lệnh làm gì, khi nào nên dùng và những sai lầm gây tốn tiền: lệnh market, limit, stop, stop-limit, trailing stop, OCO và thời hạn hiệu lực của lệnh.</span></a><a class="card" href="/vi/encyclopedia/basics/trading-costs-and-fees/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Chi phí và phí giao dịch</b><span>Hoa hồng, spread, phí maker và taker, swap, funding, phí vay, thanh toán cho dòng lệnh, gas, trượt giá và thuế, kèm ví dụ chi phí khi giao dịch quy mô lớn.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Giao dịch tần suất cao</b><span>HFT làm gì: co-location, cuộc đua độ trễ, tạo lập thị trường, latency arbitrage, các tranh cãi và vì sao trader cá nhân không thể cạnh tranh về tốc độ.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/"><small>← Bài trước</small>Giao dịch tần suất cao</a><a class="next" href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/"><small>Bài tiếp →</small>Xây dựng bot giao dịch</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

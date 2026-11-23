@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>アルゴリズム取引とは？自動売買の仕組みを解説 | PnL Profit</title>
+<meta name="description" content="アルゴリズム取引の意味、個人と機関投資家の違い、アイデアから実運用までの流れ、主なプログラミング言語、現実的な期待値を解説します。">
+<meta name="keywords" content="アルゴリズム取引 とは, アルゴ取引 初心者, システムトレード, クオンツ トレード, 自動売買">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="アルゴリズム取引とは？自動売買の仕組みを解説 | PnL Profit">
+<meta property="og:description" content="アルゴリズム取引の意味、個人と機関投資家の違い、アイデアから実運用までの流れ、主なプログラミング言語、現実的な期待値を解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="アルゴリズム取引とは？自動売買の仕組みを解説 | PnL Profit">
+<meta name="twitter:description" content="アルゴリズム取引の意味、個人と機関投資家の違い、アイデアから実運用までの流れ、主なプログラミング言語、現実的な期待値を解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"アルゴリズム取引とは？自動売買の仕組みを解説","description":"アルゴリズム取引の意味、個人と機関投資家の違い、アイデアから実運用までの流れ、主なプログラミング言語、現実的な期待値を解説します。","keywords":"アルゴリズム取引 とは, アルゴ取引 初心者, システムトレード, クオンツ トレード, 自動売買","articleSection":"アルゴリズム取引とクオンツ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"アルゴリズム取引とクオンツ","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"アルゴリズム取引入門","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"アルゴリズム取引は儲かりますか？","acceptedAnswer":{"@type":"Answer","text":"儲かる可能性はありますが、個人のアルゴリズムトレーダーの大半は、コスト控除後に安定した利益を上げていません。利益の出るシステムトレードは通常、自動化そのものではなく、本物の経済的なエッジ、現実的なコストのモデル化、慎重なリスク管理にかかっています。"}},{"@type":"Question","name":"アルゴリズム取引にはプログラミングの知識が必要ですか？","acceptedAnswer":{"@type":"Answer","text":"プログラミングができると非常に有利で、最も一般的な出発点は Python です。ビジュアルな戦略ビルダーや簡単なスクリプト言語を提供するプラットフォームもありますが、検証や自動化できる範囲は限られます。"}},{"@type":"Question","name":"アルゴリズム取引を始めるにはいくら必要ですか？","acceptedAnswer":{"@type":"Answer","text":"リサーチとペーパートレードは資金ゼロでも行えます。実運用に必要な最低額は市場やブローカーによって異なりますが、学んでいる間に全額失っても困らない金額にすべきです。"}},{"@type":"Question","name":"アルゴリズム取引は合法ですか？","acceptedAnswer":{"@type":"Answer","text":"アルゴリズム取引はほとんどの主要市場で合法です。ただし、高速で取引する業者や顧客のために取引する業者には、EU の MiFID II の枠組みにおけるアルゴリズム取引の要件など、追加の規制が課されます。見せ玉（スプーフィング）のような相場操縦行為は、人間が行ってもプログラムが行っても違法です。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>アルゴリズム取引とクオンツ</h3><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" class="on" aria-current="page">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/" class="on">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a></div>
+<h1 class="title">アルゴリズム取引とは</h1>
+<div class="meta">約10分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>アルゴリズム取引とクオンツの他の記事</summary><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/" class="on" aria-current="page">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul></details>
+<article><p>アルゴリズム取引（algorithmic trading）とは、あらかじめ書かれたルールに従って、コンピュータープログラムが取引の判断・発注・管理を行うことです。2本の移動平均線がクロスしたら買うだけの簡単なスクリプトから、主要取引所の1日の出来高の大きな割合を処理する機関投資家のシステムまで、その幅は広いです。アルゴリズムは迷いや衝動といった人間の弱点の一部を取り除きますが、代わりに新しい弱点を持ち込みます。不正確なデータ、隠れたバグ、そして過去にしか通用しなかった戦略です。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>アルゴリズムの良し悪しは、その背後にあるアイデア、データ、検証で決まります。自動化そのものがエッジ（優位性）を生むわけではありません。</li>
+<li>標準的な流れは、アイデア、データ、バックテスト、ペーパートレード、少額での実運用、継続的な監視の順に進みます。</li>
+<li>個人トレーダーはスピードで機関投資家に勝てません。個人にとって現実的なエッジは、忍耐、ニッチな市場、丁寧な執行から生まれます。</li>
+<li>検証では利益が出ていた戦略が実運用で損失を出す原因として最も多いのは、取引コストとオーバーフィッティング（過剰最適化）の2つです。</li>
+<li>個人の自動売買戦略の大半は失敗し、何年も機能していた戦略が通用しなくなることもあります。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">アルゴリズム取引の意味</a></li><li><a href="#section-3">個人と機関投資家のアルゴリズム取引の違い</a></li><li><a href="#section-4">アルゴリズム取引のプロセス</a></li><li><a href="#section-11">プログラミング言語とプラットフォーム</a></li><li><a href="#section-12">計算例：コストがすべてを決める</a></li><li><a href="#section-13">現実的な期待値</a></li><li><a href="#section-14">次に読むべき記事</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">アルゴリズム取引の意味</h2>
+<p>コンピューターによる取引を指す言葉には、意味の重なるものがいくつかあります。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>用語</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>アルゴリズム取引</td>
+<td>プログラムが事前に定めたルールを適用し、注文を生成または管理するあらゆる取引</td>
+</tr>
+<tr>
+<td>システマティック・トレード（システムトレード）</td>
+<td>人間がボタンを押すかコンピューターが押すかを問わず、固定されたルールに従って行う取引</td>
+</tr>
+<tr>
+<td>クオンツ（定量）トレード</td>
+<td>データの統計的・数学的分析から構築された戦略</td>
+</tr>
+<tr>
+<td>自動売買</td>
+<td>人間が1件ずつ承認することなく、プログラムが注文を送る取引</td>
+</tr>
+<tr>
+<td>高頻度取引（HFT）</td>
+<td>ポジションをごく短時間だけ保有し、スピードで競うアルゴリズム取引の一分野</td>
+</tr>
+<tr>
+<td>執行アルゴリズム</td>
+<td>取引を選んだ理由に関係なく、大口注文を小さく分割してコストを抑えるプログラム</td>
+</tr>
+</tbody></table></div>
+<p>共通しているのは、ルールが明示されていることです。裁量トレーダーなら「チャートが強そうだ」と言うかもしれません。システムトレーダーは、コンピューターが検証できるほど正確に「強い」を定義しなければなりません。たとえば「終値が200日移動平均線を上回り、かつ20日間のリターンがプラスである」といった具合です。</p>
+<p>この厳密さこそが最大の利点です。ルールなら何年分もの過去データで検証し、測定し、改善できます。感覚ではそうはいきません。</p>
+<h2 id="section-3">個人と機関投資家のアルゴリズム取引の違い</h2>
+<p>プロと個人のアルゴリズムトレーダーは、まったく異なる条件のもとで取引しています。その違いを知っておくと、勝てる土俵を選びやすくなります。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>要素</th>
+<th>機関投資家</th>
+<th>個人</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>資金</td>
+<td>数百万〜数十億</td>
+<td>数百〜数十万</td>
+</tr>
+<tr>
+<td>スピード</td>
+<td>マイクロ秒単位、取引所の隣に置いたサーバー</td>
+<td>インターネット経由でミリ秒〜秒単位</td>
+</tr>
+<tr>
+<td>データ</td>
+<td>板情報のフルフィード、オルタナティブデータ、整備された過去データ</td>
+<td>ブローカーや取引所のAPI、無料または低コストの過去データ</td>
+</tr>
+<tr>
+<td>コスト</td>
+<td>交渉で決める手数料、リベート</td>
+<td>個人向けの売買手数料、スプレッド、プラットフォーム利用料</td>
+</tr>
+<tr>
+<td>人員</td>
+<td>リサーチャー、エンジニア、リスク管理者のチーム</td>
+<td>通常は1人</td>
+</tr>
+<tr>
+<td>強み</td>
+<td>規模、スピード、リサーチの深さ</td>
+<td>小さな資金規模、柔軟性、大手ファンドが相手にしないニッチな市場</td>
+</tr>
+</tbody></table></div>
+<p>大手ファンドは、小規模で流動性の低い市場での取引に苦労します。自分の注文で価格が動いてしまうからです。数千ドルの資金しかない個人トレーダーなら、そうした問題なくこれらの市場で取引できます。これは小規模トレーダーが持つ数少ない構造的な強みの一つです。スピードはそうではありません。レイテンシーで<a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a>業者と競うのは、個人トレーダーが負ける勝負です。</p>
+<h2 id="section-4">アルゴリズム取引のプロセス</h2>
+<p>成功しているシステムトレーダーの多くは、何らかの形で同じプロセスに従っています。ステップを飛ばすことが、お金を失う典型的なパターンです。</p>
+<h3 id="1">1. アイデア</h3>
+<p>戦略は、価格がなぜ特定の動き方をするはずなのかという仮説から始まります。良いアイデアには通常、経済的な理由があります。誰かが取引を強いられている（インデックスのリバランス、追証）、誰かがリスクを取る対価を受け取っている（保険のような戦略）、あるいは人々が情報への反応が遅い、といったものです。代表的な戦略の系統には、<a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a>、<a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a>、<a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定取引</a>、<a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">裁定取引（アービトラージ）</a>、<a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a>があります。</p>
+<h3 id="2">2. データ</h3>
+<p>取引する対象に合った過去データが必要です。正しい銘柄、正しい頻度、そしてさまざまな相場環境を含むだけの十分な期間です。データは株式分割や配当に合わせて調整され、後に倒産した企業も含み、正確なタイムスタンプを持っていなければなりません。データの入手先とクリーニングについては<a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a>の記事で解説しています。</p>
+<h3 id="3">3. バックテスト</h3>
+<p><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a>は、手数料やスリッページを含めて、ルールが過去データでどのような成績を上げたかをシミュレーションするものです。トータルリターン、シャープレシオ、最大ドローダウンといった指標が得られます。バックテストは証拠であって、証明ではありません。この段階での最大の危険は<a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a>、つまり過去のノイズに合うまでルールを調整してしまうことです。</p>
+<h3 id="4">4. アウトオブサンプル検証とペーパートレード</h3>
+<p>お金をリスクにさらす前に、戦略を一度も見たことのないデータで確認し、そのうえでペーパートレード（リアルタイムの価格に対する模擬注文）で動かすべきです。ペーパートレードでは、APIエラー、データの欠損、実際には約定しなかったはずの注文など、バックテストでは見つからない問題を発見できます。</p>
+<h3 id="5">5. 少額での実運用</h3>
+<p>実際のお金を使うと、最後のコストの層が明らかになります。スリッページ、部分約定、システム障害、そして自分自身の精神面です。完全に失敗しても許容できる教訓で済む程度の小さなサイズから始めてください。</p>
+<h3 id="6">6. 監視とメンテナンス</h3>
+<p>稼働中の戦略は毎日チェックする必要があります。実運用の結果を、同じ期間についてバックテストが予測していた結果と比較してください。乖離が広がっているなら警告サインです。相場の変化や他のトレーダーが同じエッジを見つけることで戦略は劣化していくため、「ドローダウンがバックテストで最悪だったドローダウンの1.5倍を超えたら停止する」といった運用終了の基準をあらかじめ決めておきましょう。</p>
+<h2 id="section-11">プログラミング言語とプラットフォーム</h2>
+<p>唯一の正解となるツールはありません。選択は市場と必要なスピードによって決まります。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>選択肢</th>
+<th>主な用途</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Python</td>
+<td>リサーチ、バックテスト、個人のボットの大半</td>
+<td>巨大なエコシステム（pandas、NumPy、scikit-learn）。数秒以上の間隔で取引する戦略なら十分に高速</td>
+</tr>
+<tr>
+<td>C++、Rust、Java</td>
+<td>低レイテンシー・高スループットのシステム</td>
+<td>より高速で挙動が予測しやすいが、開発に時間がかかる</td>
+</tr>
+<tr>
+<td>C#</td>
+<td>NinjaTrader（NinjaScript）や cTrader などのプラットフォーム</td>
+<td>個人の先物・FX取引でよく使われる</td>
+</tr>
+<tr>
+<td>MQL4/MQL5</td>
+<td>MetaTrader のエキスパートアドバイザー（EA）</td>
+<td>個人のFX・CFD取引で広く普及</td>
+</tr>
+<tr>
+<td>Pine Script</td>
+<td>TradingView のストラテジーとアラート</td>
+<td>チャートベースのルールの試作に向くが、完全な自動化には制約がある</td>
+</tr>
+<tr>
+<td>EasyLanguage</td>
+<td>TradeStation</td>
+<td>個人のシステムトレーダーの間で長い歴史がある</td>
+</tr>
+</tbody></table></div>
+<p>個人トレーダーの多くは Python でリサーチを行い、ボットもそのまま Python で動かすか、プラットフォーム組み込みの言語を使います。アーキテクチャ、取引所API、安全装置については<a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a>を参照してください。</p>
+<h2 id="section-12">計算例：コストがすべてを決める</h2>
+<p>年に200回取引する短期戦略を考えてみましょう。コスト控除前のバックテストでは、1回あたりの平均利益は0.10%です。</p>
+<ul>
+<li>総リターン：200 × 0.10% = 年20%（複利を無視した単純合計）。</li>
+<li>コスト：スプレッド、手数料、スリッページの合計が往復0.08%だとします。すると 200 × 0.08% = 年16%です。</li>
+<li>純リターン：20% − 16% = 年4%。</li>
+</ul>
+<p>ここで、実運用のスリッページが想定よりわずかに悪く、往復0.12%だったとします。コストは 200 × 0.12% = 24% となり、最終結果は 20% − 24% = 年−4% です。コストの想定がわずかにずれただけで、利益の出る戦略が損失を出す戦略に変わってしまいました。</p>
+<p>同じエッジを年20回、1回あたり1.0%で取引した場合（コストは同じ0.08%）、純リターンは 20 × (1.0% − 0.08%) = 18.4% になります。教訓は一般的なものです。戦略の取引頻度が高いほど、コストに対する1回あたりのエッジは大きくなければなりません。回転率の高い個人の戦略がこれほど頻繁に失敗するのはこのためです。詳しくは<a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コスト</a>の記事を参照してください。</p>
+<h2 id="section-13">現実的な期待値</h2>
+<p>アルゴリズム取引は、不労所得として宣伝されることがよくあります。現実は違います。</p>
+<ul>
+<li><strong>エッジは小さく、一時的です。</strong> 公表された戦略は公表後に成績が悪化する傾向があり、利益の出るアイデアには競争相手が集まります。</li>
+<li><strong>バックテストは実際より良く見えます。</strong> 誠実なリサーチャーでも、コスト、オーバーフィッティング、相場の変化のために、実運用の結果は通常バックテストを下回ると認めています。多くの実務家は、バックテストのリターンを頭の中で大きく割り引いて見ています。</li>
+<li><strong>個人トレーダーの大半はお金を失います。</strong> 自動化しても根本的な勝率は変わりません。Barber、Lee、Liu、Odean による台湾の研究など、個人のデイトレーダーを対象とした研究では、コスト控除後に安定して利益を出していたのはごく少数にすぎませんでした。</li>
+<li><strong>ボットは新しい形で失敗します。</strong> 接続の切断、小数点の位置の誤り、注文の重複によって、どの戦略検証でも想定していなかった損失が生じることがあります。2012年の Knight Capital の事件は、欠陥のある取引ソフトウェアによって同社が1時間足らずで約4億4,000万ドルを失った典型例です。</li>
+<li><strong>手間がかかります。</strong> データの保守、監視、リサーチには継続的に時間がかかります。「設定したら放置」のボットは、たいていじわじわとお金を失っているボットです。</li>
+</ul>
+<p>だからといって、アルゴリズム取引が無意味だというわけではありません。ルールに基づく取引は規律を強制し、結果を測定可能にし、お金をリスクにさらす前に慎重な検証を可能にします。完全には自動化しなくても、ルールを書き出す過程そのものが判断の質を高めると感じるトレーダーは少なくありません。</p>
+<h2 id="section-14">次に読むべき記事</h2>
+<p>このカテゴリーの他の記事では、各ステップを詳しく取り上げています。リサーチについては<a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a>とオーバーフィッティング、戦略の系統としてはトレンドフォロー、平均回帰、ペアトレード、裁定取引、マーケットメイク、注文が市場でどう約定するかについては高頻度取引と<a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a>、技術面についてはボットの作り方、マーケットデータ、<a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">機械学習</a>、そして自分で戦略を作る代わりに他のトレーダーのシグナルに従いたい人には<a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレード</a>があります。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>アイデアではなくコードから始める。</strong> バックテストが良く見えるまでインジケーターを適当に組み合わせるのは、手間をかけたオーバーフィッティングにすぎません。</li>
+<li><strong>コストを無視する。</strong> 手数料ゼロ・完璧な約定でバックテストすれば、ほぼどんな高頻度のアイデアでも利益が出るように見えます。</li>
+<li><strong>実運用に移るのが早すぎる。</strong> ペーパートレードを飛ばすと、APIやロジックのエラーを実際のお金で発見することになります。</li>
+<li><strong>早い段階から大きなサイズで取引する。</strong> サイズを増やすのは、意味のある取引回数にわたって実運用の結果が期待どおりになってからにしてください。</li>
+<li><strong>キルスイッチがない。</strong> すべての自動売買システムには、ポジションサイズと1日の損失に対するハードリミットを設け、超えたら自動的に取引を停止させる必要があります。</li>
+<li><strong>数回負けただけでルールを放棄・変更する。</strong> どの戦略にも連敗はあります。途中でルールを変えると、検証の価値が失われます。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-17">アルゴリズム取引は儲かりますか？</h3>
+<p>儲かる可能性はありますが、個人のアルゴリズムトレーダーの大半は、コスト控除後に安定した利益を上げていません。利益の出るシステムトレードは通常、自動化そのものではなく、本物の経済的なエッジ、現実的なコストのモデル化、慎重なリスク管理にかかっています。</p>
+<h3 id="section-18">アルゴリズム取引にはプログラミングの知識が必要ですか？</h3>
+<p>プログラミングができると非常に有利で、最も一般的な出発点は Python です。ビジュアルな戦略ビルダーや簡単なスクリプト言語を提供するプラットフォームもありますが、検証や自動化できる範囲は限られます。</p>
+<h3 id="section-19">アルゴリズム取引を始めるにはいくら必要ですか？</h3>
+<p>リサーチとペーパートレードは資金ゼロでも行えます。実運用に必要な最低額は市場やブローカーによって異なりますが、学んでいる間に全額失っても困らない金額にすべきです。</p>
+<h3 id="section-20">アルゴリズム取引は合法ですか？</h3>
+<p>アルゴリズム取引はほとんどの主要市場で合法です。ただし、高速で取引する業者や顧客のために取引する業者には、EU の MiFID II の枠組みにおけるアルゴリズム取引の要件など、追加の規制が課されます。見せ玉（スプーフィング）のような相場操縦行為は、人間が行ってもプログラムが行っても違法です。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/algorithmic-trading/backtesting/"><div class="k">アルゴリズム取引とクオンツ</div><b>バックテスト</b><span>自分を欺かないバックテストのやり方を解説。データ品質、生存者バイアスと先読みバイアス、コスト、ウォークフォワード分析、主要指標まで。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/"><div class="k">アルゴリズム取引とクオンツ</div><b>トレーディングボットの作り方</b><span>ボットの構築方法を解説。データ・シグナル・リスク・執行の各層、REST・WebSocket・FIX、レート制限、APIキー管理、キルスイッチ、ログ。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">アルゴリズム取引とクオンツ</div><b>オーバーフィッティング</b><span>優れたバックテストの多くが実運用で失敗する理由。カーブフィッティング、多重検定、不安定なパラメーター、デフレーテッド・シャープレシオと防止策を解説。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/"><div class="k">アルゴリズム取引とクオンツ</div><b>執行アルゴリズム</b><span>執行アルゴリズムの仕組みを解説。TWAP、VWAP、POV、インプリメンテーション・ショートフォール、SOR、スリッページの測定、執行がリターンを左右する理由。</span></a><a class="card" href="/ja/encyclopedia/basics/trading-styles/"><div class="k">トレードの基礎</div><b>トレードスタイル</b><span>スキャルピング、デイトレード、スイングトレード、ポジショントレード、アルゴ取引を保有期間・時間・資金・コスト・性格で比較し、コストの影響を計算例で示します。</span></a></div></section>
+<div class="pager"><span></span><a class="next" href="/ja/encyclopedia/algorithmic-trading/backtesting/"><small>次へ →</small>バックテスト</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

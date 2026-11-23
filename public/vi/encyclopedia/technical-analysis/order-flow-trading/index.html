@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order Flow Trading: tape, DOM, footprint chart và delta | PnL Profit</title>
+<meta name="description" content="Giao dịch order flow: time and sales, bậc thang DOM, biểu đồ footprint, delta và delta tích lũy, hấp thụ lệnh, lệnh iceberg và loại dữ liệu bạn cần.">
+<meta name="keywords" content="order flow trading, biểu đồ footprint, cumulative delta, đọc tape, giao dịch dom, order flow là gì">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Order Flow Trading: tape, DOM, footprint chart và delta | PnL Profit">
+<meta property="og:description" content="Giao dịch order flow: time and sales, bậc thang DOM, biểu đồ footprint, delta và delta tích lũy, hấp thụ lệnh, lệnh iceberg và loại dữ liệu bạn cần.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/technical-analysis/order-flow-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Order Flow Trading: tape, DOM, footprint chart và delta | PnL Profit">
+<meta name="twitter:description" content="Giao dịch order flow: time and sales, bậc thang DOM, biểu đồ footprint, delta và delta tích lũy, hấp thụ lệnh, lệnh iceberg và loại dữ liệu bạn cần.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Order Flow Trading: tape, DOM, footprint chart và delta","description":"Giao dịch order flow: time and sales, bậc thang DOM, biểu đồ footprint, delta và delta tích lũy, hấp thụ lệnh, lệnh iceberg và loại dữ liệu bạn cần.","keywords":"order flow trading, biểu đồ footprint, cumulative delta, đọc tape, giao dịch dom, order flow là gì","articleSection":"Phân tích kỹ thuật","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/technical-analysis/order-flow-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Phân tích kỹ thuật","item":"https://pnlpro.fit/vi/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"Giao dịch order flow","item":"https://pnlpro.fit/vi/encyclopedia/technical-analysis/order-flow-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Delta trong giao dịch order flow là gì?","acceptedAnswer":{"@type":"Answer","text":"Delta là chênh lệch giữa khối lượng khớp tại ask (bên mua chủ động) và khối lượng khớp tại bid (bên bán chủ động) trong một thanh nến hoặc một giai đoạn. Delta dương nghĩa là bên mua quyết liệt hơn; nó không đảm bảo giá sẽ tăng."}},{"@type":"Question","name":"Biểu đồ footprint là gì?","acceptedAnswer":{"@type":"Answer","text":"Biểu đồ footprint hiển thị, bên trong mỗi thanh nến giá, lượng khối lượng khớp tại bid và tại ask ở từng mức giá. Nó cho phép trader thấy nơi lực mua và bán chủ động xảy ra bên trong thanh nến."}},{"@type":"Question","name":"Có dùng order flow cho cổ phiếu được không?","acceptedAnswer":{"@type":"Answer","text":"Được, nhưng có giới hạn. Giao dịch cổ phiếu Mỹ trải trên nhiều nơi, kể cả ngoài sàn, nên bất kỳ nguồn dữ liệu đơn lẻ nào cũng chỉ ghi nhận một phần hoạt động, và hướng giao dịch thường được suy ra chứ không được báo cáo."}},{"@type":"Question","name":"Hấp thụ (absorption) trong giao dịch là gì?","acceptedAnswer":{"@type":"Answer","text":"Hấp thụ là khi lực mua hoặc bán chủ động mạnh đập vào một mức giá nhưng không đẩy giá xuyên qua được, gợi ý một lệnh bị động lớn đang đứng ở phía đối diện. Nó có thể đi trước một đảo chiều, hoặc mức giá đó có thể vỡ khi lệnh bị động đã khớp hết."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/order-flow-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/order-flow-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/order-flow-trading/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/order-flow-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/order-flow-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/order-flow-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/order-flow-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Phân tích kỹ thuật</h3><ul><li><a href="/vi/encyclopedia/technical-analysis/technical-analysis-intro/">Nhập môn phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-charts/">Đọc biểu đồ nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-patterns/">Mô hình nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/support-and-resistance/">Hỗ trợ và kháng cự</a></li><li><a href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/">Xu hướng và cấu trúc thị trường</a></li><li><a href="/vi/encyclopedia/technical-analysis/chart-patterns/">Mô hình giá</a></li><li><a href="/vi/encyclopedia/technical-analysis/moving-averages/">Đường trung bình động</a></li><li><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/vi/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/vi/encyclopedia/technical-analysis/bollinger-bands/">Dải Bollinger</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-analysis/">Phân tích khối lượng</a></li><li><a href="/vi/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/vi/encyclopedia/technical-analysis/fibonacci-retracement/">Công cụ Fibonacci</a></li><li><a href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR và biến động</a></li><li><a href="/vi/encyclopedia/technical-analysis/multi-timeframe-analysis/">Phân tích đa khung thời gian</a></li><li><a href="/vi/encyclopedia/technical-analysis/price-action-trading/">Giao dịch price action</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile và Market Profile</a></li><li><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/" class="on" aria-current="page">Giao dịch order flow</a></li><li><a href="/vi/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/vi/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Sóng Elliott và Wyckoff</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/" class="on">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a></div>
+<h1 class="title">Order Flow Trading</h1>
+<div class="meta">10 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Phân tích kỹ thuật</summary><ul><li><a href="/vi/encyclopedia/technical-analysis/technical-analysis-intro/">Nhập môn phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-charts/">Đọc biểu đồ nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-patterns/">Mô hình nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/support-and-resistance/">Hỗ trợ và kháng cự</a></li><li><a href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/">Xu hướng và cấu trúc thị trường</a></li><li><a href="/vi/encyclopedia/technical-analysis/chart-patterns/">Mô hình giá</a></li><li><a href="/vi/encyclopedia/technical-analysis/moving-averages/">Đường trung bình động</a></li><li><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/vi/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/vi/encyclopedia/technical-analysis/bollinger-bands/">Dải Bollinger</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-analysis/">Phân tích khối lượng</a></li><li><a href="/vi/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/vi/encyclopedia/technical-analysis/fibonacci-retracement/">Công cụ Fibonacci</a></li><li><a href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR và biến động</a></li><li><a href="/vi/encyclopedia/technical-analysis/multi-timeframe-analysis/">Phân tích đa khung thời gian</a></li><li><a href="/vi/encyclopedia/technical-analysis/price-action-trading/">Giao dịch price action</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile và Market Profile</a></li><li><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/" class="on" aria-current="page">Giao dịch order flow</a></li><li><a href="/vi/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/vi/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Sóng Elliott và Wyckoff</a></li></ul></details>
+<article><p>Giao dịch order flow là phân tích từng giao dịch riêng lẻ và các lệnh đang chờ để xem ai đang hành động quyết liệt tại mỗi mức giá, và liệu sự quyết liệt đó có đang đẩy thị trường đi hay không. Thay vì chỉ đọc cây nến đã hoàn tất, trader order flow đọc tape (time and sales), bậc thang độ sâu thị trường và biểu đồ footprint, vốn chia khối lượng của mỗi thanh nến thành phần mua và phần bán tại từng mức giá. Đây chủ yếu là công cụ ngắn hạn và được dùng nhiều nhất ở futures và crypto, nơi có sẵn dữ liệu giao dịch đầy đủ.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Order flow tách lệnh chủ động (lệnh thị trường) khỏi lệnh bị động (lệnh giới hạn), điều mà khối lượng thông thường không làm được.</li>
+<li>Delta là lượng mua chủ động trừ lượng bán chủ động; delta tích lũy theo dõi nó theo thời gian và có thể phân kỳ so với giá.</li>
+<li>Hấp thụ (absorption) là khi lực chủ động mạnh đập vào một mức mà không làm giá dịch chuyển, gợi ý có một bên bị động lớn ở phía đối diện.</li>
+<li>Order flow cần dữ liệu cấp tick kèm bên chủ động của giao dịch, và chất lượng của nó phụ thuộc vào cấu trúc thị trường.</li>
+<li>Đây là một bộ môn đòi hỏi cao, khung thời gian ngắn, nơi chi phí và sự cạnh tranh từ các công ty chuyên nghiệp tốc độ cao là đáng kể.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#b-n-ch-ng-v-l-nh-ang-ch">Bên chủ động và lệnh đang chờ</a></li><li><a href="#c-c-c-ng-c">Các công cụ</a></li><li><a href="#delta-v-delta-t-ch-l-y">Delta và delta tích lũy</a></li><li><a href="#h-p-th-absorption">Hấp thụ (absorption)</a></li><li><a href="#l-nh-iceberg">Lệnh iceberg</a></li><li><a href="#y-u-c-u-v-d-li-u">Yêu cầu về dữ liệu</a></li><li><a href="#v-sao-ch-y-u-l-c-ng-c-c-a-futures-v-crypto">Vì sao chủ yếu là công cụ của futures và crypto</a></li><li><a href="#nh-ng-h-n-ch-th-c-t">Những hạn chế thực tế</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="b-n-ch-ng-v-l-nh-ang-ch">Bên chủ động và lệnh đang chờ</h2>
+<p>Mỗi giao dịch có hai phía. Một bên có lệnh giới hạn <strong>đang chờ (resting)</strong> trong <a href="/vi/encyclopedia/basics/order-book-and-market-depth/">sổ lệnh</a>. Bên kia gửi một lệnh <strong>khớp ngay được (marketable)</strong> vượt qua spread và khớp với lệnh đó. Bên vượt qua spread là <strong>bên chủ động (aggressor)</strong>.</p>
+<ul>
+<li>Giao dịch tại giá ask nghĩa là người mua là bên chủ động: ai đó đã &quot;lifted the offer&quot; (quét giá chào bán).</li>
+<li>Giao dịch tại giá bid nghĩa là người bán là bên chủ động: ai đó đã &quot;hit the bid&quot; (đập giá mua).</li>
+</ul>
+<p>Khối lượng thông thường gộp cả hai. Các công cụ order flow đếm riêng. Sàn futures và hầu hết các nơi giao dịch crypto gắn thẳng bên chủ động vào mỗi giao dịch. Với cổ phiếu, bên chủ động thường được suy ra bằng các quy tắc phân loại như thuật toán Lee-Ready (công bố năm 1991), so sánh giá giao dịch với báo giá hiện hành.</p>
+<h2 id="c-c-c-ng-c">Các công cụ</h2>
+<h3 id="time-and-sales-tape">Time and sales (tape)</h3>
+<p>Time and sales là danh sách cuộn của mọi giao dịch: thời gian, giá, khối lượng và thường cả việc giao dịch đó đập vào bid hay quét ask. &quot;Đọc tape&quot; nghĩa là theo dõi nhịp độ và kích thước của các giao dịch. Một loạt lệnh mua lớn đột ngột, hoặc chuỗi giao dịch nhanh leo qua nhiều mức giá, có thể cho thấy sự khẩn trương.</p>
+<h3 id="dom-hay-b-c-thang-gi">DOM hay bậc thang giá</h3>
+<p>Độ sâu thị trường (DOM) là một bậc thang dọc các mức giá, hiển thị khối lượng bid và ask đang chờ tại mỗi mức, thường kèm khối lượng đã khớp gần đây. Trader theo dõi thanh khoản đang chờ thay đổi thế nào khi giá tiến lại gần: khối lượng được thêm vào, rút đi, hay bị ăn xuyên qua. Nhiều nền tảng cho phép đặt và dời lệnh trực tiếp trên bậc thang.</p>
+<p>Một lưu ý: khối lượng hiển thị không phải là cam kết. Lệnh có thể bị hủy trong vài mili giây, và phần lớn sổ lệnh nhìn thấy được đặt và rút bởi các nhà tạo lập thị trường tự động. <strong>Spoofing</strong>, tức đặt lệnh với ý định hủy trước khi khớp để đánh lừa người khác, là bất hợp pháp ở Mỹ (bị cấm rõ ràng theo Đạo luật Dodd-Frank) và nhiều khu vực pháp lý khác, nhưng vẫn xảy ra. Hãy hoài nghi những lệnh lớn hiển thị rồi biến mất khi giá tiến lại gần.</p>
+<h3 id="bi-u-footprint">Biểu đồ footprint</h3>
+<p>Biểu đồ footprint (còn gọi là cluster hay bid-ask chart) hiển thị, bên trong mỗi nến, khối lượng khớp tại bid và tại ask ở từng mức giá.</p>
+<p><strong>Ví dụ footprint cho một thanh nến 5 phút:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Giá</th>
+<th>Bán tại bid</th>
+<th>Mua tại ask</th>
+<th>Delta</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100.75</td>
+<td>40</td>
+<td>210</td>
+<td>+170</td>
+</tr>
+<tr>
+<td>100.50</td>
+<td>180</td>
+<td>380</td>
+<td>+200</td>
+</tr>
+<tr>
+<td>100.25</td>
+<td>260</td>
+<td>300</td>
+<td>+40</td>
+</tr>
+<tr>
+<td>100.00</td>
+<td>410</td>
+<td>150</td>
+<td>−260</td>
+</tr>
+<tr>
+<td>99.75</td>
+<td>120</td>
+<td>30</td>
+<td>−90</td>
+</tr>
+<tr>
+<td><strong>Tổng</strong></td>
+<td><strong>1,010</strong></td>
+<td><strong>1,070</strong></td>
+<td><strong>+60</strong></td>
+</tr>
+</tbody></table></div>
+<p>Tổng khối lượng là 2,080 hợp đồng. Bên bán quyết liệt ở gần đáy thanh nến và bên mua ở gần đỉnh, và kết quả ròng hơi dương. Các nền tảng footprint thường làm nổi bật các <strong>imbalance (mất cân bằng)</strong>, nơi một bên áp đảo bên kia tại một mức giá (một số so sánh chéo, bid ở một mức với ask ở mức cao hơn một tick), và các imbalance xếp chồng trên nhiều mức giá, mà một số trader đọc là áp lực một chiều mạnh.</p>
+<h2 id="delta-v-delta-t-ch-l-y">Delta và delta tích lũy</h2>
+<p><strong>Delta</strong> của một thanh nến là khối lượng mua chủ động trừ khối lượng bán chủ động. <strong>Delta tích lũy</strong> cộng delta của từng thanh nến vào tổng chạy, thường đặt lại mỗi phiên.</p>
+<p>Tín hiệu được theo dõi nhiều nhất là <strong>phân kỳ</strong> giữa giá và delta tích lũy.</p>
+<p><strong>Ví dụ minh họa:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Nến</th>
+<th>High</th>
+<th>Mua tại ask</th>
+<th>Bán tại bid</th>
+<th>Delta</th>
+<th>Delta tích lũy</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>101.00</td>
+<td>5,200</td>
+<td>4,100</td>
+<td>+1,100</td>
+<td>+1,100</td>
+</tr>
+<tr>
+<td>2</td>
+<td>101.50</td>
+<td>4,800</td>
+<td>4,300</td>
+<td>+500</td>
+<td>+1,600</td>
+</tr>
+<tr>
+<td>3</td>
+<td>101.75</td>
+<td>3,900</td>
+<td>4,600</td>
+<td>−700</td>
+<td>+900</td>
+</tr>
+<tr>
+<td>4</td>
+<td>101.25</td>
+<td>3,500</td>
+<td>5,100</td>
+<td>−1,600</td>
+<td>−700</td>
+</tr>
+</tbody></table></div>
+<p>Ở nến 3, giá lập đỉnh mới, nhưng delta âm và delta tích lũy giảm. Đỉnh mới đến cùng lực mua chủ động yếu hơn các nến trước, điều mà một số trader đọc là cầu suy yếu hoặc bên bán bị động đang hấp thụ bên mua. Nến 4 sau đó quay xuống. Đây chỉ là một chuỗi minh họa; các phân kỳ như vậy cũng xuất hiện thường xuyên mà không có đảo chiều nào theo sau.</p>
+<h2 id="h-p-th-absorption">Hấp thụ (absorption)</h2>
+<p>Hấp thụ là khi các lệnh chủ động liên tục đập vào một mức giá mà không đẩy xuyên qua được. Chẳng hạn, 2,500 hợp đồng bán tại bid ở 100.00 trong vài phút, nhưng giá chưa bao giờ giao dịch ở 99.75 và khối lượng bid liên tục được nạp lại. Điều đó gợi ý một bên mua bị động lớn đang hấp thụ lượng bán. Nếu bên bán cạn lực, giá có thể bật mạnh vì nguồn cung đã bị hút hết. Nếu bên mua bị động hoàn tất lệnh và rút đi, mức giá đó có thể vỡ nhanh.</p>
+<h2 id="l-nh-iceberg">Lệnh iceberg</h2>
+<p>Lệnh iceberg chỉ hiển thị một phần nhỏ tổng khối lượng; khi phần hiển thị khớp hết, phần tiếp theo xuất hiện. Trader order flow cố phát hiện iceberg khi có nhiều khối lượng khớp tại một mức giá hơn mức từng được hiển thị ở đó. Nếu bid ở 100.00 chưa bao giờ hiển thị quá 50 hợp đồng nhưng có 1,200 khớp tại đó trong khi khối lượng hiển thị liên tục xuất hiện lại, nhiều khả năng có một lệnh ẩn. Một số nền tảng tự động đánh dấu các iceberg nghi ngờ, nhưng việc phát hiện là suy luận, không phải chắc chắn.</p>
+<h2 id="y-u-c-u-v-d-li-u">Yêu cầu về dữ liệu</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yêu cầu</th>
+<th>Vì sao quan trọng</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Giao dịch từng tick</td>
+<td>Các thanh nến tổng hợp che mất từng lệnh khớp riêng lẻ</td>
+</tr>
+<tr>
+<td>Bên chủ động của mỗi giao dịch</td>
+<td>Cần để tính delta và footprint</td>
+</tr>
+<tr>
+<td>Dữ liệu độ sâu thị trường</td>
+<td>Cần cho bậc thang và những thay đổi thanh khoản</td>
+</tr>
+<tr>
+<td>Nguồn dữ liệu độ trễ thấp</td>
+<td>Order flow là chuyện của vài giây và vài phút</td>
+</tr>
+<tr>
+<td>Phần mềm chuyên dụng</td>
+<td>Hầu hết công cụ biểu đồ cơ bản không có footprint hay delta</td>
+</tr>
+</tbody></table></div>
+<p>Phí dữ liệu sàn, phí đăng ký nền tảng và chi phí nguồn dữ liệu cộng dồn khá lớn. Xem <a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">nguồn dữ liệu thị trường</a> để biết các loại dữ liệu và giấy phép.</p>
+<h2 id="v-sao-ch-y-u-l-c-ng-c-c-a-futures-v-crypto">Vì sao chủ yếu là công cụ của futures và crypto</h2>
+<ul>
+<li><strong>Futures</strong> giao dịch trên một sàn tập trung duy nhất cho mỗi hợp đồng (ví dụ, hợp đồng tương lai E-mini S&amp;P 500 trên CME), nên tape và sổ lệnh cho thấy gần như toàn bộ hoạt động. Đó là lý do order flow gắn liền nhất với <a href="/vi/encyclopedia/futures/index-futures/">hợp đồng tương lai chỉ số</a>, hợp đồng tương lai trái phiếu kho bạc và dầu thô.</li>
+<li><strong>Crypto</strong>: các sàn công bố đầy đủ dữ liệu giao dịch và sổ lệnh, thường miễn phí qua API. Nhưng thanh khoản bị chia ra nhiều sàn, nên dòng lệnh của một sàn chỉ là bức tranh một phần.</li>
+<li><strong>Chứng khoán Mỹ</strong> giao dịch trên nhiều sàn và nơi giao dịch ngoài sàn, gồm cả dark pool và các nhà bán buôn khớp lệnh khách hàng cá nhân. Bất kỳ nguồn dữ liệu đơn lẻ nào cũng chỉ thấy một phần dòng lệnh, và lệnh ẩn là chuyện phổ biến.</li>
+<li><strong>Forex giao ngay</strong> hoàn toàn không có tape tập trung. Dữ liệu broker bán lẻ chỉ phản ánh khách hàng của chính broker đó.</li>
+</ul>
+<h2 id="nh-ng-h-n-ch-th-c-t">Những hạn chế thực tế</h2>
+<p>Order flow là thông tin thật, nhưng biến nó thành lợi thế sinh lời là việc khó. <a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Các công ty giao dịch tần suất cao chuyên nghiệp</a> thấy cùng dữ liệu nhanh hơn và phản ứng trong vài micro giây. Giao dịch khung ngắn có <a href="/vi/encyclopedia/basics/trading-costs-and-fees/">chi phí mỗi lệnh</a> cao so với mục tiêu, và nghiên cứu về day trader cá nhân, chẳng hạn công trình của Barber, Lee, Liu và Odean tại Đài Loan, cho thấy đại đa số bị thua lỗ. Order flow có thể giúp canh thời điểm vào lệnh và đọc xem một mức có đang đứng vững hay không, nhưng không loại bỏ được những trở ngại đó.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Tin vào sổ lệnh hiển thị.</strong> Khối lượng hiển thị có thể bị hủy ngay lập tức.</li>
+<li><strong>Coi một số đọc delta là tín hiệu.</strong> Delta nhiễu từ nến này sang nến khác; bối cảnh và vị trí mới quan trọng.</li>
+<li><strong>Bỏ qua cấu trúc thị trường.</strong> Footprint của một sàn crypto hay một nơi giao dịch cổ phiếu chỉ là cái nhìn một phần.</li>
+<li><strong>Đánh giá thấp chi phí.</strong> Dữ liệu, nền tảng và vô số lệnh nhỏ mà order flow khuyến khích đều tốn kém.</li>
+<li><strong>Dùng mà không có kế hoạch.</strong> Nhìn tape cả ngày mà không có thiết lập định sẵn dẫn đến giao dịch bốc đồng.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="delta-trong-giao-d-ch-order-flow-l-g">Delta trong giao dịch order flow là gì?</h3>
+<p>Delta là chênh lệch giữa khối lượng khớp tại ask (bên mua chủ động) và khối lượng khớp tại bid (bên bán chủ động) trong một thanh nến hoặc một giai đoạn. Delta dương nghĩa là bên mua quyết liệt hơn; nó không đảm bảo giá sẽ tăng.</p>
+<h3 id="bi-u-footprint-l-g">Biểu đồ footprint là gì?</h3>
+<p>Biểu đồ footprint hiển thị, bên trong mỗi thanh nến giá, lượng khối lượng khớp tại bid và tại ask ở từng mức giá. Nó cho phép trader thấy nơi lực mua và bán chủ động xảy ra bên trong thanh nến.</p>
+<h3 id="c-d-ng-order-flow-cho-c-phi-u-c-kh-ng">Có dùng order flow cho cổ phiếu được không?</h3>
+<p>Được, nhưng có giới hạn. Giao dịch cổ phiếu Mỹ trải trên nhiều nơi, kể cả ngoài sàn, nên bất kỳ nguồn dữ liệu đơn lẻ nào cũng chỉ ghi nhận một phần hoạt động, và hướng giao dịch thường được suy ra chứ không được báo cáo.</p>
+<h3 id="h-p-th-absorption-trong-giao-d-ch-l-g">Hấp thụ (absorption) trong giao dịch là gì?</h3>
+<p>Hấp thụ là khi lực mua hoặc bán chủ động mạnh đập vào một mức giá nhưng không đẩy giá xuyên qua được, gợi ý một lệnh bị động lớn đang đứng ở phía đối diện. Nó có thể đi trước một đảo chiều, hoặc mức giá đó có thể vỡ khi lệnh bị động đã khớp hết.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/basics/order-book-and-market-depth/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Sổ lệnh và độ sâu thị trường</b><span>Sổ lệnh giới hạn và công cụ khớp lệnh hoạt động ra sao, ưu tiên giá-thời gian, dữ liệu Level 1 và Level 2, đọc độ sâu, spoofing, thị trường dealer và AMM.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/volume-profile-and-market-profile/"><div class="k">Phân tích kỹ thuật</div><b>Volume Profile và Market Profile</b><span>Cách volume profile và market profile hoạt động: point of control, value area, vùng khối lượng cao và thấp, biểu đồ TPO, cân bằng, mất cân bằng và futures.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/volume-analysis/"><div class="k">Phân tích kỹ thuật</div><b>Phân tích khối lượng</b><span>Cách đọc khối lượng giao dịch: xác nhận xu hướng, khối lượng cao trào, khối lượng tương đối, OBV, đường A/D và giới hạn của dữ liệu volume trong crypto, forex.</span></a><a class="card" href="/vi/encyclopedia/futures/index-futures/"><div class="k">Giao dịch hợp đồng tương lai</div><b>Hợp đồng tương lai chỉ số (ES, NQ)</b><span>Cách futures chỉ số chứng khoán hoạt động: E-mini và Micro E-mini S&amp;P 500, Nasdaq, Dow, Russell, DAX, Nikkei, giá trị tick, giá trị hợp lý và phiên giao dịch.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Dữ liệu thị trường</b><span>Dữ liệu thị trường cho trader: tick và bar, luồng Level 1, 2, 3, nguồn dữ liệu lịch sử, chi phí, giấy phép, dấu thời gian, đồng bộ đồng hồ và làm sạch dữ liệu.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/technical-analysis/volume-profile-and-market-profile/"><small>← Bài trước</small>Volume Profile và Market Profile</a><a class="next" href="/vi/encyclopedia/technical-analysis/smart-money-concepts/"><small>Bài tiếp →</small>Smart Money Concepts (ICT)</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

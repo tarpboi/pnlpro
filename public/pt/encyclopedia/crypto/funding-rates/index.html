@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taxa de funding em cripto: como funciona o funding dos perps</title>
+<meta name="description" content="Como funciona o funding dos perpétuos: intervalos, como calcular e anualizar pagamentos, funding positivo e negativo e a arbitragem cash-and-carry.">
+<meta name="keywords" content="taxa de funding, funding rate cripto, funding positivo e negativo, arbitragem de funding, como calcular funding">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/funding-rates/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Taxa de funding em cripto: como funciona o funding dos perps">
+<meta property="og:description" content="Como funciona o funding dos perpétuos: intervalos, como calcular e anualizar pagamentos, funding positivo e negativo e a arbitragem cash-and-carry.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/crypto/funding-rates/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Taxa de funding em cripto: como funciona o funding dos perps">
+<meta name="twitter:description" content="Como funciona o funding dos perpétuos: intervalos, como calcular e anualizar pagamentos, funding positivo e negativo e a arbitragem cash-and-carry.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Taxa de funding em cripto: como funciona o funding dos perps","description":"Como funciona o funding dos perpétuos: intervalos, como calcular e anualizar pagamentos, funding positivo e negativo e a arbitragem cash-and-carry.","keywords":"taxa de funding, funding rate cripto, funding positivo e negativo, arbitragem de funding, como calcular funding","articleSection":"Trading de cripto","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/crypto/funding-rates/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading de cripto","item":"https://pnlpro.fit/pt/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"Taxas de funding","item":"https://pnlpro.fit/pt/encyclopedia/crypto/funding-rates/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"O que significa uma taxa de funding positiva?","acceptedAnswer":{"@type":"Answer","text":"Significa que o contrato perpétuo está sendo negociado acima do índice spot e que os longs pagam aos shorts a cada intervalo de funding. Geralmente indica mais demanda por exposição comprada alavancada."}},{"@type":"Question","name":"Com que frequência o funding é pago?","acceptedAnswer":{"@type":"Answer","text":"Muitas grandes corretoras pagam funding a cada oito horas, mas alguns contratos usam intervalos de quatro horas ou de uma hora, e muitas DEXs de perps aplicam funding a cada hora ou de forma contínua. Consulte a especificação do contrato na sua corretora."}},{"@type":"Question","name":"Como calculo um pagamento de funding?","acceptedAnswer":{"@type":"Answer","text":"Multiplique o valor nocional da sua posição pela taxa de funding. Uma posição de $10,000 com taxa de 0.01 por cento paga ou recebe $1 por intervalo."}},{"@type":"Question","name":"Arbitragem de funding é livre de risco?","acceptedAnswer":{"@type":"Answer","text":"Não. Ela elimina a maior parte da exposição ao preço, mas ainda carrega riscos: o funding ficar negativo, a liquidação da ponta vendida, as taxas de negociação e a falência da corretora ou do protocolo que guarda seu capital."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/crypto/funding-rates/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/funding-rates/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/funding-rates/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/funding-rates/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/funding-rates/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/crypto/funding-rates/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/funding-rates/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/funding-rates/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/funding-rates/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading de cripto</h3><ul><li><a href="/pt/encyclopedia/crypto/crypto-trading-basics/">Fundamentos do trading de cripto</a></li><li><a href="/pt/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs. DEX</a></li><li><a href="/pt/encyclopedia/crypto/crypto-market-cycles/">Ciclos do mercado cripto</a></li><li><a href="/pt/encyclopedia/crypto/perpetual-futures/">Futuros perpétuos</a></li><li><a href="/pt/encyclopedia/crypto/funding-rates/" class="on" aria-current="page">Taxas de funding</a></li><li><a href="/pt/encyclopedia/crypto/crypto-liquidations/">Liquidações</a></li><li><a href="/pt/encyclopedia/crypto/on-chain-analysis/">Análise on-chain</a></li><li><a href="/pt/encyclopedia/crypto/altcoin-trading/">Trading de altcoins</a></li><li><a href="/pt/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics e desbloqueios</a></li><li><a href="/pt/encyclopedia/crypto/defi-trading/">Trading em DeFi</a></li><li><a href="/pt/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV e ataques sanduíche</a></li><li><a href="/pt/encyclopedia/crypto/crypto-arbitrage/">Arbitragem cripto</a></li><li><a href="/pt/encyclopedia/crypto/stablecoins/">Stablecoins</a></li><li><a href="/pt/encyclopedia/crypto/crypto-wallet-security/">Segurança de carteiras</a></li><li><a href="/pt/encyclopedia/crypto/airdrops-and-points-farming/">Airdrops e pontos</a></li><li><a href="/pt/encyclopedia/crypto/nft-trading/">Trading de NFTs</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/" class="on">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/crypto/">Trading de cripto</a></div>
+<h1 class="title">Taxas de funding</h1>
+<div class="meta">8 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Trading de cripto</summary><ul><li><a href="/pt/encyclopedia/crypto/crypto-trading-basics/">Fundamentos do trading de cripto</a></li><li><a href="/pt/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs. DEX</a></li><li><a href="/pt/encyclopedia/crypto/crypto-market-cycles/">Ciclos do mercado cripto</a></li><li><a href="/pt/encyclopedia/crypto/perpetual-futures/">Futuros perpétuos</a></li><li><a href="/pt/encyclopedia/crypto/funding-rates/" class="on" aria-current="page">Taxas de funding</a></li><li><a href="/pt/encyclopedia/crypto/crypto-liquidations/">Liquidações</a></li><li><a href="/pt/encyclopedia/crypto/on-chain-analysis/">Análise on-chain</a></li><li><a href="/pt/encyclopedia/crypto/altcoin-trading/">Trading de altcoins</a></li><li><a href="/pt/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics e desbloqueios</a></li><li><a href="/pt/encyclopedia/crypto/defi-trading/">Trading em DeFi</a></li><li><a href="/pt/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV e ataques sanduíche</a></li><li><a href="/pt/encyclopedia/crypto/crypto-arbitrage/">Arbitragem cripto</a></li><li><a href="/pt/encyclopedia/crypto/stablecoins/">Stablecoins</a></li><li><a href="/pt/encyclopedia/crypto/crypto-wallet-security/">Segurança de carteiras</a></li><li><a href="/pt/encyclopedia/crypto/airdrops-and-points-farming/">Airdrops e pontos</a></li><li><a href="/pt/encyclopedia/crypto/nft-trading/">Trading de NFTs</a></li></ul></details>
+<article><p>A taxa de funding (taxa de financiamento) é um pagamento periódico entre os traders que mantêm posições compradas e vendidas em um contrato de futuro perpétuo. Quando o perp é negociado acima do índice spot, os longs pagam aos shorts; quando é negociado abaixo, os shorts pagam aos longs. O funding é o que mantém um contrato sem vencimento atrelado ao preço spot. Para os traders, ele é ao mesmo tempo um custo (ou uma receita) em toda posição mantida e um dos termômetros de sentimento mais acompanhados do mercado cripto.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>Pagamento de funding = valor nocional da posição × taxa de funding, trocado a cada intervalo de funding.</li>
+<li>Funding positivo significa que os longs pagam aos shorts e geralmente indica excesso de posições compradas; funding negativo significa que os shorts pagam aos longs.</li>
+<li>Os intervalos variam conforme a plataforma e o contrato: oito horas é o mais comum, mas também existem funding de quatro horas, de uma hora e contínuo.</li>
+<li>Uma taxa que parece minúscula por intervalo pode ser grande quando anualizada: 0.01 por cento a cada oito horas dá cerca de 11 por cento ao ano.</li>
+<li>Operações cash-and-carry de funding podem coletar funding com pouca exposição ao preço, mas carregam riscos de taxas, de liquidação, da corretora e de inversão da taxa.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#como-funciona-o-funding">Como funciona o funding</a></li><li><a href="#exemplos-pr-ticos">Exemplos práticos</a></li><li><a href="#lendo-o-funding-como-sentimento">Lendo o funding como sentimento</a></li><li><a href="#arbitragem-de-funding-cash-and-carry">Arbitragem de funding (cash-and-carry)</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="como-funciona-o-funding">Como funciona o funding</h2>
+<p>Os <a href="/pt/encyclopedia/crypto/perpetual-futures/">futuros perpétuos</a> nunca liquidam, então algo precisa impedir que o preço deles se afaste do spot. O funding faz isso obrigando o lado lotado a pagar.</p>
+<p>Se muitos traders querem ficar comprados, as compras empurram o perp acima do preço do índice. O funding positivo faz os longs pagarem aos shorts, o que desestimula novos longs e recompensa os shorts, empurrando o perp de volta para baixo. O inverso acontece quando os shorts se acumulam.</p>
+<p>Na maioria das corretoras centralizadas, o funding vai diretamente de um grupo de traders para o outro. A corretora não fica com ele, embora cobre as taxas normais de negociação.</p>
+<h3 id="intervalos">Intervalos</h3>
+<ul>
+<li><strong>Oito horas</strong> é o cronograma mais comum nas grandes corretoras, muitas vezes às 00:00, 08:00 e 16:00 UTC.</li>
+<li><strong>Quatro horas ou uma hora</strong> vale para alguns contratos, e algumas corretoras encurtam o intervalo durante movimentos extremos.</li>
+<li>Funding <strong>a cada hora ou contínuo</strong> é comum nas DEXs de perps.</li>
+</ul>
+<p>Nas plataformas com intervalos, você paga ou recebe funding apenas se tiver uma posição aberta no horário do funding. Abrir um minuto depois e fechar um minuto antes significa que nenhum funding muda de mãos. Consulte a página de detalhes de cada contrato; intervalos e limites variam entre corretoras e podem mudar.</p>
+<h3 id="a-l-gica-do-c-lculo">A lógica do cálculo</h3>
+<p>As fórmulas exatas variam, mas uma estrutura comum é:</p>
+<p>Taxa de funding = índice de prêmio + clamp(taxa de juros − índice de prêmio, uma faixa estreita)</p>
+<ul>
+<li>O <strong>índice de prêmio</strong> mede o quanto o perp foi negociado acima ou abaixo do índice spot ao longo do intervalo.</li>
+<li>O componente de <strong>taxa de juros</strong> muitas vezes é fixado em um valor pequeno, comumente 0.01 por cento a cada oito horas em muitas grandes corretoras, refletindo a diferença de custo entre a moeda de cotação e a moeda base.</li>
+<li>O <strong>clamp</strong> (limitação a uma faixa) significa que, quando o prêmio é pequeno, o funding se fixa na taxa padrão. Por isso muitos contratos mostram exatamente 0.0100 por cento na maior parte do tempo em mercados calmos.</li>
+<li>As corretoras também limitam o funding a um máximo por intervalo.</li>
+</ul>
+<p>O pagamento em si é simples:</p>
+<p>Pagamento de funding = valor nocional da posição × taxa de funding</p>
+<p>O nocional geralmente se baseia no preço de marcação no horário do funding, então ele muda conforme o preço se move.</p>
+<h2 id="exemplos-pr-ticos">Exemplos práticos</h2>
+<h3 id="pagando-funding-positivo">Pagando funding positivo</h3>
+<p>Um trader está comprado em $50,000 de nocional em perps de ETH. O funding é de +0.03 por cento a cada oito horas.</p>
+<ul>
+<li>Por intervalo: $50,000 × 0.0003 = $15 pagos aos shorts.</li>
+<li>Por dia (três intervalos): $45.</li>
+<li>Em 10 dias: $450.</li>
+</ul>
+<p>Anualizada, essa taxa equivale a 0.03% × 3 × 365 = 32.85 por cento do nocional. Se o trader usou <a href="/pt/encyclopedia/basics/leverage-and-margin/">alavancagem</a> de 5x, a margem é de $10,000, então $450 em 10 dias são 4.5 por cento da margem, só de funding. Manter um long alavancado em um mercado aquecido pode custar muito mais do que a maioria dos traders imagina. Veja <a href="/pt/encyclopedia/basics/trading-costs-and-fees/">custos e taxas de trading</a> para entender como os custos de carregamento se acumulam.</p>
+<h3 id="pagando-funding-negativo-como-short">Pagando funding negativo como short</h3>
+<p>Um trader está vendido em $20,000 de nocional em perps de BTC. O funding é de −0.02 por cento a cada oito horas. Funding negativo significa que os shorts pagam aos longs, então o short paga $20,000 × 0.0002 = $4 por intervalo, $12 por dia. Estar do lado popular, em qualquer direção, custa dinheiro.</p>
+<h3 id="anualizando-a-taxa-padr-o">Anualizando a taxa padrão</h3>
+<p>0.01% × 3 × 365 = 10.95 por cento ao ano. É por isso que alguns traders descrevem o funding &quot;de base&quot; dos perps como cerca de 11 por cento ao ano, pago pelos longs aos shorts, nas plataformas que usam esse padrão.</p>
+<h2 id="lendo-o-funding-como-sentimento">Lendo o funding como sentimento</h2>
+<p>O funding mostra qual lado está pagando para manter exposição, por isso é usado como <a href="/pt/encyclopedia/fundamental-analysis/market-sentiment-indicators/">indicador de sentimento</a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Leitura do funding</th>
+<th>Interpretação usual</th>
+<th>Ressalva</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Perto do padrão, estável</td>
+<td>Posicionamento equilibrado</td>
+<td>Sem sinal</td>
+</tr>
+<tr>
+<td>Fortemente positivo e subindo</td>
+<td>Longs alavancados lotados; muitas vezes no fim das altas</td>
+<td>Pode ficar alto por semanas em tendências fortes</td>
+</tr>
+<tr>
+<td>Fortemente negativo</td>
+<td>Shorts lotados; medo ou hedge</td>
+<td>Prepara possíveis short squeezes</td>
+</tr>
+<tr>
+<td>Positivo enquanto o preço cai</td>
+<td>Longs aumentando posição na fraqueza</td>
+<td>Risco de cascatas de liquidação de longs</td>
+</tr>
+</tbody></table></div>
+<p>Funding extremo muitas vezes coincide com posicionamento frágil. Quando muitos longs alavancados estão pagando funding alto e o preço começa a cair, as liquidações deles podem entrar em cascata, como explicado em <a href="/pt/encyclopedia/crypto/crypto-liquidations/">liquidações</a>. Muitos traders combinam o funding com o open interest: open interest em alta junto com funding positivo em alta sugere a entrada de novos longs alavancados.</p>
+<p>O funding é um sinal contrário nos extremos, não uma ferramenta de timing. Os mercados podem subir por muito tempo com funding alto.</p>
+<h2 id="arbitragem-de-funding-cash-and-carry">Arbitragem de funding (cash-and-carry)</h2>
+<p>Como o funding historicamente foi positivo com mais frequência do que negativo, alguns traders mantêm uma posição neutra ao mercado para coletá-lo:</p>
+<ol>
+<li>Comprar a moeda no mercado spot.</li>
+<li>Vender a mesma quantidade no perp.</li>
+</ol>
+<p>Os movimentos de preço se anulam aproximadamente, e o trader recebe o funding enquanto ele permanecer positivo. Esta é uma versão da operação de base ou cash-and-carry tratada em <a href="/pt/encyclopedia/crypto/crypto-arbitrage/">arbitragem cripto</a>.</p>
+<h3 id="exemplo-pr-tico">Exemplo prático</h3>
+<ul>
+<li>Comprar 1 BTC no spot a $60,000.</li>
+<li>Vender 1 BTC no perp a $60,000, depositando $12,000 de margem (5x).</li>
+<li>Capital total: $72,000.</li>
+<li>Funding médio: +0.01 por cento a cada oito horas, ou seja, $6 por intervalo, $18 por dia.</li>
+<li>Em 30 dias: $540 recebidos.</li>
+<li>Taxas: taker spot de 0.10 por cento na entrada e na saída = $120; taker do perp de 0.05 por cento na entrada e na saída = $60. Total de $180.</li>
+<li>Líquido: $540 − $180 = $360, ou 0.5 por cento sobre $72,000 no mês.</li>
+</ul>
+<h3 id="riscos">Riscos</h3>
+<ul>
+<li><strong>Inversão do funding.</strong> Se o funding ficar negativo, o short passa a pagar em vez de receber.</li>
+<li><strong>Liquidação da ponta vendida.</strong> Se o BTC subir forte, a margem do short encolhe, mesmo que a ponta spot ganhe. Sem margem suficiente, ou se o spot estiver em outra plataforma, o short pode ser liquidado, deixando um long sem hedge.</li>
+<li><strong>Taxas.</strong> A operação precisa de vários dias de funding normal só para cobrir os custos de entrada e saída.</li>
+<li><strong>Risco de corretora.</strong> O capital fica em corretoras centralizadas ou em protocolos DeFi. Uma falência pode apagar meses de pequenos ganhos.</li>
+<li><strong>Excesso de participantes.</strong> Quando grandes fundos e produtos de rendimento fazem essa operação, o funding se comprime em direção ao padrão, reduzindo os retornos.</li>
+</ul>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Esquecer que o funding é cobrado sobre o nocional,</strong> não sobre a margem. Com alavancagem alta, o funding consome a margem rapidamente.</li>
+<li><strong>Comparar taxas por intervalo entre plataformas com intervalos diferentes.</strong> 0.01 por cento por hora é oito vezes 0.01 por cento a cada oito horas.</li>
+<li><strong>Tratar funding alto como sinal automático de venda.</strong></li>
+<li><strong>Fazer cash-and-carry sem folga contra liquidação</strong> na ponta vendida.</li>
+<li><strong>Ignorar que o funding previsto exibido na tela</strong> pode mudar antes do horário do funding.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="o-que-significa-uma-taxa-de-funding-positiva">O que significa uma taxa de funding positiva?</h3>
+<p>Significa que o contrato perpétuo está sendo negociado acima do índice spot e que os longs pagam aos shorts a cada intervalo de funding. Geralmente indica mais demanda por exposição comprada alavancada.</p>
+<h3 id="com-que-frequ-ncia-o-funding-pago">Com que frequência o funding é pago?</h3>
+<p>Muitas grandes corretoras pagam funding a cada oito horas, mas alguns contratos usam intervalos de quatro horas ou de uma hora, e muitas DEXs de perps aplicam funding a cada hora ou de forma contínua. Consulte a especificação do contrato na sua corretora.</p>
+<h3 id="como-calculo-um-pagamento-de-funding">Como calculo um pagamento de funding?</h3>
+<p>Multiplique o valor nocional da sua posição pela taxa de funding. Uma posição de $10,000 com taxa de 0.01 por cento paga ou recebe $1 por intervalo.</p>
+<h3 id="arbitragem-de-funding-livre-de-risco">Arbitragem de funding é livre de risco?</h3>
+<p>Não. Ela elimina a maior parte da exposição ao preço, mas ainda carrega riscos: o funding ficar negativo, a liquidação da ponta vendida, as taxas de negociação e a falência da corretora ou do protocolo que guarda seu capital.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/crypto/perpetual-futures/"><div class="k">Trading de cripto</div><b>Futuros perpétuos</b><span>Como funcionam os perps de cripto: sem vencimento, mark price vs índice vs último preço, funding, alavancagem, fundo de seguro, ADL, inversos e DEXs.</span></a><a class="card" href="/pt/encyclopedia/crypto/crypto-arbitrage/"><div class="k">Trading de cripto</div><b>Arbitragem cripto</b><span>Arbitragem cripto entre corretoras, triangular, CEX-DEX e cash-and-carry, com exemplos práticos e as taxas, atrasos e riscos que apagam a vantagem.</span></a><a class="card" href="/pt/encyclopedia/crypto/crypto-liquidations/"><div class="k">Trading de cripto</div><b>Liquidações</b><span>Como funciona a liquidação em cripto: cálculo do preço de liquidação para long e short, margem cruzada vs isolada, cascatas, heatmaps e open interest.</span></a><a class="card" href="/pt/encyclopedia/fundamental-analysis/market-sentiment-indicators/"><div class="k">Análise fundamentalista e macro</div><b>Indicadores de sentimento</b><span>Como medir sentimento com o relatório COT, a razão put/call, o VIX, a pesquisa AAII, índices de medo e ganância, funding e open interest em cripto, e limites.</span></a><a class="card" href="/pt/encyclopedia/basics/trading-costs-and-fees/"><div class="k">Fundamentos do trading</div><b>Custos e taxas de trading</b><span>Corretagem, spread, taxas maker/taker, swap, funding, aluguel, PFOF, gas, slippage e impostos, com um exemplo prático de como os custos se acumulam em escala.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/crypto/perpetual-futures/"><small>← Anterior</small>Futuros perpétuos</a><a class="next" href="/pt/encyclopedia/crypto/crypto-liquidations/"><small>Próximo →</small>Liquidações</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

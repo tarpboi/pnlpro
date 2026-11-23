@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>코인 차익거래: 거래소 간, 삼각, 베이시스 거래 | PnL Profit</title>
+<meta name="description" content="거래소 간, 삼각, CEX-DEX, 현물-선물 캐리 차익거래를 계산 예시로 설명하고, 수익을 지우는 수수료, 지연, 리스크를 정리합니다.">
+<meta name="keywords" content="코인 차익거래, 삼각 차익거래, 거래소 간 차익거래, 김치 프리미엄 차익거래, 현선물 차익거래, 비트코인 베이시스 거래">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/crypto-arbitrage/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="코인 차익거래: 거래소 간, 삼각, 베이시스 거래 | PnL Profit">
+<meta property="og:description" content="거래소 간, 삼각, CEX-DEX, 현물-선물 캐리 차익거래를 계산 예시로 설명하고, 수익을 지우는 수수료, 지연, 리스크를 정리합니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/crypto/crypto-arbitrage/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="코인 차익거래: 거래소 간, 삼각, 베이시스 거래 | PnL Profit">
+<meta name="twitter:description" content="거래소 간, 삼각, CEX-DEX, 현물-선물 캐리 차익거래를 계산 예시로 설명하고, 수익을 지우는 수수료, 지연, 리스크를 정리합니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"코인 차익거래: 거래소 간, 삼각, 베이시스 거래","description":"거래소 간, 삼각, CEX-DEX, 현물-선물 캐리 차익거래를 계산 예시로 설명하고, 수익을 지우는 수수료, 지연, 리스크를 정리합니다.","keywords":"코인 차익거래, 삼각 차익거래, 거래소 간 차익거래, 김치 프리미엄 차익거래, 현선물 차익거래, 비트코인 베이시스 거래","articleSection":"암호화폐 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/crypto/crypto-arbitrage/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"암호화폐 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"코인 차익거래","item":"https://pnlpro.fit/ko/encyclopedia/crypto/crypto-arbitrage/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"코인 차익거래는 아직도 수익이 나나요?","acceptedAnswer":{"@type":"Answer","text":"주요 거래소의 단순한 거래소 간 차이와 삼각 차이는 대부분 자동화된 회사들이 몇 초 안에 가져갑니다. 펀딩비 거래와 베이시스 거래는 여전히 접근할 수 있지만 수익은 크지 않고, 거래소 리스크와 청산 리스크가 따릅니다."}},{"@type":"Question","name":"코인 삼각 차익거래란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"한 거래소에서 USDT를 ETH로, ETH를 BTC로, BTC를 다시 USDT로 바꾸는 식의 세 번의 거래로, 세 환율이 서로 맞지 않을 때 수익이 납니다. 차이는 대개 아주 작고 금방 사라집니다."}},{"@type":"Question","name":"코인의 현물-선물 캐리 거래란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"현물 시장에서 코인을 사고 그에 맞춰 선물이나 무기한 선물 계약을 팔아 프리미엄이나 펀딩비를 얻는 거래입니다. 가격 노출은 대부분 헤지되지만, 수수료, 증거금, 거래상대방 위험은 남습니다."}},{"@type":"Question","name":"코인 차익거래는 무위험인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 두 다리가 모두 체결되기 전에 가격 차이가 사라질 수 있고, 전송이 지연될 수 있으며, 거래소가 출금을 동결하거나 파산할 수 있고, 헤지된 포지션도 청산될 수 있습니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/crypto/crypto-arbitrage/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/crypto-arbitrage/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/crypto-arbitrage/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/crypto-arbitrage/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/crypto-arbitrage/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/crypto-arbitrage/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/crypto-arbitrage/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/crypto-arbitrage/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/crypto-arbitrage/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>암호화폐 트레이딩</h3><ul><li><a href="/ko/encyclopedia/crypto/crypto-trading-basics/">암호화폐 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs DEX</a></li><li><a href="/ko/encyclopedia/crypto/crypto-market-cycles/">코인 시장 사이클</a></li><li><a href="/ko/encyclopedia/crypto/perpetual-futures/">무기한 선물</a></li><li><a href="/ko/encyclopedia/crypto/funding-rates/">펀딩비</a></li><li><a href="/ko/encyclopedia/crypto/crypto-liquidations/">청산</a></li><li><a href="/ko/encyclopedia/crypto/on-chain-analysis/">온체인 분석</a></li><li><a href="/ko/encyclopedia/crypto/altcoin-trading/">알트코인 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/tokenomics-and-token-unlocks/">토크노믹스와 언락</a></li><li><a href="/ko/encyclopedia/crypto/defi-trading/">디파이 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV와 샌드위치 공격</a></li><li><a href="/ko/encyclopedia/crypto/crypto-arbitrage/" class="on" aria-current="page">코인 차익거래</a></li><li><a href="/ko/encyclopedia/crypto/stablecoins/">스테이블코인</a></li><li><a href="/ko/encyclopedia/crypto/crypto-wallet-security/">지갑 보안</a></li><li><a href="/ko/encyclopedia/crypto/airdrops-and-points-farming/">에어드랍과 포인트</a></li><li><a href="/ko/encyclopedia/crypto/nft-trading/">NFT 트레이딩</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/" class="on">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a></div>
+<h1 class="title">코인 차익거래</h1>
+<div class="meta">6분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>암호화폐 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/crypto/crypto-trading-basics/">암호화폐 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs DEX</a></li><li><a href="/ko/encyclopedia/crypto/crypto-market-cycles/">코인 시장 사이클</a></li><li><a href="/ko/encyclopedia/crypto/perpetual-futures/">무기한 선물</a></li><li><a href="/ko/encyclopedia/crypto/funding-rates/">펀딩비</a></li><li><a href="/ko/encyclopedia/crypto/crypto-liquidations/">청산</a></li><li><a href="/ko/encyclopedia/crypto/on-chain-analysis/">온체인 분석</a></li><li><a href="/ko/encyclopedia/crypto/altcoin-trading/">알트코인 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/tokenomics-and-token-unlocks/">토크노믹스와 언락</a></li><li><a href="/ko/encyclopedia/crypto/defi-trading/">디파이 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV와 샌드위치 공격</a></li><li><a href="/ko/encyclopedia/crypto/crypto-arbitrage/" class="on" aria-current="page">코인 차익거래</a></li><li><a href="/ko/encyclopedia/crypto/stablecoins/">스테이블코인</a></li><li><a href="/ko/encyclopedia/crypto/crypto-wallet-security/">지갑 보안</a></li><li><a href="/ko/encyclopedia/crypto/airdrops-and-points-farming/">에어드랍과 포인트</a></li><li><a href="/ko/encyclopedia/crypto/nft-trading/">NFT 트레이딩</a></li></ul></details>
+<article><p>코인 차익거래(arbitrage)는 같은 자산이나 동등한 자산의 가격 차이를 이용해 수익을 내는 매매로, 거래소 사이에서 또는 서로 연관된 상품 사이에서 이루어집니다. 코인은 수백 개의 거래소와 블록체인에 쪼개져 거래되기 때문에 성숙한 시장보다 가격 차이가 자주 생깁니다. 하지만 눈에 보이는 가격 차이 대부분은 이를 잡는 데 드는 비용보다 작고, 남은 기회는 빠르고 자본이 풍부한 회사들이 차지하려고 경쟁합니다. 실제 차익거래에는 &#39;무위험&#39;이라는 광고 문구가 무시하는 리스크도 따릅니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>거래소 간, 삼각, CEX-DEX 차익거래는 거래소나 거래쌍 사이의 가격 차이를 이용하며, 경쟁하려면 대개 자동화가 필요합니다.</li>
+<li>수수료, 전송 시간, 출금 한도, 슬리피지가 겉보기 수익보다 큰 경우가 많습니다.</li>
+<li>펀딩비 차익거래와 베이시스(현물-선물 캐리) 거래는 즉시가 아니라 시간에 걸쳐 스프레드를 얻으며, 비전문가가 가장 접근하기 쉬운 형태입니다.</li>
+<li>차익거래를 하려면 자본을 여러 거래소에 나눠 둬야 하므로, 거래상대방 위험이 가장 큰 숨은 비용입니다.</li>
+<li>체결, 보관, 청산 리스크까지 따지면 코인 시장에 진정한 무위험 차익거래는 없습니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">가격 차이가 생기는 이유</a></li><li><a href="#section-3">거래소 간 차익거래</a></li><li><a href="#section-5">삼각 차익거래</a></li><li><a href="#cex-dex">CEX-DEX 차익거래</a></li><li><a href="#section-8">펀딩비 차익거래와 베이시스 차익거래</a></li><li><a href="#section-11">수익을 지우는 비용과 리스크</a></li><li><a href="#section-12">누가 이기는가</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">가격 차이가 생기는 이유</h2>
+<ul>
+<li><strong>시장 분절.</strong> 같은 코인이 호가창이 따로 있는 여러 거래소에서 거래됩니다.</li>
+<li><strong>자본 통제와 접근성.</strong> 자금이 자유롭게 이동할 수 없어 일부 지역 시장은 지속적으로 프리미엄이나 디스카운트가 붙은 채 거래됩니다. 한국의 &#39;김치 프리미엄&#39;이 가장 잘 알려진 예입니다.</li>
+<li><strong>전송 마찰.</strong> 거래소 간에 코인을 옮기는 데는 시간과 수수료가 듭니다.</li>
+<li><strong>정보 전달 속도.</strong> 거래소마다 가격 갱신 속도가 다르며, 블록 생성 시간이 느린 블록체인에서는 특히 그렇습니다.</li>
+<li><strong>시장 스트레스.</strong> 폭락이나 거래소 장애 때는 유동성이 사라지면서 가격 차이가 급격히 벌어집니다.</li>
+</ul>
+<p>통계적 차익거래를 포함한 차익거래의 일반 이론은 <a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a>에서 다룹니다.</p>
+<h2 id="section-3">거래소 간 차익거래</h2>
+<p>싼 거래소에서 사서 비싼 거래소에서 팝니다.</p>
+<h3 id="section-4">계산 예시</h3>
+<p>BTC가 A 거래소에서 $60,000, B 거래소에서 $60,150에 거래되고 있어 스프레드가 0.25퍼센트입니다. 트레이더가 A에서 1 BTC를 사고 B에서 1 BTC를 팝니다.</p>
+<ul>
+<li>총이익: $150</li>
+<li>양쪽 테이커 수수료 0.10퍼센트: $60 + $60.15 = 약 $120</li>
+<li>순이익: 전송 비용을 빼기 전 약 $30</li>
+</ul>
+<p>A에서 B로 BTC를 옮겨야 한다면 출금 수수료와 블록체인 컨펌 시간이 추가됩니다. 그사이 가격 차이가 사라지거나 뒤집힐 수 있습니다. 그래서 본격적으로 거래소 간 차익거래를 하는 사람들은 양쪽 거래소에 잔고를 두고 두 다리(leg)를 동시에 체결한 뒤, 나중에 재고를 재조정합니다. 이 방식은 자본이 두 배로 들고, 그 자본이 두 거래소에 노출됩니다.</p>
+<h2 id="section-5">삼각 차익거래</h2>
+<p>삼각 차익거래는 같은 거래소에서 가격이 서로 맞지 않는 세 거래쌍을 이용합니다.</p>
+<h3 id="section-6">계산 예시</h3>
+<p>어떤 거래소에서 가격이 다음과 같습니다.</p>
+<ul>
+<li>BTC/USDT = 60,000</li>
+<li>ETH/USDT = 3,000</li>
+<li>ETH/BTC = 0.0505</li>
+</ul>
+<p>내재 ETH/BTC 가격은 3,000 / 60,000 = 0.0500이므로, BTC 기준으로 ETH가 약간 고평가되어 있습니다. 10,000 USDT를 가진 트레이더는 다음과 같이 거래합니다.</p>
+<ol>
+<li>ETH 매수: 10,000 / 3,000 = 3.3333 ETH</li>
+<li>ETH를 팔아 BTC로: 3.3333 × 0.0505 = 0.168333 BTC</li>
+<li>BTC를 팔아 USDT로: 0.168333 × 60,000 = 10,100 USDT</li>
+</ol>
+<p>총이익은 $100, 즉 1퍼센트입니다. 세 번의 거래마다 0.10퍼센트 수수료를 내면 결과는 10,100 × 0.999³ = 약 10,069.73 USDT로, 순이익은 약 $69.73입니다.</p>
+<p>삼각형을 반대 방향으로 돌면 손실이 납니다. 10,000 USDT를 BTC, ETH, USDT 순으로 바꾸면 수수료 전 약 9,900.99 USDT가 남습니다.</p>
+<p>실제로 주요 거래소에서 이 정도 크기의 차이는 드물고 수 밀리초 안에 사라집니다. 수많은 봇이 모든 삼각형을 감시하고 있기 때문입니다. 수동으로 매매할 수 있을 만큼 오래 남는 차이는 대개 유동성이 낮은 거래쌍에 있으며, 그런 호가창은 의미 있는 규모를 받아 주지 못합니다.</p>
+<h2 id="cex-dex">CEX-DEX 차익거래</h2>
+<p>탈중앙화 거래소의 가격은 누군가 거래할 때만 바뀝니다. 중앙화 거래소 가격이 먼저 움직이면, 차익거래자가 AMM 풀을 상대로 거래하기 전까지 풀의 가격은 낡은 상태로 남습니다. 이는 온체인 <a href="/ko/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV</a>의 가장 큰 원천 중 하나입니다.</p>
+<p>여기서 경쟁하려면 빠른 인프라, 양쪽의 재고, 그리고 블록 빌더나 검증자에게 우선순위 비용을 지불할 능력이 필요합니다. 가스비와 실패한 트랜잭션이 수익을 갉아먹습니다. 대부분의 개인에게 이 영역은 전문 회사들이 장악하고 있습니다. <a href="/ko/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs DEX</a>를 참고하세요.</p>
+<h2 id="section-8">펀딩비 차익거래와 베이시스 차익거래</h2>
+<p>이 거래들은 시간이 지나면서 쌓이는 스프레드를 얻습니다.</p>
+<h3 id="section-9">펀딩비 차익거래</h3>
+<p>코인을 현물로 사고 같은 수량을 <a href="/ko/encyclopedia/crypto/perpetual-futures/">무기한 선물</a>로 숏합니다. 가격 변동은 대략 상쇄되고, <a href="/ko/encyclopedia/crypto/funding-rates/">펀딩비</a>가 양수인 동안 트레이더는 펀딩비를 받습니다. 펀딩비 글에 수수료를 포함한 계산 예시가 있습니다.</p>
+<h3 id="section-10">만기 선물을 이용한 현물-선물 캐리</h3>
+<p>강세장에서는 만기 선물이 현물보다 높게 거래되는 경우가 많습니다(콘탱고). 트레이더는 현물을 사고 선물을 팔아 그 차이를 확정하며, 이 차이는 만기에 0으로 수렴합니다.</p>
+<p><strong>예시:</strong> BTC 현물이 $60,000이고, 90일 후 만기인 선물이 $61,500에 거래됩니다.</p>
+<ul>
+<li>베이시스: $1,500, 즉 2.5퍼센트</li>
+<li>연환산: 2.5% × 365 / 90 = 약 10.1퍼센트</li>
+</ul>
+<p>만기까지 보유하면 선물은 현물 가격으로 정산되므로, BTC 가격이 어디로 가든 수수료와 증거금 비용을 뺀 $1,500를 얻습니다. 트레이더는 이 연환산 수익률을 현금이나 단기 국채 등 다른 곳에서 같은 자본으로 얻을 수 있는 수익과 비교합니다.</p>
+<p>CME 같은 규제 거래소에 비트코인과 이더리움 선물이 상장되어 있고, 현물 쪽은 ETF로 보유할 수 있어 많은 기관이 이런 방식으로 이 거래를 합니다. 기간 구조의 원리는 <a href="/ko/encyclopedia/futures/contango-backwardation-and-rollover/">콘탱고, 백워데이션, 롤오버</a>를 참고하세요.</p>
+<h2 id="section-11">수익을 지우는 비용과 리스크</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>리스크</th>
+<th>무엇이 잘못되는가</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>수수료</td>
+<td>모든 다리의 메이커/테이커 수수료, 출금 수수료, 가스비가 얇은 스프레드를 넘어설 수 있음</td>
+</tr>
+<tr>
+<td>전송 지연</td>
+<td>블록체인 컨펌과 거래소 처리에 수 분에서 수 시간이 걸리고, 그사이 가격이 움직임</td>
+</tr>
+<tr>
+<td>출금 한도와 중단</td>
+<td>거래소가 출금을 제한하거나 중단하는데, 하필 가격 차이가 가장 클 때인 경우가 많음</td>
+</tr>
+<tr>
+<td>슬리피지</td>
+<td>표시된 가격은 호가창 최상단 수량에만 유효함</td>
+</tr>
+<tr>
+<td>거래상대방 위험</td>
+<td>여러 거래소에 나눠 둔 자본이 각 거래소의 파산 위험에 노출됨. 2022년 FTX 붕괴 때 많은 트레이딩 회사의 자금이 묶였음</td>
+</tr>
+<tr>
+<td>청산</td>
+<td>증거금이 너무 얇으면 헤지 거래의 숏 다리가 급등장에서 청산될 수 있음</td>
+</tr>
+<tr>
+<td>체결 리스크</td>
+<td>한쪽만 체결되고 다른 쪽은 체결되지 않아 헤지되지 않은 포지션이 남음</td>
+</tr>
+<tr>
+<td>지갑과 네트워크 오류</td>
+<td>잘못된 네트워크, 메모나 태그 누락, 혼잡한 체인 때문에 자금이 묶일 수 있음</td>
+</tr>
+<tr>
+<td>규제</td>
+<td>지역 프리미엄을 노린 자금 이동이 외환·자본 통제 법규 위반이 될 수 있음</td>
+</tr>
+</tbody></table></div>
+<p>지속되는 가격 차이에는 대개 이유가 있습니다. 어떤 거래소에서 코인이 싸게 거래된다면, 그 거래소의 출금이 중단되었거나 시장이 그 거래소의 지급 능력을 의심하기 때문일 수 있습니다. 2014년 초 Mt. Gox가 비트코인 출금을 중단한 뒤, Mt. Gox의 비트코인은 다른 거래소 가격보다 훨씬 낮게 거래되었습니다. 그 &#39;차익거래&#39;는 사실상 돈을 빼낼 수 있느냐에 대한 베팅이었고, 거래소는 몇 주 뒤 무너졌습니다.</p>
+<h2 id="section-12">누가 이기는가</h2>
+<p>코인 차익거래의 주된 승자는 낮은 수수료(고거래량 등급이나 마켓 메이커 리베이트), 빠른 인프라, 여러 거래소에 분산된 자본, 거래상대방 노출을 관리하는 리스크 시스템을 갖춘 회사들입니다. 개인 트레이더도 적당한 노력으로 펀딩비 거래와 베이시스 거래에 접근할 수 있지만, 예금 계좌가 아니라 실제 리스크가 있는 거래로 다뤄야 합니다. 예측 시장의 관련 전략은 <a href="/ko/encyclopedia/prediction-markets/prediction-market-arbitrage/">예측 시장 차익거래</a>와 <a href="/blog/btc-updown-arbitrage-guide.html">BTC 업/다운 차익거래</a> 가이드를 참고하세요.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>가격 차이만 계산하고</strong> 모든 다리의 수수료를 잊는 것.</li>
+<li><strong>거래 도중 거래소 간에 코인을 옮기면서</strong> 가격 차이가 그대로 남아 있을 거라고 가정하는 것.</li>
+<li>가격 차이가 출금 문제를 반영하고 있는 <strong>잘 모르는 거래소에서 가격 차이를 쫓는 것.</strong></li>
+<li>파생상품 다리의 <strong>증거금을 얇게 둔 채 헤지 거래를 운영하는 것.</strong></li>
+<li>매일 확정 수익을 약속하는 <strong>&#39;차익거래 봇&#39; 사기에 넘어가는 것.</strong> 흔한 사기 수법입니다. <a href="/ko/encyclopedia/trading-business/trading-scams/">트레이딩 사기</a>를 참고하세요.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-15">코인 차익거래는 아직도 수익이 나나요?</h3>
+<p>주요 거래소의 단순한 거래소 간 차이와 삼각 차이는 대부분 자동화된 회사들이 몇 초 안에 가져갑니다. 펀딩비 거래와 베이시스 거래는 여전히 접근할 수 있지만 수익은 크지 않고, 거래소 리스크와 청산 리스크가 따릅니다.</p>
+<h3 id="section-16">코인 삼각 차익거래란 무엇인가요?</h3>
+<p>한 거래소에서 USDT를 ETH로, ETH를 BTC로, BTC를 다시 USDT로 바꾸는 식의 세 번의 거래로, 세 환율이 서로 맞지 않을 때 수익이 납니다. 차이는 대개 아주 작고 금방 사라집니다.</p>
+<h3 id="section-17">코인의 현물-선물 캐리 거래란 무엇인가요?</h3>
+<p>현물 시장에서 코인을 사고 그에 맞춰 선물이나 무기한 선물 계약을 팔아 프리미엄이나 펀딩비를 얻는 거래입니다. 가격 노출은 대부분 헤지되지만, 수수료, 증거금, 거래상대방 위험은 남습니다.</p>
+<h3 id="section-18">코인 차익거래는 무위험인가요?</h3>
+<p>아닙니다. 두 다리가 모두 체결되기 전에 가격 차이가 사라질 수 있고, 전송이 지연될 수 있으며, 거래소가 출금을 동결하거나 파산할 수 있고, 헤지된 포지션도 청산될 수 있습니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/crypto/funding-rates/"><div class="k">암호화폐 트레이딩</div><b>펀딩비</b><span>무기한 선물 펀딩비의 원리: 정산 주기, 지급액 계산과 연환산, 양수·음수 펀딩비 해석, 현물-선물 캐리 차익거래까지 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/"><div class="k">알고리즘·퀀트 트레이딩</div><b>차익거래 전략</b><span>순수 차익거래와 통계적 차익거래, 지수·ETF·합병 차익거래, 거래소 간·삼각 차익거래, 베이시스 거래, 무위험 차익이 드문 이유를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/crypto/centralized-vs-decentralized-exchanges/"><div class="k">암호화폐 트레이딩</div><b>CEX vs DEX</b><span>중앙화 거래소와 탈중앙화 거래소 비교: 자산 보관, 거래상대방 위험, KYC, 수수료, 유동성, 애그리게이터, 준비금 증명, FTX의 교훈.</span></a><a class="card" href="/ko/encyclopedia/crypto/perpetual-futures/"><div class="k">암호화폐 트레이딩</div><b>무기한 선물</b><span>코인 무기한 선물의 원리: 만기 없음, 마크·지수·최종 가격, 펀딩비, 레버리지, 보험 기금, ADL, 인버스와 선형 계약, 퍼프 DEX.</span></a><a class="card" href="/ko/encyclopedia/crypto/mev-and-sandwich-attacks/"><div class="k">암호화폐 트레이딩</div><b>MEV와 샌드위치 공격</b><span>MEV의 개념, 샌드위치 공격이 DEX 스왑을 노리는 방식, 슬리피지와 피해 규모, 프라이빗 RPC, 우선 수수료, Jito 팁을 다룹니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/crypto/mev-and-sandwich-attacks/"><small>← 이전 글</small>MEV와 샌드위치 공격</a><a class="next" href="/ko/encyclopedia/crypto/stablecoins/"><small>다음 글 →</small>스테이블코인</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

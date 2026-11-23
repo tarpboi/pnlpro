@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operar resultados: movimiento implícito, gaps y drift | PnL Profit</title>
+<meta name="description" content="Cómo operar resultados: mantener la posición u operar la reacción, el movimiento implícito de las opciones, gap and go frente a fade y el drift posterior.">
+<meta name="keywords" content="operar resultados trimestrales, trading de earnings, movimiento implícito opciones, post earnings announcement drift, gap por resultados">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/stocks/earnings-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Operar resultados: movimiento implícito, gaps y drift | PnL Profit">
+<meta property="og:description" content="Cómo operar resultados: mantener la posición u operar la reacción, el movimiento implícito de las opciones, gap and go frente a fade y el drift posterior.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/stocks/earnings-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Operar resultados: movimiento implícito, gaps y drift | PnL Profit">
+<meta name="twitter:description" content="Cómo operar resultados: mantener la posición u operar la reacción, el movimiento implícito de las opciones, gap and go frente a fade y el drift posterior.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Operar resultados: movimiento implícito, gaps y drift","description":"Cómo operar resultados: mantener la posición u operar la reacción, el movimiento implícito de las opciones, gap and go frente a fade y el drift posterior.","keywords":"operar resultados trimestrales, trading de earnings, movimiento implícito opciones, post earnings announcement drift, gap por resultados","articleSection":"Trading de acciones","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/stocks/earnings-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading de acciones","item":"https://pnlpro.fit/es/encyclopedia/stocks/"},{"@type":"ListItem","position":3,"name":"Trading de resultados","item":"https://pnlpro.fit/es/encyclopedia/stocks/earnings-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Cómo se calcula el movimiento esperado por resultados?","acceptedAnswer":{"@type":"Answer","text":"Una estimación rápida es el precio del straddle at-the-money que vence justo después del informe, dividido entre el precio de la acción. Algunos traders lo multiplican por aproximadamente 0.85 para obtener una estimación más cercana al movimiento típico."}},{"@type":"Question","name":"¿Debo mantener una acción durante la publicación de resultados?","acceptedAnswer":{"@type":"Answer","text":"Depende de tu plan y del tamaño de la posición. Mantenerla te expone a un gap contra el que los stops no pueden protegerte, así que muchos traders salen o reducen la posición antes del informe, mientras que los inversores de largo plazo suelen mantenerla."}},{"@type":"Question","name":"¿Qué es el IV crush?","acceptedAnswer":{"@type":"Answer","text":"El IV crush es la fuerte caída de la volatilidad implícita después de un evento como la publicación de resultados. Las opciones pierden valor rápidamente una vez que se resuelve la incertidumbre, lo que puede provocar pérdidas a los compradores de opciones incluso cuando la acción se mueve."}},{"@type":"Question","name":"¿Qué es el post-earnings announcement drift?","acceptedAnswer":{"@type":"Answer","text":"Es la tendencia de una acción a seguir moviéndose en la dirección de una sorpresa de resultados durante semanas después. Está documentado desde 1968, aunque algunas investigaciones sugieren que se ha debilitado en las acciones grandes."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/stocks/earnings-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/stocks/earnings-trading/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/stocks/earnings-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/stocks/earnings-trading/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/stocks/earnings-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/stocks/earnings-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/stocks/earnings-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/stocks/earnings-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/stocks/earnings-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading de acciones</h3><ul><li><a href="/es/encyclopedia/stocks/stock-market-basics/">Conceptos básicos de la bolsa</a></li><li><a href="/es/encyclopedia/stocks/day-trading-stocks/">Day trading de acciones</a></li><li><a href="/es/encyclopedia/stocks/swing-trading-stocks/">Swing trading de acciones</a></li><li><a href="/es/encyclopedia/stocks/short-selling/">Venta en corto</a></li><li><a href="/es/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny stocks y small caps</a></li><li><a href="/es/encyclopedia/stocks/premarket-and-after-hours-trading/">Premarket y after-hours</a></li><li><a href="/es/encyclopedia/stocks/earnings-trading/" class="on" aria-current="page">Trading de resultados</a></li><li><a href="/es/encyclopedia/stocks/gap-trading/">Trading de gaps</a></li><li><a href="/es/encyclopedia/stocks/momentum-trading/">Trading de momentum</a></li><li><a href="/es/encyclopedia/stocks/etfs-and-index-trading/">ETF y trading de índices</a></li><li><a href="/es/encyclopedia/stocks/stock-screeners-and-scanners/">Screeners y escáneres</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/" class="on">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/stocks/">Trading de acciones</a></div>
+<h1 class="title">Trading de resultados trimestrales</h1>
+<div class="meta">8 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Trading de acciones</summary><ul><li><a href="/es/encyclopedia/stocks/stock-market-basics/">Conceptos básicos de la bolsa</a></li><li><a href="/es/encyclopedia/stocks/day-trading-stocks/">Day trading de acciones</a></li><li><a href="/es/encyclopedia/stocks/swing-trading-stocks/">Swing trading de acciones</a></li><li><a href="/es/encyclopedia/stocks/short-selling/">Venta en corto</a></li><li><a href="/es/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny stocks y small caps</a></li><li><a href="/es/encyclopedia/stocks/premarket-and-after-hours-trading/">Premarket y after-hours</a></li><li><a href="/es/encyclopedia/stocks/earnings-trading/" class="on" aria-current="page">Trading de resultados</a></li><li><a href="/es/encyclopedia/stocks/gap-trading/">Trading de gaps</a></li><li><a href="/es/encyclopedia/stocks/momentum-trading/">Trading de momentum</a></li><li><a href="/es/encyclopedia/stocks/etfs-and-index-trading/">ETF y trading de índices</a></li><li><a href="/es/encyclopedia/stocks/stock-screeners-and-scanners/">Screeners y escáneres</a></li></ul></details>
+<article><p>Operar resultados (earnings trading) significa tomar posiciones en torno a la publicación programada de los resultados financieros de una empresa. Los informes de resultados están entre los eventos individuales más importantes del año para una acción y a menudo mueven el precio más en una sola sesión que en todo el mes anterior. Los traders se posicionan antes del informe y aceptan el riesgo de gap, o esperan y operan la reacción posterior. Ambos enfoques tienen que lidiar con una incertidumbre que los precios de las opciones ya reflejan.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>El movimiento implícito del mercado de opciones, aproximadamente el precio del straddle at-the-money, muestra qué tan grande es el movimiento que esperan los traders.</li>
+<li>Mantener una acción durante la publicación de resultados es una apuesta tanto a la dirección como al tamaño del movimiento, con un riesgo de gap que los stops no pueden evitar.</li>
+<li>Después del informe, los traders eligen entre seguir el gap (&quot;gap and go&quot;) y apostar por una reversión (&quot;fade&quot;).</li>
+<li>El drift posterior al anuncio de resultados, la tendencia de los precios a seguir moviéndose en la dirección de la sorpresa, es uno de los patrones mejor documentados en finanzas, aunque puede haberse debilitado con el tiempo.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#el-calendario-de-resultados">El calendario de resultados</a></li><li><a href="#el-movimiento-impl-cito">El movimiento implícito</a></li><li><a href="#enfoque-1-mantener-la-posici-n-durante-el-informe">Enfoque 1: mantener la posición durante el informe</a></li><li><a href="#enfoque-2-operar-la-reacci-n">Enfoque 2: operar la reacción</a></li><li><a href="#drift-posterior-al-anuncio-de-resultados">Drift posterior al anuncio de resultados</a></li><li><a href="#control-de-riesgo-en-torno-a-los-resultados">Control de riesgo en torno a los resultados</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="el-calendario-de-resultados">El calendario de resultados</h2>
+<p>Las empresas estadounidenses publican resultados cada trimestre, así que cada gran empresa genera cuatro eventos al año, concentrados en la &quot;temporada de resultados&quot; durante unas pocas semanas después del cierre de cada trimestre. La mayoría publica antes de la apertura o después del cierre, nunca durante la sesión regular, por lo que la primera reacción se produce en el <a href="/es/encyclopedia/stocks/premarket-and-after-hours-trading/">trading de premercado o after-hours</a>.</p>
+<p>Las reglas de publicación varían según el país. Las empresas japonesas informan trimestralmente. En el Reino Unido y la UE, las empresas deben publicar informes semestrales, y muchas también emiten actualizaciones trimestrales de negocio. Operes donde operes, verifica la fecha y la hora confirmadas del informe antes de tomar una posición.</p>
+<p>Lo que mueve el precio no suele ser el resultado en sí, sino cómo se compara con las expectativas: la estimación de consenso para el beneficio por acción y los ingresos y, sobre todo, las previsiones (guidance) de la empresa para los próximos trimestres. Una empresa puede superar las estimaciones y aun así caer si sus previsiones decepcionan. Consulta <a href="/es/encyclopedia/fundamental-analysis/earnings-and-financial-statements/">resultados y estados financieros</a>.</p>
+<h2 id="el-movimiento-impl-cito">El movimiento implícito</h2>
+<p>Los precios de las opciones suben antes de los resultados porque los traders esperan un movimiento grande. Eso convierte a las opciones en un indicador útil de lo que el mercado ya espera.</p>
+<p>Una estimación rápida del <strong>movimiento implícito</strong> es el precio del straddle at-the-money (una call y una put en el strike más cercano al precio de la acción, con vencimiento justo después del informe). Algunos traders lo multiplican por aproximadamente 0.85 para obtener una estimación más cercana al movimiento típico. Consulta <a href="/es/encyclopedia/options/implied-volatility/">volatilidad implícita</a> y <a href="/es/encyclopedia/options/straddles-and-strangles/">straddles y strangles</a>.</p>
+<h3 id="ejemplo-pr-ctico-c-mo-leer-el-movimiento-impl-cito">Ejemplo práctico: cómo leer el movimiento implícito</h3>
+<p>Una acción cotiza a $150. El straddle at-the-money que vence el viernes posterior a los resultados cuesta $9.00.</p>
+<ul>
+<li><strong>Movimiento implícito:</strong> $9 ÷ $150 = 6 por ciento, así que el mercado de opciones está descontando un movimiento hasta aproximadamente $141 o $159.</li>
+<li><strong>Comparación con el historial:</strong> en los últimos ocho informes, la acción se movió en promedio un 4 por ciento el día siguiente a los resultados. Las opciones parecen caras en relación con el pasado, aunque los movimientos pasados no garantizan los futuros.</li>
+<li><strong>IV crush:</strong> compras el straddle por $9.00 ($900 por un contrato que cubre 100 acciones). La acción sube $5 hasta $155 después del informe. La call vale ahora unos $5.40 y la put unos $0.10, en total $5.50. La volatilidad implícita se desplomó porque el evento ya pasó. Pierdes ($9.00 − $5.50) × 100 = $350, aunque la acción se movió $5.</li>
+</ul>
+<p>Comprar opciones antes de los resultados solo compensa si el movimiento supera lo que ya estaba descontado. Venderlas en ese momento te permite cobrar esa prima, pero asumes el riesgo de un movimiento desmesurado.</p>
+<h2 id="enfoque-1-mantener-la-posici-n-durante-el-informe">Enfoque 1: mantener la posición durante el informe</h2>
+<p>Mantener una acción durante la publicación de resultados significa aceptar un gap. Una orden stop no puede protegerte, porque la acción abre en su nuevo precio y el stop se ejecuta ahí (consulta <a href="/es/encyclopedia/stocks/gap-trading/">trading de gaps</a>).</p>
+<p>Si decides mantenerla:</p>
+<ul>
+<li><strong>Dimensiona para el gap, no para el stop.</strong> Si el movimiento implícito es del 8 por ciento, asume que es posible un movimiento del 15 por ciento o más, y dimensiona la posición para que no te cause un daño serio (consulta <a href="/es/encyclopedia/risk-management/position-sizing/">tamaño de posición</a>).</li>
+<li><strong>Considera estructuras de riesgo definido.</strong> Comprar una put contra las acciones, o usar un <a href="/es/encyclopedia/options/vertical-spreads/">spread vertical</a>, limita la pérdida a cambio de un costo.</li>
+<li><strong>Ten claro por qué mantienes la posición.</strong> Muchos swing traders simplemente salen antes de los informes, porque el resultado en cuanto a dirección se parece mucho a lanzar una moneda (consulta <a href="/es/encyclopedia/stocks/swing-trading-stocks/">swing trading de acciones</a>).</li>
+</ul>
+<h2 id="enfoque-2-operar-la-reacci-n">Enfoque 2: operar la reacción</h2>
+<h3 id="gap-and-go">Gap and go</h3>
+<p>La acción abre con gap tras unos resultados sólidos y sigue moviéndose en la misma dirección durante la sesión. Los traders buscan una sorpresa grande, previsiones al alza, mucho volumen en el premercado y que el precio se sostenga por encima del máximo del premercado o del rango de apertura. Las entradas suelen ser la ruptura del rango de los primeros 5 a 15 minutos, con un stop por debajo.</p>
+<h3 id="el-fade">El fade</h3>
+<p>La acción abre con gap, pero el movimiento parece exagerado; por ejemplo, un gap al alza hacia una resistencia de largo plazo con una sorpresa positiva modesta, o un gap a la baja por un titular decepcionante que la conferencia con analistas suaviza. Los traders que hacen fade apuestan a que el gap se cierre en parte. Los fades van contra el momentum inmediato, así que requieren un control de riesgo estricto.</p>
+<h3 id="c-mo-elegir-entre-ambos">Cómo elegir entre ambos</h3>
+<p>No hay una regla que te diga de antemano cuál aplica. Pistas comunes:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sugiere continuación</th>
+<th>Sugiere fade</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sorpresa grande y previsiones al alza</td>
+<td>Sorpresa pequeña, previsiones prudentes</td>
+</tr>
+<tr>
+<td>Gap que atraviesa una base larga o lleva a nuevos máximos</td>
+<td>Gap hacia una resistencia importante o un gap anterior</td>
+</tr>
+<tr>
+<td>Volumen relativo muy alto que persiste después de la apertura</td>
+<td>El volumen se seca tras los primeros minutos</td>
+</tr>
+<tr>
+<td>Analistas que suben sus precios objetivo</td>
+<td>Movimiento impulsado por una sola cifra del titular</td>
+</tr>
+</tbody></table></div>
+<h2 id="drift-posterior-al-anuncio-de-resultados">Drift posterior al anuncio de resultados</h2>
+<p>El <strong>post-earnings announcement drift (PEAD)</strong>, o deriva posterior al anuncio de resultados, es la tendencia de una acción a seguir desplazándose en la dirección de una sorpresa de resultados durante semanas después del informe. Ball y Brown lo describieron en 1968, y Bernard y Thomas lo documentaron en detalle en 1989. La explicación habitual es que los inversores reaccionan de menos ante la información nueva y se ajustan lentamente.</p>
+<p>El PEAD respalda mantener las reacciones ganadoras a los resultados en lugar de tomar ganancias de inmediato, y evitar comprar acciones que cayeron por malas noticias solo porque parecen baratas. Algunas investigaciones posteriores sugieren que el efecto se ha debilitado, sobre todo en acciones grandes y muy negociadas, a medida que más traders intentan aprovecharlo. Tómalo como una tendencia a lo largo de muchas acciones, no como un pronóstico para una operación concreta. Está estrechamente relacionado con el <a href="/es/encyclopedia/stocks/momentum-trading/">trading de momentum</a>.</p>
+<h2 id="control-de-riesgo-en-torno-a-los-resultados">Control de riesgo en torno a los resultados</h2>
+<ul>
+<li><strong>Verifica la fecha.</strong> Mantener una posición durante un informe por descuido es uno de los errores más comunes y evitables.</li>
+<li><strong>Usa órdenes limitadas en horario extendido.</strong> Los spreads son amplios y las cotizaciones se mueven rápido.</li>
+<li><strong>Espera a la conferencia.</strong> Las previsiones de la conferencia con analistas pueden revertir el movimiento inicial.</li>
+<li><strong>Vigila las acciones relacionadas.</strong> Los resultados de un gran proveedor o de un competidor suelen mover a sus pares, así que mantener una acción del mismo sector durante el informe de otra empresa también conlleva riesgo.</li>
+<li><strong>Limita la exposición total.</strong> Durante la temporada de resultados, varias de tus posiciones pueden publicar en la misma semana.</li>
+</ul>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Comprar opciones antes de los resultados porque &quot;se va a mover mucho&quot;.</strong> Si el movimiento es menor que el movimiento implícito, los compradores de opciones suelen perder.</li>
+<li><strong>Operar la cifra del titular.</strong> Los ingresos, los márgenes y las previsiones suelen importar más que el beneficio por acción.</li>
+<li><strong>Perseguir la primera cotización after-hours.</strong> Los movimientos iniciales con poca liquidez se revierten con frecuencia.</li>
+<li><strong>Suponer que un stop limita la pérdida.</strong> Con un gap, los stops se ejecutan al precio de apertura.</li>
+<li><strong>Tratar el PEAD como algo seguro.</strong> Es una tendencia estadística, y muchas acciones individuales se revierten.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="c-mo-se-calcula-el-movimiento-esperado-por-resultados">¿Cómo se calcula el movimiento esperado por resultados?</h3>
+<p>Una estimación rápida es el precio del straddle at-the-money que vence justo después del informe, dividido entre el precio de la acción. Algunos traders lo multiplican por aproximadamente 0.85 para obtener una estimación más cercana al movimiento típico.</p>
+<h3 id="debo-mantener-una-acci-n-durante-la-publicaci-n-de-resultados">¿Debo mantener una acción durante la publicación de resultados?</h3>
+<p>Depende de tu plan y del tamaño de la posición. Mantenerla te expone a un gap contra el que los stops no pueden protegerte, así que muchos traders salen o reducen la posición antes del informe, mientras que los inversores de largo plazo suelen mantenerla.</p>
+<h3 id="qu-es-el-iv-crush">¿Qué es el IV crush?</h3>
+<p>El IV crush es la fuerte caída de la volatilidad implícita después de un evento como la publicación de resultados. Las opciones pierden valor rápidamente una vez que se resuelve la incertidumbre, lo que puede provocar pérdidas a los compradores de opciones incluso cuando la acción se mueve.</p>
+<h3 id="qu-es-el-post-earnings-announcement-drift">¿Qué es el post-earnings announcement drift?</h3>
+<p>Es la tendencia de una acción a seguir moviéndose en la dirección de una sorpresa de resultados durante semanas después. Está documentado desde 1968, aunque algunas investigaciones sugieren que se ha debilitado en las acciones grandes.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/fundamental-analysis/earnings-and-financial-statements/"><div class="k">Análisis fundamental y macro</div><b>Resultados y estados financieros</b><span>Cómo leer la cuenta de resultados, el balance y el flujo de efectivo, qué son el BPA y el guidance, y por qué las acciones reaccionan a las sorpresas.</span></a><a class="card" href="/es/encyclopedia/options/implied-volatility/"><div class="k">Trading de opciones</div><b>Volatilidad implícita</b><span>Qué es la volatilidad implícita, en qué se diferencia de la histórica, IV rank y percentil, IV crush, skew y la fórmula del movimiento esperado con ejemplos.</span></a><a class="card" href="/es/encyclopedia/options/straddles-and-strangles/"><div class="k">Trading de opciones</div><b>Straddles y strangles</b><span>Cómo funcionan los straddles y strangles largos y cortos, puntos de equilibrio con cifras, equilibrio vs. movimiento implícito, resultados y riesgo de cola.</span></a><a class="card" href="/es/encyclopedia/stocks/gap-trading/"><div class="k">Trading de acciones</div><b>Trading de gaps</b><span>Cómo se forman y se operan los gaps: gaps comunes, de ruptura, de continuación y de agotamiento, cierre de gaps, ruptura del rango de apertura y escáneres.</span></a><a class="card" href="/es/encyclopedia/stocks/swing-trading-stocks/"><div class="k">Trading de acciones</div><b>Swing trading de acciones</b><span>Swing trading de acciones de días a semanas: rupturas, retrocesos a medias móviles, bases, riesgo nocturno y de resultados, y gestión de las operaciones.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/stocks/premarket-and-after-hours-trading/"><small>← Anterior</small>Premarket y after-hours</a><a class="next" href="/es/encyclopedia/stocks/gap-trading/"><small>Siguiente →</small>Trading de gaps</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

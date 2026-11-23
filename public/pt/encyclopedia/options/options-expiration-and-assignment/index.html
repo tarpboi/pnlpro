@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vencimento e exercício de opções: assignment e pin risk | PnL Profit</title>
+<meta name="description" content="Como funcionam exercício e atribuição, exercício antecipado antes de dividendos, exercício automático a $0.01 ITM, pin risk, SPX vs. SPY e risco no after-hours.">
+<meta name="keywords" content="exercício de opções, exercício antecipado dividendos, exercício automático de opções, pin risk opções, liquidação spx e spy">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/options-expiration-and-assignment/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Vencimento e exercício de opções: assignment e pin risk | PnL Profit">
+<meta property="og:description" content="Como funcionam exercício e atribuição, exercício antecipado antes de dividendos, exercício automático a $0.01 ITM, pin risk, SPX vs. SPY e risco no after-hours.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/options/options-expiration-and-assignment/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vencimento e exercício de opções: assignment e pin risk | PnL Profit">
+<meta name="twitter:description" content="Como funcionam exercício e atribuição, exercício antecipado antes de dividendos, exercício automático a $0.01 ITM, pin risk, SPX vs. SPY e risco no after-hours.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Vencimento e exercício de opções: assignment e pin risk","description":"Como funcionam exercício e atribuição, exercício antecipado antes de dividendos, exercício automático a $0.01 ITM, pin risk, SPX vs. SPY e risco no after-hours.","keywords":"exercício de opções, exercício antecipado dividendos, exercício automático de opções, pin risk opções, liquidação spx e spy","articleSection":"Opções","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/options/options-expiration-and-assignment/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Opções","item":"https://pnlpro.fit/pt/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Vencimento e exercício","item":"https://pnlpro.fit/pt/encyclopedia/options/options-expiration-and-assignment/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"O que acontece quando uma opção é atribuída?","acceptedAnswer":{"@type":"Answer","text":"O vendedor da opção precisa cumprir o contrato. Um vendedor de call atribuído vende 100 ações pelo strike, e um vendedor de put atribuído compra 100 ações pelo strike, para cada contrato."}},{"@type":"Question","name":"Posso ser exercido antes do vencimento?","acceptedAnswer":{"@type":"Answer","text":"Sim, se você vende opções de estilo americano, o que inclui as opções padrão dos EUA sobre ações e ETFs. O exercício antecipado é mais comum em calls muito dentro do dinheiro logo antes de uma data ex-dividendos."}},{"@type":"Question","name":"As opções são exercidas automaticamente?","acceptedAnswer":{"@type":"Answer","text":"Nos EUA, opções que estejam pelo menos $0.01 dentro do dinheiro no vencimento em geral são exercidas automaticamente, a menos que o titular instrua o contrário. Opções fora do dinheiro viram pó."}},{"@type":"Question","name":"O que é pin risk em opções?","acceptedAnswer":{"@type":"Answer","text":"Pin risk é a incerteza que surge quando o ativo-objeto fecha muito perto do strike de uma opção vendida no vencimento. Você pode ou não ser exercido, e movimentos no after-hours podem tornar o resultado caro."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/options/options-expiration-and-assignment/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/options-expiration-and-assignment/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/options-expiration-and-assignment/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/options-expiration-and-assignment/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/options-expiration-and-assignment/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/options/options-expiration-and-assignment/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/options-expiration-and-assignment/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/options-expiration-and-assignment/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/options-expiration-and-assignment/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Opções</h3><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/" class="on" aria-current="page">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Exposição gama e dealers</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/" class="on">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/options/">Opções</a></div>
+<h1 class="title">Vencimento e exercício de opções</h1>
+<div class="meta">9 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Opções</summary><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/" class="on" aria-current="page">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Exposição gama e dealers</a></li></ul></details>
+<article><p>O vencimento é o momento em que uma opção deixa de existir, e a atribuição (assignment) é o que acontece com o vendedor de uma opção quando o comprador a exerce. Essa mecânica decide se uma opção se transforma em ações, em dinheiro ou em nada. A maioria dos traders encerra as posições antes do vencimento, mas quem as mantém até o último dia, ou quem vende opções de estilo americano, precisa entender as regras de exercício, o exercício antecipado, o exercício automático, o pin risk e as diferenças entre opções com liquidação financeira e com liquidação física.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>Exercer uma call compra o ativo-objeto pelo strike, e exercer uma put o vende; o vendedor que recebe a atribuição precisa assumir o outro lado.</li>
+<li>Opções de estilo americano, incluindo as opções padrão dos EUA sobre ações e ETFs, podem ser exercidas e atribuídas em qualquer dia útil antes do vencimento.</li>
+<li>Nos EUA, opções que terminam pelo menos $0.01 dentro do dinheiro no vencimento em geral são exercidas automaticamente, a menos que o titular instrua o contrário.</li>
+<li>O pin risk surge quando o ativo-objeto fecha perto de um strike vendido, deixando você sem saber se vai ser exercido.</li>
+<li>Opções de índice com liquidação financeira, como as de SPX, pagam a diferença em dinheiro, enquanto opções de ETF, como as de SPY, entregam ações.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#o-b-sico-de-exerc-cio-e-atribui-o">O básico de exercício e atribuição</a></li><li><a href="#hor-rios-do-vencimento">Horários do vencimento</a></li><li><a href="#exerc-cio-autom-tico">Exercício automático</a></li><li><a href="#exerc-cio-antecipado">Exercício antecipado</a></li><li><a href="#pin-risk">Pin risk</a></li><li><a href="#liquida-o-financeira-vs-f-sica-spx-vs-spy">Liquidação financeira vs. física: SPX vs. SPY</a></li><li><a href="#op-es-sobre-futuros">Opções sobre futuros</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="o-b-sico-de-exerc-cio-e-atribui-o">O básico de exercício e atribuição</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ação</th>
+<th>Call comprada</th>
+<th>Put comprada</th>
+<th>Call vendida (atribuída)</th>
+<th>Put vendida (atribuída)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Resultado em opções com liquidação física</td>
+<td>Compra 100 ações pelo strike</td>
+<td>Vende 100 ações pelo strike</td>
+<td>Vende 100 ações pelo strike</td>
+<td>Compra 100 ações pelo strike</td>
+</tr>
+</tbody></table></div>
+<p>Quando o titular exerce, a instrução passa pela corretora dele até a câmara de compensação. Nos EUA, ela é a Options Clearing Corporation (OCC). A OCC atribui o exercício a um membro de compensação com uma posição vendida correspondente, por um processo aleatório, e esse membro então o atribui a um de seus clientes, por sorteio ou por outro método justo informado aos clientes. Os vendedores geralmente ficam sabendo da atribuição na manhã seguinte.</p>
+<p>A maioria das opções nunca é exercida. Encerrar uma opção vendendo-a costuma ser melhor do que exercê-la, porque a venda também captura o valor extrínseco que ainda resta. Veja <a href="/pt/encyclopedia/options/options-basics/">fundamentos das opções</a>.</p>
+<h2 id="hor-rios-do-vencimento">Horários do vencimento</h2>
+<ul>
+<li><strong>As opções mensais padrão</strong> sobre ações e ETFs dos EUA vencem na terceira sexta-feira do mês. Vencimentos semanais e diários também são listados em muitos ativos-objeto populares.</li>
+<li><strong>Horário de negociação:</strong> a maioria das opções sobre ações para de ser negociada às 4:00 p.m. ET (16h, horário de Nova York) no dia do vencimento; algumas opções de índice e de ETF são negociadas até as 4:15 p.m. ET (16h15).</li>
+<li><strong>Decisões de exercício:</strong> o prazo da OCC para enviar instruções de exercício no dia do vencimento tem sido 5:30 p.m. ET (17h30), e as corretoras muitas vezes definem um prazo interno anterior. Confira a política vigente da sua corretora.</li>
+</ul>
+<p>O intervalo entre o fechamento às 4:00 p.m. e o prazo de exercício cria um risco discutido mais abaixo.</p>
+<h2 id="exerc-cio-autom-tico">Exercício automático</h2>
+<p>Pelo procedimento de exercise-by-exception da OCC, opções sobre ações dos EUA que estejam $0.01 ou mais dentro do dinheiro no vencimento são exercidas automaticamente, a menos que o titular envie instruções em contrário. Opções fora do dinheiro viram pó.</p>
+<h3 id="exemplo-pr-tico">Exemplo prático</h3>
+<p>Você tem uma call com strike de $50, e a ação fecha a $50.08 no dia do vencimento. A call está $0.08 dentro do dinheiro. A menos que você diga à corretora para não exercer, ela será exercida, e na segunda-feira você terá 100 ações compradas a $50, uma posição de $5,000. Se a sua conta não comportar essa compra, a corretora pode vender a opção antes do fechamento ou liquidar as ações resultantes, muitas vezes a um preço desfavorável.</p>
+<h2 id="exerc-cio-antecipado">Exercício antecipado</h2>
+<p>Opções de estilo americano podem ser exercidas a qualquer momento, então os vendedores podem receber atribuição antes do vencimento. Na prática, o exercício antecipado é incomum, porque o comprador abre mão do valor extrínseco da opção. Ele se torna provável em duas situações principais.</p>
+<h3 id="antes-de-uma-data-ex-dividendos-calls">Antes de uma data ex-dividendos (calls)</h3>
+<p>Quem é acionista registrado na data ex-dividendos recebe o dividendo; o titular de uma opção, não. Se o valor extrínseco restante de uma call for menor do que o próximo dividendo, o titular da call pode ganhar exercendo-a na véspera da data ex-dividendos.</p>
+<p><strong>Exemplo prático:</strong> Uma ação está cotada a $50 e vai pagar um dividendo de $0.50, com data ex-dividendos amanhã. Uma call de strike $40 é negociada a $10.05. Seu valor intrínseco é de $10.00, então o valor extrínseco é de apenas $0.05. Exercer captura o dividendo de $0.50 ao custo de $0.05 de valor tempo perdido, um ganho líquido de $0.45 por ação. Se você está vendido nessa call, espere uma alta chance de atribuição esta noite. Se você for atribuído num lançamento coberto, suas ações são chamadas e você perde o dividendo. Se for atribuído numa call descoberta, você fica vendido em 100 ações e deve o dividendo.</p>
+<h3 id="puts-muito-dentro-do-dinheiro">Puts muito dentro do dinheiro</h3>
+<p>Uma put muito dentro do dinheiro, quase sem valor extrínseco, pode ser exercida antecipadamente para que o titular receba o strike em dinheiro mais cedo e ganhe juros sobre ele. Isso é mais comum quando os juros estão mais altos.</p>
+<h3 id="travas-e-exerc-cio-antecipado">Travas e exercício antecipado</h3>
+<p>Se a perna vendida de uma trava for exercida antecipadamente, sua perna comprada continua protegendo você. Por exemplo, se a call vendida de uma trava de alta com calls for atribuída, você fica vendido em 100 ações, mas sua call comprada de strike menor continua limitando a perda. Você pode exercer a call comprada ou encerrar as duas posições. Veja <a href="/pt/encyclopedia/options/vertical-spreads/">travas verticais</a>.</p>
+<h2 id="pin-risk">Pin risk</h2>
+<p>O pin risk surge quando o ativo-objeto fecha no strike de uma opção vendida ou muito perto dele no vencimento. Você não tem como saber com certeza se o titular vai exercer, porque ele pode agir com base em movimentos de preço no after-hours ou ter seus próprios motivos.</p>
+<h3 id="risco-no-after-hours-no-dia-do-vencimento">Risco no after-hours no dia do vencimento</h3>
+<p>Suponha que você esteja vendido numa put de $50 e a ação feche a $50.20 às 4:00 p.m. ET do dia do vencimento. A put está fora do dinheiro e normalmente viraria pó. Depois do fechamento, a empresa divulga uma notícia ruim e a ação cai para $48 no after-hours. O titular da put ainda pode enviar uma instrução de exercício antes do prazo. Você é atribuído e fica com 100 ações a $50 enquanto elas são negociadas a $48, uma perda imediata de $200 que pode crescer até a abertura de segunda-feira.</p>
+<p>O mesmo risco vale ao contrário para calls vendidas e para as pernas vendidas de travas, condors e borboletas. Quando o strike vendido de uma trava fica &quot;pinado&quot; e o strike comprado vira pó, você pode ficar com uma posição descoberta em ações durante o fim de semana. Veja <a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">iron condors e borboletas</a>.</p>
+<p>A defesa mais simples é encerrar as opções vendidas que estejam perto do dinheiro antes dos minutos finais do dia do vencimento, mesmo com um pequeno custo.</p>
+<h2 id="liquida-o-financeira-vs-f-sica-spx-vs-spy">Liquidação financeira vs. física: SPX vs. SPY</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Opções de SPX</th>
+<th>Opções de SPY</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ativo-objeto</td>
+<td>Índice S&amp;P 500</td>
+<td>Cotas do SPDR S&amp;P 500 ETF</td>
+</tr>
+<tr>
+<td>Liquidação</td>
+<td>Financeira</td>
+<td>Entrega física das cotas</td>
+</tr>
+<tr>
+<td>Estilo de exercício</td>
+<td>Europeu (só no vencimento)</td>
+<td>Americano (a qualquer momento)</td>
+</tr>
+<tr>
+<td>Risco de exercício antecipado</td>
+<td>Nenhum</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Tamanho do contrato</td>
+<td>$100 x nível do índice</td>
+<td>100 cotas</td>
+</tr>
+</tbody></table></div>
+<h3 id="exemplo-pr-tico-liquida-o-financeira">Exemplo prático: liquidação financeira</h3>
+<p>Você tem uma call de SPX com strike 5,000. O valor final de liquidação é 5,020. Você recebe (5,020 - 5,000) x $100 = $2,000 em dinheiro. Nenhuma ação troca de mãos, e não sobra nada para administrar depois do vencimento.</p>
+<h3 id="exemplo-pr-tico-liquida-o-f-sica">Exemplo prático: liquidação física</h3>
+<p>Você tem uma call de SPY com strike de $500, e o SPY fecha a $502 no dia do vencimento. A call é exercida automaticamente, então você compra 100 cotas a $500, o que exige $50,000 em dinheiro ou poder de compra. Agora você tem uma posição de $50,200 que vai se mover com o mercado quando a negociação for retomada.</p>
+<h3 id="liquida-o-am-vs-pm">Liquidação AM vs. PM</h3>
+<p>As opções mensais padrão de SPX têm liquidação AM: param de ser negociadas na véspera do vencimento, e o valor final se baseia nos preços de abertura das ações do índice na manhã do vencimento, que podem diferir bastante do fechamento anterior. As opções semanais e diárias de SPX têm liquidação PM, com base no valor de fechamento. Sempre confira qual versão você está operando. O trading no mesmo dia é tratado em <a href="/pt/encyclopedia/options/0dte-options/">opções 0DTE</a>.</p>
+<h2 id="op-es-sobre-futuros">Opções sobre futuros</h2>
+<p>Opções sobre futuros, como as opções sobre futuros E-mini S&amp;P 500, em geral são exercidas numa posição no contrato futuro subjacente, e não em ações. Quando a opção vence ao mesmo tempo que um futuro com liquidação financeira, o resultado é, na prática, uma liquidação financeira. Os termos do contrato variam por produto, então leia a especificação. Veja <a href="/pt/encyclopedia/futures/futures-basics/">fundamentos do mercado futuro</a>.</p>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Manter opções vendidas perto do dinheiro até o fechamento.</strong> Isso convida o pin risk e surpresas no after-hours.</li>
+<li><strong>Esquecer os dividendos.</strong> Calls vendidas dentro do dinheiro antes de uma data ex-dividendos podem ser exercidas antecipadamente.</li>
+<li><strong>Deixar uma opção comprada ser exercida automaticamente sem ter o dinheiro.</strong> A corretora pode liquidar a um preço ruim, ou você pode ficar com uma posição em ações não planejada.</li>
+<li><strong>Supor que uma trava está encerrada no vencimento.</strong> Uma perna pode vencer dentro do dinheiro enquanto a outra vira pó.</li>
+<li><strong>Confundir SPX com SPY.</strong> Um liquida em dinheiro, o outro em cotas, e os tamanhos dos contratos diferem em cerca de dez vezes.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="o-que-acontece-quando-uma-op-o-atribu-da">O que acontece quando uma opção é atribuída?</h3>
+<p>O vendedor da opção precisa cumprir o contrato. Um vendedor de call atribuído vende 100 ações pelo strike, e um vendedor de put atribuído compra 100 ações pelo strike, para cada contrato.</p>
+<h3 id="posso-ser-exercido-antes-do-vencimento">Posso ser exercido antes do vencimento?</h3>
+<p>Sim, se você vende opções de estilo americano, o que inclui as opções padrão dos EUA sobre ações e ETFs. O exercício antecipado é mais comum em calls muito dentro do dinheiro logo antes de uma data ex-dividendos.</p>
+<h3 id="as-op-es-s-o-exercidas-automaticamente">As opções são exercidas automaticamente?</h3>
+<p>Nos EUA, opções que estejam pelo menos $0.01 dentro do dinheiro no vencimento em geral são exercidas automaticamente, a menos que o titular instrua o contrário. Opções fora do dinheiro viram pó.</p>
+<h3 id="o-que-pin-risk-em-op-es">O que é pin risk em opções?</h3>
+<p>Pin risk é a incerteza que surge quando o ativo-objeto fecha muito perto do strike de uma opção vendida no vencimento. Você pode ou não ser exercido, e movimentos no after-hours podem tornar o resultado caro.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/options/options-basics/"><div class="k">Opções</div><b>Fundamentos das opções</b><span>Como funcionam as opções: call, put, strike, vencimento, prêmio, valor intrínseco e extrínseco, moneyness, ganhos de titular e lançador e níveis de aprovação.</span></a><a class="card" href="/pt/encyclopedia/options/0dte-options/"><div class="k">Opções</div><b>Opções 0DTE</b><span>O que são opções 0DTE, por que as opções de SPX, SPY e QQQ do mesmo dia explodiram, como funcionam o gama e o decaimento extremos, estratégias e riscos.</span></a><a class="card" href="/pt/encyclopedia/options/vertical-spreads/"><div class="k">Opções</div><b>Travas verticais</b><span>Como funcionam as travas verticais: trava de alta e de baixa com calls e puts, no débito e no crédito, com fórmulas de lucro, perda e equilíbrio e exemplos.</span></a><a class="card" href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/"><div class="k">Opções</div><b>Lançamento coberto e venda de puts</b><span>Como funcionam o lançamento coberto e a venda de puts com garantia em caixa, ganhos e pontos de equilíbrio com números, a estratégia da roda e os riscos.</span></a><a class="card" href="/pt/encyclopedia/options/iron-condors-and-butterflies/"><div class="k">Opções</div><b>Iron condors e borboletas</b><span>Como funcionam iron condor, borboleta, iron butterfly e borboleta de asa quebrada, com resultados, pontos de equilíbrio, exemplos, gestão e pin risk.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/options/0dte-options/"><small>← Anterior</small>Opções 0DTE</a><a class="next" href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/"><small>Próximo →</small>Exposição gama e dealers</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

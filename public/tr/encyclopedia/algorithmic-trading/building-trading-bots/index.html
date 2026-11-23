@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trading Botu Nasıl Yapılır? Mimari, API'ler ve Güvenlik | PnL Profit</title>
+<meta name="description" content="Trading botları nasıl kurulur: veri, sinyal, risk ve emir katmanları; REST, WebSocket ve FIX API'leri, istek limitleri, API anahtarı güvenliği ve kill switch.">
+<meta name="keywords" content="trading botu nasıl yapılır, al sat botu yapımı, kripto trading botu, borsa api, api anahtarı güvenliği, kill switch">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Ansiklopedisi">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Trading Botu Nasıl Yapılır? Mimari, API'ler ve Güvenlik | PnL Profit">
+<meta property="og:description" content="Trading botları nasıl kurulur: veri, sinyal, risk ve emir katmanları; REST, WebSocket ve FIX API'leri, istek limitleri, API anahtarı güvenliği ve kill switch.">
+<meta property="og:url" content="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/building-trading-bots/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trading Botu Nasıl Yapılır? Mimari, API'ler ve Güvenlik | PnL Profit">
+<meta name="twitter:description" content="Trading botları nasıl kurulur: veri, sinyal, risk ve emir katmanları; REST, WebSocket ve FIX API'leri, istek limitleri, API anahtarı güvenliği ve kill switch.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"tr","headline":"Trading Botu Nasıl Yapılır? Mimari, API'ler ve Güvenlik","description":"Trading botları nasıl kurulur: veri, sinyal, risk ve emir katmanları; REST, WebSocket ve FIX API'leri, istek limitleri, API anahtarı güvenliği ve kill switch.","keywords":"trading botu nasıl yapılır, al sat botu yapımı, kripto trading botu, borsa api, api anahtarı güvenliği, kill switch","articleSection":"Algoritmik ve Kantitatif İşlem","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/building-trading-bots/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ansiklopedi","item":"https://pnlpro.fit/tr/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Algoritmik ve Kantitatif İşlem","item":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"İşlem Botu Geliştirme","item":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/building-trading-bots/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"tr","mainEntity":[{"@type":"Question","name":"Trading botu için en iyi programlama dili hangisi?","acceptedAnswer":{"@type":"Answer","text":"Kütüphaneleri ve kullanım kolaylığı nedeniyle bireysel botlar için en yaygın tercih Python'dır. Gecikme veya çok yüksek mesaj hızları önemli olduğunda C++, Rust veya Java gibi daha hızlı diller kullanılır."}},{"@type":"Question","name":"Trading botları kâr ettirir mi?","acceptedAnswer":{"@type":"Answer","text":"Bir bot yalnızca bir stratejiyi otomatikleştirir; avantaj yaratmaz. Pek çok bot, temeldeki strateji maliyetler sonrasında avantaj taşımadığı için ya da yazılım ve risk kontrolü arızaları nedeniyle para kaybeder."}},{"@type":"Question","name":"Bir trading botuna API anahtarımı vermek güvenli mi?","acceptedAnswer":{"@type":"Answer","text":"Anahtar para çekemiyorsa, bilinen IP adresleriyle sınırlıysa ve fonları sınırlandırılmış bir alt hesapla kısıtlıysa makul ölçüde güvenli olabilir. Para çekme yetkili anahtarları veya cüzdan kurtarma ifadelerini üçüncü taraf hizmetlerle asla paylaşmayın."}},{"@type":"Question","name":"Algoritmik işlemde kill switch nedir?","acceptedAnswer":{"@type":"Answer","text":"Acil durdurma düğmesi (kill switch), günlük zarar veya emir hızı gibi limitler aşıldığında bir işlem sistemini otomatik ya da manuel olarak durduran, emirlerini iptal eden ve yapılandırılmışsa pozisyonları kapatan bir kontroldür."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/tr/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Ansiklopedi</small></a>
+  <nav class="top"><a href="/tr/encyclopedia/" class="on">Ansiklopedi</a><a href="/tr/encyclopedia/reference/trading-glossary/">Sözlük</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Trading botları</a></nav>
+  <details class="langmenu"><summary aria-label="Dil">🌐 <span>Türkçe</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="tr" lang="tr" class="on" aria-current="true">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150+ makalede arayın  ( / )" autocomplete="off" aria-label="Ansiklopedide ara"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Algoritmik ve Kantitatif İşlem</h3><ul><li><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik İşleme Giriş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Aşırı Optimizasyon</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/trend-following/">Trend Takibi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">Ortalamaya Dönüş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Eşli İşlem ve İstatistiksel Arbitraj</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-making/">Piyasa Yapıcılığı</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitraj Stratejileri</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/high-frequency-trading/">Yüksek Frekanslı İşlem</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/">Emir Yürütme Algoritmaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/" class="on" aria-current="page">İşlem Botu Geliştirme</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy Trading ve Sosyal Trading</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Trading'de Makine Öğrenmesi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">Piyasa Verileri</a></li></ul><h3>Tüm konular</h3><ul><li><a href="/tr/encyclopedia/basics/">📘 Trading'in Temelleri</a></li><li><a href="/tr/encyclopedia/risk-management/">🛡️ Risk ve Para Yönetimi</a></li><li><a href="/tr/encyclopedia/psychology/">🧠 Trading Psikolojisi</a></li><li><a href="/tr/encyclopedia/technical-analysis/">📈 Teknik Analiz</a></li><li><a href="/tr/encyclopedia/fundamental-analysis/">🏦 Temel ve Makro Analiz</a></li><li><a href="/tr/encyclopedia/stocks/">🏛️ Hisse Senedi İşlemleri</a></li><li><a href="/tr/encyclopedia/forex/">💱 Forex İşlemleri</a></li><li><a href="/tr/encyclopedia/futures/">📊 Vadeli İşlemler</a></li><li><a href="/tr/encyclopedia/options/">🎯 Opsiyon İşlemleri</a></li><li><a href="/tr/encyclopedia/crypto/">₿ Kripto Para İşlemleri</a></li><li><a href="/tr/encyclopedia/meme-coins/">🐸 Meme Coin İşlemleri</a></li><li><a href="/tr/encyclopedia/prediction-markets/">🔮 Tahmin Piyasaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/" class="on">🤖 Algoritmik ve Kantitatif İşlem</a></li><li><a href="/tr/encyclopedia/other-markets/">🛢️ Emtia, Tahvil ve Diğerleri</a></li><li><a href="/tr/encyclopedia/trading-business/">⚖️ Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a></li><li><a href="/tr/encyclopedia/reference/">📖 Başvuru Kaynakları</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/tr/encyclopedia/">Ansiklopedi</a> › <a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a></div>
+<h1 class="title">Trading Botu Geliştirmek</h1>
+<div class="meta">8 dk okuma · Güncelleme: 23 Kas 2026</div>
+<details class="side-m"><summary>Algoritmik ve Kantitatif İşlem: diğer makaleler</summary><ul><li><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik İşleme Giriş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Aşırı Optimizasyon</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/trend-following/">Trend Takibi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">Ortalamaya Dönüş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Eşli İşlem ve İstatistiksel Arbitraj</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-making/">Piyasa Yapıcılığı</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitraj Stratejileri</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/high-frequency-trading/">Yüksek Frekanslı İşlem</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/">Emir Yürütme Algoritmaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/" class="on" aria-current="page">İşlem Botu Geliştirme</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy Trading ve Sosyal Trading</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Trading'de Makine Öğrenmesi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">Piyasa Verileri</a></li></ul></details>
+<article><p>Trading botu (al-sat botu), bir aracı kuruma veya borsaya bağlanan, <a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">piyasa verisini</a> okuyan, ne zaman işlem yapılacağına karar veren ve emirleri otomatik olarak gönderen bir programdır. Emir veren bir bot yazmak kolaydır; asıl iş, veri geciktiğinde, bağlantı koptuğunda veya strateji yanlış ateşlendiğinde güvenli davranan bir bot yazmaktır. Bu, <a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">algoritmik işlemin</a> mühendislik tarafıdır: standart mimari, borsa API&#39;lerinin nasıl çalıştığı ve her botun gerçek paraya dokunmadan önce sahip olması gereken güvenlik kontrolleri.</p>
+<div class="takeaways"><h2 id="key-takeaways">Önemli noktalar</h2>
+<ul>
+<li>Botu katmanlara ayırın: veri akışı, sinyal, risk, emir yürütme ve izleme.</li>
+<li>Piyasa verisi için WebSocket akışlarını kullanın, REST çağrılarını emirler ve hesap kontrolleri için saklayın ve istek limitlerinin içinde kalın.</li>
+<li>API anahtarları gereken asgari izinlere sahip olmalı; para çekme kapalı olmalı ve mümkünse IP kısıtlaması uygulanmalıdır.</li>
+<li>Kesin risk limitleri ve otomatik bir acil durdurma düğmesi (kill switch) isteğe bağlı değildir; yazılım arızaları herhangi bir kötü işlemden daha hızlı para kaybettirebilir.</li>
+<li>Önce dry-run veya kâğıt üzerinde işlem modunda çalıştırın, her şeyi kayda alın ve canlı davranışı backtest&#39;inizle karşılaştırın.</li>
+</ul></div><details class="toc"><summary>Bu sayfada</summary><ol><li><a href="#bot-mimarisi">Bot mimarisi</a></li><li><a href="#borsa-ve-arac-kurum-api-leri">Borsa ve aracı kurum API&amp;#39;leri</a></li><li><a href="#i-stek-limitleri">İstek limitleri</a></li><li><a href="#api-anahtar-g-venli-i">API anahtarı güvenliği</a></li><li><a href="#acil-durdurma-d-meleri-ve-risk-limitleri">Acil durdurma düğmeleri ve risk limitleri</a></li><li><a href="#dry-run-k-t-zerinde-i-lem-ve-kay-t-tutma">Dry run, kâğıt üzerinde işlem ve kayıt tutma</a></li><li><a href="#canl-ya-alma">Canlıya alma</a></li><li><a href="#a-k-kaynak-ara-lar">Açık kaynak araçlar</a></li><li><a href="#rnek-istek-limiti-ve-risk-b-t-esi">Örnek: istek limiti ve risk bütçesi</a></li><li><a href="#common-mistakes">Sık yapılan hatalar</a></li></ol></details>
+<h2 id="bot-mimarisi">Bot mimarisi</h2>
+<p>Basit betiklerden profesyonel sistemlere kadar sağlam botların çoğu aynı yapı taşlarını paylaşır.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Katman</th>
+<th>Görev</th>
+<th>Temel kaygılar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Veri akışı</td>
+<td>Fiyatları, emir defterlerini, işlemleri ve hesap güncellemelerini almak</td>
+<td>Yeniden bağlanma, boşluklar, bayat veri, zaman damgaları</td>
+</tr>
+<tr>
+<td>Sinyal (strateji)</td>
+<td>Veriyi istenen pozisyonlara veya emirlere dönüştürmek</td>
+<td>Backtest&#39;le aynı mantık; ileriye bakma yok</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Her emri çıkmadan önce limitlere karşı kontrol etmek</td>
+<td>Pozisyon büyüklüğü, maruziyet, günlük zarar, fiyat makullük kontrolleri</td>
+</tr>
+<tr>
+<td>Emir yürütme</td>
+<td>Emir vermek, değiştirmek ve iptal etmek; dolumları takip etmek</td>
+<td>İdempotans, kısmi dolumlar, yeniden denemeler, istek limitleri</td>
+</tr>
+<tr>
+<td>Durum ve depolama</td>
+<td>Pozisyonları, emirleri ve bakiyeleri tutarlı tutmak</td>
+<td>Borsayla düzenli olarak mutabakat yapmak</td>
+</tr>
+<tr>
+<td>İzleme</td>
+<td>Alarmlar, paneller, kayıtlar (log)</td>
+<td>Bir şeyler ters gittiğinde dakikalar içinde haberdar olmak</td>
+</tr>
+</tbody></table></div>
+<p>Katmanları ayrı tutmak, aynı sinyal kodunu <a href="/tr/encyclopedia/algorithmic-trading/backtesting/">backtest</a> ve canlı işlemde yeniden kullanabilmeniz ve risk katmanını tek başına test edebilmeniz anlamına gelir. Risk katmanı, stratejinin ne istediğinden bağımsız olarak herhangi bir emri engelleyebilmelidir. Emir yürütme katmanı, limit emir göndermek kadar basit ya da <a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/">emir yürütme algoritmaları</a> makalesinde anlatılan bölme mantığı kadar karmaşık olabilir.</p>
+<h2 id="borsa-ve-arac-kurum-api-leri">Borsa ve aracı kurum API&#39;leri</h2>
+<h3 id="rest">REST</h3>
+<p>REST API&#39;leri standart web isteklerini kullanır. Bir istek gönderirsiniz (emir vermek, bakiyeleri almak) ve bir yanıt alırsınız. Basittirler ama veri akışı için yavaştırlar ve her istek bir istek limitinden (rate limit) düşer.</p>
+<h3 id="websocket">WebSocket</h3>
+<p>WebSocket bağlantıları açık kalır ve güncellemeleri gerçekleştikleri anda size iletir: işlemler, emir defteri değişiklikleri, emir dolumları. Gerçek zamanlı piyasa verisi almanın standart yolu budur. Botlar bağlantı kopmalarını ele almalı, yeniden abone olmalı ve herhangi bir güncelleme kaçırılırsa (genellikle sıra numaralarıyla tespit edilir) yerel emir defterini yeni bir anlık görüntüden (snapshot) yeniden kurmalıdır.</p>
+<h3 id="fix">FIX</h3>
+<p>FIX protokolü, kurumsal işlemlerde uzun süredir yerleşik mesajlaşma standardıdır; pek çok aracı kurum, vadeli işlem firması ve bazı kripto platformları tarafından emir girişi ve piyasa verisi için kullanılır. Uygulanması daha karmaşıktır, ancak kararlı oturumlar ve yüksek mesaj hızlarında daha düşük ek yük sunar.</p>
+<h3 id="kimlik-do-rulama">Kimlik doğrulama</h3>
+<p>Özel uç noktalar (endpoint) genellikle bir API anahtarı ve bir gizli anahtarla hesaplanan, çoğu zaman HMAC tabanlı bir imza ile bir zaman damgası gerektirir. Sunucu saatiniz kayarsa istekler reddedilebilir; bu yüzden sistem saatini senkronize tutun. Blokzincir üzerine kurulu kripto platformları bunun yerine emirlerin bir cüzdanın özel anahtarıyla imzalanmasını isteyebilir.</p>
+<h2 id="i-stek-limitleri">İstek limitleri</h2>
+<p>Borsalar saniye veya dakika başına kaç istek gönderebileceğinizi sınırlar; bu sınır çoğu zaman ağır isteklerin daha pahalıya geldiği bir &quot;ağırlık&quot; bütçesi şeklindedir. Limiti aşmak hata döndürür ve tekrarlanan ihlallerde geçici yasaklara yol açar. İyi uygulamalar:</p>
+<ul>
+<li>Piyasa verisini REST uç noktalarını sorgulamak yerine WebSocket akışlarından alın.</li>
+<li>Kendi kullanımınızı, çoğu zaman bir token bucket sayacıyla, takip edin ve limite ulaşmadan yavaşlayın.</li>
+<li>İstek limiti hatası aldığınızda hemen yeniden denemek yerine artan gecikmelerle geri çekilin.</li>
+<li>API destekliyorsa işlemleri toplu yapın; örneğin tüm emirleri tek bir çağrıyla iptal etmek gibi.</li>
+</ul>
+<h2 id="api-anahtar-g-venli-i">API anahtarı güvenliği</h2>
+<p>Sızdırılmış bir API anahtarı bir hesabı boşaltabilir. Anahtarlara banka şifreleriniz gibi davranın:</p>
+<ul>
+<li>İşlem anahtarlarında <strong>para çekmeyi kapatın</strong>. Bir botun nadiren para çekmesi gerekir.</li>
+<li>Anahtarın yalnızca sunucunuzdan çalışması için <strong>IP adresine göre kısıtlayın</strong>.</li>
+<li><strong>En az yetki ilkesini uygulayın:</strong> izleme için salt okunur anahtarlar, işlem anahtarları yalnızca gereken yerde.</li>
+<li><strong>Anahtarları asla koda</strong> veya herkese açık depolara koymayın. Ortam değişkenlerinden veya bir gizli bilgi yöneticisinden (secrets manager) yükleyin.</li>
+<li>Platform destekliyorsa her bot için sınırlı fon içeren <strong>bir alt hesap kullanın</strong>.</li>
+<li>Para çekme yetkili anahtar isteyen <strong>üçüncü taraf bot hizmetlerine</strong> ve cüzdan kurtarma ifadesi (seed phrase) isteyen her araca karşı dikkatli olun. Bkz. <a href="/tr/encyclopedia/crypto/crypto-wallet-security/">kripto cüzdan güvenliği</a> ve Telegram tarzı swap botları için <a href="/tr/encyclopedia/meme-coins/meme-coin-trading-bots/">meme coin işlem botları</a>.</li>
+</ul>
+<h2 id="acil-durdurma-d-meleri-ve-risk-limitleri">Acil durdurma düğmeleri ve risk limitleri</h2>
+<p>Yazılım arızaları çarpıcı olabilir. 1 Ağustos 2012&#39;de ABD&#39;li piyasa yapıcı Knight Capital, istenmeyen bir emir seli gönderen hatalı kodu canlıya aldı; bir saatten kısa sürede yaklaşık 440 milyon dolar kaybetti ve firma bir kurtarma operasyonuna muhtaç kaldı. Emirleri yeniden gönderen bir döngü veya amaçlanan büyüklüğün on katıyla işlem yapan bir birim hatası gibi aynı şeyin küçük versiyonları, bireysel botların başına sürekli gelir.</p>
+<p>Her botta şunlar olmalıdır:</p>
+<ul>
+<li>Enstrüman başına ve toplamda <strong>maksimum pozisyon büyüklüğü</strong>.</li>
+<li><strong>Maksimum emir büyüklüğü</strong> ve mevcut piyasadan çok uzak emirleri reddeden bir fiyat bandı (price collar).</li>
+<li>Emirleri iptal eden, isteğe bağlı olarak pozisyonları kapatan ve bir insan yeniden başlatana kadar botu durduran bir <strong>günlük zarar limiti</strong>.</li>
+<li>Bot beklenenden çok daha fazla emir gönderirse onu durduran bir <strong>emir hızı limiti</strong>.</li>
+<li>Piyasa verisi belirli bir süre güncellenmezse işlemi durduran bir <strong>bayat veri kontrolü</strong>.</li>
+<li>Telefonunuzdan tetikleyebileceğiniz <strong>manuel bir acil durdurma düğmesi</strong>.</li>
+</ul>
+<h2 id="dry-run-k-t-zerinde-i-lem-ve-kay-t-tutma">Dry run, kâğıt üzerinde işlem ve kayıt tutma</h2>
+<p>Tüm sistemi önce emirleri hesaplayıp göndermeden kayda aldığı dry-run modunda, ardından kâğıt üzerinde işlem modunda veya mümkünse bir borsa test ağında (testnet) çalıştırın. Test ağları, daha sığ emir defterleri ve farklı dolumlarla, canlı piyasalardan çoğu zaman farklı davranır; bu yüzden onları bir performans testi olarak değil, bir yazılım testi olarak görün.</p>
+<p>Her girdiyi ve kararı kayda alın: alınan veri, sinyaller, gönderilen emirler, borsa yanıtları, dolumlar ve hatalar; hepsi UTC zaman damgalarıyla. Bir şeyler ters gittiğinde, ne olduğunu yeniden kurmanın tek yolu kayıtlardır. Yeniden denenen bir isteğin yanlışlıkla mükerrer bir emir oluşturamaması için benzersiz istemci emir kimlikleri (client order ID) kullanın ve botunuzun pozisyon görünümünü düzenli olarak borsanınkiyle mutabık hale getirin.</p>
+<p>Asgari bir ana döngü, parçaların nasıl bir araya geldiğini gösterir. <code>feed</code>, <code>strategy</code> ve <code>broker</code> nesneleri, kendi veri, sinyal ve emir yürütme katmanlarınız için yer tutuculardır.</p>
+<pre><code class="language-python">import logging
+
+MAX_DAILY_LOSS = 300.0      # hesap para birimi
+MAX_POSITION = 2_000.0      # sembol başına mutlak nominal tutar
+
+def run(feed, strategy, broker, dry_run=True):
+    start_equity = broker.equity()
+    for tick in feed:                                   # örn. bir WebSocket kuyruğundan gelen mesajlar
+        pnl = broker.equity() - start_equity
+        if pnl &lt;= -MAX_DAILY_LOSS:
+            logging.critical(&quot;Daily loss limit hit (%.2f). Stopping.&quot;, pnl)
+            broker.cancel_all()
+            broker.flatten()
+            return                                      # acil durdurma: bir insanı bekle
+        order = strategy.on_tick(tick)
+        if order is None:
+            continue
+        new_pos = broker.position(order.symbol) + order.signed_notional
+        if abs(new_pos) &gt; MAX_POSITION:
+            logging.warning(&quot;Order blocked by position limit: %s&quot;, order)
+        elif dry_run:
+            logging.info(&quot;DRY RUN, would send: %s&quot;, order)
+        else:
+            broker.send(order, client_order_id=order.uid)  # benzersiz kimlik mükerrer emirleri önler
+</code></pre>
+<h2 id="canl-ya-alma">Canlıya alma</h2>
+<p>Botlar genellikle borsanın sunucularına yakın bir bulut sunucusunda veya sanal özel sunucuda (VPS), çöktüğünde otomatik yeniden başlatmayla çalışır. Yeniden başlatıldığında bot, pozisyonsuz başladığını varsaymak yerine önce durumunu (açık emirler, pozisyonlar) borsadan yüklemelidir. Saati senkronize tutun, bellek ve disk kullanımını izleyin ve borsa bakım pencerelerini planlayın.</p>
+<h2 id="a-k-kaynak-ara-lar">Açık kaynak araçlar</h2>
+<p>Pek çok işlemci sıfırdan başlamak yerine mevcut kütüphaneler üzerine inşa eder. İyi bilinen açık kaynak örnekleri arasında CCXT (pek çok kripto borsası API&#39;si için birleşik bir kütüphane), Freqtrade ve Hummingbot (kripto bot çerçeveleri), Backtrader ve NautilusTrader (backtest ve işlem çerçeveleri) ve QuantConnect&#39;in LEAN motoru bulunur. Bunlar tavsiye olarak değil, örnek olarak anılıyor; gerçek parayla çalıştırdığınız her kodu inceleyin. Platforma özel bir anlatım için <a href="/blog/polymarket-trading-bot-guide.html">Polymarket işlem botu rehberine</a> bakın.</p>
+<h2 id="rnek-istek-limiti-ve-risk-b-t-esi">Örnek: istek limiti ve risk bütçesi</h2>
+<p>Bir borsa dakikada 1,200&#39;lük istek ağırlığına izin veriyor (açıklayıcı bir rakam; kullandığınız platformun belgelerini kontrol edin). Bir bot 10 piyasayı takip ediyor.</p>
+<ul>
+<li>Her piyasanın emir defterini her saniye 5 ağırlıkla sorgulamak dakikada 10 × 5 × 60 = 3,000&#39;e mal olur; bu, limitin 2.5 katıdır. Bot yasaklanırdı.</li>
+<li>Piyasa verisini WebSocket akışlarına geçirmek bu istekleri ortadan kaldırır. Bot bundan sonra her biri 1 ağırlıkta dakikada yaklaşık 40 emir verir veya iptal eder, artı 10 ağırlıkta dakikada bir bakiye kontrolü yaparsa, dakikada yaklaşık 50 kullanır; bu da bütçenin 4% civarıdır.</li>
+</ul>
+<p>Risk tarafında hesapta 10,000 dolar var. Bot maruziyeti piyasa başına 20% (2,000 dolar) ile sınırlıyor ve 3% (300 dolar) günlük zararda işlemi durduruyor. Acil durdurma devreye girmeden önce her açık pozisyon sert biçimde aleyhe hareket etse bile, en kötü senaryo şansla değil, bu limitlerle ve durdurma mantığıyla sınırlıdır.</p>
+<h2 id="common-mistakes">Sık yapılan hatalar</h2>
+<ul>
+<li><strong>Yeniden bağlanma mantığı olmaması.</strong> WebSocket akışları kopar; sessizce güncellenmeyi bırakan bir bot bayat fiyatlarla işlem yapar.</li>
+<li><strong>Emirlerin dolacağını varsaymak.</strong> Kısmi dolumları, reddedilmeleri ve iptalleri açıkça ele alın.</li>
+<li><strong>İdempotans olmadan yeniden denemek.</strong> Zaman aşımına uğrayan bir emir yine de kabul edilmiş olabilir; yeniden göndermek pozisyonu ikiye katlayabilir.</li>
+<li><strong>Para çekme yetkili anahtarlar.</strong> Bu, herhangi bir sunucu ihlalini toplam kayba dönüştürür.</li>
+<li><strong>Acil durdurma düğmesi olmadan canlıya geçmek.</strong> Hatalar kesindir; sınırsız hatalar ise isteğe bağlı.</li>
+<li><strong>Yalnızca sakin piyasalarda test etmek.</strong> Oynak dönemler yarış koşullarını (race condition) ve istek limiti sorunlarını açığa çıkarır.</li>
+</ul>
+<h2 id="faq">Sıkça sorulan sorular</h2>
+<h3 id="trading-botu-i-in-en-iyi-programlama-dili-hangisi">Trading botu için en iyi programlama dili hangisi?</h3>
+<p>Kütüphaneleri ve kullanım kolaylığı nedeniyle bireysel botlar için en yaygın tercih Python&#39;dır. Gecikme veya çok yüksek mesaj hızları önemli olduğunda C++, Rust veya Java gibi daha hızlı diller kullanılır.</p>
+<h3 id="trading-botlar-k-r-ettirir-mi">Trading botları kâr ettirir mi?</h3>
+<p>Bir bot yalnızca bir stratejiyi otomatikleştirir; avantaj yaratmaz. Pek çok bot, temeldeki strateji maliyetler sonrasında avantaj taşımadığı için ya da yazılım ve risk kontrolü arızaları nedeniyle para kaybeder.</p>
+<h3 id="bir-trading-botuna-api-anahtar-m-vermek-g-venli-mi">Bir trading botuna API anahtarımı vermek güvenli mi?</h3>
+<p>Anahtar para çekemiyorsa, bilinen IP adresleriyle sınırlıysa ve fonları sınırlandırılmış bir alt hesapla kısıtlıysa makul ölçüde güvenli olabilir. Para çekme yetkili anahtarları veya cüzdan kurtarma ifadelerini üçüncü taraf hizmetlerle asla paylaşmayın.</p>
+<h3 id="algoritmik-i-lemde-kill-switch-nedir">Algoritmik işlemde kill switch nedir?</h3>
+<p>Acil durdurma düğmesi (kill switch), günlük zarar veya emir hızı gibi limitler aşıldığında bir işlem sistemini otomatik ya da manuel olarak durduran, emirlerini iptal eden ve yapılandırılmışsa pozisyonları kapatan bir kontroldür.</p>
+</article>
+<div class="disclaimer"><strong>Yalnızca eğitim amaçlıdır.</strong> Buradaki hiçbir içerik finansal, yatırım, hukuki veya vergi tavsiyesi değildir. Alım satım yüksek kayıp riski taşır ve kaldıraçlı ürünlerde yatırdığınızdan fazlasını kaybedebilirsiniz. Kurallar, ücretler ve platform koşulları değişir: işlem yapmadan önce güncel koşulları aracı kurumunuz, borsanız veya düzenleyici kurumla teyit edin.</div>
+<section class="related"><h2>İlgili makaleler</h2><div class="cards"><a class="card" href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Algoritmik İşleme Giriş</b><span>Algoritmik işlem nedir, bireysel ve kurumsal algo trading nasıl ayrılır? Fikirden canlı bota giden yol, yaygın programlama dilleri ve gerçekçi beklentiler.</span></a><a class="card" href="/tr/encyclopedia/algorithmic-trading/backtesting/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Backtest</b><span>Kendinizi kandırmadan backtest yapmanın yolu: veri kalitesi, hayatta kalma ve ileriye bakma yanlılığı, maliyetler, walk-forward testi ve temel metrikler.</span></a><a class="card" href="/tr/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Piyasa Verileri</b><span>Trader'lar için piyasa verisi: tick ve bar verisi, Level 1, 2 ve 3 akışları, geçmiş veri kaynakları, maliyet ve lisans, zaman damgaları ve veri temizleme.</span></a><a class="card" href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Emir Yürütme Algoritmaları</b><span>Emir yürütme algoritmaları nasıl çalışır: TWAP, VWAP, POV ve implementation shortfall, akıllı emir yönlendirme, kayma ölçümü ve emir yürütmenin getiriye etkisi.</span></a><a class="card" href="/tr/encyclopedia/crypto/crypto-wallet-security/"><div class="k">Kripto Para İşlemleri</div><b>Cüzdan Güvenliği</b><span>Trader'lar kriptolarını nasıl korur? Kendi kendine saklama, seed phrase, donanım cüzdan, token onayları, drainer'lar, oltalama ve API anahtarları.</span></a></div></section>
+<div class="pager"><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/"><small>← Önceki</small>Emir Yürütme Algoritmaları</a><a class="next" href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/"><small>Sonraki →</small>Copy Trading ve Sosyal Trading</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/tr/encyclopedia/basics/">Trading'in Temelleri</a><a href="/tr/encyclopedia/risk-management/">Risk ve Para Yönetimi</a><a href="/tr/encyclopedia/psychology/">Trading Psikolojisi</a><a href="/tr/encyclopedia/technical-analysis/">Teknik Analiz</a><a href="/tr/encyclopedia/fundamental-analysis/">Temel ve Makro Analiz</a><a href="/tr/encyclopedia/stocks/">Hisse Senedi İşlemleri</a><a href="/tr/encyclopedia/forex/">Forex İşlemleri</a><a href="/tr/encyclopedia/futures/">Vadeli İşlemler</a><a href="/tr/encyclopedia/options/">Opsiyon İşlemleri</a><a href="/tr/encyclopedia/crypto/">Kripto Para İşlemleri</a><a href="/tr/encyclopedia/meme-coins/">Meme Coin İşlemleri</a><a href="/tr/encyclopedia/prediction-markets/">Tahmin Piyasaları</a><a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a><a href="/tr/encyclopedia/other-markets/">Emtia, Tahvil ve Diğerleri</a><a href="/tr/encyclopedia/trading-business/">Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a><a href="/tr/encyclopedia/reference/">Başvuru Kaynakları</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Açık kaynak trading botları</a></div>
+  <p>PnL Profit Trading Ansiklopedisi: büyük piyasaların nasıl işlediğine dair ücretsiz ve bağımsız açıklamalar. Eğitim amaçlıdır, yatırım tavsiyesi değildir. İletişim: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/tr/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sonuç bulunamadı. Sözlüğe göz atın.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

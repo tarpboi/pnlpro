@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>预测市场如何结算：规则、预言机与争议 | PnL Profit</title>
+<meta name="description" content="预测市场的结果如何判定：结算规则与数据来源，UMA 乐观预言机与争议机制，Chainlink 价格数据，以及规则含糊带来的风险。">
+<meta name="keywords" content="预测市场结算, UMA乐观预言机, Polymarket 争议, Chainlink 价格预言机, 市场结算规则">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="预测市场如何结算：规则、预言机与争议 | PnL Profit">
+<meta property="og:description" content="预测市场的结果如何判定：结算规则与数据来源，UMA 乐观预言机与争议机制，Chainlink 价格数据，以及规则含糊带来的风险。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="预测市场如何结算：规则、预言机与争议 | PnL Profit">
+<meta name="twitter:description" content="预测市场的结果如何判定：结算规则与数据来源，UMA 乐观预言机与争议机制，Chainlink 价格数据，以及规则含糊带来的风险。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"预测市场如何结算：规则、预言机与争议","description":"预测市场的结果如何判定：结算规则与数据来源，UMA 乐观预言机与争议机制，Chainlink 价格数据，以及规则含糊带来的风险。","keywords":"预测市场结算, UMA乐观预言机, Polymarket 争议, Chainlink 价格预言机, 市场结算规则","articleSection":"预测市场","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"预测市场","item":"https://pnlpro.fit/zh/encyclopedia/prediction-markets/"},{"@type":"ListItem","position":3,"name":"结算与预言机","item":"https://pnlpro.fit/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"Polymarket 如何判定市场结果？","acceptedAnswer":{"@type":"Answer","text":"Polymarket 的大多数市场通过 UMA 的乐观预言机结算。有人缴纳保证金提出一个结果，如果在质疑窗口内没人提出争议，该结果就成立。有争议的情况可能升级为 UMA 代币持有者投票。"}},{"@type":"Question","name":"预测市场中的预言机是什么？","acceptedAnswer":{"@type":"Answer","text":"预言机是把现实世界的信息（例如选举结果或资产价格）传送到区块链上、使智能合约能够结算的系统。例子包括用于事件问题的 UMA 乐观预言机，以及用于加密货币价格的 Chainlink 价格数据源。"}},{"@type":"Question","name":"如果预测市场结算错误会怎样？","acceptedAnswer":{"@type":"Answer","text":"在基于预言机的平台上，交易者可以在质疑窗口内对提出的结果提出争议，这可能引发投票。在受监管的交易所，适用交易所的规则和争议程序。市场一旦最终结算，通常不会被撤销。"}},{"@type":"Question","name":"为什么我的交易所显示价格上涨了，我押“涨”的加密涨跌却输了？","acceptedAnswer":{"@type":"Answer","text":"回合依据规则中指定的价格数据源结算，例如 Chainlink 价格数据流，而不是任何单一交易所的屏幕。不同来源之间的细微差别，可能决定一个胜负接近的回合。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>预测市场</h3><ul><li><a href="/zh/encyclopedia/prediction-markets/prediction-markets-explained/">预测市场详解</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-pricing/">定价与概率</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-platforms/">平台对比</a></li><li><a href="/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/" class="on" aria-current="page">结算与预言机</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-strategies/">策略概览</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-arbitrage/">套利</a></li><li><a href="/zh/encyclopedia/prediction-markets/market-making-on-prediction-markets/">做市</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-regulation/">监管</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/" class="on">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/prediction-markets/">预测市场</a></div>
+<h1 class="title">市场结算与预言机</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>预测市场中的更多文章</summary><ul><li><a href="/zh/encyclopedia/prediction-markets/prediction-markets-explained/">预测市场详解</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-pricing/">定价与概率</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-platforms/">平台对比</a></li><li><a href="/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/" class="on" aria-current="page">结算与预言机</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-strategies/">策略概览</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-arbitrage/">套利</a></li><li><a href="/zh/encyclopedia/prediction-markets/market-making-on-prediction-markets/">做市</a></li><li><a href="/zh/encyclopedia/prediction-markets/prediction-market-regulation/">监管</a></li></ul></details>
+<article><p>结算（resolution）是判定<a href="/zh/encyclopedia/prediction-markets/prediction-markets-explained/">预测市场</a>中哪个结果获胜、从而哪些合约支付 $1 的过程。受监管的交易所通过把公布的规则应用于指定的数据来源来结算市场，而许多加密平台使用预言机（oracle），即把现实世界的事实带到区块链上的系统。由于一份合约的价值完全取决于它如何结算，误读规则是交易者即使正确预测了事件、仍然亏钱的最常见原因之一。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点总结</h2>
+<ul>
+<li>每个市场都有书面规则，界定问题、截止时间、数据来源以及边缘情况下如何处理。</li>
+<li>Polymarket 的大多数市场通过 UMA 的乐观预言机结算：提出的答案只要没人缴纳保证金提出质疑，就会成立。</li>
+<li>短周期加密货币涨跌回合，例如 Predict.fun 的 5 分钟和 15 分钟市场，依据特定的价格数据源结算，这可能与你在交易所看到的价格略有不同。</li>
+<li>措辞含糊、数据缺失，以及提前结算或按 50/50 结算，都是价格可能并未反映的真实风险。</li>
+<li>交易前要阅读完整规则，而不只是标题。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">结算规则包含哪些内容</a></li><li><a href="#section-3">受监管交易所如何结算市场</a></li><li><a href="#uma">UMA 乐观预言机如何运作</a></li><li><a href="#section-5">加密回合的价格数据源</a></li><li><a href="#section-7">结算含糊的风险</a></li><li><a href="#section-9">结算风险与策略</a></li><li><a href="#section-10">交易前如何阅读规则</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">结算规则包含哪些内容</h2>
+<p>市场的标题只是摘要，下面的规则才是合约本身。规则通常会规定：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>要素</th>
+<th>它决定什么</th>
+<th>陷阱示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>问题</td>
+<td>究竟必须发生什么</td>
+<td>“宣布”一项交易与“完成”一项交易</td>
+</tr>
+<tr>
+<td>截止时间</td>
+<td>时间与时区</td>
+<td>美东时间晚上 11:59 与 UTC 午夜</td>
+</tr>
+<tr>
+<td>来源</td>
+<td>以哪家出版物或哪个数据源为准</td>
+<td>官方机构发布与媒体报道</td>
+</tr>
+<tr>
+<td>边缘情况</td>
+<td>延期、取消、修订、平局</td>
+<td>推迟举行的赛事，或一个月后被修订的数据</td>
+</tr>
+<tr>
+<td>后备方案</td>
+<td>来源不可用时怎么办</td>
+<td>按 50/50 结算或结算为默认结果</td>
+</tr>
+</tbody></table></div>
+<p>平台有时会在市场开盘后发布澄清说明。这可能改变交易者原以为自己买到的东西，所以要留意你持仓市场的更新。</p>
+<h2 id="section-3">受监管交易所如何结算市场</h2>
+<p>在 Kalshi 这样受 CFTC 监管的交易所（其法律地位详见<a href="/zh/encyclopedia/prediction-markets/prediction-market-regulation/">预测市场监管</a>），每份合约的条款都以书面形式列明，并向监管机构备案。交易所会指定来源，例如通胀合约以政府统计机构为准，并在该来源公布数据后据此判定结果。规则通常会说明以首次发布为准，还是后续修订也算数。争议通过交易所自己的程序处理，而不是公开投票。其中的取舍很明确：决策清晰、集中，代价是你需要信任交易所的流程。</p>
+<h2 id="uma">UMA 乐观预言机如何运作</h2>
+<p>Polymarket 的大多数市场通过 UMA 的乐观预言机结算；其他平台的差异详见<a href="/zh/encyclopedia/prediction-markets/prediction-market-platforms/">平台对比</a>。“乐观”是指系统假定提出的答案是正确的，除非有人反对。总体而言，流程如下：</p>
+<ol>
+<li><strong>提议</strong>。事件发生后，有人提出一个结果并缴纳保证金（bond），如果提议被证明是错的，这笔钱就会被没收。</li>
+<li><strong>质疑窗口</strong>。随后是一段等待期，通常为几个小时。任何认为提议有误的人都可以缴纳等额保证金提出争议。</li>
+<li><strong>无争议</strong>。如果没人提出争议，提议被接受，市场结算。</li>
+<li><strong>有争议</strong>。在 Polymarket 的设置中，第一次争议通常会引出新一轮提议。再次出现争议则升级到 UMA 的投票系统，由 UMA 代币持有者在几天时间里就正确答案进行投票。</li>
+<li><strong>保证金结算</strong>。投票失败的一方没收保证金，其中一部分归正确的一方。</li>
+</ol>
+<p>在结果明确的情况下（大多数时候都是如此），这种设计既便宜又快速。它的弱点在有争议的问题上显现出来。由于最终决定权在代币持有者手中，批评者认为大户可能左右结果，使之对自己有利。2025 年一场广为报道的争议，涉及一个关于美国-乌克兰矿产协议的市场，招致的正是这种批评。结算细节可能会变，请查看平台的现行文档。</p>
+<h2 id="section-5">加密回合的价格数据源</h2>
+<p>短期加密货币市场的问题是：某个币种在时间窗口结束时的价格会比开始时更高还是更低。这类市场需要两个精确时刻的精确价格，因此使用价格数据源（price feed），而不是人工提议。</p>
+<ul>
+<li><strong>Chainlink</strong> 运营去中心化预言机网络，发布从众多来源汇总的资产价格。Predict.fun 的 5 分钟和 15 分钟加密货币涨跌回合依据 Chainlink 价格数据流结算，其他平台上的一些市场也使用 Chainlink 数据。</li>
+<li><strong>交易所价格</strong>。有些市场则以某个特定交易所的价格或 K 线为准，例如某指定交易所的一小时收盘价。</li>
+</ul>
+<p>以规则中指定的数据源为准。不同交易所的价格在任何时刻都有细微差别，汇总数据源的更新时间也可能与你盯着的交易所略有不同。在由几美元决定胜负的 5 分钟回合中，这一差别可能让结果翻转。博客指南 <a href="/blog/btc-updown-arbitrage-guide.html">BTC 涨跌市场</a>讨论了这类快节奏回合。</p>
+<h3 id="15">实例：15 分钟回合</h3>
+<p>一个 15 分钟比特币回合开盘时，结算数据源读数为 $64,000.00。你以 47 美分买入 50 份“涨”（Up），支付 50 × $0.47 = $23.50。</p>
+<ul>
+<li>收盘时结算数据源读数为 $64,012.50，因此“涨”获胜。你收到 50 × $1.00 = $50.00，不计手续费利润为 $26.50。</li>
+<li>同一时刻，你盯着的那家交易所显示 $63,995。如果你只看那块屏幕交易，可能会以为自己输了。结果以规则中的数据源为准，而不是你的屏幕。</li>
+</ul>
+<p>规则还会说明结束价格恰好等于开始价格时怎么办。有些回合把平局算作某一方获胜；交易前请先确认。</p>
+<h2 id="section-7">结算含糊的风险</h2>
+<p>有些市场最终落入灰色地带。常见原因：</p>
+<ul>
+<li><strong>措辞宽松</strong>。“X 会与 Y 会面吗？”可能没有界定一通电话算不算。</li>
+<li><strong>来源问题</strong>。指定来源停止发布、改变方法，或与其他报道相互矛盾。</li>
+<li><strong>事件变化</strong>。比赛推迟、投票延期，或候选人退选。</li>
+<li><strong>提前结算</strong>。有些规则允许在结果确定后、截止时间前就结算市场。</li>
+<li><strong>拆分结果</strong>。有些平台会把确实无法判定的市场按 50/50 结算，双方每份都支付 50 美分。</li>
+</ul>
+<h3 id="50-50">实例：按 50/50 结算</h3>
+<p>你持有 100 份以 70 美分买入的 NO（$70.00）。另一位交易者持有 100 份以 30 美分买入的 YES（$30.00）。市场被宣布无法判定，按 50/50 结算。</p>
+<ul>
+<li>你收到 100 × $0.50 = $50.00，亏损 $20.00。</li>
+<li>YES 持有者收到 $50.00，盈利 $20.00。</li>
+</ul>
+<p>你们两人对事件的判断都谈不上“正确”，但规则让 $20 在你们之间易手。在远离 50 美分的价位买入的头寸，对这类结果有隐藏的敞口。</p>
+<h2 id="section-9">结算风险与策略</h2>
+<p>有几种策略直接依赖于结算：</p>
+<ul>
+<li><strong>结算狙击</strong>（resolution sniping）在结算前不久买入近乎确定的结果。它的主要风险正是这里所说的罕见意外或技术细节。参见<a href="/zh/encyclopedia/prediction-markets/prediction-market-strategies/">策略概览</a>和博客指南<a href="/blog/resolution-sniping-guide.html">结算狙击</a>。</li>
+<li><strong>跨平台套利</strong>假定两个平台会以同样的方式结算“同一个”问题。当规则不同时，两条腿可能都亏。参见<a href="/zh/encyclopedia/prediction-markets/prediction-market-arbitrage/">预测市场套利</a>。</li>
+<li><strong>临近结算时做市</strong>会面对可能比价格更早知道答案的知情交易者。参见<a href="/zh/encyclopedia/prediction-markets/market-making-on-prediction-markets/">预测市场做市</a>。</li>
+</ul>
+<h2 id="section-10">交易前如何阅读规则</h2>
+<ol>
+<li>阅读完整规则，而不只是标题。</li>
+<li>记下确切的截止时间和时区。</li>
+<li>确认结算来源，并核实它确实会发布规则所需的内容。</li>
+<li>查找有关延期、平局和修订的边缘情况条款。</li>
+<li>检查市场开盘以来新增的澄清说明或评论。</li>
+<li>问问自己：一个讲道理的人能否对这个问题作出两种解读？如果能，就把这一风险计入你的<a href="/zh/encyclopedia/prediction-markets/prediction-market-pricing/">概率估计</a>，或者干脆跳过这个市场。</li>
+</ol>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>只看标题交易</strong>。标题不是合约。</li>
+<li><strong>盯错了价格</strong>。对于加密回合，起决定作用的是结算数据源，而不是你最喜欢的交易所。</li>
+<li><strong>以为争议总能纠正错误</strong>。提出争议要花钱、花时间，投票结果也未必符合你认为公平的方向。</li>
+<li><strong>忽视时区</strong>。某个时区的截止时间，可能比你所在时区早几个小时到来。</li>
+<li><strong>争议期间恐慌性折价卖出</strong>。争议期间价格常常大幅摆动；在作出反应前先了解流程。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="polymarket">Polymarket 如何判定市场结果？</h3>
+<p>Polymarket 的大多数市场通过 UMA 的乐观预言机结算。有人缴纳保证金提出一个结果，如果在质疑窗口内没人提出争议，该结果就成立。有争议的情况可能升级为 UMA 代币持有者投票。</p>
+<h3 id="section-14">预测市场中的预言机是什么？</h3>
+<p>预言机是把现实世界的信息（例如选举结果或资产价格）传送到区块链上、使智能合约能够结算的系统。例子包括用于事件问题的 UMA 乐观预言机，以及用于加密货币价格的 Chainlink 价格数据源。</p>
+<h3 id="section-15">如果预测市场结算错误会怎样？</h3>
+<p>在基于预言机的平台上，交易者可以在质疑窗口内对提出的结果提出争议，这可能引发投票。在受监管的交易所，适用交易所的规则和争议程序。市场一旦最终结算，通常不会被撤销。</p>
+<h3 id="section-16">为什么我的交易所显示价格上涨了，我押“涨”的加密涨跌却输了？</h3>
+<p>回合依据规则中指定的价格数据源结算，例如 Chainlink 价格数据流，而不是任何单一交易所的屏幕。不同来源之间的细微差别，可能决定一个胜负接近的回合。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/prediction-markets/prediction-markets-explained/"><div class="k">预测市场</div><b>预测市场详解</b><span>什么是预测市场，$1 事件合约如何运作，从爱荷华电子市场到 Polymarket 和 Kalshi 的发展史，以及它与博彩和期权有何不同。</span></a><a class="card" href="/zh/encyclopedia/prediction-markets/prediction-market-platforms/"><div class="k">预测市场</div><b>平台对比</b><span>中立对比 Polymarket、Kalshi、Predict.fun、PredictIt、Manifold、Limitless 等平台：监管、抵押品、手续费、市场类型与准入限制。</span></a><a class="card" href="/zh/encyclopedia/prediction-markets/prediction-market-arbitrage/"><div class="k">预测市场</div><b>套利</b><span>预测市场套利怎么做：YES/NO 互补套利与多结果套利，跨平台价差，手续费，资金占用，以及规则不一致的风险。</span></a><a class="card" href="/zh/encyclopedia/prediction-markets/prediction-market-strategies/"><div class="k">预测市场</div><b>策略概览</b><span>预测市场的主要策略：信息优势、结算狙击、套利、做市、短周期加密货币涨跌回合和跟单交易，以及各自的风险。</span></a><a class="card" href="/zh/encyclopedia/prediction-markets/prediction-market-pricing/"><div class="k">预测市场</div><b>定价与概率</b><span>预测市场价格如何对应概率，YES 和 NO 为何相加等于 $1，抽水（overround），赔率换算，手续费，时间价值和冷门偏差，附计算实例。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/prediction-markets/prediction-market-platforms/"><small>← 上一篇</small>平台对比</a><a class="next" href="/zh/encyclopedia/prediction-markets/prediction-market-strategies/"><small>下一篇 →</small>策略概览</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

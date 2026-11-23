@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>什么是高频交易（HFT）？原理与运作详解 | PnL Profit</title>
+<meta name="description" content="高频交易公司到底做什么：托管机房、延迟军备竞赛、电子化做市与延迟套利、相关争议，以及散户为何无法在速度上与之竞争。">
+<meta name="keywords" content="高频交易, HFT, 什么是高频交易, 托管机房, 延迟套利">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="什么是高频交易（HFT）？原理与运作详解 | PnL Profit">
+<meta property="og:description" content="高频交易公司到底做什么：托管机房、延迟军备竞赛、电子化做市与延迟套利、相关争议，以及散户为何无法在速度上与之竞争。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="什么是高频交易（HFT）？原理与运作详解 | PnL Profit">
+<meta name="twitter:description" content="高频交易公司到底做什么：托管机房、延迟军备竞赛、电子化做市与延迟套利、相关争议，以及散户为何无法在速度上与之竞争。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"什么是高频交易（HFT）？原理与运作详解","description":"高频交易公司到底做什么：托管机房、延迟军备竞赛、电子化做市与延迟套利、相关争议，以及散户为何无法在速度上与之竞争。","keywords":"高频交易, HFT, 什么是高频交易, 托管机房, 延迟套利","articleSection":"算法与量化交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/high-frequency-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"算法与量化交易","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"高频交易","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/high-frequency-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"高频交易合法吗？","acceptedAnswer":{"@type":"Answer","text":"合法。在主要市场，HFT 是合法的，但须遵守有关风控、测试和市场行为的规定。幌骗和层叠挂单（layering）等操纵行为，无论是否以高速实施都是违法的。"}},{"@type":"Question","name":"高频交易会伤害散户吗？","acceptedAnswer":{"@type":"Answer","text":"证据不一。研究普遍发现，自动化做市已为流动性好的市场中的普通投资者收窄了点差，但批评者指出，在市场承压时流动性会消失，而且对速度敏感的策略而言竞争环境并不公平。"}},{"@type":"Question","name":"高频交易有多快？","acceptedAnswer":{"@type":"Answer","text":"领先的公司以微秒衡量反应时间，最快的基于硬件的系统则以纳秒计。一笔典型的散户订单仅仅在互联网上传输就要几十毫秒甚至更久。"}},{"@type":"Question","name":"我能在家做高频交易吗？","acceptedAnswer":{"@type":"Answer","text":"在专业意义上不能。真正的 HFT 需要托管机房、交易所直连行情和专用硬件，其成本远超任何散户账户所能承担的范围，因此居家交易者应设计不依赖速度的策略。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/high-frequency-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/algorithmic-trading/high-frequency-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/high-frequency-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/high-frequency-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>算法与量化交易</h3><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/" class="on" aria-current="page">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/" class="on">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a></div>
+<h1 class="title">高频交易</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>算法与量化交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/" class="on" aria-current="page">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul></details>
+<article><p>高频交易（high-frequency trading，HFT）是<a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易</a>的一种形式，它借助极快的计算机、专用网络以及紧邻交易所的服务器，在极短的时间间隔内交易，持仓时间往往只有几秒甚至更短。在许多电子化市场中，HFT 公司提供了很大一部分报价，主要以做市商和套利者的身份参与。它们的速度优势以微秒计，这就是散户无法在速度上与之竞争、也不应尝试的原因。</p>
+<div class="takeaways"><h2 id="key-takeaways">核心要点</h2>
+<ul>
+<li>HFT 的定义在于速度、巨大的订单量和极短的持仓时间，而不是某一种特定策略。</li>
+<li>HFT 的主要业务是做市、跨交易场所的延迟套利，以及极短期的统计策略。</li>
+<li>这些公司为托管机房、直连行情和高速网络付费，因为抢先一步往往就是全部优势所在。</li>
+<li>研究普遍认为，在正常市况下算法交易和高频交易与更窄的点差相关，但批评者指出其流动性脆弱、准入不平等。</li>
+<li>散户的网络连接比托管服务器慢数千倍，因此散户的优势必须来自速度以外的地方。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#hft">什么算 HFT</a></li><li><a href="#hft">HFT 公司做什么</a></li><li><a href="#section-8">托管机房与延迟军备竞赛</a></li><li><a href="#section-9">争议</a></li><li><a href="#section-10">散户为何无法在速度上竞争</a></li><li><a href="#section-11">实例</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="hft">什么算 HFT</h2>
+<p>全球并没有统一的法律定义。例如，欧盟 MiFID II 框架从三个方面描述高频算法交易技术：为最大限度降低延迟而构建的基础设施（如托管或邻近托管）、无需人工干预即可做出下单决策的系统，以及很高的日内消息速率。实际上，HFT 公司有几个共同特征：</p>
+<ul>
+<li>持仓时间从微秒到几分钟不等，通常收盘时几乎没有或完全没有库存。</li>
+<li>订单数量极大，其中大多数在成交前就被撤销。</li>
+<li>每笔交易利润很小，但乘以巨大的交易量。</li>
+<li>在硬件、软件和网络连接上投入巨大。</li>
+</ul>
+<h2 id="hft">HFT 公司做什么</h2>
+<h3 id="section-4">电子化做市</h3>
+<p>HFT 最大的业务是<a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a>：在数千个品种上持续挂出买价和卖价。速度之所以重要，是因为做市商必须在合理价格变化的瞬间更新报价，赶在更快的交易者按过时价格与之成交之前。许多在交易所担任指定做市商或流动性提供者的公司都是 HFT 公司。</p>
+<h3 id="section-5">延迟套利</h3>
+<p>当相同或相关的品种在多个交易场所交易时，各处价格的更新时间会略有先后。率先在某个场所看到价格变动的公司，可以在另一个场所的报价调整之前就在那里交易。例子包括在多家交易所之间对同一只股票进行对冲交易，或用股票和 ETF 对冲另一座城市的股指期货。这是<a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a>中跨场所套利和指数套利的高速版本。</p>
+<h3 id="section-6">短期统计策略</h3>
+<p>一些公司利用<a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿</a>中的模式预测未来几秒的价格走势，例如买卖挂单量的失衡，或相关品种的交易流。</p>
+<h3 id="section-7">事件与新闻交易</h3>
+<p>机器可读的新闻源和经济数据发布可以在微秒内被解析并交易。速度决定了谁能按旧价格成交。</p>
+<h2 id="section-8">托管机房与延迟军备竞赛</h2>
+<p>光纤中的信号传播速度约为真空中光速的三分之二，大约每毫秒200公里。距离每增加一公里都会增加延迟，因此 HFT 公司付费给交易所，把服务器放在与撮合引擎相同的数据中心里，这被称为托管（co-location）。交易所通常会让数据中心内的线缆长度保持一致，使托管客户获得相同的延迟。</p>
+<p>在相距遥远的市场之间，各公司在网络线路上展开竞争。2010年前后，一条连接芝加哥期货市场与新泽西数据中心的专用光纤线路，比之前的线路缩短了几毫秒。随后出现了微波网络以及后来的毫米波无线网络，因为无线电信号在空气中传播的速度比光在玻璃中更快，而且路径可以更直。在自身系统内部，这些公司使用 FPGA（可编程芯片）等专用硬件，在纳秒级做出反应。</p>
+<p>经济学家 Budish、Cramton 和 Shim 在2015年的一篇论文中认为，正是连续交易本身造就了这场军备竞赛，因为微小的速度差异决定了谁能吃到每一个过时的报价。他们提出了频繁批量拍卖作为另一种市场设计方案，即按固定的短间隔撮合订单，而不是连续撮合。</p>
+<h2 id="section-9">争议</h2>
+<ul>
+<li><strong>2010年闪电崩盘。</strong> 2010年5月6日，美国股指急剧下跌，又在几分钟内反弹。官方报告称，股指期货中一笔大额自动卖单是导火索，而 HFT 和其他参与者纷纷撤退，导致流动性迅速枯竭。</li>
+<li><strong>“幻影”流动性。</strong> 大额订单一靠近，报价就可能消失，因此显示的深度可能高估了实际可成交的数量。</li>
+<li><strong>准入不平等。</strong> 批评者认为，花钱买速度让一些公司能抢在较慢的投资者之前交易。Michael Lewis 2014年出版的《Flash Boys》让这场争论广为人知。大约在同一时期推出的交易所 IEX 增加了一个微小的人为延迟，常被称为“减速带”（speed bump），用以削弱某些延迟策略。</li>
+<li><strong>操纵。</strong> 幌骗（spoofing），即挂出意在撤销的订单以误导他人，在主要市场都是违法的，并已引发刑事起诉。这并不是 HFT 的正常策略，但 HFT 的速度和交易量让监控更加困难。</li>
+<li><strong>好处。</strong> 学术研究，例如 Hendershott、Jones 和 Menkveld 2011年关于美股算法交易的研究，普遍发现在正常市况下，更多的自动化交易伴随着更窄的点差和信息含量更高的价格。与电子化交易出现之前相比，投资流动性好股票的散户如今支付的点差要小得多。</li>
+</ul>
+<p>如今许多司法辖区的监管机构要求算法交易者具备交易前风控、紧急停止开关、测试和记录保存。具体规定因国家而异，并会随时间变化。</p>
+<h2 id="section-10">散户为何无法在速度上竞争</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>因素</th>
+<th>托管的 HFT 公司</th>
+<th>典型散户</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>与撮合引擎的距离</td>
+<td>几米</td>
+<td>数百到数千公里</td>
+</tr>
+<tr>
+<td>反应时间</td>
+<td>微秒到纳秒级</td>
+<td>几十到几百毫秒，外加券商处理时间</td>
+</tr>
+<tr>
+<td>行情数据</td>
+<td>交易所直连行情</td>
+<td>汇总行情或券商行情，有时有延迟或限流</td>
+</tr>
+<tr>
+<td>订单路由</td>
+<td>直接市场接入</td>
+<td>经由券商系统</td>
+</tr>
+<tr>
+<td>每笔交易成本</td>
+<td>协商费率、返佣</td>
+<td>零售费用和点差</td>
+</tr>
+</tbody></table></div>
+<p>现实的结论并不是散户交易毫无意义，而是散户策略不应依赖抢先一步。持仓数小时到数月、小众市场以及精细的<a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行</a>是现实可行的领域；对新闻标题做出反应或在主要交易场所之间套利价差，通常则不是。</p>
+<h2 id="section-11">实例</h2>
+<h3 id="section-12">距离与延迟</h3>
+<p>一位伦敦的交易者向位于新泽西的美国证券交易所数据中心发送订单。两地的大圆距离约为5,570公里。</p>
+<ul>
+<li>光纤中的最短单程时间 ≈ 5,570 / 200 ≈ 28毫秒。实际的线缆路线更长，券商和互联网的处理还会增加更多时间。</li>
+<li>因此，一个来回（发送订单、收到确认）至少约需56毫秒。</li>
+<li>托管服务器对同一市场事件的反应可能只需几微秒。一毫秒等于1,000微秒，所以散户订单要慢数千倍。</li>
+</ul>
+<h3 id="section-13">微小优势，巨大交易量</h3>
+<p>假设一家 HFT 做市商每交易一股平均净赚0.1美分（0.001美元），每天在众多股票上交易1亿股。</p>
+<ul>
+<li>每日利润 = 0.001 × 100,000,000 = 100,000美元。</li>
+<li>如果每股只赚0.0005美元，利润减半至50,000美元。</li>
+</ul>
+<p>这些数字只是示意，但说明了 HFT 公司为何要争夺几分之一美分和几分之一微秒。拥有这种成本结构的生意，不是支付零售费用的交易者能够做的。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>用家用网络剥头皮抢新闻或在主要交易场所之间套利。</strong> 等散户订单到达时，机会通常早已消失。</li>
+<li><strong>花钱买“低延迟”VPS 并指望获得优势。</strong> 它能减少延迟和断线，但无法让散户的配置与托管机房竞争。</li>
+<li><strong>把每一笔亏损都归咎于 HFT。</strong> 散户的大多数亏损来自成本、杠杆和糟糕的策略。</li>
+<li><strong>相信显示的深度。</strong> 报价可能瞬间撤销；要根据实际成交的流动性来确定订单规模。行情数据的选择在<a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a>中有介绍。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-16">高频交易合法吗？</h3>
+<p>合法。在主要市场，HFT 是合法的，但须遵守有关风控、测试和市场行为的规定。幌骗和层叠挂单（layering）等操纵行为，无论是否以高速实施都是违法的。</p>
+<h3 id="section-17">高频交易会伤害散户吗？</h3>
+<p>证据不一。研究普遍发现，自动化做市已为流动性好的市场中的普通投资者收窄了点差，但批评者指出，在市场承压时流动性会消失，而且对速度敏感的策略而言竞争环境并不公平。</p>
+<h3 id="section-18">高频交易有多快？</h3>
+<p>领先的公司以微秒衡量反应时间，最快的基于硬件的系统则以纳秒计。一笔典型的散户订单仅仅在互联网上传输就要几十毫秒甚至更久。</p>
+<h3 id="section-19">我能在家做高频交易吗？</h3>
+<p>在专业意义上不能。真正的 HFT 需要托管机房、交易所直连行情和专用硬件，其成本远超任何散户账户所能承担的范围，因此居家交易者应设计不依赖速度的策略。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/algorithmic-trading/market-making/"><div class="k">算法与量化交易</div><b>做市</b><span>教科书式的做市指南：双边报价、赚取点差、库存偏移、逆向选择、排队位置、返佣，以及 Avellaneda-Stoikov 模型。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/"><div class="k">算法与量化交易</div><b>套利策略</b><span>纯套利与统计套利，指数与ETF套利、并购套利、跨交易所套利与三角套利、基差交易，以及真正无风险的套利为何罕见。</span></a><a class="card" href="/zh/encyclopedia/basics/order-book-and-market-depth/"><div class="k">交易基础</div><b>订单簿与市场深度</b><span>限价订单簿和撮合引擎如何运作，价格时间优先原则，Level 1 与 Level 2 行情的区别，如何解读深度，幌骗，以及与做市商市场和 AMM 的对比。</span></a><a class="card" href="/zh/encyclopedia/basics/market-participants/"><div class="k">交易基础</div><b>市场参与者</b><span>散户、机构、对冲基金、做市商、高频交易公司、套期保值者、央行和巨鲸：各自想要什么，以及你真正在与谁交易。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">算法与量化交易</div><b>市场数据</b><span>交易者需要了解的行情数据：Tick 与K线数据、Level 1/2/3 行情、历史数据来源、费用与授权、时间戳与时钟同步，以及数据清洗。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/"><small>← 上一篇</small>套利策略</a><a class="next" href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/"><small>下一篇 →</small>执行算法</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

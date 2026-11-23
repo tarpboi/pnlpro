@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaldıraç ve Teminat (Marjin): Marjin Çağrısı ve Likidasyon</title>
+<meta name="description" content="Kaldıraç ve teminat nasıl çalışır: başlangıç ve sürdürme teminatı, marjin çağrısı, likidasyon, çapraz ve izole marjin, örnek hesaplar, kaldıraç limitleri.">
+<meta name="keywords" content="kaldıraç nedir, marjin çağrısı nedir, başlangıç ve sürdürme teminatı, çapraz marjin izole marjin farkı, kaldıraçlı işlem nasıl yapılır, likidasyon nedir">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/tr/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/leverage-and-margin/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Ansiklopedisi">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Kaldıraç ve Teminat (Marjin): Marjin Çağrısı ve Likidasyon">
+<meta property="og:description" content="Kaldıraç ve teminat nasıl çalışır: başlangıç ve sürdürme teminatı, marjin çağrısı, likidasyon, çapraz ve izole marjin, örnek hesaplar, kaldıraç limitleri.">
+<meta property="og:url" content="https://pnlpro.fit/tr/encyclopedia/basics/leverage-and-margin/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kaldıraç ve Teminat (Marjin): Marjin Çağrısı ve Likidasyon">
+<meta name="twitter:description" content="Kaldıraç ve teminat nasıl çalışır: başlangıç ve sürdürme teminatı, marjin çağrısı, likidasyon, çapraz ve izole marjin, örnek hesaplar, kaldıraç limitleri.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"tr","headline":"Kaldıraç ve Teminat (Marjin): Marjin Çağrısı ve Likidasyon","description":"Kaldıraç ve teminat nasıl çalışır: başlangıç ve sürdürme teminatı, marjin çağrısı, likidasyon, çapraz ve izole marjin, örnek hesaplar, kaldıraç limitleri.","keywords":"kaldıraç nedir, marjin çağrısı nedir, başlangıç ve sürdürme teminatı, çapraz marjin izole marjin farkı, kaldıraçlı işlem nasıl yapılır, likidasyon nedir","articleSection":"Trading'in Temelleri","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/tr/encyclopedia/basics/leverage-and-margin/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ansiklopedi","item":"https://pnlpro.fit/tr/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading'in Temelleri","item":"https://pnlpro.fit/tr/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"Kaldıraç ve Teminat","item":"https://pnlpro.fit/tr/encyclopedia/basics/leverage-and-margin/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"tr","mainEntity":[{"@type":"Question","name":"10x kaldıraç ne demek?","acceptedAnswer":{"@type":"Answer","text":"Pozisyonunuzun yatırdığınız paradan 10 kat büyük olduğu anlamına gelir. Fiyattaki 1%'lik bir hareket özsermayenizi yaklaşık 10% değiştirir ve aleyhinize 10%'luk bir hareket onu tamamen silebilir."}},{"@type":"Question","name":"Başlangıç teminatı ile sürdürme teminatı arasındaki fark nedir?","acceptedAnswer":{"@type":"Answer","text":"Başlangıç teminatı, bir pozisyon açmak için gereken yatırımdır. Sürdürme teminatı ise pozisyonu tutarken korumanız gereken daha düşük asgari tutardır; altına düşmek marjin çağrısını veya likidasyonu tetikler."}},{"@type":"Question","name":"Kaldıraçla yatırdığınızdan fazlasını kaybedebilir misiniz?","acceptedAnswer":{"@type":"Answer","text":"Evet, bazı hesaplarda. Piyasa bir boşlukla likidasyon seviyenizin ötesine atlarsa zararlar teminatınızı aşabilir. AB ve Birleşik Krallık'taki bireysel CFD müşterilerinin negatif bakiye koruması vardır, ancak bu her yerde geçerli değildir."}},{"@type":"Question","name":"Çapraz marjin mi, izole marjin mi daha güvenli?","acceptedAnswer":{"@type":"Answer","text":"İzole marjin her pozisyondaki zararı ona ayrılan teminatla sınırlar ve hesabınızın geri kalanını korur. Çapraz marjin tüm bakiyenizi kullanarak likidasyonu geciktirir, ancak bu durumda tek bir kötü işlem her şeyi tüketebilir."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/tr/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Ansiklopedi</small></a>
+  <nav class="top"><a href="/tr/encyclopedia/" class="on">Ansiklopedi</a><a href="/tr/encyclopedia/reference/trading-glossary/">Sözlük</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Trading botları</a></nav>
+  <details class="langmenu"><summary aria-label="Dil">🌐 <span>Türkçe</span></summary><div class="menu"><a href="/encyclopedia/basics/leverage-and-margin/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/leverage-and-margin/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/basics/leverage-and-margin/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/leverage-and-margin/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/leverage-and-margin/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/leverage-and-margin/" hreflang="tr" lang="tr" class="on" aria-current="true">Türkçe</a><a href="/vi/encyclopedia/basics/leverage-and-margin/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/leverage-and-margin/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/leverage-and-margin/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150+ makalede arayın  ( / )" autocomplete="off" aria-label="Ansiklopedide ara"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading'in Temelleri</h3><ul><li><a href="/tr/encyclopedia/basics/what-is-trading/">Trading Nedir?</a></li><li><a href="/tr/encyclopedia/basics/financial-markets-overview/">Finansal Piyasalara Genel Bakış</a></li><li><a href="/tr/encyclopedia/basics/trading-styles/">Trading Tarzları</a></li><li><a href="/tr/encyclopedia/basics/order-types/">Emir Türleri</a></li><li><a href="/tr/encyclopedia/basics/order-book-and-market-depth/">Emir Defteri ve Derinlik</a></li><li><a href="/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread ve Likidite</a></li><li><a href="/tr/encyclopedia/basics/leverage-and-margin/" class="on" aria-current="page">Kaldıraç ve Teminat</a></li><li><a href="/tr/encyclopedia/basics/long-and-short-positions/">Long ve Short</a></li><li><a href="/tr/encyclopedia/basics/trading-costs-and-fees/">İşlem Maliyetleri ve Ücretler</a></li><li><a href="/tr/encyclopedia/basics/brokers-and-exchanges/">Aracı Kurumlar ve Borsalar</a></li><li><a href="/tr/encyclopedia/basics/market-participants/">Piyasa Katılımcıları</a></li><li><a href="/tr/encyclopedia/basics/market-hours-and-sessions/">Piyasa Saatleri ve Seanslar</a></li><li><a href="/tr/encyclopedia/basics/how-to-start-trading/">Trading'e Nasıl Başlanır?</a></li></ul><h3>Tüm konular</h3><ul><li><a href="/tr/encyclopedia/basics/" class="on">📘 Trading'in Temelleri</a></li><li><a href="/tr/encyclopedia/risk-management/">🛡️ Risk ve Para Yönetimi</a></li><li><a href="/tr/encyclopedia/psychology/">🧠 Trading Psikolojisi</a></li><li><a href="/tr/encyclopedia/technical-analysis/">📈 Teknik Analiz</a></li><li><a href="/tr/encyclopedia/fundamental-analysis/">🏦 Temel ve Makro Analiz</a></li><li><a href="/tr/encyclopedia/stocks/">🏛️ Hisse Senedi İşlemleri</a></li><li><a href="/tr/encyclopedia/forex/">💱 Forex İşlemleri</a></li><li><a href="/tr/encyclopedia/futures/">📊 Vadeli İşlemler</a></li><li><a href="/tr/encyclopedia/options/">🎯 Opsiyon İşlemleri</a></li><li><a href="/tr/encyclopedia/crypto/">₿ Kripto Para İşlemleri</a></li><li><a href="/tr/encyclopedia/meme-coins/">🐸 Meme Coin İşlemleri</a></li><li><a href="/tr/encyclopedia/prediction-markets/">🔮 Tahmin Piyasaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/">🤖 Algoritmik ve Kantitatif İşlem</a></li><li><a href="/tr/encyclopedia/other-markets/">🛢️ Emtia, Tahvil ve Diğerleri</a></li><li><a href="/tr/encyclopedia/trading-business/">⚖️ Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a></li><li><a href="/tr/encyclopedia/reference/">📖 Başvuru Kaynakları</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/tr/encyclopedia/">Ansiklopedi</a> › <a href="/tr/encyclopedia/basics/">Trading'in Temelleri</a></div>
+<h1 class="title">Kaldıraç ve Teminat (Marjin)</h1>
+<div class="meta">7 dk okuma · Güncelleme: 23 Kas 2026</div>
+<details class="side-m"><summary>Trading'in Temelleri: diğer makaleler</summary><ul><li><a href="/tr/encyclopedia/basics/what-is-trading/">Trading Nedir?</a></li><li><a href="/tr/encyclopedia/basics/financial-markets-overview/">Finansal Piyasalara Genel Bakış</a></li><li><a href="/tr/encyclopedia/basics/trading-styles/">Trading Tarzları</a></li><li><a href="/tr/encyclopedia/basics/order-types/">Emir Türleri</a></li><li><a href="/tr/encyclopedia/basics/order-book-and-market-depth/">Emir Defteri ve Derinlik</a></li><li><a href="/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread ve Likidite</a></li><li><a href="/tr/encyclopedia/basics/leverage-and-margin/" class="on" aria-current="page">Kaldıraç ve Teminat</a></li><li><a href="/tr/encyclopedia/basics/long-and-short-positions/">Long ve Short</a></li><li><a href="/tr/encyclopedia/basics/trading-costs-and-fees/">İşlem Maliyetleri ve Ücretler</a></li><li><a href="/tr/encyclopedia/basics/brokers-and-exchanges/">Aracı Kurumlar ve Borsalar</a></li><li><a href="/tr/encyclopedia/basics/market-participants/">Piyasa Katılımcıları</a></li><li><a href="/tr/encyclopedia/basics/market-hours-and-sessions/">Piyasa Saatleri ve Seanslar</a></li><li><a href="/tr/encyclopedia/basics/how-to-start-trading/">Trading'e Nasıl Başlanır?</a></li></ul></details>
+<article><p>Kaldıraç, yatırdığınız nakitten daha büyük bir pozisyonu kontrol etmek demektir; teminat (marjin) ise bir aracı kurumun veya borsanın bu pozisyonu tutabilmeniz için yatırmanızı istediği nakit ya da teminattır. Kaldıraç kazançları ve zararları aynı katsayıyla çarpar; bu yüzden yüksek kaldıraçlı bir pozisyonun aleyhine küçük bir fiyat hareketi hesabı sıfırlayabilir. Teminat kuralları, ne zaman para eklemeniz isteneceğini ve pozisyonunuzun ne zaman sizin yerinize kapatılacağını belirler. Kaldıraç, bireysel yatırımcıların hızla para kaybetmesinin en büyük tek nedenidir.</p>
+<div class="takeaways"><h2 id="key-takeaways">Önemli noktalar</h2>
+<ul>
+<li>Kaldıraç, pozisyon büyüklüğünün kendi sermayenize bölünmesidir; 10:1&#39;de fiyattaki 1%&#39;lik bir hareket, özsermayenizi 10% değiştirir.</li>
+<li>Başlangıç teminatı pozisyon açmak için gereken tutardır; sürdürme teminatı ise pozisyonu tutmak için korumanız gereken asgari tutardır.</li>
+<li>Sürdürme teminatının altına düşmek marjin çağrısını ya da birçok aracı kurumda ve kripto borsasında otomatik likidasyonu tetikler.</li>
+<li>Çapraz marjin (cross margin) tüm bakiyenizi pozisyonlar arasında paylaştırır; izole marjin (isolated margin) ise her pozisyonun zararını ona ayrılan teminatla sınırlar.</li>
+<li>Birçok bölgede düzenleyiciler bireysel yatırımcılara sunulan kaldıraca üst sınır koyar; bu sınırlar ülkeden ülkeye farklıdır ve zamanla değişir.</li>
+</ul></div><details class="toc"><summary>Bu sayfada</summary><ol><li><a href="#kald-ra-nedir">Kaldıraç nedir?</a></li><li><a href="#ba-lang-ve-s-rd-rme-teminat">Başlangıç ve sürdürme teminatı</a></li><li><a href="#marjin-a-r-s-ve-likidasyon">Marjin çağrısı ve likidasyon</a></li><li><a href="#rnek-hesaplar">Örnek hesaplar</a></li><li><a href="#apraz-ve-izole-marjin">Çapraz ve izole marjin</a></li><li><a href="#d-zenleyici-kald-ra-s-n-rlar">Düzenleyici kaldıraç sınırları</a></li><li><a href="#common-mistakes">Sık yapılan hatalar</a></li></ol></details>
+<h2 id="kald-ra-nedir">Kaldıraç nedir?</h2>
+<p><strong>Kaldıraç oranı = pozisyon değeri / özsermayeniz.</strong> $5,000 kendi paranızla $50,000&#39;lık bir pozisyon tutuyorsanız kaldıracınız 10:1, yani 10x&#39;tir.</p>
+<p>Pozisyonun geri kalanı fiilen finanse edilmiş olur. Bir hisse marjin hesabında aracı kurum size nakit borç verir ve faiz alır. Vadeli işlemlerde, CFD&#39;lerde ve kripto perpetual kontratlarında ise tutarın tamamını borç almazsınız; bir tür performans güvencesi olarak teminat yatırırsınız ve fiyat değişiminin tam değeri kadar kazanır ya da kaybedersiniz.</p>
+<h3 id="kald-ra-sonu-lar-nas-l-b-y-t-r">Kaldıraç sonuçları nasıl büyütür?</h3>
+<p>Maliyetler hariç, 5%&#39;lik bir fiyat hareketinin özsermayeniz üzerindeki etkisi:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kaldıraç</th>
+<th>Fiyat 5% yükselirse kazanç</th>
+<th>Fiyat 5% düşerse zarar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1:1</td>
+<td>+5%</td>
+<td>-5%</td>
+</tr>
+<tr>
+<td>5:1</td>
+<td>+25%</td>
+<td>-25%</td>
+</tr>
+<tr>
+<td>10:1</td>
+<td>+50%</td>
+<td>-50%</td>
+</tr>
+<tr>
+<td>20:1</td>
+<td>+100%</td>
+<td>-100% (özsermaye sıfırlanır)</td>
+</tr>
+<tr>
+<td>50:1</td>
+<td>+250%</td>
+<td>2%&#39;lik düşüşte sıfırlanır</td>
+</tr>
+</tbody></table></div>
+<p>Kullanışlı bir pratik kural: L kaldıraçta, aleyhinize yaklaşık 1/L&#39;lik bir fiyat hareketi özsermayenizin tamamını siler. 20:1&#39;de bu 5%&#39;lik, 100:1&#39;de ise 1%&#39;lik bir harekettir. Birçok varlık bir günde bu kadar hareket eder.</p>
+<h2 id="ba-lang-ve-s-rd-rme-teminat">Başlangıç ve sürdürme teminatı</h2>
+<ul>
+<li><strong>Başlangıç teminatı (initial margin)</strong> bir pozisyon açmak için gereken yatırımdır. Pozisyonun yüzdesi (örneğin 10%) ya da kontrat başına sabit bir tutar olarak belirtilebilir.</li>
+<li><strong>Sürdürme teminatı (maintenance margin)</strong> pozisyon açıkken korumanız gereken asgari özsermayedir. Başlangıç teminatından daha düşüktür.</li>
+</ul>
+<p><strong>Özsermayeniz (equity)</strong>, yatırdığınız tutar artı veya eksi gerçekleşmemiş kâr ve zarardır. Özsermaye sürdürme teminatının altına düştüğünde aracı kurum harekete geçer.</p>
+<h2 id="marjin-a-r-s-ve-likidasyon">Marjin çağrısı ve likidasyon</h2>
+<p><strong>Marjin çağrısı (margin call)</strong>, ya ek para yatırarak ya da pozisyonları küçülterek hesabınızı gerekli seviyenin üzerine çıkarmanız talebidir. Geleneksel hisse ve vadeli işlem aracı kurumları yanıt vermeniz için kısa bir süre tanıyabilir, ancak hızlı piyasalarda beklemek zorunda değildir.</p>
+<p><strong>Likidasyon</strong>, pozisyonunuzun zorla kapatılmasıdır. Birçok CFD aracı kurumu, forex aracı kurumu ve kripto borsası, özsermaye belirli bir eşiğe ulaştığında hiçbir çağrı yapmadan otomatik olarak likidasyon uygular. AB ve Birleşik Krallık&#39;ta bireysel CFD aracı kurumları, özsermaye gerekli teminatın 50%&#39;sine düştüğünde pozisyonları kapatmak zorundadır. Kripto borsaları genellikle özsermaye sürdürme seviyesine ulaştığında likidasyon yapar ve bir likidasyon ücreti alabilir. <a href="/tr/encyclopedia/crypto/crypto-liquidations/">Kripto likidasyonları</a> maddesine bakın.</p>
+<p>Likidasyon, yalnızca teminatınızı kaybetmenizi garanti eden bir güvenlik ağı değildir. Bir fiyat boşluğunda veya hızlı bir piyasada kapanış fiyatı likidasyon seviyesinden daha kötü olabilir ve bazı hesap türlerinde borçlu duruma düşebilirsiniz. AB ve Birleşik Krallık&#39;ta bireysel CFD müşterileri için zorunlu olan ve bazı diğer aracı kurumların da sunduğu negatif bakiye koruması, hesap bakiyesinin ötesinde zarar oluşmasını engeller.</p>
+<h2 id="rnek-hesaplar">Örnek hesaplar</h2>
+<h3 id="hisse-marjin-hesab-abd-tipi">Hisse marjin hesabı (ABD tipi)</h3>
+<p>ABD&#39;de Regulation T uzun süredir hisse alımları için başlangıç teminatını 50% olarak belirler; FINRA ise en az 25% sürdürme teminatı şart koşar, ancak birçok aracı kurum daha fazlasını ister.</p>
+<p>$10,000&#39;ı olan bir trader $10,000 borç alarak $20,000&#39;lık hisse alıyor. Kaldıraç 2:1.</p>
+<ul>
+<li>Hisse ne yaparsa yapsın borç $10,000 olarak kalır.</li>
+<li>Marjin çağrısı, özsermaye / pozisyon değeri oranı 25%&#39;e düştüğünde gelir: (V - 10,000) / V = 0.25.</li>
+<li>Çözüm: V = 10,000 / 0.75 = $13,333.33.</li>
+</ul>
+<p>Pozisyon, 25%&#39;lik asgari seviyede marjin çağrısı gelmeden önce $20,000&#39;dan yaklaşık $13,333&#39;e, yani üçte bir oranında düşebilir. Bu noktada trader&#39;ın özsermayesi $3,333&#39;tür; bu da başlangıçtaki $10,000&#39;ın üçte ikisinin kaybı demektir.</p>
+<h3 id="30-1-kald-ra-la-forex">30:1 kaldıraçla forex</h3>
+<p>EUR/USD&#39;de bir standart lot 100,000 euro&#39;dur. 1.1000 kurunda bu, $110,000&#39;lık bir pozisyon büyüklüğü eder. AB ve Birleşik Krallık&#39;ta majör pariteler için bireysel yatırımcılara uygulanan 30:1 sınırında gereken teminat $110,000 / 30 = $3,666.67&#39;dir.</p>
+<p>1%&#39;lik bir hareket olan 110 pip&#39;lik bir düşüş (1.1000&#39;den 1.0890&#39;a) 110 x $10 = $1,100&#39;a mal olur. Bu, teminatın 30%&#39;udur. 3.3%&#39;lük bir hareket teminatı tamamen silerdi; aracı kurumun 50%&#39;lik pozisyon kapatma kuralı ise bundan çok önce devreye girerdi.</p>
+<h3 id="i-zole-marjinle-10x-kripto-perpetual">İzole marjinle 10x kripto perpetual</h3>
+<p>Bir trader $1,000 izole teminat yatırıyor ve $50,000 fiyattan Bitcoin&#39;de $10,000&#39;lık, yani 0.2 BTC&#39;lik bir long pozisyon açıyor. Borsanın sürdürme teminatının pozisyon değerinin 0.5%&#39;i, yani $50 olduğunu varsayalım.</p>
+<ul>
+<li>Likidasyon, zararlar kabaca $1,000 - $50 = $950&#39;ye ulaştığında gerçekleşir.</li>
+<li>Buna yol açan fiyat düşüşü: $950 / 0.2 = $4,750.</li>
+<li>Yaklaşık likidasyon fiyatı: $50,000 - $4,750 = $45,250, yani 9.5%&#39;lik bir düşüş.</li>
+</ul>
+<p>Gerçek borsalar kendi formüllerini, işaret fiyatlarını (mark price) ve ücretlerini kullanır; bu yüzden gerçek seviye biraz farklıdır. Önemli olan şu: 10x&#39;lik bir pozisyon 10%&#39;dan küçük bir hareketle kapanır ve Bitcoin tek bir gün içinde bu kadar hareketi defalarca yapmıştır.</p>
+<h2 id="apraz-ve-izole-marjin">Çapraz ve izole marjin</h2>
+<p>Bu terimler en çok kripto türev borsalarında kullanılır, ancak fikir başka yerlerde de geçerlidir.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>İzole marjin</th>
+<th>Çapraz marjin</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Teminat</td>
+<td>Yalnızca o pozisyona ayrılan teminat</td>
+<td>Tüm hesap bakiyeniz</td>
+</tr>
+<tr>
+<td>Tek pozisyondaki azami zarar</td>
+<td>İzole teminat (fiyat boşlukları ve ücretler hariç)</td>
+<td>Potansiyel olarak tüm hesap</td>
+</tr>
+<tr>
+<td>Likidasyona uzaklık</td>
+<td>Daha yakın, çünkü pozisyonun arkasında daha az teminat var</td>
+<td>Daha uzak, çünkü pozisyonun arkasında tüm bakiye var</td>
+</tr>
+<tr>
+<td>En uygun olduğu durum</td>
+<td>Tek bir işlemin vereceği hasarı sınırlamak</td>
+<td>Hedge edilmiş veya birbirini dengeleyen pozisyonlar</td>
+</tr>
+</tbody></table></div>
+<p>Çapraz marjin zarardaki bir pozisyonu daha uzun süre açık tutabilir; bu daha güvenli hissettirir ama tek bir kötü işlemi kaybedilmiş bir hesaba dönüştürebilir. İzole marjin pozisyon başına zararı sınırlar ama likidasyon daha erken gelir.</p>
+<h2 id="d-zenleyici-kald-ra-s-n-rlar">Düzenleyici kaldıraç sınırları</h2>
+<p>Birçok düzenleyici bireysel müşterilere sunulan kaldıracı sınırlar. 2026 itibarıyla genel tablo aşağıdaki gibidir; ancak kurallar değişir ve profesyonel müşteriler için farklıdır, bu yüzden yaşadığınız yerdeki güncel kuralları kontrol edin.</p>
+<ul>
+<li><strong>AB ve Birleşik Krallık (CFD&#39;ler ve spread bet&#39;ler):</strong> majör döviz paritelerinde 30:1; majör olmayan döviz paritelerinde, altında ve büyük hisse endekslerinde 20:1; diğer emtialarda ve küçük endekslerde 10:1; tek tek hisselerde 5:1; AB&#39;de ise kripto paralarda 2:1. Birleşik Krallık ise kripto türevlerinin bireysel müşterilere satışını tamamen yasaklar.</li>
+<li><strong>Avustralya:</strong> bireysel CFD müşterileri için AB&#39;ye benzer sınırlar.</li>
+<li><strong>Amerika Birleşik Devletleri:</strong> bireysel forex kaldıracı majör paritelerde 50:1, diğerlerinde 20:1 ile sınırlıdır; bireysel CFD&#39;lere izin verilmez; hisse marjini Regulation T ve FINRA kurallarına tabidir.</li>
+<li><strong>Japonya:</strong> bireysel forex kaldıracı 25:1 ile sınırlıdır.</li>
+<li><strong>Offshore aracı kurumlar ve borsalar:</strong> bazıları forex&#39;te 500:1 veya daha fazla, kriptoda 100x&#39;in üzerinde kaldıraç sunar. Daha yüksek kaldıraç imkânı genellikle daha zayıf müşteri korumasıyla birlikte gelir. <a href="/tr/encyclopedia/basics/brokers-and-exchanges/">Aracı kurumlar ve borsalar</a> maddesine bakın.</li>
+</ul>
+<p>Vadeli işlemlerde kaldıraç sınırları, volatiliteyle birlikte değişen borsa teminat gereklilikleri üzerinden dolaylı olarak belirlenir.</p>
+<h2 id="common-mistakes">Sık yapılan hatalar</h2>
+<ul>
+<li><strong>Sunulan azami kaldıracı kullanmak.</strong> Aracı kurumun sunduğu kaldıraç bir tavsiye değil, bir sınırdır. Fiili kaldıracınız hesap ayarından değil, <a href="/tr/encyclopedia/risk-management/position-sizing/">pozisyon büyüklüğü</a> hesabınızdan gelmelidir.</li>
+<li><strong>Teminatı riskle karıştırmak.</strong> 20x&#39;lik bir pozisyona $1,000 teminat yatırmak, $1,000&#39;ı güvenle riske ettiğiniz anlamına gelmez; 5%&#39;lik bir hareketin işlemi bitireceği anlamına gelir.</li>
+<li><strong>Zarardaki bir işlemi kurtarmak için teminat eklemek.</strong> Likidasyondan kaçmak için tekrar tekrar para yatırmak, küçük bir zararı çoğu zaman büyük bir zarara dönüştürür.</li>
+<li><strong>Finansman maliyetlerini göz ardı etmek.</strong> Gece boyunca tutulan kaldıraçlı pozisyonlar genellikle faiz, swap veya fonlama (funding) öder. <a href="/tr/encyclopedia/basics/trading-costs-and-fees/">İşlem maliyetleri ve ücretler</a> maddesine bakın.</li>
+<li><strong>Fiyat boşluklarını unutmak.</strong> Hafta sonları, haberler ve işlem durdurmaları fiyatı likidasyon seviyenizin ötesine taşıyabilir. Tarihteki büyük çöküşler <a href="/tr/encyclopedia/risk-management/leverage-risk-and-black-swans/">kaldıraç riski ve siyah kuğular</a> maddesinde ele alınır.</li>
+</ul>
+<h2 id="faq">Sıkça sorulan sorular</h2>
+<h3 id="10x-kald-ra-ne-demek">10x kaldıraç ne demek?</h3>
+<p>Pozisyonunuzun yatırdığınız paradan 10 kat büyük olduğu anlamına gelir. Fiyattaki 1%&#39;lik bir hareket özsermayenizi yaklaşık 10% değiştirir ve aleyhinize 10%&#39;luk bir hareket onu tamamen silebilir.</p>
+<h3 id="ba-lang-teminat-ile-s-rd-rme-teminat-aras-ndaki-fark-nedir">Başlangıç teminatı ile sürdürme teminatı arasındaki fark nedir?</h3>
+<p>Başlangıç teminatı, bir pozisyon açmak için gereken yatırımdır. Sürdürme teminatı ise pozisyonu tutarken korumanız gereken daha düşük asgari tutardır; altına düşmek marjin çağrısını veya likidasyonu tetikler.</p>
+<h3 id="kald-ra-la-yat-rd-n-zdan-fazlas-n-kaybedebilir-misiniz">Kaldıraçla yatırdığınızdan fazlasını kaybedebilir misiniz?</h3>
+<p>Evet, bazı hesaplarda. Piyasa bir boşlukla likidasyon seviyenizin ötesine atlarsa zararlar teminatınızı aşabilir. AB ve Birleşik Krallık&#39;taki bireysel CFD müşterilerinin negatif bakiye koruması vardır, ancak bu her yerde geçerli değildir.</p>
+<h3 id="apraz-marjin-mi-izole-marjin-mi-daha-g-venli">Çapraz marjin mi, izole marjin mi daha güvenli?</h3>
+<p>İzole marjin her pozisyondaki zararı ona ayrılan teminatla sınırlar ve hesabınızın geri kalanını korur. Çapraz marjin tüm bakiyenizi kullanarak likidasyonu geciktirir, ancak bu durumda tek bir kötü işlem her şeyi tüketebilir.</p>
+</article>
+<div class="disclaimer"><strong>Yalnızca eğitim amaçlıdır.</strong> Buradaki hiçbir içerik finansal, yatırım, hukuki veya vergi tavsiyesi değildir. Alım satım yüksek kayıp riski taşır ve kaldıraçlı ürünlerde yatırdığınızdan fazlasını kaybedebilirsiniz. Kurallar, ücretler ve platform koşulları değişir: işlem yapmadan önce güncel koşulları aracı kurumunuz, borsanız veya düzenleyici kurumla teyit edin.</div>
+<section class="related"><h2>İlgili makaleler</h2><div class="cards"><a class="card" href="/tr/encyclopedia/basics/long-and-short-positions/"><div class="k">Trading'in Temelleri</div><b>Long ve Short</b><span>Long ve short ne demek; açığa satış ödünç alma, CFD, vadeli işlem, perpetual ve put opsiyonla nasıl yapılır, short riski neden sınırsızdır, hedge nasıl çalışır?</span></a><a class="card" href="/tr/encyclopedia/crypto/crypto-liquidations/"><div class="k">Kripto Para İşlemleri</div><b>Likidasyonlar</b><span>Kriptoda likidasyon nasıl işler? Long ve short için likidasyon fiyatı hesabı, çapraz ve izole marjin, likidasyon zincirleri, ısı haritaları ve açık pozisyon.</span></a><a class="card" href="/tr/encyclopedia/risk-management/position-sizing/"><div class="k">Risk ve Para Yönetimi</div><b>Pozisyon Büyüklüğü</b><span>Hesap riski ve zarar kes mesafesinden pozisyon büyüklüğü nasıl hesaplanır? Sabit oran, sabit tutar ve ATR yöntemleri; hisse, forex ve kripto örnekleri.</span></a><a class="card" href="/tr/encyclopedia/risk-management/leverage-risk-and-black-swans/"><div class="k">Risk ve Para Yönetimi</div><b>Kaldıraç Riski ve Siyah Kuğular</b><span>Kuyruk olayları kaldıraçlı trader'ları nasıl siler: 2015 frank kopuşu, negatif petrol, GameStop, LUNA ve FTX; ayrıca gap riski, kaybolan likidite ve dersler.</span></a><a class="card" href="/tr/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">Risk ve Para Yönetimi</div><b>Risk Yönetiminin Temelleri</b><span>Risk yönetimi neden giriş noktasından önemlidir? İşlem başına risk, günlük zarar limiti, yüzde 50 kaybın matematiği ve başlıca trading riskleri.</span></a></div></section>
+<div class="pager"><a href="/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/"><small>← Önceki</small>Spread ve Likidite</a><a class="next" href="/tr/encyclopedia/basics/long-and-short-positions/"><small>Sonraki →</small>Long ve Short</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/tr/encyclopedia/basics/">Trading'in Temelleri</a><a href="/tr/encyclopedia/risk-management/">Risk ve Para Yönetimi</a><a href="/tr/encyclopedia/psychology/">Trading Psikolojisi</a><a href="/tr/encyclopedia/technical-analysis/">Teknik Analiz</a><a href="/tr/encyclopedia/fundamental-analysis/">Temel ve Makro Analiz</a><a href="/tr/encyclopedia/stocks/">Hisse Senedi İşlemleri</a><a href="/tr/encyclopedia/forex/">Forex İşlemleri</a><a href="/tr/encyclopedia/futures/">Vadeli İşlemler</a><a href="/tr/encyclopedia/options/">Opsiyon İşlemleri</a><a href="/tr/encyclopedia/crypto/">Kripto Para İşlemleri</a><a href="/tr/encyclopedia/meme-coins/">Meme Coin İşlemleri</a><a href="/tr/encyclopedia/prediction-markets/">Tahmin Piyasaları</a><a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a><a href="/tr/encyclopedia/other-markets/">Emtia, Tahvil ve Diğerleri</a><a href="/tr/encyclopedia/trading-business/">Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a><a href="/tr/encyclopedia/reference/">Başvuru Kaynakları</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Açık kaynak trading botları</a></div>
+  <p>PnL Profit Trading Ansiklopedisi: büyük piyasaların nasıl işlediğine dair ücretsiz ve bağımsız açıklamalar. Eğitim amaçlıdır, yatırım tavsiyesi değildir. İletişim: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/tr/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sonuç bulunamadı. Sözlüğe göz atın.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

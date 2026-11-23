@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фьючерсы для начинающих: контракты, маржа, тики и экспирация</title>
+<meta name="description" content="Как устроены фьючерсы: биржи, спецификации контрактов, стоимость тика, коды месяцев, ежедневная переоценка, маржа, расчёты и кто и зачем их использует.">
+<meta name="keywords" content="фьючерсы для начинающих, что такое фьючерсный контракт, стоимость тика фьючерса, коды месяцев фьючерсов, гарантийное обеспечение фьючерса">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ru/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/futures/futures-basics/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/futures/futures-basics/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Энциклопедия трейдинга">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Фьючерсы для начинающих: контракты, маржа, тики и экспирация">
+<meta property="og:description" content="Как устроены фьючерсы: биржи, спецификации контрактов, стоимость тика, коды месяцев, ежедневная переоценка, маржа, расчёты и кто и зачем их использует.">
+<meta property="og:url" content="https://pnlpro.fit/ru/encyclopedia/futures/futures-basics/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Фьючерсы для начинающих: контракты, маржа, тики и экспирация">
+<meta name="twitter:description" content="Как устроены фьючерсы: биржи, спецификации контрактов, стоимость тика, коды месяцев, ежедневная переоценка, маржа, расчёты и кто и зачем их использует.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Фьючерсы для начинающих: контракты, маржа, тики и экспирация","description":"Как устроены фьючерсы: биржи, спецификации контрактов, стоимость тика, коды месяцев, ежедневная переоценка, маржа, расчёты и кто и зачем их использует.","keywords":"фьючерсы для начинающих, что такое фьючерсный контракт, стоимость тика фьючерса, коды месяцев фьючерсов, гарантийное обеспечение фьючерса","articleSection":"Торговля фьючерсами","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/futures/futures-basics/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Торговля фьючерсами","item":"https://pnlpro.fit/ru/encyclopedia/futures/"},{"@type":"ListItem","position":3,"name":"Основы фьючерсов","item":"https://pnlpro.fit/ru/encyclopedia/futures/futures-basics/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Сколько денег нужно для торговли фьючерсами?","acceptedAnswer":{"@type":"Answer","text":"Это зависит от контракта и брокера. Маржинальные требования по микроконтрактам, таким как MES, составляют лишь долю от требований по полноразмерному E-mini, поэтому ими можно торговать, имея несколько тысяч долларов, но иметь достаточно капитала, чтобы пережить обычные колебания, важнее, чем выполнить минимальное требование."}},{"@type":"Question","name":"Есть ли у фьючерсов срок истечения?","acceptedAnswer":{"@type":"Answer","text":"Да. У каждого фьючерсного контракта есть последний торговый день. Трейдеры, которые хотят сохранить экспозицию, закрывают истекающий контракт и открывают позицию в следующем месяце — это называется роллированием."}},{"@type":"Question","name":"Можно ли потерять больше, чем внесено на счёт, при торговле фьючерсами?","acceptedAnswer":{"@type":"Answer","text":"Да. Поскольку убытки рассчитываются ежедневно, а позиции открыты с плечом, крупное движение или гэп может привести к отрицательному балансу счёта, и вы будете обязаны покрыть этот долг перед брокером."}},{"@type":"Question","name":"Чем фьючерсы отличаются от опционов?","acceptedAnswer":{"@type":"Answer","text":"Фьючерсный контракт обязывает обе стороны совершить сделку по согласованной цене. Опцион даёт покупателю право, но не обязанность купить или продать в обмен на уплату премии. См. Основы опционов."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
+  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/futures/futures-basics/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/futures/futures-basics/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/futures/futures-basics/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/futures/futures-basics/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/futures/futures-basics/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/futures/futures-basics/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/futures/futures-basics/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/futures/futures-basics/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/futures/futures-basics/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Торговля фьючерсами</h3><ul><li><a href="/ru/encyclopedia/futures/futures-basics/" class="on" aria-current="page">Основы фьючерсов</a></li><li><a href="/ru/encyclopedia/futures/index-futures/">Индексные фьючерсы (ES, NQ)</a></li><li><a href="/ru/encyclopedia/futures/commodity-futures/">Товарные фьючерсы</a></li><li><a href="/ru/encyclopedia/futures/contango-backwardation-and-rollover/">Контанго, бэквордация и ролловер</a></li><li><a href="/ru/encyclopedia/futures/futures-vs-other-instruments/">Фьючерсы против акций, CFD и перпов</a></li></ul><h3>Все темы</h3><ul><li><a href="/ru/encyclopedia/basics/">📘 Основы трейдинга</a></li><li><a href="/ru/encyclopedia/risk-management/">🛡️ Риск- и мани-менеджмент</a></li><li><a href="/ru/encyclopedia/psychology/">🧠 Психология трейдинга</a></li><li><a href="/ru/encyclopedia/technical-analysis/">📈 Технический анализ</a></li><li><a href="/ru/encyclopedia/fundamental-analysis/">🏦 Фундаментальный и макроанализ</a></li><li><a href="/ru/encyclopedia/stocks/">🏛️ Торговля акциями</a></li><li><a href="/ru/encyclopedia/forex/">💱 Торговля на форекс</a></li><li><a href="/ru/encyclopedia/futures/" class="on">📊 Торговля фьючерсами</a></li><li><a href="/ru/encyclopedia/options/">🎯 Торговля опционами</a></li><li><a href="/ru/encyclopedia/crypto/">₿ Торговля криптовалютой</a></li><li><a href="/ru/encyclopedia/meme-coins/">🐸 Торговля мемкоинами</a></li><li><a href="/ru/encyclopedia/prediction-markets/">🔮 Рынки предсказаний</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/">🤖 Алгоритмическая и квант-торговля</a></li><li><a href="/ru/encyclopedia/other-markets/">🛢️ Сырье, облигации и другие рынки</a></li><li><a href="/ru/encyclopedia/trading-business/">⚖️ Проп-фирмы, налоги, регулирование и мошенничество</a></li><li><a href="/ru/encyclopedia/reference/">📖 Справочник</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ru/encyclopedia/">Энциклопедия</a> › <a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a></div>
+<h1 class="title">Основы торговли фьючерсами</h1>
+<div class="meta">9 мин чтения · Обновлено 23 нояб. 2026 г.</div>
+<details class="side-m"><summary>Ещё в разделе «Торговля фьючерсами»</summary><ul><li><a href="/ru/encyclopedia/futures/futures-basics/" class="on" aria-current="page">Основы фьючерсов</a></li><li><a href="/ru/encyclopedia/futures/index-futures/">Индексные фьючерсы (ES, NQ)</a></li><li><a href="/ru/encyclopedia/futures/commodity-futures/">Товарные фьючерсы</a></li><li><a href="/ru/encyclopedia/futures/contango-backwardation-and-rollover/">Контанго, бэквордация и ролловер</a></li><li><a href="/ru/encyclopedia/futures/futures-vs-other-instruments/">Фьючерсы против акций, CFD и перпов</a></li></ul></details>
+<article><p>Фьючерсный контракт — это стандартизированное биржевое соглашение купить или продать фиксированное количество актива по установленной цене в будущую дату. Фьючерсы существуют на фондовые индексы, процентные ставки, валюты, энергоносители, металлы, зерно, скот и криптовалюту, и это одни из самых активно торгуемых инструментов в мире. Поскольку небольшой депозит позволяет контролировать крупную позицию, фьючерсы могут многократно увеличивать как прибыль, так и убытки, поэтому разобраться в механике контрактов необходимо до того, как открывать сделку.</p>
+<div class="takeaways"><h2 id="key-takeaways">Ключевые выводы</h2>
+<ul>
+<li>Фьючерсный контракт фиксирует количество, качество, срок экспирации и способ расчёта, поэтому все контракты одной серии на бирже взаимозаменяемы.</li>
+<li>У каждого контракта есть размер тика и стоимость тика, и эти два числа точно говорят, сколько денег стоит движение цены.</li>
+<li>Прибыли и убытки рассчитываются деньгами ежедневно через переоценку по рынку (mark-to-market), поэтому убыточная позиция может вызвать маржин-колл задолго до экспирации.</li>
+<li>Большинство контрактов закрывают или переносят до экспирации; одни исполняются расчётным путём, другие требуют физической поставки.</li>
+<li>Маржа по фьючерсам — это гарантийное обеспечение, а не заём, и плечо, которое она даёт, достаточно велико, чтобы быстро уничтожить счёт.</li>
+</ul></div><details class="toc"><summary>Содержание</summary><ol><li><a href="#section-2">Что такое фьючерсный контракт</a></li><li><a href="#section-3">Крупнейшие фьючерсные биржи</a></li><li><a href="#section-4">Спецификации контрактов</a></li><li><a href="#section-6">Месяцы экспирации и их коды</a></li><li><a href="#section-7">Ежедневная переоценка по рынку</a></li><li><a href="#section-9">Маржа: гарантийное обеспечение</a></li><li><a href="#section-11">Расчётное исполнение и физическая поставка</a></li><li><a href="#section-12">Хеджеры и спекулянты</a></li><li><a href="#common-mistakes">Типичные ошибки</a></li></ol></details>
+<h2 id="section-2">Что такое фьючерсный контракт</h2>
+<p>По сути фьючерсный контракт — это обещание. Покупатель («лонг») соглашается принять актив по согласованной цене в дату экспирации, а продавец («шорт») соглашается его поставить. Ни одна из сторон не платит полную цену сразу. Вместо этого обе вносят маржу у своего брокера, а между ними стоит клиринговая палата биржи.</p>
+<p>Клиринговая палата — важная причина, по которой фьючерсы работают. Как только сделка сведена, клиринговая палата становится покупателем для каждого продавца и продавцом для каждого покупателя. Вам не нужно доверять тому, кто стоит на другой стороне сделки, — только клиринговой палате и своему брокеру. Это называется централизованным клирингом, и это одно из главных отличий фьючерсов от внебиржевых продуктов, таких как форварды или многие <a href="/ru/encyclopedia/forex/cfds-and-spread-betting/">CFD</a>.</p>
+<p>Фьючерсы выросли из форвардных контрактов, которыми пользовались фермеры и торговцы. Форвард — частная сделка с индивидуальными условиями. Фьючерс — та же идея, только стандартизированная и торгуемая на бирже, что позволяет любому входить и выходить в любой момент в часы торгов.</p>
+<h2 id="section-3">Крупнейшие фьючерсные биржи</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Биржевая группа</th>
+<th>Где находится</th>
+<th>Известные контракты</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CME Group (CME, CBOT, NYMEX, COMEX)</td>
+<td>США</td>
+<td>E-mini S&amp;P 500, фьючерсы на казначейские облигации, нефть WTI, золото, кукуруза, соевые бобы</td>
+</tr>
+<tr>
+<td>ICE (Intercontinental Exchange)</td>
+<td>США, Великобритания и Европа</td>
+<td>Нефть Brent, «мягкие» товары (софты), такие как кофе, какао и сахар, европейский газ</td>
+</tr>
+<tr>
+<td>Eurex</td>
+<td>Германия</td>
+<td>DAX, Euro Stoxx 50, фьючерсы на немецкие гособлигации (Bund)</td>
+</tr>
+<tr>
+<td>Japan Exchange Group (Osaka Exchange)</td>
+<td>Япония</td>
+<td>Фьючерсы на Nikkei 225</td>
+</tr>
+<tr>
+<td>Другие</td>
+<td>По всему миру</td>
+<td>Singapore Exchange, Hong Kong Exchanges, B3 в Бразилии, NSE в Индии</td>
+</tr>
+</tbody></table></div>
+<p>Большинство розничных трейдеров получают доступ к этим рынкам через фьючерсного брокера, который в США иногда называется futures commission merchant (FCM), или через представляющего брокера (introducing broker), работающего через клиринг такого FCM.</p>
+<h2 id="section-4">Спецификации контрактов</h2>
+<p>У каждого фьючерсного контракта есть опубликованная спецификация. Для трейдера важнее всего такие поля:</p>
+<ul>
+<li><strong>Базовый актив и размер:</strong> что представляет собой контракт. Один контракт CME на нефть WTI (CL) — это 1,000 баррелей. Один контракт COMEX на золото (GC) — 100 тройских унций.</li>
+<li><strong>Мультипликатор:</strong> для индексных фьючерсов — долларовая стоимость одного пункта индекса. У E-mini S&amp;P 500 (ES) это $50, умноженные на индекс.</li>
+<li><strong>Размер тика:</strong> минимально допустимое изменение цены.</li>
+<li><strong>Стоимость тика:</strong> прибыль или убыток от движения на один тик по одному контракту. Стоимость тика равна размеру тика, умноженному на размер контракта или мультипликатор.</li>
+<li><strong>Месяцы контрактов и экспирация:</strong> какие месяцы котируются и когда прекращаются торги.</li>
+<li><strong>Способ расчёта:</strong> расчётный (деньгами) или с физической поставкой.</li>
+<li><strong>Часы торгов:</strong> многие контракты CME торгуются почти 24 часа в сутки пять дней в неделю с коротким ежедневным техническим перерывом. См. <a href="/ru/encyclopedia/basics/market-hours-and-sessions/">Часы работы рынков и торговые сессии</a>.</li>
+</ul>
+<h3 id="section-5">Примеры размера и стоимости тика</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Контракт</th>
+<th>Биржа</th>
+<th>Размер или мультипликатор</th>
+<th>Размер тика</th>
+<th>Стоимость тика</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E-mini S&amp;P 500 (ES)</td>
+<td>CME</td>
+<td>$50 x индекс</td>
+<td>0.25 пункта</td>
+<td>$12.50</td>
+</tr>
+<tr>
+<td>Micro E-mini S&amp;P 500 (MES)</td>
+<td>CME</td>
+<td>$5 x индекс</td>
+<td>0.25 пункта</td>
+<td>$1.25</td>
+</tr>
+<tr>
+<td>E-mini Nasdaq-100 (NQ)</td>
+<td>CME</td>
+<td>$20 x индекс</td>
+<td>0.25 пункта</td>
+<td>$5.00</td>
+</tr>
+<tr>
+<td>Micro E-mini Nasdaq-100 (MNQ)</td>
+<td>CME</td>
+<td>$2 x индекс</td>
+<td>0.25 пункта</td>
+<td>$0.50</td>
+</tr>
+<tr>
+<td>Нефть WTI (CL)</td>
+<td>NYMEX</td>
+<td>1,000 баррелей</td>
+<td>$0.01 за баррель</td>
+<td>$10.00</td>
+</tr>
+<tr>
+<td>Золото (GC)</td>
+<td>COMEX</td>
+<td>100 тройских унций</td>
+<td>$0.10 за унцию</td>
+<td>$10.00</td>
+</tr>
+<tr>
+<td>Кукуруза (ZC)</td>
+<td>CBOT</td>
+<td>5,000 бушелей</td>
+<td>1/4 цента за бушель</td>
+<td>$12.50</td>
+</tr>
+</tbody></table></div>
+<p>Спецификации время от времени меняются, поэтому перед торговлей всегда сверяйтесь со страницей контракта на сайте самой биржи.</p>
+<h2 id="section-6">Месяцы экспирации и их коды</h2>
+<p>Фьючерсы котируются на определённые месяцы поставки. Трейдеры и поставщики данных обозначают каждый месяц одной буквой, которую добавляют к корневому символу вместе с годом. Например, ESZ6 — это E-mini S&amp;P 500 с экспирацией в декабре 2026 г., а CLF7 — нефть WTI с поставкой в январе 2027 г.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Месяц</th>
+<th>Код</th>
+<th>Месяц</th>
+<th>Код</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Январь</td>
+<td>F</td>
+<td>Июль</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Февраль</td>
+<td>G</td>
+<td>Август</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>Март</td>
+<td>H</td>
+<td>Сентябрь</td>
+<td>U</td>
+</tr>
+<tr>
+<td>Апрель</td>
+<td>J</td>
+<td>Октябрь</td>
+<td>V</td>
+</tr>
+<tr>
+<td>Май</td>
+<td>K</td>
+<td>Ноябрь</td>
+<td>X</td>
+</tr>
+<tr>
+<td>Июнь</td>
+<td>M</td>
+<td>Декабрь</td>
+<td>Z</td>
+</tr>
+</tbody></table></div>
+<p>Фьючерсы на фондовые индексы котируются по квартальным месяцам (март, июнь, сентябрь, декабрь). Нефть котируется на каждый месяц. Зерновые следуют циклам, связанным с урожаем, например март, май, июль, сентябрь и декабрь для кукурузы. Контракт с наибольшим объёмом, обычно ближайший, называется фронт-месяцем (front month). Перенос позиции с одного месяца на следующий называется роллированием (rolling) и описан в статье <a href="/ru/encyclopedia/futures/contango-backwardation-and-rollover/">Контанго, бэквордация и ролловер</a>.</p>
+<h2 id="section-7">Ежедневная переоценка по рынку</h2>
+<p>Прибыли и убытки по фьючерсам не копятся до момента закрытия позиции. В конце каждого торгового дня биржа устанавливает расчётную цену, и каждая открытая позиция переоценивается по ней. Выигравшим деньги зачисляются на счёт, у проигравших — списываются. Это называется переоценкой по рынку (mark-to-market), или вариационной маржой.</p>
+<h3 id="es">Разбор на примере: один контракт ES за три дня</h3>
+<p>Предположим, вы покупаете один контракт ES по 5,000.00. Номинальная стоимость контракта — 5,000 x $50 = $250,000.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>День</th>
+<th>Расчётная цена</th>
+<th>Изменение (пункты)</th>
+<th>Дневной P&amp;L</th>
+<th>Накопленный P&amp;L</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Вход</td>
+<td>5,000.00</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>День 1</td>
+<td>5,012.50</td>
+<td>+12.50</td>
+<td>+$625</td>
+<td>+$625</td>
+</tr>
+<tr>
+<td>День 2</td>
+<td>4,980.00</td>
+<td>-32.50</td>
+<td>-$1,625</td>
+<td>-$1,000</td>
+</tr>
+<tr>
+<td>День 3</td>
+<td>4,995.25</td>
+<td>+15.25</td>
+<td>+$762.50</td>
+<td>-$237.50</td>
+</tr>
+</tbody></table></div>
+<p>Каждый пункт стоит $50, поэтому рост на 12.50 пункта — это 12.50 x $50 = $625. Падение на 32.50 пункта обходится в 32.50 x $50 = $1,625. В день 3 15.25 пункта — это 61 тик, а 61 x $12.50 = $762.50. Если бы вы торговали одним контрактом MES, каждая цифра была бы в десять раз меньше: накопленный убыток после дня 3 составил бы $23.75.</p>
+<h2 id="section-9">Маржа: гарантийное обеспечение</h2>
+<p>Маржа по фьючерсам — это гарантийный депозит, подтверждающий, что вы способны покрыть дневные убытки. Это не первоначальный взнос: вы не занимаете остаток стоимости контракта и не платите по нему проценты.</p>
+<ul>
+<li><strong>Начальная маржа</strong> — сумма, которая нужна для открытия позиции.</li>
+<li><strong>Поддерживающая маржа</strong> — более низкий уровень, выше которого должен оставаться счёт. Если убытки опускают счёт ниже поддерживающего уровня, вы получаете маржин-колл и должны внести средства или сократить позицию, иначе брокер может закрыть её за вас.</li>
+<li><strong>Внутридневная маржа</strong> — пониженная сумма, которую некоторые брокеры допускают для позиций, закрываемых до конца сессии. Её устанавливает брокер, а не биржа, и она означает ещё более высокое плечо.</li>
+</ul>
+<p>Биржи устанавливают и меняют маржинальные требования в зависимости от волатильности и на турбулентных рынках часто резко их повышают. Брокеры могут требовать больше биржевого минимума.</p>
+<h3 id="section-10">Какое это плечо</h3>
+<p>Предположим, исключительно для иллюстрации, что начальная маржа по одному контракту ES составляет $15,000 при номинальной стоимости $250,000. Это плечо примерно 16.7 к 1. Падение индекса на 1 процент (50 пунктов) обойдётся в $2,500, около одной шестой маржи. Падение на 6 процентов обойдётся в $15,000 и сотрёт весь депозит. Реальные уровни маржи со временем меняются, поэтому уточняйте актуальные цифры у своего брокера. Общая механика кредитного плеча описана в статье <a href="/ru/encyclopedia/basics/leverage-and-margin/">Плечо и маржа</a>.</p>
+<h2 id="section-11">Расчётное исполнение и физическая поставка</h2>
+<p>При экспирации контракт исполняется одним из двух способов.</p>
+<ul>
+<li><strong>Расчётные</strong> (cash-settled) контракты выплачивают или списывают разницу между ценой вашей сделки и окончательной расчётной ценой. Фьючерсы на фондовые индексы, такие как ES и NQ, исполняются деньгами. Никакие акции из рук в руки не переходят.</li>
+<li><strong>Поставочные</strong> контракты требуют, чтобы шорт поставил, а лонг принял реальный актив в утверждённом месте. Нефть WTI, золото, кукуруза и многие фьючерсы на казначейские облигации — поставочные.</li>
+</ul>
+<p>Розничным трейдерам поставка почти никогда не нужна. Большинство брокеров требуют, чтобы клиенты закрыли или перенесли поставочные контракты до первого дня уведомления (first notice day) — первой даты, когда шорт может объявить о намерении осуществить поставку. Некоторые брокеры автоматически ликвидируют позиции заранее. О рисках удержания позиции до поставки рассказано в статье <a href="/ru/encyclopedia/futures/commodity-futures/">Товарные фьючерсы</a>.</p>
+<h2 id="section-12">Хеджеры и спекулянты</h2>
+<p>Фьючерсные рынки объединяют две большие группы участников.</p>
+<p><strong>Хеджеры</strong> используют фьючерсы, чтобы снизить уже имеющийся риск. Фермер, который рассчитывает собрать 50,000 бушелей кукурузы, может весной продать 10 контрактов на кукурузу, чтобы зафиксировать цену. Если к урожаю кукуруза подешевеет, прибыль по фьючерсам компенсирует более низкую цену, полученную за урожай. Авиакомпания может купить фьючерсы на нефть или печное топливо, чтобы защититься от роста стоимости топлива. Пенсионный фонд может продать индексные фьючерсы, чтобы быстро снизить экспозицию на акции, не продавая отдельные бумаги.</p>
+<p><strong>Спекулянты</strong> берут на себя ценовой риск в надежде на прибыль. К ним относятся частные трейдеры, проп-трейдинговые компании, хедж-фонды и консультанты по товарной торговле (CTA), которые используют системы <a href="/ru/encyclopedia/algorithmic-trading/trend-following/">следования за трендом</a>. Спекулянты дают ликвидность, необходимую хеджерам, и несут риск, от которого хеджеры хотят избавиться.</p>
+<p>Комиссия по торговле товарными фьючерсами США (Commodity Futures Trading Commission) еженедельно публикует отчёт Commitments of Traders (COT), в котором открытые позиции разбиты по типам трейдеров. Некоторые трейдеры используют его как индикатор настроений, о чём рассказано в статье <a href="/ru/encyclopedia/fundamental-analysis/market-sentiment-indicators/">Индикаторы рыночных настроений</a>.</p>
+<h2 id="common-mistakes">Типичные ошибки</h2>
+<ul>
+<li><strong>Не знать стоимость тика.</strong> Если торговать NQ вместо MNQ, каждое движение становится в десять раз больше. Проверяйте контракт и стоимость тика перед каждым ордером.</li>
+<li><strong>Рассчитывать размер позиции от маржи, а не от номинала.</strong> Маржинальный депозит ничего не говорит о риске. Один контракт ES при цене 5,000 даёт экспозицию на индекс стоимостью $250,000.</li>
+<li><strong>Забывать об экспирации и первом дне уведомления.</strong> Слишком долгое удержание поставочного контракта может привести к принудительной ликвидации или обязательствам по поставке.</li>
+<li><strong>Игнорировать ночные сессии.</strong> Торговля почти 24 часа в сутки означает, что цены могут далеко уйти, пока вы спите. На быстром рынке или при открытии в воскресенье стопы могут исполниться далеко от цены срабатывания.</li>
+<li><strong>Считать маржу фиксированной.</strong> Биржи и брокеры могут повысить маржу почти без предупреждения, и часто именно тогда, когда рынок идёт против вас.</li>
+</ul>
+<p>Фьючерсы — продукт профессионального уровня. Данные по многим рынкам показывают, что большинство розничных трейдеров, использующих высокое плечо на коротких горизонтах, теряют деньги, а плечо на фьючерсах высокое. Если начинать с микроконтрактов и строгого <a href="/ru/encyclopedia/risk-management/position-sizing/">расчёта размера позиции</a>, ошибки в период обучения обойдутся недорого.</p>
+<h2 id="faq">Частые вопросы</h2>
+<h3 id="section-15">Сколько денег нужно для торговли фьючерсами?</h3>
+<p>Это зависит от контракта и брокера. Маржинальные требования по микроконтрактам, таким как MES, составляют лишь долю от требований по полноразмерному E-mini, поэтому ими можно торговать, имея несколько тысяч долларов, но иметь достаточно капитала, чтобы пережить обычные колебания, важнее, чем выполнить минимальное требование.</p>
+<h3 id="section-16">Есть ли у фьючерсов срок истечения?</h3>
+<p>Да. У каждого фьючерсного контракта есть последний торговый день. Трейдеры, которые хотят сохранить экспозицию, закрывают истекающий контракт и открывают позицию в следующем месяце — это называется роллированием.</p>
+<h3 id="section-17">Можно ли потерять больше, чем внесено на счёт, при торговле фьючерсами?</h3>
+<p>Да. Поскольку убытки рассчитываются ежедневно, а позиции открыты с плечом, крупное движение или гэп может привести к отрицательному балансу счёта, и вы будете обязаны покрыть этот долг перед брокером.</p>
+<h3 id="section-18">Чем фьючерсы отличаются от опционов?</h3>
+<p>Фьючерсный контракт обязывает обе стороны совершить сделку по согласованной цене. Опцион даёт покупателю право, но не обязанность купить или продать в обмен на уплату премии. См. <a href="/ru/encyclopedia/options/options-basics/">Основы опционов</a>.</p>
+</article>
+<div class="disclaimer"><strong>Только образовательный материал.</strong> Ничто здесь не является финансовой, инвестиционной, юридической или налоговой консультацией. Торговля сопряжена с высоким риском потерь, а с кредитным плечом можно потерять больше, чем вы внесли. Правила, комиссии и условия площадок меняются: перед сделкой проверяйте актуальные условия у брокера, биржи или регулятора.</div>
+<section class="related"><h2>Похожие статьи</h2><div class="cards"><a class="card" href="/ru/encyclopedia/futures/index-futures/"><div class="k">Торговля фьючерсами</div><b>Индексные фьючерсы (ES, NQ)</b><span>Как работают фьючерсы на фондовые индексы: E-mini и Micro E-mini на S&amp;P 500 и Nasdaq, Dow, Russell, DAX и Nikkei, стоимость тика, справедливая цена, сессии.</span></a><a class="card" href="/ru/encyclopedia/futures/commodity-futures/"><div class="k">Торговля фьючерсами</div><b>Товарные фьючерсы</b><span>Как работают товарные фьючерсы на нефть, газ, золото, серебро, медь, зерно, софты и скот: размеры контрактов, ключевые отчёты и риск физической поставки.</span></a><a class="card" href="/ru/encyclopedia/futures/contango-backwardation-and-rollover/"><div class="k">Торговля фьючерсами</div><b>Контанго, бэквордация и ролловер</b><span>Что такое контанго и бэквордация, как работает доходность ролловера, когда переносить фьючерсы, почему сырьевые ETF отстают от спота и что было с нефтью в 2020.</span></a><a class="card" href="/ru/encyclopedia/futures/futures-vs-other-instruments/"><div class="k">Торговля фьючерсами</div><b>Фьючерсы против акций, CFD и перпов</b><span>Чем фьючерсы отличаются от акций, CFD и бессрочных криптофьючерсов: плечо, издержки, клиринг, регулирование, налоги по Section 1256 в США и правило PDT.</span></a><a class="card" href="/ru/encyclopedia/basics/leverage-and-margin/"><div class="k">Основы трейдинга</div><b>Плечо и маржа</b><span>Как работают плечо и маржа: начальная и поддерживающая маржа, маржин-колл, ликвидация, кросс- и изолированная маржа, примеры и лимиты плеча по странам.</span></a></div></section>
+<div class="pager"><span></span><a class="next" href="/ru/encyclopedia/futures/index-futures/"><small>Далее →</small>Индексные фьючерсы (ES, NQ)</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ru/encyclopedia/basics/">Основы трейдинга</a><a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a><a href="/ru/encyclopedia/psychology/">Психология трейдинга</a><a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a><a href="/ru/encyclopedia/fundamental-analysis/">Фундаментальный и макроанализ</a><a href="/ru/encyclopedia/stocks/">Торговля акциями</a><a href="/ru/encyclopedia/forex/">Торговля на форекс</a><a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a><a href="/ru/encyclopedia/options/">Торговля опционами</a><a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a><a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a><a href="/ru/encyclopedia/prediction-markets/">Рынки предсказаний</a><a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a><a href="/ru/encyclopedia/other-markets/">Сырье, облигации и другие рынки</a><a href="/ru/encyclopedia/trading-business/">Проп-фирмы, налоги, регулирование и мошенничество</a><a href="/ru/encyclopedia/reference/">Справочник</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Открытый набор торговых ботов</a></div>
+  <p>PnL Profit Энциклопедия трейдинга: бесплатные независимые объяснения того, как работают крупнейшие рынки. Только образовательный материал, не инвестиционная рекомендация. Контакты: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ru/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Ничего не найдено. Загляните в глоссарий.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

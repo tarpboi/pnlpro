@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seguimiento de tendencia: cómo funciona el trend following</title>
+<meta name="description" content="Seguimiento de tendencia: momentum de serie temporal, CTA y managed futures, sistemas de ruptura y medias móviles, las Tortugas, asimetría positiva y drawdowns.">
+<meta name="keywords" content="seguimiento de tendencia, trend following, estrategia de seguimiento de tendencia, momentum de serie temporal, managed futures, reglas de las tortugas">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Seguimiento de tendencia: cómo funciona el trend following">
+<meta property="og:description" content="Seguimiento de tendencia: momentum de serie temporal, CTA y managed futures, sistemas de ruptura y medias móviles, las Tortugas, asimetría positiva y drawdowns.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/trend-following/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Seguimiento de tendencia: cómo funciona el trend following">
+<meta name="twitter:description" content="Seguimiento de tendencia: momentum de serie temporal, CTA y managed futures, sistemas de ruptura y medias móviles, las Tortugas, asimetría positiva y drawdowns.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Seguimiento de tendencia: cómo funciona el trend following","description":"Seguimiento de tendencia: momentum de serie temporal, CTA y managed futures, sistemas de ruptura y medias móviles, las Tortugas, asimetría positiva y drawdowns.","keywords":"seguimiento de tendencia, trend following, estrategia de seguimiento de tendencia, momentum de serie temporal, managed futures, reglas de las tortugas","articleSection":"Trading algorítmico y cuantitativo","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/trend-following/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading algorítmico y cuantitativo","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Seguimiento de tendencia","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/trend-following/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Sigue funcionando el seguimiento de tendencia?","acceptedAnswer":{"@type":"Answer","text":"El seguimiento de tendencia tiene un largo historial en muchos mercados y durante décadas, pero su rendimiento varía mucho según el periodo, con etapas de varios años de rendimientos débiles. Nadie puede prometer resultados futuros, y los costos y la saturación pueden reducir los rendimientos."}},{"@type":"Question","name":"¿Cuál es la diferencia entre el seguimiento de tendencia y el momentum?","acceptedAnswer":{"@type":"Answer","text":"El seguimiento de tendencia, o momentum de serie temporal, analiza el rendimiento pasado de cada activo por separado. El momentum transversal clasifica los activos entre sí y compra a los ganadores relativos aunque todos estén bajando."}},{"@type":"Question","name":"¿Por qué los seguidores de tendencia tienen tasas de acierto bajas?","acceptedAnswer":{"@type":"Answer","text":"Muchas rupturas se revierten rápido, así que el sistema sufre pérdidas pequeñas frecuentes. Los beneficios provienen de unas pocas tendencias grandes que llegan mucho más lejos que la pérdida típica, lo que puede hacer que el resultado global sea positivo pese a una tasa de acierto inferior al 50%."}},{"@type":"Question","name":"¿Qué mercados son mejores para el seguimiento de tendencia?","acceptedAnswer":{"@type":"Answer","text":"Los seguidores de tendencia profesionales suelen operar un conjunto diversificado de futuros y divisas líquidos. La liquidez mantiene bajos los costos, y la diversificación aumenta la probabilidad de que algún mercado esté en tendencia en cada momento."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/trend-following/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/trend-following/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/trend-following/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/trend-following/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/algorithmic-trading/trend-following/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/trend-following/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/trend-following/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/trend-following/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/trend-following/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading algorítmico y cuantitativo</h3><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/" class="on">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a></div>
+<h1 class="title">Seguimiento de tendencia</h1>
+<div class="meta">8 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Trading algorítmico y cuantitativo</summary><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul></details>
+<article><p>El seguimiento de tendencia (trend following) es una estrategia sistemática que compra activos cuyos precios han estado subiendo y vende o vende en corto activos cuyos precios han estado bajando, manteniendo las posiciones mientras la tendencia continúa. Es uno de los enfoques más antiguos y mejor documentados del <a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">trading algorítmico</a>, y lo utilizan muchos fondos de managed futures. Tiende a perder poco y a menudo, y a ganar mucho de vez en cuando, lo que lo hace rentable en algunos periodos y psicológicamente difícil de mantener en otros.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>El seguimiento de tendencia se basa en el momentum de serie temporal: el rendimiento pasado de un activo ha ayudado históricamente a predecir su dirección en el futuro cercano.</li>
+<li>Los sistemas típicos usan rupturas de precio o medias móviles, combinadas con un dimensionamiento de posiciones basado en la volatilidad y con diversificación en muchos mercados.</li>
+<li>Los rendimientos suelen tener asimetría positiva: muchas pérdidas pequeñas y unas pocas ganancias grandes.</li>
+<li>Los periodos largos planos o perdedores, que a veces duran años, son un rasgo normal de la estrategia.</li>
+<li>Históricamente, el seguimiento de tendencia ha funcionado bien en algunas crisis prolongadas, pero no es una cobertura fiable frente a desplomes bruscos y repentinos.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#momentum-de-serie-temporal">Momentum de serie temporal</a></li><li><a href="#cta-y-managed-futures">CTA y managed futures</a></li><li><a href="#sistemas-de-tendencia-habituales">Sistemas de tendencia habituales</a></li><li><a href="#las-tortugas">Las Tortugas</a></li><li><a href="#asimetr-a-positiva-y-periodos-planos-prolongados">Asimetría positiva y periodos planos prolongados</a></li><li><a href="#ejemplo-pr-ctico">Ejemplo práctico</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="momentum-de-serie-temporal">Momentum de serie temporal</h2>
+<p>En la investigación aparecen dos tipos de momentum. El momentum transversal (cross-sectional) compara los activos entre sí y compra a los ganadores relativos; lo documentaron Jegadeesh y Titman en acciones estadounidenses en 1993 y se trata en <a href="/es/encyclopedia/stocks/momentum-trading/">trading de momentum</a>. El momentum de serie temporal (time-series momentum) analiza cada activo por separado: si su rendimiento en los últimos meses es positivo, se toma una posición larga; si es negativo, una corta.</p>
+<p>En un artículo de 2012, Moskowitz, Ooi y Pedersen documentaron el momentum de serie temporal en decenas de mercados de futuros, entre ellos índices bursátiles, divisas, materias primas y bonos. Encontraron que el rendimiento de los últimos 12 meses tendía a predecir el rendimiento del mes siguiente, y que el efecto se revertía en parte en horizontes más largos. Entre las explicaciones propuestas están que los inversores al principio reaccionan poco a las noticias y luego en exceso, además de los flujos de cobertura y de gestión del riesgo que empujan los precios en la misma dirección durante periodos prolongados.</p>
+<h2 id="cta-y-managed-futures">CTA y managed futures</h2>
+<p>Muchos seguidores de tendencia profesionales son commodity trading advisors (CTA), firmas registradas para gestionar operaciones de futuros por cuenta de clientes. A este sector se le suele llamar managed futures (futuros gestionados). Un programa de tendencia diversificado típico:</p>
+<ul>
+<li>Opera un amplio conjunto de mercados líquidos de futuros y forex: índices bursátiles, bonos del Estado, tasas de interés, divisas, energía, metales y agricultura.</li>
+<li>Toma posiciones largas y cortas, de modo que puede ganar dinero tanto en mercados bajistas como alcistas.</li>
+<li>Dimensiona cada posición según la volatilidad, de modo que un futuro de bonos tranquilo y un futuro de crudo volátil aportan un riesgo aproximadamente igual.</li>
+<li>Mantiene las posiciones durante semanas o meses.</li>
+</ul>
+<p>La diversificación es fundamental. Cualquier mercado concreto solo tiene tendencia de vez en cuando; entre 50 o más mercados, normalmente alguno está en tendencia. Los fondos de seguimiento de tendencia en conjunto registraron ganancias en algunos mercados bajistas prolongados y shocks de inflación, como en 2008 y 2022, y por eso a la estrategia se la llama a veces &quot;crisis alpha&quot;. Pero buena parte de la década de 2010 fue una etapa difícil para muchos seguidores de tendencia, y un desplome repentino sin tendencia previa puede perjudicarlos.</p>
+<h2 id="sistemas-de-tendencia-habituales">Sistemas de tendencia habituales</h2>
+<h3 id="sistemas-de-ruptura">Sistemas de ruptura</h3>
+<p>Un sistema de ruptura (breakout) compra cuando el precio supera su nivel más alto de los últimos N días y vende en corto cuando cae por debajo del nivel más bajo de los últimos N días. Las líneas de máximos y mínimos se llaman canal de Donchian, en honor a Richard Donchian, uno de los primeros pioneros del trading sistemático de tendencia. Las salidas usan un canal más corto en la dirección opuesta o un stop dinámico (trailing stop).</p>
+<h3 id="sistemas-de-medias-m-viles">Sistemas de medias móviles</h3>
+<p>Un sistema de <a href="/es/encyclopedia/technical-analysis/moving-averages/">medias móviles</a> toma posición larga cuando una media rápida está por encima de una lenta (por ejemplo, la de 50 días por encima de la de 200 días) y corta cuando está por debajo. Algunas variantes usan el precio en relación con una sola media o la pendiente de la media.</p>
+<h3 id="se-ales-basadas-en-el-rendimiento">Señales basadas en el rendimiento</h3>
+<p>Algunos sistemas simplemente toman el signo del rendimiento de los últimos 3, 6 o 12 meses, a menudo combinando varias ventanas de cálculo para depender menos de una sola.</p>
+<p>La lógica de ruptura puede escribirse en unas pocas líneas. El canal se desplaza una barra para que la señal nunca use el máximo o el mínimo de la propia barra actual, y la posición de cada día debe aplicarse al rendimiento del día siguiente.</p>
+<pre><code class="language-python">import pandas as pd
+
+def donchian_positions(close: pd.Series, entry=55, exit=20) -&gt; pd.Series:
+    upper = close.rolling(entry).max().shift(1)
+    lower = close.rolling(entry).min().shift(1)
+    exit_high = close.rolling(exit).max().shift(1)
+    exit_low = close.rolling(exit).min().shift(1)
+    pos, out = 0, []
+    for px, up, lo, xh, xl in zip(close, upper, lower, exit_high, exit_low):
+        if pos == 0 and px &gt; up:
+            pos = 1
+        elif pos == 0 and px &lt; lo:
+            pos = -1
+        elif pos == 1 and px &lt; xl:
+            pos = 0
+        elif pos == -1 and px &gt; xh:
+            pos = 0
+        out.append(pos)
+    return pd.Series(out, index=close.index)
+</code></pre>
+<h2 id="las-tortugas">Las Tortugas</h2>
+<p>La historia más conocida del seguimiento de tendencia tiene como protagonistas a Richard Dennis, un exitoso trader de futuros de Chicago, y a su socio William Eckhardt. A principios de la década de 1980 discrepaban sobre si se podía enseñar a operar. Dennis reclutó a un grupo de aprendices mediante anuncios en la prensa, les enseñó durante un periodo breve un sistema de tendencia basado en reglas y les dio dinero para operar. Los aprendices pasaron a conocerse como las Tortugas (Turtles).</p>
+<p>Los relatos publicados más tarde por antiguas Tortugas describen un sistema basado en rupturas de Donchian (una versión de 20 días y otra de 55 días), salidas con rupturas opuestas más cortas, stops situados a un múltiplo de la volatilidad reciente y tamaños de posición escalados para que un movimiento diario típico en cada mercado representara una fracción pequeña y fija del capital. Varios de los aprendices llegaron a dirigir sus propios fondos. El episodio se cita a menudo como prueba de que un sistema disciplinado importa más que la intuición, aunque, como en cualquier historia de éxito famosa, el sesgo de supervivencia influye en cómo se cuenta.</p>
+<h2 id="asimetr-a-positiva-y-periodos-planos-prolongados">Asimetría positiva y periodos planos prolongados</h2>
+<p>El seguimiento de tendencia suele tener una tasa de acierto baja. Muchas rupturas fallan rápido y se cierran con pequeñas pérdidas. Los beneficios provienen de una minoría de operaciones que capturan movimientos grandes y sostenidos.</p>
+<p>Ese patrón produce asimetría positiva (positive skew): la distribución de los rendimientos tiene una larga cola derecha. Es lo contrario de la <a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">reversión a la media</a>, que tiende a ganar a menudo y a perder mucho de vez en cuando.</p>
+<p>El costo es psicológico. Las largas secuencias de pequeñas pérdidas son normales, y una estrategia puede pasar años sin marcar un nuevo máximo de capital. Muchos traders abandonan los sistemas de tendencia justo en esas etapas, poco antes de la siguiente gran tendencia.</p>
+<h2 id="ejemplo-pr-ctico">Ejemplo práctico</h2>
+<h3 id="esperanza-matem-tica-con-una-tasa-de-acierto-baja">Esperanza matemática con una tasa de acierto baja</h3>
+<p>Un sistema de tendencia gana el 35% de sus operaciones. La operación ganadora media gana 3R y la perdedora media cuesta 1R, donde R es la cantidad arriesgada por operación.</p>
+<ul>
+<li>Esperanza = 0.35 × 3R − 0.65 × 1R = 1.05R − 0.65R = 0.40R por operación.</li>
+<li>Arriesgando 1,000 dólares por operación, eso supone una media de 400 dólares por operación a lo largo de muchas operaciones.</li>
+<li>La probabilidad de que una serie concreta de 10 operaciones sean todas perdedoras es 0.65^10 ≈ 1.3%. A lo largo de varios cientos de operaciones, una racha así de larga se vuelve probable en algún momento.</li>
+</ul>
+<h3 id="dimensionamiento-basado-en-la-volatilidad">Dimensionamiento basado en la volatilidad</h3>
+<p>Una cuenta de 100,000 dólares arriesga un 1% por operación, es decir, 1,000 dólares. Una acción cotiza a 50 dólares con un <a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">Average True Range</a> (ATR) de 1.25 dólares. El stop se coloca a 2 ATR, es decir, a 2.50 dólares.</p>
+<ul>
+<li>Tamaño de la posición = 1,000 / 2.50 = 400 acciones, por un valor de 20,000 dólares.</li>
+<li>Una acción más tranquila con un ATR de 0.50 dólares tendría un stop a 1.00 dólar de distancia y una posición de 1,000 acciones para el mismo riesgo en dólares.</li>
+</ul>
+<p>Cada posición, tranquila o volátil, conlleva ahora un riesgo similar.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Operar un solo mercado.</strong> Sin diversificación, los periodos planos largos se vuelven muy largos.</li>
+<li><strong>Saltarse el sistema tras las pérdidas.</strong> Omitir la siguiente señal suele significar perderse la operación que paga la racha perdedora.</li>
+<li><strong>Optimizar las ventanas de cálculo con precisión.</strong> Las señales de tendencia son robustas en un amplio rango de ventanas; el ajuste fino sobre todo se ajusta al ruido.</li>
+<li><strong>Ignorar los costos del roll y los gaps.</strong> Los futuros hay que renovarlos (roll), y los precios pueden saltar por encima de los stops durante la noche. Consulta <a href="/es/encyclopedia/futures/futures-basics/">fundamentos de los futuros</a>.</li>
+<li><strong>Esperar una curva de capital suave.</strong> Los drawdowns del 20% o más han sido habituales incluso en los programas de tendencia profesionales.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="sigue-funcionando-el-seguimiento-de-tendencia">¿Sigue funcionando el seguimiento de tendencia?</h3>
+<p>El seguimiento de tendencia tiene un largo historial en muchos mercados y durante décadas, pero su rendimiento varía mucho según el periodo, con etapas de varios años de rendimientos débiles. Nadie puede prometer resultados futuros, y los costos y la saturación pueden reducir los rendimientos.</p>
+<h3 id="cu-l-es-la-diferencia-entre-el-seguimiento-de-tendencia-y-el-momentum">¿Cuál es la diferencia entre el seguimiento de tendencia y el momentum?</h3>
+<p>El seguimiento de tendencia, o momentum de serie temporal, analiza el rendimiento pasado de cada activo por separado. El momentum transversal clasifica los activos entre sí y compra a los ganadores relativos aunque todos estén bajando.</p>
+<h3 id="por-qu-los-seguidores-de-tendencia-tienen-tasas-de-acierto-bajas">¿Por qué los seguidores de tendencia tienen tasas de acierto bajas?</h3>
+<p>Muchas rupturas se revierten rápido, así que el sistema sufre pérdidas pequeñas frecuentes. Los beneficios provienen de unas pocas tendencias grandes que llegan mucho más lejos que la pérdida típica, lo que puede hacer que el resultado global sea positivo pese a una tasa de acierto inferior al 50%.</p>
+<h3 id="qu-mercados-son-mejores-para-el-seguimiento-de-tendencia">¿Qué mercados son mejores para el seguimiento de tendencia?</h3>
+<p>Los seguidores de tendencia profesionales suelen operar un conjunto diversificado de futuros y divisas líquidos. La liquidez mantiene bajos los costos, y la diversificación aumenta la probabilidad de que algún mercado esté en tendencia en cada momento.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/technical-analysis/moving-averages/"><div class="k">Análisis técnico</div><b>Medias móviles</b><span>Cómo se calculan las medias móviles simple, exponencial y ponderada, qué significan los periodos 20, 50 y 200, los cruces dorado y de la muerte, y el retraso.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Trading algorítmico y cuantitativo</div><b>Reversión a la media</b><span>Cómo funciona la reversión a la media: reversión de corto plazo, z-scores, sistemas con Bollinger y RSI, asimetría negativa, riesgo de régimen y cuándo falla.</span></a><a class="card" href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/"><div class="k">Análisis técnico</div><b>ATR y volatilidad</b><span>Cómo funciona el Average True Range, el ATR para stops y tamaño de posición, la volatilidad histórica, los canales de Keltner y la volatilidad en clústeres.</span></a><a class="card" href="/es/encyclopedia/stocks/momentum-trading/"><div class="k">Trading de acciones</div><b>Trading de momentum</b><span>Trading de momentum en acciones: catalizadores, volumen relativo, float, rupturas y suspensiones, qué dice la investigación y el riesgo de perseguir el precio.</span></a><a class="card" href="/es/encyclopedia/futures/futures-basics/"><div class="k">Trading de futuros</div><b>Fundamentos de futuros</b><span>Cómo funcionan los contratos de futuros: bolsas, especificaciones, valor del tick, códigos de mes, liquidación diaria, margen, entrega y quién los usa.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><small>← Anterior</small>Sobreajuste</a><a class="next" href="/es/encyclopedia/algorithmic-trading/mean-reversion/"><small>Siguiente →</small>Reversión a la media</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

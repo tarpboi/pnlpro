@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swing trade de ações: setups, filtros e gestão de risco | PnL Profit</title>
+<meta name="description" content="Como o swing trader mantém ações por dias ou semanas: rompimentos, pullbacks até médias móveis, bases, risco overnight e de balanço, e como conduzir as operações.">
+<meta name="keywords" content="swing trade de ações, estratégia de swing trade, swing trade para iniciantes, operar pullback, swing trade de rompimento">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/stocks/swing-trading-stocks/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Swing trade de ações: setups, filtros e gestão de risco | PnL Profit">
+<meta property="og:description" content="Como o swing trader mantém ações por dias ou semanas: rompimentos, pullbacks até médias móveis, bases, risco overnight e de balanço, e como conduzir as operações.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/stocks/swing-trading-stocks/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Swing trade de ações: setups, filtros e gestão de risco | PnL Profit">
+<meta name="twitter:description" content="Como o swing trader mantém ações por dias ou semanas: rompimentos, pullbacks até médias móveis, bases, risco overnight e de balanço, e como conduzir as operações.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Swing trade de ações: setups, filtros e gestão de risco","description":"Como o swing trader mantém ações por dias ou semanas: rompimentos, pullbacks até médias móveis, bases, risco overnight e de balanço, e como conduzir as operações.","keywords":"swing trade de ações, estratégia de swing trade, swing trade para iniciantes, operar pullback, swing trade de rompimento","articleSection":"Trading de ações","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/stocks/swing-trading-stocks/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading de ações","item":"https://pnlpro.fit/pt/encyclopedia/stocks/"},{"@type":"ListItem","position":3,"name":"Swing trade de ações","item":"https://pnlpro.fit/pt/encyclopedia/stocks/swing-trading-stocks/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Por quanto tempo o swing trader fica com uma ação?","acceptedAnswer":{"@type":"Answer","text":"Normalmente de dois dias a algumas semanas. O objetivo é capturar um movimento, então a operação termina quando o movimento termina ou quando o setup falha."}},{"@type":"Question","name":"Swing trade é melhor do que day trade?","acceptedAnswer":{"@type":"Answer","text":"Nenhum é melhor para todo mundo. O swing trade exige menos tempo de tela e em geral tem custos de operação menores, mas assume o risco de gaps overnight e de fim de semana que o day trader evita."}},{"@type":"Question","name":"Dá para fazer swing trade com uma conta pequena?","acceptedAnswer":{"@type":"Answer","text":"Sim. O swing trade não depende dos limites de day trade, e uma conta à vista funciona porque você opera com menos frequência do que a liquidação permite. Contas pequenas ainda assim devem arriscar apenas um pequeno percentual por operação."}},{"@type":"Question","name":"Qual é o melhor indicador para swing trade?","acceptedAnswer":{"@type":"Answer","text":"Nenhum indicador isolado funciona melhor. Muitos swing traders combinam estrutura de preço, médias móveis e volume e se concentram na gestão de risco em vez de procurar um sinal perfeito."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/stocks/swing-trading-stocks/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/stocks/swing-trading-stocks/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/stocks/swing-trading-stocks/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/stocks/swing-trading-stocks/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/stocks/swing-trading-stocks/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/stocks/swing-trading-stocks/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/stocks/swing-trading-stocks/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/stocks/swing-trading-stocks/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/stocks/swing-trading-stocks/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading de ações</h3><ul><li><a href="/pt/encyclopedia/stocks/stock-market-basics/">Fundamentos do mercado de ações</a></li><li><a href="/pt/encyclopedia/stocks/day-trading-stocks/">Day trade de ações</a></li><li><a href="/pt/encyclopedia/stocks/swing-trading-stocks/" class="on" aria-current="page">Swing trade de ações</a></li><li><a href="/pt/encyclopedia/stocks/short-selling/">Venda a descoberto</a></li><li><a href="/pt/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny stocks e small caps</a></li><li><a href="/pt/encyclopedia/stocks/premarket-and-after-hours-trading/">Pré-mercado e after-hours</a></li><li><a href="/pt/encyclopedia/stocks/earnings-trading/">Operando balanços</a></li><li><a href="/pt/encyclopedia/stocks/gap-trading/">Operando gaps</a></li><li><a href="/pt/encyclopedia/stocks/momentum-trading/">Trading de momentum</a></li><li><a href="/pt/encyclopedia/stocks/etfs-and-index-trading/">ETFs e índices</a></li><li><a href="/pt/encyclopedia/stocks/stock-screeners-and-scanners/">Screeners e scanners</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/" class="on">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/stocks/">Trading de ações</a></div>
+<h1 class="title">Swing trade de ações</h1>
+<div class="meta">8 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Trading de ações</summary><ul><li><a href="/pt/encyclopedia/stocks/stock-market-basics/">Fundamentos do mercado de ações</a></li><li><a href="/pt/encyclopedia/stocks/day-trading-stocks/">Day trade de ações</a></li><li><a href="/pt/encyclopedia/stocks/swing-trading-stocks/" class="on" aria-current="page">Swing trade de ações</a></li><li><a href="/pt/encyclopedia/stocks/short-selling/">Venda a descoberto</a></li><li><a href="/pt/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny stocks e small caps</a></li><li><a href="/pt/encyclopedia/stocks/premarket-and-after-hours-trading/">Pré-mercado e after-hours</a></li><li><a href="/pt/encyclopedia/stocks/earnings-trading/">Operando balanços</a></li><li><a href="/pt/encyclopedia/stocks/gap-trading/">Operando gaps</a></li><li><a href="/pt/encyclopedia/stocks/momentum-trading/">Trading de momentum</a></li><li><a href="/pt/encyclopedia/stocks/etfs-and-index-trading/">ETFs e índices</a></li><li><a href="/pt/encyclopedia/stocks/stock-screeners-and-scanners/">Screeners e scanners</a></li></ul></details>
+<article><p>Fazer swing trade é manter uma ação por alguns dias a algumas semanas para capturar uma &quot;perna&quot; do preço, como um rompimento ou uma retomada depois de um pullback. Fica entre o day trade e o investimento de longo prazo. O swing trader consegue conciliar a atividade com um emprego porque não precisa acompanhar cada tick, mas em troca aceita o risco de gaps de um dia para o outro e de fim de semana.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>Os swing trades normalmente duram de 2 a 20 pregões e buscam capturar uma única perna de uma tendência.</li>
+<li>Os setups mais comuns são rompimentos de bases, pullbacks até médias móveis e repiques em suportes.</li>
+<li>Gaps overnight, especialmente em torno de balanços, podem levar o preço direto para além do stop, então dimensione as posições pensando nos gaps.</li>
+<li>A condução da posição, ou seja, stops, saídas parciais e stop móvel, importa tanto quanto a entrada.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#como-o-swing-trade-difere-de-outros-estilos">Como o swing trade difere de outros estilos</a></li><li><a href="#procurando-setups">Procurando setups</a></li><li><a href="#setups-comuns-de-swing-trade">Setups comuns de swing trade</a></li><li><a href="#risco-overnight-e-de-balan-o">Risco overnight e de balanço</a></li><li><a href="#exemplo-pr-tico-uma-opera-o-de-rompimento-e-um-gap">Exemplo prático: uma operação de rompimento e um gap</a></li><li><a href="#conduzindo-posi-es-abertas">Conduzindo posições abertas</a></li><li><a href="#custos-e-quest-es-pr-ticas">Custos e questões práticas</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="como-o-swing-trade-difere-de-outros-estilos">Como o swing trade difere de outros estilos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Day trade</th>
+<th>Swing trade</th>
+<th>Position (investimento)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Prazo da posição</td>
+<td>Minutos a horas</td>
+<td>Dias a semanas</td>
+<td>Meses a anos</td>
+</tr>
+<tr>
+<td>Tempos gráficos</td>
+<td>1 a 15 minutos</td>
+<td>Diário e horário</td>
+<td>Semanal e mensal</td>
+</tr>
+<tr>
+<td>Risco overnight</td>
+<td>Nenhum</td>
+<td>Sim</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Operações por mês</td>
+<td>Dezenas a centenas</td>
+<td>Um punhado a algumas dezenas</td>
+<td>Pouquíssimas</td>
+</tr>
+<tr>
+<td>Principais custos</td>
+<td>Spreads e slippage</td>
+<td>Spreads, gaps, juros de margem</td>
+<td>Custo de oportunidade, impostos</td>
+</tr>
+</tbody></table></div>
+<p>Os swing traders normalmente usam o gráfico diário para o setup e descem para o gráfico horário para acertar o momento da entrada, uma abordagem tratada em <a href="/pt/encyclopedia/technical-analysis/multi-timeframe-analysis/">análise em múltiplos tempos gráficos</a>. Menos operações significam custos mensais menores do que no day trade, mas cada operação é maior e atravessa notícias.</p>
+<h2 id="procurando-setups">Procurando setups</h2>
+<p>A maioria dos swing traders roda uma varredura depois do fechamento ou nos fins de semana, monta uma <a href="/pt/encyclopedia/stocks/stock-screeners-and-scanners/">watchlist</a> curta e configura alertas. Um primeiro filtro típico elimina ações ilíquidas ou baratas demais:</p>
+<ul>
+<li>Volume médio diário acima de, digamos, 500,000 ações.</li>
+<li>Preço da ação acima de um mínimo, como $10.</li>
+<li>Valor de mercado acima de um mínimo, como $1 bilhão.</li>
+</ul>
+<p>Depois, um segundo filtro procura um padrão específico, como ações acima de uma média móvel de 50 dias ascendente que estejam a poucos por cento da máxima de 52 semanas.</p>
+<h2 id="setups-comuns-de-swing-trade">Setups comuns de swing trade</h2>
+<h3 id="rompimentos-de-base">Rompimentos de base</h3>
+<p>Uma <strong>base</strong> é uma faixa lateral que se forma depois de uma alta, enquanto a ação digere os ganhos. Bases típicas incluem bases planas, bandeiras, triângulos e formações de xícara com alça (veja <a href="/pt/encyclopedia/technical-analysis/chart-patterns/">padrões gráficos</a>). A operação é comprar quando o preço fecha acima do topo da faixa com volume acima do normal, com stop abaixo da faixa ou abaixo de um fundo recente.</p>
+<p>Rompimentos falham com frequência. Um rompimento que volta rapidamente para dentro da faixa é uma forma comum de perder dinheiro, então muitos traders exigem fechamento acima do nível, volume crescente ou um mercado amplo forte antes de agir.</p>
+<h3 id="pullbacks-at-m-dias-m-veis">Pullbacks até médias móveis</h3>
+<p>Em uma tendência de alta estabelecida, os preços muitas vezes recuam até uma média móvel ascendente, como a de 10, 20 ou 50 dias (veja <a href="/pt/encyclopedia/technical-analysis/moving-averages/">médias móveis</a>). A operação é comprar quando o preço faz uma pausa na média e volta a subir, com stop abaixo da mínima recente. O setup funciona melhor quando a tendência geral é limpa e o pullback acontece com volume mais fraco.</p>
+<h3 id="repiques-em-suportes">Repiques em suportes</h3>
+<p>A ação volta a um nível em que já reverteu antes, como um ponto de rompimento anterior. Uma antiga resistência muitas vezes vira suporte (veja <a href="/pt/encyclopedia/technical-analysis/support-and-resistance/">suporte e resistência</a>). O stop fica logo abaixo do nível, então o risco é claramente definido.</p>
+<h3 id="swings-vendidos">Swings vendidos</h3>
+<p>Os mesmos padrões funcionam ao contrário em tendências de baixa: perdas de suporte saindo de uma faixa, repiques que falham em uma média móvel descendente e rejeições em resistências. Vender a descoberto acrescenta custos de aluguel e o risco de squeezes (veja <a href="/pt/encyclopedia/stocks/short-selling/">venda a descoberto</a>).</p>
+<h2 id="risco-overnight-e-de-balan-o">Risco overnight e de balanço</h2>
+<p>O principal risco que o swing trader assume e o day trader não é o <strong>gap</strong>. Notícias ruins podem sair depois do fechamento, antes da abertura ou no fim de semana. Quando o mercado abre, o preço pode estar muito abaixo do seu stop. A ordem stop então é executada no próximo preço disponível, não no preço do stop.</p>
+<p>Os balanços são a maior fonte programada de gaps. Muitos swing traders conferem a próxima data de balanço de cada posição e encerram ou reduzem a posição antes da divulgação. Outros carregam a posição deliberadamente, com um tamanho em que um gap grande não cause estrago sério. Veja <a href="/pt/encyclopedia/stocks/earnings-trading/">operar balanços</a> e <a href="/pt/encyclopedia/stocks/gap-trading/">trading de gaps</a>.</p>
+<p>Outras fontes de risco de gap incluem resultados de estudos clínicos, decisões regulatórias, notícias de aquisição, dados macroeconômicos divulgados antes da abertura e eventos globais durante o fim de semana.</p>
+<h2 id="exemplo-pr-tico-uma-opera-o-de-rompimento-e-um-gap">Exemplo prático: uma operação de rompimento e um gap</h2>
+<p>Um trader tem uma conta de $25,000 e arrisca 1 por cento por operação, ou $250.</p>
+<ul>
+<li>Uma ação formou uma base entre $44 e $47.50 por cinco semanas. Ela fecha a $48 com volume forte.</li>
+<li>O trader compra a $48 e coloca o stop em $45, abaixo da base. O risco por ação é de $3.</li>
+<li>O tamanho da posição é $250 ÷ $3 = 83.3, arredondado para baixo para 83 ações, ao custo de 83 × $48 = $3,984.</li>
+<li>O alvo é $57, três vezes o risco ($9 por ação). Se for atingido, o ganho é 83 × $9 = $747.</li>
+</ul>
+<p>Agora suponha que a empresa divulgue resultados fracos duas semanas depois e a ação abra a $40. O stop em $45 é executado perto de $40. A perda é 83 × ($48 − $40) = $664. Isso é 2.66 vezes o risco planejado de $250.</p>
+<p>Formas de limitar isso: não carregar a posição durante o balanço, reduzir o tamanho antes de um evento conhecido ou tratar o gap inteiro como o risco na hora de dimensionar (veja <a href="/pt/encyclopedia/risk-management/position-sizing/">dimensionamento de posição</a>).</p>
+<h2 id="conduzindo-posi-es-abertas">Conduzindo posições abertas</h2>
+<p>Depois que a operação está montada, os swing traders tendem a seguir algumas regras definidas de antemão:</p>
+<ul>
+<li><strong>Stop inicial:</strong> colocado onde o setup está claramente errado, não em um percentual arbitrário.</li>
+<li><strong>Subir para o zero a zero (breakeven):</strong> depois que a operação anda um certo valor a seu favor, alguns traders sobem o stop para o preço de entrada. Isso reduz as perdas, mas também faz você ser estopado em mais operações que teriam dado certo.</li>
+<li><strong>Realizações parciais:</strong> vender um terço ou metade no primeiro alvo garante parte do ganho e deixa o resto correr.</li>
+<li><strong>Stop móvel:</strong> acompanhar o preço com o stop abaixo de uma média móvel ou de fundos anteriores mantém você na tendência até ela ser rompida (veja <a href="/pt/encyclopedia/risk-management/stop-loss-strategies/">estratégias de stop loss</a>).</li>
+<li><strong>Stop no tempo:</strong> se a ação não fizer nada por um número definido de dias, saia e libere o capital.</li>
+</ul>
+<p>Acompanhe também o mercado como um todo. Muitos rompimentos de ações individuais falham quando os principais índices estão caindo, porque a maioria das ações se move com o mercado em algum grau.</p>
+<h2 id="custos-e-quest-es-pr-ticas">Custos e questões práticas</h2>
+<ul>
+<li>Carregar posições de um dia para o outro com margem gera juros. Posições vendidas geram taxas de aluguel (veja <a href="/pt/encyclopedia/basics/trading-costs-and-fees/">custos e taxas do trading</a>).</li>
+<li>Em uma conta à vista nos EUA, a liquidação é T+1, então o resultado das vendas pode ser reutilizado no dia útil seguinte. Os swing traders raramente têm problemas de liquidação porque operam com menos frequência.</li>
+<li>Em muitos países, o tratamento tributário de posições de curto prazo é diferente do das posições de longo prazo. Nos EUA, ganhos em posições mantidas por um ano ou menos são tributados como ganhos de curto prazo (veja <a href="/pt/encyclopedia/trading-business/trading-taxes-overview/">visão geral dos impostos sobre trading</a>).</li>
+<li>O swing trade não se limita aos EUA. Os mesmos setups são aplicados a ações da LSE, do Xetra, da TSE, da ASX e de outras bolsas, com regras locais sobre tamanho de lote e horários.</li>
+</ul>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Carregar a posição durante o balanço sem querer.</strong> Sempre confira a data de divulgação antes de entrar.</li>
+<li><strong>Dimensionar pelo stop, e não pelo gap.</strong> Movimentos overnight podem passar muito além do stop.</li>
+<li><strong>Pegar todo rompimento em um mercado fraco.</strong> Rompimentos falham com mais frequência quando os índices estão caindo.</li>
+<li><strong>Transformar um swing trade em investimento.</strong> Uma operação perdedora que &quot;você vai segurar até voltar&quot; é um stop que você não respeitou.</li>
+<li><strong>Posições correlacionadas demais.</strong> Cinco rompimentos de ações de semicondutores se comportam como uma única aposta grande.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="por-quanto-tempo-o-swing-trader-fica-com-uma-a-o">Por quanto tempo o swing trader fica com uma ação?</h3>
+<p>Normalmente de dois dias a algumas semanas. O objetivo é capturar um movimento, então a operação termina quando o movimento termina ou quando o setup falha.</p>
+<h3 id="swing-trade-melhor-do-que-day-trade">Swing trade é melhor do que day trade?</h3>
+<p>Nenhum é melhor para todo mundo. O swing trade exige menos tempo de tela e em geral tem custos de operação menores, mas assume o risco de gaps overnight e de fim de semana que o day trader evita.</p>
+<h3 id="d-para-fazer-swing-trade-com-uma-conta-pequena">Dá para fazer swing trade com uma conta pequena?</h3>
+<p>Sim. O swing trade não depende dos limites de day trade, e uma conta à vista funciona porque você opera com menos frequência do que a liquidação permite. Contas pequenas ainda assim devem arriscar apenas um pequeno percentual por operação.</p>
+<h3 id="qual-o-melhor-indicador-para-swing-trade">Qual é o melhor indicador para swing trade?</h3>
+<p>Nenhum indicador isolado funciona melhor. Muitos swing traders combinam estrutura de preço, médias móveis e volume e se concentram na gestão de risco em vez de procurar um sinal perfeito.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/stocks/day-trading-stocks/"><div class="k">Trading de ações</div><b>Day trade de ações</b><span>Day trade de ações na prática: a regra do pattern day trader nos EUA e sua substituta de 2026, conta à vista vs margem, liquidação T+1, setups e chances reais.</span></a><a class="card" href="/pt/encyclopedia/stocks/stock-screeners-and-scanners/"><div class="k">Trading de ações</div><b>Screeners e scanners</b><span>Como funcionam screeners e scanners de ações, filtros fundamentalistas vs técnicos, critérios de exemplo para swing e day trade e como montar uma watchlist.</span></a><a class="card" href="/pt/encyclopedia/technical-analysis/moving-averages/"><div class="k">Análise técnica</div><b>Médias móveis</b><span>Como calcular médias móveis simples, exponenciais e ponderadas, o que significam os períodos de 20, 50 e 200, golden cross, death cross e o atraso.</span></a><a class="card" href="/pt/encyclopedia/technical-analysis/chart-patterns/"><div class="k">Análise técnica</div><b>Padrões gráficos</b><span>Padrões gráficos clássicos: ombro-cabeça-ombro, topo duplo, triângulos, cunhas, bandeiras e xícara com alça. Como funciona a projeção e por que falham.</span></a><a class="card" href="/pt/encyclopedia/risk-management/stop-loss-strategies/"><div class="k">Gestão de risco e de capital</div><b>Estratégias de stop loss</b><span>Como posicionar o stop loss por estrutura, ATR, percentual e tempo, além de stop móvel, stop garantido, gaps, caça a stops e definição do take profit.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/stocks/day-trading-stocks/"><small>← Anterior</small>Day trade de ações</a><a class="next" href="/pt/encyclopedia/stocks/short-selling/"><small>Próximo →</small>Venda a descoberto</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

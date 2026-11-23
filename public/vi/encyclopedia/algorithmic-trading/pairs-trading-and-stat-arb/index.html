@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giao dịch cặp và chênh lệch giá thống kê (stat arb) | PnL Profit</title>
+<meta name="description" content="Cách pairs trading và stat arb hoạt động: đồng tích hợp và tương quan, hệ số phòng hộ, z-score của spread, quy tắc vào ra, suy giảm lợi thế, quant quake 2007.">
+<meta name="keywords" content="giao dịch cặp, chênh lệch giá thống kê, giao dịch đồng tích hợp, chiến lược pairs trading, hệ số phòng hộ, quant quake 2007">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Giao dịch cặp và chênh lệch giá thống kê (stat arb) | PnL Profit">
+<meta property="og:description" content="Cách pairs trading và stat arb hoạt động: đồng tích hợp và tương quan, hệ số phòng hộ, z-score của spread, quy tắc vào ra, suy giảm lợi thế, quant quake 2007.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Giao dịch cặp và chênh lệch giá thống kê (stat arb) | PnL Profit">
+<meta name="twitter:description" content="Cách pairs trading và stat arb hoạt động: đồng tích hợp và tương quan, hệ số phòng hộ, z-score của spread, quy tắc vào ra, suy giảm lợi thế, quant quake 2007.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Giao dịch cặp và chênh lệch giá thống kê (stat arb)","description":"Cách pairs trading và stat arb hoạt động: đồng tích hợp và tương quan, hệ số phòng hộ, z-score của spread, quy tắc vào ra, suy giảm lợi thế, quant quake 2007.","keywords":"giao dịch cặp, chênh lệch giá thống kê, giao dịch đồng tích hợp, chiến lược pairs trading, hệ số phòng hộ, quant quake 2007","articleSection":"Giao dịch thuật toán và định lượng","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch thuật toán và định lượng","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Pairs trading và Stat Arb","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Giao dịch cặp có phi rủi ro không?","acceptedAnswer":{"@type":"Answer","text":"Không. Mối quan hệ giữa hai tài sản có thể đổ vỡ, spread có thể nới rộng thêm trước khi thu hẹp, và các vị thế đông đúc có thể bị tháo gỡ đột ngột. Giao dịch cặp giảm mức phơi nhiễm với hướng đi của thị trường nhưng thêm các rủi ro khác."}},{"@type":"Question","name":"Đồng tích hợp và tương quan khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"Tương quan đo liệu lợi suất của hai tài sản có di chuyển cùng nhau từ kỳ này sang kỳ khác. Đồng tích hợp nghĩa là một tổ hợp giá của chúng tạo thành một spread có xu hướng quay về mức trung bình ổn định, đó là điều một giao dịch cặp dựa vào."}},{"@type":"Question","name":"Tôi nên dùng z-score bao nhiêu cho giao dịch cặp?","acceptedAnswer":{"@type":"Answer","text":"Nhiều trader vào lệnh quanh ±2 và thoát gần 0, với lệnh dừng ở giá trị lớn hơn như ±4. Các ngưỡng tốt nhất phụ thuộc vào chi phí, half-life của spread và bản thân cặp đó, và nên được kiểm thử ngoài mẫu."}},{"@type":"Question","name":"Giao dịch cặp còn hiệu quả không?","acceptedAnswer":{"@type":"Answer","text":"Các nghiên cứu học thuật thấy lợi suất của các quy tắc giao dịch cặp đơn giản giảm theo thời gian khi chiến lược trở nên phổ biến. Cơ hội vẫn còn, nhưng có xu hướng nhỏ hơn, nhanh hơn và cạnh tranh hơn so với trước đây."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch thuật toán và định lượng</h3><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/" class="on">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a></div>
+<h1 class="title">Giao dịch cặp và chênh lệch giá thống kê</h1>
+<div class="meta">10 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch thuật toán và định lượng</summary><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul></details>
+<article><p>Giao dịch cặp (pairs trading) là chiến lược trung lập thị trường, mua một tài sản và bán khống một tài sản liên quan chặt chẽ khi mối quan hệ giá giữa chúng căng ra xa bất thường, đặt cược rằng khoảng chênh sẽ thu hẹp. Chênh lệch giá thống kê, hay stat arb, mở rộng ý tưởng này sang các danh mục lớn gồm những vị thế được chọn bằng mô hình thống kê. Cả hai đều là các dạng <a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">hồi quy về trung bình</a> áp dụng cho giá tương đối thay vì giá đơn lẻ, và cả hai đều phụ thuộc vào những mối quan hệ có thể yếu đi hoặc đứt gãy.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Giao dịch cặp kiếm lời từ thay đổi của spread giữa hai tài sản, không phải từ hướng đi của thị trường chung.</li>
+<li>Đồng tích hợp (cointegration), nghĩa là bản thân spread có xu hướng quay về một mức ổn định, quan trọng hơn tương quan.</li>
+<li>Hệ số phòng hộ xác định cần giao dịch bao nhiêu mỗi tài sản để spread được cân bằng.</li>
+<li>Điểm vào và ra thường được xác định bằng z-score của spread, kèm lệnh dừng cho lúc mối quan hệ đứt gãy.</li>
+<li>Lợi nhuận giao dịch cặp được công bố đã giảm theo thời gian, và các vị thế stat arb đông đúc có thể bị tháo gỡ dữ dội, như vào tháng 8 năm 2007.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#giao-d-ch-c-p-ho-t-ng-nh-th-n-o">Giao dịch cặp hoạt động như thế nào</a></li><li><a href="#t-ng-quan-v-ng-t-ch-h-p">Tương quan và đồng tích hợp</a></li><li><a href="#x-y-d-ng-spread">Xây dựng spread</a></li><li><a href="#quy-t-c-v-o-v-tho-t-l-nh">Quy tắc vào và thoát lệnh</a></li><li><a href="#t-giao-d-ch-c-p-n-ch-nh-l-ch-gi-th-ng-k">Từ giao dịch cặp đến chênh lệch giá thống kê</a></li><li><a href="#suy-gi-m-v-m-ng-h-a">Suy giảm và đám đông hóa</a></li><li><a href="#v-d-minh-h-a">Ví dụ minh họa</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="giao-d-ch-c-p-ho-t-ng-nh-th-n-o">Giao dịch cặp hoạt động như thế nào</h2>
+<p>Ví dụ kinh điển là hai công ty cùng ngành với hoạt động kinh doanh tương tự, như hai nhà sản xuất dầu lớn, hai mạng thanh toán hoặc hai loại cổ phiếu của cùng một công ty. Giá của chúng chịu tác động của nhiều yếu tố giống nhau. Khi một cái tăng mạnh so với cái kia mà không có lý do rõ ràng, trader giao dịch cặp bán khống cái vượt trội và mua cái kém hơn. Nếu mối quan hệ còn đúng, khoảng chênh đóng lại và giao dịch có lãi dù thị trường chung tăng hay giảm.</p>
+<p>Giao dịch cặp thường được truy nguồn về các nhóm định lượng tại các bàn giao dịch Phố Wall những năm 1980, với một nhóm tại Morgan Stanley thường được ghi công. Trong một nghiên cứu năm 2006 được trích dẫn rộng rãi, Gatev, Goetzmann và Rouwenhorst kiểm thử một quy tắc đơn giản trên cổ phiếu Mỹ: ghép các cổ phiếu có giá chuẩn hóa di chuyển sát nhau nhất, rồi giao dịch khi chúng phân kỳ. Họ thấy lợi suất vượt trội trong lịch sử, nhưng cũng thấy lợi nhuận thấp hơn ở phần sau của mẫu, một mô hình mà các nghiên cứu tiếp theo cũng báo cáo.</p>
+<h2 id="t-ng-quan-v-ng-t-ch-h-p">Tương quan và đồng tích hợp</h2>
+<p>Tương quan và đồng tích hợp thường bị nhầm lẫn, và sự khác biệt này quan trọng.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Khái niệm</th>
+<th>Đo điều gì</th>
+<th>Hữu ích cho giao dịch cặp?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tương quan</td>
+<td>Liệu lợi suất của hai chuỗi có lên xuống cùng nhau từ kỳ này sang kỳ khác</td>
+<td>Tự nó chưa đủ. Hai cổ phiếu tương quan rất cao vẫn có thể trôi xa nhau vĩnh viễn</td>
+</tr>
+<tr>
+<td>Đồng tích hợp</td>
+<td>Liệu một tổ hợp nào đó của hai chuỗi giá (spread) có dừng (stationary) hay không, nghĩa là có xu hướng quay về một mức trung bình ổn định</td>
+<td>Có. Đây chính là điều một giao dịch cặp thực sự đặt cược</td>
+</tr>
+</tbody></table></div>
+<p>Hai cổ phiếu có thể có lợi suất ngày tương quan rất cao trong khi một cái chậm rãi tăng nhanh hơn cái kia suốt nhiều năm. Khi đó spread có xu hướng, và trader bán khống cái &quot;đắt&quot; sẽ thua đều đặn. Ngược lại, các chuỗi đồng tích hợp có thể chỉ có tương quan ngày vừa phải nhưng vẫn giữ mối quan hệ dài hạn ổn định.</p>
+<p>Phương pháp hai bước Engle-Granger, do Engle và Granger đưa ra năm 1987, là một phép kiểm tra phổ biến: hồi quy giá này theo giá kia để ước tính mối quan hệ, rồi kiểm tra xem spread phần dư có dừng hay không. Kiểm định Johansen xử lý nhiều hơn hai tài sản. Xem <a href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/">tương quan và rủi ro danh mục</a> để biết tương quan hoạt động ra sao trong một danh mục.</p>
+<h2 id="x-y-d-ng-spread">Xây dựng spread</h2>
+<h3 id="h-s-ph-ng-h">Hệ số phòng hộ</h3>
+<p>Hệ số phòng hộ β cho biết bao nhiêu đơn vị tài sản B bù cho một đơn vị tài sản A. Nó thường được ước tính bằng cách hồi quy giá của A theo giá của B (hoặc log giá) trên một cửa sổ nhìn lại:</p>
+<p>Spread = Price_A − β × Price_B</p>
+<p>Một cặp trung lập đô la nắm số tiền long và short bằng nhau. Một cặp trung lập beta điều chỉnh theo khác biệt về độ nhạy với thị trường. Hệ số phòng hộ trôi theo thời gian, nên nhiều trader ước tính lại nó trên cửa sổ trượt, hoặc dùng bộ lọc Kalman để cập nhật liên tục.</p>
+<h3 id="chu-k-b-n-r-half-life">Chu kỳ bán rã (half-life)</h3>
+<p>Half-life ước tính spread thường mất bao lâu để đóng một nửa độ lệch khỏi mức trung bình. Nó đến từ việc hồi quy thay đổi của spread theo mức trước đó của nó. Half-life từ 5 đến 20 ngày phù hợp với giao dịch swing; half-life vài tháng làm chôn vốn và tăng khả năng mối quan hệ đứt gãy trước.</p>
+<pre><code class="language-python">import numpy as np
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import coint
+
+def pair_stats(a: np.ndarray, b: np.ndarray):
+    &quot;&quot;&quot;a, b: các mảng giá đã căn chỉnh (thường dùng log giá).&quot;&quot;&quot;
+    beta = sm.OLS(a, sm.add_constant(b)).fit().params[1]
+    spread = a - beta * b
+    coint_p = coint(a, b)[1]          # kiểm định Engle-Granger; p nhỏ gợi ý có đồng tích hợp
+    lagged = spread[:-1]
+    delta = np.diff(spread)
+    lam = sm.OLS(delta, sm.add_constant(lagged)).fit().params[1]
+    half_life = -np.log(2) / lam if lam &lt; 0 else np.inf
+    return beta, coint_p, half_life
+</code></pre>
+<h2 id="quy-t-c-v-o-v-tho-t-l-nh">Quy tắc vào và thoát lệnh</h2>
+<p>Hầu hết hệ thống giao dịch cặp giao dịch theo z-score của spread: khoảng cách của nó so với trung bình trượt tính bằng độ lệch chuẩn.</p>
+<ul>
+<li><strong>Vào lệnh:</strong> bán khống spread (short A, long β đơn vị B) khi z tăng trên khoảng +2; mua spread khi z giảm dưới khoảng −2.</li>
+<li><strong>Thoát:</strong> đóng khi z trở về gần 0.</li>
+<li><strong>Dừng lỗ:</strong> đóng nếu z chạm cực trị như ±4, hoặc nếu giao dịch kéo dài gấp nhiều lần half-life.</li>
+<li><strong>Kiểm tra lại:</strong> ngừng giao dịch cặp đó nếu kiểm định đồng tích hợp thất bại trên dữ liệu gần đây.</li>
+</ul>
+<h2 id="t-giao-d-ch-c-p-n-ch-nh-l-ch-gi-th-ng-k">Từ giao dịch cặp đến chênh lệch giá thống kê</h2>
+<p>Chênh lệch giá thống kê áp dụng cùng logic ở quy mô lớn. Thay vì một cặp, một quỹ stat arb có thể nắm hàng trăm hoặc hàng nghìn vị thế long và short nhỏ. Các cách tiếp cận phổ biến gồm:</p>
+<ul>
+<li>Giao dịch từng cổ phiếu so với một rổ các cổ phiếu cùng ngành.</li>
+<li>Dùng mô hình nhân tố hoặc phân tích thành phần chính (PCA) để loại bỏ biến động thị trường và ngành, rồi giao dịch lợi suất phần dư được kỳ vọng sẽ hồi quy. Avellaneda và Lee mô tả cách tiếp cận này cho cổ phiếu Mỹ trong một bài báo năm 2010.</li>
+<li>Các mô hình ngắn hạn kết hợp tín hiệu hồi quy với thông tin dòng lệnh và khối lượng.</li>
+</ul>
+<p>Dù có tên như vậy, chênh lệch giá thống kê không phải arbitrage theo nghĩa phi rủi ro được mô tả trong <a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">chiến lược arbitrage</a>. Nó dựa vào các xác suất đúng trung bình trên nhiều vị thế.</p>
+<h2 id="suy-gi-m-v-m-ng-h-a">Suy giảm và đám đông hóa</h2>
+<h3 id="suy-gi-m-l-i-th">Suy giảm lợi thế</h3>
+<p>Khi nhiều trader chạy các mô hình tương tự, các spread họ nhắm tới đóng nhanh hơn và cơ hội thu hẹp. Các đối thủ nhanh hơn chiếm những tín hiệu sạch nhất. Các chiến lược từng giữ vị thế hàng tuần nay có thể phải hành động trong vài phút, hoặc không hành động được.</p>
+<h3 id="quant-quake-th-ng-8-n-m-2007">Quant quake tháng 8 năm 2007</h3>
+<p>Trong tuần bắt đầu ngày 6 tháng 8 năm 2007, nhiều quỹ trung lập thị trường cổ phiếu định lượng chịu những khoản lỗ lớn, đột ngột. Trong một phân tích nổi tiếng, Khandani và Lo lập luận rằng tác nhân kích hoạt nhiều khả năng là một hoặc nhiều quỹ lớn nhanh chóng tháo gỡ vị thế, có thể để huy động tiền mặt hoặc cắt giảm rủi ro ở nơi khác. Vì nhiều quỹ nắm các danh mục long và short tương tự, lực bán bắt buộc đẩy giá đi ngược lại với tất cả cùng lúc, kích hoạt thêm việc giảm rủi ro. Phần lớn khoản lỗ đảo ngược trong vài ngày, nhưng các quỹ cắt vị thế ở đáy đã chốt lỗ. Bài học là một chiến lược có thể trung lập thị trường mà vẫn mang rủi ro đám đông hóa tập trung.</p>
+<h2 id="v-d-minh-h-a">Ví dụ minh họa</h2>
+<p>Hai cổ phiếu có hệ số phòng hộ ước tính là 1.2. Trong lịch sử spread A − 1.2 × B có trung bình 2.00 đô la với độ lệch chuẩn 0.50 đô la.</p>
+<ul>
+<li>Hôm nay A giao dịch ở 51.50 đô la và B ở 40.00 đô la. Spread = 51.50 − 1.2 × 40.00 = 51.50 − 48.00 = 3.50 đô la.</li>
+<li>z = (3.50 − 2.00) / 0.50 = 3.0, trên mức vào lệnh +2, nên trader bán khống spread: short 1,000 cổ phiếu A (51,500 đô la) và mua 1,200 cổ phiếu B (48,000 đô la).</li>
+<li>Hai tuần sau A ở 51.00 và B ở 40.75. Spread = 51.00 − 48.90 = 2.10 đô la, z = 0.2, nên trader thoát lệnh.</li>
+<li>Lãi từ short A: (51.50 − 51.00) × 1,000 = 500 đô la. Lãi từ long B: (40.75 − 40.00) × 1,200 = 900 đô la. Tổng 1,400 đô la.</li>
+<li>Kiểm tra: spread giảm từ 3.50 xuống 2.10, thay đổi 1.40 đô la, nhân 1,000 đơn vị spread = 1,400 đô la.</li>
+</ul>
+<p>Từ đó, hãy trừ hoa hồng của bốn chân lệnh, spread phải trả ở mỗi chân và phí vay cổ phiếu bán khống. Cơ chế và chi phí bán khống được trình bày trong <a href="/vi/encyclopedia/stocks/short-selling/">bán khống</a>.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Chọn cặp chỉ dựa vào tương quan.</strong> Tương quan cao không có nghĩa spread sẽ hồi quy.</li>
+<li><strong>Khai phá hàng nghìn cặp rồi giao dịch những cặp có backtest tốt nhất.</strong> Với đủ nhiều ứng viên, một số cặp trông có vẻ đồng tích hợp do ngẫu nhiên. Xem <a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">overfitting và data snooping</a>.</li>
+<li><strong>Bỏ qua thay đổi cấu trúc.</strong> Sáp nhập, tách công ty, quy định mới hoặc thay đổi cơ cấu kinh doanh có thể phá vỡ một mối quan hệ vĩnh viễn.</li>
+<li><strong>Không có lệnh dừng trên spread.</strong> Một cặp đã đứt gãy có thể tiếp tục phân kỳ trong nhiều tháng.</li>
+<li><strong>Đánh giá thấp chi phí phía bán khống.</strong> Phí vay, thu hồi cổ phiếu và hạn chế bán khống có thể xóa sạch những lợi thế mỏng.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="giao-d-ch-c-p-c-phi-r-i-ro-kh-ng">Giao dịch cặp có phi rủi ro không?</h3>
+<p>Không. Mối quan hệ giữa hai tài sản có thể đổ vỡ, spread có thể nới rộng thêm trước khi thu hẹp, và các vị thế đông đúc có thể bị tháo gỡ đột ngột. Giao dịch cặp giảm mức phơi nhiễm với hướng đi của thị trường nhưng thêm các rủi ro khác.</p>
+<h3 id="ng-t-ch-h-p-v-t-ng-quan-kh-c-nhau-th-n-o">Đồng tích hợp và tương quan khác nhau thế nào?</h3>
+<p>Tương quan đo liệu lợi suất của hai tài sản có di chuyển cùng nhau từ kỳ này sang kỳ khác. Đồng tích hợp nghĩa là một tổ hợp giá của chúng tạo thành một spread có xu hướng quay về mức trung bình ổn định, đó là điều một giao dịch cặp dựa vào.</p>
+<h3 id="t-i-n-n-d-ng-z-score-bao-nhi-u-cho-giao-d-ch-c-p">Tôi nên dùng z-score bao nhiêu cho giao dịch cặp?</h3>
+<p>Nhiều trader vào lệnh quanh ±2 và thoát gần 0, với lệnh dừng ở giá trị lớn hơn như ±4. Các ngưỡng tốt nhất phụ thuộc vào chi phí, half-life của spread và bản thân cặp đó, và nên được kiểm thử ngoài mẫu.</p>
+<h3 id="giao-d-ch-c-p-c-n-hi-u-qu-kh-ng">Giao dịch cặp còn hiệu quả không?</h3>
+<p>Các nghiên cứu học thuật thấy lợi suất của các quy tắc giao dịch cặp đơn giản giảm theo thời gian khi chiến lược trở nên phổ biến. Cơ hội vẫn còn, nhưng có xu hướng nhỏ hơn, nhanh hơn và cạnh tranh hơn so với trước đây.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Hồi quy về trung bình</b><span>Cách giao dịch hồi quy về trung bình hoạt động: đảo chiều ngắn hạn, z-score, Bollinger Band và RSI, độ lệch âm, rủi ro chế độ thị trường và khi nó thất bại.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Chiến lược arbitrage</b><span>Arbitrage thuần túy và thống kê, arbitrage chỉ số, ETF, merger arbitrage, giữa các sàn, tam giác, basis trade, và vì sao arbitrage phi rủi ro rất hiếm.</span></a><a class="card" href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/"><div class="k">Quản trị rủi ro và vốn</div><b>Tương quan và rủi ro danh mục</b><span>Các vị thế tương quan hoạt động như một cược lớn ra sao, vì sao tương quan tăng vọt khi khủng hoảng, giới hạn đa dạng hóa, hạn mức phơi nhiễm, hedge và beta.</span></a><a class="card" href="/vi/encyclopedia/stocks/short-selling/"><div class="k">Giao dịch cổ phiếu</div><b>Bán khống</b><span>Bán khống hoạt động thế nào: tìm và vay cổ phiếu, phí vay, short interest và days to cover, short squeeze, quy tắc SSR, cổ tức phải trả và lựa chọn thay thế.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Overfitting</b><span>Vì sao hầu hết backtest tuyệt đẹp thất bại khi chạy thật: curve fitting, kiểm định đa lần, tham số không ổn định, deflated Sharpe ratio, cách tránh overfitting.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/"><small>← Bài trước</small>Hồi quy về trung bình</a><a class="next" href="/vi/encyclopedia/algorithmic-trading/market-making/"><small>Bài tiếp →</small>Làm thị trường</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>订单流交易：盘口、DOM、足迹图与Delta | PnL Profit</title>
+<meta name="description" content="订单流交易详解：逐笔成交、DOM价格阶梯、足迹图、Delta与累计Delta、吸收、冰山单，以及所需的数据。">
+<meta name="keywords" content="订单流交易, 足迹图, 累计Delta, 看盘读带, DOM盘口交易">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="订单流交易：盘口、DOM、足迹图与Delta | PnL Profit">
+<meta property="og:description" content="订单流交易详解：逐笔成交、DOM价格阶梯、足迹图、Delta与累计Delta、吸收、冰山单，以及所需的数据。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/technical-analysis/order-flow-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="订单流交易：盘口、DOM、足迹图与Delta | PnL Profit">
+<meta name="twitter:description" content="订单流交易详解：逐笔成交、DOM价格阶梯、足迹图、Delta与累计Delta、吸收、冰山单，以及所需的数据。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"订单流交易：盘口、DOM、足迹图与Delta","description":"订单流交易详解：逐笔成交、DOM价格阶梯、足迹图、Delta与累计Delta、吸收、冰山单，以及所需的数据。","keywords":"订单流交易, 足迹图, 累计Delta, 看盘读带, DOM盘口交易","articleSection":"技术分析","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/order-flow-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"技术分析","item":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"订单流交易","item":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/order-flow-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"订单流交易中的Delta是什么？","acceptedAnswer":{"@type":"Answer","text":"Delta是在一根K线或一段时间内，在卖价成交的量（主动买方）与在买价成交的量（主动卖方）之间的差值。正Delta意味着买方更主动，但并不保证价格会上涨。"}},{"@type":"Question","name":"什么是足迹图？","acceptedAnswer":{"@type":"Answer","text":"足迹图在每根价格K线内部显示每个价格上分别在买价和卖价成交了多少量。它让交易者看到K线内部主动买入和主动卖出发生在哪里。"}},{"@type":"Question","name":"股票可以用订单流吗？","acceptedAnswer":{"@type":"Answer","text":"可以，但有局限。美股交易分散在众多交易场所，包括场外场所，所以任何单一数据源都只能捕捉到部分活动，而且成交方向往往是推断出来的，而非直接报告的。"}},{"@type":"Question","name":"交易中的吸收是什么意思？","acceptedAnswer":{"@type":"Answer","text":"吸收是指大量主动买入或卖出冲击某个价位，却未能推动价格穿过它，表明有一笔大型被动订单在对面承接。它可能预示着反转，也可能在被动订单成交完毕后，该价位被击穿。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/order-flow-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/technical-analysis/order-flow-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/order-flow-trading/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/order-flow-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/order-flow-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/order-flow-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/order-flow-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>技术分析</h3><ul><li><a href="/zh/encyclopedia/technical-analysis/technical-analysis-intro/">技术分析入门</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-charts/">读懂K线图</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-patterns/">K线形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑与阻力</a></li><li><a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">趋势与市场结构</a></li><li><a href="/zh/encyclopedia/technical-analysis/chart-patterns/">图表形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/moving-averages/">移动平均线</a></li><li><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/zh/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/">布林带</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/zh/encyclopedia/technical-analysis/fibonacci-retracement/">斐波那契工具</a></li><li><a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR与波动率</a></li><li><a href="/zh/encyclopedia/technical-analysis/multi-timeframe-analysis/">多周期分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/price-action-trading/">价格行为交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/">成交量分布与市场轮廓</a></li><li><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/" class="on" aria-current="page">订单流交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/smart-money-concepts/">聪明钱概念（ICT）</a></li><li><a href="/zh/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">艾略特波浪与威科夫</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/" class="on">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/technical-analysis/">技术分析</a></div>
+<h1 class="title">订单流交易</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>技术分析中的更多文章</summary><ul><li><a href="/zh/encyclopedia/technical-analysis/technical-analysis-intro/">技术分析入门</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-charts/">读懂K线图</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-patterns/">K线形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑与阻力</a></li><li><a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">趋势与市场结构</a></li><li><a href="/zh/encyclopedia/technical-analysis/chart-patterns/">图表形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/moving-averages/">移动平均线</a></li><li><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/zh/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/">布林带</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/zh/encyclopedia/technical-analysis/fibonacci-retracement/">斐波那契工具</a></li><li><a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR与波动率</a></li><li><a href="/zh/encyclopedia/technical-analysis/multi-timeframe-analysis/">多周期分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/price-action-trading/">价格行为交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/">成交量分布与市场轮廓</a></li><li><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/" class="on" aria-current="page">订单流交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/smart-money-concepts/">聪明钱概念（ICT）</a></li><li><a href="/zh/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">艾略特波浪与威科夫</a></li></ul></details>
+<article><p>订单流交易（order flow trading）是通过分析每一笔成交和挂单，来观察在每个价位上是谁在主动出击，以及这种主动是否在推动市场。订单流交易者不只看已经走完的K线，而是阅读逐笔成交（time and sales，俗称“盘口带”）、市场深度价格阶梯和足迹图——足迹图会把每根K线的成交量在每个价位上拆分为买入和卖出。它主要是一种短线工具，最常用于期货和加密货币，因为这些市场能提供完整的成交数据。</p>
+<div class="takeaways"><h2 id="key-takeaways">核心要点</h2>
+<ul>
+<li>订单流能把主动（市价）订单和被动（限价）订单区分开来，这是普通成交量做不到的。</li>
+<li>Delta是主动买入量减去主动卖出量；累计Delta跟踪它随时间的变化，并可能与价格背离。</li>
+<li>吸收是指大量主动订单冲击某个价位却没能推动价格，表明对面有一个大型被动参与者。</li>
+<li>订单流需要带有成交主动方信息的逐笔数据，其质量取决于市场结构。</li>
+<li>这是一门要求很高的短周期功夫，成本以及来自高速专业机构的竞争都不容小觑。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">主动方与挂单</a></li><li><a href="#section-3">工具</a></li><li><a href="#delta-delta">Delta与累计Delta</a></li><li><a href="#section-8">吸收</a></li><li><a href="#section-9">冰山单</a></li><li><a href="#section-10">数据要求</a></li><li><a href="#section-11">为什么它主要是期货和加密货币的工具</a></li><li><a href="#section-12">坦诚的局限</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">主动方与挂单</h2>
+<p>每笔成交都有两方。一方在<a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿</a>中挂着一笔<strong>挂单</strong>（限价单）。另一方发出一笔<strong>可立即成交</strong>的订单，跨越买卖价差与之成交。跨越价差的一方就是<strong>主动方</strong>（aggressor）。</p>
+<ul>
+<li>在卖价（ask）上成交，意味着买方是主动方：有人“主动吃掉了卖盘”。</li>
+<li>在买价（bid）上成交，意味着卖方是主动方：有人“主动砸向了买盘”。</li>
+</ul>
+<p>普通成交量把两者混在一起。订单流工具则分别统计。期货交易所和大多数加密货币平台会直接为每笔成交标注主动方。对于股票，主动方往往需要用分类规则来推断，例如Lee-Ready算法（1991年发表），它把成交价与当时的报价进行比较。</p>
+<h2 id="section-3">工具</h2>
+<h3 id="section-4">逐笔成交（盘口带）</h3>
+<p>逐笔成交是一个滚动的列表，记录每一笔成交：时间、价格、数量，通常还会标明是打在买价还是吃在卖价。“看盘读带”（reading the tape）就是观察成交的节奏和规模。突然出现一连串大额买方成交，或者一串成交迅速向上吃过好几个价位，都可能表明市场的急迫性。</p>
+<h3 id="dom">DOM或价格阶梯</h3>
+<p>市场深度（depth of market，DOM）是一个纵向的价格阶梯，显示每个价位上的买卖挂单量，旁边常常还有近期的成交量。交易者观察价格接近时挂单流动性如何变化：是在加单、撤单，还是被吃穿。许多平台允许交易者直接在阶梯上下单和改单。</p>
+<p>需要提醒的是：显示出来的挂单量并不是承诺。订单可以在几毫秒内撤销，而订单簿上可见的大部分挂单是由自动化做市商挂出又撤回的。<strong>幌骗</strong>（spoofing）——即挂出意图在成交前撤销的订单以误导他人——在美国（《多德-弗兰克法案》明确禁止）和许多其他司法管辖区都是违法的，但它仍时有发生。对于价格接近时就消失的大额挂单，要保持怀疑。</p>
+<h3 id="section-6">足迹图</h3>
+<p>足迹图（footprint chart，也称为簇状图或买卖价图）在每根K线内部显示每个价格上分别在买价和卖价成交的量。</p>
+<p><strong>某根5分钟K线的足迹图示例：</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>价格</th>
+<th>在买价卖出</th>
+<th>在卖价买入</th>
+<th>Delta</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100.75</td>
+<td>40</td>
+<td>210</td>
+<td>+170</td>
+</tr>
+<tr>
+<td>100.50</td>
+<td>180</td>
+<td>380</td>
+<td>+200</td>
+</tr>
+<tr>
+<td>100.25</td>
+<td>260</td>
+<td>300</td>
+<td>+40</td>
+</tr>
+<tr>
+<td>100.00</td>
+<td>410</td>
+<td>150</td>
+<td>−260</td>
+</tr>
+<tr>
+<td>99.75</td>
+<td>120</td>
+<td>30</td>
+<td>−90</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td><strong>1,010</strong></td>
+<td><strong>1,070</strong></td>
+<td><strong>+60</strong></td>
+</tr>
+</tbody></table></div>
+<p>总成交量为2,080张合约。卖方在K线底部附近更主动，买方在顶部附近更主动，净值略为正。足迹图平台通常会高亮显示<strong>失衡</strong>（imbalance），即在某个价格上一方远超另一方的情形（有些平台按对角线比较，即把某价格的买价成交与高一个最小变动价位的卖价成交相比），以及连续多个价格上的叠加失衡（stacked imbalances），有些交易者把后者解读为强烈的单边压力。</p>
+<h2 id="delta-delta">Delta与累计Delta</h2>
+<p>一根K线的<strong>Delta</strong>等于主动买入量减去主动卖出量。<strong>累计Delta</strong>把每根K线的Delta累加成一个总值，通常每个交易时段重置一次。</p>
+<p>最受关注的信号是价格与累计Delta之间的<strong>背离</strong>。</p>
+<p><strong>计算示例：</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>K线</th>
+<th>最高价</th>
+<th>在卖价买入</th>
+<th>在买价卖出</th>
+<th>Delta</th>
+<th>累计Delta</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>101.00</td>
+<td>5,200</td>
+<td>4,100</td>
+<td>+1,100</td>
+<td>+1,100</td>
+</tr>
+<tr>
+<td>2</td>
+<td>101.50</td>
+<td>4,800</td>
+<td>4,300</td>
+<td>+500</td>
+<td>+1,600</td>
+</tr>
+<tr>
+<td>3</td>
+<td>101.75</td>
+<td>3,900</td>
+<td>4,600</td>
+<td>−700</td>
+<td>+900</td>
+</tr>
+<tr>
+<td>4</td>
+<td>101.25</td>
+<td>3,500</td>
+<td>5,100</td>
+<td>−1,600</td>
+<td>−700</td>
+</tr>
+</tbody></table></div>
+<p>在第3根K线，价格创出新高，但Delta为负，累计Delta下降。这个新高是在主动买盘少于前几根K线的情况下出现的，有些交易者把它解读为需求减弱，或者被动卖方正在吸收买盘。随后第4根K线转而走低。这只是一个示意性的序列；类似的背离也经常出现，之后却并没有发生反转。</p>
+<h2 id="section-8">吸收</h2>
+<p>吸收（absorption）是指主动订单不断冲击某个价格却无法将其突破。例如，几分钟内有2,500张合约在100.00的买价上成交卖出，但价格始终没有成交到99.75，而买价挂单量不断被补充。这表明有一个大型被动买家正在吸收卖盘。如果卖方耗尽，由于供给已被消化，价格可能大幅反弹。如果被动买家完成了订单并撤离，该价位可能迅速被击穿。</p>
+<h2 id="section-9">冰山单</h2>
+<p>冰山单（iceberg order）只显示其总量的一小部分；当可见部分成交后，下一部分才会出现。当某个价格的成交量超过了该价格上曾经显示过的挂单量时，订单流交易者就会试图识别冰山单。如果100.00的买价挂单从未显示超过50张合约，但那里却成交了1,200张，同时显示的挂单量不断重新出现，那么很可能存在一笔隐藏订单。有些平台会自动标记疑似冰山单，但这种识别只是推断，并非确定无疑。</p>
+<h2 id="section-10">数据要求</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>要求</th>
+<th>为什么重要</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>逐笔成交数据</td>
+<td>聚合后的K线会掩盖单笔成交</td>
+</tr>
+<tr>
+<td>每笔成交的主动方</td>
+<td>计算Delta和足迹图所必需</td>
+</tr>
+<tr>
+<td>市场深度数据</td>
+<td>价格阶梯和流动性变化所必需</td>
+</tr>
+<tr>
+<td>低延迟数据源</td>
+<td>订单流关注的是秒级和分钟级的变化</td>
+</tr>
+<tr>
+<td>专业软件</td>
+<td>大多数基础图表工具不提供足迹图或Delta</td>
+</tr>
+</tbody></table></div>
+<p>交易所数据费、平台订阅费和数据源费用加起来不是小数目。数据类型和授权问题参见<a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据来源</a>。</p>
+<h2 id="section-11">为什么它主要是期货和加密货币的工具</h2>
+<ul>
+<li><strong>期货</strong>每个合约都在单一的中心化交易所交易（例如CME的E-mini S&amp;P 500期货），因此盘口带和订单簿基本上显示了全部活动。这就是订单流最常与<a href="/zh/encyclopedia/futures/index-futures/">股指期货</a>、国债期货和原油联系在一起的原因。</li>
+<li><strong>加密货币</strong>交易所会公布完整的成交和订单簿数据，通常可以通过其API免费获取。但流动性分散在许多交易所，所以单个平台的订单流只是局部画面。</li>
+<li><strong>美股</strong>在众多交易所和场外交易场所交易，包括暗池和为零售订单提供成交的批发商。任何单一数据源都只能看到部分订单流，而且隐藏订单很常见。</li>
+<li><strong>现货外汇</strong>根本没有统一的盘口带。零售经纪商的数据只反映该经纪商自己客户的情况。</li>
+</ul>
+<h2 id="section-12">坦诚的局限</h2>
+<p>订单流是真实的信息，但要把它转化为可盈利的优势很难。<a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">专业高频交易机构</a>更快地看到同样的数据，并在微秒内作出反应。短周期交易的<a href="/zh/encyclopedia/basics/trading-costs-and-fees/">单笔成本</a>相对于目标来说很高，而针对零售日内交易者的研究——例如Barber、Lee、Liu和Odean对台湾市场的研究——发现绝大多数人都在亏钱。订单流可以帮助把握交易时机、判断某个价位是否守得住，但并不能消除这些不利因素。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>相信可见的订单簿。</strong> 显示的挂单量可以瞬间撤销。</li>
+<li><strong>把单次Delta读数当作信号。</strong> Delta在K线之间噪音很大；背景和位置才重要。</li>
+<li><strong>忽视市场结构。</strong> 来自单个加密货币交易所或单个股票交易场所的足迹图只是局部视角。</li>
+<li><strong>低估成本。</strong> 数据、平台，以及订单流容易诱发的大量小额交易，代价都很高。</li>
+<li><strong>没有计划就使用。</strong> 没有预先定义的交易形态，整天盯着盘口带只会导致冲动交易。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="delta">订单流交易中的Delta是什么？</h3>
+<p>Delta是在一根K线或一段时间内，在卖价成交的量（主动买方）与在买价成交的量（主动卖方）之间的差值。正Delta意味着买方更主动，但并不保证价格会上涨。</p>
+<h3 id="section-16">什么是足迹图？</h3>
+<p>足迹图在每根价格K线内部显示每个价格上分别在买价和卖价成交了多少量。它让交易者看到K线内部主动买入和主动卖出发生在哪里。</p>
+<h3 id="section-17">股票可以用订单流吗？</h3>
+<p>可以，但有局限。美股交易分散在众多交易场所，包括场外场所，所以任何单一数据源都只能捕捉到部分活动，而且成交方向往往是推断出来的，而非直接报告的。</p>
+<h3 id="section-18">交易中的吸收是什么意思？</h3>
+<p>吸收是指大量主动买入或卖出冲击某个价位，却未能推动价格穿过它，表明有一笔大型被动订单在对面承接。它可能预示着反转，也可能在被动订单成交完毕后，该价位被击穿。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/basics/order-book-and-market-depth/"><div class="k">交易基础</div><b>订单簿与市场深度</b><span>限价订单簿和撮合引擎如何运作，价格时间优先原则，Level 1 与 Level 2 行情的区别，如何解读深度，幌骗，以及与做市商市场和 AMM 的对比。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/"><div class="k">技术分析</div><b>成交量分布与市场轮廓</b><span>成交量分布和市场轮廓如何运作：控制点、价值区、高低成交量节点、TPO图、平衡与失衡，以及期货交易中的应用。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/volume-analysis/"><div class="k">技术分析</div><b>成交量分析</b><span>如何看懂成交量：量价确认、天量高潮、相对成交量、OBV与累积/派发线，以及加密货币和外汇成交量数据的局限。</span></a><a class="card" href="/zh/encyclopedia/futures/index-futures/"><div class="k">期货交易</div><b>股指期货（ES、NQ）</b><span>股指期货如何运作：E-mini与微型E-mini标普500及纳指、道指、罗素、DAX和日经合约，每跳价值、公允价值与交易时段。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">算法与量化交易</div><b>市场数据</b><span>交易者需要了解的行情数据：Tick 与K线数据、Level 1/2/3 行情、历史数据来源、费用与授权、时间戳与时钟同步，以及数据清洗。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/"><small>← 上一篇</small>成交量分布与市场轮廓</a><a class="next" href="/zh/encyclopedia/technical-analysis/smart-money-concepts/"><small>下一篇 →</small>聪明钱概念（ICT）</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

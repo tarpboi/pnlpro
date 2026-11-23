@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>トレードの過剰最適化：カーブフィッティングとデータスヌーピング | PnL Profit</title>
+<meta name="description" content="優れたバックテストの多くが実運用で失敗する理由。カーブフィッティング、多重検定、不安定なパラメーター、デフレーテッド・シャープレシオと防止策を解説。">
+<meta name="keywords" content="過剰最適化 バックテスト, カーブフィッティング, データスヌーピング, デフレーテッド・シャープレシオ, 多重検定 バックテスト">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="トレードの過剰最適化：カーブフィッティングとデータスヌーピング | PnL Profit">
+<meta property="og:description" content="優れたバックテストの多くが実運用で失敗する理由。カーブフィッティング、多重検定、不安定なパラメーター、デフレーテッド・シャープレシオと防止策を解説。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="トレードの過剰最適化：カーブフィッティングとデータスヌーピング | PnL Profit">
+<meta name="twitter:description" content="優れたバックテストの多くが実運用で失敗する理由。カーブフィッティング、多重検定、不安定なパラメーター、デフレーテッド・シャープレシオと防止策を解説。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"トレードの過剰最適化：カーブフィッティングとデータスヌーピング","description":"優れたバックテストの多くが実運用で失敗する理由。カーブフィッティング、多重検定、不安定なパラメーター、デフレーテッド・シャープレシオと防止策を解説。","keywords":"過剰最適化 バックテスト, カーブフィッティング, データスヌーピング, デフレーテッド・シャープレシオ, 多重検定 バックテスト","articleSection":"アルゴリズム取引とクオンツ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"アルゴリズム取引とクオンツ","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"オーバーフィッティング","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"トレードにおけるカーブフィッティングとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"カーブフィッティングとは、戦略のルールとパラメーターを過去の価格にぴったり合うまで調整することです。強力なバックテストが得られますが、戦略が再現性のあるパターンではなくノイズを学習してしまっているため、通常は実運用で失敗します。"}},{"@type":"Question","name":"自分の戦略がオーバーフィッティングしているかどうかは、どうすればわかりますか？","acceptedAnswer":{"@type":"Answer","text":"警告サインには、パラメーターが多いこと、パラメーターを少し変えるだけで成績が崩れること、インサンプルとアウトオブサンプルの結果の差が大きいこと、結果が少数の取引に依存していることがあります。手つかずのデータや他の市場で検証するのが、最も直接的な確認方法です。"}},{"@type":"Question","name":"デフレーテッド・シャープレシオとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"Bailey と López de Prado が提案した統計量で、観測されたシャープレシオを、試した戦略の数、バックテストの期間、リターンの非正規性に応じて補正します。結果が選択の運ではなく本物のエッジを反映している確率を推定するものです。"}},{"@type":"Question","name":"最適化は常に悪いことですか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。妥当なパラメーターを選ぶことは、どんな戦略の構築にも含まれるプロセスです。問題なのは、自由な選択肢が多すぎてデータが少なすぎる状態での過度な最適化と、いくつのバリエーションを検証したかを考慮しないことです。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>アルゴリズム取引とクオンツ</h3><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" class="on" aria-current="page">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/" class="on">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a></div>
+<h1 class="title">トレードにおけるオーバーフィッティングとデータスヌーピング</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>アルゴリズム取引とクオンツの他の記事</summary><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" class="on" aria-current="page">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul></details>
+<article><p>オーバーフィッティング（過剰最適化）とは、トレード戦略を過去データにあまりにも細かく合わせた結果、再現性のあるパターンではなくランダムなノイズを捉えてしまうことです。データスヌーピングはそれに関連する問題で、同じデータで多くのアイデアを試して最も良かったものを残すことにより、運が実力のように見えてしまうことです。この2つが、見事な<a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a>を持つ戦略の多くが実運用を始めた途端にお金を失う理由を説明しています。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>ルール、フィルター、パラメーターを1つ追加するたびに、戦略がノイズに合わせられる自由度が増えます。</li>
+<li>ランダムな戦略を十分な数だけ試せば、純粋に偶然だけで優れて見えるものが出てきます。</li>
+<li>頑健な戦略は幅広いパラメーター値でそれなりの成績を上げます。脆い戦略は鋭いピークの一点でしか機能しません。</li>
+<li>デフレーテッド・シャープレシオやより厳格な有意水準は、実施した試行の回数に応じて結果を補正します。</li>
+<li>最善の防御策は、パラメーターを少なくすること、経済的な根拠を持つこと、手つかずのアウトオブサンプルデータを残すこと、そしてすべての検証を正直に記録することです。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">オーバーフィッティングの典型的な姿</a></li><li><a href="#section-3">多重検定とデータスヌーピング</a></li><li><a href="#section-5">パラメーターの安定性</a></li><li><a href="#section-6">統計的な補正</a></li><li><a href="#section-9">オーバーフィッティングを避ける方法</a></li><li><a href="#section-10">計算例</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">オーバーフィッティングの典型的な姿</h2>
+<p>市場価格には、わずかなシグナルと大量のノイズが含まれています。十分に柔軟なモデルなら過去のどんな価格の経路でも完璧に説明できますが、説明しているものの大半はノイズであり、ノイズは繰り返されません。</p>
+<p>カーブフィッティングされた戦略の典型的な兆候は次のとおりです。</p>
+<ul>
+<li>「RSI が27を下回り、出来高が平均の1.3倍で、火曜日で、17日平均が上昇しているときに買う」のように、条件が多い。</li>
+<li>最も良いスコアが出たから選ばれたことが明らかな、不自然なパラメーター値。</li>
+<li>パラメーターをわずかに動かすと崩れてしまう成績。</li>
+<li>インサンプルでは滑らかな資産曲線が、アウトオブサンプルでは横ばいか右肩下がりになる。</li>
+<li>少数の大きな取引によって結果が左右されている。</li>
+</ul>
+<p>簡単な経験則として、戦略の自由度（パラメーター、フィルター、ルールの選択）が多いほど、それを正当化するためにより多くの取引とより長い過去データが必要になります。</p>
+<h2 id="section-3">多重検定とデータスヌーピング</h2>
+<p>本物のエッジをまったく持たない戦略を100個検証するとします。標準的な5%の有意水準を使えば、純粋に偶然だけで約5個が統計的に有意に見えると予想されます。その5個だけを報告すれば、存在しないエッジを5つ「発見」したことになります。</p>
+<p>これは悪意がなくても起こります。あるリサーチャーが移動平均線のクロスオーバーを、短期10通り・長期10通りの期間（100通りの組み合わせ）で試し、ストップロスの設定を3通り（300通り）、市場を2つ（600通り）加えたとします。最終報告に載るのが最も良いものだけだとしても、その一つひとつが別々の検定です。</p>
+<p>データスヌーピングは人をまたいでも起こります。何千人ものトレーダーが、同じ人気のデータセットを掘り返しています。書籍やフォーラムで公開されている戦略は、多くの場合、膨大で目に見えない探索を生き残ったものです。</p>
+<h3 id="section-4">運はどこまで大きくなりうるか</h3>
+<p>バックテストから推定したシャープレシオにはノイズが多く含まれます。本当のエッジを持たない戦略の場合、推定された年率シャープレシオの標準誤差はおよそ 1 / √(データの年数) です。5年分の日次データなら、約 1 / 2.24 ≈ 0.45 になります。</p>
+<p>エッジがゼロの独立した N 個の戦略のうち、最良の結果の期待値は N とともに大きくなります。100回の試行では、標準正規分布から100回引いたときの最大値の期待値は標準偏差約2.5個分なので、最良のバックテストはおよそ 2.5 × 0.45 ≈ 1.1 のシャープレシオを示すことになります。1,000回の試行では、最大値の期待値は標準偏差約3.2個分で、シャープレシオはおよそ1.45になります。1.1から1.5のシャープレシオは多くのトレーダーが喜んで実運用に移す数字ですが、ここでは純粋なノイズから生まれています。</p>
+<p>自分で確かめることもできます。</p>
+<pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(0)
+years, n_strategies = 5, 100
+# 真のエッジがゼロで、日次ボラティリティ1%の日次リターン
+daily = rng.normal(0.0, 0.01, size=(n_strategies, 252 * years))
+sharpes = np.sqrt(252) * daily.mean(axis=1) / daily.std(axis=1, ddof=1)
+print(f&quot;Best Sharpe among {n_strategies} random strategies: {sharpes.max():.2f}&quot;)
+print(f&quot;Median Sharpe: {np.median(sharpes):.2f}&quot;)
+</code></pre>
+<p>実際の戦略のバリエーションは互いに独立ではなく相関しているため、実質的な試行回数は減りますが、原理は変わりません。</p>
+<h2 id="section-5">パラメーターの安定性</h2>
+<p>頑健な戦略は、ある一点だけでなく、パラメーターの近傍で機能するはずです。よく使われる確認方法は、2つのパラメーターにわたる成績のヒートマップです。たとえば移動平均線の戦略なら、一方の軸に短期の期間、もう一方の軸に長期の期間を取ります。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ヒートマップのパターン</th>
+<th>解釈</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>まずまずの結果が広い台地状に広がっている</td>
+<td>アイデアが何か本物を捉えている可能性が高い。台地の中央の値を選ぶ</td>
+</tr>
+<tr>
+<td>成績の悪い領域に囲まれた明るいピークが1つだけ</td>
+<td>ノイズの可能性が高い。「最良」の設定は偶然の産物</td>
+</tr>
+<tr>
+<td>隣り合うセルの間で結果の符号が反転する</td>
+<td>戦略とパラメーターの間に安定した関係がない</td>
+</tr>
+</tbody></table></div>
+<p>時期や市場をまたいだ安定性も重要です。トレンドシステムが同じ設定で20の先物市場のうち15で機能するなら、1つの市場で専用の設定でしか機能しないシステムよりはるかに説得力があります。</p>
+<h2 id="section-6">統計的な補正</h2>
+<h3 id="section-7">より厳格な閾値</h3>
+<p>戦略の平均リターンの t統計量は、おおよそ年率シャープレシオに √(年数) を掛けたものです。5年間でシャープレシオが1.0なら t ≈ 2.24 となり、約2という伝統的な閾値をクリアします。ファクター研究に関する2016年の論文で、Harvey、Liu、Zhu は、これまでに非常に多くのファクターが検証されてきたため、新しいファクターは約3の t統計量をクリアすべきだと論じました。シャープレシオ1.0の場合、それには約9年分のデータが必要です（√9 = 3）。</p>
+<h3 id="section-8">デフレーテッド・シャープレシオ</h3>
+<p>Bailey と López de Prado は2014年にデフレーテッド・シャープレシオを提案しました。その考え方は次の問いを立てることです。いくつの戦略を試したか、試行の間でどれだけばらつきがあったか、バックテストの期間はどれだけか、リターンの歪度と裾の厚さはどうか、を踏まえたとき、観測された最良のシャープレシオが選択の運ではなく本物のエッジを反映している確率はどれくらいか。この補正は、試行回数が増えるほどハードルを引き上げます。これを正直に使うには、検証したバリエーションの数を記録しておく必要があり、それ自体が価値ある規律です。同じ著者らと共著者は、多数のデータ分割にわたってインサンプルとアウトオブサンプルの順位を比較することに基づく、バックテスト・オーバーフィッティング確率（PBO）と呼ばれる指標も提案しています。</p>
+<h2 id="section-9">オーバーフィッティングを避ける方法</h2>
+<ol>
+<li><strong>理由から始める。</strong> 経済的または行動的な説明に裏づけられた戦略は、統計的な偶然である可能性が低くなります。</li>
+<li><strong>シンプルに保つ。</strong> キリのよい、理にかなった値を持つ少数のパラメーターを選びましょう。</li>
+<li><strong>すべての検証を記録する。</strong> 失敗したものも含めて、試行の回数を数えましょう。</li>
+<li><strong>データを取っておく。</strong> アウトオブサンプルの期間を確保し、最後に一度だけ使いましょう。</li>
+<li>再調整が必要な戦略には<strong>ウォークフォワード検証を使う。</strong></li>
+<li><strong>市場や期間をまたいで検証する。</strong> 本物の効果は、通常、関連する銘柄にも現れます。</li>
+<li><strong>結果に負荷をかける。</strong> コストを2倍にする、エントリーを1バー遅らせる、上位5%の取引を取り除くなどして、何が生き残るかを確かめましょう。</li>
+<li><strong>ペーパートレードを経て、少額で取引する。</strong> 実運用の成績こそが最後のアウトオブサンプル検証です。</li>
+</ol>
+<p><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">機械学習</a>では、柔軟なモデルがノイズを非常に効率よく記憶してしまうため、オーバーフィッティングのリスクはさらに大きくなります。心理的な側面もあります。<a href="/ja/encyclopedia/psychology/cognitive-biases-in-trading/">確証バイアス</a>によって、リサーチャーは望んでいた結果が見つかった時点で探索をやめてしまうのです。</p>
+<h2 id="section-10">計算例</h2>
+<p>あるトレーダーが、1つの株価指数先物で8年分のデータを使い、<a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a>のブレイクアウト・システムを検証します。エントリーの計算期間を10日から100日まで5日刻み（19通り）、エグジットの計算期間を5日から50日まで5日刻み（10通り）で試し、合計190通りの組み合わせになります。最良の組み合わせであるエントリー65・エグジット15は、1.3のシャープレシオを示しました。</p>
+<ul>
+<li>8年分のデータでは、エッジがゼロの場合のシャープレシオの標準誤差は約 1 / √8 ≈ 0.35 です。</li>
+<li>この190回の試行が独立したコイン投げのように振る舞うとすれば、最良の結果の期待値は標準誤差約2.7個分、つまり運だけでシャープレシオ約0.95になります。</li>
+<li>観測された1.3はそれを上回っており、やや心強い結果ですが、試行は独立ではなく、結果は1つの市場から得られたものです。</li>
+</ul>
+<p>次にトレーダーはヒートマップを確認し、65日の単独のピークを除けば、40日から90日のエントリーではシャープレシオが0.6から1.0の間に収まること、そして同じ設定が他のいくつかの指数先物でも機能することを確認します。現実的な期待値は1.3のピークではなく、この台地です。台地の中央の値を選び、実運用ではシャープレシオ0.5から0.8程度を見込むほうが、より誠実な計画です。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>うまくいったバリエーションだけを報告する。</strong> 試行の回数も結果の一部です。</li>
+<li><strong>小数点以下2桁まで最適化する。</strong> パラメーターの微調整はノイズに合わせることになります。</li>
+<li><strong>過去の負けトレードを取り除くためにフィルターを追加する。</strong> 特定の損失を解消するフィルターは、いずれも過去データに合わせている可能性が高いです。</li>
+<li><strong>アウトオブサンプルのデータを再利用できると考える。</strong> 見た後でルールを調整すれば、それはインサンプルです。</li>
+<li><strong>シャープレシオの高い短期間のバックテストを信用する。</strong> サンプルが短いと、極端な推定値が簡単に出てしまいます。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-13">トレードにおけるカーブフィッティングとは何ですか？</h3>
+<p>カーブフィッティングとは、戦略のルールとパラメーターを過去の価格にぴったり合うまで調整することです。強力なバックテストが得られますが、戦略が再現性のあるパターンではなくノイズを学習してしまっているため、通常は実運用で失敗します。</p>
+<h3 id="section-14">自分の戦略がオーバーフィッティングしているかどうかは、どうすればわかりますか？</h3>
+<p>警告サインには、パラメーターが多いこと、パラメーターを少し変えるだけで成績が崩れること、インサンプルとアウトオブサンプルの結果の差が大きいこと、結果が少数の取引に依存していることがあります。手つかずのデータや他の市場で検証するのが、最も直接的な確認方法です。</p>
+<h3 id="section-15">デフレーテッド・シャープレシオとは何ですか？</h3>
+<p>Bailey と López de Prado が提案した統計量で、観測されたシャープレシオを、試した戦略の数、バックテストの期間、リターンの非正規性に応じて補正します。結果が選択の運ではなく本物のエッジを反映している確率を推定するものです。</p>
+<h3 id="section-16">最適化は常に悪いことですか？</h3>
+<p>いいえ。妥当なパラメーターを選ぶことは、どんな戦略の構築にも含まれるプロセスです。問題なのは、自由な選択肢が多すぎてデータが少なすぎる状態での過度な最適化と、いくつのバリエーションを検証したかを考慮しないことです。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/algorithmic-trading/backtesting/"><div class="k">アルゴリズム取引とクオンツ</div><b>バックテスト</b><span>自分を欺かないバックテストのやり方を解説。データ品質、生存者バイアスと先読みバイアス、コスト、ウォークフォワード分析、主要指標まで。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/"><div class="k">アルゴリズム取引とクオンツ</div><b>トレードと機械学習</b><span>トレードでの機械学習の使い方を解説。教師あり学習のシグナル、特徴量とラベル、非定常性、過学習、ニュースやセンチメントへのLLM活用、現実的な使い方。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">アルゴリズム取引とクオンツ</div><b>アルゴリズム取引入門</b><span>アルゴリズム取引の意味、個人と機関投資家の違い、アイデアから実運用までの流れ、主なプログラミング言語、現実的な期待値を解説します。</span></a><a class="card" href="/ja/encyclopedia/psychology/cognitive-biases-in-trading/"><div class="k">トレード心理</div><b>認知バイアス</b><span>損失回避、気質効果、確証バイアス、自信過剰、直近バイアス、アンカリング、サンクコスト、ギャンブラーの誤謬、後知恵バイアスとその対策を解説します。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/trend-following/"><div class="k">アルゴリズム取引とクオンツ</div><b>トレンドフォロー</b><span>トレンドフォローの仕組みを解説。時系列モメンタム、CTAとマネージド・フューチャーズ、ブレイクアウトと移動平均のシステム、タートルズ、正の歪度とドローダウン。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/algorithmic-trading/backtesting/"><small>← 前へ</small>バックテスト</a><a class="next" href="/ja/encyclopedia/algorithmic-trading/trend-following/"><small>次へ →</small>トレンドフォロー</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>交易中的过拟合：曲线拟合与数据窥探 | PnL Profit</title>
+<meta name="description" content="为什么大多数漂亮的回测在实盘中失效：曲线拟合、多重检验、参数不稳定与紧缩夏普比率，以及避免过拟合的方法。">
+<meta name="keywords" content="交易策略过拟合, 曲线拟合, 数据窥探偏差, 紧缩夏普比率, 回测多重检验">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="交易中的过拟合：曲线拟合与数据窥探 | PnL Profit">
+<meta property="og:description" content="为什么大多数漂亮的回测在实盘中失效：曲线拟合、多重检验、参数不稳定与紧缩夏普比率，以及避免过拟合的方法。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="交易中的过拟合：曲线拟合与数据窥探 | PnL Profit">
+<meta name="twitter:description" content="为什么大多数漂亮的回测在实盘中失效：曲线拟合、多重检验、参数不稳定与紧缩夏普比率，以及避免过拟合的方法。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"交易中的过拟合：曲线拟合与数据窥探","description":"为什么大多数漂亮的回测在实盘中失效：曲线拟合、多重检验、参数不稳定与紧缩夏普比率，以及避免过拟合的方法。","keywords":"交易策略过拟合, 曲线拟合, 数据窥探偏差, 紧缩夏普比率, 回测多重检验","articleSection":"算法与量化交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"算法与量化交易","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"过拟合","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"交易中的曲线拟合是什么？","acceptedAnswer":{"@type":"Answer","text":"曲线拟合是指不断调整策略的规则和参数，直到它们与历史价格高度吻合。这样做出的回测很亮眼，但通常在实盘中失效，因为策略学到的是噪声，而不是可重复的规律。"}},{"@type":"Question","name":"怎么判断我的策略是否过拟合？","acceptedAnswer":{"@type":"Answer","text":"警示信号包括：参数很多、参数稍有变动表现就崩溃、样本内与样本外结果差距很大，以及结果依赖少数几笔交易。在从未动用过的数据和其他市场上测试，是最直接的检验方法。"}},{"@type":"Question","name":"什么是紧缩夏普比率？","acceptedAnswer":{"@type":"Answer","text":"它是 Bailey 和 López de Prado 提出的一个统计量，会根据尝试过的策略数量、回测长度和收益的非正态性对观察到的夏普比率进行调整。它估计的是结果反映真实优势、而非选择运气的概率。"}},{"@type":"Question","name":"参数优化一定是坏事吗？","acceptedAnswer":{"@type":"Answer","text":"不是。选择合理的参数是构建任何策略的一部分。问题在于自由选择太多、数据太少的过度优化，以及没有考虑到测试了多少种变体。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>算法与量化交易</h3><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" class="on" aria-current="page">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/" class="on">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a></div>
+<h1 class="title">交易中的过拟合与数据窥探</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>算法与量化交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/" class="on" aria-current="page">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul></details>
+<article><p>过拟合（overfitting）是指交易策略被调整得与历史数据贴合得过于紧密，以至于捕捉到的是随机噪声，而不是可重复的规律。数据窥探（data snooping）是与之相关的问题：在同一份数据上测试大量想法并保留最好的那个，从而让运气看起来像是实力。二者共同解释了为什么那么多<a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a>漂亮的策略一上实盘就亏钱。</p>
+<div class="takeaways"><h2 id="key-takeaways">核心要点</h2>
+<ul>
+<li>每多一条规则、一个过滤条件和一个参数，策略拟合噪声的自由度就更大。</li>
+<li>只要测试的随机策略足够多，总有一些会纯粹凭运气显得非常出色。</li>
+<li>稳健的策略在很宽的参数范围内都表现尚可；脆弱的策略只在一个尖峰上有效。</li>
+<li>紧缩夏普比率和更严格的显著性阈值会根据所做的试验次数对结果进行调整。</li>
+<li>最好的防御手段是：更少的参数、经济学上的逻辑、从未动用过的样本外数据，以及如实记录每一次测试。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">过拟合是什么样子</a></li><li><a href="#section-3">多重检验与数据窥探</a></li><li><a href="#section-5">参数稳定性</a></li><li><a href="#section-6">统计调整</a></li><li><a href="#section-9">如何避免过拟合</a></li><li><a href="#section-10">实例</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">过拟合是什么样子</h2>
+<p>市场价格中只有少量信号和大量噪声。一个足够灵活的模型可以完美解释过去的任何价格路径，但它解释的大部分是噪声，而噪声不会重复。</p>
+<p>过拟合策略的典型迹象：</p>
+<ul>
+<li>条件繁多，例如“当 RSI 低于27、成交量是平均值的1.3倍、当天是周二，且17日均线正在上升时买入”。</li>
+<li>参数值看起来很古怪，显然是因为得分最高才被选中。</li>
+<li>参数稍有变动，表现就崩溃。</li>
+<li>样本内净值曲线平滑，样本外却走平或下跌。</li>
+<li>结果由少数几笔大额交易驱动。</li>
+</ul>
+<p>一条简单的经验法则：策略的自由度（参数、过滤条件、规则选择）越多，就需要越多的交易和越长的历史来证明其合理性。</p>
+<h2 id="section-3">多重检验与数据窥探</h2>
+<p>假设你测试了100个完全没有真实优势的策略。使用标准的5%显著性阈值，你应该预期其中约有5个纯粹出于偶然而显得统计显著。如果你随后只报告这5个，你就“发现”了五个根本不存在的优势。</p>
+<p>即使没有恶意，这种情况也会发生。一位研究者尝试均线交叉策略，快线取10种周期、慢线取10种周期（100种组合），再加上三种止损设置（300种）和两个市场（600种）。每一种都是一次独立的检验，即使最终报告里只出现最好的那一个。</p>
+<p>数据窥探也会在人与人之间发生。成千上万的交易者在挖掘同样热门的数据集。书籍和论坛上发表的策略，往往是一场庞大而看不见的搜索中的幸存者。</p>
+<h3 id="section-4">运气能有多大？</h3>
+<p>从回测中估计出的夏普比率噪声很大。对于没有真实优势的策略，估计的年化夏普比率的标准误约为1 / √(数据年数)。用5年的日度数据，约为1 / 2.24 ≈ 0.45。</p>
+<p>N 个相互独立的零优势策略中，预期的最佳结果会随 N 增大。对于100次试验，100个标准正态抽样的期望最大值约为2.5个标准差，因此最好的回测会显示约2.5 × 0.45 ≈ 1.1的夏普比率。对于1,000次试验，期望最大值约为3.2个标准差，对应的夏普比率约为1.45。1.1到1.5的夏普比率是许多交易者乐于实盘部署的数字，而在这里它完全来自噪声。</p>
+<p>你可以自己验证：</p>
+<pre><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(0)
+years, n_strategies = 5, 100
+# 真实优势为零、日波动率为1%的日收益
+daily = rng.normal(0.0, 0.01, size=(n_strategies, 252 * years))
+sharpes = np.sqrt(252) * daily.mean(axis=1) / daily.std(axis=1, ddof=1)
+print(f&quot;Best Sharpe among {n_strategies} random strategies: {sharpes.max():.2f}&quot;)
+print(f&quot;Median Sharpe: {np.median(sharpes):.2f}&quot;)
+</code></pre>
+<p>真实的策略变体之间是相关的，而不是相互独立的，这会减少有效试验次数，但原理依然成立。</p>
+<h2 id="section-5">参数稳定性</h2>
+<p>稳健的策略应在一片参数邻域内都有效，而不只是在某一个点上。常见的检验方法是绘制两个参数下的绩效热力图，例如均线策略以快线周期为一个坐标轴、慢线周期为另一个坐标轴。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>热力图上的形态</th>
+<th>解读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大片表现尚可的平台区</td>
+<td>这个想法很可能捕捉到了真实的东西；在平台中间选一个值</td>
+</tr>
+<tr>
+<td>单个亮点被糟糕的结果包围</td>
+<td>很可能是噪声；“最佳”参数纯属偶然</td>
+</tr>
+<tr>
+<td>相邻格子之间结果正负翻转</td>
+<td>策略与该参数之间没有稳定的关系</td>
+</tr>
+</tbody></table></div>
+<p>在不同时期和不同市场上的稳定性同样重要。如果一个趋势系统用同一组参数在20个期货市场中的15个上都有效，那远比只在一个市场上、用定制参数才有效的系统更有说服力。</p>
+<h2 id="section-6">统计调整</h2>
+<h3 id="section-7">更严格的阈值</h3>
+<p>策略平均收益的 t 统计量大约等于其年化夏普比率乘以 √(年数)。5年期间夏普比率为1.0，得到 t ≈ 2.24，超过了约为2的传统阈值。在2016年一篇关于因子研究的论文中，Harvey、Liu 和 Zhu 认为，由于已被检验过的因子太多，新因子应达到约3的 t 统计量。在夏普比率为1.0时，这需要约9年的数据（√9 = 3）。</p>
+<h3 id="section-8">紧缩夏普比率</h3>
+<p>Bailey 和 López de Prado 于2014年提出了紧缩夏普比率（deflated Sharpe ratio）。其思路是追问：考虑到尝试了多少个策略、各次试验之间差异多大、回测有多长，以及收益的偏度和厚尾程度，观察到的最佳夏普比率反映真实优势、而非选择运气的概率有多大？随着试验次数增加，这一调整会抬高门槛。如实使用它，需要记录你测试了多少种变体，而这本身就是一种宝贵的纪律。这两位作者及其合作者还提出了一个名为“回测过拟合概率”的指标，其依据是在多次数据切分中比较样本内与样本外的排名。</p>
+<h2 id="section-9">如何避免过拟合</h2>
+<ol>
+<li><strong>从理由出发。</strong> 有经济学或行为学解释支撑的策略，不太可能是统计上的偶然。</li>
+<li><strong>保持简单。</strong> 优先选择少量参数，并取整齐、合理的数值。</li>
+<li><strong>记录每一次测试。</strong> 统计试验次数，包括失败的那些。</li>
+<li><strong>留出数据。</strong> 预留一段样本外时期，并只在最后使用一次。</li>
+<li><strong>对需要重新调参的策略使用滚动前推测试。</strong></li>
+<li><strong>跨市场、跨时期测试。</strong> 真实的效应通常会在相关品种中显现。</li>
+<li><strong>对结果进行压力测试。</strong> 把成本翻倍、把入场延迟一根K线、剔除最好的5%交易，看看还剩下什么。</li>
+<li><strong>先模拟交易，再小规模实盘。</strong> 实盘表现是最终的样本外检验。</li>
+</ol>
+<p>使用<a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习</a>时，过拟合的风险更大，因为灵活的模型能非常高效地记住噪声。它还有心理层面的因素：<a href="/zh/encyclopedia/psychology/cognitive-biases-in-trading/">确认偏误</a>会让研究者在找到想要的结果后就停止搜索。</p>
+<h2 id="section-10">实例</h2>
+<p>一位交易者用8年数据，在一个股指期货上测试<a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a>突破系统。入场回看周期从10天到100天、步长为5（19个值），离场回看周期从5天到50天、步长为5（10个值），共190种组合。最佳组合为入场65、离场15，夏普比率为1.3。</p>
+<ul>
+<li>用8年数据，零优势夏普比率的标准误约为1 / √8 ≈ 0.35。</li>
+<li>如果这190次试验像独立的抛硬币一样，预期的最佳结果约为2.7个标准误，即仅凭运气就能得到约0.95的夏普比率。</li>
+<li>观察到的1.3高于这一水平，略微令人鼓舞，但这些试验并不独立，而且结果只来自一个市场。</li>
+</ul>
+<p>交易者随后查看热力图，发现除了65天那个单独的峰值之外，入场周期从40天到90天的夏普比率都在0.6到1.0之间，而且同样的参数在其他几个股指期货上也有效。现实的预期应以这个平台区为准，而不是1.3的峰值。选择平台中间的数值，并预期实盘夏普比率在0.5到0.8附近，才是更诚实的计划。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>只报告胜出的变体。</strong> 试验次数本身就是结果的一部分。</li>
+<li><strong>优化到小数点后第二位。</strong> 精细调参拟合的是噪声。</li>
+<li><strong>添加过滤条件以剔除过去的亏损交易。</strong> 每一个专门修补某笔亏损的过滤条件，很可能都是在拟合历史。</li>
+<li><strong>把样本外数据当作可重复使用的。</strong> 一旦你看过它之后又调整了规则，它就成了样本内数据。</li>
+<li><strong>相信夏普比率很高的短期回测。</strong> 短样本很容易产生极端的估计值。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-13">交易中的曲线拟合是什么？</h3>
+<p>曲线拟合是指不断调整策略的规则和参数，直到它们与历史价格高度吻合。这样做出的回测很亮眼，但通常在实盘中失效，因为策略学到的是噪声，而不是可重复的规律。</p>
+<h3 id="section-14">怎么判断我的策略是否过拟合？</h3>
+<p>警示信号包括：参数很多、参数稍有变动表现就崩溃、样本内与样本外结果差距很大，以及结果依赖少数几笔交易。在从未动用过的数据和其他市场上测试，是最直接的检验方法。</p>
+<h3 id="section-15">什么是紧缩夏普比率？</h3>
+<p>它是 Bailey 和 López de Prado 提出的一个统计量，会根据尝试过的策略数量、回测长度和收益的非正态性对观察到的夏普比率进行调整。它估计的是结果反映真实优势、而非选择运气的概率。</p>
+<h3 id="section-16">参数优化一定是坏事吗？</h3>
+<p>不是。选择合理的参数是构建任何策略的一部分。问题在于自由选择太多、数据太少的过度优化，以及没有考虑到测试了多少种变体。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/algorithmic-trading/backtesting/"><div class="k">算法与量化交易</div><b>回测</b><span>如何回测交易策略而不自欺欺人：数据质量、幸存者偏差与未来函数、交易成本、滚动前推测试，以及关键绩效指标。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/"><div class="k">算法与量化交易</div><b>机器学习与交易</b><span>机器学习在交易中的应用：监督学习信号、特征与标签、非平稳性、过拟合、用大语言模型分析新闻与情绪，以及务实的用法。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">算法与量化交易</div><b>算法交易入门</b><span>算法交易是什么、散户与机构量化交易有何不同、从策略想法到实盘机器人的完整流程、常用编程语言，以及应有的合理预期。</span></a><a class="card" href="/zh/encyclopedia/psychology/cognitive-biases-in-trading/"><div class="k">交易心理</div><b>认知偏差</b><span>损失厌恶、处置效应、确认偏差、过度自信、近因偏差、锚定效应、沉没成本、赌徒谬误和后见之明偏差，以及各自的应对方法。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/trend-following/"><div class="k">算法与量化交易</div><b>趋势跟踪</b><span>系统化趋势跟踪如何运作：时间序列动量、CTA 与管理期货、突破与均线系统、海龟交易法则，以及正偏度与长期回撤。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/algorithmic-trading/backtesting/"><small>← 上一篇</small>回测</a><a class="next" href="/zh/encyclopedia/algorithmic-trading/trend-following/"><small>下一篇 →</small>趋势跟踪</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

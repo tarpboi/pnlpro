@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liquidação em cripto: como calcular o preço e como evitar | PnL Profit</title>
+<meta name="description" content="Como funciona a liquidação em cripto: cálculo do preço de liquidação para long e short, margem cruzada vs isolada, cascatas, heatmaps e open interest.">
+<meta name="keywords" content="liquidação cripto, como calcular preço de liquidação, como evitar liquidação, cascata de liquidações, margem cruzada ou isolada">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/crypto-liquidations/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Liquidação em cripto: como calcular o preço e como evitar | PnL Profit">
+<meta property="og:description" content="Como funciona a liquidação em cripto: cálculo do preço de liquidação para long e short, margem cruzada vs isolada, cascatas, heatmaps e open interest.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/crypto/crypto-liquidations/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Liquidação em cripto: como calcular o preço e como evitar | PnL Profit">
+<meta name="twitter:description" content="Como funciona a liquidação em cripto: cálculo do preço de liquidação para long e short, margem cruzada vs isolada, cascatas, heatmaps e open interest.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Liquidação em cripto: como calcular o preço e como evitar","description":"Como funciona a liquidação em cripto: cálculo do preço de liquidação para long e short, margem cruzada vs isolada, cascatas, heatmaps e open interest.","keywords":"liquidação cripto, como calcular preço de liquidação, como evitar liquidação, cascata de liquidações, margem cruzada ou isolada","articleSection":"Trading de cripto","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/crypto/crypto-liquidations/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading de cripto","item":"https://pnlpro.fit/pt/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"Liquidações","item":"https://pnlpro.fit/pt/encyclopedia/crypto/crypto-liquidations/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Como é calculado o preço de liquidação?","acceptedAnswer":{"@type":"Answer","text":"Para um long linear isolado, é aproximadamente entrada × (1 − 1/alavancagem + taxa de margem de manutenção). Para um short, é entrada × (1 + 1/alavancagem − taxa de margem de manutenção). As corretoras também consideram taxas e margens por faixas, então use o valor exibido pela corretora."}},{"@type":"Question","name":"O que acontece com o meu dinheiro quando sou liquidado?","acceptedAnswer":{"@type":"Answer","text":"Você perde a margem que sustenta a posição, ou quase toda ela, depois de eventual taxa de liquidação. Com margem isolada, isso se limita à margem da posição; com margem cruzada, pode ser a maior parte do saldo da conta."}},{"@type":"Question","name":"Margem cruzada ou isolada: qual é melhor?","acceptedAnswer":{"@type":"Answer","text":"A margem isolada limita a perda em cada posição, o que facilita controlar o risco. A margem cruzada afasta o preço de liquidação, mas expõe a conta inteira, e uma única operação ruim pode afetar todas as posições abertas."}},{"@type":"Question","name":"O que causa uma cascata de liquidações?","acceptedAnswer":{"@type":"Answer","text":"Um movimento de preço dispara liquidações forçadas, que são executadas como ordens a mercado, empurram o preço ainda mais e disparam novas liquidações. As cascatas são mais prováveis quando alavancagem, funding e open interest estão altos e a liquidez está baixa."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/crypto/crypto-liquidations/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/crypto-liquidations/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/crypto-liquidations/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/crypto-liquidations/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/crypto-liquidations/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/crypto/crypto-liquidations/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/crypto-liquidations/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/crypto-liquidations/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/crypto-liquidations/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading de cripto</h3><ul><li><a href="/pt/encyclopedia/crypto/crypto-trading-basics/">Fundamentos do trading de cripto</a></li><li><a href="/pt/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs. DEX</a></li><li><a href="/pt/encyclopedia/crypto/crypto-market-cycles/">Ciclos do mercado cripto</a></li><li><a href="/pt/encyclopedia/crypto/perpetual-futures/">Futuros perpétuos</a></li><li><a href="/pt/encyclopedia/crypto/funding-rates/">Taxas de funding</a></li><li><a href="/pt/encyclopedia/crypto/crypto-liquidations/" class="on" aria-current="page">Liquidações</a></li><li><a href="/pt/encyclopedia/crypto/on-chain-analysis/">Análise on-chain</a></li><li><a href="/pt/encyclopedia/crypto/altcoin-trading/">Trading de altcoins</a></li><li><a href="/pt/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics e desbloqueios</a></li><li><a href="/pt/encyclopedia/crypto/defi-trading/">Trading em DeFi</a></li><li><a href="/pt/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV e ataques sanduíche</a></li><li><a href="/pt/encyclopedia/crypto/crypto-arbitrage/">Arbitragem cripto</a></li><li><a href="/pt/encyclopedia/crypto/stablecoins/">Stablecoins</a></li><li><a href="/pt/encyclopedia/crypto/crypto-wallet-security/">Segurança de carteiras</a></li><li><a href="/pt/encyclopedia/crypto/airdrops-and-points-farming/">Airdrops e pontos</a></li><li><a href="/pt/encyclopedia/crypto/nft-trading/">Trading de NFTs</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/" class="on">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/crypto/">Trading de cripto</a></div>
+<h1 class="title">Liquidações em cripto</h1>
+<div class="meta">9 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Trading de cripto</summary><ul><li><a href="/pt/encyclopedia/crypto/crypto-trading-basics/">Fundamentos do trading de cripto</a></li><li><a href="/pt/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs. DEX</a></li><li><a href="/pt/encyclopedia/crypto/crypto-market-cycles/">Ciclos do mercado cripto</a></li><li><a href="/pt/encyclopedia/crypto/perpetual-futures/">Futuros perpétuos</a></li><li><a href="/pt/encyclopedia/crypto/funding-rates/">Taxas de funding</a></li><li><a href="/pt/encyclopedia/crypto/crypto-liquidations/" class="on" aria-current="page">Liquidações</a></li><li><a href="/pt/encyclopedia/crypto/on-chain-analysis/">Análise on-chain</a></li><li><a href="/pt/encyclopedia/crypto/altcoin-trading/">Trading de altcoins</a></li><li><a href="/pt/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics e desbloqueios</a></li><li><a href="/pt/encyclopedia/crypto/defi-trading/">Trading em DeFi</a></li><li><a href="/pt/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV e ataques sanduíche</a></li><li><a href="/pt/encyclopedia/crypto/crypto-arbitrage/">Arbitragem cripto</a></li><li><a href="/pt/encyclopedia/crypto/stablecoins/">Stablecoins</a></li><li><a href="/pt/encyclopedia/crypto/crypto-wallet-security/">Segurança de carteiras</a></li><li><a href="/pt/encyclopedia/crypto/airdrops-and-points-farming/">Airdrops e pontos</a></li><li><a href="/pt/encyclopedia/crypto/nft-trading/">Trading de NFTs</a></li></ul></details>
+<article><p>Liquidação é o encerramento forçado de uma posição alavancada quando a margem do trader cai abaixo do nível exigido pela corretora. Em cripto, onde futuros perpétuos são negociados com alavancagem alta sem parar, as liquidações acontecem o tempo todo e, em movimentos bruscos, podem desencadear cadeias de vendas ou compras forçadas que levam os preços muito além do que os fundamentos justificariam. Saber exatamente onde está o seu preço de liquidação, e por quê, é questão básica de sobrevivência para quem usa alavancagem.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>A liquidação acontece quando o patrimônio da posição cai até a margem de manutenção, não quando chega a zero.</li>
+<li>Com alavancagem de 10x, um movimento de cerca de 9.5 por cento contra você pode liquidar uma posição isolada; com 50x, de cerca de 1.5 por cento.</li>
+<li>A margem cruzada afasta o preço de liquidação, mas coloca a conta inteira em risco.</li>
+<li>Cascatas de liquidação acontecem quando ordens forçadas empurram o preço para o próximo aglomerado de níveis de liquidação.</li>
+<li>A forma mais confiável de evitar a liquidação é usar alavancagem menor e um stop loss bem antes do preço de liquidação.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#como-funciona-a-liquida-o">Como funciona a liquidação</a></li><li><a href="#o-c-lculo-do-pre-o-de-liquida-o">O cálculo do preço de liquidação</a></li><li><a href="#margem-cruzada-vs-isolada">Margem cruzada vs isolada</a></li><li><a href="#cascatas-de-liquida-o">Cascatas de liquidação</a></li><li><a href="#open-interest-e-heatmaps-de-liquida-o">Open interest e heatmaps de liquidação</a></li><li><a href="#como-evitar-ser-liquidado">Como evitar ser liquidado</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="como-funciona-a-liquida-o">Como funciona a liquidação</h2>
+<p>Quando você abre uma posição alavancada em um <a href="/pt/encyclopedia/crypto/perpetual-futures/">futuro perpétuo</a>, deposita a margem inicial. A corretora também define uma <strong>taxa de margem de manutenção (MMR)</strong>, um percentual menor do valor da posição que você precisa manter como patrimônio. O patrimônio é a sua margem mais o lucro ou prejuízo não realizado, medido pelo preço de marcação (mark price).</p>
+<p>Quando o patrimônio cai até a exigência de manutenção, o mecanismo de liquidação da corretora assume a posição e a encerra. Dependendo da plataforma, você perde toda a margem da posição ou o que sobra depois de uma taxa de liquidação. Algumas corretoras tentam primeiro uma liquidação parcial para trazer a posição de volta acima da manutenção.</p>
+<p>A mecânica geral de <a href="/pt/encyclopedia/basics/leverage-and-margin/">alavancagem e margem</a> vale em todos os mercados. O que torna o cripto diferente é a alavancagem disponível (muitas vezes de 50x a 100x ou mais em alguns contratos), o mercado 24/7 e a velocidade com que as liquidações se refletem no preço.</p>
+<h2 id="o-c-lculo-do-pre-o-de-liquida-o">O cálculo do preço de liquidação</h2>
+<p>Os exemplos a seguir usam um contrato linear (com margem em USDT) e margem isolada, com taxa de margem de manutenção de 0.5 por cento, e ignoram taxas e funding. As corretoras reais usam MMRs por faixas e podem descontar taxas, o que aproxima um pouco o preço de liquidação do preço de entrada.</p>
+<h3 id="posi-o-comprada-long">Posição comprada (long)</h3>
+<p>Um trader compra 1 BTC em um perp a $60,000 com alavancagem de 10x.</p>
+<ul>
+<li>Valor nocional: $60,000. Margem inicial: $6,000.</li>
+<li>Ao preço P, patrimônio = $6,000 + (P − $60,000).</li>
+<li>Exigência de manutenção = 0.005 × P.</li>
+</ul>
+<p>A liquidação ocorre quando o patrimônio se iguala à exigência:</p>
+<p>6,000 + P − 60,000 = 0.005P
+0.995P = 54,000
+P = $54,271.36</p>
+<p>Conferência: a $54,271.36, patrimônio = 6,000 − 5,728.64 = $271.36, e 0.5 por cento de $54,271.36 é $271.36. A posição é liquidada após uma queda de cerca de 9.55 por cento, e não dos 10 por cento que &quot;10x&quot; sugere.</p>
+<h3 id="posi-o-vendida-short">Posição vendida (short)</h3>
+<p>O mesmo trader, em vez disso, vende 1 BTC a $60,000 com alavancagem de 10x.</p>
+<ul>
+<li>Ao preço P, patrimônio = $6,000 + ($60,000 − P).</li>
+</ul>
+<p>6,000 + 60,000 − P = 0.005P
+66,000 = 1.005P
+P = $65,671.64</p>
+<p>Conferência: patrimônio a $65,671.64 = 6,000 − 5,671.64 = $328.36, e 0.5 por cento de $65,671.64 é $328.36. O short é liquidado após uma alta de cerca de 9.45 por cento.</p>
+<h3 id="f-rmula-simplificada">Fórmula simplificada</h3>
+<p>Para uma posição linear isolada, o preço de liquidação é aproximadamente:</p>
+<ul>
+<li>Long: entrada × (1 − 1/alavancagem + MMR)</li>
+<li>Short: entrada × (1 + 1/alavancagem − MMR)</li>
+</ul>
+<p>Para o long acima: 60,000 × (1 − 0.1 + 0.005) = $54,300. A aproximação fica perto do valor exato de $54,271.36 e serve para uma checagem rápida, mas o preço de liquidação exibido pela sua corretora é o que vale.</p>
+<h3 id="como-a-alavancagem-muda-a-dist-ncia-at-a-liquida-o">Como a alavancagem muda a distância até a liquidação</h3>
+<p>Usando a mesma MMR de 0.5 por cento para um long:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Alavancagem</th>
+<th>Movimento aproximado até a liquidação</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2x</td>
+<td>cerca de 50 por cento</td>
+</tr>
+<tr>
+<td>5x</td>
+<td>cerca de 20 por cento</td>
+</tr>
+<tr>
+<td>10x</td>
+<td>cerca de 9.5 por cento</td>
+</tr>
+<tr>
+<td>20x</td>
+<td>cerca de 4.5 por cento</td>
+</tr>
+<tr>
+<td>50x</td>
+<td>cerca de 1.5 por cento</td>
+</tr>
+<tr>
+<td>100x</td>
+<td>cerca de 0.5 por cento</td>
+</tr>
+</tbody></table></div>
+<p>Com 20x, o preço exato de liquidação de um long com entrada a $60,000 é (60,000 − 3,000) / 0.995 = $57,286.43. O Bitcoin se move 4.5 por cento em um dia com frequência, e moedas menores podem fazer isso em minutos. Com 100x, o ruído comum do mercado já liquida posições. Taxas de manutenção maiores em posições grandes encurtam ainda mais essas distâncias.</p>
+<h2 id="margem-cruzada-vs-isolada">Margem cruzada vs isolada</h2>
+<p>Com <strong>margem isolada</strong>, só a margem atribuída a uma posição pode ser perdida. Com <strong>margem cruzada</strong>, todo o saldo da conta sustenta todas as posições abertas.</p>
+<p>Suponha que o trader acima tenha $20,000 em uma conta com margem cruzada e abra o mesmo long de 1 BTC a $60,000.</p>
+<p>20,000 + P − 60,000 = 0.005P
+0.995P = 40,000
+P = $40,201.01</p>
+<p>O preço de liquidação fica muito mais distante, mas, se for atingido, o trader perde perto dos $20,000 inteiros em vez de $6,000. A margem cruzada também vincula as posições: o prejuízo em uma operação pode liquidar outra. A margem isolada dá uma perda clara e limitada por operação, o que muitos traders acham mais fácil de gerenciar.</p>
+<h2 id="cascatas-de-liquida-o">Cascatas de liquidação</h2>
+<p>Liquidações são ordens a mercado. Um long liquidado vira uma venda forçada; um short liquidado vira uma compra forçada. Quando muitas posições têm níveis de liquidação parecidos, a venda forçada empurra o preço para baixo até o próximo aglomerado, o que dispara mais vendas forçadas. Isso é uma cascata de liquidação de longs. A versão para cima é o short squeeze.</p>
+<p>As cascatas são mais prováveis quando:</p>
+<ul>
+<li>As <a href="/pt/encyclopedia/crypto/funding-rates/">taxas de funding</a> estão altas, mostrando posicionamento alavancado lotado.</li>
+<li>O open interest subiu rapidamente.</li>
+<li>A liquidez está baixa, como nos fins de semana ou durante a madrugada nas principais regiões de negociação.</li>
+<li>Um choque macroeconômico chega quando os mercados já estão esticados.</li>
+</ul>
+<p>Em 10 e 11 de outubro de 2025, após o anúncio pelos EUA de novas tarifas sobre produtos chineses, os mercados cripto registraram cerca de $19 bilhões em liquidações em 24 horas, segundo o agregador de dados Coinglass, a maior parte em posições compradas e o maior total em um único dia já registrado. Algumas altcoins chegaram a ser negociadas brevemente muito abaixo dos preços anteriores em plataformas específicas, e algumas corretoras relataram auto-deleveraging (desalavancagem automática). Grandes cascatas anteriores ocorreram em março de 2020 e maio de 2021. Veja <a href="/pt/encyclopedia/risk-management/leverage-risk-and-black-swans/">risco de alavancagem e cisnes negros</a> para outros eventos extremos.</p>
+<h2 id="open-interest-e-heatmaps-de-liquida-o">Open interest e heatmaps de liquidação</h2>
+<p><strong>Open interest (OI)</strong>, ou contratos em aberto, é o número ou valor total de contratos de derivativos em aberto. OI em alta significa que novas posições estão sendo abertas; OI em queda significa que posições estão sendo encerradas, inclusive por liquidação. Uma queda forte do OI durante um crash de preço é um sinal típico de cascata.</p>
+<p><strong>Heatmaps de liquidação</strong> são gráficos de provedores de dados que estimam onde estão os aglomerados de níveis de liquidação, com base em variações do OI, alavancagem típica e histórico de preços. Alguns traders tratam esses aglomerados como &quot;ímãs&quot; que o preço pode ir buscar. Tenha em mente:</p>
+<ul>
+<li>Heatmaps são estimativas. As corretoras não publicam os preços de liquidação individuais dos traders, exceto nas DEXs de perps transparentes.</li>
+<li>Os aglomerados mudam à medida que os traders abrem, fecham e ajustam posições.</li>
+<li>Os dados podem ser incompletos; algumas corretoras reportam liquidações de forma limitada.</li>
+</ul>
+<p>As estatísticas de liquidação também são subestimadas pelo mesmo motivo, então trate os totais diários de liquidação como aproximados.</p>
+<h2 id="como-evitar-ser-liquidado">Como evitar ser liquidado</h2>
+<ol>
+<li><strong>Use alavancagem baixa.</strong> Com 2x ou 3x, a volatilidade normal raramente alcança o preço de liquidação.</li>
+<li><strong>Dimensione pelo risco, não pela margem.</strong> Decida quanto está disposto a perder e dimensione a posição para que o stop loss limite essa perda. Veja <a href="/pt/encyclopedia/risk-management/position-sizing/">dimensionamento de posição</a>.</li>
+<li><strong>Coloque um stop loss bem antes do preço de liquidação.</strong> Um stop em um nível planejado perde menos que a liquidação e evita taxas de liquidação. Lembre que stops podem sofrer slippage em mercados rápidos.</li>
+<li><strong>Acompanhe o preço de marcação</strong>, não apenas o último preço.</li>
+<li><strong>Leve em conta funding e taxas</strong>, que reduzem aos poucos a margem de posições mantidas por muito tempo.</li>
+<li><strong>Evite adicionar margem a uma posição perdedora por reflexo.</strong> Isso afasta o preço de liquidação, mas aumenta o valor em risco.</li>
+<li><strong>Mantenha nas plataformas de derivativos apenas o capital de trading.</strong></li>
+</ol>
+<p>A maioria dos traders de varejo que usa alavancagem alta em perps de cripto perde dinheiro ao longo do tempo. O trading com alavancagem alta também pode se tornar compulsivo. Se operar começar a parecer um jogo do qual você não consegue parar, há ajuda disponível em serviços de apoio a jogadores compulsivos em muitos países.</p>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Supor que 10x significa uma folga de 10 por cento.</strong> A margem de manutenção e as taxas a deixam menor.</li>
+<li><strong>Usar margem cruzada sem perceber</strong> que o saldo inteiro fica exposto.</li>
+<li><strong>Colocar stops além do preço de liquidação,</strong> onde eles nunca são acionados.</li>
+<li><strong>Operar perto de grandes notícias ou nos fins de semana</strong> com alavancagem alta.</li>
+<li><strong>Acreditar que heatmaps de liquidação são precisos.</strong></li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="como-calculado-o-pre-o-de-liquida-o">Como é calculado o preço de liquidação?</h3>
+<p>Para um long linear isolado, é aproximadamente entrada × (1 − 1/alavancagem + taxa de margem de manutenção). Para um short, é entrada × (1 + 1/alavancagem − taxa de margem de manutenção). As corretoras também consideram taxas e margens por faixas, então use o valor exibido pela corretora.</p>
+<h3 id="o-que-acontece-com-o-meu-dinheiro-quando-sou-liquidado">O que acontece com o meu dinheiro quando sou liquidado?</h3>
+<p>Você perde a margem que sustenta a posição, ou quase toda ela, depois de eventual taxa de liquidação. Com margem isolada, isso se limita à margem da posição; com margem cruzada, pode ser a maior parte do saldo da conta.</p>
+<h3 id="margem-cruzada-ou-isolada-qual-melhor">Margem cruzada ou isolada: qual é melhor?</h3>
+<p>A margem isolada limita a perda em cada posição, o que facilita controlar o risco. A margem cruzada afasta o preço de liquidação, mas expõe a conta inteira, e uma única operação ruim pode afetar todas as posições abertas.</p>
+<h3 id="o-que-causa-uma-cascata-de-liquida-es">O que causa uma cascata de liquidações?</h3>
+<p>Um movimento de preço dispara liquidações forçadas, que são executadas como ordens a mercado, empurram o preço ainda mais e disparam novas liquidações. As cascatas são mais prováveis quando alavancagem, funding e open interest estão altos e a liquidez está baixa.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/crypto/perpetual-futures/"><div class="k">Trading de cripto</div><b>Futuros perpétuos</b><span>Como funcionam os perps de cripto: sem vencimento, mark price vs índice vs último preço, funding, alavancagem, fundo de seguro, ADL, inversos e DEXs.</span></a><a class="card" href="/pt/encyclopedia/crypto/funding-rates/"><div class="k">Trading de cripto</div><b>Taxas de funding</b><span>Como funciona o funding dos perpétuos: intervalos, como calcular e anualizar pagamentos, funding positivo e negativo e a arbitragem cash-and-carry.</span></a><a class="card" href="/pt/encyclopedia/basics/leverage-and-margin/"><div class="k">Fundamentos do trading</div><b>Alavancagem e margem</b><span>Como funcionam alavancagem e margem, margem inicial e de manutenção, chamada de margem, liquidação, margem cruzada e isolada, exemplos e limites por região.</span></a><a class="card" href="/pt/encyclopedia/risk-management/position-sizing/"><div class="k">Gestão de risco e de capital</div><b>Dimensionamento de posição</b><span>Como calcular o tamanho da posição a partir do risco da conta e da distância do stop: fração fixa, valor fixo e ATR, com exemplos em ações, forex e cripto.</span></a><a class="card" href="/pt/encyclopedia/risk-management/leverage-risk-and-black-swans/"><div class="k">Gestão de risco e de capital</div><b>Risco de alavancagem e cisnes negros</b><span>Como eventos de cauda quebram traders alavancados: franco suíço em 2015, petróleo negativo em 2020, GameStop, LUNA e FTX, gaps, falta de liquidez e lições.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/crypto/funding-rates/"><small>← Anterior</small>Taxas de funding</a><a class="next" href="/pt/encyclopedia/crypto/on-chain-analysis/"><small>Próximo →</small>Análise on-chain</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

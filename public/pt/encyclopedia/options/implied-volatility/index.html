@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volatilidade implícita: IV rank, IV crush e skew | PnL Profit</title>
+<meta name="description" content="O que é volatilidade implícita, como ela difere da histórica, IV rank e IV percentil, IV crush, skew e a fórmula do movimento esperado com exemplos.">
+<meta name="keywords" content="volatilidade implícita, iv crush, iv rank e iv percentil, skew de volatilidade, movimento esperado opções">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/implied-volatility/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Volatilidade implícita: IV rank, IV crush e skew | PnL Profit">
+<meta property="og:description" content="O que é volatilidade implícita, como ela difere da histórica, IV rank e IV percentil, IV crush, skew e a fórmula do movimento esperado com exemplos.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/options/implied-volatility/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Volatilidade implícita: IV rank, IV crush e skew | PnL Profit">
+<meta name="twitter:description" content="O que é volatilidade implícita, como ela difere da histórica, IV rank e IV percentil, IV crush, skew e a fórmula do movimento esperado com exemplos.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Volatilidade implícita: IV rank, IV crush e skew","description":"O que é volatilidade implícita, como ela difere da histórica, IV rank e IV percentil, IV crush, skew e a fórmula do movimento esperado com exemplos.","keywords":"volatilidade implícita, iv crush, iv rank e iv percentil, skew de volatilidade, movimento esperado opções","articleSection":"Opções","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/options/implied-volatility/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Opções","item":"https://pnlpro.fit/pt/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Volatilidade implícita","item":"https://pnlpro.fit/pt/encyclopedia/options/implied-volatility/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Volatilidade implícita alta é bom ou ruim?","acceptedAnswer":{"@type":"Answer","text":"Nenhum dos dois por si só. IV alta deixa as opções mais caras, o que tende a favorecer os vendedores e prejudicar os compradores, mas geralmente sinaliza que o mercado espera movimentos maiores."}},{"@type":"Question","name":"O que causa o IV crush?","acceptedAnswer":{"@type":"Answer","text":"O IV crush acontece quando um evento esperado, como a divulgação de um balanço, passa e a incerteza que ele trazia desaparece. Os preços das opções caem junto com a IV, mesmo que a ação se mexa."}},{"@type":"Question","name":"Como calcular o movimento esperado a partir da volatilidade implícita?","acceptedAnswer":{"@type":"Answer","text":"Multiplique o preço da ação pela IV e pela raiz quadrada do número de dias até o vencimento dividido por 365. Para uma ação de $200 com IV de 40%, o movimento esperado em 7 dias é de cerca de $11."}},{"@type":"Question","name":"Qual é a diferença entre IV rank e IV percentil?","acceptedAnswer":{"@type":"Answer","text":"O IV rank mostra onde a IV atual está entre a mínima e a máxima de 52 semanas. O IV percentil mostra a parcela de dias do último ano em que a IV esteve mais baixa do que agora."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/options/implied-volatility/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/implied-volatility/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/implied-volatility/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/implied-volatility/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/implied-volatility/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/options/implied-volatility/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/implied-volatility/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/implied-volatility/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/implied-volatility/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Opções</h3><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/" class="on" aria-current="page">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Exposição gama e dealers</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/" class="on">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/options/">Opções</a></div>
+<h1 class="title">Volatilidade implícita</h1>
+<div class="meta">9 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Opções</summary><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/" class="on" aria-current="page">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Exposição gama e dealers</a></li></ul></details>
+<article><p>A volatilidade implícita (IV, de implied volatility) é o nível de volatilidade futura que o mercado está embutindo no preço de uma opção, obtido de trás para frente a partir do preço da opção com um modelo de precificação. Ela é expressa como percentual anualizado e é o principal motivo pelo qual duas opções com o mesmo strike e o mesmo vencimento podem custar valores muito diferentes em momentos diferentes. Como a IV sobe antes de eventos incertos e cai depois deles, muitas vezes ela decide se uma operação com opções dá lucro tanto quanto a direção do ativo-objeto.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>A volatilidade implícita olha para a frente e vem dos preços das opções; a volatilidade histórica olha para trás e vem das variações de preço passadas.</li>
+<li>O IV rank e o IV percentil mostram se a IV de hoje está alta ou baixa em relação à sua própria faixa histórica.</li>
+<li>A IV tende a subir antes de eventos agendados, como balanços, e a desabar depois, o que se chama IV crush.</li>
+<li>Strikes diferentes são negociados com IVs diferentes, o que cria um skew ou sorriso de volatilidade que reflete a demanda por proteção e o formato dos movimentos esperados.</li>
+<li>A fórmula do movimento esperado converte a IV numa faixa de preço aproximada de um desvio padrão para um período.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#volatilidade-hist-rica-e-impl-cita">Volatilidade histórica e implícita</a></li><li><a href="#a-intui-o-do-black-scholes">A intuição do Black-Scholes</a></li><li><a href="#iv-rank-e-iv-percentil">IV rank e IV percentil</a></li><li><a href="#a-f-rmula-do-movimento-esperado">A fórmula do movimento esperado</a></li><li><a href="#iv-crush">IV crush</a></li><li><a href="#skew-e-sorriso-de-volatilidade">Skew e sorriso de volatilidade</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="volatilidade-hist-rica-e-impl-cita">Volatilidade histórica e implícita</h2>
+<p>A <strong>volatilidade histórica (HV)</strong>, também chamada de volatilidade realizada, mede quanto o preço efetivamente se moveu numa janela passada. Em geral é calculada como o desvio padrão dos retornos diários, anualizado.</p>
+<p>A <strong>volatilidade implícita</strong> é o número de volatilidade que, colocado num modelo de precificação de opções, reproduz o preço de mercado atual da opção. É a previsão de consenso do mercado, mais o prêmio que os vendedores exigem para assumir o risco.</p>
+<h3 id="exemplo-pr-tico-anualizando-a-volatilidade-hist-rica">Exemplo prático: anualizando a volatilidade histórica</h3>
+<p>Suponha que os retornos diários de uma ação no último mês tenham desvio padrão de 1.5%. Há cerca de 252 pregões por ano, e a volatilidade escala com a raiz quadrada do tempo.</p>
+<ul>
+<li>Raiz quadrada de 252 = cerca de 15.87</li>
+<li>HV anualizada = 1.5% x 15.87 = cerca de 23.8%</li>
+</ul>
+<p>Se as opções da ação estão precificadas com IV de 35%, o mercado espera movimentos maiores daqui para a frente do que a ação entregou recentemente, talvez porque um evento está chegando. Historicamente, a IV das opções de índice tende a ficar, em média, acima da volatilidade realizada depois. Essa diferença, chamada prêmio de risco de volatilidade, é um dos motivos pelos quais as estratégias de venda de opções ganharam dinheiro em média ao longo de períodos longos, embora ocasionalmente sofram grandes perdas.</p>
+<h2 id="a-intui-o-do-black-scholes">A intuição do Black-Scholes</h2>
+<p>O modelo Black-Scholes, publicado por Fischer Black e Myron Scholes em 1973 com trabalho relacionado de Robert Merton, precifica uma opção europeia a partir de seis variáveis:</p>
+<ol>
+<li>Preço do ativo-objeto</li>
+<li>Strike</li>
+<li>Tempo até o vencimento</li>
+<li>Taxa de juros</li>
+<li>Dividendos</li>
+<li>Volatilidade</li>
+</ol>
+<p>As cinco primeiras são conhecidas. A volatilidade não é. Então, em vez de usar o modelo para encontrar um preço, os traders pegam o preço de mercado e resolvem para a volatilidade que faz o modelo bater com ele. Esse número é a volatilidade implícita.</p>
+<p>O modelo supõe, entre outras coisas, que a volatilidade é constante e que os retornos seguem uma distribuição suave, em forma de sino. Mercados reais têm saltos, crashes e volatilidade que muda, e é por isso que opções em strikes diferentes acabam com IVs diferentes. É melhor pensar na IV como uma unidade comum para cotar preços de opções, e não como uma previsão perfeita.</p>
+<p>IV mais alta significa preço de opção mais alto, tanto para calls quanto para puts. Quanto o preço muda para cada ponto de IV é medido pelo vega, uma das <a href="/pt/encyclopedia/options/options-greeks/">gregas das opções</a>.</p>
+<h2 id="iv-rank-e-iv-percentil">IV rank e IV percentil</h2>
+<p>Uma ação com IV de 40% pode estar barata ou cara, dependendo do que é normal para ela. Duas medidas comuns colocam a IV em contexto, geralmente considerando o último ano.</p>
+<ul>
+<li><strong>IV rank</strong> = (IV atual - IV mínima de 52 semanas) / (IV máxima de 52 semanas - IV mínima de 52 semanas)</li>
+<li><strong>IV percentil</strong> = o percentual de pregões do último ano em que a IV esteve abaixo do nível atual</li>
+</ul>
+<h3 id="exemplo-pr-tico">Exemplo prático</h3>
+<p>A IV de uma ação oscilou entre 20% e 60% no último ano e agora está em 30%.</p>
+<ul>
+<li>IV rank = (30 - 20) / (60 - 20) = 10 / 40 = 25%.</li>
+<li>Se a IV esteve abaixo de 30% em 160 dos últimos 252 pregões, o IV percentil = 160 / 252 = cerca de 63%.</li>
+</ul>
+<p>Os dois podem diferir bastante. Um único pico a 60% puxa o IV rank para baixo durante um ano, enquanto o IV percentil é menos afetado por um ponto fora da curva. Muitos traders preferem vender prêmio quando essas leituras estão altas e comprar quando estão baixas, embora a IV alta muitas vezes esteja alta por um bom motivo.</p>
+<h2 id="a-f-rmula-do-movimento-esperado">A fórmula do movimento esperado</h2>
+<p>A IV pode ser convertida numa faixa de preço aproximada. O movimento esperado de um desvio padrão em um período é:</p>
+<p>Movimento esperado = Preço x IV x raiz quadrada de (dias até o vencimento / 365)</p>
+<p>Usar dias corridos e 365 é uma convenção comum; alguns traders usam dias úteis e 252.</p>
+<h3 id="exemplo-pr-tico">Exemplo prático</h3>
+<p>Uma ação está cotada a $200 com IV de 40%, e você quer o movimento esperado para os próximos 7 dias.</p>
+<ul>
+<li>Fração de dias: 7 / 365 = 0.01918</li>
+<li>Raiz quadrada: cerca de 0.1385</li>
+<li>Movimento esperado = $200 x 0.40 x 0.1385 = cerca de $11.08</li>
+</ul>
+<p>O mercado está indicando que um movimento de cerca de $11, ou 5.5%, para qualquer lado ao longo da semana é aproximadamente um resultado de um desvio padrão. Sob a premissa da curva em sino do modelo, a ação terminaria dentro dessa faixa cerca de 68% das vezes. As distribuições de retorno reais têm caudas mais grossas, então movimentos maiores acontecem com mais frequência do que a curva em sino sugere.</p>
+<p>Uma alternativa rápida baseada no mercado é o preço do straddle no dinheiro (uma call mais uma put no mesmo strike), que aproxima o tamanho esperado do movimento até o vencimento. Veja <a href="/pt/encyclopedia/options/straddles-and-strangles/">straddles e strangles</a> e <a href="/pt/encyclopedia/stocks/earnings-trading/">operando balanços</a>.</p>
+<h2 id="iv-crush">IV crush</h2>
+<p>A volatilidade implícita costuma subir antes de eventos conhecidos, como balanços, lançamentos de produtos, resultados de testes de medicamentos ou reuniões de bancos centrais, porque um movimento grande é possível. Quando a notícia sai, essa incerteza desaparece e a IV pode cair fortemente em minutos. Essa queda se chama IV crush.</p>
+<h3 id="exemplo-pr-tico-dire-o-certa-e-ainda-assim-preju-zo">Exemplo prático: direção certa, e ainda assim prejuízo</h3>
+<p>Uma ação está cotada a $50 na véspera do balanço. Uma call de strike $50 que vence mais tarde naquela semana custa $2.10, quase tudo valor extrínseco, porque a IV está elevada, em 90%. Depois do balanço, a ação sobe para $51.50. A IV desaba para 35%.</p>
+<ul>
+<li>A call agora tem $1.50 de valor intrínseco mais, digamos, $0.25 de valor extrínseco restante: cerca de $1.75.</li>
+<li>Prejuízo = $2.10 - $1.75 = $0.35 por ação, ou $35 por contrato.</li>
+</ul>
+<p>O trader acertou a direção, mas o movimento foi menor do que o preço da opção indicava, e a queda da IV apagou o ganho. Quem compra opções antes de eventos precisa que o movimento supere o que já está no preço. Quem vende se beneficia do crush, mas corre o risco de o movimento ser muito maior do que o esperado.</p>
+<h2 id="skew-e-sorriso-de-volatilidade">Skew e sorriso de volatilidade</h2>
+<p>Se o Black-Scholes estivesse exatamente certo, todos os strikes de um mesmo vencimento teriam a mesma IV. Na prática, plotar a IV contra o strike normalmente gera uma curva.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Formato</th>
+<th>Descrição</th>
+<th>Onde é comum</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Skew de puts (smirk)</td>
+<td>Strikes mais baixos têm IV maior que strikes mais altos</td>
+<td>Índices de ações e a maioria das grandes ações</td>
+</tr>
+<tr>
+<td>Sorriso (smile)</td>
+<td>Tanto puts quanto calls muito OTM têm IV maior que as ATM</td>
+<td>Moedas, algumas ações individuais, cripto em certos momentos</td>
+</tr>
+<tr>
+<td>Skew de calls</td>
+<td>Strikes mais altos têm IV maior</td>
+<td>Algumas commodities e ações com potencial de aquisição ou de squeeze</td>
+</tr>
+</tbody></table></div>
+<p>O skew de puts nos índices de ações ficou acentuado depois do crash de outubro de 1987. Ele reflete a demanda constante de investidores que compram puts como seguro de carteira e a tendência dos mercados de cair mais rápido do que sobem. Como resultado, puts OTM de índice costumam custar mais em termos de IV do que calls OTM à mesma distância.</p>
+<p>A IV também varia por vencimento. A estrutura a termo da IV normalmente é inclinada para cima em mercados calmos e pode se inverter numa crise, quando a IV de curto prazo salta acima da de prazo mais longo. O índice VIX mede a volatilidade implícita de 30 dias do S&amp;P 500; veja <a href="/pt/encyclopedia/other-markets/volatility-trading-vix/">volatilidade e VIX</a>.</p>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Comprar opções logo antes do balanço sem olhar a IV.</strong> O preço pode já refletir um movimento grande.</li>
+<li><strong>Vender opções só porque a IV está alta.</strong> A IV muitas vezes está alta porque um movimento grande é provável. Prêmio alto é compensação por risco real.</li>
+<li><strong>Comparar a IV de ações diferentes sem contexto.</strong> Uma IV de 50% pode ser normal para uma pequena biotech e extrema para uma empresa de utilities. Use IV rank ou IV percentil.</li>
+<li><strong>Tratar o movimento esperado como limite.</strong> Ele é uma estimativa de um desvio padrão, e movimentos além dele acontecem com regularidade.</li>
+<li><strong>Ignorar o skew na escolha dos strikes.</strong> Puts OTM de índice são relativamente caras; calls OTM, relativamente baratas.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="volatilidade-impl-cita-alta-bom-ou-ruim">Volatilidade implícita alta é bom ou ruim?</h3>
+<p>Nenhum dos dois por si só. IV alta deixa as opções mais caras, o que tende a favorecer os vendedores e prejudicar os compradores, mas geralmente sinaliza que o mercado espera movimentos maiores.</p>
+<h3 id="o-que-causa-o-iv-crush">O que causa o IV crush?</h3>
+<p>O IV crush acontece quando um evento esperado, como a divulgação de um balanço, passa e a incerteza que ele trazia desaparece. Os preços das opções caem junto com a IV, mesmo que a ação se mexa.</p>
+<h3 id="como-calcular-o-movimento-esperado-a-partir-da-volatilidade-impl-cita">Como calcular o movimento esperado a partir da volatilidade implícita?</h3>
+<p>Multiplique o preço da ação pela IV e pela raiz quadrada do número de dias até o vencimento dividido por 365. Para uma ação de $200 com IV de 40%, o movimento esperado em 7 dias é de cerca de $11.</p>
+<h3 id="qual-a-diferen-a-entre-iv-rank-e-iv-percentil">Qual é a diferença entre IV rank e IV percentil?</h3>
+<p>O IV rank mostra onde a IV atual está entre a mínima e a máxima de 52 semanas. O IV percentil mostra a parcela de dias do último ano em que a IV esteve mais baixa do que agora.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/options/options-greeks/"><div class="k">Opções</div><b>As gregas</b><span>O que medem delta, gama, theta, vega e rho, com exemplos práticos, como as gregas mudam com o tempo e o moneyness e como ler as gregas de uma posição.</span></a><a class="card" href="/pt/encyclopedia/options/options-basics/"><div class="k">Opções</div><b>Fundamentos das opções</b><span>Como funcionam as opções: call, put, strike, vencimento, prêmio, valor intrínseco e extrínseco, moneyness, ganhos de titular e lançador e níveis de aprovação.</span></a><a class="card" href="/pt/encyclopedia/options/straddles-and-strangles/"><div class="k">Opções</div><b>Straddles e strangles</b><span>Como funcionam straddles e strangles comprados e vendidos, pontos de equilíbrio com números, equilíbrio vs. movimento implícito, balanços e risco de cauda.</span></a><a class="card" href="/pt/encyclopedia/stocks/earnings-trading/"><div class="k">Trading de ações</div><b>Operando balanços</b><span>Como os traders operam a temporada de balanços: carregar a posição ou operar a reação, o movimento implícito nas opções, gap and go vs fade e o drift pós-resultado.</span></a><a class="card" href="/pt/encyclopedia/other-markets/volatility-trading-vix/"><div class="k">Commodities, renda fixa e mais</div><b>Volatilidade e VIX</b><span>O que o VIX mede, como funciona sua curva de futuros, por que os ETPs de volatilidade perdem valor, o Volmageddon de 2018 e os riscos de operar volatilidade.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/options/options-greeks/"><small>← Anterior</small>As gregas</a><a class="next" href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/"><small>Próximo →</small>Lançamento coberto e venda de puts</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>相関とポートフォリオリスク：分散投資の限界 | PnL Profit</title>
+<meta name="description" content="相関の高いポジションが1つの大きな賭けになる理由、危機時に相関が急上昇する理由、分散の限界、エクスポージャー上限、ヘッジとベータを数字で解説します。">
+<meta name="keywords" content="相関 トレード リスク, ポートフォリオリスク, 分散投資 限界, 相関 ポジション, ベータ ヘッジ">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="相関とポートフォリオリスク：分散投資の限界 | PnL Profit">
+<meta property="og:description" content="相関の高いポジションが1つの大きな賭けになる理由、危機時に相関が急上昇する理由、分散の限界、エクスポージャー上限、ヘッジとベータを数字で解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="相関とポートフォリオリスク：分散投資の限界 | PnL Profit">
+<meta name="twitter:description" content="相関の高いポジションが1つの大きな賭けになる理由、危機時に相関が急上昇する理由、分散の限界、エクスポージャー上限、ヘッジとベータを数字で解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"相関とポートフォリオリスク：分散投資の限界","description":"相関の高いポジションが1つの大きな賭けになる理由、危機時に相関が急上昇する理由、分散の限界、エクスポージャー上限、ヘッジとベータを数字で解説します。","keywords":"相関 トレード リスク, ポートフォリオリスク, 分散投資 限界, 相関 ポジション, ベータ ヘッジ","articleSection":"リスク管理と資金管理","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"リスク管理と資金管理","item":"https://pnlpro.fit/ja/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"相関とポートフォリオリスク","item":"https://pnlpro.fit/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"トレードにおける相関とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"相関とは、2つの市場がどれくらい一貫して連動するかを−1から+1の尺度で測るものです。強い正の相関は、2つがそろって上がったり下がったりする傾向があることを意味するため、両方を持つと同じ値動きへのより大きな賭けになります。"}},{"@type":"Question","name":"なぜ危機のときには相関が1に近づくのですか？","acceptedAnswer":{"@type":"Answer","text":"売りが広がる局面では、多くの投資家がリスクを減らすため、追証に対応するため、あるいは現金を確保するために同時に売り、流動性のあるものなら何でも売ることがよくあります。この共通の売り圧力によって、普段は無関係な資産がそろって下落するため、測定される相関が急上昇します。"}},{"@type":"Question","name":"分散するにはいくつのポジションが必要ですか？","acceptedAnswer":{"@type":"Answer","text":"ポジション同士の相関の強さによります。相関が低ければ、効果の大部分は最初の10〜20銘柄で得られます。相関が高ければ、共通する市場の要因が残るため、銘柄を増やしてもリスクはほとんど減りません。"}},{"@type":"Question","name":"ポートフォリオにおけるベータとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"ベータとは、株式やポートフォリオが、市場指数の1%の値動きごとにどれくらい動いてきたかを測るものです。各ポジションの金額にそのベータを掛けると市場換算のエクスポージャーが得られ、指数ヘッジのサイズを決めるのに役立ちます。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/risk-management/correlation-and-portfolio-risk/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/correlation-and-portfolio-risk/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/correlation-and-portfolio-risk/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/correlation-and-portfolio-risk/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/correlation-and-portfolio-risk/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/correlation-and-portfolio-risk/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/risk-management/correlation-and-portfolio-risk/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>リスク管理と資金管理</h3><ul><li><a href="/ja/encyclopedia/risk-management/risk-management-fundamentals/">リスク管理の基本</a></li><li><a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイジング</a></li><li><a href="/ja/encyclopedia/risk-management/stop-loss-strategies/">損切り戦略</a></li><li><a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/">リスクリワードと期待値</a></li><li><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">ドローダウンと破産リスク</a></li><li><a href="/ja/encyclopedia/risk-management/kelly-criterion/">ケリー基準</a></li><li><a href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/" class="on" aria-current="page">相関とポートフォリオリスク</a></li><li><a href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/">レバレッジのリスクとブラックスワン</a></li><li><a href="/ja/encyclopedia/risk-management/trading-plan/">トレードプランの作り方</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/" class="on">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a></div>
+<h1 class="title">相関とポートフォリオリスク</h1>
+<div class="meta">約7分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>リスク管理と資金管理の他の記事</summary><ul><li><a href="/ja/encyclopedia/risk-management/risk-management-fundamentals/">リスク管理の基本</a></li><li><a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイジング</a></li><li><a href="/ja/encyclopedia/risk-management/stop-loss-strategies/">損切り戦略</a></li><li><a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/">リスクリワードと期待値</a></li><li><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">ドローダウンと破産リスク</a></li><li><a href="/ja/encyclopedia/risk-management/kelly-criterion/">ケリー基準</a></li><li><a href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/" class="on" aria-current="page">相関とポートフォリオリスク</a></li><li><a href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/">レバレッジのリスクとブラックスワン</a></li><li><a href="/ja/encyclopedia/risk-management/trading-plan/">トレードプランの作り方</a></li></ul></details>
+<article><p>相関とは2つの市場がどれくらい連動して動く傾向があるかを測るもので、ポートフォリオリスクとは同時に保有しているすべてのポジションを合わせたリスクのことです。関連性の高い5つのトレードでそれぞれ1%をリスクにさらしたトレーダーは、5つの小さなリスクを取ったのではありません。約5%の1つのリスクを取ったのです。相関を理解すると、うっかり集中した賭けを組んでしまうことを防げます。特に、普段は別々に動いている資産がそろって下落し始める危機の局面では重要です。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>相関の高いポジションは1つの大きなポジションのように振る舞うため、そのリスクは足し合わせて考えるべきです。</li>
+<li>分散がリスクを下げるのは、保有資産同士の相関が完全ではない場合だけであり、保有数を増やすほどその効果は頭打ちになります。</li>
+<li>リスク資産同士の相関は、市場がストレスにさらされると急上昇する傾向があります。それはまさに分散が最も必要なときです。</li>
+<li>資産、セクター、テーマごとのエクスポージャー上限と、オープンリスク合計の上限は、相関リスクを管理する簡単な方法です。</li>
+<li>ベータは株式のポジションを市場全体に対する同等のエクスポージャーに換算するもので、ヘッジのサイズを決めやすくします。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">相関が測るもの</a></li><li><a href="#1">相関の高いポジションは1つの大きな賭け</a></li><li><a href="#section-4">計算例：ポジション間のリスクを合算する</a></li><li><a href="#section-5">分散の限界</a></li><li><a href="#section-6">危機時には相関が急上昇する</a></li><li><a href="#section-7">エクスポージャーの上限</a></li><li><a href="#section-8">ヘッジ</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">相関が測るもの</h2>
+<p>相関係数は−1から+1の範囲をとります。</p>
+<ul>
+<li><strong>+1</strong>：2つが同じ方向にぴったりそろって動く。</li>
+<li><strong>0</strong>：一貫した直線的な関係がない。</li>
+<li><strong>−1</strong>：2つが逆方向にぴったりそろって動く。</li>
+</ul>
+<p>相関は、選んだ期間の過去のリターン（通常は日次または週次）から推定します。相関は要約であって法則ではありません。その期間の平均的な関係を表すだけで、極端な値動きのときに2つがどう振る舞うかについてはほとんど何も語りません。相関が0.3の2つの資産でも、同じ日にそろって暴落することはありえます。</p>
+<h2 id="1">相関の高いポジションは1つの大きな賭け</h2>
+<p>FXでよくある例を挙げます。あるトレーダーがEUR/USDの買い、GBP/USDの買い、AUD/USDの買い、USD/CHFの売りをそれぞれ1%のリスクで建てたとします。どれも別々のアイデアに見えますが、実際には4つとも米ドルに対する売りの賭けです。米国の強い経済指標やFRB（連邦準備制度）の政策見通しの変化があれば、4つすべてが一度に損切りにかかり、実質的には1つのトレードで4%を失うことになります。これらの通貨ペアを連動させる要因については、<a href="/ja/encyclopedia/fundamental-analysis/intermarket-analysis/">インターマーケット分析</a>で解説しています。</p>
+<p>ほかにも、気づきにくい集中の例はよくあります。</p>
+<ul>
+<li>複数のハイテク株と、ナスダック連動ETF。</li>
+<li>ビットコインと連動しやすい複数のアルトコイン。</li>
+<li>株価指数先物の買いと、高ベータの暗号資産の買い。ここ数年、これらはしばしば1つの「リスクオン」ポジションのように取引されてきました。</li>
+<li>すべて同じ選挙結果に左右される、予測市場の複数のポジション。</li>
+</ul>
+<h2 id="section-4">計算例：ポジション間のリスクを合算する</h2>
+<p>2つのポジションを保有しており、それぞれの典型的な1日の変動（損益の1標準偏差）が$100だとします。合わせたポジションの典型的な変動は次のとおりです。</p>
+<p><strong>合計リスク = √(a² + b² + 2 × ρ × a × b)</strong></p>
+<p>ここでaとbは個々のリスク、ρは相関です。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>相関（ρ）</th>
+<th>合計の典型的な変動</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+1.0</td>
+<td>$200</td>
+</tr>
+<tr>
+<td>+0.8</td>
+<td>約$190</td>
+</tr>
+<tr>
+<td>+0.5</td>
+<td>約$173</td>
+</tr>
+<tr>
+<td>0</td>
+<td>約$141</td>
+</tr>
+<tr>
+<td>−1.0</td>
+<td>$0</td>
+</tr>
+</tbody></table></div>
+<p>相関が0.8なら、2つのポジションを持ってもほとんど分散効果はありません。$200が$190になるだけです。ポジションを組み合わせて典型的な変動を意味のあるほど減らせるのは、相関が低いかマイナスの場合だけです。</p>
+<p>この公式は、日々の通常の変動を表すものです。損切りのリスクについては、最悪のケースはやはり両方の損切り額の合計で、この例では各損切りが$100離れていれば$200です。相関のあるポジションは、実際にそろって損切りにかかることがあるからです。</p>
+<h2 id="section-5">分散の限界</h2>
+<p>保有資産を増やせばリスクは下がりますが、それはある程度までです。ボラティリティが同じで、ペアごとの平均相関も同じN個の資産を均等に保有するポートフォリオでは、1つの資産のボラティリティに対するポートフォリオのボラティリティの割合は√(ρ + (1 − ρ) ÷ N)です。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>平均相関</th>
+<th>1銘柄</th>
+<th>5銘柄</th>
+<th>10銘柄</th>
+<th>20銘柄</th>
+<th>下限（非常に多数）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>100%</td>
+<td>45%</td>
+<td>32%</td>
+<td>22%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>0.2</td>
+<td>100%</td>
+<td>60%</td>
+<td>53%</td>
+<td>49%</td>
+<td>45%</td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>100%</td>
+<td>77%</td>
+<td>74%</td>
+<td>72%</td>
+<td>71%</td>
+</tr>
+<tr>
+<td>0.8</td>
+<td>100%</td>
+<td>92%</td>
+<td>91%</td>
+<td>90%</td>
+<td>89%</td>
+</tr>
+</tbody></table></div>
+<p>平均相関が0.5なら、10銘柄から無制限に増やしてもほとんど効果はありません。リスクは1銘柄の74%から71%に下がるだけです。残るリスクは、株式市場全体のように、すべての保有資産に共通する要因です。分散で取り除けるのは個々の保有資産に固有のリスクであり、すべてに共通するリスクは取り除けません。</p>
+<h2 id="section-6">危機時には相関が急上昇する</h2>
+<p>リスク資産同士の相関は安定していません。平穏な時期には、異なる株式、セクター、資産クラスがかなり独立して動くことがよくあります。しかし売りが広がる局面では、多くの投資家がリスクを減らすため、追証に対応するため、あるいは現金を確保するために一斉に売り、無関係に見えた資産がそろって下落します。</p>
+<p>過去の例には、ほとんどのリスク資産がそろって下落した2008年の金融危機や、COVID-19のパンデミックの始まりによって株式、クレジット、コモディティ、暗号資産が軒並み急落した2020年3月があります。安全資産として扱われることの多い金でさえ、2020年3月中旬には、投資家が現金を確保するために売れるものを売ったことで、数日間にわたって大きく下落しました。2022年には、金利の上昇に伴い、ビットコインなどの暗号資産がハイテク株と密接に連動して取引されました。</p>
+<p>実践的な教訓は、平穏な時期の相関に基づいて分散されているように見えるポートフォリオが、損失が最も大きくなるまさにその状況で、1つのポジションのように振る舞うかもしれないということです。これは、<a href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/">レバレッジリスクとブラックスワン</a>で取り上げている破綻事例の背後にある仕組みの1つです。</p>
+<h2 id="section-7">エクスポージャーの上限</h2>
+<p>正式なポートフォリオの計算をしなくても、簡単なルールで相関リスクを抑えられます。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>上限</th>
+<th>ルールの例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>オープンリスクの合計（「ポートフォリオヒート」）</td>
+<td>すべての損切りを合わせたリスクを口座資金の5%以下にする</td>
+</tr>
+<tr>
+<td>テーマごとの上限</td>
+<td>同じ要因に左右されるポジション（例：「ドル売り」「AI関連株の買い」）のリスクを2%以下にする</td>
+</tr>
+<tr>
+<td>資産クラスごとの上限</td>
+<td>オープンリスクの半分以上を1つの資産クラスに集中させない</td>
+</tr>
+<tr>
+<td>取引先ごとの上限</td>
+<td>1つのブローカーや取引所に、失っても構わない以上の資金を置かない</td>
+</tr>
+<tr>
+<td>イベントごとの上限</td>
+<td>予定された1つのイベントにかける金額を、決めた額以下にする</td>
+</tr>
+</tbody></table></div>
+<p>新しいトレードが上限を超えてしまう場合の選択肢は、見送るか、サイズを小さくするか、相関のあるポジションを決済して枠を空けるかです。</p>
+<h2 id="section-8">ヘッジ</h2>
+<p>ヘッジとは、別のポジションのリスクの一部を相殺するためのポジションです。代表的な形は次のとおりです。</p>
+<ul>
+<li><strong>指数ヘッジ</strong>：株式の買いポートフォリオに対して指数先物やETFを売り、主に個別銘柄固有のパフォーマンスだけを残します。</li>
+<li><strong>ペアトレード</strong>：ある銘柄を買い、関連性の高い別の銘柄を売って、市場の方向ではなく相対的な値動きに賭けます。</li>
+<li><strong>オプション</strong>：プレミアムを支払ってプットを買い、下値リスクに上限を設けます。<a href="/ja/encyclopedia/options/options-basics/">オプションの基礎</a>を参照してください。</li>
+<li><strong>為替ヘッジ</strong>：外国資産の為替エクスポージャーを相殺します。</li>
+</ul>
+<p>ヘッジには、プレミアム、スプレッド、資金調達コスト、あるいは逃した利益という形でコストがかかります。また、ヘッジとポジションの関係が変わると、ヘッジが機能しなくなることもあります。不完全なヘッジでは、両方のポジションで損失を出すこともありえます。</p>
+<h3 id="section-9">ベータ</h3>
+<p>ベータは、株式が市場全体の指数に対してどれくらい動く傾向があるかを測るものです。ベータが1.5なら、その株は過去に、指数が1%動くごとに平均して約1.5%動いてきたことを意味します。</p>
+<p><strong>計算例。</strong> ベータ1.2の株を$20,000、ベータ0.8の株を$10,000保有しているとします。</p>
+<ul>
+<li>ベータ加重エクスポージャー = $20,000 × 1.2 + $10,000 × 0.8 = $24,000 + $8,000 = <strong>$32,000</strong></li>
+<li>ポートフォリオのベータ = $32,000 ÷ $30,000 ≈ <strong>1.07</strong></li>
+</ul>
+<p>市場エクスポージャーをおおむね中立にするには、指数ETFまたは先物で約$32,000相当を売ることになります。残るのは、これらの銘柄が市場をアウトパフォームすることへの賭けです。ベータは過去のデータから推定され、時間とともに変わるため、ベータヘッジは近似にすぎません。指数商品については<a href="/ja/encyclopedia/stocks/etfs-and-index-trading/">ETFと株価指数の取引</a>で解説しています。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>相関のあるトレードを別々のリスクとして数える。</strong> 結果として、意図したエクスポージャーの何倍にもなってしまいます。</li>
+<li><strong>平穏な時期の相関が暴落時にも続くと信じる。</strong></li>
+<li><strong>相関の高い多数の銘柄に分散しすぎる。</strong> リスクは減らず、複雑さが増すだけです。</li>
+<li><strong>ポジションとの連動が緩い商品でヘッジする。</strong> ずれが残り、両方で損失を出すことがあります。</li>
+<li><strong>各ポジションのサイズをフルケリーやリスク予算の全額で決め、</strong> 合計を無視する。<a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイズ</a>を参照してください。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-12">トレードにおける相関とは何ですか？</h3>
+<p>相関とは、2つの市場がどれくらい一貫して連動するかを−1から+1の尺度で測るものです。強い正の相関は、2つがそろって上がったり下がったりする傾向があることを意味するため、両方を持つと同じ値動きへのより大きな賭けになります。</p>
+<h3 id="1">なぜ危機のときには相関が1に近づくのですか？</h3>
+<p>売りが広がる局面では、多くの投資家がリスクを減らすため、追証に対応するため、あるいは現金を確保するために同時に売り、流動性のあるものなら何でも売ることがよくあります。この共通の売り圧力によって、普段は無関係な資産がそろって下落するため、測定される相関が急上昇します。</p>
+<h3 id="section-14">分散するにはいくつのポジションが必要ですか？</h3>
+<p>ポジション同士の相関の強さによります。相関が低ければ、効果の大部分は最初の10〜20銘柄で得られます。相関が高ければ、共通する市場の要因が残るため、銘柄を増やしてもリスクはほとんど減りません。</p>
+<h3 id="section-15">ポートフォリオにおけるベータとは何ですか？</h3>
+<p>ベータとは、株式やポートフォリオが、市場指数の1%の値動きごとにどれくらい動いてきたかを測るものです。各ポジションの金額にそのベータを掛けると市場換算のエクスポージャーが得られ、指数ヘッジのサイズを決めるのに役立ちます。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">リスク管理と資金管理</div><b>リスク管理の基本</b><span>リスク管理がエントリーより重要な理由を解説。1トレードあたりのリスク、1日の損失上限、50%の損失を取り戻す計算、トレードの主なリスクの種類をまとめます。</span></a><a class="card" href="/ja/encyclopedia/risk-management/position-sizing/"><div class="k">リスク管理と資金管理</div><b>ポジションサイジング</b><span>口座のリスク許容額と損切り幅からポジションサイズを計算する方法を解説。定率法、定額法、ATR法を株式、FX、暗号資産の例で紹介します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/"><div class="k">リスク管理と資金管理</div><b>レバレッジのリスクとブラックスワン</b><span>2015年のフランショック、2020年の原油マイナス価格、GameStop、LUNA、FTXの事例から、レバレッジ取引が破綻する仕組みと教訓を解説します。</span></a><a class="card" href="/ja/encyclopedia/fundamental-analysis/intermarket-analysis/"><div class="k">ファンダメンタル分析とマクロ分析</div><b>インターマーケット分析</b><span>ドル、債券利回り、株式、金、原油、暗号資産が互いにどう影響し合うか、リスクオンとリスクオフの意味、資産間の相関が変化する理由を解説します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/kelly-criterion/"><div class="k">リスク管理と資金管理</div><b>ケリー基準</b><span>二択の賭けのケリー公式と連続版、予測市場の契約を含む計算例を解説し、多くのトレーダーがフラクショナル・ケリーを使う理由を紹介します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/risk-management/kelly-criterion/"><small>← 前へ</small>ケリー基準</a><a class="next" href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/"><small>次へ →</small>レバレッジのリスクとブラックスワン</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

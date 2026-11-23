@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chiến lược giao dịch arbitrage: các loại, ví dụ và rủi ro | PnL Profit</title>
+<meta name="description" content="Arbitrage thuần túy và thống kê, arbitrage chỉ số, ETF, merger arbitrage, giữa các sàn, tam giác, basis trade, và vì sao arbitrage phi rủi ro rất hiếm.">
+<meta name="keywords" content="giao dịch arbitrage, chiến lược arbitrage, arbitrage tam giác, merger arbitrage, arbitrage chỉ số, basis trade">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Chiến lược giao dịch arbitrage: các loại, ví dụ và rủi ro | PnL Profit">
+<meta property="og:description" content="Arbitrage thuần túy và thống kê, arbitrage chỉ số, ETF, merger arbitrage, giữa các sàn, tam giác, basis trade, và vì sao arbitrage phi rủi ro rất hiếm.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chiến lược giao dịch arbitrage: các loại, ví dụ và rủi ro | PnL Profit">
+<meta name="twitter:description" content="Arbitrage thuần túy và thống kê, arbitrage chỉ số, ETF, merger arbitrage, giữa các sàn, tam giác, basis trade, và vì sao arbitrage phi rủi ro rất hiếm.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Chiến lược giao dịch arbitrage: các loại, ví dụ và rủi ro","description":"Arbitrage thuần túy và thống kê, arbitrage chỉ số, ETF, merger arbitrage, giữa các sàn, tam giác, basis trade, và vì sao arbitrage phi rủi ro rất hiếm.","keywords":"giao dịch arbitrage, chiến lược arbitrage, arbitrage tam giác, merger arbitrage, arbitrage chỉ số, basis trade","articleSection":"Giao dịch thuật toán và định lượng","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch thuật toán và định lượng","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Chiến lược arbitrage","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Arbitrage có hợp pháp không?","acceptedAnswer":{"@type":"Answer","text":"Có. Arbitrage hợp pháp và giúp giữ giá nhất quán giữa các thị trường. Tuy nhiên, khai thác lỗi phần mềm, thao túng giá hoặc vi phạm điều khoản của sàn có thể là bất hợp pháp hoặc dẫn đến việc lệnh bị hủy."}},{"@type":"Question","name":"Arbitrage có phi rủi ro không?","acceptedAnswer":{"@type":"Answer","text":"Chỉ trên lý thuyết. Trên thực tế, arbitrage có rủi ro thực thi, khớp lệch chân, đối tác, nguồn vốn và sai lệch quy tắc, và khoản chênh có thể nới rộng trước khi đóng lại."}},{"@type":"Question","name":"Trader cá nhân còn làm arbitrage được không?","acceptedAnswer":{"@type":"Answer","text":"Các cơ hội ở thị trường lớn, thanh khoản cao hầu như bị các công ty chuyên nghiệp lấy hết trong vài mili giây. Trader cá nhân đôi khi tìm thấy chênh lệch ở những thị trường nhỏ hơn, phân mảnh hoặc mới hơn, nơi rủi ro thanh khoản mỏng, độ trễ chuyển tiền và sự cố nền tảng cũng cao hơn."}},{"@type":"Question","name":"Arbitrage và arbitrage thống kê khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"Arbitrage thuần túy khai thác các mức giá buộc phải hội tụ vì tài sản tương đương nhau. Arbitrage thống kê đặt cược vào các mối quan hệ lịch sử thường hồi quy nhưng không được đảm bảo, nên có rủi ro mô hình."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/arbitrage-strategies/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/arbitrage-strategies/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/arbitrage-strategies/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch thuật toán và định lượng</h3><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/" class="on" aria-current="page">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/" class="on">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a></div>
+<h1 class="title">Các chiến lược arbitrage</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch thuật toán và định lượng</summary><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/" class="on" aria-current="page">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul></details>
+<article><p>Arbitrage (kinh doanh chênh lệch giá) là nỗ lực kiếm lời từ chênh lệch giá giữa hai tài sản tương đương hoặc liên kết chặt chẽ, bằng cách mua tài sản rẻ hơn và bán tài sản đắt hơn cùng lúc. Về lý thuyết, arbitrage thuần túy khóa được lợi nhuận mà không có rủi ro. Trên thực tế, phí, độ trễ, yêu cầu vốn và khả năng mối liên hệ bị phá vỡ khiến hầu hết arbitrage ngoài đời đều có rủi ro, và những cơ hội sạch nhất bị các trader chuyên nghiệp nhanh nhất lấy đi chỉ trong chốc lát.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Arbitrage thuần túy khai thác chênh lệch giá giữa các quyền lợi giống hệt nhau; arbitrage thống kê đặt cược vào những mối quan hệ thường, nhưng không phải luôn luôn, đúng.</li>
+<li>Arbitrage chỉ số, ETF, giữa các sàn và tam giác giữ cho các mức giá liên quan nhất quán với nhau và bị chi phối bởi các công ty nhanh, vốn lớn.</li>
+<li>Merger arbitrage và basis trade kiếm được khoản chênh lệch nhờ gánh những rủi ro cụ thể, chẳng hạn thương vụ đổ vỡ hoặc căng thẳng nguồn vốn.</li>
+<li>Chi phí, độ trễ thực thi và đòn bẩy biến nhiều vụ arbitrage tưởng chừng có lãi thành thua lỗ.</li>
+<li>Khi một vụ arbitrage trông dễ dàng và lớn, lời giải thích thường gặp là có rủi ro hoặc chi phí ẩn.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#arbitrage-thu-n-t-y-v-arbitrage-th-ng-k">Arbitrage thuần túy và arbitrage thống kê</a></li><li><a href="#arbitrage-ch-s">Arbitrage chỉ số</a></li><li><a href="#arbitrage-etf">Arbitrage ETF</a></li><li><a href="#merger-arbitrage">Merger arbitrage</a></li><li><a href="#arbitrage-gi-a-c-c-s-n-v-arbitrage-tam-gi-c">Arbitrage giữa các sàn và arbitrage tam giác</a></li><li><a href="#basis-trade">Basis trade</a></li><li><a href="#v-sao-arbitrage-phi-r-i-ro-r-t-hi-m">Vì sao arbitrage phi rủi ro rất hiếm</a></li><li><a href="#c-c-v-d-minh-h-a">Các ví dụ minh họa</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="arbitrage-thu-n-t-y-v-arbitrage-th-ng-k">Arbitrage thuần túy và arbitrage thống kê</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Loại</th>
+<th>Dựa vào điều gì</th>
+<th>Rủi ro</th>
+<th>Ví dụ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Arbitrage thuần túy (tất định)</td>
+<td>Một mối liên kết pháp lý hoặc cơ học buộc giá hội tụ</td>
+<td>Rủi ro thực thi và rủi ro đối tác, nhưng không có rủi ro mô hình nếu thực hiện tức thì</td>
+<td>Mua và bán cùng một tài sản trên hai sàn với giá khác nhau</td>
+</tr>
+<tr>
+<td>Arbitrage hội tụ hoặc rủi ro</td>
+<td>Một sự kiện hoặc ngày mà tại đó giá sẽ hội tụ</td>
+<td>Sự kiện có thể không xảy ra, hoặc nguồn vốn có thể cạn trước</td>
+<td>Merger arbitrage, basis của futures</td>
+</tr>
+<tr>
+<td>Arbitrage thống kê</td>
+<td>Các mối quan hệ lịch sử có xu hướng hồi quy</td>
+<td>Mối quan hệ có thể thay đổi vĩnh viễn</td>
+<td><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Giao dịch cặp và stat arb</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="arbitrage-ch-s">Arbitrage chỉ số</h2>
+<p>Hợp đồng tương lai chỉ số chứng khoán nên giao dịch gần với giá trị hợp lý của nó, vốn phản ánh chỉ số tiền mặt cộng chi phí tài trợ cho các cổ phiếu đến ngày đáo hạn, trừ đi cổ tức nhận được. Một công thức đơn giản hóa:</p>
+<p>Giá trị hợp lý ≈ Chỉ số × (1 + (r − d) × số ngày / 365)</p>
+<p>trong đó r là lãi suất và d là tỷ suất cổ tức. Nếu hợp đồng tương lai giao dịch cao hơn hẳn giá trị hợp lý, nhà arbitrage bán hợp đồng tương lai và mua rổ cổ phiếu; nếu thấp hơn hẳn thì làm ngược lại. Đến ngày đáo hạn, hợp đồng tương lai hội tụ về chỉ số. Vì giao dịch này đòi hỏi mua hàng trăm cổ phiếu cùng lúc, nó do các công ty có khả năng thực thi nhanh, chi phí thấp thực hiện, và các chênh lệch hiếm khi kéo dài.</p>
+<h2 id="arbitrage-etf">Arbitrage ETF</h2>
+<p>Quỹ hoán đổi danh mục (ETF) có cơ chế tạo lập và mua lại. Các tổ chức lớn gọi là authorized participant có thể giao một rổ chứng khoán cơ sở cho quỹ để đổi lấy cổ phần ETF mới, hoặc mua lại cổ phần ETF để lấy rổ chứng khoán. Nếu ETF giao dịch cao hơn giá trị các khoản nắm giữ, họ mua các khoản nắm giữ, tạo cổ phần và bán chúng; nếu thấp hơn, họ mua cổ phần ETF và mua lại chúng. Cơ chế này giữ hầu hết ETF lớn gần với giá trị tài sản ròng (NAV), dù chênh lệch có thể xuất hiện khi thị trường căng thẳng hoặc với các ETF nắm giữ tài sản kém thanh khoản. Cơ chế này được mô tả thêm trong bài <a href="/vi/encyclopedia/stocks/etfs-and-index-trading/">ETF và giao dịch chỉ số</a>.</p>
+<h2 id="merger-arbitrage">Merger arbitrage</h2>
+<p>Khi một công ty đồng ý bị thâu tóm, cổ phiếu của nó thường giao dịch thấp hơn một chút so với giá chào mua cho đến khi thương vụ hoàn tất. Khoảng chênh, gọi là deal spread, bù đắp cho rủi ro thương vụ đổ vỡ do cơ quan quản lý, nguồn tài chính hoặc biểu quyết của cổ đông. Các nhà merger arbitrage mua cổ phiếu công ty mục tiêu (và, với thương vụ hoán đổi cổ phiếu, bán khống cổ phiếu bên thâu tóm) để hưởng khoản chênh đó.</p>
+<p>Hồ sơ lợi nhuận bị lệch: lãi nhỏ nếu thương vụ hoàn tất và lỗ lớn nếu nó đổ vỡ và công ty mục tiêu rơi về gần mức giá trước thương vụ.</p>
+<h2 id="arbitrage-gi-a-c-c-s-n-v-arbitrage-tam-gi-c">Arbitrage giữa các sàn và arbitrage tam giác</h2>
+<h3 id="gi-a-c-c-s-n">Giữa các sàn</h3>
+<p>Cùng một tài sản có thể giao dịch ở các mức giá hơi khác nhau trên các sàn khác nhau. Mua ở sàn rẻ hơn và bán ở sàn đắt hơn sẽ thu được khoản chênh. Cách này phổ biến trong crypto, nơi thị trường bị phân mảnh trên nhiều sàn. Các trở ngại thực tế gồm độ trễ rút tiền, phí chuyển, thời gian xác nhận nạp tiền và rủi ro sàn đóng băng việc rút tiền. Các chi tiết này được trình bày trong bài <a href="/vi/encyclopedia/crypto/crypto-arbitrage/">arbitrage crypto</a>, và một cách tiếp cận liên quan trên hợp đồng sự kiện được trình bày trong <a href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/">arbitrage thị trường dự đoán</a> và <a href="/blog/kalshi-arbitrage-bot-guide.html">hướng dẫn bot arbitrage Kalshi</a>.</p>
+<h3 id="tam-gi-c">Tam giác</h3>
+<p>Arbitrage tam giác dùng ba tỷ giá lẽ ra phải nhất quán với nhau. Nếu EUR/USD nhân USD/JPY không bằng EUR/JPY, một vòng đi qua ba đồng tiền có thể trả về nhiều hơn số ban đầu. Ở các thị trường tiền tệ và crypto lớn, những chênh lệch như vậy thường đóng lại trong vài mili giây.</p>
+<h2 id="basis-trade">Basis trade</h2>
+<p>Basis là chênh lệch giữa giá hợp đồng tương lai và giá giao ngay.</p>
+<ul>
+<li><strong>Cash-and-carry:</strong> mua tài sản trên thị trường giao ngay và bán hợp đồng tương lai ở giá cao hơn, giữ đến ngày đáo hạn. Trong crypto, có một biến thể dùng hợp đồng tương lai vĩnh viễn và thu <a href="/vi/encyclopedia/crypto/funding-rates/">khoản thanh toán funding</a>. Lợi nhuận chỉ được khóa nếu vị thế sống sót đến ngày đáo hạn mà không bị thanh lý và sàn vẫn còn khả năng thanh toán.</li>
+<li><strong>Basis trade trái phiếu:</strong> các quỹ phòng hộ mua trái phiếu chính phủ và bán hợp đồng tương lai trái phiếu để nắm bắt những chênh lệch giá nhỏ, thường với đòn bẩy rất lớn. Việc tháo gỡ các vị thế basis trái phiếu kho bạc Mỹ dùng đòn bẩy được nhiều nguồn đưa tin là một yếu tố gây căng thẳng cho thị trường trái phiếu kho bạc Mỹ vào tháng 3 năm 2020.</li>
+</ul>
+<p>Cấu trúc kỳ hạn và cơ chế roll được giải thích trong bài <a href="/vi/encyclopedia/futures/contango-backwardation-and-rollover/">contango, backwardation và rollover</a>.</p>
+<h2 id="v-sao-arbitrage-phi-r-i-ro-r-t-hi-m">Vì sao arbitrage phi rủi ro rất hiếm</h2>
+<ul>
+<li><strong>Cạnh tranh.</strong> Các công ty chuyên nghiệp có kết nối trực tiếp vào thị trường và máy chủ đặt cùng vị trí quét tìm chênh lệch liên tục. Xem <a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">giao dịch tần suất cao</a>.</li>
+<li><strong>Chi phí.</strong> Phí, spread và slippage trên hai hay nhiều chân lệnh thường lớn hơn khoản chênh.</li>
+<li><strong>Rủi ro khớp lệch chân (legging).</strong> Nếu một chân khớp mà chân kia không khớp, bạn nắm giữ một vị thế không được phòng hộ.</li>
+<li><strong>Vốn và nguồn tài trợ.</strong> Arbitrage thường cần vị thế lớn trên biên lợi nhuận mỏng, được tài trợ bằng đòn bẩy. Một lệnh margin call có thể buộc bạn thoát trước khi giá hội tụ.</li>
+<li><strong>Giới hạn của arbitrage.</strong> Trong một bài báo nổi tiếng năm 1997, Shleifer và Vishny lập luận rằng các nhà arbitrage dùng vốn của người khác có thể bị buộc thanh lý đúng lúc mức định giá sai nới rộng, nên định giá sai có thể kéo dài. Sự sụp đổ năm 1998 của quỹ phòng hộ Long-Term Capital Management, vốn thực hiện các giao dịch hội tụ lớn dùng đòn bẩy, là minh họa tiêu biểu.</li>
+<li><strong>Khác biệt về quy tắc và hợp đồng.</strong> Hai hợp đồng trông giống hệt nhau có thể thanh toán khác nhau, một cái bẫy thường gặp trong giao dịch giữa các nền tảng.</li>
+</ul>
+<h2 id="c-c-v-d-minh-h-a">Các ví dụ minh họa</h2>
+<h3 id="arbitrage-tam-gi-c">Arbitrage tam giác</h3>
+<p>Báo giá: EUR/USD 1.1000, USD/JPY 150.00, EUR/JPY 165.30. EUR/JPY ngụ ý là 1.1000 × 150.00 = 165.00, nên EUR/JPY cao hơn 0.30 yên so với hai tỷ giá còn lại.</p>
+<ul>
+<li>Bắt đầu với 1,000,000 đô la. Mua euro: 1,000,000 / 1.1000 = 909,090.91 euro.</li>
+<li>Bán euro lấy yên ở 165.30: 909,090.91 × 165.30 = 150,272,727 yên.</li>
+<li>Bán yên lấy đô la ở 150.00: 150,272,727 / 150.00 = 1,001,818.18 đô la.</li>
+<li>Lợi nhuận gộp: 1,818 đô la, khoảng 0.18%, trước spread, phí và slippage của ba giao dịch.</li>
+</ul>
+<p>Trên thị trường thực, một chênh lệch lớn như vậy ở các đồng tiền chính sẽ là bất thường và tồn tại cực ngắn.</p>
+<h3 id="merger-arbitrage">Merger arbitrage</h3>
+<p>Một công ty đồng ý bị thâu tóm với giá 50 đô la mỗi cổ phiếu bằng tiền mặt. Cổ phiếu đang giao dịch ở 47 đô la. Nếu thương vụ đổ vỡ, các nhà phân tích kỳ vọng nó sẽ giảm về 38 đô la.</p>
+<ul>
+<li>Lãi nếu thương vụ hoàn tất: 3 đô la, tức 3 / 47 ≈ 6.4%. Nếu mất sáu tháng, tương đương khoảng 12.8% quy theo năm, trước chi phí.</li>
+<li>Lỗ nếu thất bại: 9 đô la, tức khoảng 19%.</li>
+<li>Bỏ qua giá trị thời gian, giá thị trường ngụ ý xác suất hoàn tất p thỏa p × 3 = (1 − p) × 9, nên p = 0.75.</li>
+</ul>
+<p>Giao dịch này chỉ hợp lý nếu bạn tin xác suất thực sự cao hơn 75% một cách đáng kể.</p>
+<h3 id="gi-tr-h-p-l-c-a-ch-s">Giá trị hợp lý của chỉ số</h3>
+<p>Một chỉ số ở mức 5,000, lãi suất là 5%, tỷ suất cổ tức là 1.5% và hợp đồng tương lai đáo hạn sau 90 ngày. Giá trị hợp lý ≈ 5,000 × (1 + 0.035 × 90 / 365) ≈ 5,043.2. Một hợp đồng tương lai giao dịch ở 5,060 là đắt khoảng 17 điểm, nhưng chi phí giao dịch và khó khăn khi giao dịch toàn bộ rổ cổ phiếu quyết định liệu khoản chênh đó có thực sự khai thác được hay không.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Bỏ qua phí trên mọi chân lệnh.</strong> Một khoản chênh 0.2% biến mất nhanh chóng với ba giao dịch, mỗi giao dịch 0.1%.</li>
+<li><strong>Đánh giá thấp thời gian chuyển tiền.</strong> Giá có thể dịch chuyển trong lúc tiền di chuyển giữa các nền tảng.</li>
+<li><strong>Cho rằng các hợp đồng giống hệt nhau.</strong> Hãy kiểm tra nguồn thanh toán, thời điểm đáo hạn và quy tắc.</li>
+<li><strong>Dùng đòn bẩy cho các giao dịch &quot;an toàn&quot;.</strong> Lãi nhỏ, đều đặn nhân với đòn bẩy lớn chính là cách các quỹ hội tụ đã thất bại.</li>
+<li><strong>Tin vào dữ liệu cũ.</strong> Một khoản chênh có vẻ tồn tại có thể chỉ là báo giá bị trễ.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="arbitrage-c-h-p-ph-p-kh-ng">Arbitrage có hợp pháp không?</h3>
+<p>Có. Arbitrage hợp pháp và giúp giữ giá nhất quán giữa các thị trường. Tuy nhiên, khai thác lỗi phần mềm, thao túng giá hoặc vi phạm điều khoản của sàn có thể là bất hợp pháp hoặc dẫn đến việc lệnh bị hủy.</p>
+<h3 id="arbitrage-c-phi-r-i-ro-kh-ng">Arbitrage có phi rủi ro không?</h3>
+<p>Chỉ trên lý thuyết. Trên thực tế, arbitrage có rủi ro thực thi, khớp lệch chân, đối tác, nguồn vốn và sai lệch quy tắc, và khoản chênh có thể nới rộng trước khi đóng lại.</p>
+<h3 id="trader-c-nh-n-c-n-l-m-arbitrage-c-kh-ng">Trader cá nhân còn làm arbitrage được không?</h3>
+<p>Các cơ hội ở thị trường lớn, thanh khoản cao hầu như bị các công ty chuyên nghiệp lấy hết trong vài mili giây. Trader cá nhân đôi khi tìm thấy chênh lệch ở những thị trường nhỏ hơn, phân mảnh hoặc mới hơn, nơi rủi ro thanh khoản mỏng, độ trễ chuyển tiền và sự cố nền tảng cũng cao hơn.</p>
+<h3 id="arbitrage-v-arbitrage-th-ng-k-kh-c-nhau-th-n-o">Arbitrage và arbitrage thống kê khác nhau thế nào?</h3>
+<p>Arbitrage thuần túy khai thác các mức giá buộc phải hội tụ vì tài sản tương đương nhau. Arbitrage thống kê đặt cược vào các mối quan hệ lịch sử thường hồi quy nhưng không được đảm bảo, nên có rủi ro mô hình.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/crypto/crypto-arbitrage/"><div class="k">Giao dịch crypto</div><b>Arbitrage crypto</b><span>Arbitrage crypto giữa các sàn, tam giác, CEX-DEX và cash-and-carry, kèm ví dụ tính toán cùng các loại phí, độ trễ và rủi ro khiến phần lớn lợi thế biến mất.</span></a><a class="card" href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/"><div class="k">Thị trường dự đoán</div><b>Arbitrage</b><span>Cách arbitrage prediction market hoạt động: arb YES/NO bổ sung và nhiều kết cục, chênh lệch chéo sàn, phí, vốn bị khóa và rủi ro lệch quy tắc giữa thị trường.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Pairs trading và Stat Arb</b><span>Cách pairs trading và stat arb hoạt động: đồng tích hợp và tương quan, hệ số phòng hộ, z-score của spread, quy tắc vào ra, suy giảm lợi thế, quant quake 2007.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Giao dịch tần suất cao</b><span>HFT làm gì: co-location, cuộc đua độ trễ, tạo lập thị trường, latency arbitrage, các tranh cãi và vì sao trader cá nhân không thể cạnh tranh về tốc độ.</span></a><a class="card" href="/vi/encyclopedia/futures/contango-backwardation-and-rollover/"><div class="k">Giao dịch hợp đồng tương lai</div><b>Contango, Backwardation và Rollover</b><span>Contango và backwardation là gì, roll yield hoạt động ra sao, cách và thời điểm roll futures, vì sao ETF hàng hóa tụt sau giá giao ngay, dầu tháng 4 năm 2020.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/algorithmic-trading/market-making/"><small>← Bài trước</small>Làm thị trường</a><a class="next" href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/"><small>Bài tiếp →</small>Giao dịch tần suất cao</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

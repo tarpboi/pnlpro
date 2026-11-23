@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>隐含波动率详解：IV Rank、IV 压缩与波动率偏斜 | PnL Profit</title>
+<meta name="description" content="什么是隐含波动率，它与历史波动率有何不同，IV Rank 与 IV 百分位、IV 压缩、波动率偏斜，以及预期波动幅度公式和计算实例。">
+<meta name="keywords" content="隐含波动率, IV crush 波动率压缩, IV Rank和IV百分位, 波动率偏斜, 预期波动幅度计算">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/implied-volatility/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="隐含波动率详解：IV Rank、IV 压缩与波动率偏斜 | PnL Profit">
+<meta property="og:description" content="什么是隐含波动率，它与历史波动率有何不同，IV Rank 与 IV 百分位、IV 压缩、波动率偏斜，以及预期波动幅度公式和计算实例。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/options/implied-volatility/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="隐含波动率详解：IV Rank、IV 压缩与波动率偏斜 | PnL Profit">
+<meta name="twitter:description" content="什么是隐含波动率，它与历史波动率有何不同，IV Rank 与 IV 百分位、IV 压缩、波动率偏斜，以及预期波动幅度公式和计算实例。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"隐含波动率详解：IV Rank、IV 压缩与波动率偏斜","description":"什么是隐含波动率，它与历史波动率有何不同，IV Rank 与 IV 百分位、IV 压缩、波动率偏斜，以及预期波动幅度公式和计算实例。","keywords":"隐含波动率, IV crush 波动率压缩, IV Rank和IV百分位, 波动率偏斜, 预期波动幅度计算","articleSection":"期权交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/options/implied-volatility/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"期权交易","item":"https://pnlpro.fit/zh/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"隐含波动率","item":"https://pnlpro.fit/zh/encyclopedia/options/implied-volatility/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"隐含波动率高是好事还是坏事？","acceptedAnswer":{"@type":"Answer","text":"本身无所谓好坏。IV 高让期权更贵，往往对卖方有利、对买方不利，但它通常意味着市场预期波动会更大。"}},{"@type":"Question","name":"IV 压缩是什么原因造成的？","acceptedAnswer":{"@type":"Answer","text":"当财报等预期中的事件过去、它所带来的不确定性消失时，就会发生 IV 压缩。随着 IV 下降，期权价格下跌，即使股价有所变动。"}},{"@type":"Question","name":"怎么用隐含波动率计算预期波动幅度？","acceptedAnswer":{"@type":"Answer","text":"用股价乘以 IV，再乘以（距到期天数除以 365）的平方根。一只 $200 的股票、IV 为 40%，7 天的预期波动幅度约为 $11。"}},{"@type":"Question","name":"IV Rank 和 IV 百分位有什么区别？","acceptedAnswer":{"@type":"Answer","text":"IV Rank 显示当前 IV 在 52 周最低值和最高值之间所处的位置。IV 百分位显示过去一年中 IV 低于当前水平的天数占比。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/options/implied-volatility/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/implied-volatility/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/options/implied-volatility/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/implied-volatility/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/implied-volatility/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/implied-volatility/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/implied-volatility/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/implied-volatility/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/implied-volatility/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>期权交易</h3><ul><li><a href="/zh/encyclopedia/options/options-basics/">期权基础</a></li><li><a href="/zh/encyclopedia/options/options-greeks/">希腊字母</a></li><li><a href="/zh/encyclopedia/options/implied-volatility/" class="on" aria-current="page">隐含波动率</a></li><li><a href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/">备兑看涨与现金担保看跌</a></li><li><a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a></li><li><a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰式与蝶式</a></li><li><a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a></li><li><a href="/zh/encyclopedia/options/0dte-options/">0DTE期权</a></li><li><a href="/zh/encyclopedia/options/options-expiration-and-assignment/">到期与行权指派</a></li><li><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma敞口与做市商对冲</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/" class="on">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/options/">期权交易</a></div>
+<h1 class="title">隐含波动率</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>期权交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/options/options-basics/">期权基础</a></li><li><a href="/zh/encyclopedia/options/options-greeks/">希腊字母</a></li><li><a href="/zh/encyclopedia/options/implied-volatility/" class="on" aria-current="page">隐含波动率</a></li><li><a href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/">备兑看涨与现金担保看跌</a></li><li><a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a></li><li><a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰式与蝶式</a></li><li><a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a></li><li><a href="/zh/encyclopedia/options/0dte-options/">0DTE期权</a></li><li><a href="/zh/encyclopedia/options/options-expiration-and-assignment/">到期与行权指派</a></li><li><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma敞口与做市商对冲</a></li></ul></details>
+<article><p>隐含波动率（implied volatility，IV）是市场计入期权价格中的未来波动率水平，用定价模型从期权价格反推得出。它以年化百分比表示，也是同一行权价、同一到期日的两份期权在不同时间价格可能相差悬殊的主要原因。由于 IV 在不确定事件发生前上升、事件过后回落，它对一笔期权交易能否赚钱的影响，往往不亚于标的的涨跌方向。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点总结</h2>
+<ul>
+<li>隐含波动率着眼未来，来自期权价格；历史波动率回看过去，来自过往的价格变动。</li>
+<li>IV Rank 和 IV 百分位显示当前 IV 相对于自身历史区间是高还是低。</li>
+<li>IV 往往在财报等预定事件前上升，事件后骤降，这就是所谓的 IV 压缩（IV crush）。</li>
+<li>不同行权价的 IV 各不相同，形成波动率偏斜（skew）或微笑曲线（smile），反映了对保护的需求以及预期波动的形态。</li>
+<li>预期波动幅度公式可以把 IV 换算成某一期间内大约一个标准差的价格区间。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">历史波动率与隐含波动率</a></li><li><a href="#black-scholes">Black-Scholes 模型的直观理解</a></li><li><a href="#iv-rank-iv">IV Rank 与 IV 百分位</a></li><li><a href="#section-7">预期波动幅度公式</a></li><li><a href="#iv">IV 压缩</a></li><li><a href="#section-11">波动率偏斜与微笑</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">历史波动率与隐含波动率</h2>
+<p><strong>历史波动率</strong>（HV）也叫已实现波动率，衡量过去一段时间内价格实际波动了多少。通常的算法是日收益率的标准差，再做年化处理。</p>
+<p><strong>隐含波动率</strong>是代入期权定价模型后能得出期权当前市场价格的那个波动率数值。它是市场的一致预测，再加上卖方为承担风险所要求的溢价。</p>
+<h3 id="section-3">实例：历史波动率的年化</h3>
+<p>假设某股票过去一个月日收益率的标准差为 1.5%。一年大约有 252 个交易日，而波动率与时间的平方根成比例。</p>
+<ul>
+<li>252 的平方根 = 约 15.87</li>
+<li>年化 HV = 1.5% x 15.87 = 约 23.8%</li>
+</ul>
+<p>如果该股票的期权按 35% 的 IV 定价，说明市场预期未来的波动会比该股近期实际的波动更大，可能是因为有事件即将发生。从历史上看，指数期权的 IV 平均而言往往高于随后的已实现波动率。这个差额称为波动率风险溢价（volatility risk premium），是期权卖方策略在长期内平均能赚钱、但偶尔会遭受巨额亏损的原因之一。</p>
+<h2 id="black-scholes">Black-Scholes 模型的直观理解</h2>
+<p>Black-Scholes 模型由 Fischer Black 和 Myron Scholes 于 1973 年发表，Robert Merton 也做了相关研究。它用六个输入变量为欧式期权定价：</p>
+<ol>
+<li>标的价格</li>
+<li>行权价</li>
+<li>距到期时间</li>
+<li>利率</li>
+<li>股息</li>
+<li>波动率</li>
+</ol>
+<p>前五个是已知的，波动率不是。所以交易者不是用模型去求价格，而是拿市场价格反过来求解，找出能让模型结果与市场价吻合的波动率。这个数字就是隐含波动率。</p>
+<p>该模型的假设之一是波动率恒定、收益率服从平滑的钟形分布。真实市场有跳空、暴跌和不断变化的波动率，这就是不同行权价的期权最终有不同 IV 的原因。最好把 IV 看作给期权报价的一种通用单位，而不是完美的预测。</p>
+<p>IV 越高，期权价格越高，看涨和看跌都一样。IV 每变动一个点期权价格变化多少，由 Vega 衡量，它是<a href="/zh/encyclopedia/options/options-greeks/">期权希腊字母</a>之一。</p>
+<h2 id="iv-rank-iv">IV Rank 与 IV 百分位</h2>
+<p>一只 IV 为 40% 的股票，期权是便宜还是贵，要看该股的常态水平。有两个常用指标可以把 IV 放到背景中去看，通常以过去一年为区间。</p>
+<ul>
+<li><strong>IV Rank</strong> = (当前 IV - 52 周最低 IV) / (52 周最高 IV - 52 周最低 IV)</li>
+<li><strong>IV 百分位（IV percentile）</strong> = 过去一年中 IV 低于当前水平的交易日所占的百分比</li>
+</ul>
+<h3 id="section-6">实例</h3>
+<p>某股票的 IV 在过去一年介于 20% 和 60% 之间，目前为 30%。</p>
+<ul>
+<li>IV Rank = (30 - 20) / (60 - 20) = 10 / 40 = 25%。</li>
+<li>如果过去 252 个交易日中有 160 天 IV 低于 30%，则 IV 百分位 = 160 / 252 = 约 63%。</li>
+</ul>
+<p>两者可能相差很大。一次飙升到 60% 的尖峰会把 IV Rank 压低整整一年，而 IV 百分位受单个异常值的影响较小。许多交易者偏好在这些读数高时卖出权利金、读数低时买入，不过 IV 高往往是有充分理由的。</p>
+<h2 id="section-7">预期波动幅度公式</h2>
+<p>IV 可以换算成一个大致的价格区间。某期间内一个标准差的预期波动幅度（expected move）为：</p>
+<p>预期波动幅度 = 价格 x IV x (距到期天数 / 365) 的平方根</p>
+<p>使用日历日和 365 是常见惯例；也有交易者改用交易日和 252。</p>
+<h3 id="section-8">实例</h3>
+<p>某股票现价 $200，IV 为 40%，你想知道未来 7 天的预期波动幅度。</p>
+<ul>
+<li>天数比例：7 / 365 = 0.01918</li>
+<li>平方根：约 0.1385</li>
+<li>预期波动幅度 = $200 x 0.40 x 0.1385 = 约 $11.08</li>
+</ul>
+<p>市场隐含的意思是：这一周内向任一方向波动约 $11（即 5.5%），大致属于一个标准差的结果。按照模型的钟形曲线假设，股价约有 68% 的概率收在这个区间内。真实的收益分布尾部更厚，所以大幅波动出现的频率比钟形曲线显示的更高。</p>
+<p>一个基于市场的快捷替代方法是看平值跨式组合（同一行权价的一张看涨加一张看跌）的价格，它近似等于到期前预期波动的幅度。参见<a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a>和<a href="/zh/encyclopedia/stocks/earnings-trading/">财报交易</a>。</p>
+<h2 id="iv">IV 压缩</h2>
+<p>在财报、产品发布、药物试验结果或央行会议等已知事件之前，隐含波动率往往会攀升，因为可能出现大幅波动。消息一旦公布，这种不确定性就消失了，IV 可能在几分钟内大幅下跌。这种下跌称为 IV 压缩（IV crush）。</p>
+<h3 id="section-10">实例：方向对了，照样亏损</h3>
+<p>财报前一天，某股票价格为 $50。一张当周晚些时候到期、行权价 $50 的看涨期权售价 $2.10，几乎全是外在价值，因为 IV 已升高到 90%。财报发布后，股价涨到 $51.50，IV 骤降至 35%。</p>
+<ul>
+<li>此时看涨期权有 $1.50 的内在价值，假设还剩 $0.25 的外在价值：约 $1.75。</li>
+<li>亏损 = $2.10 - $1.75 = 每股 $0.35，即每张合约 $35。</li>
+</ul>
+<p>交易者正确预测了方向，但实际涨幅小于期权价格所隐含的幅度，IV 的下跌抹掉了收益。在事件前买入期权的人，需要实际波动超过已计入价格的幅度。卖方从 IV 压缩中获益，但要承担实际波动远超预期的风险。</p>
+<h2 id="section-11">波动率偏斜与微笑</h2>
+<p>如果 Black-Scholes 完全正确，同一到期日的所有行权价都会有相同的 IV。实际上，把 IV 对行权价作图，通常会得到一条曲线。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>形态</th>
+<th>描述</th>
+<th>常见于</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>看跌偏斜（假笑，smirk）</td>
+<td>低行权价的 IV 高于高行权价</td>
+<td>股票指数和大多数大盘股</td>
+</tr>
+<tr>
+<td>微笑（smile）</td>
+<td>深度虚值的看跌和看涨期权 IV 都高于平值</td>
+<td>外汇、部分个股，有时也包括加密货币</td>
+</tr>
+<tr>
+<td>看涨偏斜</td>
+<td>高行权价的 IV 更高</td>
+<td>部分大宗商品，以及有被收购或逼空可能的股票</td>
+</tr>
+</tbody></table></div>
+<p>股指的看跌偏斜在 1987 年 10 月股灾之后变得明显。它反映了投资者把看跌期权当作组合保险而持续买入的需求，也反映了市场下跌往往比上涨更快的倾向。因此，以 IV 计，指数的虚值看跌期权通常比距离相同的虚值看涨期权更贵。</p>
+<p>IV 也因到期日不同而不同。在平静的市场中，IV 的期限结构通常向上倾斜；在危机中则可能倒挂，近期 IV 跳升到远期 IV 之上。VIX 指数衡量标普 500 的 30 天隐含波动率；参见<a href="/zh/encyclopedia/other-markets/volatility-trading-vix/">波动率与 VIX</a>。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>财报前不看 IV 就买入期权</strong>。价格可能已经计入了大幅波动。</li>
+<li><strong>只因 IV 高就卖出期权</strong>。IV 高往往是因为很可能出现大幅波动。高权利金是对真实风险的补偿。</li>
+<li><strong>脱离背景比较不同股票的 IV</strong>。50% 的 IV 对小型生物科技股来说可能很正常，对公用事业股来说却是极端水平。请使用 IV Rank 或 IV 百分位。</li>
+<li><strong>把预期波动幅度当成边界</strong>。它只是一个标准差的估计值，超出这个范围的波动经常发生。</li>
+<li><strong>选行权价时忽视偏斜</strong>。指数的虚值看跌期权相对较贵，虚值看涨期权相对便宜。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-14">隐含波动率高是好事还是坏事？</h3>
+<p>本身无所谓好坏。IV 高让期权更贵，往往对卖方有利、对买方不利，但它通常意味着市场预期波动会更大。</p>
+<h3 id="iv">IV 压缩是什么原因造成的？</h3>
+<p>当财报等预期中的事件过去、它所带来的不确定性消失时，就会发生 IV 压缩。随着 IV 下降，期权价格下跌，即使股价有所变动。</p>
+<h3 id="section-16">怎么用隐含波动率计算预期波动幅度？</h3>
+<p>用股价乘以 IV，再乘以（距到期天数除以 365）的平方根。一只 $200 的股票、IV 为 40%，7 天的预期波动幅度约为 $11。</p>
+<h3 id="iv-rank-iv">IV Rank 和 IV 百分位有什么区别？</h3>
+<p>IV Rank 显示当前 IV 在 52 周最低值和最高值之间所处的位置。IV 百分位显示过去一年中 IV 低于当前水平的天数占比。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/options/options-greeks/"><div class="k">期权交易</div><b>希腊字母</b><span>Delta、Gamma、Theta、Vega 和 Rho 分别衡量什么，附计算实例，讲解希腊字母如何随时间和价值状态变化，以及如何解读持仓希腊值。</span></a><a class="card" href="/zh/encyclopedia/options/options-basics/"><div class="k">期权交易</div><b>期权基础</b><span>期权怎么运作：看涨与看跌期权、行权价、到期日、权利金、内在价值与时间价值、价值状态，买方和卖方的盈亏示例，以及期权交易权限等级。</span></a><a class="card" href="/zh/encyclopedia/options/straddles-and-strangles/"><div class="k">期权交易</div><b>跨式与宽跨式</b><span>买入和卖出跨式、宽跨式组合如何运作，附具体数字的盈亏平衡点，盈亏平衡点与隐含波动幅度的比较，财报交易，以及做空波动率的尾部风险。</span></a><a class="card" href="/zh/encyclopedia/stocks/earnings-trading/"><div class="k">股票交易</div><b>财报交易</b><span>交易者如何应对财报：持仓过财报还是交易财报后的反应，期权隐含波动幅度，跳空追涨与反向交易，以及财报后漂移效应。</span></a><a class="card" href="/zh/encyclopedia/other-markets/volatility-trading-vix/"><div class="k">大宗商品、债券及其他</div><b>波动率与VIX</b><span>VIX 衡量的是什么，其期货曲线如何运作，波动率 ETP 为何会损耗，2018年2月发生了什么，以及做多和做空波动率的风险。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/options/options-greeks/"><small>← 上一篇</small>希腊字母</a><a class="next" href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/"><small>下一篇 →</small>备兑看涨与现金担保看跌</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

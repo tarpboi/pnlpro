@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drawdown và rủi ro cháy tài khoản: toán hồi phục và chuỗi thua</title>
+<meta name="description" content="Drawdown tối đa là gì, cần lãi bao nhiêu để bù khoản lỗ, chuỗi thua có khả năng xảy ra đến đâu và quy mô vị thế thay đổi rủi ro cháy tài khoản ra sao, kèm bảng.">
+<meta name="keywords" content="drawdown tối đa, rủi ro cháy tài khoản, hồi phục sau drawdown, xác suất chuỗi thua, mô phỏng monte carlo trading">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Drawdown và rủi ro cháy tài khoản: toán hồi phục và chuỗi thua">
+<meta property="og:description" content="Drawdown tối đa là gì, cần lãi bao nhiêu để bù khoản lỗ, chuỗi thua có khả năng xảy ra đến đâu và quy mô vị thế thay đổi rủi ro cháy tài khoản ra sao, kèm bảng.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Drawdown và rủi ro cháy tài khoản: toán hồi phục và chuỗi thua">
+<meta name="twitter:description" content="Drawdown tối đa là gì, cần lãi bao nhiêu để bù khoản lỗ, chuỗi thua có khả năng xảy ra đến đâu và quy mô vị thế thay đổi rủi ro cháy tài khoản ra sao, kèm bảng.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Drawdown và rủi ro cháy tài khoản: toán hồi phục và chuỗi thua","description":"Drawdown tối đa là gì, cần lãi bao nhiêu để bù khoản lỗ, chuỗi thua có khả năng xảy ra đến đâu và quy mô vị thế thay đổi rủi ro cháy tài khoản ra sao, kèm bảng.","keywords":"drawdown tối đa, rủi ro cháy tài khoản, hồi phục sau drawdown, xác suất chuỗi thua, mô phỏng monte carlo trading","articleSection":"Quản trị rủi ro và vốn","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Quản trị rủi ro và vốn","item":"https://pnlpro.fit/vi/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"Drawdown và rủi ro cháy tài khoản","item":"https://pnlpro.fit/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Drawdown tối đa bao nhiêu là tốt cho một trader?","acceptedAnswer":{"@type":"Answer","text":"Tùy chiến lược và tùy người, nhưng nhiều trader nhắm giữ drawdown tối đa dưới khoảng 20 đến 25 phần trăm, vì sau mức đó việc hồi phục khó hơn nhiều. Tài khoản prop firm thường đặt giới hạn khoảng 5 đến 10 phần trăm, đòi hỏi rủi ro mỗi lệnh nhỏ hơn nhiều."}},{"@type":"Question","name":"Tính rủi ro cháy tài khoản như thế nào?","acceptedAnswer":{"@type":"Answer","text":"Với trò chơi đơn giản có mức cược cố định, xác suất thắng p trên 50 phần trăm và N đơn vị cược, rủi ro cuối cùng bị cháy là (q ÷ p) lũy thừa N, trong đó q = 1 − p. Giao dịch thực phức tạp hơn, nên hầu hết trader ước tính nó bằng mô phỏng Monte Carlo với thống kê lệnh của chính mình."}},{"@type":"Question","name":"Thua liên tiếp bao nhiêu lệnh là bình thường?","acceptedAnswer":{"@type":"Answer","text":"Tùy tỷ lệ thắng và số lệnh. Trong 100 lệnh độc lập với tỷ lệ thắng 50 phần trăm, có khoảng 81 phần trăm khả năng có ít nhất một chuỗi năm lệnh thua và khoảng 17 phần trăm khả năng có chuỗi tám lệnh. Tỷ lệ thắng thấp hơn khiến chuỗi dài phổ biến hơn nhiều."}},{"@type":"Question","name":"Mô phỏng Monte Carlo trong giao dịch là gì?","acceptedAnswer":{"@type":"Answer","text":"Đó là phương pháp tạo ra hàng nghìn chuỗi lệnh ngẫu nhiên dựa trên tỷ lệ thắng và lãi lỗ của chiến lược, hoặc dựa trên các lệnh thực trong quá khứ theo thứ tự ngẫu nhiên. Kết quả cho thấy dải drawdown và lợi nhuận có thể xảy ra thay vì một đường lịch sử duy nhất."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Quản trị rủi ro và vốn</h3><ul><li><a href="/vi/encyclopedia/risk-management/risk-management-fundamentals/">Quản trị rủi ro cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/position-sizing/">Quy mô vị thế</a></li><li><a href="/vi/encyclopedia/risk-management/stop-loss-strategies/">Chiến lược stop-loss</a></li><li><a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">Risk/Reward và kỳ vọng</a></li><li><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">Drawdown và rủi ro cháy tài khoản</a></li><li><a href="/vi/encyclopedia/risk-management/kelly-criterion/">Tiêu chuẩn Kelly</a></li><li><a href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/">Tương quan và rủi ro danh mục</a></li><li><a href="/vi/encyclopedia/risk-management/leverage-risk-and-black-swans/">Rủi ro đòn bẩy và thiên nga đen</a></li><li><a href="/vi/encyclopedia/risk-management/trading-plan/">Viết kế hoạch giao dịch</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/" class="on">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a></div>
+<h1 class="title">Drawdown và rủi ro cháy tài khoản</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Quản trị rủi ro và vốn</summary><ul><li><a href="/vi/encyclopedia/risk-management/risk-management-fundamentals/">Quản trị rủi ro cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/position-sizing/">Quy mô vị thế</a></li><li><a href="/vi/encyclopedia/risk-management/stop-loss-strategies/">Chiến lược stop-loss</a></li><li><a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">Risk/Reward và kỳ vọng</a></li><li><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">Drawdown và rủi ro cháy tài khoản</a></li><li><a href="/vi/encyclopedia/risk-management/kelly-criterion/">Tiêu chuẩn Kelly</a></li><li><a href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/">Tương quan và rủi ro danh mục</a></li><li><a href="/vi/encyclopedia/risk-management/leverage-risk-and-black-swans/">Rủi ro đòn bẩy và thiên nga đen</a></li><li><a href="/vi/encyclopedia/risk-management/trading-plan/">Viết kế hoạch giao dịch</a></li></ul></details>
+<article><p>Drawdown là mức sụt giảm vốn tài khoản từ một đỉnh xuống một đáy sau đó, còn drawdown tối đa là mức sụt giảm lớn nhất như vậy trong một khoảng thời gian. Rủi ro cháy tài khoản (risk of ruin) là xác suất các khoản lỗ lớn đến mức trader không thể tiếp tục, hoặc vì tài khoản đã hết, hoặc vì nó đã rơi xuống dưới mức mà họ coi là không thể chấp nhận. Cả hai đều phụ thuộc nhiều vào quy mô vị thế, đó là lý do xác định quy mô thường được gọi là quyết định rủi ro quan trọng nhất.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Drawdown tối đa được đo từ điểm vốn cao nhất đến điểm thấp nhất theo sau nó, không phải từ số dư ban đầu.</li>
+<li>Mức lãi cần để hồi phục một drawdown là khoản lỗ chia cho một trừ khoản lỗ, nên các drawdown sâu trở nên rất khó hồi phục.</li>
+<li>Chuỗi thua dài phổ biến hơn trực giác nhiều, ngay cả với các chiến lược có lãi.</li>
+<li>Rủi ro cháy tài khoản giảm mạnh khi rủi ro mỗi lệnh nhỏ đi, và khi không có lợi thế, việc cháy tài khoản gần như chắc chắn nếu đủ nhiều lệnh.</li>
+<li>Mô phỏng Monte Carlo xáo trộn hoặc lấy mẫu lại kết quả các lệnh để cho thấy dải drawdown mà một chiến lược có thể tạo ra.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#c-ch-o-drawdown">Cách đo drawdown</a></li><li><a href="#to-n-h-i-ph-c">Toán hồi phục</a></li><li><a href="#chu-i-thua-bi-n-th-nh-drawdown-nh-th-n-o">Chuỗi thua biến thành drawdown như thế nào</a></li><li><a href="#x-c-su-t-chu-i-thua">Xác suất chuỗi thua</a></li><li><a href="#r-i-ro-ch-y-t-i-kho-n">Rủi ro cháy tài khoản</a></li><li><a href="#m-ph-ng-monte-carlo">Mô phỏng Monte Carlo</a></li><li><a href="#p-d-ng-v-o-th-c-t">Áp dụng vào thực tế</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="c-ch-o-drawdown">Cách đo drawdown</h2>
+<p>Drawdown luôn được đo từ một đỉnh. Giả sử tài khoản bắt đầu ở $10,000, tăng lên $12,000, rồi giảm xuống $9,000 trước khi hồi phục.</p>
+<ul>
+<li><strong>Drawdown tối đa</strong> = ($12,000 − $9,000) ÷ $12,000 = <strong>25 phần trăm</strong></li>
+<li>Đo từ số dư ban đầu, tài khoản chỉ giảm 10 phần trăm, nhưng như vậy là đánh giá thấp nỗi đau. Trader đã nhìn thấy một phần tư giá trị đỉnh biến mất.</li>
+<li><strong>Mức hồi phục cần thiết</strong> = $3,000 ÷ $9,000 = <strong>33.3 phần trăm</strong> để về lại đỉnh $12,000.</li>
+</ul>
+<p>Hai thước đo liên quan cũng quan trọng:</p>
+<ul>
+<li><strong>Thời gian drawdown</strong>: tài khoản nằm dưới đỉnh trước đó trong bao lâu. Một số chiến lược, nhất là theo xu hướng, có thể ở dưới đáy nhiều tháng.</li>
+<li><strong>Drawdown trung bình</strong>: độ sâu điển hình của các đợt sụt giảm, cho cảm nhận về mức khó chịu bình thường chứ không phải trường hợp tệ nhất.</li>
+</ul>
+<h2 id="to-n-h-i-ph-c">Toán hồi phục</h2>
+<p>Vì mỗi khoản lỗ làm nhỏ đi nền vốn, phần trăm lãi cần để hồi phục luôn lớn hơn phần trăm đã mất:</p>
+<p><strong>Mức lãi cần thiết = drawdown ÷ (1 − drawdown)</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Drawdown</th>
+<th>Mức lãi để hồi phục</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10%</td>
+<td>11.1%</td>
+</tr>
+<tr>
+<td>20%</td>
+<td>25.0%</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>42.9%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>66.7%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>75%</td>
+<td>300%</td>
+</tr>
+</tbody></table></div>
+<p>Đường cong dốc lên nhanh sau khoảng 30 phần trăm. Bài <a href="/vi/encyclopedia/risk-management/risk-management-fundamentals/">nguyên tắc quản lý rủi ro</a> giải thích vì sao sự bất đối xứng này chi phối hầu hết các quy tắc rủi ro.</p>
+<h2 id="chu-i-thua-bi-n-th-nh-drawdown-nh-th-n-o">Chuỗi thua biến thành drawdown như thế nào</h2>
+<p>Với fixed fractional, mỗi khoản lỗ lấy đi một phần trăm của vốn hiện tại. Sau n lệnh thua liên tiếp với rủi ro r mỗi lệnh, vốn còn (1 − r)^n so với ban đầu.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rủi ro mỗi lệnh</th>
+<th>5 lệnh thua</th>
+<th>10 lệnh thua</th>
+<th>15 lệnh thua</th>
+<th>20 lệnh thua</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.5%</td>
+<td>2.5%</td>
+<td>4.9%</td>
+<td>7.2%</td>
+<td>9.5%</td>
+</tr>
+<tr>
+<td>1%</td>
+<td>4.9%</td>
+<td>9.6%</td>
+<td>14.0%</td>
+<td>18.2%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>9.6%</td>
+<td>18.3%</td>
+<td>26.1%</td>
+<td>33.2%</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>22.6%</td>
+<td>40.1%</td>
+<td>53.7%</td>
+<td>64.2%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>41.0%</td>
+<td>65.1%</td>
+<td>79.4%</td>
+<td>87.8%</td>
+</tr>
+</tbody></table></div>
+<p>Drawdown thực thường đến từ một giai đoạn thua xen lẫn vài lệnh thắng, không phải một chuỗi liền mạch, nhưng bảng cho thấy quy mô thiệt hại mà mỗi mức rủi ro cho phép.</p>
+<h2 id="x-c-su-t-chu-i-thua">Xác suất chuỗi thua</h2>
+<p>Xác suất một lệnh cụ thể mở đầu một chuỗi k lệnh thua là (1 − W)^k, trong đó W là tỷ lệ thắng. Với tỷ lệ thắng 50 phần trăm, xác suất năm lệnh tiếp theo đều thua là 0.5^5, khoảng 3.1 phần trăm. Nghe có vẻ hiếm, nhưng trader thực hiện nhiều lệnh, và mỗi lệnh là một cơ hội mới để mở đầu một chuỗi.</p>
+<p>Câu hỏi hữu ích hơn là: khả năng có ít nhất một chuỗi thua với độ dài cho trước trong một loạt lệnh là bao nhiêu? Giả sử các lệnh độc lập với nhau, câu trả lời là:</p>
+<p><strong>Xác suất có ít nhất một chuỗi thua từ k lệnh trở lên, trong 100 lệnh</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tỷ lệ thắng</th>
+<th>5 lệnh thua</th>
+<th>6 lệnh thua</th>
+<th>8 lệnh thua</th>
+<th>10 lệnh thua</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>60%</td>
+<td>46%</td>
+<td>21%</td>
+<td>3.6%</td>
+<td>0.6%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>81%</td>
+<td>55%</td>
+<td>17%</td>
+<td>4.4%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>98%</td>
+<td>87%</td>
+<td>49%</td>
+<td>21%</td>
+</tr>
+</tbody></table></div>
+<p>Trong 200 lệnh với tỷ lệ thắng 40 phần trăm, xác suất có ít nhất một chuỗi từ tám lệnh thua trở lên tăng lên khoảng 75 phần trăm, và từ mười lệnh trở lên khoảng 38 phần trăm.</p>
+<p>Vì vậy, một chiến lược theo xu hướng thắng 35 hoặc 40 phần trăm nên coi chuỗi từ tám lệnh thua trở lên là chuyện bình thường trong vòng đời của nó. Trader không biết điều này có xu hướng bỏ một chiến lược đúng đắn, hoặc thay đổi nó, đúng vào lúc sai.</p>
+<p>Các lệnh thực thường ít độc lập hơn việc tung đồng xu. Trạng thái thị trường thay đổi, và chiến lược hợp với thị trường có xu hướng có thể thua liên tục trong thị trường đi ngang. Điều đó có xu hướng khiến chuỗi dài hơi dễ xảy ra hơn so với bảng, chứ không ít hơn.</p>
+<h2 id="r-i-ro-ch-y-t-i-kho-n">Rủi ro cháy tài khoản</h2>
+<p>Rủi ro cháy tài khoản là xác suất chạm một mức lỗ mà từ đó bạn không thể hoặc không muốn tiếp tục. &quot;Cháy&quot; không nhất thiết là số dư bằng không. Nhiều trader định nghĩa nó là drawdown 50 phần trăm, hoặc là mức lỗ sẽ vi phạm quy định của một prop firm.</p>
+<p>Ba yếu tố chi phối nó:</p>
+<ol>
+<li><strong>Lợi thế</strong>: kỳ vọng của chiến lược trên mỗi lệnh. Xem <a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">tỷ lệ lợi nhuận/rủi ro và kỳ vọng</a>.</li>
+<li><strong>Hồ sơ lãi lỗ</strong>: các lệnh thắng và thua lớn đến đâu và thường xuyên ra sao.</li>
+<li><strong>Rủi ro mỗi lệnh</strong>: tỷ lệ vốn bị phơi nhiễm trong mỗi lệnh.</li>
+</ol>
+<h3 id="m-t-c-ng-th-c-n-gi-n-h-nh-dung">Một công thức đơn giản để hình dung</h3>
+<p>Kết quả &quot;gambler&#39;s ruin&quot; (sự phá sản của con bạc) kinh điển áp dụng cho một trò chơi đơn giản hóa: mỗi cược thắng hoặc thua một đơn vị cố định, với xác suất thắng p trên 50 phần trăm, và bạn cược mãi không dừng. Nếu bạn bắt đầu với N đơn vị, xác suất cuối cùng mất hết là:</p>
+<p><strong>Rủi ro cháy = (q ÷ p)^N</strong>, trong đó q = 1 − p</p>
+<p>Với p = 0.55, q ÷ p ≈ 0.818:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Số đơn vị ban đầu (N)</th>
+<th>Rủi ro mỗi cược theo % vốn ban đầu</th>
+<th>Rủi ro cuối cùng bị cháy</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5</td>
+<td>20%</td>
+<td>khoảng 37%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>10%</td>
+<td>khoảng 13%</td>
+</tr>
+<tr>
+<td>20</td>
+<td>5%</td>
+<td>khoảng 1.8%</td>
+</tr>
+<tr>
+<td>50</td>
+<td>2%</td>
+<td>khoảng 0.004%</td>
+</tr>
+</tbody></table></div>
+<p>Có hai bài học. Cược nhỏ hơn so với vốn cắt giảm rủi ro cháy tài khoản đáng kể. Và nếu p là 50 phần trăm hoặc thấp hơn, tức không có lợi thế, công thức không còn đúng vì việc cháy tài khoản trở nên chắc chắn qua vô hạn lần cược. Quy mô nhỏ làm chậm một chiến lược thua; nó không thể cứu được chiến lược đó.</p>
+<p>Giao dịch thực khác mô hình này ở nhiều điểm, gồm lãi lỗ thay đổi, fixed fractional và chi phí, nên các con số mang tính minh họa. Về lý thuyết fixed fractional không bao giờ về không, vì vậy hữu ích hơn là hỏi về xác suất của một drawdown sâu.</p>
+<h2 id="m-ph-ng-monte-carlo">Mô phỏng Monte Carlo</h2>
+<p>Mô phỏng Monte Carlo ước tính dải kết quả có thể xảy ra bằng cách tạo ra hàng nghìn chuỗi lệnh ngẫu nhiên phù hợp với thống kê của chiến lược. Bạn có thể lấy mẫu lại kết quả các lệnh thực của mình theo thứ tự ngẫu nhiên, hoặc tạo lệnh từ tỷ lệ thắng và lãi lỗ giả định. Mỗi chuỗi cho ra đường vốn và drawdown tối đa riêng, và cùng nhau chúng cho thấy điều gì là điển hình và điều gì là trường hợp xấu nhưng hợp lý.</p>
+<p>Để minh họa, đây là một mô phỏng đơn giản gồm 200 lệnh từ chiến lược có tỷ lệ thắng 45 phần trăm, lệnh thắng 1.5R và lệnh thua 1R, kỳ vọng dương vừa phải +0.125R mỗi lệnh, dùng fixed fractional và 40,000 lần chạy ngẫu nhiên:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rủi ro mỗi lệnh</th>
+<th>Drawdown tối đa điển hình (trung vị)</th>
+<th>Khả năng drawdown từ 30%</th>
+<th>Khả năng drawdown từ 50%</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1%</td>
+<td>khoảng 12%</td>
+<td>dưới 1%</td>
+<td>gần 0%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>khoảng 22%</td>
+<td>khoảng 19%</td>
+<td>dưới 1%</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>khoảng 49%</td>
+<td>khoảng 97%</td>
+<td>khoảng 48%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>khoảng 79%</td>
+<td>gần 100%</td>
+<td>khoảng 99%</td>
+</tr>
+</tbody></table></div>
+<p>Lợi thế giống hệt nhau ở mọi dòng. Ở mức rủi ro 10 phần trăm, đa số lần chạy vẫn kết thúc 200 lệnh với lợi nhuận, nhưng gần như tất cả đều đi qua drawdown một nửa tài khoản trên đường đi, điều mà ít ai ngồi chịu nổi mà không bỏ kế hoạch. Các con số này đến từ một bộ giả định và sẽ dao động đôi chút giữa các lần chạy. Thống kê của một chiến lược thực cũng chỉ là ước tính, và lợi thế thật có thể nhỏ hơn. Bài <a href="/vi/encyclopedia/risk-management/kelly-criterion/">tiêu chí Kelly</a> giải thích vì sao đặt tỷ lệ quá lớn có thể biến một lợi thế dương thành tăng trưởng dài hạn kém.</p>
+<p>Kết quả Monte Carlo chỉ tốt bằng đầu vào của nó. Nếu mẫu lệnh đến từ một <a href="/vi/encyclopedia/algorithmic-trading/backtesting/">backtest</a> bị overfit, mô phỏng sẽ sai một cách tự tin. Nó cũng giả định tương lai giống quá khứ, điều có thể không đúng khi điều kiện thị trường thay đổi.</p>
+<h2 id="p-d-ng-v-o-th-c-t">Áp dụng vào thực tế</h2>
+<ul>
+<li><strong>Đặt trước drawdown tối đa chấp nhận được</strong>, ví dụ 20 phần trăm, rồi chọn rủi ro mỗi lệnh sao cho việc chạm mức đó khó xảy ra với các chuỗi thua thực tế của chiến lược.</li>
+<li><strong>Lên kế hoạch cho chuỗi dài hơn bất kỳ chuỗi nào bạn từng thấy.</strong> Chuỗi tệ nhất của một backtest chỉ là một lần rút từ một phân phối, không phải trường hợp xấu nhất.</li>
+<li><strong>Giảm quy mô trong lúc drawdown.</strong> Fixed fractional làm việc này tự động. Một số trader còn cắt một nửa rủi ro sau một mức drawdown định sẵn.</li>
+<li><strong>Định nghĩa trước điều sẽ xảy ra ở mỗi mức drawdown</strong>, chẳng hạn xem xét lại ở 10 phần trăm và dừng hẳn ở 20 phần trăm. Xem <a href="/vi/encyclopedia/psychology/handling-losses-and-tilt/">xử lý thua lỗ và tilt</a>.</li>
+</ul>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Đo drawdown từ số dư ban đầu</strong> thay vì từ đỉnh.</li>
+<li><strong>Cho rằng drawdown tệ nhất trong backtest là tệ nhất có thể xảy ra.</strong></li>
+<li><strong>Đánh giá thấp chuỗi thua</strong>, rồi bỏ chiến lược giữa một đợt thua bình thường về mặt thống kê.</li>
+<li><strong>Tăng quy mô để hồi phục nhanh hơn</strong>, làm tăng khả năng gặp drawdown sâu hơn nhiều.</li>
+<li><strong>Nghĩ rằng quy mô nhỏ sửa được lợi thế âm.</strong> Nó chỉ làm đà sụt giảm chậm hơn.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="drawdown-t-i-a-bao-nhi-u-l-t-t-cho-m-t-trader">Drawdown tối đa bao nhiêu là tốt cho một trader?</h3>
+<p>Tùy chiến lược và tùy người, nhưng nhiều trader nhắm giữ drawdown tối đa dưới khoảng 20 đến 25 phần trăm, vì sau mức đó việc hồi phục khó hơn nhiều. Tài khoản prop firm thường đặt giới hạn khoảng 5 đến 10 phần trăm, đòi hỏi rủi ro mỗi lệnh nhỏ hơn nhiều.</p>
+<h3 id="t-nh-r-i-ro-ch-y-t-i-kho-n-nh-th-n-o">Tính rủi ro cháy tài khoản như thế nào?</h3>
+<p>Với trò chơi đơn giản có mức cược cố định, xác suất thắng p trên 50 phần trăm và N đơn vị cược, rủi ro cuối cùng bị cháy là (q ÷ p) lũy thừa N, trong đó q = 1 − p. Giao dịch thực phức tạp hơn, nên hầu hết trader ước tính nó bằng mô phỏng Monte Carlo với thống kê lệnh của chính mình.</p>
+<h3 id="thua-li-n-ti-p-bao-nhi-u-l-nh-l-b-nh-th-ng">Thua liên tiếp bao nhiêu lệnh là bình thường?</h3>
+<p>Tùy tỷ lệ thắng và số lệnh. Trong 100 lệnh độc lập với tỷ lệ thắng 50 phần trăm, có khoảng 81 phần trăm khả năng có ít nhất một chuỗi năm lệnh thua và khoảng 17 phần trăm khả năng có chuỗi tám lệnh. Tỷ lệ thắng thấp hơn khiến chuỗi dài phổ biến hơn nhiều.</p>
+<h3 id="m-ph-ng-monte-carlo-trong-giao-d-ch-l-g">Mô phỏng Monte Carlo trong giao dịch là gì?</h3>
+<p>Đó là phương pháp tạo ra hàng nghìn chuỗi lệnh ngẫu nhiên dựa trên tỷ lệ thắng và lãi lỗ của chiến lược, hoặc dựa trên các lệnh thực trong quá khứ theo thứ tự ngẫu nhiên. Kết quả cho thấy dải drawdown và lợi nhuận có thể xảy ra thay vì một đường lịch sử duy nhất.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">Quản trị rủi ro và vốn</div><b>Quản trị rủi ro cơ bản</b><span>Vì sao quản lý rủi ro quan trọng hơn điểm vào lệnh: rủi ro mỗi lệnh, giới hạn lỗ trong ngày, phép tính khi mất 50 phần trăm và các loại rủi ro giao dịch chính.</span></a><a class="card" href="/vi/encyclopedia/risk-management/position-sizing/"><div class="k">Quản trị rủi ro và vốn</div><b>Quy mô vị thế</b><span>Cách tính quy mô vị thế từ rủi ro tài khoản và khoảng cách cắt lỗ: fixed fractional, số tiền cố định và ATR, kèm ví dụ cổ phiếu, forex và crypto.</span></a><a class="card" href="/vi/encyclopedia/risk-management/kelly-criterion/"><div class="k">Quản trị rủi ro và vốn</div><b>Tiêu chuẩn Kelly</b><span>Công thức Kelly cho cược nhị phân và dạng liên tục, ví dụ minh họa gồm hợp đồng thị trường dự đoán, và lý do hầu hết trader dùng fractional Kelly.</span></a><a class="card" href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Quản trị rủi ro và vốn</div><b>Risk/Reward và kỳ vọng</b><span>Bội số R, tỷ lệ thắng và tỷ lệ lãi lỗ kết hợp thành kỳ vọng ra sao. Công thức, bảng tỷ lệ thắng hòa vốn và vì sao tỷ lệ thắng cao vẫn có thể thua tiền.</span></a><a class="card" href="/vi/encyclopedia/psychology/handling-losses-and-tilt/"><div class="k">Tâm lý giao dịch</div><b>Đối phó thua lỗ và tilt</b><span>Cách xử lý chuỗi thua và tilt: dấu hiệu cảnh báo, cầu dao ngắt như giới hạn lỗ hằng ngày, đặt lại sau khoản lỗ lớn, khi nào nên dừng và dấu hiệu nghiện cờ bạc.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/"><small>← Bài trước</small>Risk/Reward và kỳ vọng</a><a class="next" href="/vi/encyclopedia/risk-management/kelly-criterion/"><small>Bài tiếp →</small>Tiêu chuẩn Kelly</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

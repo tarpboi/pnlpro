@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>トレードのマーケットデータ：ティック・足・板情報を解説 | PnL Profit</title>
+<meta name="description" content="トレーダー向けにマーケットデータを解説。ティックと足データ、レベル1・2・3、過去データの入手先、費用とライセンス、時刻同期、データクリーニング。">
+<meta name="keywords" content="マーケットデータ とは, ティックデータ 足データ 違い, レベル2 板情報, ヒストリカルデータ 入手, バックテスト データ クリーニング">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="トレードのマーケットデータ：ティック・足・板情報を解説 | PnL Profit">
+<meta property="og:description" content="トレーダー向けにマーケットデータを解説。ティックと足データ、レベル1・2・3、過去データの入手先、費用とライセンス、時刻同期、データクリーニング。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-data-sources/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="トレードのマーケットデータ：ティック・足・板情報を解説 | PnL Profit">
+<meta name="twitter:description" content="トレーダー向けにマーケットデータを解説。ティックと足データ、レベル1・2・3、過去データの入手先、費用とライセンス、時刻同期、データクリーニング。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"トレードのマーケットデータ：ティック・足・板情報を解説","description":"トレーダー向けにマーケットデータを解説。ティックと足データ、レベル1・2・3、過去データの入手先、費用とライセンス、時刻同期、データクリーニング。","keywords":"マーケットデータ とは, ティックデータ 足データ 違い, レベル2 板情報, ヒストリカルデータ 入手, バックテスト データ クリーニング","articleSection":"アルゴリズム取引とクオンツ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-data-sources/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"アルゴリズム取引とクオンツ","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"マーケットデータ","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-data-sources/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"レベル1とレベル2のデータの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"レベル1は、最良の買い気配、最良の売り気配、直近の約定だけを表示します。レベル2は、板の売り買いそれぞれの複数の価格帯で注文可能な数量を表示し、市場の厚みを把握できます。"}},{"@type":"Question","name":"過去のマーケットデータはどこで入手できますか？","acceptedAnswer":{"@type":"Answer","text":"入手先には、取引所、商用データベンダー、ブローカーやプラットフォームのAPI、暗号資産取引所のAPI、学術データベースがあります。無料の入手先は学習用には十分ですが、頼りにする前に、調整、欠損、生存者バイアスを確認してください。"}},{"@type":"Question","name":"バックテストにティックデータは必要ですか？","acceptedAnswer":{"@type":"Answer","text":"日次やスイングの戦略の大半では必要なく、クリーニング済みの足データで十分です。ティックや気配値のデータが重要になるのは、日中の戦略、約定とスリッページの現実的なモデル化、そして板情報に依存するあらゆる戦略です。"}},{"@type":"Question","name":"マーケットデータはなぜこれほど高いのですか？","acceptedAnswer":{"@type":"Answer","text":"取引所とベンダーは、データの収集、配信、ライセンス供与に対して料金を課しており、プロの利用や自動システムでの利用は通常より高くなります。個人の非プロ利用者は、ブローカーを通じてリアルタイムデータをはるかに安く入手できることが多いです。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>アルゴリズム取引とクオンツ</h3><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/" class="on" aria-current="page">マーケットデータ</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/" class="on">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a></div>
+<h1 class="title">マーケットデータ</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>アルゴリズム取引とクオンツの他の記事</summary><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/" class="on" aria-current="page">マーケットデータ</a></li></ul></details>
+<article><p>マーケットデータとは、取引所やその他の取引の場が生み出す、価格、気配値、約定、板の動きの記録です。あらゆるアルゴリズム戦略は、二重の意味でマーケットデータに依存しています。リサーチと<a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a>のための過去データと、取引のためのリアルタイムデータです。データの種類、入手元、タイムスタンプの付け方、クリーニングの方法は、戦略のロジックそのものと同じくらい、測定される戦略の成績を変えることがあります。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>ティックデータは個々の約定や気配値の変化をすべて記録し、足（バー）データは1分や1日といった期間ごとに動きを要約したものです。</li>
+<li>レベル1は最良の買い気配と売り気配、レベル2は各価格の板の厚さ、レベル3は個々の注文を表示します。</li>
+<li>過去データは株式分割、配当、先物のロールに合わせて調整し、上場廃止になった銘柄も含めるべきです。</li>
+<li>プロ向けのデータにはライセンスがあり、料金は利用者の属性と使い方によって異なります。</li>
+<li>タイムスタンプ、タイムゾーン、時刻同期は、バックテストと実運用の両方で多くの見つけにくいエラーを引き起こします。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">ティックデータと足データ</a></li><li><a href="#1-2-3">レベル1、レベル2、レベル3</a></li><li><a href="#section-4">種類別の過去データの入手先</a></li><li><a href="#section-5">費用とライセンス</a></li><li><a href="#section-6">タイムスタンプと時刻同期</a></li><li><a href="#section-7">データのクリーニング</a></li><li><a href="#section-8">計算例：調整</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">ティックデータと足データ</h2>
+<p><strong>ティックデータ</strong>は、個々のイベントをすべて記録します。すべての約定（価格、数量、時刻、場合によっては売り買いどちらが仕掛けたか）と、すべての気配値の更新（ビッドとアスクの価格と数量）です。最も詳細な形式のデータで、日中の執行に関するリサーチ、<a href="/ja/encyclopedia/technical-analysis/order-flow-trading/">オーダーフロー</a>分析、現実的な約定シミュレーションには欠かせません。一方で容量が大きく、保存や処理が難しくなります。</p>
+<p><strong>足データ</strong>は、期間ごとに動きを要約したものです。1本の足には、1分、1時間、1日といった各期間の始値、高値、安値、終値と出来高（OHLCV）が記録されます。足データはコンパクトで、ほとんどのスイングトレードやポジショントレードの戦略には十分です。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>足の種類</th>
+<th>1本の足の作り方</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>時間足</td>
+<td>一定の時間間隔</td>
+<td>標準的だが、寄り付きと昼頃とでは含まれる取引量が大きく異なる</td>
+</tr>
+<tr>
+<td>ティック足</td>
+<td>一定の約定回数</td>
+<td>市場が活発なときほど足の本数が増える</td>
+</tr>
+<tr>
+<td>出来高足</td>
+<td>一定の株数や枚数</td>
+<td>取引の活発さに応じてサンプリングする</td>
+</tr>
+<tr>
+<td>売買代金足</td>
+<td>一定の売買代金</td>
+<td>長期の過去データで価格水準の変化を調整できる</td>
+</tr>
+</tbody></table></div>
+<p>足は情報を隠してしまいます。日足からは高値が安値より先についたのかどうかがわからないため、同じ日にストップと利益目標の両方に達したと仮定するバックテストは、どちらが先に起きたかを推測しなければなりません。</p>
+<h2 id="1-2-3">レベル1、レベル2、レベル3</h2>
+<p>これらの用語は、データフィードが<a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板情報</a>をどこまで表示するかを表しています。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>レベル</th>
+<th>内容</th>
+<th>主な用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>レベル1</td>
+<td>最良の買い気配と売り気配（数量付き）、直近の約定、出来高</td>
+<td>個人の取引の大半、チャート分析、単純なボット</td>
+</tr>
+<tr>
+<td>レベル2（価格別の板）</td>
+<td>売り買いそれぞれの複数の価格帯ごとの合計数量</td>
+<td>板の厚さの分析、執行、短期戦略</td>
+</tr>
+<tr>
+<td>レベル3（注文別の板）</td>
+<td>個々の注文すべてと、その追加・変更・取消</td>
+<td>待ち行列の順番のモデル化、マーケットメイク、リサーチ</td>
+</tr>
+</tbody></table></div>
+<p>米国株式では、すべての取引所の気配値を統合して全米最良気配（NBBO）を示す統合フィードと、各取引所が独自に提供する、より高速で詳細な直接フィードとの区別もあります。暗号資産取引所は通常、WebSocket でレベル2のスナップショットと差分更新を提供しており、一部は注文単位のデータも提供しています。</p>
+<h2 id="section-4">種類別の過去データの入手先</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>入手先の種類</th>
+<th>提供されるものの例</th>
+<th>検討事項</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>取引所から直接</td>
+<td>公式の過去の約定、気配値、板のデータ</td>
+<td>最も信頼性が高いが、高価で複雑なことが多い</td>
+</tr>
+<tr>
+<td>商用データベンダー</td>
+<td>クリーニング済みの複数資産の過去データ、コーポレートアクション、ファンダメンタルズ</td>
+<td>品質とカバー範囲はまちまち。生存者バイアスの扱いを確認する</td>
+</tr>
+<tr>
+<td>ブローカーやプラットフォームのAPI</td>
+<td>取り扱い銘柄の直近の足とティック</td>
+<td>便利だが、期間が限られていたり、ブローカー固有だったりする</td>
+</tr>
+<tr>
+<td>暗号資産取引所のAPI</td>
+<td>無料の約定データ、足、場合によっては板のスナップショット</td>
+<td>障害時にデータが欠落する。取引所ごとに仕様が異なる</td>
+</tr>
+<tr>
+<td>学術データベース</td>
+<td>米国株の CRSP や、米国の約定・気配値の TAQ など、長期間で生存者バイアスのない過去データ</td>
+<td>通常は大学経由で利用する</td>
+</tr>
+<tr>
+<td>無料のWebサイト</td>
+<td>主要資産の日足</td>
+<td>学習用には十分。調整、欠損、上場廃止銘柄を確認する</td>
+</tr>
+</tbody></table></div>
+<p>株式のリサーチでは、上場廃止企業と各時点の指数構成銘柄を含む、生存者バイアスのないデータを探してください。ファンダメンタルズについては、後の訂正ではなく、各日付の時点でわかっていた内容を示すポイント・イン・タイムのデータを使ってください。</p>
+<p>FX には中央の取引所がないため、個人向けFXデータの「出来高」は通常、1つのブローカーや1つのプラットフォームの取引しか反映していません。暗号資産では、一部の取引所で報告されている出来高に過去にウォッシュトレード（仮装売買）が含まれていたことがあるため、複数の情報源を比較してください。<a href="/ja/encyclopedia/technical-analysis/volume-analysis/">出来高分析</a>を参照してください。</p>
+<h2 id="section-5">費用とライセンス</h2>
+<p>マーケットデータは、取引所にとって重要なビジネスです。主なポイントは次のとおりです。</p>
+<ul>
+<li><strong>利用者の区分。</strong> 多くの取引所は、個人の非プロ利用者にはプロの利用者よりはるかに安い料金を課しています。定義はさまざまで、規制当局に登録しているか、他人のために取引しているかによって決まる場合があります。</li>
+<li><strong>表示用と非表示用。</strong> 取引所は、画面に表示するデータとは別に、自動システムで使うデータ（非表示用）に対して料金を課すことがよくあります。</li>
+<li><strong>再配布。</strong> ほとんどのライセンスは、データを他者に渡すことを禁じており、Webサイトでの公開や、データから直接導き出したシグナルの転売も含まれます。</li>
+<li><strong>遅延データ。</strong> 15分程度遅延したデータは無料または安価なことが多いですが、実際の取引には役に立ちません。</li>
+</ul>
+<p>料金体系は変わるため、利用するブローカー、ベンダー、取引所の現在の条件を確認してください。</p>
+<h2 id="section-6">タイムスタンプと時刻同期</h2>
+<p>時刻は、最もよくあるエラーの原因の一つです。</p>
+<ul>
+<li><strong>どのタイムスタンプか？</strong> 1つの約定には、取引所のマッチング時刻、データが配信された時刻、自分のシステムが受信した時刻がありえます。バックテストでは、シグナルは自分が受信していたはずの時点までのデータだけを使うべきです。</li>
+<li><strong>タイムゾーンと夏時間。</strong> すべて UTC で保存してください。夏時間の切り替えは国によって日付が異なり、UTC に対する現地の取引時間がずれるため、複数の市場のデータの位置がずれる原因になります。</li>
+<li><strong>日足の定義。</strong> FX と暗号資産は24時間取引されるため、「日足の終値」はデータ提供者が選んだ締めの時刻によって変わります。</li>
+<li><strong>時刻同期。</strong> 実運用のシステムは、インターネット経由で通常ミリ秒以内の精度が得られる NTP や、適切なネットワークではマイクロ秒に達しうる PTP を使って時計を同期させます。一部の地域の規制当局は取引業者に時計の精度要件を課しており、最も厳しい許容範囲は高頻度取引業者に適用されます。<a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a>で触れたように、時計が同期していないと、取引所のAPIが署名付きリクエストを拒否する原因にもなります。</li>
+</ul>
+<h2 id="section-7">データのクリーニング</h2>
+<p>どのデータセットを使う前にも、次の点を確認してください。</p>
+<ul>
+<li><strong>異常ティック：</strong> 前後の価格からかけ離れた約定記録で、多くはエラーや特殊な取引形態によるものです。</li>
+<li><strong>データの欠落と欠損：</strong> 取引所の障害、休場日、売買停止。</li>
+<li><strong>重複と順序の乱れたレコード。</strong></li>
+<li><strong>コーポレートアクション：</strong> 株式分割、株式併合、配当、スピンオフ、ティッカーの変更。</li>
+<li><strong>先物のロール：</strong> 満期を迎える限月をつなぎ合わせた連続限月には、一貫した調整が必要です。</li>
+<li><strong>ゼロまたはマイナスの価格：</strong> 通常はエラーですが、2020年4月の WTI 原油先物のように、実際にマイナスで取引された銘柄もあります。</li>
+</ul>
+<p>フィルターは文書化し、リサーチ用のデータとリアルタイムのデータに同じ方法で適用してください。</p>
+<h2 id="section-8">計算例：調整</h2>
+<h3 id="section-9">株式分割</h3>
+<p>ある株式が600ドルで取引された後、1株を4株に分割（4-for-1）したとします。各株式が4株になり、株価は約150ドルになります。調整前のデータでは、系列が一夜で75%下落したように見えます。バックテストはこれを暴落として扱い、実際には存在しなかったストップロスや平均回帰の買いシグナルを発動させてしまいます。</p>
+<p>分割調整済みのデータでは、分割前のすべての価格を4で割り（出来高には4を掛け）、分割前の600は150となって、系列が連続します。</p>
+<h3 id="section-10">先物のロール</h3>
+<p>あるトレーダーが四半期ごとの先物から連続した系列を作るとします。ロール日に、満期を迎える限月は4,000、次の限月は4,020で取引されています。調整せずにつなぎ合わせると、20ポイントの偽のジャンプが生じます。バックアジャスト（遡及調整）した系列では、それ以前のすべての価格に20ポイントを加え、ジャンプを取り除きます。もう一つの方法である比率調整では、それ以前の価格に 4,020 / 4,000 = 1.005 を掛け、パーセンテージでのリターンを保ちます。</p>
+<h3 id="section-11">データ量</h3>
+<p>米国の1銘柄の通常取引時間（1日390分）の1分足は、252営業日で 390 × 252 = 98,280本/年となり、保存は容易です。同じ銘柄のティックと気配値のデータは、売買の活発な銘柄では1日に数百万件に達することがあります。ティック単位のリサーチに適切なストレージとツールが必要なのはそのためです。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li>株式のバックテストに<strong>調整前の価格を使う。</strong></li>
+<li><strong>現在上場している銘柄だけを使う。</strong> 結果に生存者バイアスが組み込まれてしまいます。</li>
+<li>データソースの間で<strong>タイムゾーンが混在している。</strong></li>
+<li>24時間市場で<strong>日足の終値が普遍的なものだと思い込む。</strong></li>
+<li><strong>ティック単位の約定が必要な戦略を足データでバックテストする。</strong></li>
+<li>データを共有・公開するときに<strong>ライセンス条件を無視する。</strong></li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="1-2">レベル1とレベル2のデータの違いは何ですか？</h3>
+<p>レベル1は、最良の買い気配、最良の売り気配、直近の約定だけを表示します。レベル2は、板の売り買いそれぞれの複数の価格帯で注文可能な数量を表示し、市場の厚みを把握できます。</p>
+<h3 id="section-15">過去のマーケットデータはどこで入手できますか？</h3>
+<p>入手先には、取引所、商用データベンダー、ブローカーやプラットフォームのAPI、暗号資産取引所のAPI、学術データベースがあります。無料の入手先は学習用には十分ですが、頼りにする前に、調整、欠損、生存者バイアスを確認してください。</p>
+<h3 id="section-16">バックテストにティックデータは必要ですか？</h3>
+<p>日次やスイングの戦略の大半では必要なく、クリーニング済みの足データで十分です。ティックや気配値のデータが重要になるのは、日中の戦略、約定とスリッページの現実的なモデル化、そして板情報に依存するあらゆる戦略です。</p>
+<h3 id="section-17">マーケットデータはなぜこれほど高いのですか？</h3>
+<p>取引所とベンダーは、データの収集、配信、ライセンス供与に対して料金を課しており、プロの利用や自動システムでの利用は通常より高くなります。個人の非プロ利用者は、ブローカーを通じてリアルタイムデータをはるかに安く入手できることが多いです。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/algorithmic-trading/backtesting/"><div class="k">アルゴリズム取引とクオンツ</div><b>バックテスト</b><span>自分を欺かないバックテストのやり方を解説。データ品質、生存者バイアスと先読みバイアス、コスト、ウォークフォワード分析、主要指標まで。</span></a><a class="card" href="/ja/encyclopedia/basics/order-book-and-market-depth/"><div class="k">トレードの基礎</div><b>板と市場の厚み</b><span>板とマッチングエンジンの仕組み、価格優先・時間優先、Level 1とLevel 2の違い、厚みの読み方、見せ板、ディーラー市場やAMMとの比較を解説します。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/"><div class="k">アルゴリズム取引とクオンツ</div><b>トレーディングボットの作り方</b><span>ボットの構築方法を解説。データ・シグナル・リスク・執行の各層、REST・WebSocket・FIX、レート制限、APIキー管理、キルスイッチ、ログ。</span></a><a class="card" href="/ja/encyclopedia/technical-analysis/volume-analysis/"><div class="k">テクニカル分析</div><b>出来高分析</b><span>出来高の読み方を解説。トレンドの確認、クライマックス、相対出来高、OBV、A/Dライン、そして仮想通貨とFXにおける出来高データの限界まで紹介します。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">アルゴリズム取引とクオンツ</div><b>高頻度取引</b><span>高頻度取引業者の業務、コロケーション、レイテンシー競争、マーケットメイクとレイテンシー裁定、論争点、個人が速度で勝てない理由を解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/"><small>← 前へ</small>トレードと機械学習</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

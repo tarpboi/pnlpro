@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ドローダウンと破産確率：回復の計算と連敗 | PnL Profit</title>
+<meta name="description" content="最大ドローダウンとは何か、損失の回復に必要な利益率、連敗の起こりやすさ、ポジションサイズで破産確率がどう変わるかを表で解説します。">
+<meta name="keywords" content="最大ドローダウン, 破産確率, ドローダウン 回復, 連敗 確率, モンテカルロシミュレーション トレード">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="ドローダウンと破産確率：回復の計算と連敗 | PnL Profit">
+<meta property="og:description" content="最大ドローダウンとは何か、損失の回復に必要な利益率、連敗の起こりやすさ、ポジションサイズで破産確率がどう変わるかを表で解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ドローダウンと破産確率：回復の計算と連敗 | PnL Profit">
+<meta name="twitter:description" content="最大ドローダウンとは何か、損失の回復に必要な利益率、連敗の起こりやすさ、ポジションサイズで破産確率がどう変わるかを表で解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"ドローダウンと破産確率：回復の計算と連敗","description":"最大ドローダウンとは何か、損失の回復に必要な利益率、連敗の起こりやすさ、ポジションサイズで破産確率がどう変わるかを表で解説します。","keywords":"最大ドローダウン, 破産確率, ドローダウン 回復, 連敗 確率, モンテカルロシミュレーション トレード","articleSection":"リスク管理と資金管理","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"リスク管理と資金管理","item":"https://pnlpro.fit/ja/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"ドローダウンと破産リスク","item":"https://pnlpro.fit/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"トレーダーにとって望ましい最大ドローダウンはどれくらいですか？","acceptedAnswer":{"@type":"Answer","text":"戦略や人によって異なりますが、それを超えると回復がはるかに難しくなるため、多くのトレーダーは最大ドローダウンを約20〜25%未満に抑えることを目指しています。プロップファームの口座では5〜10%前後の上限が課されることが多く、その場合は1トレードあたりのリスクをずっと小さくする必要があります。"}},{"@type":"Question","name":"破産確率はどうやって計算しますか？","acceptedAnswer":{"@type":"Answer","text":"賭け金が一定で、勝つ確率pが50%を上回り、賭けの単位がN単位ある単純なゲームでは、最終的に破産する確率は(q ÷ p)のN乗で、q = 1 − pです。実際のトレードはもっと複雑なので、ほとんどのトレーダーは自分のトレード統計を使ったモンテカルロシミュレーションで推定しています。"}},{"@type":"Question","name":"何連敗までが普通ですか？","acceptedAnswer":{"@type":"Answer","text":"勝率とトレード回数によります。勝率50%で独立した100回のトレードを行うと、5連敗が少なくとも1回起こる確率はおよそ81%、8連敗なら約17%です。勝率が低いほど、長い連敗ははるかに起こりやすくなります。"}},{"@type":"Question","name":"トレードにおけるモンテカルロシミュレーションとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"戦略の勝率と損益、あるいは過去の実際のトレードをランダムな順序に並べ替えたものに基づいて、何千通りものランダムなトレードの並びを生成する手法です。その結果は、過去の1本の経路ではなく、起こりうるドローダウンとリターンの範囲を示します。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>リスク管理と資金管理</h3><ul><li><a href="/ja/encyclopedia/risk-management/risk-management-fundamentals/">リスク管理の基本</a></li><li><a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイジング</a></li><li><a href="/ja/encyclopedia/risk-management/stop-loss-strategies/">損切り戦略</a></li><li><a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/">リスクリワードと期待値</a></li><li><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">ドローダウンと破産リスク</a></li><li><a href="/ja/encyclopedia/risk-management/kelly-criterion/">ケリー基準</a></li><li><a href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/">相関とポートフォリオリスク</a></li><li><a href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/">レバレッジのリスクとブラックスワン</a></li><li><a href="/ja/encyclopedia/risk-management/trading-plan/">トレードプランの作り方</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/" class="on">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a></div>
+<h1 class="title">ドローダウンと破産確率</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>リスク管理と資金管理の他の記事</summary><ul><li><a href="/ja/encyclopedia/risk-management/risk-management-fundamentals/">リスク管理の基本</a></li><li><a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイジング</a></li><li><a href="/ja/encyclopedia/risk-management/stop-loss-strategies/">損切り戦略</a></li><li><a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/">リスクリワードと期待値</a></li><li><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">ドローダウンと破産リスク</a></li><li><a href="/ja/encyclopedia/risk-management/kelly-criterion/">ケリー基準</a></li><li><a href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/">相関とポートフォリオリスク</a></li><li><a href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/">レバレッジのリスクとブラックスワン</a></li><li><a href="/ja/encyclopedia/risk-management/trading-plan/">トレードプランの作り方</a></li></ul></details>
+<article><p>ドローダウンとは、口座資金がピークからその後の安値まで減少することで、最大ドローダウンはある期間におけるその減少の最大値です。破産確率（リスク・オブ・ルイン）とは、口座がなくなるか、許容できないと決めた水準を下回るかして、損失が大きくなりすぎてトレードを続けられなくなる確率のことです。どちらもポジションサイズに大きく左右されます。だからこそ、サイズの決定は最も重要なリスクの判断だとよくいわれるのです。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>最大ドローダウンは、開始時の残高からではなく、口座資金の最高点からその後の最安点までで測ります。</li>
+<li>ドローダウンの回復に必要な利益率は、損失率を「1 − 損失率」で割ったものなので、深いドローダウンからの回復は非常に難しくなります。</li>
+<li>長い連敗は、利益の出る戦略であっても、直感よりはるかに頻繁に起こります。</li>
+<li>破産確率は1トレードあたりのリスクを小さくするほど急激に下がります。エッジがなければ、トレード回数が十分に多いと破産はほぼ確実になります。</li>
+<li>モンテカルロシミュレーションは、トレード結果を並べ替えたり再抽出したりして、その戦略で起こりうるドローダウンの範囲を示します。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">ドローダウンの測り方</a></li><li><a href="#section-3">回復の計算</a></li><li><a href="#section-4">連敗がドローダウンになる仕組み</a></li><li><a href="#section-5">連敗の確率</a></li><li><a href="#section-6">破産確率</a></li><li><a href="#section-8">モンテカルロシミュレーション</a></li><li><a href="#section-9">実践での使い方</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">ドローダウンの測り方</h2>
+<p>ドローダウンは常にピークから測ります。$10,000で始めた口座が$12,000まで増え、その後$9,000まで下がってから回復したとしましょう。</p>
+<ul>
+<li><strong>最大ドローダウン</strong> = ($12,000 − $9,000) ÷ $12,000 = <strong>25%</strong></li>
+<li>開始時の残高から測ると口座は10%減っただけですが、それでは痛みを過小評価しています。トレーダーは、ピーク時の資産の4分の1が消えていくのを見たのです。</li>
+<li><strong>必要な回復率</strong> = $3,000 ÷ $9,000 = $12,000のピークに戻るには<strong>33.3%</strong>。</li>
+</ul>
+<p>関連する2つの指標も重要です。</p>
+<ul>
+<li><strong>ドローダウン期間</strong>：口座が直前のピークを下回っている期間の長さです。特にトレンドフォロー型の戦略では、何か月もピークを下回ったままになることがあります。</li>
+<li><strong>平均ドローダウン</strong>：減少の典型的な深さで、最悪のケースではなく、通常どれくらいの不快さを味わうかの目安になります。</li>
+</ul>
+<h2 id="section-3">回復の計算</h2>
+<p>損失のたびに元本が小さくなるため、回復に必要な利益率は常に失った割合よりも大きくなります。</p>
+<p><strong>必要な利益率 = ドローダウン ÷ (1 − ドローダウン)</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ドローダウン</th>
+<th>回復に必要な利益率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10%</td>
+<td>11.1%</td>
+</tr>
+<tr>
+<td>20%</td>
+<td>25.0%</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>42.9%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>66.7%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>75%</td>
+<td>300%</td>
+</tr>
+</tbody></table></div>
+<p>およそ30%を超えると、カーブは急速に険しくなります。この非対称性がほとんどのリスクルールの根拠となっている理由は、<a href="/ja/encyclopedia/risk-management/risk-management-fundamentals/">リスク管理の基本</a>の記事で解説しています。</p>
+<h2 id="section-4">連敗がドローダウンになる仕組み</h2>
+<p>定率法では、損失のたびにその時点の口座資金の一定割合が失われます。1トレードあたりのリスクrでn回連続して負けると、口座資金は開始時の(1 − r)^n倍になります。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>1トレードあたりのリスク</th>
+<th>5連敗</th>
+<th>10連敗</th>
+<th>15連敗</th>
+<th>20連敗</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.5%</td>
+<td>2.5%</td>
+<td>4.9%</td>
+<td>7.2%</td>
+<td>9.5%</td>
+</tr>
+<tr>
+<td>1%</td>
+<td>4.9%</td>
+<td>9.6%</td>
+<td>14.0%</td>
+<td>18.2%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>9.6%</td>
+<td>18.3%</td>
+<td>26.1%</td>
+<td>33.2%</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>22.6%</td>
+<td>40.1%</td>
+<td>53.7%</td>
+<td>64.2%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>41.0%</td>
+<td>65.1%</td>
+<td>79.4%</td>
+<td>87.8%</td>
+</tr>
+</tbody></table></div>
+<p>実際のドローダウンは、途切れのない1回の連敗からではなく、いくつかの勝ちが混ざった負けの続く時期から生じるのが普通です。それでもこの表は、各リスク水準でどの程度のダメージがありうるかを示しています。</p>
+<h2 id="section-5">連敗の確率</h2>
+<p>ある特定のトレードからk回の連敗が始まる確率は(1 − W)^kで、Wは勝率です。勝率50%なら、次の5回のトレードがすべて負ける確率は0.5^5、つまり約3.1%です。珍しく聞こえますが、トレーダーは多くのトレードを行い、その1回1回が連敗の始まりになる新たなチャンスなのです。</p>
+<p>より役に立つ問いは、一連のトレードの中で、ある長さの連敗が少なくとも1回起こる確率はどれくらいか、というものです。各トレードが独立していると仮定すると、答えは次のとおりです。</p>
+<p><strong>100回のトレードで、k回以上の連敗が少なくとも1回起こる確率</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>勝率</th>
+<th>5連敗</th>
+<th>6連敗</th>
+<th>8連敗</th>
+<th>10連敗</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>60%</td>
+<td>46%</td>
+<td>21%</td>
+<td>3.6%</td>
+<td>0.6%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>81%</td>
+<td>55%</td>
+<td>17%</td>
+<td>4.4%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>98%</td>
+<td>87%</td>
+<td>49%</td>
+<td>21%</td>
+</tr>
+</tbody></table></div>
+<p>勝率40%で200回トレードすると、8連敗以上が少なくとも1回起こる確率は約75%に、10連敗以上なら約38%に上がります。</p>
+<p>したがって、勝率35%や40%のトレンドフォロー戦略では、8連敗以上は通常の出来事として想定しておくべきです。これを知らないトレーダーは、まさに最悪のタイミングで、健全な戦略を放棄したり変更したりしがちです。</p>
+<p>実際のトレードは、コイン投げほど独立していないことがよくあります。相場の局面は変わり、トレンド相場に合った戦略は横ばい相場で何度も負けることがあります。そのため、長い連敗はこの表が示すよりも、むしろいくらか起こりやすくなる傾向があります。</p>
+<h2 id="section-6">破産確率</h2>
+<p>破産確率とは、トレードを続けられない、あるいは続けるつもりのない損失水準に達する確率のことです。「破産」は必ずしも残高ゼロを意味しません。多くのトレーダーは、50%のドローダウンや、プロップファームのルールに違反する損失水準を破産と定義しています。</p>
+<p>破産確率を左右するのは次の3つです。</p>
+<ol>
+<li><strong>エッジ</strong>：その戦略の1トレードあたりの期待値。<a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/">リスクリワードと期待値</a>を参照してください。</li>
+<li><strong>損益の形</strong>：勝ちと負けの大きさと頻度。</li>
+<li><strong>1トレードあたりのリスク</strong>：各トレードでさらす資金の割合。</li>
+</ol>
+<h3 id="section-7">直感をつかむための簡単な公式</h3>
+<p>古典的な「ギャンブラーの破産」の結果は、単純化したゲームに当てはまります。各賭けでは決まった1単位を勝つか負けるかで、勝つ確率pは50%を上回り、賭けを無限に続けるものとします。N単位から始めた場合、最終的にすべてを失う確率は次のとおりです。</p>
+<p><strong>破産確率 = (q ÷ p)^N</strong>、ただしq = 1 − p</p>
+<p>p = 0.55のとき、q ÷ p ≈ 0.818です。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>開始時の単位数（N）</th>
+<th>1回の賭けのリスク（開始資金に対する%）</th>
+<th>最終的に破産する確率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5</td>
+<td>20%</td>
+<td>約37%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>10%</td>
+<td>約13%</td>
+</tr>
+<tr>
+<td>20</td>
+<td>5%</td>
+<td>約1.8%</td>
+</tr>
+<tr>
+<td>50</td>
+<td>2%</td>
+<td>約0.004%</td>
+</tr>
+</tbody></table></div>
+<p>ここから2つの教訓が得られます。資金に対して賭けを小さくすると、破産確率は劇的に下がります。そして、pが50%以下、つまりエッジがない場合、賭けの回数に制限がなければ破産は確実になるため、この公式は成り立たなくなります。小さなサイズは負ける戦略の衰退を遅らせるだけで、救うことはできません。</p>
+<p>実際のトレードは、損益が一定でないこと、定率法のサイズ決定、コストなど、いくつかの点でこのモデルと異なるため、これらの数字はあくまで説明のためのものです。定率法は理論上ゼロに達することがないため、深いドローダウンの確率を問うほうが役に立ちます。</p>
+<h2 id="section-8">モンテカルロシミュレーション</h2>
+<p>モンテカルロシミュレーションは、戦略の統計と整合するランダムなトレードの並びを何千通りも生成して、起こりうる結果の範囲を推定する手法です。実際のトレード結果をランダムな順序で再抽出することも、想定した勝率と損益からトレードを生成することもできます。それぞれの並びが独自の資産曲線と最大ドローダウンを生み出し、全体として、何が典型的で、何が悪いがありうるケースなのかを示します。</p>
+<p>例として、勝率45%、勝ちトレードが1.5R、負けトレードが1Rで、1トレードあたり+0.125Rという控えめなプラスの期待値を持つ戦略の200回のトレードを、定率法で40,000回ランダムに試行した簡単なシミュレーションを示します。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>1トレードあたりのリスク</th>
+<th>典型的（中央値）な最大ドローダウン</th>
+<th>30%以上のドローダウンの確率</th>
+<th>50%以上のドローダウンの確率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1%</td>
+<td>約12%</td>
+<td>1%未満</td>
+<td>ほぼ0%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>約22%</td>
+<td>約19%</td>
+<td>1%未満</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>約49%</td>
+<td>約97%</td>
+<td>約48%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>約79%</td>
+<td>ほぼ100%</td>
+<td>約99%</td>
+</tr>
+</tbody></table></div>
+<p>エッジはどの行でもまったく同じです。リスク10%でも、大半の試行は200回のトレードを利益で終えましたが、そのほぼすべてが途中で口座の半分を失うドローダウンを経験しました。計画を放棄せずにそれを耐え抜ける人はほとんどいないでしょう。これらの数字は1組の仮定から得たもので、試行ごとに多少ばらつきます。また、実際の戦略の統計も推定値であり、本当のエッジはもっと小さいかもしれません。大きすぎる割合を賭けると、プラスのエッジが長期的にはお粗末な成長に変わってしまう理由は、<a href="/ja/encyclopedia/risk-management/kelly-criterion/">ケリー基準</a>の記事で解説しています。</p>
+<p>モンテカルロの結果は、入力の質を超えることはありません。トレードのサンプルが過剰最適化された<a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a>から得たものなら、シミュレーションは自信満々に間違った答えを出します。また、未来が過去に似ていることを前提としていますが、市場環境が変わればその前提は成り立たないかもしれません。</p>
+<h2 id="section-9">実践での使い方</h2>
+<ul>
+<li><strong>まず許容できる最大ドローダウンを決める。</strong> たとえば20%とし、自分の戦略で現実的に起こりうる連敗を踏まえて、そこに達する可能性が低くなる1トレードあたりのリスクを選びます。</li>
+<li><strong>これまでに経験したどの連敗よりも長い連敗を想定する。</strong> バックテストでの最悪の連敗は、分布から1回引いた結果にすぎず、最悪のケースではありません。</li>
+<li><strong>ドローダウン中はサイズを小さくする。</strong> 定率法なら自動的にそうなります。一定のドローダウンに達したらリスクを半分にするトレーダーもいます。</li>
+<li><strong>各ドローダウン水準で何をするかを事前に決めておく。</strong> たとえば10%で見直し、20%で完全に停止するといった具合です。<a href="/ja/encyclopedia/psychology/handling-losses-and-tilt/">損失への向き合い方とティルト</a>を参照してください。</li>
+</ul>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>ピークからではなく開始時の残高からドローダウンを測る。</strong></li>
+<li><strong>バックテストでの最悪のドローダウンが、起こりうる最悪だと思い込む。</strong></li>
+<li><strong>連敗を過小評価し、</strong> 統計的にはごく普通の連敗の最中に戦略を放棄する。</li>
+<li><strong>早く回復しようとサイズを上げる。</strong> はるかに深いドローダウンに陥る可能性が高まります。</li>
+<li><strong>小さなサイズでマイナスのエッジを直せると考える。</strong> 衰退が遅くなるだけです。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-12">トレーダーにとって望ましい最大ドローダウンはどれくらいですか？</h3>
+<p>戦略や人によって異なりますが、それを超えると回復がはるかに難しくなるため、多くのトレーダーは最大ドローダウンを約20〜25%未満に抑えることを目指しています。プロップファームの口座では5〜10%前後の上限が課されることが多く、その場合は1トレードあたりのリスクをずっと小さくする必要があります。</p>
+<h3 id="section-13">破産確率はどうやって計算しますか？</h3>
+<p>賭け金が一定で、勝つ確率pが50%を上回り、賭けの単位がN単位ある単純なゲームでは、最終的に破産する確率は(q ÷ p)のN乗で、q = 1 − pです。実際のトレードはもっと複雑なので、ほとんどのトレーダーは自分のトレード統計を使ったモンテカルロシミュレーションで推定しています。</p>
+<h3 id="section-14">何連敗までが普通ですか？</h3>
+<p>勝率とトレード回数によります。勝率50%で独立した100回のトレードを行うと、5連敗が少なくとも1回起こる確率はおよそ81%、8連敗なら約17%です。勝率が低いほど、長い連敗ははるかに起こりやすくなります。</p>
+<h3 id="section-15">トレードにおけるモンテカルロシミュレーションとは何ですか？</h3>
+<p>戦略の勝率と損益、あるいは過去の実際のトレードをランダムな順序に並べ替えたものに基づいて、何千通りものランダムなトレードの並びを生成する手法です。その結果は、過去の1本の経路ではなく、起こりうるドローダウンとリターンの範囲を示します。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">リスク管理と資金管理</div><b>リスク管理の基本</b><span>リスク管理がエントリーより重要な理由を解説。1トレードあたりのリスク、1日の損失上限、50%の損失を取り戻す計算、トレードの主なリスクの種類をまとめます。</span></a><a class="card" href="/ja/encyclopedia/risk-management/position-sizing/"><div class="k">リスク管理と資金管理</div><b>ポジションサイジング</b><span>口座のリスク許容額と損切り幅からポジションサイズを計算する方法を解説。定率法、定額法、ATR法を株式、FX、暗号資産の例で紹介します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/kelly-criterion/"><div class="k">リスク管理と資金管理</div><b>ケリー基準</b><span>二択の賭けのケリー公式と連続版、予測市場の契約を含む計算例を解説し、多くのトレーダーがフラクショナル・ケリーを使う理由を紹介します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">リスク管理と資金管理</div><b>リスクリワードと期待値</b><span>Rマルチプル、勝率、損益比がどう組み合わさって期待値になるかを解説。計算式、損益分岐勝率の表、勝率が高くても負ける理由を紹介します。</span></a><a class="card" href="/ja/encyclopedia/psychology/handling-losses-and-tilt/"><div class="k">トレード心理</div><b>損失とティルトへの対処</b><span>連敗とティルトへの対処法。警告サイン、1日の損失上限などのサーキットブレーカー、大きな損失後の立て直し、やめどき、ギャンブル依存の危険信号を解説。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/"><small>← 前へ</small>リスクリワードと期待値</a><a class="next" href="/ja/encyclopedia/risk-management/kelly-criterion/"><small>次へ →</small>ケリー基準</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

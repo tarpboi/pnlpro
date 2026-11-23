@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo hacer un backtest de una estrategia de trading | PnL Profit</title>
+<meta name="description" content="Cómo hacer backtesting sin engañarte: calidad de datos, sesgo de supervivencia y de anticipación, costos, análisis walk-forward y métricas clave.">
+<meta name="keywords" content="backtesting, cómo hacer backtest de una estrategia, sesgo de anticipación, sesgo de supervivencia, ratio de Sharpe, análisis walk-forward">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Cómo hacer un backtest de una estrategia de trading | PnL Profit">
+<meta property="og:description" content="Cómo hacer backtesting sin engañarte: calidad de datos, sesgo de supervivencia y de anticipación, costos, análisis walk-forward y métricas clave.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/backtesting/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cómo hacer un backtest de una estrategia de trading | PnL Profit">
+<meta name="twitter:description" content="Cómo hacer backtesting sin engañarte: calidad de datos, sesgo de supervivencia y de anticipación, costos, análisis walk-forward y métricas clave.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Cómo hacer un backtest de una estrategia de trading","description":"Cómo hacer backtesting sin engañarte: calidad de datos, sesgo de supervivencia y de anticipación, costos, análisis walk-forward y métricas clave.","keywords":"backtesting, cómo hacer backtest de una estrategia, sesgo de anticipación, sesgo de supervivencia, ratio de Sharpe, análisis walk-forward","articleSection":"Trading algorítmico y cuantitativo","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/backtesting/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading algorítmico y cuantitativo","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Backtesting","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/backtesting/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Qué es un buen ratio de Sharpe en un backtest?","acceptedAnswer":{"@type":"Answer","text":"Muchos profesionales consideran prometedor un Sharpe anualizado superior a 1 para una estrategia individual. Los valores de backtest muy altos, como más de 3 en una estrategia diaria, indican con más frecuencia errores, sesgo de anticipación o sobreajuste que una ventaja real."}},{"@type":"Question","name":"¿Cuántos datos históricos necesito para un backtest?","acceptedAnswer":{"@type":"Answer","text":"Los suficientes para incluir distintos regímenes de mercado, como mercados alcistas, bajistas y laterales, y al menos un periodo de tensión. En estrategias diarias eso suele significar diez años o más; en estrategias intradía pueden bastar menos años si contienen muchas operaciones."}},{"@type":"Question","name":"¿Cuál es la diferencia entre backtesting y paper trading?","acceptedAnswer":{"@type":"Answer","text":"Un backtest reproduce datos históricos, mientras que el paper trading ejecuta la estrategia con precios en vivo sin dinero real. El paper trading detecta problemas de ejecución y de software que un backtest no puede detectar."}},{"@type":"Question","name":"¿Por qué los resultados reales difieren de los del backtest?","acceptedAnswer":{"@type":"Answer","text":"Las causas habituales son costos y deslizamiento subestimados, sobreajuste al ruido histórico, sesgos en los datos y cambios en el comportamiento del mercado. Cierta diferencia es normal; una diferencia grande significa que el backtest tenía fallos."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/backtesting/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/backtesting/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/backtesting/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/backtesting/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/algorithmic-trading/backtesting/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/backtesting/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/backtesting/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/backtesting/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/backtesting/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading algorítmico y cuantitativo</h3><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/" class="on" aria-current="page">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/" class="on">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a></div>
+<h1 class="title">Cómo hacer un backtest de una estrategia de trading</h1>
+<div class="meta">9 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Trading algorítmico y cuantitativo</summary><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/" class="on" aria-current="page">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul></details>
+<article><p>El backtesting es el proceso de aplicar un conjunto de reglas de trading a datos históricos para estimar cómo se habría comportado la estrategia. Es la principal herramienta de investigación del <a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">trading algorítmico</a> y también el lugar donde es más fácil engañarse a uno mismo. Un backtest cuidadoso modela los datos, los costos y los tiempos de forma realista; uno descuidado produce cifras impresionantes que desaparecen en cuanto entra en juego dinero real.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>Un backtest es tan bueno como sus datos; el sesgo de supervivencia y el sesgo de anticipación (look-ahead bias) son los dos errores más dañinos.</li>
+<li>Modela las comisiones, los spreads y el deslizamiento de forma conservadora, porque los costos suelen decidir si una estrategia es rentable o no.</li>
+<li>Reserva datos que la estrategia nunca haya visto para las pruebas fuera de muestra y usa el análisis walk-forward en las estrategias que necesitan reajustes periódicos.</li>
+<li>Juzga una estrategia con varias métricas a la vez: Sharpe, Sortino, drawdown máximo, factor de beneficio y número de operaciones.</li>
+<li>Un buen backtest aumenta la confianza; nunca garantiza resultados futuros.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#c-mo-funciona-un-backtest">Cómo funciona un backtest</a></li><li><a href="#calidad-de-los-datos">Calidad de los datos</a></li><li><a href="#los-sesgos-que-arruinan-los-backtests">Los sesgos que arruinan los backtests</a></li><li><a href="#modelar-los-costos-y-el-deslizamiento">Modelar los costos y el deslizamiento</a></li><li><a href="#dentro-de-muestra-fuera-de-muestra-y-walk-forward">Dentro de muestra, fuera de muestra y walk-forward</a></li><li><a href="#m-tricas-de-rendimiento">Métricas de rendimiento</a></li><li><a href="#ejemplo-pr-ctico">Ejemplo práctico</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="c-mo-funciona-un-backtest">Cómo funciona un backtest</h2>
+<p>En su forma más simple, un backtest recorre el historial barra a barra. En cada paso se pregunta qué habrían hecho las reglas usando solo la información disponible en ese momento, registra las órdenes y ejecuciones simuladas y sigue la evolución del capital de la cuenta.</p>
+<p>Hay dos diseños habituales:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Diseño</th>
+<th>Cómo funciona</th>
+<th>Fortalezas</th>
+<th>Debilidades</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vectorizado</td>
+<td>Calcula señales y rendimientos para toda la serie de una vez con operaciones sobre arrays</td>
+<td>Muy rápido, bueno para la investigación inicial</td>
+<td>Es fácil introducir sesgo de anticipación; difícil modelar ejecuciones de órdenes, stops y límites de posición</td>
+</tr>
+<tr>
+<td>Basado en eventos</td>
+<td>Procesa cada barra o tick como un evento, igual que lo haría un sistema en vivo</td>
+<td>Gestión de órdenes realista; el código suele poder reutilizarse para operar en real</td>
+<td>Más lento y más trabajoso de construir</td>
+</tr>
+</tbody></table></div>
+<p>Muchos investigadores filtran ideas con pruebas vectorizadas y confirman las prometedoras en un simulador basado en eventos.</p>
+<h2 id="calidad-de-los-datos">Calidad de los datos</h2>
+<p>Los datos malos producen resultados que parecen sólidos pero no significan nada. Comprueba al menos lo siguiente, y consulta el artículo sobre <a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">datos de mercado</a> para más detalles:</p>
+<ul>
+<li><strong>Eventos corporativos.</strong> Los precios de las acciones deben ajustarse por splits y dividendos; de lo contrario, el backtest verá desplomes falsos y omitirá los ingresos por dividendos.</li>
+<li><strong>Rolls de futuros.</strong> Las series continuas de futuros deben empalmarse entre vencimientos de contratos de forma coherente.</li>
+<li><strong>Ticks erróneos y huecos.</strong> Los registros erróneos, las barras faltantes y los registros duplicados generan señales falsas.</li>
+<li><strong>Zonas horarias y marcas de tiempo.</strong> Mezclar la hora de la bolsa, la hora local y UTC puede desplazar las señales varias horas.</li>
+<li><strong>Construcción de las barras.</strong> Las barras diarias de distintos proveedores pueden cerrar a horas diferentes, sobre todo en forex y cripto, que cotizan sin interrupción.</li>
+</ul>
+<h2 id="los-sesgos-que-arruinan-los-backtests">Los sesgos que arruinan los backtests</h2>
+<h3 id="sesgo-de-supervivencia">Sesgo de supervivencia</h3>
+<p>El sesgo de supervivencia se produce cuando el universo de prueba incluye solo activos que siguen existiendo hoy. Las empresas que quebraron, dejaron de cotizar o fueron adquiridas desaparecen de muchos conjuntos de datos gratuitos. Una estrategia probada solo con los componentes actuales de un índice se prueba con los ganadores, lo que infla los rendimientos, sobre todo en estrategias que compran acciones muy castigadas. El mismo problema afecta a cripto: miles de tokens que colapsaron no aparecen en las listas de monedas actuales. La solución es un conjunto de datos libre de sesgo de supervivencia que incluya instrumentos desaparecidos y la composición histórica de los índices en cada momento (point-in-time).</p>
+<h3 id="sesgo-de-anticipaci-n">Sesgo de anticipación</h3>
+<p>El sesgo de anticipación consiste en usar información que no habría estado disponible en el momento de la operación. Ejemplos comunes:</p>
+<ul>
+<li>Usar el precio de cierre de un día para generar una señal y suponer además que compraste a ese mismo cierre.</li>
+<li>Usar datos de los estados financieros en la fecha de cierre del periodo en lugar de la fecha en que realmente se publicaron.</li>
+<li>Normalizar los datos con estadísticas (media, máximo) calculadas sobre toda la muestra, incluido el futuro.</li>
+<li>Usar datos económicos revisados en lugar de las cifras de primera publicación que los traders vieron realmente.</li>
+</ul>
+<p>Un hábito útil es desplazar cada señal una barra hacia adelante, de modo que una señal calculada en la barra t no se opere antes de la barra t+1.</p>
+<h3 id="otros-sesgos">Otros sesgos</h3>
+<ul>
+<li><strong>Sesgo de selección:</strong> probar solo en mercados que ya sabes que subieron.</li>
+<li><strong>Data snooping:</strong> probar muchas variantes y reportar la mejor. Se trata en <a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">sobreajuste y data snooping</a>.</li>
+<li><strong>Sesgo de liquidez:</strong> suponer que podías operar con tamaño en mercados poco líquidos al precio cotizado.</li>
+</ul>
+<h2 id="modelar-los-costos-y-el-deslizamiento">Modelar los costos y el deslizamiento</h2>
+<p>Cada operación simulada debe pagar costos realistas:</p>
+<ul>
+<li><strong>Comisiones y tarifas de la bolsa</strong>, incluidas las comisiones maker/taker en los exchanges de cripto.</li>
+<li><strong>El spread.</strong> Comprar al ask y vender al bid cuesta el <a href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/">spread bid-ask</a> completo en cada operación de ida y vuelta.</li>
+<li><strong>Deslizamiento e impacto de mercado.</strong> Las órdenes de mercado y los stops suelen ejecutarse peor que el último precio, sobre todo en mercados rápidos y con tamaños grandes.</li>
+<li><strong>Financiación.</strong> Swaps overnight, pagos de funding de los perpetuos y comisiones por préstamo de acciones en las posiciones cortas.</li>
+</ul>
+<p>Un enfoque sensato es estimar los costos a partir de ejecuciones reales cuando sea posible y luego repetir el backtest con el doble de esos costos. Si la estrategia solo funciona con niveles de costos optimistas, probablemente no funciona.</p>
+<h2 id="dentro-de-muestra-fuera-de-muestra-y-walk-forward">Dentro de muestra, fuera de muestra y walk-forward</h2>
+<p>Divide tu historial antes de empezar. Construye y ajusta la estrategia con la parte dentro de muestra (in-sample) y luego pruébala una sola vez con la parte fuera de muestra (out-of-sample). Si sigues volviendo a los datos fuera de muestra para retocar las reglas, dejan de ser fuera de muestra.</p>
+<p>El análisis walk-forward repite este proceso a lo largo del tiempo. Por ejemplo: optimizar los parámetros con 2015 a 2018 y probar con 2019; optimizar con 2016 a 2019 y probar con 2020; y así sucesivamente. Al unir los periodos de prueba se obtiene una curva de capital fuera de muestra que refleja cómo se habría reajustado la estrategia en tiempo real. Las grandes diferencias entre los resultados dentro de muestra y los del walk-forward sugieren sobreajuste.</p>
+<h2 id="m-tricas-de-rendimiento">Métricas de rendimiento</h2>
+<p>Ninguna cifra por sí sola describe una estrategia. Usa varias a la vez.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Fórmula</th>
+<th>Qué te dice</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CAGR</td>
+<td>(Capital final / Capital inicial)^(1 / años) − 1</td>
+<td>Tasa de crecimiento anual compuesta</td>
+</tr>
+<tr>
+<td>Ratio de Sharpe</td>
+<td>Media(R − Rf) / DesvEst(R − Rf), anualizado multiplicando por √(periodos por año)</td>
+<td>Rendimiento por unidad de volatilidad total</td>
+</tr>
+<tr>
+<td>Ratio de Sortino</td>
+<td>(Media(R) − T) / Desviación a la baja, anualizado de la misma forma</td>
+<td>Rendimiento por unidad de volatilidad a la baja únicamente</td>
+</tr>
+<tr>
+<td>Drawdown máximo</td>
+<td>Mayor caída del capital de pico a valle, como porcentaje del pico</td>
+<td>El peor dolor histórico</td>
+</tr>
+<tr>
+<td>Factor de beneficio</td>
+<td>Beneficio bruto / Pérdida bruta (valor absoluto)</td>
+<td>Dólares ganados por cada dólar perdido</td>
+</tr>
+<tr>
+<td>Tasa de acierto y esperanza</td>
+<td>Proporción de operaciones ganadoras; beneficio medio por operación</td>
+<td>Cómo se distribuyen los rendimientos</td>
+</tr>
+</tbody></table></div>
+<p>Aquí R es el rendimiento de la estrategia por periodo, Rf la tasa libre de riesgo por periodo y T un rendimiento objetivo (a menudo cero). La desviación a la baja es la raíz cuadrada de la media de min(0, R − T)² tomada sobre todos los periodos, de modo que los periodos por encima del objetivo cuentan como cero. Con datos diarios, multiplica el ratio diario por √252, alrededor de 15.87. Los drawdowns y las matemáticas de la recuperación se tratan en <a href="/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">drawdown y riesgo de ruina</a>, y la esperanza matemática en <a href="/es/encyclopedia/risk-management/risk-reward-and-expectancy/">riesgo/beneficio y esperanza matemática</a>.</p>
+<p>Las funciones siguientes calculan estas métricas a partir de una serie de rendimientos, una curva de capital y una lista de resultados de operaciones.</p>
+<pre><code class="language-python">import numpy as np
+
+def sharpe(returns, rf_per_period=0.0, periods_per_year=252):
+    excess = np.asarray(returns) - rf_per_period
+    return np.sqrt(periods_per_year) * excess.mean() / excess.std(ddof=1)
+
+def sortino(returns, target=0.0, periods_per_year=252):
+    r = np.asarray(returns)
+    downside = np.minimum(r - target, 0.0)
+    downside_dev = np.sqrt(np.mean(downside ** 2))
+    return np.sqrt(periods_per_year) * (r.mean() - target) / downside_dev
+
+def max_drawdown(equity):
+    equity = np.asarray(equity, dtype=float)
+    peaks = np.maximum.accumulate(equity)
+    return ((peaks - equity) / peaks).max()
+
+def profit_factor(trade_pnls):
+    pnl = np.asarray(trade_pnls, dtype=float)
+    gross_loss = -pnl[pnl &lt; 0].sum()
+    return pnl[pnl &gt; 0].sum() / gross_loss if gross_loss &gt; 0 else np.inf
+</code></pre>
+<h2 id="ejemplo-pr-ctico">Ejemplo práctico</h2>
+<p>Una estrategia empieza con 10,000 dólares y realiza diez operaciones con estos resultados, en dólares: +300, −200, +150, −100, −250, +400, −150, +200, −300, +250.</p>
+<ul>
+<li><strong>Beneficio bruto:</strong> 300 + 150 + 400 + 200 + 250 = 1,300.</li>
+<li><strong>Pérdida bruta:</strong> 200 + 100 + 250 + 150 + 300 = 1,000.</li>
+<li><strong>Factor de beneficio:</strong> 1,300 / 1,000 = 1.30.</li>
+<li><strong>Beneficio neto:</strong> 300 dólares, así que la esperanza es de 30 dólares por operación, con una tasa de acierto del 50%.</li>
+<li><strong>Evolución del capital:</strong> 10,300; 10,100; 10,250; 10,150; 9,900; 10,300; 10,150; 10,350; 10,050; 10,300.</li>
+<li><strong>Drawdown máximo:</strong> del pico de 10,300 al valle de 9,900, una caída de 400 / 10,300 ≈ 3.9%.</li>
+</ul>
+<p>Para los ratios ajustados por riesgo, supongamos que una prueba más larga dio un rendimiento diario medio de 0.05%, una desviación estándar diaria de 1.0% y una desviación a la baja de 0.7%, con una tasa libre de riesgo de cero. El ratio de Sharpe anualizado es 0.05 / 1.0 × 15.87 ≈ 0.79, y el ratio de Sortino es 0.05 / 0.7 × 15.87 ≈ 1.13.</p>
+<p>Diez operaciones son demasiado pocas para fiarse de cualquiera de estas cifras. Como guía aproximada, muchos investigadores quieren al menos unos cientos de operaciones, repartidas en distintas condiciones de mercado, antes de considerar significativas las estadísticas.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Operar en la barra que generó la señal.</strong> Las señales calculadas a partir de un precio de cierre no pueden ejecutarse también a ese precio de cierre.</li>
+<li><strong>Usar los componentes actuales del índice.</strong> Esto incorpora el sesgo de supervivencia a todos los resultados.</li>
+<li><strong>Suponer costos nulos o minúsculos.</strong> Las estrategias de alta rotación son especialmente sensibles.</li>
+<li><strong>Reutilizar los datos fuera de muestra.</strong> Cada vistazo los convierte en datos dentro de muestra.</li>
+<li><strong>Demasiado pocas operaciones.</strong> Un puñado de grandes ganadoras puede producir un backtest espectacular pero sin significado.</li>
+<li><strong>Ignorar la capacidad.</strong> Una estrategia puede funcionar con 1,000 dólares y fracasar con 100,000 porque sus órdenes mueven el precio.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="qu-es-un-buen-ratio-de-sharpe-en-un-backtest">¿Qué es un buen ratio de Sharpe en un backtest?</h3>
+<p>Muchos profesionales consideran prometedor un Sharpe anualizado superior a 1 para una estrategia individual. Los valores de backtest muy altos, como más de 3 en una estrategia diaria, indican con más frecuencia errores, sesgo de anticipación o sobreajuste que una ventaja real.</p>
+<h3 id="cu-ntos-datos-hist-ricos-necesito-para-un-backtest">¿Cuántos datos históricos necesito para un backtest?</h3>
+<p>Los suficientes para incluir distintos regímenes de mercado, como mercados alcistas, bajistas y laterales, y al menos un periodo de tensión. En estrategias diarias eso suele significar diez años o más; en estrategias intradía pueden bastar menos años si contienen muchas operaciones.</p>
+<h3 id="cu-l-es-la-diferencia-entre-backtesting-y-paper-trading">¿Cuál es la diferencia entre backtesting y paper trading?</h3>
+<p>Un backtest reproduce datos históricos, mientras que el paper trading ejecuta la estrategia con precios en vivo sin dinero real. El paper trading detecta problemas de ejecución y de software que un backtest no puede detectar.</p>
+<h3 id="por-qu-los-resultados-reales-difieren-de-los-del-backtest">¿Por qué los resultados reales difieren de los del backtest?</h3>
+<p>Las causas habituales son costos y deslizamiento subestimados, sobreajuste al ruido histórico, sesgos en los datos y cambios en el comportamiento del mercado. Cierta diferencia es normal; una diferencia grande significa que el backtest tenía fallos.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Trading algorítmico y cuantitativo</div><b>Sobreajuste</b><span>Por qué fracasan en real tantos backtests brillantes: curve fitting, pruebas múltiples, parámetros inestables, deflated Sharpe y cómo evitar el sobreajuste.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">Trading algorítmico y cuantitativo</div><b>Datos de mercado</b><span>Datos de mercado para traders: ticks frente a barras, feeds de Nivel 1, 2 y 3, fuentes históricas, costos y licencias, marcas de tiempo y limpieza de datos.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">Trading algorítmico y cuantitativo</div><b>Introducción al trading algorítmico</b><span>Qué es el trading algorítmico, en qué se diferencia el minorista del institucional, el camino de la idea al bot en vivo, lenguajes y expectativas realistas.</span></a><a class="card" href="/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">Gestión del riesgo y del capital</div><b>Drawdown y riesgo de ruina</b><span>Qué es el drawdown máximo, cuánto ganar para recuperar una pérdida, qué probabilidad tienen las rachas perdedoras y cómo el tamaño afecta al riesgo de ruina.</span></a><a class="card" href="/es/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Gestión del riesgo y del capital</div><b>Riesgo/beneficio y esperanza matemática</b><span>Cómo se combinan los múltiplos de R, la tasa de acierto y el payoff en la esperanza matemática: fórmula, tabla de tasa de acierto de equilibrio y ejemplos.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><small>← Anterior</small>Introducción al trading algorítmico</a><a class="next" href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><small>Siguiente →</small>Sobreajuste</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

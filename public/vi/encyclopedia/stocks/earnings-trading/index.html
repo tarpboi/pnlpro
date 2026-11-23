@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giao dịch mùa báo cáo lợi nhuận: implied move, gap và drift</title>
+<meta name="description" content="Cách trader tiếp cận báo cáo lợi nhuận: giữ qua báo cáo hay giao dịch phản ứng, implied move từ quyền chọn, gap and go so với fade và post-earnings drift.">
+<meta name="keywords" content="giao dịch earnings, giao dịch báo cáo lợi nhuận, implied move earnings, post earnings announcement drift, gap sau báo cáo">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/stocks/earnings-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/stocks/earnings-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Giao dịch mùa báo cáo lợi nhuận: implied move, gap và drift">
+<meta property="og:description" content="Cách trader tiếp cận báo cáo lợi nhuận: giữ qua báo cáo hay giao dịch phản ứng, implied move từ quyền chọn, gap and go so với fade và post-earnings drift.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/stocks/earnings-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Giao dịch mùa báo cáo lợi nhuận: implied move, gap và drift">
+<meta name="twitter:description" content="Cách trader tiếp cận báo cáo lợi nhuận: giữ qua báo cáo hay giao dịch phản ứng, implied move từ quyền chọn, gap and go so với fade và post-earnings drift.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Giao dịch mùa báo cáo lợi nhuận: implied move, gap và drift","description":"Cách trader tiếp cận báo cáo lợi nhuận: giữ qua báo cáo hay giao dịch phản ứng, implied move từ quyền chọn, gap and go so với fade và post-earnings drift.","keywords":"giao dịch earnings, giao dịch báo cáo lợi nhuận, implied move earnings, post earnings announcement drift, gap sau báo cáo","articleSection":"Giao dịch cổ phiếu","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/stocks/earnings-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch cổ phiếu","item":"https://pnlpro.fit/vi/encyclopedia/stocks/"},{"@type":"ListItem","position":3,"name":"Giao dịch mùa báo cáo thu nhập","item":"https://pnlpro.fit/vi/encyclopedia/stocks/earnings-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Tính biên độ kỳ vọng cho earnings như thế nào?","acceptedAnswer":{"@type":"Answer","text":"Cách ước tính nhanh là lấy giá của straddle at-the-money đáo hạn ngay sau báo cáo, chia cho giá cổ phiếu. Một số trader nhân với khoảng 0.85 để có ước tính sát hơn cho biên độ điển hình."}},{"@type":"Question","name":"Tôi có nên giữ cổ phiếu qua báo cáo không?","acceptedAnswer":{"@type":"Answer","text":"Tùy kế hoạch và kích thước của bạn. Giữ qua báo cáo khiến bạn đối mặt với cú gap mà lệnh dừng lỗ không bảo vệ được, nên nhiều trader thoát hoặc giảm vị thế trước báo cáo, trong khi nhà đầu tư dài hạn thường giữ."}},{"@type":"Question","name":"IV crush là gì?","acceptedAnswer":{"@type":"Answer","text":"IV crush là sự sụt giảm mạnh của biến động hàm ý sau một sự kiện như báo cáo lợi nhuận. Quyền chọn mất giá nhanh khi sự bất định đã được giải tỏa, có thể gây lỗ cho người mua quyền chọn ngay cả khi cổ phiếu di chuyển."}},{"@type":"Question","name":"Post-earnings announcement drift là gì?","acceptedAnswer":{"@type":"Answer","text":"Đó là xu hướng cổ phiếu tiếp tục di chuyển theo hướng của một bất ngờ về lợi nhuận trong nhiều tuần sau đó. Hiện tượng này được ghi nhận từ năm 1968, dù một số nghiên cứu cho rằng nó đã yếu đi ở các cổ phiếu lớn."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/stocks/earnings-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/stocks/earnings-trading/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/stocks/earnings-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/stocks/earnings-trading/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/stocks/earnings-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/stocks/earnings-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/stocks/earnings-trading/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/stocks/earnings-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/stocks/earnings-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch cổ phiếu</h3><ul><li><a href="/vi/encyclopedia/stocks/stock-market-basics/">Thị trường chứng khoán cơ bản</a></li><li><a href="/vi/encyclopedia/stocks/day-trading-stocks/">Day trading cổ phiếu</a></li><li><a href="/vi/encyclopedia/stocks/swing-trading-stocks/">Swing trading cổ phiếu</a></li><li><a href="/vi/encyclopedia/stocks/short-selling/">Bán khống</a></li><li><a href="/vi/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny stock và cổ phiếu vốn hóa nhỏ</a></li><li><a href="/vi/encyclopedia/stocks/premarket-and-after-hours-trading/">Giao dịch trước và sau giờ</a></li><li><a href="/vi/encyclopedia/stocks/earnings-trading/" class="on" aria-current="page">Giao dịch mùa báo cáo thu nhập</a></li><li><a href="/vi/encyclopedia/stocks/gap-trading/">Giao dịch gap</a></li><li><a href="/vi/encyclopedia/stocks/momentum-trading/">Giao dịch động lượng</a></li><li><a href="/vi/encyclopedia/stocks/etfs-and-index-trading/">ETF và giao dịch chỉ số</a></li><li><a href="/vi/encyclopedia/stocks/stock-screeners-and-scanners/">Bộ lọc và scanner cổ phiếu</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/" class="on">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a></div>
+<h1 class="title">Giao dịch mùa báo cáo lợi nhuận (earnings)</h1>
+<div class="meta">9 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch cổ phiếu</summary><ul><li><a href="/vi/encyclopedia/stocks/stock-market-basics/">Thị trường chứng khoán cơ bản</a></li><li><a href="/vi/encyclopedia/stocks/day-trading-stocks/">Day trading cổ phiếu</a></li><li><a href="/vi/encyclopedia/stocks/swing-trading-stocks/">Swing trading cổ phiếu</a></li><li><a href="/vi/encyclopedia/stocks/short-selling/">Bán khống</a></li><li><a href="/vi/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny stock và cổ phiếu vốn hóa nhỏ</a></li><li><a href="/vi/encyclopedia/stocks/premarket-and-after-hours-trading/">Giao dịch trước và sau giờ</a></li><li><a href="/vi/encyclopedia/stocks/earnings-trading/" class="on" aria-current="page">Giao dịch mùa báo cáo thu nhập</a></li><li><a href="/vi/encyclopedia/stocks/gap-trading/">Giao dịch gap</a></li><li><a href="/vi/encyclopedia/stocks/momentum-trading/">Giao dịch động lượng</a></li><li><a href="/vi/encyclopedia/stocks/etfs-and-index-trading/">ETF và giao dịch chỉ số</a></li><li><a href="/vi/encyclopedia/stocks/stock-screeners-and-scanners/">Bộ lọc và scanner cổ phiếu</a></li></ul></details>
+<article><p>Giao dịch earnings nghĩa là mở vị thế quanh thời điểm công ty công bố kết quả tài chính theo lịch. Báo cáo lợi nhuận là một trong những sự kiện lớn nhất trong năm của từng cổ phiếu, thường khiến giá cổ phiếu biến động trong một phiên nhiều hơn cả tháng trước đó. Trader hoặc mở vị thế trước báo cáo và chấp nhận rủi ro gap, hoặc chờ rồi giao dịch phản ứng sau đó. Cả hai cách đều phải đối mặt với sự bất định mà giá quyền chọn đã phản ánh sẵn.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Implied move của thị trường quyền chọn, xấp xỉ giá của straddle at-the-money, cho thấy trader kỳ vọng biên độ biến động lớn đến đâu.</li>
+<li>Giữ cổ phiếu qua báo cáo là đặt cược cả về hướng lẫn biên độ, với rủi ro gap mà lệnh dừng lỗ không ngăn được.</li>
+<li>Sau báo cáo, trader chọn giữa đi theo gap (&quot;gap and go&quot;) và đặt cược vào đảo chiều (&quot;fade&quot;).</li>
+<li>Post-earnings announcement drift, xu hướng giá tiếp tục di chuyển theo hướng của một bất ngờ, là một trong những hiện tượng được ghi nhận rõ nhất trong tài chính, dù có thể đã yếu đi theo thời gian.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#l-ch-b-o-c-o-l-i-nhu-n">Lịch báo cáo lợi nhuận</a></li><li><a href="#implied-move">Implied move</a></li><li><a href="#c-ch-1-gi-qua-b-o-c-o">Cách 1: giữ qua báo cáo</a></li><li><a href="#c-ch-2-giao-d-ch-ph-n-ng">Cách 2: giao dịch phản ứng</a></li><li><a href="#post-earnings-announcement-drift">Post-earnings announcement drift</a></li><li><a href="#ki-m-so-t-r-i-ro-quanh-b-o-c-o">Kiểm soát rủi ro quanh báo cáo</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="l-ch-b-o-c-o-l-i-nhu-n">Lịch báo cáo lợi nhuận</h2>
+<p>Các công ty Mỹ báo cáo theo quý, nên mỗi công ty lớn tạo ra bốn sự kiện mỗi năm, tập trung trong &quot;mùa báo cáo&quot; kéo dài vài tuần sau khi mỗi quý kết thúc. Hầu hết công bố trước giờ mở cửa hoặc sau giờ đóng cửa, không bao giờ trong phiên thường, nên phản ứng đầu tiên diễn ra trong <a href="/vi/encyclopedia/stocks/premarket-and-after-hours-trading/">giao dịch trước giờ mở cửa và sau giờ đóng cửa</a>.</p>
+<p>Quy định báo cáo khác nhau theo quốc gia. Các công ty Nhật Bản báo cáo theo quý. Ở Anh và EU, công ty phải công bố báo cáo nửa năm, và nhiều công ty còn đưa ra cập nhật kinh doanh hằng quý. Dù giao dịch ở đâu, hãy kiểm tra ngày giờ báo cáo đã được xác nhận trước khi mở vị thế.</p>
+<p>Thứ làm giá di chuyển thường không phải bản thân kết quả mà là cách nó so với kỳ vọng: ước tính đồng thuận về lợi nhuận trên mỗi cổ phiếu và doanh thu, và trên hết là hướng dẫn (guidance) của công ty cho các quý tới. Công ty có thể vượt ước tính mà vẫn giảm giá nếu guidance gây thất vọng. Xem <a href="/vi/encyclopedia/fundamental-analysis/earnings-and-financial-statements/">báo cáo lợi nhuận và báo cáo tài chính</a>.</p>
+<h2 id="implied-move">Implied move</h2>
+<p>Giá quyền chọn tăng trước báo cáo vì trader kỳ vọng một nhịp biến động lớn. Điều này khiến quyền chọn trở thành thước đo hữu ích cho những gì thị trường đã kỳ vọng.</p>
+<p>Một cách ước tính nhanh <strong>implied move</strong> là giá của straddle at-the-money (một call và một put ở mức strike gần giá cổ phiếu nhất, đáo hạn ngay sau báo cáo). Một số trader nhân con số này với khoảng 0.85 để có ước tính sát hơn cho biên độ điển hình. Xem <a href="/vi/encyclopedia/options/implied-volatility/">biến động hàm ý</a> và <a href="/vi/encyclopedia/options/straddles-and-strangles/">straddle và strangle</a>.</p>
+<h3 id="v-d-minh-h-a-c-implied-move">Ví dụ minh họa: đọc implied move</h3>
+<p>Một cổ phiếu giao dịch ở 150 USD. Straddle at-the-money đáo hạn vào thứ Sáu sau báo cáo có giá 9.00 USD.</p>
+<ul>
+<li><strong>Implied move:</strong> 9 USD ÷ 150 USD = 6%, nên thị trường quyền chọn đang định giá một nhịp di chuyển đến khoảng 141 USD hoặc 159 USD.</li>
+<li><strong>So với lịch sử:</strong> qua tám báo cáo gần nhất, cổ phiếu di chuyển trung bình 4% vào ngày sau báo cáo. Quyền chọn có vẻ đắt so với quá khứ, dù các nhịp trước đây không đảm bảo cho tương lai.</li>
+<li><strong>IV crush:</strong> bạn mua straddle với giá 9.00 USD (900 USD cho một hợp đồng bao 100 cổ phiếu). Sau báo cáo cổ phiếu tăng 5 USD lên 155 USD. Call giờ đáng giá khoảng 5.40 USD và put khoảng 0.10 USD, tổng cộng 5.50 USD. Biến động hàm ý đã sụp đổ vì sự kiện đã qua. Bạn lỗ (9.00 USD − 5.50 USD) × 100 = 350 USD, dù cổ phiếu đã di chuyển 5 USD.</li>
+</ul>
+<p>Mua quyền chọn trước báo cáo chỉ có lãi khi biên độ vượt mức đã được định giá. Bán quyền chọn lúc đó thu về khoản phí này nhưng gánh rủi ro của một cú biến động quá lớn.</p>
+<h2 id="c-ch-1-gi-qua-b-o-c-o">Cách 1: giữ qua báo cáo</h2>
+<p>Giữ cổ phiếu qua báo cáo nghĩa là chấp nhận một cú gap. Lệnh dừng lỗ không bảo vệ được bạn, vì cổ phiếu mở cửa ở mức giá mới và lệnh dừng khớp tại đó (xem <a href="/vi/encyclopedia/stocks/gap-trading/">giao dịch gap</a>).</p>
+<p>Nếu bạn quyết định giữ qua:</p>
+<ul>
+<li><strong>Định kích thước theo gap, không theo điểm dừng lỗ.</strong> Nếu implied move là 8%, hãy giả định có thể xảy ra biến động 15% trở lên, và định kích thước sao cho không gây thiệt hại nghiêm trọng (xem <a href="/vi/encyclopedia/risk-management/position-sizing/">quy mô vị thế</a>).</li>
+<li><strong>Cân nhắc cấu trúc rủi ro xác định.</strong> Mua put bảo vệ cổ phiếu đang nắm, hoặc dùng <a href="/vi/encyclopedia/options/vertical-spreads/">vertical spread</a>, giới hạn mức lỗ để đổi lấy một khoản chi phí.</li>
+<li><strong>Biết rõ vì sao bạn giữ.</strong> Nhiều swing trader đơn giản là thoát trước báo cáo, vì kết quả về hướng gần như tung đồng xu (xem <a href="/vi/encyclopedia/stocks/swing-trading-stocks/">swing trading cổ phiếu</a>).</li>
+</ul>
+<h2 id="c-ch-2-giao-d-ch-ph-n-ng">Cách 2: giao dịch phản ứng</h2>
+<h3 id="gap-and-go">Gap and go</h3>
+<p>Cổ phiếu gap theo kết quả tốt và tiếp tục di chuyển cùng hướng trong suốt phiên. Trader tìm kiếm một bất ngờ lớn, guidance được nâng, khối lượng trước giờ mở cửa lớn và giá giữ được trên đỉnh trước giờ mở cửa hoặc trên vùng giá mở cửa. Điểm vào thường là khi phá vỡ vùng 5 đến 15 phút đầu, với lệnh dừng lỗ bên dưới vùng đó.</p>
+<h3 id="fade">Fade</h3>
+<p>Cổ phiếu gap nhưng nhịp đi có vẻ quá đà, chẳng hạn gap lên vào một vùng kháng cự dài hạn chỉ vì một kết quả vượt nhẹ, hoặc gap xuống vì một cú hụt kết quả nổi bật mà cuộc họp báo cáo làm dịu đi. Fade trader đặt cược gap sẽ lấp một phần. Fade đi ngược động lượng trước mắt, nên cần kiểm soát rủi ro chặt.</p>
+<h3 id="ch-n-gi-a-hai-c-ch">Chọn giữa hai cách</h3>
+<p>Không có quy tắc nào cho biết trước cách nào áp dụng. Một số manh mối thường gặp:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Nghiêng về tiếp diễn</th>
+<th>Nghiêng về fade</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vượt ước tính lớn và guidance được nâng</td>
+<td>Vượt nhẹ, guidance thận trọng</td>
+</tr>
+<tr>
+<td>Gap xuyên qua nền giá dài hoặc lên đỉnh mới</td>
+<td>Gap vào kháng cự lớn hoặc vào một gap trước đó</td>
+</tr>
+<tr>
+<td>Khối lượng tương đối rất cao và duy trì sau lúc mở cửa</td>
+<td>Khối lượng cạn dần sau vài phút đầu</td>
+</tr>
+<tr>
+<td>Giới phân tích nâng giá mục tiêu</td>
+<td>Nhịp đi do một con số tiêu đề duy nhất</td>
+</tr>
+</tbody></table></div>
+<h2 id="post-earnings-announcement-drift">Post-earnings announcement drift</h2>
+<p><strong>Post-earnings announcement drift (PEAD)</strong> là xu hướng cổ phiếu tiếp tục trôi theo hướng của bất ngờ về lợi nhuận trong nhiều tuần sau báo cáo. Ball và Brown mô tả hiện tượng này năm 1968, còn Bernard và Thomas ghi nhận chi tiết năm 1989. Lời giải thích thường gặp là nhà đầu tư phản ứng chưa đủ với thông tin mới và điều chỉnh chậm.</p>
+<p>PEAD ủng hộ việc giữ các phản ứng earnings đang thắng thay vì chốt lời ngay, và tránh mua những cổ phiếu giảm vì tin xấu chỉ vì chúng trông rẻ. Một số nghiên cứu sau này cho rằng hiệu ứng đã yếu đi, nhất là ở các cổ phiếu lớn, giao dịch dày, khi ngày càng nhiều trader tìm cách khai thác nó. Hãy coi nó là một xu hướng trên nhiều cổ phiếu, không phải dự báo cho từng lệnh riêng lẻ. Nó có liên hệ chặt với <a href="/vi/encyclopedia/stocks/momentum-trading/">giao dịch momentum</a>.</p>
+<h2 id="ki-m-so-t-r-i-ro-quanh-b-o-c-o">Kiểm soát rủi ro quanh báo cáo</h2>
+<ul>
+<li><strong>Kiểm tra ngày.</strong> Vô tình giữ qua báo cáo là một trong những sai lầm phổ biến và dễ tránh nhất.</li>
+<li><strong>Dùng lệnh giới hạn trong giờ mở rộng.</strong> Spread rộng và báo giá thay đổi nhanh.</li>
+<li><strong>Chờ cuộc họp.</strong> Guidance trong cuộc họp báo cáo có thể đảo ngược nhịp đi ban đầu.</li>
+<li><strong>Theo dõi các cổ phiếu liên quan.</strong> Kết quả của một nhà cung cấp hoặc đối thủ lớn thường kéo theo các cổ phiếu cùng ngành, nên giữ một cổ phiếu cùng ngành qua báo cáo của công ty khác cũng có rủi ro.</li>
+<li><strong>Giới hạn tổng mức rủi ro.</strong> Trong mùa báo cáo, nhiều cổ phiếu bạn đang giữ có thể báo cáo trong cùng một tuần.</li>
+</ul>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Mua quyền chọn trước báo cáo vì &quot;nó sẽ biến động mạnh&quot;.</strong> Nếu biên độ nhỏ hơn implied move, người mua quyền chọn thường thua.</li>
+<li><strong>Giao dịch theo con số tiêu đề.</strong> Doanh thu, biên lợi nhuận và guidance thường quan trọng hơn lợi nhuận trên mỗi cổ phiếu.</li>
+<li><strong>Đuổi theo mức giá đầu tiên sau giờ đóng cửa.</strong> Các nhịp đầu trên thanh khoản mỏng thường đảo chiều.</li>
+<li><strong>Cho rằng lệnh dừng lỗ giới hạn được mức lỗ.</strong> Gap khớp lệnh dừng ở giá mở cửa.</li>
+<li><strong>Coi PEAD là chắc chắn.</strong> Đó là một xu hướng thống kê, và nhiều cổ phiếu riêng lẻ đảo chiều.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="t-nh-bi-n-k-v-ng-cho-earnings-nh-th-n-o">Tính biên độ kỳ vọng cho earnings như thế nào?</h3>
+<p>Cách ước tính nhanh là lấy giá của straddle at-the-money đáo hạn ngay sau báo cáo, chia cho giá cổ phiếu. Một số trader nhân với khoảng 0.85 để có ước tính sát hơn cho biên độ điển hình.</p>
+<h3 id="t-i-c-n-n-gi-c-phi-u-qua-b-o-c-o-kh-ng">Tôi có nên giữ cổ phiếu qua báo cáo không?</h3>
+<p>Tùy kế hoạch và kích thước của bạn. Giữ qua báo cáo khiến bạn đối mặt với cú gap mà lệnh dừng lỗ không bảo vệ được, nên nhiều trader thoát hoặc giảm vị thế trước báo cáo, trong khi nhà đầu tư dài hạn thường giữ.</p>
+<h3 id="iv-crush-l-g">IV crush là gì?</h3>
+<p>IV crush là sự sụt giảm mạnh của biến động hàm ý sau một sự kiện như báo cáo lợi nhuận. Quyền chọn mất giá nhanh khi sự bất định đã được giải tỏa, có thể gây lỗ cho người mua quyền chọn ngay cả khi cổ phiếu di chuyển.</p>
+<h3 id="post-earnings-announcement-drift-l-g">Post-earnings announcement drift là gì?</h3>
+<p>Đó là xu hướng cổ phiếu tiếp tục di chuyển theo hướng của một bất ngờ về lợi nhuận trong nhiều tuần sau đó. Hiện tượng này được ghi nhận từ năm 1968, dù một số nghiên cứu cho rằng nó đã yếu đi ở các cổ phiếu lớn.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/fundamental-analysis/earnings-and-financial-statements/"><div class="k">Phân tích cơ bản và vĩ mô</div><b>Báo cáo thu nhập và tài chính</b><span>Cách đọc báo cáo kết quả kinh doanh, bảng cân đối và lưu chuyển tiền tệ, EPS và guidance nghĩa là gì, vì sao cổ phiếu biến động khi vượt hoặc hụt kỳ vọng.</span></a><a class="card" href="/vi/encyclopedia/options/implied-volatility/"><div class="k">Giao dịch quyền chọn</div><b>Biến động ngụ ý</b><span>Biến động hàm ý là gì, khác biến động lịch sử ra sao, IV rank và IV percentile, IV crush, skew, và công thức mức biến động kỳ vọng kèm ví dụ cụ thể.</span></a><a class="card" href="/vi/encyclopedia/options/straddles-and-strangles/"><div class="k">Giao dịch quyền chọn</div><b>Straddle và Strangle</b><span>Cách long và short straddle, strangle hoạt động, điểm hòa vốn kèm ví dụ số, hòa vốn so với biến động hàm ý, giao dịch báo cáo thu nhập và rủi ro đuôi.</span></a><a class="card" href="/vi/encyclopedia/stocks/gap-trading/"><div class="k">Giao dịch cổ phiếu</div><b>Giao dịch gap</b><span>Gap giá hình thành thế nào và trader giao dịch ra sao: gap thường, breakaway, runaway và exhaustion, lấp gap, opening range breakout và bộ quét gap.</span></a><a class="card" href="/vi/encyclopedia/stocks/swing-trading-stocks/"><div class="k">Giao dịch cổ phiếu</div><b>Swing trading cổ phiếu</b><span>Cách swing trader giữ cổ phiếu vài ngày đến vài tuần: breakout, nhịp lùi về đường trung bình, mô hình nền giá, rủi ro qua đêm và earnings, quản lý lệnh.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/stocks/premarket-and-after-hours-trading/"><small>← Bài trước</small>Giao dịch trước và sau giờ</a><a class="next" href="/vi/encyclopedia/stocks/gap-trading/"><small>Bài tiếp →</small>Giao dịch gap</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

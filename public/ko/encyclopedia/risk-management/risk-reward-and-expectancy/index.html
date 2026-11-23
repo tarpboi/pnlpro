@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>손익비와 기대값: 공식과 예시로 이해하기 | PnL Profit</title>
+<meta name="description" content="R 배수, 승률, 손익비가 어떻게 기대값을 만드는지 설명합니다. 공식, 손익분기 승률표, 승률이 높아도 돈을 잃는 이유를 다룹니다.">
+<meta name="keywords" content="손익비, 기대값 공식, 트레이딩 기대값, 손익분기 승률, R 배수, 승률과 손익비">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="손익비와 기대값: 공식과 예시로 이해하기 | PnL Profit">
+<meta property="og:description" content="R 배수, 승률, 손익비가 어떻게 기대값을 만드는지 설명합니다. 공식, 손익분기 승률표, 승률이 높아도 돈을 잃는 이유를 다룹니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/risk-management/risk-reward-and-expectancy/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="손익비와 기대값: 공식과 예시로 이해하기 | PnL Profit">
+<meta name="twitter:description" content="R 배수, 승률, 손익비가 어떻게 기대값을 만드는지 설명합니다. 공식, 손익분기 승률표, 승률이 높아도 돈을 잃는 이유를 다룹니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"손익비와 기대값: 공식과 예시로 이해하기","description":"R 배수, 승률, 손익비가 어떻게 기대값을 만드는지 설명합니다. 공식, 손익분기 승률표, 승률이 높아도 돈을 잃는 이유를 다룹니다.","keywords":"손익비, 기대값 공식, 트레이딩 기대값, 손익분기 승률, R 배수, 승률과 손익비","articleSection":"리스크 관리와 자금 관리","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/risk-management/risk-reward-and-expectancy/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"리스크 관리와 자금 관리","item":"https://pnlpro.fit/ko/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"손익비와 기대값","item":"https://pnlpro.fit/ko/encyclopedia/risk-management/risk-reward-and-expectancy/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"트레이딩에서 좋은 손익비는 얼마입니까?","acceptedAnswer":{"@type":"Answer","text":"승률에 따라 달라지므로 하나의 좋은 비율은 없습니다. 비용을 빼기 전 기준으로 1:1 손익비는 승률이 50%를 넘으면, 3:1 손익비는 승률이 25%를 넘으면 수익을 낼 수 있습니다. 중요한 것은 그 조합이며, 이는 기대값으로 측정합니다."}},{"@type":"Question","name":"트레이딩 기대값은 어떻게 계산합니까?","acceptedAnswer":{"@type":"Answer","text":"승률에 평균 수익을 곱한 뒤, 패율에 평균 손실을 곱한 값을 뺍니다. 예를 들어 0.40 × $250 − 0.60 × $100 = 트레이드당 $40입니다. 충분한 수의 트레이드에서 비용을 뺀 실현 결과를 쓰십시오."}},{"@type":"Question","name":"수익을 내려면 승률이 얼마나 되어야 합니까?","acceptedAnswer":{"@type":"Answer","text":"비용을 빼기 전 손익분기 승률은 1을 (1 + R)로 나눈 값이며, 여기서 R은 평균 수익을 평균 손실로 나눈 값입니다. 2R이라면 33.3% 넘게, 1R이라면 50% 넘게 이겨야 합니다. 비용은 이 수치를 더 끌어올립니다."}},{"@type":"Question","name":"R 배수란 무엇입니까?","acceptedAnswer":{"@type":"Answer","text":"R 배수는 트레이드의 손익을 처음에 건 금액으로 나눈 값입니다. $100를 걸고 $300를 벌면 +3R 트레이드입니다. R을 쓰면 포지션 크기가 서로 다른 트레이드와 전략을 쉽게 비교할 수 있습니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/risk-management/risk-reward-and-expectancy/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>리스크 관리와 자금 관리</h3><ul><li><a href="/ko/encyclopedia/risk-management/risk-management-fundamentals/">리스크 관리의 기본</a></li><li><a href="/ko/encyclopedia/risk-management/position-sizing/">포지션 사이징</a></li><li><a href="/ko/encyclopedia/risk-management/stop-loss-strategies/">손절 전략</a></li><li><a href="/ko/encyclopedia/risk-management/risk-reward-and-expectancy/" class="on" aria-current="page">손익비와 기대값</a></li><li><a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">낙폭과 파산 위험</a></li><li><a href="/ko/encyclopedia/risk-management/kelly-criterion/">켈리 기준</a></li><li><a href="/ko/encyclopedia/risk-management/correlation-and-portfolio-risk/">상관관계와 포트폴리오 리스크</a></li><li><a href="/ko/encyclopedia/risk-management/leverage-risk-and-black-swans/">레버리지 리스크와 블랙 스완</a></li><li><a href="/ko/encyclopedia/risk-management/trading-plan/">매매 계획 세우기</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/" class="on">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a></div>
+<h1 class="title">손익비와 기대값</h1>
+<div class="meta">5분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>리스크 관리와 자금 관리의 다른 글</summary><ul><li><a href="/ko/encyclopedia/risk-management/risk-management-fundamentals/">리스크 관리의 기본</a></li><li><a href="/ko/encyclopedia/risk-management/position-sizing/">포지션 사이징</a></li><li><a href="/ko/encyclopedia/risk-management/stop-loss-strategies/">손절 전략</a></li><li><a href="/ko/encyclopedia/risk-management/risk-reward-and-expectancy/" class="on" aria-current="page">손익비와 기대값</a></li><li><a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">낙폭과 파산 위험</a></li><li><a href="/ko/encyclopedia/risk-management/kelly-criterion/">켈리 기준</a></li><li><a href="/ko/encyclopedia/risk-management/correlation-and-portfolio-risk/">상관관계와 포트폴리오 리스크</a></li><li><a href="/ko/encyclopedia/risk-management/leverage-risk-and-black-swans/">레버리지 리스크와 블랙 스완</a></li><li><a href="/ko/encyclopedia/risk-management/trading-plan/">매매 계획 세우기</a></li></ul></details>
+<article><p>기대값(expectancy)은 트레이딩 전략이 많은 트레이드에 걸쳐 트레이드당 평균적으로 벌거나 잃는 금액입니다. 흔히 따로 이야기되는 두 숫자, 즉 얼마나 자주 이기는지와 수익이 손실에 비해 얼마나 큰지를 하나로 합칩니다. 기대값이 플러스인 전략도 오랫동안 질 수 있지만, 기대값이 마이너스인 전략은 승률이 아무리 높아도 시간이 지나면 돈을 잃습니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>R 배수는 트레이드 결과를 건 금액의 배수로 나타냅니다. $200를 걸고 $500를 벌면 +2.5R 트레이드입니다.</li>
+<li>기대값 = (승률 × 평균 수익) − (패율 × 평균 손실)입니다.</li>
+<li>손익비가 R일 때 비용을 빼기 전 손익분기 승률은 1 ÷ (1 + R)입니다.</li>
+<li>높은 승률은 그 자체로는 아무 의미가 없으며, 수익과 손실의 크기와 함께 판단해야 합니다.</li>
+<li>비용은 모든 트레이드의 기대값을 깎고 손익분기에 필요한 승률을 끌어올립니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#r">R 배수</a></li><li><a href="#section-3">기대값 공식</a></li><li><a href="#section-5">승률이 높아도 돈을 잃는 이유</a></li><li><a href="#section-6">손익분기 승률표</a></li><li><a href="#section-8">관련 지표</a></li><li><a href="#section-9">기대값은 평균이지 약속이 아니다</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="r">R 배수</h2>
+<p>R은 트레이드의 초기 리스크, 즉 손절가에 닿았을 때 잃는 금액입니다. 결과를 R로 나타내면 규모가 다른 트레이드끼리 비교할 수 있습니다.</p>
+<ul>
+<li>$200를 걸고 $500를 벌었다면: <strong>+2.5R</strong></li>
+<li>$200를 걸고 손절로 $200를 잃었다면: <strong>−1R</strong></li>
+<li>$200를 걸었는데 가격이 손절가를 갭으로 뛰어넘어 $300를 잃었다면: <strong>−1.5R</strong></li>
+</ul>
+<p>계획한 트레이드의 <strong>손익비</strong>(reward-to-risk ratio)는 목표가까지의 거리를 손절가까지의 거리로 나눈 값입니다. 손절이 $2, 목표가가 $6 떨어져 있는 트레이드의 계획 손익비는 3:1이며, 흔히 3R로 씁니다. 반대로 &quot;1:3 리스크 리워드&quot;라고 쓰기도 합니다. 어느 쪽이든 잠재 수익이 잠재 손실의 세 배라는 뜻입니다.</p>
+<p>계획한 R과 실현된 R은 다릅니다. 목표가에 항상 도달하지는 않고, 손절은 미끄러지며, 많은 트레이드가 일찍 청산됩니다. 기대값은 실현된 결과로 계산해야 하며, 이것이 <a href="/ko/encyclopedia/psychology/trading-journal/">매매일지</a>를 써야 하는 이유 중 하나입니다.</p>
+<h2 id="section-3">기대값 공식</h2>
+<p>금액 기준으로는 다음과 같습니다.</p>
+<p><strong>기대값 = (W × 평균 수익) − ((1 − W) × 평균 손실)</strong></p>
+<p>여기서 W는 소수로 나타낸 승률입니다.</p>
+<p>평균 손실이 약 1R이라면 R 기준으로는 다음과 같습니다.</p>
+<p><strong>기대값(R) = (W × R 기준 평균 수익) − (1 − W)</strong></p>
+<p>R 기준 기대값은 리스크 1단위당 평균 수익을 알려 줍니다. 여기에 트레이드당 금액 리스크를 곱하고 트레이드 횟수를 곱하면, 변동성을 고려하기 전 기간 전체의 기대 결과가 나옵니다.</p>
+<h3 id="section-4">예시: 승률이 낮아도 돈을 버는 전략</h3>
+<p>어떤 전략의 승률은 40%입니다. 평균 수익은 2.5R, 평균 손실은 1R입니다.</p>
+<ul>
+<li>기대값 = 0.40 × 2.5 − 0.60 × 1 = 1.0 − 0.6 = <strong>트레이드당 +0.4R</strong></li>
+</ul>
+<p>1R이 $100라면 이 전략은 트레이드당 평균 $40를 법니다. 100번 트레이드하면 기대 결과는 약 $4,000이지만, 실제 결과는 이보다 눈에 띄게 높거나 낮을 수 있습니다.</p>
+<h2 id="section-5">승률이 높아도 돈을 잃는 이유</h2>
+<p>100번의 트레이드에 걸친 두 시스템을 비교해 봅시다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>시스템 A</th>
+<th>시스템 B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>승률</td>
+<td>70%</td>
+<td>35%</td>
+</tr>
+<tr>
+<td>평균 수익</td>
+<td>$100</td>
+<td>$300</td>
+</tr>
+<tr>
+<td>평균 손실</td>
+<td>$300</td>
+<td>$100</td>
+</tr>
+<tr>
+<td>트레이드당 기대값</td>
+<td>0.70 × 100 − 0.30 × 300 = <strong>−$20</strong></td>
+<td>0.35 × 300 − 0.65 × 100 = <strong>+$40</strong></td>
+</tr>
+<tr>
+<td>100회 트레이드 기대 결과</td>
+<td>−$2,000</td>
+<td>+$4,000</td>
+</tr>
+</tbody></table></div>
+<p>시스템 A는 열 번 중 일곱 번을 이기는데도 돈을 잃습니다. 시스템 B는 세 번 중 거의 두 번을 지는데도 돈을 법니다. 대부분의 날에는 시스템 A로 매매하는 기분이 더 좋은데, 바로 그래서 이런 전략이 흔합니다.</p>
+<p>승률은 높지만 기대값이 마이너스인 패턴은 흔히 다음에서 나옵니다.</p>
+<ul>
+<li><strong>수익은 빨리 챙기고 손실은 내버려 두기.</strong> 처분 효과라고 하며, <a href="/ko/encyclopedia/psychology/cognitive-biases-in-trading/">트레이딩의 인지 편향</a>에서 설명합니다.</li>
+<li><strong>옵션 매도 등 꼬리 리스크를 파는 것.</strong> 작고 잦은 수익을 얻는 대신 가끔 큰 손실을 봅니다.</li>
+<li><strong>물타기나 마틴게일 사이징.</strong> 대부분의 손실 트레이드를 작은 수익으로 바꾸다가 어느 한 번이 아주 큰 손실이 됩니다.</li>
+<li><strong>거의 확실한 결과 사기.</strong> 예측 시장에서 YES를 $0.90에 사면 이길 때 $0.10를 벌고 질 때 $0.90를 잃습니다. 수수료 전 손익분기 승률이 90%이므로 승률 90%로는 본전일 뿐입니다. <a href="/ko/encyclopedia/prediction-markets/prediction-market-pricing/">예측 시장 가격</a>을 참고하십시오.</li>
+</ul>
+<h2 id="section-6">손익분기 승률표</h2>
+<p>평균 수익이 평균 손실의 R배인 전략이 비용을 빼기 전 본전을 맞추는 데 필요한 승률은 다음과 같습니다.</p>
+<p><strong>손익분기 승률 = 1 ÷ (1 + R)</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>평균 수익 ÷ 평균 손실(R)</th>
+<th>손익분기 승률</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.33(3을 걸어 1을 버는 구조)</td>
+<td>75.0%</td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>66.7%</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>50.0%</td>
+</tr>
+<tr>
+<td>1.5</td>
+<td>40.0%</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>33.3%</td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>25.0%</td>
+</tr>
+<tr>
+<td>4.0</td>
+<td>20.0%</td>
+</tr>
+</tbody></table></div>
+<p>전략은 실제 승률이 실제 손익비에 해당하는 손익분기 수치보다 높을 때만 수익을 냅니다. 승률 45%는 1.5R에서는 수익이 나고 1R에서는 손실이 납니다.</p>
+<h3 id="section-7">비용이 손익분기점을 움직이는 방식</h3>
+<p>스프레드, 수수료, 거래 비용, 펀딩비, 슬리피지 같은 비용은 모든 수익을 줄이고 모든 손실을 키웁니다. 왕복 비용이 평균 R 기준으로 c라면, 손익분기 승률은 다음과 같이 바뀝니다.</p>
+<p><strong>비용 반영 손익분기 승률 = (1 + c) ÷ (1 + R)</strong></p>
+<p>트레이드당 비용이 0.1R인 2R 전략이라면 손익분기 승률은 33.3%에서 1.1 ÷ 3 = 36.7%로 올라갑니다. 스캘핑처럼 목표가 작은 전략에서는 비용이 R의 큰 부분을 차지할 수 있어, 수익이 나 보이는 시스템을 손실 시스템으로 바꿀 수 있습니다. <a href="/ko/encyclopedia/basics/trading-costs-and-fees/">트레이딩 비용과 수수료</a>에서 자세히 계산해 봅니다.</p>
+<h2 id="section-8">관련 지표</h2>
+<ul>
+<li><strong>프로핏 팩터(profit factor)</strong> = 총수익 ÷ 총손실. 1.0을 넘으면 해당 표본에서 전략이 돈을 벌었다는 뜻입니다. 위의 시스템 B라면 프로핏 팩터 = (0.35 × 300) ÷ (0.65 × 100) = 105 ÷ 65 ≈ 1.62입니다.</li>
+<li><strong>트레이드당 평균 R</strong>은 R 기준 기대값과 같으며, 매매일지 데이터로 계산합니다.</li>
+<li><strong>승률</strong>과 <strong>손익비</strong>는 두 가지 재료이며, 어느 하나만으로는 의미가 없습니다.</li>
+</ul>
+<h2 id="section-9">기대값은 평균이지 약속이 아니다</h2>
+<p>플러스 기대값은 장기적인 결과를 설명합니다. 짧은 표본에서는 결과가 크게 흔들립니다. 승률 40%, 2R인 전략의 기대값은 트레이드당 +0.2R이지만, 임의의 10번 트레이드에서는 약 38%의 확률로 마이너스로 끝납니다. 10번 중 3번 이하로 이기는 일이 흔하기 때문입니다. 이런 변동성 때문에 <a href="/ko/encyclopedia/risk-management/position-sizing/">포지션 사이징</a>과 <a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">낙폭과 파산 위험</a>에서 다루듯 규모를 작게 유지합니다.</p>
+<p>기대값을 추정하려면 적당한 표본, 흔히 100번 이상의 트레이드가 필요하며, 과거 데이터에 맞춰진 백테스트에서는 크게 부풀려질 수 있습니다.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>승률만으로 전략 판단하기.</strong> 손익비 없이는 승률이 수익성에 대해 아무것도 말해 주지 않습니다.</li>
+<li><strong>실현 R 대신 계획 R 쓰기.</strong> 거의 닿지 않는 목표가 때문에 계획 손익비가 현실보다 좋아 보입니다.</li>
+<li><strong>비용 무시하기.</strong> 비용은 손익분기점을 움직이며, 때로는 크게 움직입니다.</li>
+<li><strong>10번이나 20번의 트레이드로 결론 내리기.</strong> 작은 표본은 운이 지배합니다.</li>
+<li><strong>수익을 &quot;확정&quot;하려고 일찍 자르기.</strong> 평균 수익이 줄어 기대값이 마이너스가 될 수 있습니다.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-12">트레이딩에서 좋은 손익비는 얼마입니까?</h3>
+<p>승률에 따라 달라지므로 하나의 좋은 비율은 없습니다. 비용을 빼기 전 기준으로 1:1 손익비는 승률이 50%를 넘으면, 3:1 손익비는 승률이 25%를 넘으면 수익을 낼 수 있습니다. 중요한 것은 그 조합이며, 이는 기대값으로 측정합니다.</p>
+<h3 id="section-13">트레이딩 기대값은 어떻게 계산합니까?</h3>
+<p>승률에 평균 수익을 곱한 뒤, 패율에 평균 손실을 곱한 값을 뺍니다. 예를 들어 0.40 × $250 − 0.60 × $100 = 트레이드당 $40입니다. 충분한 수의 트레이드에서 비용을 뺀 실현 결과를 쓰십시오.</p>
+<h3 id="section-14">수익을 내려면 승률이 얼마나 되어야 합니까?</h3>
+<p>비용을 빼기 전 손익분기 승률은 1을 (1 + R)로 나눈 값이며, 여기서 R은 평균 수익을 평균 손실로 나눈 값입니다. 2R이라면 33.3% 넘게, 1R이라면 50% 넘게 이겨야 합니다. 비용은 이 수치를 더 끌어올립니다.</p>
+<h3 id="r">R 배수란 무엇입니까?</h3>
+<p>R 배수는 트레이드의 손익을 처음에 건 금액으로 나눈 값입니다. $100를 걸고 $300를 벌면 +3R 트레이드입니다. R을 쓰면 포지션 크기가 서로 다른 트레이드와 전략을 쉽게 비교할 수 있습니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">리스크 관리와 자금 관리</div><b>리스크 관리의 기본</b><span>진입보다 리스크 관리가 중요한 이유, 트레이드당 리스크, 일일 손실 한도, 50% 손실의 수학, 트레이딩 리스크의 주요 유형을 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/risk-management/position-sizing/"><div class="k">리스크 관리와 자금 관리</div><b>포지션 사이징</b><span>계좌 리스크와 손절 거리로 포지션 크기를 계산하는 법. 고정 비율, 고정 금액, ATR 사이징을 주식·외환·암호화폐 예시로 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/risk-management/stop-loss-strategies/"><div class="k">리스크 관리와 자금 관리</div><b>손절 전략</b><span>구조, ATR, 퍼센트, 시간 기준 손절 설정법과 트레일링 스탑, 보장 손절, 갭, 스탑 헌팅, 익절 위치 정하는 법을 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/psychology/trading-journal/"><div class="k">트레이딩 심리</div><b>매매일지</b><span>매매일지에 기록할 내용과 항목 예시, 셋업과 실수 태그 달기, 주간 복기 절차, 계산할 지표를 계산 예시와 함께 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/risk-management/kelly-criterion/"><div class="k">리스크 관리와 자금 관리</div><b>켈리 기준</b><span>바이너리 베팅용 켈리 공식과 연속형 공식, 예측 시장 계약을 포함한 계산 예시, 대부분의 트레이더가 부분 켈리를 쓰는 이유를 설명합니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/risk-management/stop-loss-strategies/"><small>← 이전 글</small>손절 전략</a><a class="next" href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><small>다음 글 →</small>낙폭과 파산 위험</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

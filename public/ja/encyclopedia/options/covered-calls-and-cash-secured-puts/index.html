@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>カバードコールとキャッシュ・セキュアード・プット、ホイール戦略 | PnL Profit</title>
+<meta name="description" content="カバードコールとキャッシュ・セキュアード・プットの仕組み、損益と損益分岐点の計算例、ホイール戦略、上値の限定と割り当てのリスクを解説します。">
+<meta name="keywords" content="カバードコール 戦略, キャッシュ・セキュアード・プット, ホイール戦略 オプション, カバードコール 例, プット売り インカム">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="カバードコールとキャッシュ・セキュアード・プット、ホイール戦略 | PnL Profit">
+<meta property="og:description" content="カバードコールとキャッシュ・セキュアード・プットの仕組み、損益と損益分岐点の計算例、ホイール戦略、上値の限定と割り当てのリスクを解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="カバードコールとキャッシュ・セキュアード・プット、ホイール戦略 | PnL Profit">
+<meta name="twitter:description" content="カバードコールとキャッシュ・セキュアード・プットの仕組み、損益と損益分岐点の計算例、ホイール戦略、上値の限定と割り当てのリスクを解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"カバードコールとキャッシュ・セキュアード・プット、ホイール戦略","description":"カバードコールとキャッシュ・セキュアード・プットの仕組み、損益と損益分岐点の計算例、ホイール戦略、上値の限定と割り当てのリスクを解説します。","keywords":"カバードコール 戦略, キャッシュ・セキュアード・プット, ホイール戦略 オプション, カバードコール 例, プット売り インカム","articleSection":"オプション取引","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"オプション取引","item":"https://pnlpro.fit/ja/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"カバードコールとCSP","item":"https://pnlpro.fit/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"カバードコールは安全な戦略ですか？","acceptedAnswer":{"@type":"Answer","text":"カバードコールが株式を単独で保有するよりリスクが低いのは、受け取ったプレミアムの分だけです。株式の下値リスクはほぼすべて残り、権利行使価格を超える利益も手放します。"}},{"@type":"Question","name":"キャッシュ・セキュアード・プットが割り当てられるとどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"確保しておいた現金を使い、1枚につき100株を権利行使価格で買います。実質的な取得コストは、権利行使価格から受け取ったプレミアムを引いた額です。"}},{"@type":"Question","name":"オプションのホイール戦略とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"ホイールとは、割り当てを受けるまでキャッシュ・セキュアード・プットを売り、次にその株式でカバードコールを売り続けて株式が引き取られたら、また最初から始めるというサイクルです。成績は主に銘柄と、株価がどれだけ動くかで決まります。"}},{"@type":"Question","name":"カバードコールで損をすることはありますか？","acceptedAnswer":{"@type":"Answer","text":"あります。株価が受け取ったプレミアムを超えて下落すればポジションは損失になり、株価が急落すれば損失は大きくなり得ます。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/options/covered-calls-and-cash-secured-puts/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/covered-calls-and-cash-secured-puts/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/covered-calls-and-cash-secured-puts/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/covered-calls-and-cash-secured-puts/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>オプション取引</h3><ul><li><a href="/ja/encyclopedia/options/options-basics/">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/" class="on" aria-current="page">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">ガンマエクスポージャーとディーラー</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/" class="on">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/options/">オプション取引</a></div>
+<h1 class="title">カバードコールとキャッシュ・セキュアード・プット</h1>
+<div class="meta">約7分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>オプション取引の他の記事</summary><ul><li><a href="/ja/encyclopedia/options/options-basics/">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/" class="on" aria-current="page">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">ガンマエクスポージャーとディーラー</a></li></ul></details>
+<article><p>カバードコールとは、ある株を100株保有し、それを裏付けにコールオプションを売る戦略です。権利行使価格で株を売ることに同意する代わりにプレミアムを受け取ります。キャッシュ・セキュアード・プットはその鏡像となる戦略で、プットを売り、割り当てられたときに権利行使価格で100株を買えるだけの現金を確保しておきます。どちらも「インカム」戦略として人気があり、証券会社が最初に許可するオプション戦略の1つですが、プレミアムには見落としやすい現実のトレードオフが伴います。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>カバードコールは株式ポジションにプレミアム収入を上乗せしますが、上値を権利行使価格で頭打ちにする一方、下値のリスクはほぼすべて残ります。</li>
+<li>キャッシュ・セキュアード・プットは、より安い価格で株を買うのを待つ間にお金を受け取れる戦略ですが、株価が大きく下落していても権利行使価格で買わなければなりません。</li>
+<li>満期時点では、同じ権利行使価格・同じ満期のカバードコールとキャッシュ・セキュアード・プットは、よく似た損益の形になります。</li>
+<li>ホイール戦略は、同じ銘柄でプットの売りとコールの売りを繰り返すもので、うまくいくかどうかは選んだ銘柄次第です。</li>
+<li>どちらの戦略も大きな下落に対しては意味のある防御になりません。プレミアムは小さなクッションであり、保険ではありません。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">カバードコールの仕組み</a></li><li><a href="#section-4">キャッシュ・セキュアード・プットの仕組み</a></li><li><a href="#section-6">カバードコールとプットの売りは近い親戚</a></li><li><a href="#section-7">ホイール戦略</a></li><li><a href="#section-8">権利行使価格と満期の選び方</a></li><li><a href="#section-9">割り当てのリスク</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">カバードコールの仕組み</h2>
+<p>100株を保有しています。通常はアウト・オブ・ザ・マネーのコールを1枚売り、プレミアムを受け取ります。満期時には3つの結果があり得ます。</p>
+<ol>
+<li><strong>株価が権利行使価格を下回る：</strong> コールは無価値で満期を迎えます。株式とプレミアムの両方が手元に残ります。</li>
+<li><strong>株価が権利行使価格を上回る：</strong> コールが権利行使されます。株式を権利行使価格で売り、プレミアムは手元に残ります。</li>
+<li><strong>満期前：</strong> コールを買い戻して手仕舞うことができます。より先の満期や別の権利行使価格にロールするために行うことが多いです。</li>
+</ol>
+<h3 id="section-3">計算例：カバードコール</h3>
+<p>ある株を$50.00で100株買い、$5,000を支払います。残存30日、権利行使価格$55のコールを1枚$1.20で売り、$120を受け取ります。</p>
+<ul>
+<li><strong>最大利益：</strong> (権利行使価格 - 株の取得価格) + プレミアム = ($55 - $50) + $1.20 = 1株あたり$6.20、つまり$620。満期時の株価が$55以上ならいくらでもこの金額です。</li>
+<li><strong>損益分岐点：</strong> 株の取得価格 - プレミアム = $50.00 - $1.20 = $48.80。</li>
+<li><strong>最大損失：</strong> 株価がゼロになった場合、1株あたり$48.80、つまり$4,880。</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>満期時の株価</th>
+<th>株式の損益</th>
+<th>コールの損益</th>
+<th>合計</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$40</td>
+<td>-$1,000</td>
+<td>+$120</td>
+<td>-$880</td>
+</tr>
+<tr>
+<td>$48.80</td>
+<td>-$120</td>
+<td>+$120</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$50</td>
+<td>$0</td>
+<td>+$120</td>
+<td>+$120</td>
+</tr>
+<tr>
+<td>$55</td>
+<td>+$500</td>
+<td>+$120</td>
+<td>+$620</td>
+</tr>
+<tr>
+<td>$60</td>
+<td>+$1,000</td>
+<td>-$380</td>
+<td>+$620</td>
+</tr>
+<tr>
+<td>$70</td>
+<td>+$2,000</td>
+<td>-$1,380</td>
+<td>+$620</td>
+</tr>
+</tbody></table></div>
+<p>$60では満期時のコールの価値は$5.00なので、売りコールの損失は$500 - $120 = $380です。$70では$1,500 - $120 = $1,380の損失になります。株価がどれだけ上がっても、合計利益は$620のままです。コールを売っていなければ、$70の時点で株式だけで$2,000の利益が出ていました。この逃した利益こそがカバードコールの本当のコストです。$40では、プレミアムによって損失が$1,000から$880に減りましたが、クッションとしてはささやかです。</p>
+<h2 id="section-4">キャッシュ・セキュアード・プットの仕組み</h2>
+<p>プットを1枚売り、権利行使価格の100倍の現金を口座に保持しておきます。考えられる結果は次のとおりです。</p>
+<ol>
+<li><strong>満期時に株価が権利行使価格を上回る：</strong> プットは無価値で満期を迎え、プレミアムは手元に残ります。</li>
+<li><strong>株価が権利行使価格を下回る：</strong> 割り当てを受け、権利行使価格で100株を買います。実質的な取得コストは、権利行使価格からプレミアムを引いた額です。</li>
+</ol>
+<h3 id="section-5">計算例：キャッシュ・セキュアード・プット</h3>
+<p>株価は$50.00です。残存30日、権利行使価格$45のプットを1枚$1.00で売り、$100を受け取ります。$4,500の現金を確保しておきます。</p>
+<ul>
+<li><strong>最大利益：</strong> 満期時の株価が$45以上なら$100。</li>
+<li><strong>担保に対するリターン：</strong> プットが無価値で満期を迎えれば、$100 / $4,500 = 1か月で約2.2%。</li>
+<li><strong>損益分岐点：</strong> 権利行使価格 - プレミアム = $45.00 - $1.00 = $44.00。</li>
+<li><strong>最大損失：</strong> 株価がゼロになった場合、1株あたり$44.00、つまり$4,400。</li>
+</ul>
+<p>株価が$38まで下がって割り当てを受けると、$45で100株を買うことになります。実質的な取得コストは$44なので、($44 - $38) x 100 = $600の含み損を抱えます。プットを売らずにただ待っていれば、$38で株を買えたはずです。株価が$65まで上昇した場合、あなたの手元に残るのは$100ですが、$50で株を買った人は$1,500の利益を得ています。</p>
+<h2 id="section-6">カバードコールとプットの売りは近い親戚</h2>
+<p>満期時点では、100株を保有して特定の権利行使価格のコールを売ることは、同じ権利行使価格・同じ満期のプットを売ることとほぼ同じ損益になります。どちらも権利行使価格より上では一定の最大利益となり、下ではほぼ1ドル対1ドルで損失が出ます。この関係はプット・コール・パリティから生まれます。実務上の違いは、配当（株主が受け取る）、使う資金の額、割り当ての起こり方、口座の取引権限です。<a href="/ja/encyclopedia/options/options-basics/">オプションの基本</a>を参照してください。</p>
+<h2 id="section-7">ホイール戦略</h2>
+<p>ホイールはこの2つを組み合わせたものです。</p>
+<ol>
+<li>保有してもよいと思える銘柄で、キャッシュ・セキュアード・プットを売ります。</li>
+<li>割り当てを受けたら100株を保有することになるので、それを裏付けにカバードコールを売ります。</li>
+<li>株式が引き取られたら現金に戻ります。ステップ1に戻ります。</li>
+</ol>
+<p>どのステップでもプレミアムを受け取ります。支持者はルールに基づいた手順を好みます。弱点は上で見た損益の形から生じます。</p>
+<ul>
+<li><strong>強い上昇相場では、</strong> 株価がどんどん離れていく間も小さなプレミアムを得続けるだけで、上昇の初期段階で株を引き取られてしまうこともあります。</li>
+<li><strong>急落相場では、</strong> 市場価格をはるかに上回る価格で割り当てを受け、選択を迫られます。取得コストより低い権利行使価格でコールを売って損失を確定させるリスクを取るか、現在の株価よりはるかに上の権利行使価格でごくわずかなプレミアムのためにコールを売るかです。</li>
+<li><strong>最も重要なのは銘柄選択です。</strong> 弱い銘柄でのホイールは、下落する資産をゆっくり保有していく方法にすぎません。うまくいくとすれば、長期間保有しても構わない銘柄の場合です。</li>
+</ul>
+<h2 id="section-8">権利行使価格と満期の選び方</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>選択</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>現在値に近い権利行使価格</td>
+<td>プレミアムが多く、割り当ての確率が高く、上値（コール）や下値（プット）の余地が小さい</td>
+</tr>
+<tr>
+<td>遠い権利行使価格</td>
+<td>プレミアムが少なく、割り当ての確率が低い</td>
+</tr>
+<tr>
+<td>短い満期（1〜6週間）</td>
+<td>1日あたりのタイム・ディケイが速い。判断の回数と取引コストが増える</td>
+</tr>
+<tr>
+<td>長い満期</td>
+<td>受け取るプレミアムの総額が大きく、減少はゆっくりで、拘束期間が長い</td>
+</tr>
+<tr>
+<td>高いインプライド・ボラティリティ</td>
+<td>プレミアムが高いが、通常は大きな値動きが予想されているため</td>
+</tr>
+</tbody></table></div>
+<p>多くのトレーダーはオプションのデルタを大まかな目安にしています。デルタ0.20〜0.30の売りオプションは、おおむね20〜30%の確率でイン・ザ・マネーで満期を迎えると読まれることが多いです。<a href="/ja/encyclopedia/options/options-greeks/">オプションのグリークス</a>と<a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a>を参照してください。</p>
+<h2 id="section-9">割り当てのリスク</h2>
+<p>米国の株式オプションはアメリカン型なので、売ったコールやプットは満期時だけでなく、満期前のいつでも割り当てられる可能性があります。カバードコールの早期割り当ては、コールがディープ・イン・ザ・マネーで時間価値がほとんど残っていないとき、特に配当落ち日の前日に最も起こりやすくなります。株式が早期に引き取られると、次の配当を受け取れません。割り当ての仕組みは<a href="/ja/encyclopedia/options/options-expiration-and-assignment/">オプションの満期と割り当て</a>で解説しています。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>プレミアムを「タダのお金」と呼ぶ。</strong> プレミアムは、上値を手放すことや、下落局面で株を買うことに同意したことへの対価です。</li>
+<li><strong>手放したくない株でコールを売る。</strong> 株価が権利行使価格を超えて上昇すれば、株式は引き取られる可能性があります。</li>
+<li><strong>保有したくない株でプットを売る。</strong> まず銘柄で選び、プレミアムはその次です。</li>
+<li><strong>高いプレミアムを追いかける。</strong> 異常に高いプレミアムは、決算やバイオ株の治験結果など、市場が大きな値動きを予想していることを意味するのが普通です。</li>
+<li><strong>下落後、計画なしに取得コストより低い権利行使価格でコールを売る。</strong> 株価が反発すると、損失を確定させることになりかねません。</li>
+<li><strong>信用取引を使いすぎる。</strong> 信用で売った「キャッシュ・セキュアード」プットは、もはやキャッシュ・セキュアードではなく、損失もそれに応じて膨らみます。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-12">カバードコールは安全な戦略ですか？</h3>
+<p>カバードコールが株式を単独で保有するよりリスクが低いのは、受け取ったプレミアムの分だけです。株式の下値リスクはほぼすべて残り、権利行使価格を超える利益も手放します。</p>
+<h3 id="section-13">キャッシュ・セキュアード・プットが割り当てられるとどうなりますか？</h3>
+<p>確保しておいた現金を使い、1枚につき100株を権利行使価格で買います。実質的な取得コストは、権利行使価格から受け取ったプレミアムを引いた額です。</p>
+<h3 id="section-14">オプションのホイール戦略とは何ですか？</h3>
+<p>ホイールとは、割り当てを受けるまでキャッシュ・セキュアード・プットを売り、次にその株式でカバードコールを売り続けて株式が引き取られたら、また最初から始めるというサイクルです。成績は主に銘柄と、株価がどれだけ動くかで決まります。</p>
+<h3 id="section-15">カバードコールで損をすることはありますか？</h3>
+<p>あります。株価が受け取ったプレミアムを超えて下落すればポジションは損失になり、株価が急落すれば損失は大きくなり得ます。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/options/options-basics/"><div class="k">オプション取引</div><b>オプションの基礎</b><span>コールとプット、権利行使価格、満期、プレミアム、本質的価値と時間価値、マネーネス、買い手と売り手の損益、取引レベルを具体例で解説します。</span></a><a class="card" href="/ja/encyclopedia/options/options-expiration-and-assignment/"><div class="k">オプション取引</div><b>満期と権利割当</b><span>権利行使と割り当ての仕組み、配当前の早期割り当て、$0.01 ITMでの自動権利行使、ピン・リスク、SPXとSPYの決済の違い、時間外のリスクを解説。</span></a><a class="card" href="/ja/encyclopedia/options/options-greeks/"><div class="k">オプション取引</div><b>グリークス</b><span>デルタ、ガンマ、セータ、ベガ、ローが何を測るのかを計算例で解説。時間やマネーネスによる変化、ポジション・グリークスの読み方も紹介します。</span></a><a class="card" href="/ja/encyclopedia/options/vertical-spreads/"><div class="k">オプション取引</div><b>バーティカルスプレッド</b><span>ブル・コール、ベア・プット、ブル・プット、ベア・コールの4つのバーティカル・スプレッドの仕組みを、最大利益・最大損失・損益分岐点の計算例で解説。</span></a><a class="card" href="/ja/encyclopedia/options/implied-volatility/"><div class="k">オプション取引</div><b>インプライド・ボラティリティ</b><span>IVとヒストリカル・ボラティリティの違い、IVランクとIVパーセンタイル、IVクラッシュ、スキュー、予想変動幅の計算式を例を使って解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/options/implied-volatility/"><small>← 前へ</small>インプライド・ボラティリティ</a><a class="next" href="/ja/encyclopedia/options/vertical-spreads/"><small>次へ →</small>バーティカルスプレッド</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

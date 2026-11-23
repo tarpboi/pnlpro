@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Money Concepts (ICT): order block, FVG và thanh khoản</title>
+<meta name="description" content="Hướng dẫn trung lập về smart money concepts: liquidity sweep, order block, fair value gap, phá vỡ cấu trúc, premium/discount, kill zone và bằng chứng thực tế.">
+<meta name="keywords" content="smart money concepts, giao dịch ict, order block, fair value gap, liquidity sweep, smc là gì">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/smart-money-concepts/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Smart Money Concepts (ICT): order block, FVG và thanh khoản">
+<meta property="og:description" content="Hướng dẫn trung lập về smart money concepts: liquidity sweep, order block, fair value gap, phá vỡ cấu trúc, premium/discount, kill zone và bằng chứng thực tế.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/technical-analysis/smart-money-concepts/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Smart Money Concepts (ICT): order block, FVG và thanh khoản">
+<meta name="twitter:description" content="Hướng dẫn trung lập về smart money concepts: liquidity sweep, order block, fair value gap, phá vỡ cấu trúc, premium/discount, kill zone và bằng chứng thực tế.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Smart Money Concepts (ICT): order block, FVG và thanh khoản","description":"Hướng dẫn trung lập về smart money concepts: liquidity sweep, order block, fair value gap, phá vỡ cấu trúc, premium/discount, kill zone và bằng chứng thực tế.","keywords":"smart money concepts, giao dịch ict, order block, fair value gap, liquidity sweep, smc là gì","articleSection":"Phân tích kỹ thuật","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/technical-analysis/smart-money-concepts/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Phân tích kỹ thuật","item":"https://pnlpro.fit/vi/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"Smart Money Concepts (ICT)","item":"https://pnlpro.fit/vi/encyclopedia/technical-analysis/smart-money-concepts/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"ICT hay smart money trading có thực sự hiệu quả không?","acceptedAnswer":{"@type":"Answer","text":"Không có bằng chứng độc lập cho thấy SMC như một phương pháp tạo ra lợi thế. Một số thành phần của nó, như việc lệnh dừng lỗ tập trung gần các mức dễ thấy và biến động đầu phiên, là có thật, nhưng đó là những ý tưởng đã được biết từ lâu, và kết quả phụ thuộc vào quy tắc và kỷ luật của từng trader."}},{"@type":"Question","name":"Order block trong giao dịch là gì?","acceptedAnswer":{"@type":"Answer","text":"Trong SMC, order block thường là cây nến ngược màu cuối cùng trước một nhịp di chuyển mạnh, dồn dập, được coi là vùng mà các tổ chức có thể đã đặt lệnh. Trong phân tích kỹ thuật cổ điển, về cơ bản nó là một vùng cung hoặc cầu."}},{"@type":"Question","name":"Fair value gap là gì?","acceptedAnswer":{"@type":"Answer","text":"Fair value gap là mô hình ba nến, trong đó nến giữa mạnh để lại một khoảng giá mà nến thứ nhất và nến thứ ba không chồng lên. Trader SMC kỳ vọng giá sẽ quay lại khoảng giá đó, tương tự ý tưởng cổ điển về việc gap được lấp."}},{"@type":"Question","name":"Smart money concepts có phải chỉ là price action không?","acceptedAnswer":{"@type":"Answer","text":"Phần lớn là vậy. Hầu hết khái niệm SMC tương ứng với các ý tưởng price action đã có như phá vỡ giả, vùng cung và cầu, cấu trúc xu hướng và các mức hồi, được mô tả bằng thuật ngữ mới cùng một câu chuyện về hành vi của các tổ chức."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/smart-money-concepts/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/smart-money-concepts/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/smart-money-concepts/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/smart-money-concepts/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/smart-money-concepts/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/smart-money-concepts/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/smart-money-concepts/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/smart-money-concepts/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/smart-money-concepts/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Phân tích kỹ thuật</h3><ul><li><a href="/vi/encyclopedia/technical-analysis/technical-analysis-intro/">Nhập môn phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-charts/">Đọc biểu đồ nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-patterns/">Mô hình nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/support-and-resistance/">Hỗ trợ và kháng cự</a></li><li><a href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/">Xu hướng và cấu trúc thị trường</a></li><li><a href="/vi/encyclopedia/technical-analysis/chart-patterns/">Mô hình giá</a></li><li><a href="/vi/encyclopedia/technical-analysis/moving-averages/">Đường trung bình động</a></li><li><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/vi/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/vi/encyclopedia/technical-analysis/bollinger-bands/">Dải Bollinger</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-analysis/">Phân tích khối lượng</a></li><li><a href="/vi/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/vi/encyclopedia/technical-analysis/fibonacci-retracement/">Công cụ Fibonacci</a></li><li><a href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR và biến động</a></li><li><a href="/vi/encyclopedia/technical-analysis/multi-timeframe-analysis/">Phân tích đa khung thời gian</a></li><li><a href="/vi/encyclopedia/technical-analysis/price-action-trading/">Giao dịch price action</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile và Market Profile</a></li><li><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/">Giao dịch order flow</a></li><li><a href="/vi/encyclopedia/technical-analysis/smart-money-concepts/" class="on" aria-current="page">Smart Money Concepts (ICT)</a></li><li><a href="/vi/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Sóng Elliott và Wyckoff</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/" class="on">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a></div>
+<h1 class="title">Smart Money Concepts (SMC và ICT)</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Phân tích kỹ thuật</summary><ul><li><a href="/vi/encyclopedia/technical-analysis/technical-analysis-intro/">Nhập môn phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-charts/">Đọc biểu đồ nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-patterns/">Mô hình nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/support-and-resistance/">Hỗ trợ và kháng cự</a></li><li><a href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/">Xu hướng và cấu trúc thị trường</a></li><li><a href="/vi/encyclopedia/technical-analysis/chart-patterns/">Mô hình giá</a></li><li><a href="/vi/encyclopedia/technical-analysis/moving-averages/">Đường trung bình động</a></li><li><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/vi/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/vi/encyclopedia/technical-analysis/bollinger-bands/">Dải Bollinger</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-analysis/">Phân tích khối lượng</a></li><li><a href="/vi/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/vi/encyclopedia/technical-analysis/fibonacci-retracement/">Công cụ Fibonacci</a></li><li><a href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR và biến động</a></li><li><a href="/vi/encyclopedia/technical-analysis/multi-timeframe-analysis/">Phân tích đa khung thời gian</a></li><li><a href="/vi/encyclopedia/technical-analysis/price-action-trading/">Giao dịch price action</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile và Market Profile</a></li><li><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/">Giao dịch order flow</a></li><li><a href="/vi/encyclopedia/technical-analysis/smart-money-concepts/" class="on" aria-current="page">Smart Money Concepts (ICT)</a></li><li><a href="/vi/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Sóng Elliott và Wyckoff</a></li></ul></details>
+<article><p>Smart money concepts (SMC) là một họ ý tưởng price action xây trên tiền đề rằng các tổ chức lớn (&quot;smart money&quot;, tiền thông minh) đẩy giá để kích hoạt các lệnh dừng lỗ của trader cá nhân rồi đảo chiều. Cách tiếp cận này được phổ biến phần lớn nhờ Michael J. Huddleston, người giảng dạy dưới tên Inner Circle Trader (ICT), và lan truyền qua YouTube, mạng xã hội và các khóa cố vấn trả phí, nhất là trong giới trader forex, hợp đồng tương lai chỉ số và prop firm. Hầu hết ý tưởng SMC là những cái tên mới cho các khái niệm phân tích kỹ thuật cũ, và không có hệ thống bằng chứng độc lập nào cho thấy phương pháp này nói chung tạo ra lợi thế.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Từ vựng cốt lõi của SMC gồm bể thanh khoản và sweep, order block, fair value gap, phá vỡ cấu trúc, vùng premium và discount, và kill zone.</li>
+<li>Gần như mọi khái niệm đều ứng với một ý tưởng đã có: quét dừng lỗ (stop run), vùng cung và cầu, gap, cấu trúc xu hướng kiểu Dow, hồi 50 phần trăm và thời điểm trong phiên.</li>
+<li>Phần có cơ sở thực sự thì hẹp: lệnh dừng lỗ có tập trung gần các đỉnh, đáy và con số tròn dễ thấy, và việc kích hoạt chúng có thể làm nhịp di chuyển tăng tốc.</li>
+<li>Câu chuyện rộng hơn rằng các tổ chức cố tình dàn dựng mọi nhịp đi của giá không thể kiểm chứng theo cách nó được phát biểu và không được nghiên cứu độc lập ủng hộ.</li>
+<li>SMC được tiếp thị rất mạnh, thường đi kèm các thử thách prop firm và khóa cố vấn trả phí, nên hãy đánh giá các tuyên bố và lịch sử kết quả một cách hoài nghi.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#c-c-kh-i-ni-m-c-t-l-i">Các khái niệm cốt lõi</a></li><li><a href="#i-chi-u-smc-v-i-ph-n-t-ch-k-thu-t-c-i-n">Đối chiếu SMC với phân tích kỹ thuật cổ điển</a></li><li><a href="#b-ng-ch-ng-n-i-g">Bằng chứng nói gì</a></li><li><a href="#ho-t-ng-ti-p-th-xung-quanh-smc">Hoạt động tiếp thị xung quanh SMC</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="c-c-kh-i-ni-m-c-t-l-i">Các khái niệm cốt lõi</h2>
+<h3 id="b-thanh-kho-n-v-sweep">Bể thanh khoản và sweep</h3>
+<p>Trong SMC, <strong>thanh khoản (liquidity)</strong> nghĩa là các cụm lệnh đang chờ, đặc biệt là lệnh dừng lỗ, nằm ngay bên ngoài các đỉnh swing, đáy swing, các đỉnh hoặc đáy bằng nhau và đường xu hướng dễ thấy. <strong>Liquidity sweep</strong> (hay &quot;stop hunt&quot;, &quot;liquidity grab&quot;) là một cú đẩy nhanh vượt qua một mức như vậy để kích hoạt các lệnh dừng lỗ đó, rồi đảo chiều.</p>
+<p><strong>Ví dụ.</strong> Một cặp tiền đã tạo hai đỉnh ở 1.2500 và 1.2502, mô hình mà SMC gọi là &quot;equal highs&quot; (đỉnh bằng nhau), với các lệnh buy stop có khả năng đến từ bên bán khống nằm phía trên. Giá vọt lên 1.2515, rồi đóng cửa giờ đó quay lại 1.2480. Trader SMC đọc đây là cú sweep thanh khoản phía mua và tìm thiết lập bán khống.</p>
+<p>Theo thuật ngữ cổ điển, đây là <strong>breakout thất bại</strong> hay phá vỡ giả, cùng ý tưởng với &quot;upthrust&quot; của Wyckoff. Xem <a href="/vi/encyclopedia/technical-analysis/price-action-trading/">giao dịch price action</a>.</p>
+<h3 id="break-of-structure-v-change-of-character">Break of structure và change of character</h3>
+<p><strong>Break of structure (BOS)</strong> là khi giá phá một đỉnh swing trước đó trong xu hướng tăng hoặc một đáy swing trong xu hướng giảm, xác nhận xu hướng tiếp tục. <strong>Change of character (CHoCH)</strong> là lần phá vỡ đầu tiên ngược xu hướng, chẳng hạn đáy thấp hơn đầu tiên sau một chuỗi đáy cao dần, được coi là tín hiệu đảo chiều sớm. Đây chính là định nghĩa xu hướng đỉnh cao hơn, đáy cao hơn của lý thuyết Dow và phân tích <a href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/">cấu trúc thị trường</a> cổ điển.</p>
+<h3 id="order-block">Order block</h3>
+<p><strong>Order block</strong> thường được định nghĩa là cây nến ngược màu cuối cùng trước một nhịp di chuyển mạnh, dồn dập: cây nến giảm cuối cùng trước một đợt tăng vọt (order block tăng) hoặc cây nến tăng cuối cùng trước một đợt giảm mạnh (order block giảm). Lý thuyết cho rằng các tổ chức đã đặt lệnh lớn ở đó và có thể bảo vệ vùng này khi giá quay lại. Trader đánh dấu biên độ của cây nến như một vùng để vào lệnh.</p>
+<p>Theo thuật ngữ cổ điển, order block là một <strong>vùng cung hoặc cầu</strong>, liên quan chặt chẽ với <a href="/vi/encyclopedia/technical-analysis/support-and-resistance/">hỗ trợ và kháng cự</a>. Định nghĩa khác nhau giữa các người dạy, chẳng hạn dùng thân nến hay toàn bộ biên độ, khiến order block mang tính chủ quan trên thực tế.</p>
+<h3 id="fair-value-gap">Fair value gap</h3>
+<p><strong>Fair value gap (FVG)</strong> là mô hình ba nến, trong đó nến giữa di chuyển mạnh đến mức đỉnh của nến thứ nhất và đáy của nến thứ ba (trong một đợt tăng) không chồng lên nhau. Khoảng trống chưa được lấp được xem là một sự mất cân bằng mà giá có thể quay lại để &quot;lấp&quot;.</p>
+<p><strong>Ví dụ.</strong> Nến 1 có đỉnh 100.40. Nến 2 tăng mạnh từ 100.30 lên 102.10. Nến 3 có đáy 101.20. Fair value gap là từ 100.40 đến 101.20, một vùng rộng 0.80 mà nến 1 và nến 3 chưa từng cùng giao dịch qua. Trader SMC có thể tìm mua nếu giá hồi vào vùng đó.</p>
+<p>Theo thuật ngữ cổ điển, nó giống một gap hoặc một &quot;single print&quot; hay vùng khối lượng thấp trong phân tích <a href="/vi/encyclopedia/technical-analysis/volume-profile-and-market-profile/">volume profile và market profile</a>: một khoảng giá bị lao qua nhanh với rất ít giao dịch hai chiều.</p>
+<h3 id="premium-v-discount">Premium và discount</h3>
+<p>SMC chia một vùng giao dịch thành nửa <strong>premium</strong> (trên điểm giữa 50 phần trăm, hay &quot;equilibrium&quot;) và nửa <strong>discount</strong> (dưới điểm đó). Nguyên tắc là mua ở discount và bán ở premium. Nhiều người dạy SMC cũng đánh dấu vùng <strong>optimal trade entry (OTE)</strong> ở khoảng mức hồi 62 đến 79 phần trăm.</p>
+<p><strong>Ví dụ.</strong> Một nhịp giá chạy từ đáy 95.00 lên đỉnh 105.00. Equilibrium là 100.00. Dưới 100.00 là discount. Vùng OTE cho lệnh mua là mức hồi 62 đến 79 phần trăm: 105.00 − 6.20 = 98.80 xuống 105.00 − 7.90 = 97.10.</p>
+<p>Theo thuật ngữ cổ điển, đây là mức hồi 50 phần trăm và vùng <a href="/vi/encyclopedia/technical-analysis/fibonacci-retracement/">Fibonacci</a> 61.8 đến 78.6 phần trăm, vốn có cùng vấn đề về bằng chứng.</p>
+<h3 id="kill-zone">Kill zone</h3>
+<p><strong>Kill zone</strong> là các khung giờ mà trader SMC kỳ vọng có những nhịp di chuyển đáng kể nhất, thường quanh giờ mở cửa London và New York, được xác định theo giờ New York. Giờ chính xác khác nhau giữa các người dạy và các phiên bản. Quan sát nền tảng rằng khối lượng và biến động tập trung quanh giờ mở cửa các phiên lớn và các lần công bố dữ liệu là điều đã được xác lập rõ. Xem <a href="/vi/encyclopedia/forex/forex-trading-sessions/">các phiên giao dịch forex</a>.</p>
+<h2 id="i-chi-u-smc-v-i-ph-n-t-ch-k-thu-t-c-i-n">Đối chiếu SMC với phân tích kỹ thuật cổ điển</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Thuật ngữ SMC</th>
+<th>Khái niệm cổ điển gần nhất</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bể thanh khoản</td>
+<td>Cụm lệnh dừng lỗ nằm ngoài các điểm swing và con số tròn</td>
+</tr>
+<tr>
+<td>Liquidity sweep / stop hunt</td>
+<td>Phá vỡ giả, breakout thất bại, spring hoặc upthrust của Wyckoff</td>
+</tr>
+<tr>
+<td>Break of structure</td>
+<td>Xu hướng tiếp diễn qua đỉnh cao hơn hoặc đáy thấp hơn (lý thuyết Dow)</td>
+</tr>
+<tr>
+<td>Change of character</td>
+<td>Lần phá vỡ cấu trúc đầu tiên ngược xu hướng</td>
+</tr>
+<tr>
+<td>Order block</td>
+<td>Vùng cung hoặc cầu; hỗ trợ hoặc kháng cự</td>
+</tr>
+<tr>
+<td>Fair value gap</td>
+<td>Gap, mất cân bằng, single prints, vùng khối lượng thấp</td>
+</tr>
+<tr>
+<td>Premium / discount</td>
+<td>Trên hoặc dưới mức hồi 50 phần trăm của một vùng giá</td>
+</tr>
+<tr>
+<td>Optimal trade entry</td>
+<td>Mức hồi Fibonacci 61.8 đến 78.6 phần trăm</td>
+</tr>
+<tr>
+<td>Kill zones</td>
+<td>Biến động đầu phiên, hiệu ứng theo giờ trong ngày</td>
+</tr>
+</tbody></table></div>
+<h2 id="b-ng-ch-ng-n-i-g">Bằng chứng nói gì</h2>
+<p><strong>Điều có cơ sở.</strong> Lệnh dừng lỗ có tập trung thành cụm. Nghiên cứu của nhà kinh tế Carol Osler, dùng dữ liệu lệnh từ một dealer ngoại hối lớn, cho thấy lệnh dừng lỗ và chốt lời tập trung gần các con số tròn, và các lệnh dừng lỗ bị kích hoạt có thể lan truyền nhịp di chuyển của giá. Các hiệu ứng thời điểm trong phiên lên khối lượng và biến động cũng được ghi nhận rõ. Vì vậy ý tưởng rằng giá đôi khi vọt qua một mức dễ thấy, kích hoạt các lệnh dừng lỗ rồi đảo chiều là hợp lý.</p>
+<p><strong>Điều thiếu cơ sở.</strong> Không có hệ thống nghiên cứu độc lập, được bình duyệt nào cho thấy giao dịch theo các thiết lập SMC tạo ra lợi suất vượt mức mà may rủi và chi phí dự đoán. Câu chuyện rộng hơn, rằng các tổ chức hay &quot;thuật toán&quot; cố tình dàn dựng từng nhịp đi để săn lệnh dừng lỗ của nhà đầu tư cá nhân, thường được trình bày như sự thật nhưng không thể kiểm tra theo dạng nó được phát biểu. Kết quả nào cũng có thể giải thích sau sự việc: nếu giá đảo chiều tại một order block thì block đó &quot;đã giữ được&quot;; nếu không thì nó đã bị &quot;mitigated&quot; (giảm thiểu), một cú sweep vẫn đang chờ, hoặc trader đã chọn sai block. Một khung phân tích giải thích được mọi kết quả thì không dự đoán được kết quả nào.</p>
+<p>Những người tham gia thị trường lớn có quan tâm đến thanh khoản, vì họ cần đối tác để khớp các lệnh lớn. Đó là một tuyên bố khác với việc nói rằng họ lái giá về phía các lệnh dừng lỗ của nhà đầu tư cá nhân trên biểu đồ 5 phút. Bài <a href="/vi/encyclopedia/basics/market-participants/">những người tham gia thị trường</a> mô tả ai thực sự đứng ở phía bên kia các giao dịch.</p>
+<h2 id="ho-t-ng-ti-p-th-xung-quanh-smc">Hoạt động tiếp thị xung quanh SMC</h2>
+<p>SMC có một hệ sinh thái thương mại lớn: khóa cố vấn trả phí, nhóm tín hiệu, gói chỉ báo và các tài khoản mạng xã hội khoe những khoản lãi lớn hay các lần nhận tiền từ tài khoản được cấp vốn. Phần lớn có liên quan đến <a href="/vi/encyclopedia/trading-business/prop-firms-and-funded-accounts/">thử thách prop firm</a>, nơi mô hình kinh doanh phụ thuộc nhiều vào phí đánh giá, và đến hoa hồng giới thiệu của broker hay prop firm. Ảnh chụp màn hình lợi nhuận rất dễ chọn lọc hoặc làm giả, và lịch sử kết quả đã được xác minh, kiểm toán là hiếm trong toàn thị trường giáo dục giao dịch. Xem <a href="/vi/encyclopedia/trading-business/trading-education-and-gurus/">khóa học, guru và tín hiệu</a> để biết cách đánh giá bất kỳ người dạy nào.</p>
+<p>Điều này không có nghĩa mọi trader SMC đều thua lỗ. Một số trader dùng từ vựng của nó như một cách có cấu trúc để đọc price action và quản lý rủi ro. Giá trị, nếu có, đến từ quy tắc nhất quán, kiểm soát rủi ro và thực thi, chứ không phải từ thuật ngữ.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Coi câu chuyện là sự thật.</strong> &quot;Smart money đã săn các lệnh dừng lỗ&quot; là một cách diễn giải, không phải một quan sát.</li>
+<li><strong>Quá nhiều vùng chồng lấn.</strong> Với order block, FVG, OTE và các mức thanh khoản trên mọi khung thời gian, gần như mọi mức giá đều gần một &quot;điểm quan tâm&quot;.</li>
+<li><strong>Dời định nghĩa cho khớp.</strong> Gắn nhãn lại một order block thất bại thành một cái mới che giấu các khoản lỗ khỏi chính việc xem lại của bạn.</li>
+<li><strong>Dừng lỗ siêu nhỏ và tỷ lệ lợi nhuận trên rủi ro tuyên bố khổng lồ.</strong> Dừng lỗ rất chặt có thể làm tỷ lệ lợi nhuận trên rủi ro giả định trông lớn trong khi tỷ lệ thắng giảm mạnh.</li>
+<li><strong>Mua khóa cố vấn đắt tiền mà không xác minh kết quả.</strong></li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="ict-hay-smart-money-trading-c-th-c-s-hi-u-qu-kh-ng">ICT hay smart money trading có thực sự hiệu quả không?</h3>
+<p>Không có bằng chứng độc lập cho thấy SMC như một phương pháp tạo ra lợi thế. Một số thành phần của nó, như việc lệnh dừng lỗ tập trung gần các mức dễ thấy và biến động đầu phiên, là có thật, nhưng đó là những ý tưởng đã được biết từ lâu, và kết quả phụ thuộc vào quy tắc và kỷ luật của từng trader.</p>
+<h3 id="order-block-trong-giao-d-ch-l-g">Order block trong giao dịch là gì?</h3>
+<p>Trong SMC, order block thường là cây nến ngược màu cuối cùng trước một nhịp di chuyển mạnh, dồn dập, được coi là vùng mà các tổ chức có thể đã đặt lệnh. Trong phân tích kỹ thuật cổ điển, về cơ bản nó là một vùng cung hoặc cầu.</p>
+<h3 id="fair-value-gap-l-g">Fair value gap là gì?</h3>
+<p>Fair value gap là mô hình ba nến, trong đó nến giữa mạnh để lại một khoảng giá mà nến thứ nhất và nến thứ ba không chồng lên. Trader SMC kỳ vọng giá sẽ quay lại khoảng giá đó, tương tự ý tưởng cổ điển về việc gap được lấp.</p>
+<h3 id="smart-money-concepts-c-ph-i-ch-l-price-action-kh-ng">Smart money concepts có phải chỉ là price action không?</h3>
+<p>Phần lớn là vậy. Hầu hết khái niệm SMC tương ứng với các ý tưởng price action đã có như phá vỡ giả, vùng cung và cầu, cấu trúc xu hướng và các mức hồi, được mô tả bằng thuật ngữ mới cùng một câu chuyện về hành vi của các tổ chức.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/"><div class="k">Phân tích kỹ thuật</div><b>Xu hướng và cấu trúc thị trường</b><span>Cách trader xác định xu hướng tăng, giảm và vùng đi ngang bằng đỉnh đáy dao động, đường xu hướng, kênh giá, phá vỡ cấu trúc và chỉ báo ADX đo sức mạnh xu hướng.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/support-and-resistance/"><div class="k">Phân tích kỹ thuật</div><b>Hỗ trợ và kháng cự</b><span>Hỗ trợ và kháng cự là gì, vì sao chúng hình thành, cách vẽ thành vùng, đảo vai trò, số tròn, và cách phân biệt phá vỡ thật với phá vỡ giả (fakeout).</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/price-action-trading/"><div class="k">Phân tích kỹ thuật</div><b>Giao dịch price action</b><span>Giao dịch price action: cấu trúc thị trường, các mức quan trọng, nến tại các mức, breakout, nhịp hồi và breakout thất bại, kèm một thiết lập mẫu có quy tắc.</span></a><a class="card" href="/vi/encyclopedia/trading-business/trading-education-and-gurus/"><div class="k">Prop firm, thuế, quy định và lừa đảo</div><b>Khóa học, guru và tín hiệu</b><span>Cách đánh giá khóa học trading, mentor và nhóm tín hiệu: ảnh chụp màn hình giả, siêu xe thuê, rebate broker, hồ sơ đã xác minh và các cách học miễn phí.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/fibonacci-retracement/"><div class="k">Phân tích kỹ thuật</div><b>Công cụ Fibonacci</b><span>Cách vẽ Fibonacci retracement và extension, ý nghĩa các mức 23.6, 38.2, 50, 61.8 và 78.6 phần trăm, và bằng chứng thực tế cho thấy điều gì.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/"><small>← Bài trước</small>Giao dịch order flow</a><a class="next" href="/vi/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/"><small>Bài tiếp →</small>Sóng Elliott và Wyckoff</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FXのpips・ロット・レバレッジ：pips価値と証拠金の計算 | PnL Profit</title>
+<meta name="description" content="どの通貨ペアでも使えるpips価値の計算方法、スタンダード・ミニ・マイクロロットの違い、FX取引に必要な証拠金の求め方を、具体的な計算例で解説します。">
+<meta name="keywords" content="pips 計算, pipsとは, FX ロット 数量, 必要証拠金 計算, FX レバレッジ 仕組み">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/forex/pips-lots-and-leverage/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="FXのpips・ロット・レバレッジ：pips価値と証拠金の計算 | PnL Profit">
+<meta property="og:description" content="どの通貨ペアでも使えるpips価値の計算方法、スタンダード・ミニ・マイクロロットの違い、FX取引に必要な証拠金の求め方を、具体的な計算例で解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/forex/pips-lots-and-leverage/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FXのpips・ロット・レバレッジ：pips価値と証拠金の計算 | PnL Profit">
+<meta name="twitter:description" content="どの通貨ペアでも使えるpips価値の計算方法、スタンダード・ミニ・マイクロロットの違い、FX取引に必要な証拠金の求め方を、具体的な計算例で解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"FXのpips・ロット・レバレッジ：pips価値と証拠金の計算","description":"どの通貨ペアでも使えるpips価値の計算方法、スタンダード・ミニ・マイクロロットの違い、FX取引に必要な証拠金の求め方を、具体的な計算例で解説します。","keywords":"pips 計算, pipsとは, FX ロット 数量, 必要証拠金 計算, FX レバレッジ 仕組み","articleSection":"FX（外国為替）","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/forex/pips-lots-and-leverage/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"FX（外国為替）","item":"https://pnlpro.fit/ja/encyclopedia/forex/"},{"@type":"ListItem","position":3,"name":"pips・ロット・レバレッジ","item":"https://pnlpro.fit/ja/encyclopedia/forex/pips-lots-and-leverage/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"1pipはいくらになりますか？","acceptedAnswer":{"@type":"Answer","text":"EUR/USDのような米ドル建ての通貨ペアを100,000通貨のスタンダードロットで取引する場合、米ドル口座では1pipは10ドルです。ほかの通貨ペアや口座通貨では、pipの大きさに通貨数量を掛け、現在のレートで換算してください。"}},{"@type":"Question","name":"1.0850から1.0900は何pipsですか？","acceptedAnswer":{"@type":"Answer","text":"差が0.0050で、1pipは0.0001なので、50 pipsです。円建ての通貨ペアでは1pipは0.01なので、150.00から150.50も同じく50 pipsです。"}},{"@type":"Question","name":"レバレッジ30:1とはどういう意味ですか？","acceptedAnswer":{"@type":"Answer","text":"証拠金として確保した金額の最大30倍のポジションを持てるという意味です。3,000ドルの証拠金で90,000ドルのポジションを保有できます。損益は90,000ドル全体に対して計算されます。"}},{"@type":"Question","name":"初心者はどのロット数で取引すべきですか？","acceptedAnswer":{"@type":"Answer","text":"多くの初心者はマイクロロットから始めます。マイクロロットでは、ドル建て通貨ペアの1pipはおよそ10セントです。適切な数量は、決まったルールではなく、口座残高、1回の取引あたりのリスク、損切り幅によって決まります。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/forex/pips-lots-and-leverage/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/forex/pips-lots-and-leverage/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/forex/pips-lots-and-leverage/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/forex/pips-lots-and-leverage/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/forex/pips-lots-and-leverage/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/forex/pips-lots-and-leverage/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/forex/pips-lots-and-leverage/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/forex/pips-lots-and-leverage/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/forex/pips-lots-and-leverage/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>FX（外国為替）</h3><ul><li><a href="/ja/encyclopedia/forex/forex-basics/">FXの基礎</a></li><li><a href="/ja/encyclopedia/forex/currency-pairs/">通貨ペア</a></li><li><a href="/ja/encyclopedia/forex/pips-lots-and-leverage/" class="on" aria-current="page">pips・ロット・レバレッジ</a></li><li><a href="/ja/encyclopedia/forex/forex-trading-sessions/">FXの取引セッション</a></li><li><a href="/ja/encyclopedia/forex/forex-brokers/">FXブローカー</a></li><li><a href="/ja/encyclopedia/forex/what-moves-currencies/">為替を動かす要因</a></li><li><a href="/ja/encyclopedia/forex/carry-trade/">キャリートレード</a></li><li><a href="/ja/encyclopedia/forex/forex-trading-strategies/">FXの戦略</a></li><li><a href="/ja/encyclopedia/forex/cfds-and-spread-betting/">CFDとスプレッドベッティング</a></li><li><a href="/ja/encyclopedia/forex/forex-risks-and-scams/">FXのリスクと詐欺</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/" class="on">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/forex/">FX（外国為替）</a></div>
+<h1 class="title">pips・ロット・レバレッジ</h1>
+<div class="meta">約6分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>FX（外国為替）の他の記事</summary><ul><li><a href="/ja/encyclopedia/forex/forex-basics/">FXの基礎</a></li><li><a href="/ja/encyclopedia/forex/currency-pairs/">通貨ペア</a></li><li><a href="/ja/encyclopedia/forex/pips-lots-and-leverage/" class="on" aria-current="page">pips・ロット・レバレッジ</a></li><li><a href="/ja/encyclopedia/forex/forex-trading-sessions/">FXの取引セッション</a></li><li><a href="/ja/encyclopedia/forex/forex-brokers/">FXブローカー</a></li><li><a href="/ja/encyclopedia/forex/what-moves-currencies/">為替を動かす要因</a></li><li><a href="/ja/encyclopedia/forex/carry-trade/">キャリートレード</a></li><li><a href="/ja/encyclopedia/forex/forex-trading-strategies/">FXの戦略</a></li><li><a href="/ja/encyclopedia/forex/cfds-and-spread-betting/">CFDとスプレッドベッティング</a></li><li><a href="/ja/encyclopedia/forex/forex-risks-and-scams/">FXのリスクと詐欺</a></li></ul></details>
+<article><p>pips（ピップス）は為替レートの変化を測る標準単位、ロットはFX取引の大きさを測る標準単位、そしてレバレッジは自己資金1単位あたりブローカーがどれだけの取引額を許すかを示すものです。この3つによって、値動きごとにいくら儲かるか損するか、そして1回の取引で口座資金のどれだけが拘束されるかが決まります。<a href="/ja/encyclopedia/forex/currency-pairs/">通貨ペア</a>ごとにこれらの数字を正しく計算することが、<a href="/ja/encyclopedia/forex/forex-basics/">FX</a>における<a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイジング</a>と<a href="/ja/encyclopedia/risk-management/risk-management-fundamentals/">リスク管理</a>の基本です。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>1pipはほとんどの通貨ペアで0.0001、円建ての通貨ペアで0.01です。ピペットは1pipの10分の1です。</li>
+<li>スタンダードロットは基軸通貨100,000通貨、ミニロットは10,000通貨、マイクロロットは1,000通貨です。</li>
+<li>pips価値は「pipの大きさ × 通貨数量」で決済通貨建ての金額を出し、それを口座通貨に換算したものです。</li>
+<li>必要証拠金は、取引の想定元本を口座通貨に換算し、レバレッジで割ったものです。</li>
+<li>レバレッジ上限は国によって異なり、時とともに変わります。2026年時点で、EU、英国、オーストラリアの個人向け上限はメジャー通貨ペアで30:1（30倍）です。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#pips">pipsとピペット</a></li><li><a href="#section-3">ロット</a></li><li><a href="#pips">pips価値の計算方法</a></li><li><a href="#section-11">レバレッジと証拠金</a></li><li><a href="#section-15">証拠金維持率と強制決済（ロスカット）の仕組み</a></li><li><a href="#section-17">まとめ：取引数量を決める</a></li><li><a href="#section-18">地域別のレバレッジ上限</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="pips">pipsとピペット</h2>
+<p>ほとんどの通貨ペアでは、1pipは小数点以下4桁目です。</p>
+<ul>
+<li>EUR/USDが1.0850から1.0851に動けば、1pipの変動です。</li>
+<li>EUR/USDが1.0850から1.0900に動けば、50 pipsの変動です。</li>
+</ul>
+<p>円が決済通貨の通貨ペアでは、1pipは小数点以下2桁目です。</p>
+<ul>
+<li>USD/JPYが150.00から150.01に動けば、1pip（1銭）の変動です。</li>
+<li>USD/JPYが150.00から151.00に動けば、100 pips（1円）の変動です。</li>
+</ul>
+<p>ほとんどのブローカーは、<strong>ピペット</strong>（端数pip）と呼ばれる桁をもう1桁表示します。EUR/USDの価格1.08503ではピペットは3で、1.0850から0.3 pips先という意味です。スプレッドは0.6 pipsのように、小数点以下1桁のpipsで表示されることがよくあります。</p>
+<p>FXの取引ツールで扱う金や株価指数などの銘柄には、それぞれ独自の決まりがあります。必ず取引ツールの取引条件（銘柄仕様）を確認してください。</p>
+<h2 id="section-3">ロット</h2>
+<p>ロットとは標準的な取引単位で、基軸通貨の数量で表します。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ロットの種類</th>
+<th>基軸通貨の数量</th>
+<th>取引ツール上の表示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>スタンダード</td>
+<td>100,000</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>ミニ</td>
+<td>10,000</td>
+<td>0.10</td>
+</tr>
+<tr>
+<td>マイクロ</td>
+<td>1,000</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>ナノ（一部のブローカーのみ）</td>
+<td>100</td>
+<td>業者によって異なる</td>
+</tr>
+</tbody></table></div>
+<p>EUR/USDを1スタンダードロット買うことは、100,000ユーロを買うことを意味します。USD/JPYを1スタンダードロット買うことは、100,000米ドルを買うことを意味します。多くの取引ツールでは、0.01ロット刻みで任意の数量を取引できます。</p>
+<h2 id="pips">pips価値の計算方法</h2>
+<p>計算式は2段階です。</p>
+<ol>
+<li><strong>決済通貨建てのpips価値</strong> = pipの大きさ × 通貨数量</li>
+<li>決済通貨が口座通貨と異なる場合は、<strong>口座通貨に換算します。</strong></li>
+</ol>
+<h3 id="1-eur-usd">例1：EUR/USD、米ドル口座</h3>
+<ul>
+<li>pipの大きさ：0.0001。数量：100,000。</li>
+<li>pips価値：0.0001 × 100,000 = 1スタンダードロットあたり1pipにつき10.00ドル。</li>
+<li>決済通貨がすでにUSDなので、換算は不要です。</li>
+<li>ミニロットなら1pipにつき1.00ドル、マイクロロットなら1pipにつき0.10ドルです。</li>
+</ul>
+<p>GBP/USD、AUD/USD、NZD/USDなど、USDが決済通貨のすべての通貨ペアで同じです。</p>
+<h3 id="2-usd-jpy-150-00">例2：USD/JPYが150.00、米ドル口座</h3>
+<ul>
+<li>pipの大きさ：0.01。数量：100,000。</li>
+<li>円建てのpips価値：0.01 × 100,000 = 1pipにつき1,000円。</li>
+<li>ドルに換算：1,000円 ÷ 150.00 = 1pipにつき6.67ドル（端数処理前は6.6667）。</li>
+</ul>
+<p>換算には現在のレートを使うため、USD/JPYの1pipのドル建て価値はレートが動くと変わります。140.00なら1,000円 ÷ 140 = 7.14ドルになります。</p>
+<h3 id="3-usd-cad-1-3500">例3：USD/CADが1.3500、米ドル口座</h3>
+<ul>
+<li>カナダドル建てのpips価値：0.0001 × 100,000 = 10.00カナダドル。</li>
+<li>換算：10.00カナダドル ÷ 1.3500 = 1pipにつき7.41ドル（端数処理前は7.4074）。</li>
+</ul>
+<h3 id="4-eur-gbp-gbp-usd-1-2700">例4：EUR/GBP、米ドル口座、GBP/USDが1.2700</h3>
+<ul>
+<li>ポンド建てのpips価値：0.0001 × 100,000 = 10.00ポンド。</li>
+<li>GBP/USDを掛けてドルに換算：10.00ポンド × 1.2700 = 1pipにつき12.70ドル。</li>
+</ul>
+<h3 id="5-eur-usd-1-0850">例5：EUR/USDが1.0850、ユーロ口座</h3>
+<ul>
+<li>ドル建てのpips価値：10.00ドル。</li>
+<li>ユーロに換算：10.00ドル ÷ 1.0850 = 1pipにつき9.22ユーロ（端数処理前は9.2166）。</li>
+</ul>
+<h3 id="section-10">早見表</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>通貨ペア（スタンダードロット）</th>
+<th>使用するレート</th>
+<th>米ドル建てpips価値</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EUR/USD、GBP/USD、AUD/USD</td>
+<td>不要</td>
+<td>10.00ドル</td>
+</tr>
+<tr>
+<td>USD/JPY</td>
+<td>USD/JPY 150.00</td>
+<td>6.67ドル</td>
+</tr>
+<tr>
+<td>USD/CAD</td>
+<td>USD/CAD 1.3500</td>
+<td>7.41ドル</td>
+</tr>
+<tr>
+<td>USD/CHF</td>
+<td>USD/CHF 0.9000</td>
+<td>11.11ドル</td>
+</tr>
+<tr>
+<td>EUR/GBP</td>
+<td>GBP/USD 1.2700</td>
+<td>12.70ドル</td>
+</tr>
+</tbody></table></div>
+<p>取引ツールが自動で計算してくれますが、計算方法を知っていれば結果を確認でき、ふだん取引しない通貨ペアでも取引数量を決められます。</p>
+<h2 id="section-11">レバレッジと証拠金</h2>
+<p>レバレッジを使うと、入金額より大きなポジションを持つことができます。<strong>証拠金</strong>とは、ポジションを保有するためにブローカーが確保する自己資金のことです。追証（マージンコール）を含む全般的な仕組みは<a href="/ja/encyclopedia/basics/leverage-and-margin/">レバレッジと証拠金</a>で解説しています。</p>
+<p><strong>必要証拠金</strong> = 口座通貨建ての想定元本 ÷ レバレッジ</p>
+<p>レバレッジ30:1は、証拠金率1 ÷ 30 = 3.33%を意味します。50:1なら2%、500:1なら0.2%です。</p>
+<h3 id="6-eur-usd-1-0850-1">例6：EUR/USDが1.0850で1スタンダードロット、米ドル口座</h3>
+<ul>
+<li>想定元本：100,000 × 1.0850 = 108,500ドル。</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>レバレッジ</th>
+<th>必要証拠金</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>30:1</td>
+<td>108,500ドル ÷ 30 = 3,616.67ドル</td>
+</tr>
+<tr>
+<td>50:1</td>
+<td>108,500ドル ÷ 50 = 2,170.00ドル</td>
+</tr>
+<tr>
+<td>500:1</td>
+<td>108,500ドル ÷ 500 = 217.00ドル</td>
+</tr>
+</tbody></table></div>
+<h3 id="7-usd-jpy-1">例7：USD/JPYを1スタンダードロット、米ドル口座</h3>
+<p>基軸通貨がUSDなので、想定元本はそのまま100,000ドルです。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>レバレッジ</th>
+<th>必要証拠金</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>25:1</td>
+<td>100,000ドル ÷ 25 = 4,000.00ドル</td>
+</tr>
+<tr>
+<td>30:1</td>
+<td>100,000ドル ÷ 30 = 3,333.33ドル</td>
+</tr>
+</tbody></table></div>
+<h3 id="8-eur-gbp-1-eur-usd-1-0850">例8：EUR/GBPを1ミニロット、米ドル口座、EUR/USDが1.0850</h3>
+<ul>
+<li>ユーロ建ての想定元本：10,000。</li>
+<li>ドル換算：10,000 × 1.0850 = 10,850ドル。</li>
+<li>30:1の場合：10,850ドル ÷ 30 = 361.67ドル。</li>
+</ul>
+<h2 id="section-15">証拠金維持率と強制決済（ロスカット）の仕組み</h2>
+<p>ブローカーは、<strong>有効証拠金</strong>（口座残高に含み損益を加減したもの）、<strong>必要証拠金（使用中の証拠金）</strong>、<strong>余剰証拠金</strong>（有効証拠金から使用中の証拠金を引いたもの）、<strong>証拠金維持率</strong>（有効証拠金 ÷ 使用中の証拠金 × 100）を監視しています。</p>
+<h3 id="9">例9：価格はどこまで逆行できるか</h3>
+<p>あるトレーダーが5,000ドルの米ドル口座で、EUR/USDを1.0850で1スタンダードロット、レバレッジ30:1で買います。</p>
+<ul>
+<li>使用中の証拠金：3,616.67ドル。</li>
+<li>余剰証拠金：5,000ドル − 3,616.67ドル = 1,383.33ドル。</li>
+<li>証拠金維持率：5,000ドル ÷ 3,616.67ドル × 100 = 138.2%。</li>
+<li>口座の実効レバレッジ：108,500ドル ÷ 5,000ドル = 21.7倍。</li>
+</ul>
+<p>EUと英国の個人向けルールでは、証拠金維持率が50%まで下がるとブローカーはポジションの決済を始めなければなりません。これは有効証拠金が3,616.67ドルの50%、つまり1,808.33ドルまで減ったときに起こります。そこまでに必要な損失は5,000ドル − 1,808.33ドル = 3,191.67ドルです。1pipあたり10ドルなら、取引と逆方向に約319 pipsの値動きです（価格の変動に伴う必要証拠金のわずかな変化は無視しています）。EUR/USDが1週間でこれ以上動いたことは何度もあります。</p>
+<p>リスクを左右するのは、ブローカーが提供する最大レバレッジではなく、<strong>実効レバレッジ</strong>、つまりポジション総額を有効証拠金で割ったものだという点に注意してください。500:1が使えるトレーダーでも、有効証拠金の2倍相当のポジションしか持たなければ、使っているのは2:1です。</p>
+<h2 id="section-17">まとめ：取引数量を決める</h2>
+<p>5,000ドルの口座を持つトレーダーが、ストップ（損切り幅）25 pipsのEUR/USDの取引で1%、つまり50ドルのリスクを取りたいとします。</p>
+<ul>
+<li>必要なpips価値：50ドル ÷ 25 pips = 1pipにつき2.00ドル。</li>
+<li>ミニロットは1pipにつき1.00ドルなので、数量は2ミニロット、つまり0.20ロット（20,000通貨）です。</li>
+<li>想定元本：20,000 × 1.0850 = 21,700ドル。30:1での証拠金：723.33ドル。</li>
+</ul>
+<p>ここではレバレッジ上限はほとんど関係ありません。数量を決めるのは損切りの位置とリスクの上限です。これが<a href="/ja/encyclopedia/risk-management/position-sizing/">ポジションサイジング</a>と<a href="/ja/encyclopedia/risk-management/stop-loss-strategies/">損切り（ストップロス）戦略</a>で説明している考え方です。</p>
+<h2 id="section-18">地域別のレバレッジ上限</h2>
+<p>以下は個人顧客に適用される上限で、2026年時点で概ね正確な内容です。ルールは変わるので、各規制当局の最新のルールを確認してください。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>地域</th>
+<th>メジャー通貨ペア</th>
+<th>その他の通貨ペア</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>欧州連合（ESMAのルール、2018年以降）</td>
+<td>30:1</td>
+<td>20:1</td>
+</tr>
+<tr>
+<td>英国（FCA）</td>
+<td>30:1</td>
+<td>20:1</td>
+</tr>
+<tr>
+<td>オーストラリア（ASIC、2021年以降）</td>
+<td>30:1</td>
+<td>20:1</td>
+</tr>
+<tr>
+<td>米国（CFTCおよびNFA）</td>
+<td>50:1</td>
+<td>20:1</td>
+</tr>
+<tr>
+<td>日本（金融庁）</td>
+<td>25:1</td>
+<td>25:1</td>
+</tr>
+<tr>
+<td>多くの海外FX業者</td>
+<td>500:1以上</td>
+<td>業者によって異なる</td>
+</tr>
+</tbody></table></div>
+<p>EUと英国のルールでは、「メジャー」通貨ペアとは米ドル、ユーロ、円、ポンド、カナダドル、スイスフランの組み合わせを指します。プロ顧客や海外FX業者ではより高いレバレッジが使えますが、上限が高いほど保護は少なくなります。<a href="/ja/encyclopedia/forex/forex-brokers/">FXブローカー</a>を参照してください。CFDに特有のルールは<a href="/ja/encyclopedia/forex/cfds-and-spread-betting/">CFDとスプレッドベッティング</a>で取り上げています。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>pipsとピペットを混同する。</strong> 5桁表示のレートで10動いても、それは1pipであって10 pipsではありません。</li>
+<li><strong>1pipは常に10ドルだと思い込む。</strong> それが当てはまるのは、米ドル口座で米ドル建ての通貨ペアを1スタンダードロット取引する場合だけです。</li>
+<li><strong>使えるレバレッジを基準に数量を決める。</strong> ブローカーが認める最大値は目標ではありません。</li>
+<li><strong>換算レートも動くことを忘れる。</strong> USD/JPYやクロス通貨ペアでは、レートが変わるとpips価値も変わります。</li>
+<li><strong>複数ポジションの証拠金を無視する。</strong> 保有中の取引はそれぞれ証拠金を使い、ひとつの取引の損失がすべてのポジションの余力を減らします。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="1pip">1pipはいくらになりますか？</h3>
+<p>EUR/USDのような米ドル建ての通貨ペアを100,000通貨のスタンダードロットで取引する場合、米ドル口座では1pipは10ドルです。ほかの通貨ペアや口座通貨では、pipの大きさに通貨数量を掛け、現在のレートで換算してください。</p>
+<h3 id="1-0850-1-0900-pips">1.0850から1.0900は何pipsですか？</h3>
+<p>差が0.0050で、1pipは0.0001なので、50 pipsです。円建ての通貨ペアでは1pipは0.01なので、150.00から150.50も同じく50 pipsです。</p>
+<h3 id="30-1">レバレッジ30:1とはどういう意味ですか？</h3>
+<p>証拠金として確保した金額の最大30倍のポジションを持てるという意味です。3,000ドルの証拠金で90,000ドルのポジションを保有できます。損益は90,000ドル全体に対して計算されます。</p>
+<h3 id="section-24">初心者はどのロット数で取引すべきですか？</h3>
+<p>多くの初心者はマイクロロットから始めます。マイクロロットでは、ドル建て通貨ペアの1pipはおよそ10セントです。適切な数量は、決まったルールではなく、口座残高、1回の取引あたりのリスク、損切り幅によって決まります。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/forex/currency-pairs/"><div class="k">FX（外国為替）</div><b>通貨ペア</b><span>FXレートの読み方、基軸通貨と決済通貨の意味、メジャー・マイナー・エキゾチック通貨ペアでスプレッドやボラティリティ、値動きの特徴がどう違うかを解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/leverage-and-margin/"><div class="k">トレードの基礎</div><b>レバレッジと証拠金</b><span>レバレッジと証拠金の仕組み、当初証拠金と維持証拠金、追証、ロスカット、クロスマージンと分離マージン、計算例、各国のレバレッジ規制を解説します。</span></a><a class="card" href="/ja/encyclopedia/risk-management/position-sizing/"><div class="k">リスク管理と資金管理</div><b>ポジションサイジング</b><span>口座のリスク許容額と損切り幅からポジションサイズを計算する方法を解説。定率法、定額法、ATR法を株式、FX、暗号資産の例で紹介します。</span></a><a class="card" href="/ja/encyclopedia/forex/forex-brokers/"><div class="k">FX（外国為替）</div><b>FXブローカー</b><span>FX業者の仕組みと収益源を解説。DD方式とSTP・ECN、AブックとBブック、スプレッド口座と手数料口座、規制の格付けと海外FX業者のリスクを比較します。</span></a><a class="card" href="/ja/encyclopedia/forex/cfds-and-spread-betting/"><div class="k">FX（外国為替）</div><b>CFDとスプレッドベッティング</b><span>CFDとスプレッドベッティングの仕組み、金利調整と取引相手リスク、ESMAのレバレッジ規制と損失開示、米国の個人向け禁止、英国税制の基本を解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/forex/currency-pairs/"><small>← 前へ</small>通貨ペア</a><a class="next" href="/ja/encyclopedia/forex/forex-trading-sessions/"><small>次へ →</small>FXの取引セッション</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

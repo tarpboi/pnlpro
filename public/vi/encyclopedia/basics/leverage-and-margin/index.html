@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đòn bẩy và ký quỹ: margin call và thanh lý giải thích dễ hiểu</title>
+<meta name="description" content="Đòn bẩy và ký quỹ hoạt động thế nào: ký quỹ ban đầu và duy trì, margin call, thanh lý, cross và isolated margin, ví dụ tính toán và mức trần đòn bẩy.">
+<meta name="keywords" content="đòn bẩy và ký quỹ, margin call là gì, ký quỹ ban đầu và ký quỹ duy trì, cross margin và isolated margin, giao dịch đòn bẩy">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/leverage-and-margin/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Đòn bẩy và ký quỹ: margin call và thanh lý giải thích dễ hiểu">
+<meta property="og:description" content="Đòn bẩy và ký quỹ hoạt động thế nào: ký quỹ ban đầu và duy trì, margin call, thanh lý, cross và isolated margin, ví dụ tính toán và mức trần đòn bẩy.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/basics/leverage-and-margin/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Đòn bẩy và ký quỹ: margin call và thanh lý giải thích dễ hiểu">
+<meta name="twitter:description" content="Đòn bẩy và ký quỹ hoạt động thế nào: ký quỹ ban đầu và duy trì, margin call, thanh lý, cross và isolated margin, ví dụ tính toán và mức trần đòn bẩy.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Đòn bẩy và ký quỹ: margin call và thanh lý giải thích dễ hiểu","description":"Đòn bẩy và ký quỹ hoạt động thế nào: ký quỹ ban đầu và duy trì, margin call, thanh lý, cross và isolated margin, ví dụ tính toán và mức trần đòn bẩy.","keywords":"đòn bẩy và ký quỹ, margin call là gì, ký quỹ ban đầu và ký quỹ duy trì, cross margin và isolated margin, giao dịch đòn bẩy","articleSection":"Kiến thức giao dịch cơ bản","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/basics/leverage-and-margin/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Kiến thức giao dịch cơ bản","item":"https://pnlpro.fit/vi/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"Đòn bẩy và ký quỹ","item":"https://pnlpro.fit/vi/encyclopedia/basics/leverage-and-margin/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Đòn bẩy 10x nghĩa là gì?","acceptedAnswer":{"@type":"Answer","text":"Nó có nghĩa là vị thế của bạn lớn gấp 10 lần số tiền bạn bỏ ra. Giá biến động 1% làm vốn chủ sở hữu của bạn thay đổi khoảng 10%, và biến động 10% đi ngược bạn có thể xóa sạch nó."}},{"@type":"Question","name":"Ký quỹ ban đầu và ký quỹ duy trì khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"Ký quỹ ban đầu là khoản tiền nạp cần có để mở vị thế. Ký quỹ duy trì là mức tối thiểu thấp hơn bạn phải giữ trong khi nắm vị thế; rơi xuống dưới mức đó sẽ kích hoạt margin call hoặc thanh lý."}},{"@type":"Question","name":"Dùng đòn bẩy có thể lỗ nhiều hơn số tiền nạp không?","acceptedAnswer":{"@type":"Answer","text":"Có, ở một số tài khoản. Nếu thị trường nhảy gap qua mức thanh lý của bạn, khoản lỗ có thể vượt quá số ký quỹ. Khách hàng CFD bán lẻ ở EU và Anh có bảo vệ số dư âm, nhưng điều này không phổ biến ở mọi nơi."}},{"@type":"Question","name":"Cross margin hay isolated margin an toàn hơn?","acceptedAnswer":{"@type":"Answer","text":"Isolated margin giới hạn khoản lỗ của mỗi vị thế ở số ký quỹ được gán cho nó, nhờ đó bảo vệ phần còn lại của tài khoản. Cross margin trì hoãn thanh lý bằng cách dùng toàn bộ số dư, nhưng khi đó một lệnh xấu có thể ngốn sạch mọi thứ."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/basics/leverage-and-margin/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/leverage-and-margin/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/basics/leverage-and-margin/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/leverage-and-margin/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/leverage-and-margin/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/leverage-and-margin/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/leverage-and-margin/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/basics/leverage-and-margin/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/leverage-and-margin/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Kiến thức giao dịch cơ bản</h3><ul><li><a href="/vi/encyclopedia/basics/what-is-trading/">Giao dịch là gì?</a></li><li><a href="/vi/encyclopedia/basics/financial-markets-overview/">Tổng quan thị trường tài chính</a></li><li><a href="/vi/encyclopedia/basics/trading-styles/">Phong cách giao dịch</a></li><li><a href="/vi/encyclopedia/basics/order-types/">Các loại lệnh</a></li><li><a href="/vi/encyclopedia/basics/order-book-and-market-depth/">Sổ lệnh và độ sâu thị trường</a></li><li><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread và thanh khoản</a></li><li><a href="/vi/encyclopedia/basics/leverage-and-margin/" class="on" aria-current="page">Đòn bẩy và ký quỹ</a></li><li><a href="/vi/encyclopedia/basics/long-and-short-positions/">Long và Short</a></li><li><a href="/vi/encyclopedia/basics/trading-costs-and-fees/">Chi phí và phí giao dịch</a></li><li><a href="/vi/encyclopedia/basics/brokers-and-exchanges/">Broker và sàn giao dịch</a></li><li><a href="/vi/encyclopedia/basics/market-participants/">Các bên tham gia thị trường</a></li><li><a href="/vi/encyclopedia/basics/market-hours-and-sessions/">Giờ và phiên giao dịch</a></li><li><a href="/vi/encyclopedia/basics/how-to-start-trading/">Cách bắt đầu giao dịch</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/" class="on">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a></div>
+<h1 class="title">Đòn bẩy và ký quỹ</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Kiến thức giao dịch cơ bản</summary><ul><li><a href="/vi/encyclopedia/basics/what-is-trading/">Giao dịch là gì?</a></li><li><a href="/vi/encyclopedia/basics/financial-markets-overview/">Tổng quan thị trường tài chính</a></li><li><a href="/vi/encyclopedia/basics/trading-styles/">Phong cách giao dịch</a></li><li><a href="/vi/encyclopedia/basics/order-types/">Các loại lệnh</a></li><li><a href="/vi/encyclopedia/basics/order-book-and-market-depth/">Sổ lệnh và độ sâu thị trường</a></li><li><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread và thanh khoản</a></li><li><a href="/vi/encyclopedia/basics/leverage-and-margin/" class="on" aria-current="page">Đòn bẩy và ký quỹ</a></li><li><a href="/vi/encyclopedia/basics/long-and-short-positions/">Long và Short</a></li><li><a href="/vi/encyclopedia/basics/trading-costs-and-fees/">Chi phí và phí giao dịch</a></li><li><a href="/vi/encyclopedia/basics/brokers-and-exchanges/">Broker và sàn giao dịch</a></li><li><a href="/vi/encyclopedia/basics/market-participants/">Các bên tham gia thị trường</a></li><li><a href="/vi/encyclopedia/basics/market-hours-and-sessions/">Giờ và phiên giao dịch</a></li><li><a href="/vi/encyclopedia/basics/how-to-start-trading/">Cách bắt đầu giao dịch</a></li></ul></details>
+<article><p>Đòn bẩy nghĩa là kiểm soát một vị thế lớn hơn số tiền mặt bạn bỏ ra, còn ký quỹ (margin) là tiền mặt hoặc tài sản thế chấp mà broker hoặc sàn yêu cầu bạn nạp để giữ vị thế đó. Đòn bẩy nhân cả lãi lẫn lỗ lên cùng một hệ số, nên một biến động giá nhỏ đi ngược vị thế dùng đòn bẩy cao cũng có thể xóa sạch tài khoản. Quy tắc ký quỹ quyết định khi nào bạn bị yêu cầu nạp thêm tiền và khi nào vị thế bị đóng thay bạn. Đòn bẩy là lý do lớn nhất khiến trader cá nhân mất tiền nhanh chóng.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Đòn bẩy là quy mô vị thế chia cho vốn của riêng bạn; ở mức 10:1, giá biến động 1% làm vốn chủ sở hữu của bạn thay đổi 10%.</li>
+<li>Ký quỹ ban đầu là số tiền cần có để mở vị thế, còn ký quỹ duy trì là mức tối thiểu bạn phải giữ để tiếp tục nắm vị thế.</li>
+<li>Rơi xuống dưới mức ký quỹ duy trì sẽ kích hoạt margin call hoặc, ở nhiều broker và sàn crypto, thanh lý tự động.</li>
+<li>Cross margin dùng chung toàn bộ số dư của bạn cho mọi vị thế, còn isolated margin giới hạn khoản lỗ của mỗi vị thế ở số ký quỹ được gán cho nó.</li>
+<li>Cơ quan quản lý ở nhiều khu vực đặt trần đòn bẩy cho nhà đầu tư cá nhân, và các mức trần này khác nhau theo quốc gia và thay đổi theo thời gian.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#n-b-y-l-g">Đòn bẩy là gì</a></li><li><a href="#k-qu-ban-u-v-k-qu-duy-tr">Ký quỹ ban đầu và ký quỹ duy trì</a></li><li><a href="#margin-call-v-thanh-l">Margin call và thanh lý</a></li><li><a href="#c-c-v-d-t-nh-to-n">Các ví dụ tính toán</a></li><li><a href="#cross-margin-v-isolated-margin">Cross margin và isolated margin</a></li><li><a href="#m-c-tr-n-n-b-y-theo-quy-nh">Mức trần đòn bẩy theo quy định</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="n-b-y-l-g">Đòn bẩy là gì</h2>
+<p><strong>Hệ số đòn bẩy = giá trị vị thế / vốn chủ sở hữu của bạn.</strong> Nếu bạn nắm vị thế $50,000 với $5,000 tiền của chính mình, đòn bẩy của bạn là 10:1, hay 10x.</p>
+<p>Phần còn lại của vị thế về thực chất được tài trợ bằng vốn vay. Trong tài khoản margin chứng khoán, broker cho bạn vay tiền mặt và tính lãi. Với hợp đồng tương lai, CFD và hợp đồng vĩnh cửu crypto, bạn không vay toàn bộ số tiền; bạn nạp ký quỹ như một khoản bảo đảm thực hiện và hưởng hoặc chịu toàn bộ giá trị biến động giá.</p>
+<h3 id="n-b-y-khu-ch-i-k-t-qu-th-n-o">Đòn bẩy khuếch đại kết quả thế nào</h3>
+<p>Tác động của biến động giá 5% lên vốn chủ sở hữu của bạn, chưa tính chi phí:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Đòn bẩy</th>
+<th>Lãi nếu giá tăng 5%</th>
+<th>Lỗ nếu giá giảm 5%</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1:1</td>
+<td>+5%</td>
+<td>-5%</td>
+</tr>
+<tr>
+<td>5:1</td>
+<td>+25%</td>
+<td>-25%</td>
+</tr>
+<tr>
+<td>10:1</td>
+<td>+50%</td>
+<td>-50%</td>
+</tr>
+<tr>
+<td>20:1</td>
+<td>+100%</td>
+<td>-100% (mất sạch vốn)</td>
+</tr>
+<tr>
+<td>50:1</td>
+<td>+250%</td>
+<td>Mất sạch sau khi giảm 2%</td>
+</tr>
+</tbody></table></div>
+<p>Một quy tắc ngón tay cái hữu ích: ở đòn bẩy L, giá đi ngược bạn khoảng 1/L sẽ xóa toàn bộ vốn của bạn. Ở 20:1 đó là 5%; ở 100:1 là 1%. Nhiều tài sản biến động chừng đó chỉ trong một ngày.</p>
+<h2 id="k-qu-ban-u-v-k-qu-duy-tr">Ký quỹ ban đầu và ký quỹ duy trì</h2>
+<ul>
+<li><strong>Ký quỹ ban đầu (initial margin)</strong> là khoản tiền cần nạp để mở vị thế. Nó có thể được nêu dưới dạng phần trăm của vị thế (ví dụ 10%) hoặc một số tiền cố định cho mỗi hợp đồng.</li>
+<li><strong>Ký quỹ duy trì (maintenance margin)</strong> là mức vốn chủ sở hữu tối thiểu bạn phải giữ khi vị thế còn mở. Nó thấp hơn ký quỹ ban đầu.</li>
+</ul>
+<p><strong>Vốn chủ sở hữu</strong> của bạn là tiền nạp cộng hoặc trừ lãi lỗ chưa thực hiện. Khi vốn chủ sở hữu rơi xuống dưới mức ký quỹ duy trì, broker sẽ hành động.</p>
+<h2 id="margin-call-v-thanh-l">Margin call và thanh lý</h2>
+<p><strong>Margin call</strong> là yêu cầu đưa tài khoản của bạn trở lại trên mức bắt buộc, bằng cách nạp thêm tiền hoặc giảm bớt vị thế. Các broker chứng khoán và hợp đồng tương lai truyền thống có thể cho bạn một khoảng thời gian ngắn để phản hồi, nhưng họ không có nghĩa vụ chờ khi thị trường biến động nhanh.</p>
+<p><strong>Thanh lý (liquidation)</strong> là việc đóng vị thế của bạn một cách cưỡng bức. Nhiều broker CFD, broker forex và sàn crypto thanh lý tự động, hoàn toàn không có cuộc gọi nào, khi vốn chủ sở hữu chạm ngưỡng. Ở EU và Anh, các broker CFD bán lẻ phải đóng vị thế khi vốn chủ sở hữu giảm xuống 50% mức ký quỹ yêu cầu. Các sàn crypto thường thanh lý khi vốn chủ sở hữu chạm mức duy trì và có thể thu phí thanh lý. Xem <a href="/vi/encyclopedia/crypto/crypto-liquidations/">thanh lý crypto</a>.</p>
+<p>Thanh lý không phải tấm lưới an toàn đảm bảo bạn chỉ mất số ký quỹ. Khi giá nhảy cách quãng (gap) hoặc thị trường chạy nhanh, giá đóng có thể tệ hơn mức thanh lý, và ở một số loại tài khoản bạn có thể phải nợ tiền. Bảo vệ số dư âm, vốn bắt buộc đối với khách hàng CFD bán lẻ ở EU và Anh và được một số broker khác cung cấp, ngăn khoản lỗ vượt quá số dư tài khoản.</p>
+<h2 id="c-c-v-d-t-nh-to-n">Các ví dụ tính toán</h2>
+<h3 id="t-i-kho-n-margin-ch-ng-kho-n-ki-u-m">Tài khoản margin chứng khoán (kiểu Mỹ)</h3>
+<p>Ở Mỹ, Regulation T từ lâu đã quy định ký quỹ ban đầu khi mua cổ phiếu là 50%, và FINRA yêu cầu ký quỹ duy trì tối thiểu 25%, dù nhiều broker yêu cầu cao hơn.</p>
+<p>Một trader có $10,000 mua $20,000 cổ phiếu, vay $10,000. Đòn bẩy là 2:1.</p>
+<ul>
+<li>Khoản vay giữ nguyên $10,000 bất kể cổ phiếu biến động ra sao.</li>
+<li>Margin call xảy ra khi vốn chủ sở hữu / giá trị vị thế giảm xuống 25%: (V - 10,000) / V = 0.25.</li>
+<li>Giải ra: V = 10,000 / 0.75 = $13,333.33.</li>
+</ul>
+<p>Vị thế có thể giảm từ $20,000 xuống khoảng $13,333, tức giảm một phần ba, trước khi bị gọi ký quỹ ở mức tối thiểu 25%. Lúc đó vốn chủ sở hữu của trader là $3,333, tức đã mất hai phần ba trong số $10,000 ban đầu.</p>
+<h3 id="forex-n-b-y-30-1">Forex ở đòn bẩy 30:1</h3>
+<p>Một lot chuẩn EUR/USD là 100,000 euro. Ở tỷ giá 1.1000, đó là $110,000 mức phơi nhiễm. Với mức trần bán lẻ 30:1 cho các cặp chính ở EU và Anh, ký quỹ yêu cầu là $110,000 / 30 = $3,666.67.</p>
+<p>Một biến động 110 pip (1.1000 xuống 1.0890), tức biến động 1%, gây lỗ 110 x $10 = $1,100. Đó là 30% số ký quỹ. Biến động 3.3% sẽ xóa sạch hoàn toàn số ký quỹ, và quy tắc đóng vị thế ở mức 50% của broker sẽ kích hoạt từ rất sớm trước đó.</p>
+<h3 id="h-p-ng-v-nh-c-u-crypto-10x-isolated-margin">Hợp đồng vĩnh cửu crypto ở 10x, isolated margin</h3>
+<p>Một trader nạp $1,000 isolated margin và mở vị thế mua $10,000 Bitcoin ở giá $50,000, tương đương 0.2 BTC. Giả sử ký quỹ duy trì của sàn là 0.5% giá trị vị thế, tức $50.</p>
+<ul>
+<li>Thanh lý xảy ra gần như khi khoản lỗ đạt $1,000 - $50 = $950.</li>
+<li>Mức giá giảm gây ra điều này: $950 / 0.2 = $4,750.</li>
+<li>Giá thanh lý xấp xỉ: $50,000 - $4,750 = $45,250, tức giảm 9.5%.</li>
+</ul>
+<p>Các sàn thực tế dùng công thức, giá đánh dấu (mark price) và phí riêng, nên mức thực tế chênh lệch đôi chút. Điều cần nhớ là một vị thế 10x bị đóng sau biến động dưới 10%, mức mà Bitcoin đã có trong một ngày nhiều lần.</p>
+<h2 id="cross-margin-v-isolated-margin">Cross margin và isolated margin</h2>
+<p>Các thuật ngữ này phổ biến nhất trên các sàn phái sinh crypto, dù ý tưởng cũng áp dụng ở nơi khác.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Isolated margin</th>
+<th>Cross margin</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tài sản thế chấp</td>
+<td>Chỉ số ký quỹ được gán cho vị thế đó</td>
+<td>Toàn bộ số dư tài khoản của bạn</td>
+</tr>
+<tr>
+<td>Mức lỗ tối đa của một vị thế</td>
+<td>Số isolated margin (trừ trường hợp gap và phí)</td>
+<td>Có thể là toàn bộ tài khoản</td>
+</tr>
+<tr>
+<td>Khoảng cách đến thanh lý</td>
+<td>Gần hơn, vì ít tài sản thế chấp bảo chứng cho vị thế</td>
+<td>Xa hơn, vì toàn bộ số dư bảo chứng</td>
+</tr>
+<tr>
+<td>Phù hợp nhất cho</td>
+<td>Hạn chế thiệt hại từ bất kỳ lệnh nào</td>
+<td>Các vị thế phòng hộ hoặc bù trừ nhau</td>
+</tr>
+</tbody></table></div>
+<p>Cross margin có thể giữ một vị thế đang lỗ mở lâu hơn, nghe có vẻ an toàn hơn nhưng có thể biến một lệnh xấu thành một tài khoản bị mất. Isolated margin giới hạn khoản lỗ mỗi vị thế nhưng thanh lý sớm hơn.</p>
+<h2 id="m-c-tr-n-n-b-y-theo-quy-nh">Mức trần đòn bẩy theo quy định</h2>
+<p>Nhiều cơ quan quản lý giới hạn đòn bẩy cung cấp cho khách hàng cá nhân. Tính đến năm 2026, bức tranh chung như sau, nhưng quy định thay đổi và khác nhau với khách hàng chuyên nghiệp, nên hãy kiểm tra quy định hiện hành nơi bạn sinh sống.</p>
+<ul>
+<li><strong>EU và Anh (CFD và spread bet):</strong> 30:1 với các cặp tiền tệ chính; 20:1 với các cặp tiền tệ không chính, vàng và các chỉ số chứng khoán lớn; 10:1 với các hàng hóa khác và chỉ số nhỏ; 5:1 với cổ phiếu riêng lẻ; và ở EU là 2:1 với tiền mã hóa. Anh thì cấm hẳn việc bán phái sinh crypto cho khách hàng cá nhân.</li>
+<li><strong>Úc:</strong> mức trần tương tự EU cho khách hàng CFD bán lẻ.</li>
+<li><strong>Hoa Kỳ:</strong> đòn bẩy forex bán lẻ bị giới hạn ở 50:1 với các cặp chính và 20:1 với các cặp khác; CFD bán lẻ không được phép; ký quỹ chứng khoán chịu sự điều chỉnh của Regulation T và quy tắc FINRA.</li>
+<li><strong>Nhật Bản:</strong> đòn bẩy forex bán lẻ bị giới hạn ở 25:1.</li>
+<li><strong>Broker và sàn offshore:</strong> một số cung cấp 500:1 hoặc hơn với forex và trên 100x với crypto. Đòn bẩy sẵn có càng cao thì thường đi kèm mức bảo vệ khách hàng càng yếu. Xem <a href="/vi/encyclopedia/basics/brokers-and-exchanges/">broker và sàn giao dịch</a>.</li>
+</ul>
+<p>Mức trần đòn bẩy cho hợp đồng tương lai được đặt gián tiếp thông qua yêu cầu ký quỹ của sở giao dịch, thay đổi theo mức biến động.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Dùng đòn bẩy tối đa sẵn có.</strong> Đòn bẩy mà broker cung cấp là một giới hạn, không phải lời khuyên. Đòn bẩy thực tế nên xuất phát từ <a href="/vi/encyclopedia/risk-management/position-sizing/">xác định khối lượng vị thế</a> của bạn, không phải từ cài đặt tài khoản.</li>
+<li><strong>Nhầm ký quỹ với rủi ro.</strong> Nạp $1,000 ký quỹ cho vị thế 20x không có nghĩa là bạn đang rủi ro $1,000 một cách an toàn; nó có nghĩa là biến động 5% sẽ kết thúc lệnh.</li>
+<li><strong>Nạp thêm ký quỹ để cứu lệnh đang lỗ.</strong> Liên tục nạp tiền để tránh thanh lý thường biến khoản lỗ nhỏ thành khoản lỗ lớn.</li>
+<li><strong>Bỏ qua chi phí tài trợ.</strong> Vị thế dùng đòn bẩy giữ qua đêm thường phải trả lãi, swap hoặc funding. Xem <a href="/vi/encyclopedia/basics/trading-costs-and-fees/">chi phí và phí giao dịch</a>.</li>
+<li><strong>Quên gap.</strong> Cuối tuần, tin tức và việc tạm ngừng giao dịch có thể đẩy giá vượt qua mức thanh lý của bạn. Các vụ sụp đổ trong lịch sử được trình bày trong <a href="/vi/encyclopedia/risk-management/leverage-risk-and-black-swans/">rủi ro đòn bẩy và sự kiện thiên nga đen</a>.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="n-b-y-10x-ngh-a-l-g">Đòn bẩy 10x nghĩa là gì?</h3>
+<p>Nó có nghĩa là vị thế của bạn lớn gấp 10 lần số tiền bạn bỏ ra. Giá biến động 1% làm vốn chủ sở hữu của bạn thay đổi khoảng 10%, và biến động 10% đi ngược bạn có thể xóa sạch nó.</p>
+<h3 id="k-qu-ban-u-v-k-qu-duy-tr-kh-c-nhau-th-n-o">Ký quỹ ban đầu và ký quỹ duy trì khác nhau thế nào?</h3>
+<p>Ký quỹ ban đầu là khoản tiền nạp cần có để mở vị thế. Ký quỹ duy trì là mức tối thiểu thấp hơn bạn phải giữ trong khi nắm vị thế; rơi xuống dưới mức đó sẽ kích hoạt margin call hoặc thanh lý.</p>
+<h3 id="d-ng-n-b-y-c-th-l-nhi-u-h-n-s-ti-n-n-p-kh-ng">Dùng đòn bẩy có thể lỗ nhiều hơn số tiền nạp không?</h3>
+<p>Có, ở một số tài khoản. Nếu thị trường nhảy gap qua mức thanh lý của bạn, khoản lỗ có thể vượt quá số ký quỹ. Khách hàng CFD bán lẻ ở EU và Anh có bảo vệ số dư âm, nhưng điều này không phổ biến ở mọi nơi.</p>
+<h3 id="cross-margin-hay-isolated-margin-an-to-n-h-n">Cross margin hay isolated margin an toàn hơn?</h3>
+<p>Isolated margin giới hạn khoản lỗ của mỗi vị thế ở số ký quỹ được gán cho nó, nhờ đó bảo vệ phần còn lại của tài khoản. Cross margin trì hoãn thanh lý bằng cách dùng toàn bộ số dư, nhưng khi đó một lệnh xấu có thể ngốn sạch mọi thứ.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/basics/long-and-short-positions/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Long và Short</b><span>Long và short nghĩa là gì, bán khống qua vay mượn, CFD, hợp đồng tương lai, perpetual và quyền chọn bán, vì sao rủi ro short không giới hạn và cách phòng hộ.</span></a><a class="card" href="/vi/encyclopedia/crypto/crypto-liquidations/"><div class="k">Giao dịch crypto</div><b>Thanh lý</b><span>Thanh lý trong crypto hoạt động ra sao: cách tính giá thanh lý cho lệnh long và short, cross và isolated margin, thanh lý dây chuyền, heatmap và open interest.</span></a><a class="card" href="/vi/encyclopedia/risk-management/position-sizing/"><div class="k">Quản trị rủi ro và vốn</div><b>Quy mô vị thế</b><span>Cách tính quy mô vị thế từ rủi ro tài khoản và khoảng cách cắt lỗ: fixed fractional, số tiền cố định và ATR, kèm ví dụ cổ phiếu, forex và crypto.</span></a><a class="card" href="/vi/encyclopedia/risk-management/leverage-risk-and-black-swans/"><div class="k">Quản trị rủi ro và vốn</div><b>Rủi ro đòn bẩy và thiên nga đen</b><span>Sự kiện đuôi xóa sổ trader dùng đòn bẩy ra sao: franc Thụy Sĩ 2015, dầu âm 2020, GameStop, LUNA và FTX, cùng rủi ro gap, thanh khoản biến mất và bài học.</span></a><a class="card" href="/vi/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">Quản trị rủi ro và vốn</div><b>Quản trị rủi ro cơ bản</b><span>Vì sao quản lý rủi ro quan trọng hơn điểm vào lệnh: rủi ro mỗi lệnh, giới hạn lỗ trong ngày, phép tính khi mất 50 phần trăm và các loại rủi ro giao dịch chính.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/"><small>← Bài trước</small>Spread và thanh khoản</a><a class="next" href="/vi/encyclopedia/basics/long-and-short-positions/"><small>Bài tiếp →</small>Long và Short</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

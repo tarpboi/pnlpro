@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>做多与做空：多头和空头仓位如何运作 | PnL Profit</title>
+<meta name="description" content="什么是做多和做空，如何通过融券、差价合约、期货、永续合约和看跌期权做空，为什么空头风险无上限，以及对冲的原理。">
+<meta name="keywords" content="做多做空是什么意思, 做空是什么意思, 卖空怎么操作, 多头仓位, 空头风险">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/long-and-short-positions/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/long-and-short-positions/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="做多与做空：多头和空头仓位如何运作 | PnL Profit">
+<meta property="og:description" content="什么是做多和做空，如何通过融券、差价合约、期货、永续合约和看跌期权做空，为什么空头风险无上限，以及对冲的原理。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/basics/long-and-short-positions/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="做多与做空：多头和空头仓位如何运作 | PnL Profit">
+<meta name="twitter:description" content="什么是做多和做空，如何通过融券、差价合约、期货、永续合约和看跌期权做空，为什么空头风险无上限，以及对冲的原理。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"做多与做空：多头和空头仓位如何运作","description":"什么是做多和做空，如何通过融券、差价合约、期货、永续合约和看跌期权做空，为什么空头风险无上限，以及对冲的原理。","keywords":"做多做空是什么意思, 做空是什么意思, 卖空怎么操作, 多头仓位, 空头风险","articleSection":"交易基础","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/basics/long-and-short-positions/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"交易基础","item":"https://pnlpro.fit/zh/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"做多与做空","item":"https://pnlpro.fit/zh/encyclopedia/basics/long-and-short-positions/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"做空是什么意思？","acceptedAnswer":{"@type":"Answer","text":"做空是指建立一个在价格下跌时盈利的仓位。在股票市场，通常是指借入股票、卖出，之后再买回归还给出借方。"}},{"@type":"Question","name":"为什么卖空风险很大？","acceptedAnswer":{"@type":"Answer","text":"股价可以无限上涨，因此空头仓位的潜在亏损在理论上是无限的。空头仓位还会随着亏损而越变越大，拥挤的空头可能遭遇轧空，被迫在高价买回。"}},{"@type":"Question","name":"多头仓位和空头仓位有什么区别？","acceptedAnswer":{"@type":"Answer","text":"多头仓位在价格上涨时盈利，无杠杆时最多亏掉投入的金额。空头仓位在价格下跌时盈利，亏损可能超过最初卖出所得的金额。"}},{"@type":"Question","name":"加密货币可以做空吗？","acceptedAnswer":{"@type":"Answer","text":"可以。交易者可以通过永续合约、普通期货、期权，以及在某些国家通过差价合约做空加密货币。每种方式都涉及杠杆、资金费或融资成本，以及强平风险。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/basics/long-and-short-positions/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/long-and-short-positions/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/basics/long-and-short-positions/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/long-and-short-positions/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/long-and-short-positions/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/long-and-short-positions/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/long-and-short-positions/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/long-and-short-positions/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/long-and-short-positions/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>交易基础</h3><ul><li><a href="/zh/encyclopedia/basics/what-is-trading/">什么是交易？</a></li><li><a href="/zh/encyclopedia/basics/financial-markets-overview/">金融市场概览</a></li><li><a href="/zh/encyclopedia/basics/trading-styles/">交易风格</a></li><li><a href="/zh/encyclopedia/basics/order-types/">订单类型</a></li><li><a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿与市场深度</a></li><li><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">点差与流动性</a></li><li><a href="/zh/encyclopedia/basics/leverage-and-margin/">杠杆与保证金</a></li><li><a href="/zh/encyclopedia/basics/long-and-short-positions/" class="on" aria-current="page">做多与做空</a></li><li><a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a></li><li><a href="/zh/encyclopedia/basics/brokers-and-exchanges/">经纪商与交易所</a></li><li><a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a></li><li><a href="/zh/encyclopedia/basics/market-hours-and-sessions/">交易时间与时段</a></li><li><a href="/zh/encyclopedia/basics/how-to-start-trading/">如何开始交易</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/" class="on">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/basics/">交易基础</a></div>
+<h1 class="title">多头与空头仓位</h1>
+<div class="meta">阅读约 5 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>交易基础中的更多文章</summary><ul><li><a href="/zh/encyclopedia/basics/what-is-trading/">什么是交易？</a></li><li><a href="/zh/encyclopedia/basics/financial-markets-overview/">金融市场概览</a></li><li><a href="/zh/encyclopedia/basics/trading-styles/">交易风格</a></li><li><a href="/zh/encyclopedia/basics/order-types/">订单类型</a></li><li><a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿与市场深度</a></li><li><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">点差与流动性</a></li><li><a href="/zh/encyclopedia/basics/leverage-and-margin/">杠杆与保证金</a></li><li><a href="/zh/encyclopedia/basics/long-and-short-positions/" class="on" aria-current="page">做多与做空</a></li><li><a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a></li><li><a href="/zh/encyclopedia/basics/brokers-and-exchanges/">经纪商与交易所</a></li><li><a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a></li><li><a href="/zh/encyclopedia/basics/market-hours-and-sessions/">交易时间与时段</a></li><li><a href="/zh/encyclopedia/basics/how-to-start-trading/">如何开始交易</a></li></ul></details>
+<article><p>做多（going long）是指买入资产，在价格上涨时获利；做空（going short）是指卖出你并不持有的资产，或建立等效的衍生品仓位，在价格下跌时获利。两者几乎是每个市场的基本工具。但它们并非简单的镜像关系：多头仓位最多亏掉所付出的本金，而空头仓位理论上的亏损却没有上限。在使用其中任何一种之前，都必须先弄懂它们的运作机制和成本。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点总结</h2>
+<ul>
+<li>多头仓位在价格上涨时盈利、下跌时亏损；无杠杆多头的最大亏损就是投入的金额。</li>
+<li>空头仓位在价格下跌时盈利、上涨时亏损；由于价格没有上限，空头的亏损理论上是无限的。</li>
+<li>做空可以通过借入并卖出股票来实现，也可以通过差价合约、期货、永续合约、看跌期权和反向产品来实现。</li>
+<li>空头仓位通常伴随持续性成本，例如融券费、需支付的股息或资金费。</li>
+<li>对冲是用一个相反的仓位来降低现有仓位的风险，代价是放弃部分潜在收益。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">做多</a></li><li><a href="#section-3">做空</a></li><li><a href="#section-5">空头风险的不对称性</a></li><li><a href="#section-6">做空的方式</a></li><li><a href="#section-7">对冲</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">做多</h2>
+<p>多头仓位最符合直觉：现在买入，日后以期望中更高的价格卖出。以 $40 买入 100 股、以 $46 卖出，扣除成本前赚 $600。如果股价跌到 $34，亏损就是 $600。如果公司破产、股价归零，亏损就是全部 $4,000，但不会更多。</p>
+<p>股票和现货加密货币的多头仓位可以无限期持有，没有时间限制。而杠杆多头，例如通过保证金、差价合约或永续合约建立的仓位，则会增加融资成本和被强制平仓的风险。参见<a href="/zh/encyclopedia/basics/leverage-and-margin/">杠杆与保证金</a>。</p>
+<h2 id="section-3">做空</h2>
+<p>空头仓位从下跌中获利。股票做空的经典流程分为三步：</p>
+<ol>
+<li><strong>借入</strong>股票，通常由经纪商从自有库存或其他客户和出借方那里自动安排。</li>
+<li>以当前价格<strong>卖出</strong>借来的股票，收取现金。</li>
+<li>日后<strong>买回</strong>相同数量的股票（称为平仓回补），归还给出借方。</li>
+</ol>
+<p>如果期间价格下跌，你买回的价格低于卖出价，就能赚取差价。如果价格上涨，你就要以更高的价格买回，亏掉差价。详细的运作机制，包括借券确认（locate）、难借股票以及卖空限制，请参见<a href="/zh/encyclopedia/stocks/short-selling/">卖空</a>。</p>
+<h3 id="section-4">计算示例：一笔股票做空交易</h3>
+<p>某交易者以 $40 做空 100 股，收到 $4,000。经纪商按仓位价值收取每年 3% 的融券费，该交易持有 30 天。</p>
+<ul>
+<li>融券费：$4,000 x 3% x 30 / 365 = 约 $9.86</li>
+<li><strong>如果股价跌到 $30：</strong> 花 $3,000 买回。毛利润 $1,000，净利润约 $990。</li>
+<li><strong>如果股价涨到 $50：</strong> 花 $5,000 买回。毛亏损 $1,000，净亏损约 $1,010。</li>
+<li><strong>如果股价涨到 $80：</strong> 花 $8,000 买回。毛亏损 $4,000，相当于最初卖出所得的 100%。</li>
+<li><strong>如果股价涨到 $120：</strong> 毛亏损 $8,000，相当于卖出所得的 200%。</li>
+</ul>
+<p>同一笔交易的多头一方，亏损永远不会超过 $4,000。而空头一方则没有这样的上限。如果公司在这 30 天内还派发了股息，卖空者还需向出借方支付这笔金额。</p>
+<h2 id="section-5">空头风险的不对称性</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>多头</th>
+<th>空头</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>盈利条件</td>
+<td>价格上涨</td>
+<td>价格下跌</td>
+</tr>
+<tr>
+<td>最大盈利</td>
+<td>无上限</td>
+<td>价格跌至零（入场价值的 100%）</td>
+</tr>
+<tr>
+<td>最大亏损（无杠杆）</td>
+<td>投入金额的 100%</td>
+<td>理论上无上限</td>
+</tr>
+<tr>
+<td>盈利交易对仓位规模的影响</td>
+<td>仓位占账户的比例上升</td>
+<td>仓位占账户的比例下降</td>
+</tr>
+<tr>
+<td>亏损交易对仓位规模的影响</td>
+<td>仓位缩小</td>
+<td>仓位扩大，风险增加</td>
+</tr>
+<tr>
+<td>典型持续性成本</td>
+<td>使用杠杆时的融资利息</td>
+<td>融券费、股息、资金费、融资费用</td>
+</tr>
+</tbody></table></div>
+<p>最后两行在实践中非常重要。当空头判断失误时，仓位相对于账户会越来越大，可能迫使交易者在最糟糕的时刻平仓。当大量卖空者被迫同时买回时，这些买盘本身就会推高价格，这被称为<strong>轧空</strong>（short squeeze，又称逼空）。2021 年 1 月 GameStop 股价的飙升就是一个著名的例子。</p>
+<h2 id="section-6">做空的方式</h2>
+<p>不同市场提供了不同的方式来从下跌中获利。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>运作原理</th>
+<th>主要成本与风险</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>借入并卖出股票</td>
+<td>通过保证金账户进行的经典卖空</td>
+<td>融券费、需支付的股息、被召回的风险、轧空风险</td>
+</tr>
+<tr>
+<td>差价合约与点差交易</td>
+<td>与经纪商卖出一份合约；你无需自行借券</td>
+<td>融资费用、经纪商是交易对手；美国散户客户无法交易。参见<a href="/zh/encyclopedia/forex/cfds-and-spread-betting/">差价合约与点差交易</a></td>
+</tr>
+<tr>
+<td>期货</td>
+<td>卖出一份期货合约；做空和买入一样容易</td>
+<td>杠杆、每日盯市、到期与移仓换月。参见<a href="/zh/encyclopedia/futures/futures-basics/">期货基础</a></td>
+</tr>
+<tr>
+<td>加密货币永续合约</td>
+<td>开立永续合约空头仓位</td>
+<td>资金费、强平风险。参见<a href="/zh/encyclopedia/crypto/perpetual-futures/">永续合约</a></td>
+</tr>
+<tr>
+<td>买入看跌期权</td>
+<td>支付权利金，获得以既定价格卖出的权利</td>
+<td>亏损以权利金为限，但时间价值衰减对你不利。参见<a href="/zh/encyclopedia/options/options-basics/">期权基础</a></td>
+</tr>
+<tr>
+<td>反向 ETF</td>
+<td>买入一只在指数下跌时上涨的基金</td>
+<td>每日重置导致较长周期内出现偏离</td>
+</tr>
+</tbody></table></div>
+<p>买入看跌期权是唯一一种最大亏损事先确定的常见做空方式。代价是，如果到期前价格跌得不够多，权利金就会全部损失。</p>
+<h2 id="section-7">对冲</h2>
+<p><strong>对冲</strong>是为抵消另一个仓位的风险而建立的仓位。对冲能在不利情形下减少亏损，但也会在有利情形下减少收益，而且通常需要付出一定成本。</p>
+<h3 id="section-8">计算示例：对冲加密货币持仓</h3>
+<p>某交易者持有很久以前买入的 0.5 BTC，可能出于税务原因不想卖出，但预计短期内会下跌。于是他以 $60,000 开立了 0.5 BTC 的永续合约空头仓位。</p>
+<ul>
+<li><strong>如果比特币跌到 $50,000：</strong> 现货持仓亏损 0.5 x $10,000 = $5,000。空头盈利 0.5 x $10,000 = $5,000。净变化：约为零，再减去资金费和手续费。</li>
+<li><strong>如果比特币涨到 $70,000：</strong> 现货持仓盈利 $5,000，空头亏损 $5,000。净变化：同样约为零。</li>
+</ul>
+<p>只要对冲仓位存在，就能锁定当前价值。交易者放弃了上涨空间，换来下行风险的消除；并且在空头持仓期间，如果资金费率转为负值，还需要支付<a href="/zh/encyclopedia/crypto/funding-rates/">资金费</a>（资金费率为正时，空头反而收取资金费）。部分对冲，例如只做空 0.25 BTC，只能降低而不能消除风险敞口。</p>
+<p>对冲在企业中和在交易者中同样常见。航空公司对冲燃油成本，农民对冲农作物价格，出口商对冲汇率。这些套期保值者是<a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a>中的重要群体。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>做空时不设止损或明确的退出点。</strong> 一笔价格持续上涨的空单，亏损可能超过整个账户。</li>
+<li><strong>做空空头仓位很重、流通盘很小的股票。</strong> 这类股票最容易出现剧烈的轧空。</li>
+<li><strong>忽视持仓成本。</strong> 难借股票的融券费每年可能超过 50%，而拥挤的永续合约空头长期支付的资金费也可能相当可观。</li>
+<li><strong>以为对冲是免费的。</strong> 相互抵消的仓位依然要支付点差、手续费和融资费用。</li>
+<li><strong>以为下跌行情更容易交易。</strong> 下跌往往来得很快，而且常被剧烈的反弹打断，把卖空者扫出局。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-11">做空是什么意思？</h3>
+<p>做空是指建立一个在价格下跌时盈利的仓位。在股票市场，通常是指借入股票、卖出，之后再买回归还给出借方。</p>
+<h3 id="section-12">为什么卖空风险很大？</h3>
+<p>股价可以无限上涨，因此空头仓位的潜在亏损在理论上是无限的。空头仓位还会随着亏损而越变越大，拥挤的空头可能遭遇轧空，被迫在高价买回。</p>
+<h3 id="section-13">多头仓位和空头仓位有什么区别？</h3>
+<p>多头仓位在价格上涨时盈利，无杠杆时最多亏掉投入的金额。空头仓位在价格下跌时盈利，亏损可能超过最初卖出所得的金额。</p>
+<h3 id="section-14">加密货币可以做空吗？</h3>
+<p>可以。交易者可以通过永续合约、普通期货、期权，以及在某些国家通过差价合约做空加密货币。每种方式都涉及杠杆、资金费或融资成本，以及强平风险。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/stocks/short-selling/"><div class="k">股票交易</div><b>卖空</b><span>卖空如何运作：寻券与借券，借券费，空头头寸与回补天数，轧空，SSR 规则，需支付的股息，以及替代方案。</span></a><a class="card" href="/zh/encyclopedia/basics/leverage-and-margin/"><div class="k">交易基础</div><b>杠杆与保证金</b><span>杠杆和保证金如何运作，初始保证金与维持保证金，追加保证金通知、强制平仓、全仓与逐仓保证金，附计算示例和各地区杠杆上限。</span></a><a class="card" href="/zh/encyclopedia/options/options-basics/"><div class="k">期权交易</div><b>期权基础</b><span>期权怎么运作：看涨与看跌期权、行权价、到期日、权利金、内在价值与时间价值、价值状态，买方和卖方的盈亏示例，以及期权交易权限等级。</span></a><a class="card" href="/zh/encyclopedia/crypto/perpetual-futures/"><div class="k">加密货币交易</div><b>永续合约</b><span>加密永续合约如何运作：无到期日、标记价格与指数价格及最新价、资金费、杠杆、保险基金、自动减仓、币本位与U本位，以及永续合约 DEX。</span></a><a class="card" href="/zh/encyclopedia/basics/trading-costs-and-fees/"><div class="k">交易基础</div><b>交易成本与费用</b><span>佣金、点差、maker/taker 手续费、隔夜利息、资金费、融券费、订单流付费、gas 费、滑点和税负，附一个高频交易成本累积的计算示例。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/basics/leverage-and-margin/"><small>← 上一篇</small>杠杆与保证金</a><a class="next" href="/zh/encyclopedia/basics/trading-costs-and-fees/"><small>下一篇 →</small>交易成本与费用</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

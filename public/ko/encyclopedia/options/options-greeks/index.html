@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>옵션 그릭스: 델타, 감마, 세타, 베가, 로 정리 | PnL Profit</title>
+<meta name="description" content="델타, 감마, 세타, 베가, 로가 무엇을 측정하는지 계산 예시로 설명하고, 시간과 머니니스에 따른 변화와 포지션 그릭스 읽는 법을 정리합니다.">
+<meta name="keywords" content="옵션 그릭스, 델타 감마 세타 베가, 옵션 델타란, 세타 시간가치 감소, 포지션 그릭스">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/options-greeks/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="옵션 그릭스: 델타, 감마, 세타, 베가, 로 정리 | PnL Profit">
+<meta property="og:description" content="델타, 감마, 세타, 베가, 로가 무엇을 측정하는지 계산 예시로 설명하고, 시간과 머니니스에 따른 변화와 포지션 그릭스 읽는 법을 정리합니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/options/options-greeks/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="옵션 그릭스: 델타, 감마, 세타, 베가, 로 정리 | PnL Profit">
+<meta name="twitter:description" content="델타, 감마, 세타, 베가, 로가 무엇을 측정하는지 계산 예시로 설명하고, 시간과 머니니스에 따른 변화와 포지션 그릭스 읽는 법을 정리합니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"옵션 그릭스: 델타, 감마, 세타, 베가, 로 정리","description":"델타, 감마, 세타, 베가, 로가 무엇을 측정하는지 계산 예시로 설명하고, 시간과 머니니스에 따른 변화와 포지션 그릭스 읽는 법을 정리합니다.","keywords":"옵션 그릭스, 델타 감마 세타 베가, 옵션 델타란, 세타 시간가치 감소, 포지션 그릭스","articleSection":"옵션 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/options/options-greeks/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"옵션 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"옵션 그릭스","item":"https://pnlpro.fit/ko/encyclopedia/options/options-greeks/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"옵션을 살 때 좋은 델타는 얼마입니까?","acceptedAnswer":{"@type":"Answer","text":"하나의 정답은 없습니다. 델타가 높은 내가격 옵션은 주식처럼 움직이고 비율 기준으로 가치 감소가 적은 반면, 델타가 낮은 외가격 옵션은 더 싸지만 내가격으로 만기를 맞을 가능성이 낮습니다."}},{"@type":"Question","name":"왜 만기가 가까울수록 세타가 커집니까?","acceptedAnswer":{"@type":"Answer","text":"외재가치는 만기에 0이 되어야 합니다. 등가격 옵션의 남은 시간가치는 점점 줄어드는 날수에 걸쳐 사라지므로, 만기가 다가올수록 하루 감소분이 커집니다."}},{"@type":"Question","name":"음의 감마는 무엇을 뜻합니까?","acceptedAnswer":{"@type":"Answer","text":"옵션을 매도하면 생기는 음의 감마는 기초자산이 움직일 때 델타가 불리한 방향으로 변한다는 뜻입니다. 가격이 내리면 롱 노출이 커지고, 오르면 숏 노출이 커집니다. 큰 움직임에서는 손실이 가속될 수 있습니다."}},{"@type":"Question","name":"어떤 그릭이 가장 중요합니까?","acceptedAnswer":{"@type":"Answer","text":"전략에 따라 다릅니다. 방향성 트레이더는 델타를, 단기 만기 트레이더는 감마와 세타를, 실적 발표나 다른 이벤트 전후로 거래하는 트레이더는 베가를 가장 주의 깊게 봅니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/options/options-greeks/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/options-greeks/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/options-greeks/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/options-greeks/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/options-greeks/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/options-greeks/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/options-greeks/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/options-greeks/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/options-greeks/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>옵션 트레이딩</h3><ul><li><a href="/ko/encyclopedia/options/options-basics/">옵션 기초</a></li><li><a href="/ko/encyclopedia/options/options-greeks/" class="on" aria-current="page">옵션 그릭스</a></li><li><a href="/ko/encyclopedia/options/implied-volatility/">내재 변동성</a></li><li><a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">커버드 콜과 CSP</a></li><li><a href="/ko/encyclopedia/options/vertical-spreads/">버티컬 스프레드</a></li><li><a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a></li><li><a href="/ko/encyclopedia/options/straddles-and-strangles/">스트래들과 스트랭글</a></li><li><a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a></li><li><a href="/ko/encyclopedia/options/options-expiration-and-assignment/">만기와 배정</a></li><li><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">감마 익스포저와 딜러</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/" class="on">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/options/">옵션 트레이딩</a></div>
+<h1 class="title">옵션 그릭스</h1>
+<div class="meta">7분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>옵션 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/options/options-basics/">옵션 기초</a></li><li><a href="/ko/encyclopedia/options/options-greeks/" class="on" aria-current="page">옵션 그릭스</a></li><li><a href="/ko/encyclopedia/options/implied-volatility/">내재 변동성</a></li><li><a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">커버드 콜과 CSP</a></li><li><a href="/ko/encyclopedia/options/vertical-spreads/">버티컬 스프레드</a></li><li><a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a></li><li><a href="/ko/encyclopedia/options/straddles-and-strangles/">스트래들과 스트랭글</a></li><li><a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a></li><li><a href="/ko/encyclopedia/options/options-expiration-and-assignment/">만기와 배정</a></li><li><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">감마 익스포저와 딜러</a></li></ul></details>
+<article><p>그릭스는 다른 조건이 그대로일 때 입력값 하나가 바뀌면 옵션 가격이 어떻게 변할지를 나타내는 지표들입니다. 델타는 기초자산 가격에 대한 민감도, 감마는 델타 자체가 얼마나 빨리 변하는지, 세타는 시간가치 감소, 베가는 내재변동성에 대한 민감도, 로는 금리에 대한 민감도를 측정합니다. 그릭스를 함께 보면 옵션은 복권이 아니라 위험을 측정하고 비교하고 관리할 수 있는 포지션이 됩니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>델타는 기초자산이 $1 움직일 때 옵션 가격이 대략 얼마나 움직이는지 알려 주며, 주식 환산 노출로도 쓰입니다.</li>
+<li>감마는 델타의 변화율이며, 만기가 임박한 등가격 옵션에서 가장 큽니다.</li>
+<li>세타는 옵션을 보유하는 하루치 비용이며, 만기가 다가올수록 빨라집니다.</li>
+<li>베가는 내재변동성 변화에 대한 노출을 측정하며, 주가가 그대로여도 내재변동성은 옵션 가격을 움직일 수 있습니다.</li>
+<li>모든 포지션의 그릭스를 합하면 포지션 그릭스가 되며, 이는 포트폴리오가 실제로 무엇에 노출되어 있는지를 가장 명확하게 요약해 줍니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">기준 옵션</a></li><li><a href="#section-3">델타</a></li><li><a href="#section-5">감마</a></li><li><a href="#section-8">세타</a></li><li><a href="#section-11">베가</a></li><li><a href="#section-14">로</a></li><li><a href="#section-15">그릭스는 함께 어떻게 변하는가</a></li><li><a href="#section-16">포지션 그릭스</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">기준 옵션</h2>
+<p>아래 예시는 처음부터 끝까지 하나의 옵션을 사용합니다. 주가는 $100입니다. 행사가 $100, 만기 30일인 콜의 가격은 $3.50이고 내재변동성은 약 30%입니다. 옵션 가격 결정 모형이 내놓을 값을 반올림한 근사치로 나타낸 그릭스는 다음과 같습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>그릭</th>
+<th>값</th>
+<th>쉬운 의미</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>델타</td>
+<td>0.52</td>
+<td>주가가 $1 오르면 콜은 주당 약 $0.52 오름</td>
+</tr>
+<tr>
+<td>감마</td>
+<td>0.046</td>
+<td>주가가 $1 오르면 델타가 약 0.046 증가</td>
+</tr>
+<tr>
+<td>세타</td>
+<td>-0.06</td>
+<td>시간가치 감소로 콜이 하루에 주당 약 $0.06 하락</td>
+</tr>
+<tr>
+<td>베가</td>
+<td>0.11</td>
+<td>내재변동성이 1%포인트 오르면 콜은 주당 약 $0.11 오름</td>
+</tr>
+<tr>
+<td>로</td>
+<td>0.04</td>
+<td>금리가 1%포인트 오르면 콜은 주당 약 $0.04 오름</td>
+</tr>
+</tbody></table></div>
+<p>미국 표준 주식옵션은 100주를 대상으로 하므로, 계약당 달러 효과를 구하려면 각 수치에 100을 곱합니다. 세타 -0.06은 계약당 하루 약 $6를 뜻합니다. 그릭스는 모형에서 나온 추정치이며 끊임없이 변합니다. 계약 구조는 <a href="/ko/encyclopedia/options/options-basics/">옵션 기초</a>를 참고하십시오.</p>
+<h2 id="section-3">델타</h2>
+<p>델타는 기초자산이 $1 변할 때 예상되는 옵션 가격 변화입니다. 콜의 델타는 0과 1 사이의 양수이고, 풋의 델타는 0과 -1 사이의 음수입니다.</p>
+<h3 id="section-4">델타가 알려 주는 것</h3>
+<ul>
+<li><strong>가격 민감도:</strong> 델타가 0.52이면 주가가 $1 오를 때 콜은 약 $0.52, 계약당 $52 오릅니다.</li>
+<li><strong>주식 환산치:</strong> 델타 0.52인 계약 하나는 작은 움직임에서 대략 52주처럼 움직입니다.</li>
+<li><strong>대략적인 확률:</strong> 트레이더들은 델타를 옵션이 내가격으로 만기를 맞을 확률의 느슨한 추정치로 쓰곤 합니다. 델타 0.30인 옵션은 대략 30%의 확률로 읽히는 경우가 많습니다. 이는 경험칙일 뿐 정확한 확률이 아닙니다.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>머니니스</th>
+<th>일반적인 콜 델타</th>
+<th>일반적인 풋 델타</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>깊은 내가격</td>
+<td>1.00에 근접</td>
+<td>-1.00에 근접</td>
+</tr>
+<tr>
+<td>등가격</td>
+<td>약 0.50</td>
+<td>약 -0.50</td>
+</tr>
+<tr>
+<td>깊은 외가격</td>
+<td>0에 근접</td>
+<td>0에 근접</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-5">감마</h2>
+<p>감마는 기초자산이 $1 변할 때의 델타 변화입니다. 옵션 매수 포지션은 콜이든 풋이든 항상 양의 감마를 갖고, 옵션 매도 포지션은 음의 감마를 갖습니다.</p>
+<h3 id="section-6">계산 예시: 델타와 감마를 함께 보기</h3>
+<p>주가가 $100에서 $101로 오릅니다.</p>
+<ul>
+<li>새 델타는 약 0.52 + 0.046 = 0.566입니다.</li>
+<li>움직이는 동안 델타가 커졌으므로, 가격 변화는 평균 델타로 추정하는 편이 더 정확합니다: 0.52 + (0.5 x 0.046) = 0.543.</li>
+<li>새 콜 가격은 약 $3.50 + $0.543 = $4.04입니다.</li>
+</ul>
+<p>반대로 주가가 $1 내리면 델타는 약 0.474로 떨어지고, 콜은 약 0.52 - 0.023 = $0.497 하락해 약 $3.00이 됩니다. 양의 감마란 같은 크기로 움직일 때 콜이 오를 때 버는 폭이 내릴 때 잃는 폭보다 조금 더 크다는 뜻입니다. 옵션 매도자는 정반대입니다. 주가가 불리하게 움직일수록 손실이 가속됩니다.</p>
+<h3 id="section-7">감마는 어떻게 변하는가</h3>
+<p>감마는 등가격 옵션에서 가장 높고, 만기가 다가올수록 급격히 커집니다. 당일 만기 등가격 옵션은 작은 움직임에도 델타가 약 0.50에서 1이나 0 가까이로 휙 바뀔 수 있습니다. 이것이 <a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a>이 그토록 민감한 이유이며, 딜러의 감마 헤지가 기초자산 시장에 영향을 줄 수 있는 이유이기도 합니다. 자세한 내용은 <a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">감마 익스포저와 딜러 헤지</a>에서 설명합니다.</p>
+<h2 id="section-8">세타</h2>
+<p>세타는 다른 조건이 그대로일 때 하루가 지나면서 생기는 옵션 가격 변화입니다. 옵션 매수 포지션은 음의 세타, 매도 포지션은 양의 세타를 갖습니다. 세타는 옵션이 주는 권리를 보유하는 비용입니다.</p>
+<h3 id="section-9">계산 예시</h3>
+<p>주가가 변하지 않고 변동성도 그대로인 상태에서 기준 콜을 5일 보유하면 약 5 x $0.06 = 주당 $0.30, 계약당 $30의 비용이 들어, 콜 가격은 약 $3.50에서 약 $3.20이 됩니다. 실제로는 세타가 일정하지 않고, 만기가 가까워질수록 커집니다.</p>
+<h3 id="section-10">세타는 어떻게 변하는가</h3>
+<ul>
+<li><strong>시간:</strong> 등가격 옵션은 처음에는 외재가치를 천천히 잃다가 마지막 몇 주에 빠르게 잃습니다. 만기 90일 옵션은 하루에 몇 센트를 잃을 수 있지만, 같은 행사가에 만기가 1주일 남은 옵션은 그 몇 배를 잃을 수 있습니다.</li>
+<li><strong>머니니스:</strong> 달러 기준 세타는 외재가치가 가장 많은 등가격 옵션에서 가장 큽니다. 깊은 내가격과 깊은 외가격 옵션은 잃을 것이 적습니다.</li>
+</ul>
+<p>옵션 매도자는 세타를 수취하는 것을 목표로 합니다. 그 대가를 받는 이유는 큰 움직임의 위험인 음의 감마도 함께 떠안기 때문입니다.</p>
+<h2 id="section-11">베가</h2>
+<p>베가는 <a href="/ko/encyclopedia/options/implied-volatility/">내재변동성</a>이 1%포인트 변할 때의 옵션 가격 변화입니다. 옵션 매수 포지션은 양의 베가, 매도 포지션은 음의 베가를 갖습니다.</p>
+<h3 id="section-12">계산 예시</h3>
+<p>실적 발표를 앞두고 주가는 그대로인데 기준 콜의 내재변동성이 30%에서 36%로 오릅니다. 콜은 약 6 x $0.11 = $0.66 올라 약 $4.16이 됩니다. 발표 뒤 내재변동성이 30%로 되돌아가면, 주가가 거의 움직이지 않았더라도 그 $0.66는 사라집니다. 이를 IV 크러시라고 합니다.</p>
+<h3 id="section-13">베가는 어떻게 변하는가</h3>
+<p>베가는 등가격 옵션과 만기가 긴 옵션에서 가장 큽니다. 변동성이 영향을 미칠 시간이 더 많기 때문입니다. 같은 행사가라도 1년 만기 옵션은 1주일 만기 옵션보다 베가가 훨씬 큽니다.</p>
+<h2 id="section-14">로</h2>
+<p>로는 금리가 1%포인트 변할 때의 옵션 가격 변화입니다. 콜은 양의 로, 풋은 음의 로를 갖습니다. 금리가 오르면 주식을 직접 사는 것보다 콜을 보유하는 편이 상대적으로 더 매력적이 되기 때문입니다. 로는 만기가 짧은 옵션에서는 작고 개인 트레이더에게는 대개 가장 덜 중요한 그릭이지만, LEAPS 같은 장기 옵션에서는 중요합니다.</p>
+<h2 id="section-15">그릭스는 함께 어떻게 변하는가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>그릭</th>
+<th>등가격</th>
+<th>깊은 내가격</th>
+<th>깊은 외가격</th>
+<th>만기 임박 시(ATM)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>델타</td>
+<td>약 ±0.50</td>
+<td>±1.00 근처</td>
+<td>0 근처</td>
+<td>±0.50 근처를 유지하지만 불안정해짐</td>
+</tr>
+<tr>
+<td>감마</td>
+<td>가장 높음</td>
+<td>낮음</td>
+<td>낮음</td>
+<td>급격히 상승</td>
+</tr>
+<tr>
+<td>세타</td>
+<td>감소 폭 가장 큼</td>
+<td>작음</td>
+<td>작음</td>
+<td>감소 가속</td>
+</tr>
+<tr>
+<td>베가</td>
+<td>가장 높음</td>
+<td>낮음</td>
+<td>낮음</td>
+<td>하락</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-16">포지션 그릭스</h2>
+<p>포지션 그릭스는 모든 옵션과 주식 포지션의 각 그릭에 계약 수와 승수를 곱해 합산한 값입니다. 주식은 주당 델타가 1이고 감마, 세타, 베가는 없습니다.</p>
+<h3 id="section-17">계산 예시: 작은 포트폴리오</h3>
+<p>한 트레이더가 다음을 보유하고 있습니다.</p>
+<ul>
+<li>기준 콜 5계약 매수(델타 0.52, 감마 0.046, 세타 -0.06, 베가 0.11)</li>
+<li>같은 주식 200주 공매도</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>그릭</th>
+<th>콜: 5 x 100 x 그릭</th>
+<th>주식</th>
+<th>포지션 합계</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>델타</td>
+<td>5 x 100 x 0.52 = +260</td>
+<td>-200</td>
+<td>+60주</td>
+</tr>
+<tr>
+<td>감마</td>
+<td>5 x 100 x 0.046 = +23</td>
+<td>0</td>
+<td>$1당 +23</td>
+</tr>
+<tr>
+<td>세타</td>
+<td>5 x 100 x -0.06 = -$30</td>
+<td>0</td>
+<td>하루 -$30</td>
+</tr>
+<tr>
+<td>베가</td>
+<td>5 x 100 x 0.11 = +$55</td>
+<td>0</td>
+<td>변동성 1포인트당 +$55</td>
+</tr>
+</tbody></table></div>
+<p>해석하면 이 포지션은 지금 60주를 매수한 것처럼 움직입니다. 주가가 $1 오르면 델타는 약 +83으로 커집니다. 아무 일도 없으면 하루 약 $30를 잃고, 내재변동성이 1포인트 오를 때마다 약 $55를 법니다. 롱 감마, 롱 베가 포지션이며 그 대가로 세타를 지불합니다. 대부분의 브로커 플랫폼이 포지션 그릭스를 보여 주므로, 매 거래 전후로 확인하는 습관을 들이는 것이 좋습니다.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>델타를 고정된 값으로 본다.</strong> 델타는 가격, 시간, 변동성에 따라 변합니다. 지금 중립인 포지션도 한 번 움직이고 나면 중립이 아닐 수 있습니다.</li>
+<li><strong>옵션 매수 포지션의 세타를 무시한다.</strong> 방향 판단이 맞아도 움직임이 너무 늦게 오면 손실이 날 수 있습니다.</li>
+<li><strong>이벤트 전후의 베가를 잊는다.</strong> 내재변동성이 높을 때 옵션을 샀다가 변동성이 무너지는 것을 지켜보는 것은 맞는 판단으로 돈을 잃는 흔한 방식입니다.</li>
+<li><strong>음의 감마를 과소평가한다.</strong> 만기 근처에서 옵션을 팔면 세타를 빠르게 수취하지만, 급격한 움직임 한 번에 큰 손실이 빠르게 날 수 있습니다.</li>
+<li><strong>모형 그릭스를 맹신한다.</strong> 그릭스는 가정을 깔고 있는 모형에서 나옵니다. 큰 움직임, 갭, 변동성 급등은 정작 그릭스가 가장 중요할 때 그 값을 부정확하게 만들 수 있습니다.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-20">옵션을 살 때 좋은 델타는 얼마입니까?</h3>
+<p>하나의 정답은 없습니다. 델타가 높은 내가격 옵션은 주식처럼 움직이고 비율 기준으로 가치 감소가 적은 반면, 델타가 낮은 외가격 옵션은 더 싸지만 내가격으로 만기를 맞을 가능성이 낮습니다.</p>
+<h3 id="section-21">왜 만기가 가까울수록 세타가 커집니까?</h3>
+<p>외재가치는 만기에 0이 되어야 합니다. 등가격 옵션의 남은 시간가치는 점점 줄어드는 날수에 걸쳐 사라지므로, 만기가 다가올수록 하루 감소분이 커집니다.</p>
+<h3 id="section-22">음의 감마는 무엇을 뜻합니까?</h3>
+<p>옵션을 매도하면 생기는 음의 감마는 기초자산이 움직일 때 델타가 불리한 방향으로 변한다는 뜻입니다. 가격이 내리면 롱 노출이 커지고, 오르면 숏 노출이 커집니다. 큰 움직임에서는 손실이 가속될 수 있습니다.</p>
+<h3 id="section-23">어떤 그릭이 가장 중요합니까?</h3>
+<p>전략에 따라 다릅니다. 방향성 트레이더는 델타를, 단기 만기 트레이더는 감마와 세타를, 실적 발표나 다른 이벤트 전후로 거래하는 트레이더는 베가를 가장 주의 깊게 봅니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/options/options-basics/"><div class="k">옵션 트레이딩</div><b>옵션 기초</b><span>콜과 풋, 행사가, 만기, 프리미엄, 내재가치와 시간가치, 머니니스, 매수자·매도자 손익을 예시로 설명하고 옵션 승인 단계도 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/options/implied-volatility/"><div class="k">옵션 트레이딩</div><b>내재 변동성</b><span>내재변동성의 정의와 역사적 변동성과의 차이, IV 랭크와 IV 백분위, IV 크러시, 변동성 스큐, 예상 변동폭 공식을 예시와 함께 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/"><div class="k">옵션 트레이딩</div><b>감마 익스포저와 딜러</b><span>마켓메이커의 델타 헤지, 딜러의 양·음의 감마, 감마 스퀴즈, GEX 추정 방식과 한계, OPEX 효과, 반나와 참까지 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/options/0dte-options/"><div class="k">옵션 트레이딩</div><b>0DTE 옵션</b><span>0DTE 옵션의 정의, SPX·SPY·QQQ 당일 만기 옵션이 급성장한 배경, 극단적인 감마와 시간가치 감소, 주요 전략과 위험을 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/options/straddles-and-strangles/"><div class="k">옵션 트레이딩</div><b>스트래들과 스트랭글</b><span>롱·숏 스트래들과 스트랭글의 구조, 손익분기점 계산, 손익분기점과 예상 변동폭 비교, 실적 발표 거래, 변동성 매도의 꼬리 위험을 설명합니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/options/options-basics/"><small>← 이전 글</small>옵션 기초</a><a class="next" href="/ko/encyclopedia/options/implied-volatility/"><small>다음 글 →</small>내재 변동성</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

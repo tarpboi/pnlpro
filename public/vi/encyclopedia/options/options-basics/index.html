@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giao dịch quyền chọn cơ bản: Call, Put, giá thực hiện và phí</title>
+<meta name="description" content="Cách quyền chọn hoạt động: call, put, giá thực hiện, ngày đáo hạn, phí, giá trị nội tại và ngoại lai, moneyness, lãi lỗ người mua và người bán, cấp phê duyệt.">
+<meta name="keywords" content="giao dịch quyền chọn cho người mới, call và put khác nhau thế nào, quyền chọn hoạt động như thế nào, giá trị nội tại và giá trị ngoại lai, hệ số nhân hợp đồng quyền chọn">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/options-basics/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Giao dịch quyền chọn cơ bản: Call, Put, giá thực hiện và phí">
+<meta property="og:description" content="Cách quyền chọn hoạt động: call, put, giá thực hiện, ngày đáo hạn, phí, giá trị nội tại và ngoại lai, moneyness, lãi lỗ người mua và người bán, cấp phê duyệt.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/options/options-basics/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Giao dịch quyền chọn cơ bản: Call, Put, giá thực hiện và phí">
+<meta name="twitter:description" content="Cách quyền chọn hoạt động: call, put, giá thực hiện, ngày đáo hạn, phí, giá trị nội tại và ngoại lai, moneyness, lãi lỗ người mua và người bán, cấp phê duyệt.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Giao dịch quyền chọn cơ bản: Call, Put, giá thực hiện và phí","description":"Cách quyền chọn hoạt động: call, put, giá thực hiện, ngày đáo hạn, phí, giá trị nội tại và ngoại lai, moneyness, lãi lỗ người mua và người bán, cấp phê duyệt.","keywords":"giao dịch quyền chọn cho người mới, call và put khác nhau thế nào, quyền chọn hoạt động như thế nào, giá trị nội tại và giá trị ngoại lai, hệ số nhân hợp đồng quyền chọn","articleSection":"Giao dịch quyền chọn","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/options/options-basics/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch quyền chọn","item":"https://pnlpro.fit/vi/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Quyền chọn cơ bản","item":"https://pnlpro.fit/vi/encyclopedia/options/options-basics/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Call và put khác nhau ở điểm nào?","acceptedAnswer":{"@type":"Answer","text":"Call trao cho người mua quyền mua tài sản cơ sở ở giá thực hiện, nên tăng giá trị khi giá tăng. Put trao quyền bán ở giá thực hiện, nên tăng giá trị khi giá giảm."}},{"@type":"Question","name":"Một hợp đồng quyền chọn tốn bao nhiêu?","acceptedAnswer":{"@type":"Answer","text":"Nhân mức phí niêm yết với hệ số nhân hợp đồng, là 100 với quyền chọn cổ phiếu Mỹ tiêu chuẩn. Một call niêm yết ở $2.50 tốn $250 mỗi hợp đồng, cộng hoa hồng và phí."}},{"@type":"Question","name":"Bạn có thể mất nhiều hơn số tiền đầu tư vào quyền chọn không?","acceptedAnswer":{"@type":"Answer","text":"Người mua quyền chọn nhiều nhất chỉ mất khoản phí đã trả. Người bán quyền chọn có thể mất nhiều hơn rất nhiều so với phí đã nhận, và khoản lỗ tiềm năng của người bán call không bảo chứng là không giới hạn."}},{"@type":"Question","name":"Điều gì xảy ra nếu quyền chọn của tôi đáo hạn trong giá?","acceptedAnswer":{"@type":"Answer","text":"Ở Mỹ, quyền chọn cổ phiếu niêm yết kết thúc trong giá ít nhất $0.01 nhìn chung được tự động thực hiện trừ khi bạn chỉ thị khác, điều này có thể để lại cho bạn một vị thế cổ phiếu. Hãy kiểm tra chính sách của công ty môi giới và đóng vị thế trước khi đáo hạn nếu bạn không muốn như vậy."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/options/options-basics/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/options-basics/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/options-basics/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/options-basics/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/options-basics/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/options-basics/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/options-basics/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/options/options-basics/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/options-basics/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch quyền chọn</h3><ul><li><a href="/vi/encyclopedia/options/options-basics/" class="on" aria-current="page">Quyền chọn cơ bản</a></li><li><a href="/vi/encyclopedia/options/options-greeks/">Các chỉ số Greeks</a></li><li><a href="/vi/encyclopedia/options/implied-volatility/">Biến động ngụ ý</a></li><li><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered call và CSP</a></li><li><a href="/vi/encyclopedia/options/vertical-spreads/">Vertical spread</a></li><li><a href="/vi/encyclopedia/options/iron-condors-and-butterflies/">Iron condor và Butterfly</a></li><li><a href="/vi/encyclopedia/options/straddles-and-strangles/">Straddle và Strangle</a></li><li><a href="/vi/encyclopedia/options/0dte-options/">Quyền chọn 0DTE</a></li><li><a href="/vi/encyclopedia/options/options-expiration-and-assignment/">Đáo hạn và Assignment</a></li><li><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure và dealer</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/" class="on">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a></div>
+<h1 class="title">Kiến thức cơ bản về quyền chọn</h1>
+<div class="meta">13 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch quyền chọn</summary><ul><li><a href="/vi/encyclopedia/options/options-basics/" class="on" aria-current="page">Quyền chọn cơ bản</a></li><li><a href="/vi/encyclopedia/options/options-greeks/">Các chỉ số Greeks</a></li><li><a href="/vi/encyclopedia/options/implied-volatility/">Biến động ngụ ý</a></li><li><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered call và CSP</a></li><li><a href="/vi/encyclopedia/options/vertical-spreads/">Vertical spread</a></li><li><a href="/vi/encyclopedia/options/iron-condors-and-butterflies/">Iron condor và Butterfly</a></li><li><a href="/vi/encyclopedia/options/straddles-and-strangles/">Straddle và Strangle</a></li><li><a href="/vi/encyclopedia/options/0dte-options/">Quyền chọn 0DTE</a></li><li><a href="/vi/encyclopedia/options/options-expiration-and-assignment/">Đáo hạn và Assignment</a></li><li><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure và dealer</a></li></ul></details>
+<article><p>Quyền chọn là một hợp đồng trao cho người mua quyền, nhưng không phải nghĩa vụ, mua hoặc bán một tài sản ở mức giá cố định vào hoặc trước một ngày nhất định. Người mua trả một mức giá gọi là phí (premium); người bán thu khoản phí đó và nhận nghĩa vụ. Quyền chọn được dùng để đầu cơ, phòng hộ và tạo thu nhập, và cho phép nhà giao dịch thể hiện quan điểm về hướng đi, thời điểm và biến động mà giao dịch cổ phiếu thuần túy không làm được. Chúng cũng mất giá trị theo thời gian, đó là lý do nhiều người mua quyền chọn thua lỗ ngay cả khi đoán đúng hướng.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Call trao quyền mua ở giá thực hiện, và put trao quyền bán ở giá thực hiện.</li>
+<li>Phí của một quyền chọn gồm giá trị nội tại, là giá trị của nó nếu được thực hiện ngay bây giờ, và giá trị ngoại lai, phản ánh thời gian và biến động.</li>
+<li>Người mua quyền chọn chỉ rủi ro khoản phí đã trả, trong khi người bán thu phí nhưng có thể đối mặt khoản lỗ lớn hơn nhiều.</li>
+<li>Quyền chọn cổ phiếu Mỹ tiêu chuẩn kiểm soát 100 cổ phiếu, nên mức phí niêm yết $2.00 tốn $200 mỗi hợp đồng.</li>
+<li>Công ty môi giới cấp quyền giao dịch quyền chọn theo từng cấp, với các chiến lược rủi ro nhất, như bán quyền chọn không có bảo chứng, chỉ dành cho tài khoản có kinh nghiệm.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#c-c-kh-i-c-u-th-nh">Các khối cấu thành</a></li><li><a href="#h-s-nh-n-h-p-ng">Hệ số nhân hợp đồng</a></li><li><a href="#call-quy-n-mua">Call: quyền mua</a></li><li><a href="#put-quy-n-b-n">Put: quyền bán</a></li><li><a href="#b-n-v-th-c-b-n">Bốn vị thế cơ bản</a></li><li><a href="#gi-tr-n-i-t-i-v-gi-tr-ngo-i-lai">Giá trị nội tại và giá trị ngoại lai</a></li><li><a href="#moneyness">Moneyness</a></li><li><a href="#th-c-hi-n-ki-u-m-v-ki-u-ch-u-u">Thực hiện kiểu Mỹ và kiểu châu Âu</a></li><li><a href="#v-sao-nh-giao-d-ch-d-ng-quy-n-ch-n">Vì sao nhà giao dịch dùng quyền chọn</a></li><li><a href="#c-c-c-p-ph-duy-t-quy-n-ch-n">Các cấp phê duyệt quyền chọn</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="c-c-kh-i-c-u-th-nh">Các khối cấu thành</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Thuật ngữ</th>
+<th>Ý nghĩa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tài sản cơ sở (underlying)</td>
+<td>Tài sản mà quyền chọn dựa trên: cổ phiếu, ETF, chỉ số, hợp đồng tương lai hoặc tài sản tiền mã hóa</td>
+</tr>
+<tr>
+<td>Call</td>
+<td>Quyền mua tài sản cơ sở ở giá thực hiện</td>
+</tr>
+<tr>
+<td>Put</td>
+<td>Quyền bán tài sản cơ sở ở giá thực hiện</td>
+</tr>
+<tr>
+<td>Giá thực hiện (strike price)</td>
+<td>Mức giá cố định mà quyền chọn có thể được thực hiện</td>
+</tr>
+<tr>
+<td>Ngày đáo hạn</td>
+<td>Ngày cuối cùng quyền chọn tồn tại</td>
+</tr>
+<tr>
+<td>Phí (premium)</td>
+<td>Giá của quyền chọn, do người mua trả cho người bán</td>
+</tr>
+<tr>
+<td>Thực hiện (exercise)</td>
+<td>Người mua sử dụng quyền mua hoặc bán ở giá thực hiện</td>
+</tr>
+<tr>
+<td>Chỉ định (assignment)</td>
+<td>Người bán bị yêu cầu thực hiện nghĩa vụ sau khi có một lệnh thực hiện</td>
+</tr>
+<tr>
+<td>Hệ số nhân (multiplier)</td>
+<td>Số đơn vị mà mỗi hợp đồng kiểm soát; 100 cổ phiếu với quyền chọn cổ phiếu Mỹ tiêu chuẩn</td>
+</tr>
+</tbody></table></div>
+<p>Người mua được gọi là &quot;long&quot; quyền chọn, còn người bán, cũng gọi là writer, là &quot;short&quot;. Mỗi quyền chọn đều có cả người mua và người bán, nên quyền chọn là hợp đồng tổng bằng không trước chi phí: lãi của người mua là lỗ của người bán và ngược lại.</p>
+<h2 id="h-s-nh-n-h-p-ng">Hệ số nhân hợp đồng</h2>
+<p>Giá quyền chọn được niêm yết theo từng cổ phiếu, nhưng một quyền chọn cổ phiếu niêm yết tiêu chuẩn ở Mỹ bao phủ 100 cổ phiếu. Vì vậy mức giá $3.40 nghĩa là $340 mỗi hợp đồng, chưa tính hoa hồng. Quyền chọn chỉ số như trên S&amp;P 500 (SPX) cũng dùng hệ số nhân $100 trên mức chỉ số. Các thị trường khác dùng hệ số nhân khác, và quyền chọn trên hợp đồng tương lai dùng quy mô của hợp đồng tương lai, nên hãy luôn kiểm tra đặc tả hợp đồng.</p>
+<h2 id="call-quy-n-mua">Call: quyền mua</h2>
+<p>Quyền chọn call tăng giá trị khi tài sản cơ sở tăng. Khi đáo hạn, call có giá trị bằng giá cổ phiếu trừ giá thực hiện, hoặc bằng không nếu cổ phiếu ở mức giá thực hiện hoặc thấp hơn.</p>
+<h3 id="v-d-minh-h-a-mua-m-t-call">Ví dụ minh họa: mua một call</h3>
+<p>Một cổ phiếu có giá $100. Bạn mua một call giá thực hiện $105 đáo hạn sau 30 ngày với phí $2.00. Chi phí: $2.00 x 100 = $200.</p>
+<ul>
+<li><strong>Hòa vốn khi đáo hạn:</strong> giá thực hiện + phí = $105 + $2.00 = $107.</li>
+<li><strong>Nếu cổ phiếu ở $115 khi đáo hạn:</strong> call có giá trị $115 - $105 = $10.00, tức $1,000. Lợi nhuận = $1,000 - $200 = $800.</li>
+<li><strong>Nếu cổ phiếu ở $107:</strong> call có giá trị $2.00, tức $200. Lợi nhuận = $0.</li>
+<li><strong>Nếu cổ phiếu ở $105 trở xuống:</strong> call hết hạn vô giá trị. Lỗ = $200, toàn bộ khoản phí.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Giá cổ phiếu khi đáo hạn</th>
+<th>Giá trị call mỗi cổ phiếu</th>
+<th>Lãi hoặc lỗ mỗi hợp đồng</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$95</td>
+<td>$0.00</td>
+<td>-$200</td>
+</tr>
+<tr>
+<td>$105</td>
+<td>$0.00</td>
+<td>-$200</td>
+</tr>
+<tr>
+<td>$107</td>
+<td>$2.00</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$110</td>
+<td>$5.00</td>
+<td>+$300</td>
+</tr>
+<tr>
+<td>$115</td>
+<td>$10.00</td>
+<td>+$800</td>
+</tr>
+<tr>
+<td>$120</td>
+<td>$15.00</td>
+<td>+$1,300</td>
+</tr>
+</tbody></table></div>
+<p>Khoản lỗ của người mua bị giới hạn ở $200, và lợi nhuận tiềm năng không có mức trần cố định. Cổ phiếu tăng 15 phần trăm trong trường hợp $115, và vị thế call mang lại 400 phần trăm trên khoản phí $200. Trong trường hợp $105 cổ phiếu tăng 5 phần trăm, và vị thế call lỗ 100 phần trăm. Đòn bẩy đó có hai lưỡi.</p>
+<h3 id="ph-a-ng-i-b-n-call">Phía người bán call</h3>
+<p>Người bán call đó thu $200 ngay từ đầu. Nếu cổ phiếu ở mức $105 hoặc thấp hơn, người bán giữ toàn bộ $200. Ở $115, người bán lỗ $800. Ở $120, người bán lỗ $1,300. Người bán không sở hữu cổ phiếu, gọi là người bán call trần (naked hoặc uncovered), đối mặt khoản lỗ tăng không giới hạn khi cổ phiếu tăng. Người bán sở hữu 100 cổ phiếu đang bán covered call, được giải thích trong <a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">covered call và cash-secured put</a>.</p>
+<h2 id="put-quy-n-b-n">Put: quyền bán</h2>
+<p>Quyền chọn put tăng giá trị khi tài sản cơ sở giảm. Khi đáo hạn, put có giá trị bằng giá thực hiện trừ giá cổ phiếu, hoặc bằng không nếu cổ phiếu ở mức giá thực hiện hoặc cao hơn.</p>
+<h3 id="v-d-minh-h-a-mua-m-t-put">Ví dụ minh họa: mua một put</h3>
+<p>Một cổ phiếu có giá $100. Bạn mua một put giá thực hiện $95 đáo hạn sau 30 ngày với giá $1.50. Chi phí: $150.</p>
+<ul>
+<li><strong>Hòa vốn khi đáo hạn:</strong> giá thực hiện - phí = $95 - $1.50 = $93.50.</li>
+<li><strong>Nếu cổ phiếu ở $85 khi đáo hạn:</strong> put có giá trị $95 - $85 = $10.00, tức $1,000. Lợi nhuận = $1,000 - $150 = $850.</li>
+<li><strong>Nếu cổ phiếu ở $93.50:</strong> put có giá trị $1.50. Lợi nhuận = $0.</li>
+<li><strong>Nếu cổ phiếu ở $95 trở lên:</strong> put hết hạn vô giá trị. Lỗ = $150.</li>
+</ul>
+<p>Mức lãi tối đa của người mua put xảy ra khi cổ phiếu về 0: ($95 - $0) x 100 - $150 = $9,350. Người bán put có hình ảnh phản chiếu: giữ $150 nếu cổ phiếu ở mức $95 trở lên, và lỗ tối đa $9,350 nếu cổ phiếu về 0.</p>
+<p>Put thường được dùng như bảo hiểm. Một nhà đầu tư sở hữu 100 cổ phiếu ở $100 và mua put $95 ở trên đã khóa được mức giá bán tối thiểu $95 cho đến ngày đáo hạn, với chi phí $1.50 mỗi cổ phiếu. Việc này gọi là protective put.</p>
+<h2 id="b-n-v-th-c-b-n">Bốn vị thế cơ bản</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Vị thế</th>
+<th>Quan điểm</th>
+<th>Lãi tối đa</th>
+<th>Lỗ tối đa</th>
+<th>Hòa vốn khi đáo hạn</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Long call</td>
+<td>Tăng giá</td>
+<td>Không giới hạn</td>
+<td>Phí đã trả</td>
+<td>Giá thực hiện + phí</td>
+</tr>
+<tr>
+<td>Short call (không bảo chứng)</td>
+<td>Trung lập đến giảm giá</td>
+<td>Phí đã nhận</td>
+<td>Không giới hạn</td>
+<td>Giá thực hiện + phí</td>
+</tr>
+<tr>
+<td>Long put</td>
+<td>Giảm giá</td>
+<td>Giá thực hiện - phí (cổ phiếu về 0)</td>
+<td>Phí đã trả</td>
+<td>Giá thực hiện - phí</td>
+</tr>
+<tr>
+<td>Short put</td>
+<td>Trung lập đến tăng giá</td>
+<td>Phí đã nhận</td>
+<td>Giá thực hiện - phí (cổ phiếu về 0)</td>
+<td>Giá thực hiện - phí</td>
+</tr>
+</tbody></table></div>
+<p>Mọi chiến lược quyền chọn khác, từ <a href="/vi/encyclopedia/options/vertical-spreads/">vertical spread</a> đến <a href="/vi/encyclopedia/options/iron-condors-and-butterflies/">iron condor và butterfly</a>, đều là sự kết hợp của bốn khối cấu thành này, đôi khi có thêm cổ phiếu cơ sở.</p>
+<h2 id="gi-tr-n-i-t-i-v-gi-tr-ngo-i-lai">Giá trị nội tại và giá trị ngoại lai</h2>
+<p>Phí của một quyền chọn có hai phần.</p>
+<ul>
+<li><strong>Giá trị nội tại (intrinsic value)</strong> là giá trị của quyền chọn nếu được thực hiện ngay lập tức. Với call, đó là giá cổ phiếu trừ giá thực hiện, nếu dương. Với put, đó là giá thực hiện trừ giá cổ phiếu, nếu dương. Nó không bao giờ âm.</li>
+<li><strong>Giá trị ngoại lai (extrinsic value)</strong>, còn gọi là giá trị thời gian, là mọi thứ còn lại: phí trừ giá trị nội tại. Nó phản ánh khả năng quyền chọn tăng thêm giá trị trước khi đáo hạn, phụ thuộc vào thời gian còn lại và biến động kỳ vọng.</li>
+</ul>
+<h3 id="v-d-minh-h-a">Ví dụ minh họa</h3>
+<p>Một cổ phiếu có giá $100.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Quyền chọn</th>
+<th>Phí</th>
+<th>Giá trị nội tại</th>
+<th>Giá trị ngoại lai</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Call $95</td>
+<td>$6.20</td>
+<td>$100 - $95 = $5.00</td>
+<td>$6.20 - $5.00 = $1.20</td>
+</tr>
+<tr>
+<td>Call $100</td>
+<td>$3.50</td>
+<td>$0.00</td>
+<td>$3.50</td>
+</tr>
+<tr>
+<td>Call $105</td>
+<td>$1.40</td>
+<td>$0.00</td>
+<td>$1.40</td>
+</tr>
+<tr>
+<td>Put $105</td>
+<td>$6.10</td>
+<td>$105 - $100 = $5.00</td>
+<td>$6.10 - $5.00 = $1.10</td>
+</tr>
+</tbody></table></div>
+<p>Giá trị ngoại lai co lại về không khi đến gần ngày đáo hạn, một quá trình gọi là time decay. Khi đáo hạn, quyền chọn chỉ có giá trị bằng giá trị nội tại. Tốc độ decay được đo bằng theta, một trong các <a href="/vi/encyclopedia/options/options-greeks/">Greeks của quyền chọn</a>. Biến động kỳ vọng của thị trường, gọi là <a href="/vi/encyclopedia/options/implied-volatility/">biến động hàm ý</a>, là động lực chính còn lại của giá trị ngoại lai.</p>
+<h2 id="moneyness">Moneyness</h2>
+<p>Moneyness mô tả vị trí của giá thực hiện so với giá hiện tại của tài sản cơ sở.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Thuật ngữ</th>
+<th>Call</th>
+<th>Put</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Trong giá (ITM)</td>
+<td>Giá cổ phiếu trên giá thực hiện</td>
+<td>Giá cổ phiếu dưới giá thực hiện</td>
+</tr>
+<tr>
+<td>Ngang giá (ATM)</td>
+<td>Giá cổ phiếu bằng hoặc gần giá thực hiện</td>
+<td>Giá cổ phiếu bằng hoặc gần giá thực hiện</td>
+</tr>
+<tr>
+<td>Ngoài giá (OTM)</td>
+<td>Giá cổ phiếu dưới giá thực hiện</td>
+<td>Giá cổ phiếu trên giá thực hiện</td>
+</tr>
+</tbody></table></div>
+<p>Quyền chọn ITM có giá trị nội tại và đắt hơn. Quyền chọn OTM hoàn toàn cấu thành từ giá trị ngoại lai. Chúng rẻ hơn, nhưng cổ phiếu phải vượt qua giá thực hiện trước khi đáo hạn thì quyền chọn mới có giá trị gì khi đáo hạn. Quyền chọn OTM rất xa giá thu hút người mới vì giá thấp, nhưng hầu hết đều hết hạn vô giá trị.</p>
+<h2 id="th-c-hi-n-ki-u-m-v-ki-u-ch-u-u">Thực hiện kiểu Mỹ và kiểu châu Âu</h2>
+<ul>
+<li><strong>Kiểu Mỹ</strong> có thể được thực hiện vào bất kỳ ngày làm việc nào cho đến và gồm cả ngày đáo hạn. Quyền chọn Mỹ tiêu chuẩn trên cổ phiếu riêng lẻ và ETF là kiểu Mỹ.</li>
+<li><strong>Kiểu châu Âu</strong> chỉ có thể được thực hiện khi đáo hạn. Nhiều quyền chọn chỉ số, gồm quyền chọn SPX, là kiểu châu Âu và tất toán bằng tiền mặt.</li>
+</ul>
+<p>Trong thực tế, hầu hết vị thế quyền chọn được đóng bằng cách bán chúng trên thị trường thay vì thực hiện, vì bán sẽ thu được phần giá trị ngoại lai còn lại. Quy tắc thực hiện và chỉ định được trình bày trong <a href="/vi/encyclopedia/options/options-expiration-and-assignment/">đáo hạn và chỉ định quyền chọn</a>.</p>
+<h2 id="v-sao-nh-giao-d-ch-d-ng-quy-n-ch-n">Vì sao nhà giao dịch dùng quyền chọn</h2>
+<ol>
+<li><strong>Đầu cơ có đòn bẩy:</strong> một call hoặc put kiểm soát 100 cổ phiếu với một phần nhỏ giá cổ phiếu, với rủi ro giới hạn ở khoản phí.</li>
+<li><strong>Phòng hộ:</strong> put có thể bảo vệ danh mục cổ phiếu trước đợt giảm giá; xem <a href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/">tương quan và rủi ro danh mục</a>.</li>
+<li><strong>Thu nhập:</strong> bán quyền chọn thu phí, đổi lại phải gánh nghĩa vụ và rủi ro.</li>
+<li><strong>Giao dịch biến động:</strong> một số chiến lược, như <a href="/vi/encyclopedia/options/straddles-and-strangles/">straddle và strangle</a>, sinh lời từ các biến động lớn hoặc từ thị trường yên ắng bất kể hướng đi.</li>
+</ol>
+<h2 id="c-c-c-p-ph-duy-t-quy-n-ch-n">Các cấp phê duyệt quyền chọn</h2>
+<p>Vì bán quyền chọn có thể gây khoản lỗ lớn, công ty môi giới yêu cầu một đơn đăng ký trước khi cho phép giao dịch quyền chọn và gán một cấp phê duyệt dựa trên kinh nghiệm, thu nhập, giá trị tài sản ròng và mục tiêu đã khai. Các cấp và tên gọi khác nhau tùy công ty môi giới và quốc gia, nhưng một mô hình điển hình trông như sau:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Cấp</th>
+<th>Thường được phép</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Covered call, cash-secured put</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Mua call và put</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Spread có rủi ro xác định, như vertical và iron condor</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Bán put không bảo chứng (naked)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Bán call không bảo chứng (naked)</td>
+</tr>
+</tbody></table></div>
+<p>Ở Mỹ, công ty môi giới cũng phải cung cấp Options Disclosure Document, &quot;Characteristics and Risks of Standardized Options&quot;, do Options Clearing Corporation công bố. Đọc tài liệu này là điều đáng làm.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Mua quyền chọn OTM rất xa giá chỉ vì chúng rẻ.</strong> Giá thấp phản ánh xác suất sinh lời thấp.</li>
+<li><strong>Bỏ qua time decay.</strong> Một cổ phiếu đi đúng hướng nhưng quá chậm vẫn có thể gây lỗ cho quyền chọn mua vào.</li>
+<li><strong>Quên hệ số nhân.</strong> Một quyền chọn $5.00 là $500 mỗi hợp đồng, và 10 hợp đồng là $5,000.</li>
+<li><strong>Bán quyền chọn trần để lấy thu nhập &quot;dễ dàng&quot;.</strong> Nhiều khoản lãi nhỏ có thể bị xóa sạch bởi một biến động lớn; hãy định cỡ lệnh theo kịch bản xấu nhất.</li>
+<li><strong>Giữ lệnh qua báo cáo thu nhập mà không hiểu biến động.</strong> Giá quyền chọn thường giảm mạnh sau thông báo ngay cả khi cổ phiếu có biến động; xem <a href="/vi/encyclopedia/options/implied-volatility/">biến động hàm ý</a>.</li>
+</ul>
+<p>Quyền chọn là công cụ có đòn bẩy, và các nghiên cứu về hoạt động quyền chọn của nhà đầu tư cá nhân nhìn chung thấy rằng nhóm này thua lỗ trên quyền chọn sau chi phí, đặc biệt trên các hợp đồng ngắn hạn.</p>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="call-v-put-kh-c-nhau-i-m-n-o">Call và put khác nhau ở điểm nào?</h3>
+<p>Call trao cho người mua quyền mua tài sản cơ sở ở giá thực hiện, nên tăng giá trị khi giá tăng. Put trao quyền bán ở giá thực hiện, nên tăng giá trị khi giá giảm.</p>
+<h3 id="m-t-h-p-ng-quy-n-ch-n-t-n-bao-nhi-u">Một hợp đồng quyền chọn tốn bao nhiêu?</h3>
+<p>Nhân mức phí niêm yết với hệ số nhân hợp đồng, là 100 với quyền chọn cổ phiếu Mỹ tiêu chuẩn. Một call niêm yết ở $2.50 tốn $250 mỗi hợp đồng, cộng hoa hồng và phí.</p>
+<h3 id="b-n-c-th-m-t-nhi-u-h-n-s-ti-n-u-t-v-o-quy-n-ch-n-kh-ng">Bạn có thể mất nhiều hơn số tiền đầu tư vào quyền chọn không?</h3>
+<p>Người mua quyền chọn nhiều nhất chỉ mất khoản phí đã trả. Người bán quyền chọn có thể mất nhiều hơn rất nhiều so với phí đã nhận, và khoản lỗ tiềm năng của người bán call không bảo chứng là không giới hạn.</p>
+<h3 id="i-u-g-x-y-ra-n-u-quy-n-ch-n-c-a-t-i-o-h-n-trong-gi">Điều gì xảy ra nếu quyền chọn của tôi đáo hạn trong giá?</h3>
+<p>Ở Mỹ, quyền chọn cổ phiếu niêm yết kết thúc trong giá ít nhất $0.01 nhìn chung được tự động thực hiện trừ khi bạn chỉ thị khác, điều này có thể để lại cho bạn một vị thế cổ phiếu. Hãy kiểm tra chính sách của công ty môi giới và đóng vị thế trước khi đáo hạn nếu bạn không muốn như vậy.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/options/options-greeks/"><div class="k">Giao dịch quyền chọn</div><b>Các chỉ số Greeks</b><span>Delta, gamma, theta, vega và rho đo lường điều gì, kèm ví dụ cụ thể, cách các Greeks thay đổi theo thời gian và moneyness, và cách đọc Greeks của cả vị thế.</span></a><a class="card" href="/vi/encyclopedia/options/implied-volatility/"><div class="k">Giao dịch quyền chọn</div><b>Biến động ngụ ý</b><span>Biến động hàm ý là gì, khác biến động lịch sử ra sao, IV rank và IV percentile, IV crush, skew, và công thức mức biến động kỳ vọng kèm ví dụ cụ thể.</span></a><a class="card" href="/vi/encyclopedia/options/vertical-spreads/"><div class="k">Giao dịch quyền chọn</div><b>Vertical spread</b><span>Cách vertical spread hoạt động: bull call, bear put, bull put và bear call spread, kèm công thức lãi tối đa, lỗ tối đa, hòa vốn và các ví dụ số cụ thể.</span></a><a class="card" href="/vi/encyclopedia/options/options-expiration-and-assignment/"><div class="k">Giao dịch quyền chọn</div><b>Đáo hạn và Assignment</b><span>Cách thực hiện và chỉ định quyền chọn hoạt động, chỉ định sớm trước cổ tức, tự động thực hiện khi trong giá $0.01, rủi ro pin, tất toán SPX và SPY.</span></a><a class="card" href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/"><div class="k">Giao dịch quyền chọn</div><b>Covered call và CSP</b><span>Cách covered call và cash-secured put hoạt động, lợi nhuận và điểm hòa vốn qua ví dụ số, chiến lược wheel, cùng rủi ro bị giới hạn lợi nhuận và bị chỉ định.</span></a></div></section>
+<div class="pager"><span></span><a class="next" href="/vi/encyclopedia/options/options-greeks/"><small>Bài tiếp →</small>Các chỉ số Greeks</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

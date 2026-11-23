@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ガンマ・エクスポージャー（GEX）とディーラーのヘッジ | PnL Profit</title>
+<meta name="description" content="マーケットメーカーのデルタヘッジ、ディーラーのプラスとマイナスのガンマ、ガンマ・スクイーズ、GEXの推計方法と限界、OPEXの影響、バンナとチャームを解説。">
+<meta name="keywords" content="ガンマ・エクスポージャー, GEX オプション, ディーラー ガンマ, ガンマ・スクイーズ, デルタヘッジ マーケットメーカー">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="ガンマ・エクスポージャー（GEX）とディーラーのヘッジ | PnL Profit">
+<meta property="og:description" content="マーケットメーカーのデルタヘッジ、ディーラーのプラスとマイナスのガンマ、ガンマ・スクイーズ、GEXの推計方法と限界、OPEXの影響、バンナとチャームを解説。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ガンマ・エクスポージャー（GEX）とディーラーのヘッジ | PnL Profit">
+<meta name="twitter:description" content="マーケットメーカーのデルタヘッジ、ディーラーのプラスとマイナスのガンマ、ガンマ・スクイーズ、GEXの推計方法と限界、OPEXの影響、バンナとチャームを解説。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"ガンマ・エクスポージャー（GEX）とディーラーのヘッジ","description":"マーケットメーカーのデルタヘッジ、ディーラーのプラスとマイナスのガンマ、ガンマ・スクイーズ、GEXの推計方法と限界、OPEXの影響、バンナとチャームを解説。","keywords":"ガンマ・エクスポージャー, GEX オプション, ディーラー ガンマ, ガンマ・スクイーズ, デルタヘッジ マーケットメーカー","articleSection":"オプション取引","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"オプション取引","item":"https://pnlpro.fit/ja/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"ガンマエクスポージャーとディーラー","item":"https://pnlpro.fit/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"マイナスのガンマは市場にとって何を意味しますか？","acceptedAnswer":{"@type":"Answer","text":"ディーラーがネットでショート・ガンマと推計される場合、そのヘッジには価格の上昇時に買い、下落時に売ることが必要になります。これは値動きを増幅し、ボラティリティを高めることがありますが、他のフローがそれを上回ることもあります。"}},{"@type":"Question","name":"ガンマ・スクイーズとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"ガンマ・スクイーズとは、大量のコールの買いによって、そのコールを売ったディーラーが価格の上昇に合わせて原資産を買わざるを得なくなり、それが価格をさらに押し上げ、さらなる買いを必要とする現象です。空売りの多い銘柄では、ショート・スクイーズと重なることがあります。"}},{"@type":"Question","name":"GEXはどのくらい正確ですか？","acceptedAnswer":{"@type":"Answer","text":"GEXは、ディーラーが各オプションを買っているのか売っているのかについての仮定に依存する推計値で、1日1回しか更新されない建玉に基づいています。提供元によって数値が異なることもよくあります。"}},{"@type":"Question","name":"なぜ満期日に株価が権利行使価格に張り付くのですか？","acceptedAnswer":{"@type":"Answer","text":"権利行使価格の近くに大量の建玉があると、満期が近づくにつれて、ディーラーのヘッジによって価格がその付近にとどまりやすくなることがあります。研究では、オプションが上場されている銘柄は、満期日に偶然では説明できないほど頻繁に権利行使価格の近くに集まることがわかっています。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>オプション取引</h3><ul><li><a href="/ja/encyclopedia/options/options-basics/">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/" class="on" aria-current="page">ガンマエクスポージャーとディーラー</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/" class="on">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/options/">オプション取引</a></div>
+<h1 class="title">ガンマ・エクスポージャーとディーラーのヘッジ</h1>
+<div class="meta">約9分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>オプション取引の他の記事</summary><ul><li><a href="/ja/encyclopedia/options/options-basics/">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/" class="on" aria-current="page">ガンマエクスポージャーとディーラー</a></li></ul></details>
+<article><p>ガンマ・エクスポージャーとは、原資産の価格が動いたときに、オプションのディーラー（主にマーケットメーカー）がヘッジを維持するために原資産をどれだけ売買しなければならないかを表すものです。ディーラーは通常デルタ・ニュートラルを目指すため、そのヘッジ取引は保有するオプションのガンマに左右されます。ディーラーが全体としてショート・ガンマのとき、そのヘッジは価格をすでに動いている方向へさらに押し進めることがあります。ロング・ガンマのときは、ヘッジが値動きに逆らう方向に働く傾向があります。トレーダーはボラティリティの手がかりとしてガンマ・エクスポージャー（GEX）の推計値を注視しますが、その推計はしばしば外れる前提の上に成り立っています。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>オプションのマーケットメーカーは通常、原資産を売買して在庫のデルタをヘッジしており、価格が動いたときにどれだけ調整が必要かはガンマで決まります。</li>
+<li>ディーラーがネットでロング・ガンマのとき、ヘッジは上昇局面で売り、下落局面で買うことを意味し、ボラティリティを抑える傾向があります。</li>
+<li>ディーラーがネットでショート・ガンマのとき、ヘッジは上昇局面で買い、下落局面で売ることを意味し、値動きを増幅してガンマ・スクイーズの一因となることがあります。</li>
+<li>公表されているGEXの数値は、誰がどのオプションを保有しているかについての前提に基づく推計値であり、大きく外れることがあります。</li>
+<li>毎月のオプション満期と、その前後のバンナやチャームの効果はヘッジのフローを変えることがありますが、これらは傾向であって信頼できるシグナルではありません。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">ディーラーがヘッジする理由</a></li><li><a href="#section-5">ガンマ・スクイーズ</a></li><li><a href="#gex">GEXの推計の仕組み</a></li><li><a href="#gex">GEXの限界</a></li><li><a href="#opex">OPEXの影響</a></li><li><a href="#section-10">バンナとチャームの概要</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">ディーラーがヘッジする理由</h2>
+<p>マーケットメーカーは方向に賭けるのではなく、ビッドで買ってアスクで売ることで稼ぎます。顧客がコールを買うと、それを売ったマーケットメーカーはコールのショートを抱えることになり、株価が上がれば損をするポジションになります。その方向性のリスクを取り除くため、マーケットメーカーはオプションのデルタで決まる量の原資産を買います。これをデルタヘッジと呼びます。気配の提示や在庫管理という業務全般については<a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a>で解説しています。</p>
+<p>デルタは価格の変動とともに、ガンマで測られる割合で変化します。そのため、今は正しいヘッジも値動きの後には正しくなくなり、ディーラーは再び取引しなければなりません。定義は<a href="/ja/encyclopedia/options/options-greeks/">オプションのグリークス</a>にあります。</p>
+<h3 id="section-3">計算例：コールの売りポジションをヘッジする</h3>
+<p>あるディーラーが、株価$100の銘柄のコールを1,000枚売ります。各コールのデルタは0.40、ガンマは0.05で、1枚は100株分です。</p>
+<ul>
+<li><strong>当初のヘッジ：</strong> ディーラーは1,000 x 100 x 0.40 = 40,000株相当のデルタのショートなので、40,000株を買います。</li>
+<li><strong>株価が$1上がって$101になった場合：</strong> デルタは約0.45に上がります。ディーラーは45,000株相当のショートになり、約1,000 x 100 x 0.05 = 5,000株を追加で買います。</li>
+<li><strong>逆に株価が$1下がって$99になった場合：</strong> デルタは約0.35に下がり、ディーラーは約5,000株を売ります。</li>
+</ul>
+<p>ディーラーはショート・ガンマです。ヘッジを維持するには、価格が上がれば買い、下がれば売ることになります。こうした取引は、市場がすでに動いている方向への動きを後押しします。</p>
+<h3 id="section-4">逆のケース：ロング・ガンマ</h3>
+<p>もしディーラーが逆に、たとえばカバードコールを売る投資家から、そのコールを1,000枚買っていたとすれば、40,000株を空売りしてヘッジします。株価が$1上がるとデルタは0.45に増え、ディーラーは上昇局面でさらに5,000株を売ります。$1下がれば、下落局面で5,000株を買い戻します。ロング・ガンマのヘッジは値動きに逆らう方向に働きます。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ディーラーのポジション</th>
+<th>価格上昇時のヘッジ</th>
+<th>価格下落時のヘッジ</th>
+<th>考えられる市場への影響</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ネットでロング・ガンマ</td>
+<td>売り</td>
+<td>買い</td>
+<td>値動きを抑え、レンジを狭めることがある</td>
+</tr>
+<tr>
+<td>ネットでショート・ガンマ</td>
+<td>買い</td>
+<td>売り</td>
+<td>値動きを増幅し、ボラティリティを高めることがある</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-5">ガンマ・スクイーズ</h2>
+<p>ガンマ・スクイーズは、満期が短くアウト・オブ・ザ・マネーのものが多いコールオプションの大量の買いによって、そのコールを売ったディーラーが、価格の上昇に合わせて原資産を買わざるを得なくなることで起こります。ディーラーの買いが価格をさらに押し上げると、コールのデルタがさらに上がり、さらなる買いを強いられます。この効果は、株式自体の出来高に比べてオプションの出来高が大きい銘柄で最も強くなります。</p>
+<p>2021年1月のゲームストップ（GameStop）の急騰は、大量のコールの買いとディーラーのヘッジが、高い空売り比率によって引き起こされたショート・スクイーズに拍車をかけた例としてよく挙げられます。そうした値動きのうちどれだけがヘッジによるものかを切り分けるのは困難です。ショート・スクイーズの仕組みは<a href="/ja/encyclopedia/stocks/short-selling/">空売り</a>を、この出来事の全体像は<a href="/ja/encyclopedia/risk-management/leverage-risk-and-black-swans/">レバレッジのリスクとブラック・スワン</a>を参照してください。</p>
+<p>ガンマ・スクイーズは下方向に起こることもあります。大量のプットの買いによって、プットを売ったディーラーが下落局面で原資産を売らざるを得なくなる場合です。</p>
+<h2 id="gex">GEXの推計の仕組み</h2>
+<p>GEXは、ある原資産のすべての権利行使価格と満期にわたって、ディーラーが保有するガンマの合計を推計しようとするものです。一般的な手法は次のとおりです。</p>
+<ol>
+<li>上場されているすべてのオプションの建玉を取得します。</li>
+<li>価格モデルから各オプションのガンマを計算します。</li>
+<li>ディーラーがどちら側にいるかを仮定します。最も多いのは、顧客が売ったコールをディーラーが買っており、顧客が買ったプットをディーラーが売っているという仮定です。</li>
+<li>ガンマに建玉と乗数を掛けて合計します。通常は1%の値動きあたりのヘッジ金額で表します。</li>
+</ol>
+<h3 id="gex">計算例：GEXの数値を読む</h3>
+<p>ある推計で、株価$100の銘柄のディーラーが、$1の値動きあたり20,000株に相当するネットのショート・ガンマを抱えているとします。株価が$2下がると、ディーラーのネット・デルタは20,000 x 2 = 40,000株増えます。ニュートラルを保つには、下落局面で約40,000株を売る必要があります。同じ推計で、ディーラーが$1あたり20,000株のロング・ガンマだったなら、下落局面で約40,000株を買う必要があります。</p>
+<p>多くのGEXツールは「ガンマ・フリップ」の水準、つまり推計上のディーラーのガンマがプラスからマイナスに変わる価格も表示しています。その水準より上では値動きが落ち着き、下ではボラティリティが高くなると考えるトレーダーもいます。</p>
+<h2 id="gex">GEXの限界</h2>
+<p>GEXの数値は広く共有されていますが、不確かな入力値の上に成り立っています。</p>
+<ul>
+<li><strong>建玉からは誰が買い手で誰が売り手かはわかりません。</strong> 公開データが示すのは建っている枚数だけで、ディーラーと顧客のどちらが買ったのかはわかりません。標準的な仮定は単純化したものであり、特定の権利行使価格や時期については外れることがあります。</li>
+<li><strong>建玉の更新は1日1回です。</strong> <a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a>を含む当日中の取引は、翌日まで建玉に表れません。</li>
+<li><strong>ディーラーのヘッジ方法はさまざまです。</strong> 原資産だけでなく、他のオプション、先物、関連資産でガンマを相殺することもあります。</li>
+<li><strong>ガンマだけが値動きの要因ではありません。</strong> ファンダメンタルズのニュース、マクロのフロー、大口注文は、ヘッジの影響を簡単に上回ります。</li>
+<li><strong>提供元によって数値が異なります。</strong> 手法はまちまちで、ディーラーの実際の帳簿と照合して検証されたものはありません。</li>
+</ul>
+<p>GEXは有用な見方の1つにはなりますが、実績が証明された予測ツールではなく、それ単体で信頼できるシグナルとして扱うべきではありません。</p>
+<h2 id="opex">OPEXの影響</h2>
+<p>毎月のオプション満期はOPEXとも呼ばれ、米国の標準的な株式オプションと指数オプションでは毎月第3金曜日です。大量の建玉が一斉に満期を迎えるため、ディーラーのヘッジの必要量が急に変わることがあります。</p>
+<ul>
+<li><strong>ピンニング：</strong> 1つの権利行使価格の近くに大量の建玉があると、ヘッジのフローによって、満期にかけて価格がその権利行使価格の近くにとどまりやすくなることがあります。Ni、Pearson、Poteshmanの研究を含む学術研究では、オプションが上場されている銘柄は、満期日に偶然では説明できないほど頻繁に権利行使価格の近くに集まる傾向があることが確認されています。</li>
+<li><strong>ガンマのロールオフ：</strong> 大きな満期の後には、値動きを抑えたり増幅したりしていたガンマが消えるため、その後の数日でボラティリティが変化すると考えるトレーダーもいます。</li>
+</ul>
+<p>日次満期の拡大によって、こうした影響の一部は週全体に分散するようになりました。満期の仕組みは<a href="/ja/encyclopedia/options/options-expiration-and-assignment/">オプションの満期と割り当て</a>で解説しています。</p>
+<h2 id="section-10">バンナとチャームの概要</h2>
+<p>2つの二次のグリークスは、価格が動かなくてもヘッジのフローに影響します。</p>
+<ul>
+<li><strong>バンナ</strong>は、インプライド・ボラティリティが変化したときにデルタがどう変わるかを測ります。インプライド・ボラティリティが低下するとアウト・オブ・ザ・マネーのオプションのデルタが縮小するため、ディーラーはヘッジを調整します。ディーラーが指数プットを売っており、先物の売りでヘッジしているという一般的な仮定のもとでは、インプライド・ボラティリティの低下によってディーラーはそのヘッジの一部を買い戻すことになり、価格を下支えします。<a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a>を参照してください。</li>
+<li><strong>チャーム</strong>は、時間の経過とともにデルタがどう変わるかを測ります。満期が近づくとアウト・オブ・ザ・マネーのオプションはデルタを失い、ディーラーはそれに対するヘッジを解消します。アナリストがOPEX前の数日間のヘッジ・フローを話題にする理由の1つがこれです。</li>
+</ul>
+<p>どちらの効果も、GEX自体と同じく、ディーラーのポジションについての不確かな仮定に依存しています。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>GEXの水準をサポートやレジスタンスとして扱う。</strong> それはモデルによる推計値であり、板に置かれた注文ではありません。</li>
+<li><strong>ディーラーは常にショート・ガンマだと思い込む。</strong> ディーラーのポジションは銘柄、権利行使価格、時期によって異なります。</li>
+<li><strong>当日中の取引を無視する。</strong> 満期の短いオプションが中心の市場では、最も重要なフローが建玉に表れないことがあります。</li>
+<li><strong>値動きの原因をヘッジに求めすぎる。</strong> たいていはニュースやマクロのフローのほうが重要です。</li>
+<li><strong>毎回のOPEXを同じように取引する。</strong> 満期の影響は一貫しておらず、どれだけの建玉がどこで満期を迎えるかに左右されます。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-13">マイナスのガンマは市場にとって何を意味しますか？</h3>
+<p>ディーラーがネットでショート・ガンマと推計される場合、そのヘッジには価格の上昇時に買い、下落時に売ることが必要になります。これは値動きを増幅し、ボラティリティを高めることがありますが、他のフローがそれを上回ることもあります。</p>
+<h3 id="section-14">ガンマ・スクイーズとは何ですか？</h3>
+<p>ガンマ・スクイーズとは、大量のコールの買いによって、そのコールを売ったディーラーが価格の上昇に合わせて原資産を買わざるを得なくなり、それが価格をさらに押し上げ、さらなる買いを必要とする現象です。空売りの多い銘柄では、ショート・スクイーズと重なることがあります。</p>
+<h3 id="gex">GEXはどのくらい正確ですか？</h3>
+<p>GEXは、ディーラーが各オプションを買っているのか売っているのかについての仮定に依存する推計値で、1日1回しか更新されない建玉に基づいています。提供元によって数値が異なることもよくあります。</p>
+<h3 id="section-16">なぜ満期日に株価が権利行使価格に張り付くのですか？</h3>
+<p>権利行使価格の近くに大量の建玉があると、満期が近づくにつれて、ディーラーのヘッジによって価格がその付近にとどまりやすくなることがあります。研究では、オプションが上場されている銘柄は、満期日に偶然では説明できないほど頻繁に権利行使価格の近くに集まることがわかっています。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/options/options-greeks/"><div class="k">オプション取引</div><b>グリークス</b><span>デルタ、ガンマ、セータ、ベガ、ローが何を測るのかを計算例で解説。時間やマネーネスによる変化、ポジション・グリークスの読み方も紹介します。</span></a><a class="card" href="/ja/encyclopedia/options/0dte-options/"><div class="k">オプション取引</div><b>0DTEオプション</b><span>0DTEオプションとは何か、SPX・SPY・QQQの当日満期オプションが急拡大した理由、極端なガンマと時間価値の減少、代表的な戦略、売り買い双方のリスクを解説。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/market-making/"><div class="k">アルゴリズム取引とクオンツ</div><b>マーケットメイク</b><span>マーケットメイクの教科書的解説。売買両方の気配提示、スプレッド獲得、在庫スキュー、逆選択、待ち行列、リベート、Avellaneda-Stoikov。</span></a><a class="card" href="/ja/encyclopedia/basics/market-participants/"><div class="k">トレードの基礎</div><b>市場参加者</b><span>個人トレーダー、機関投資家、ヘッジファンド、マーケットメイカー、HFT業者、ヘッジャー、中央銀行、クジラ。それぞれの目的と、取引相手が誰なのかを解説します。</span></a><a class="card" href="/ja/encyclopedia/options/implied-volatility/"><div class="k">オプション取引</div><b>インプライド・ボラティリティ</b><span>IVとヒストリカル・ボラティリティの違い、IVランクとIVパーセンタイル、IVクラッシュ、スキュー、予想変動幅の計算式を例を使って解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/options/options-expiration-and-assignment/"><small>← 前へ</small>満期と権利割当</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>回撤与破产风险：回本数学与连续亏损 | PnL Profit</title>
+<meta name="description" content="什么是最大回撤、亏损后需要涨多少才能回本、连续亏损有多常见，以及仓位大小如何改变破产风险，附数据表。">
+<meta name="keywords" content="最大回撤, 破产风险, 回撤恢复, 连续亏损概率, 蒙特卡洛模拟 交易">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="回撤与破产风险：回本数学与连续亏损 | PnL Profit">
+<meta property="og:description" content="什么是最大回撤、亏损后需要涨多少才能回本、连续亏损有多常见，以及仓位大小如何改变破产风险，附数据表。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="回撤与破产风险：回本数学与连续亏损 | PnL Profit">
+<meta name="twitter:description" content="什么是最大回撤、亏损后需要涨多少才能回本、连续亏损有多常见，以及仓位大小如何改变破产风险，附数据表。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"回撤与破产风险：回本数学与连续亏损","description":"什么是最大回撤、亏损后需要涨多少才能回本、连续亏损有多常见，以及仓位大小如何改变破产风险，附数据表。","keywords":"最大回撤, 破产风险, 回撤恢复, 连续亏损概率, 蒙特卡洛模拟 交易","articleSection":"风险与资金管理","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"风险与资金管理","item":"https://pnlpro.fit/zh/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"回撤与破产风险","item":"https://pnlpro.fit/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"对交易者来说，多大的最大回撤算合理？","acceptedAnswer":{"@type":"Answer","text":"这取决于策略和个人，但许多交易者力求把最大回撤控制在约20%至25%以下，因为超过这个水平后回本会难得多。自营交易公司的账户通常会设定约5%至10%的上限，这就要求单笔风险小得多。"}},{"@type":"Question","name":"如何计算破产风险？","acceptedAnswer":{"@type":"Answer","text":"对于一个固定下注、获胜概率p高于50%、有N个下注单位的简单游戏，最终破产的风险是(q ÷ p)的N次方，其中q = 1 − p。现实交易要复杂得多，所以大多数交易者会用自己的交易统计数据进行蒙特卡洛模拟来估计。"}},{"@type":"Question","name":"连续亏损几笔算正常？","acceptedAnswer":{"@type":"Answer","text":"这取决于胜率和交易笔数。在胜率50%、100笔相互独立的交易中，至少出现一次五连亏的概率约为81%，出现八连亏的概率约为17%。胜率越低，长连亏就越常见。"}},{"@type":"Question","name":"交易中的蒙特卡洛模拟是什么？","acceptedAnswer":{"@type":"Answer","text":"它是一种方法：根据策略的胜率和盈亏，或者把它过去的实际交易按随机顺序排列，生成成千上万条随机交易序列。结果展示的是可能的回撤和收益范围，而不是单一的历史路径。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>风险与资金管理</h3><ul><li><a href="/zh/encyclopedia/risk-management/risk-management-fundamentals/">风险管理基础</a></li><li><a href="/zh/encyclopedia/risk-management/position-sizing/">仓位管理</a></li><li><a href="/zh/encyclopedia/risk-management/stop-loss-strategies/">止损策略</a></li><li><a href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/">盈亏比与期望值</a></li><li><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">回撤与破产风险</a></li><li><a href="/zh/encyclopedia/risk-management/kelly-criterion/">凯利公式</a></li><li><a href="/zh/encyclopedia/risk-management/correlation-and-portfolio-risk/">相关性与组合风险</a></li><li><a href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/">杠杆风险与黑天鹅</a></li><li><a href="/zh/encyclopedia/risk-management/trading-plan/">制定交易计划</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/" class="on">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/risk-management/">风险与资金管理</a></div>
+<h1 class="title">回撤与破产风险</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>风险与资金管理中的更多文章</summary><ul><li><a href="/zh/encyclopedia/risk-management/risk-management-fundamentals/">风险管理基础</a></li><li><a href="/zh/encyclopedia/risk-management/position-sizing/">仓位管理</a></li><li><a href="/zh/encyclopedia/risk-management/stop-loss-strategies/">止损策略</a></li><li><a href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/">盈亏比与期望值</a></li><li><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">回撤与破产风险</a></li><li><a href="/zh/encyclopedia/risk-management/kelly-criterion/">凯利公式</a></li><li><a href="/zh/encyclopedia/risk-management/correlation-and-portfolio-risk/">相关性与组合风险</a></li><li><a href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/">杠杆风险与黑天鹅</a></li><li><a href="/zh/encyclopedia/risk-management/trading-plan/">制定交易计划</a></li></ul></details>
+<article><p>回撤（drawdown）是指账户净值从某个高点跌到之后某个低点的下跌幅度，而最大回撤是一段时期内最大的那一次下跌。破产风险（risk of ruin）是指亏损大到交易者无法再继续下去的概率——要么账户已经亏光，要么跌破了交易者自己设定的不可接受水平。两者都在很大程度上取决于仓位大小，这也是仓位常被称为最重要的风险决策的原因。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点速览</h2>
+<ul>
+<li>最大回撤是从净值最高点量到其后的最低点，而不是从初始余额算起。</li>
+<li>回撤后回本所需的涨幅等于亏损除以（1减去亏损），因此深度回撤会变得非常难以恢复。</li>
+<li>长时间的连续亏损远比直觉以为的常见，即使对盈利的策略也是如此。</li>
+<li>单笔风险越小，破产风险下降得越快；而在没有优势的情况下，只要交易次数足够多，破产几乎是必然的。</li>
+<li>蒙特卡洛模拟通过打乱或重新抽样交易结果，展示一个策略可能出现的回撤范围。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">如何衡量回撤</a></li><li><a href="#section-3">回本数学</a></li><li><a href="#section-4">连亏如何变成回撤</a></li><li><a href="#section-5">连续亏损的概率</a></li><li><a href="#section-6">破产风险</a></li><li><a href="#section-8">蒙特卡洛模拟</a></li><li><a href="#section-9">实际运用</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">如何衡量回撤</h2>
+<p>回撤总是从高点开始衡量。假设一个账户从$10,000起步，涨到$12,000，然后跌到$9,000，之后才恢复。</p>
+<ul>
+<li><strong>最大回撤</strong> = ($12,000 − $9,000) ÷ $12,000 = <strong>25%</strong></li>
+<li>如果从初始余额算，账户只亏了10%，但这低估了痛苦程度。交易者眼睁睁看着高点价值的四分之一消失了。</li>
+<li><strong>回本所需涨幅</strong> = $3,000 ÷ $9,000 = <strong>33.3%</strong>，才能回到$12,000的高点。</li>
+</ul>
+<p>另外两个相关指标也很重要：</p>
+<ul>
+<li><strong>回撤持续时间</strong>：账户低于前期高点的时间有多长。有些策略，尤其是趋势跟踪策略，可能连续好几个月处于水下。</li>
+<li><strong>平均回撤</strong>：下跌的典型深度，反映的是正常情况下的不适程度，而不是最坏情况。</li>
+</ul>
+<h2 id="section-3">回本数学</h2>
+<p>由于每次亏损都会缩小本金基数，回本所需的涨幅百分比总是大于亏损的百分比：</p>
+<p><strong>回本所需涨幅 = 回撤 ÷ (1 − 回撤)</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>回撤</th>
+<th>回本所需涨幅</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10%</td>
+<td>11.1%</td>
+</tr>
+<tr>
+<td>20%</td>
+<td>25.0%</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>42.9%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>66.7%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>75%</td>
+<td>300%</td>
+</tr>
+</tbody></table></div>
+<p>超过大约30%之后，曲线会迅速变陡。为什么这种不对称性决定了大多数风险规则，见<a href="/zh/encyclopedia/risk-management/risk-management-fundamentals/">风险管理基础</a>。</p>
+<h2 id="section-4">连亏如何变成回撤</h2>
+<p>在固定比例仓位法下，每次亏损都会减少当前净值的一个百分比。每笔风险为r、连续亏损n次之后，净值是起始水平的(1 − r)^n。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>单笔风险</th>
+<th>连亏5次</th>
+<th>连亏10次</th>
+<th>连亏15次</th>
+<th>连亏20次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.5%</td>
+<td>2.5%</td>
+<td>4.9%</td>
+<td>7.2%</td>
+<td>9.5%</td>
+</tr>
+<tr>
+<td>1%</td>
+<td>4.9%</td>
+<td>9.6%</td>
+<td>14.0%</td>
+<td>18.2%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>9.6%</td>
+<td>18.3%</td>
+<td>26.1%</td>
+<td>33.2%</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>22.6%</td>
+<td>40.1%</td>
+<td>53.7%</td>
+<td>64.2%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>41.0%</td>
+<td>65.1%</td>
+<td>79.4%</td>
+<td>87.8%</td>
+</tr>
+</tbody></table></div>
+<p>现实中的回撤通常来自一段夹杂着几笔盈利的亏损期，而不是一次不间断的连亏，但这张表显示了每个风险水平所允许的伤害规模。</p>
+<h2 id="section-5">连续亏损的概率</h2>
+<p>某一笔交易开启一段k次连亏的概率是(1 − W)^k，其中W是胜率。胜率50%时，接下来五笔交易全部亏损的概率是0.5^5，约为3.1%。这听起来很少见，但交易者会做很多笔交易，每一笔都是开启一段连亏的新机会。</p>
+<p>更有用的问题是：在一系列交易中，至少出现一次某个长度的连亏的可能性有多大？假设每笔交易相互独立，答案如下：</p>
+<p><strong>100笔交易中至少出现一次k次或以上连亏的概率</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>胜率</th>
+<th>连亏5次</th>
+<th>连亏6次</th>
+<th>连亏8次</th>
+<th>连亏10次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>60%</td>
+<td>46%</td>
+<td>21%</td>
+<td>3.6%</td>
+<td>0.6%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>81%</td>
+<td>55%</td>
+<td>17%</td>
+<td>4.4%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>98%</td>
+<td>87%</td>
+<td>49%</td>
+<td>21%</td>
+</tr>
+</tbody></table></div>
+<p>在胜率40%的情况下做200笔交易，至少出现一次八次或以上连亏的概率升至约75%，十次或以上的概率约为38%。</p>
+<p>因此，一个胜率35%或40%的趋势跟踪策略，应当把八次或以上的连亏视为生命周期中的正常现象。不知道这一点的交易者，往往会在最不该的时候放弃或修改一个本来可靠的策略。</p>
+<p>现实中的交易往往不像抛硬币那样相互独立。市场状态会变化，适合趋势市的策略可能在横盘市中屡屡亏损。这往往会让长连亏比表中显示的更有可能出现，而不是更少。</p>
+<h2 id="section-6">破产风险</h2>
+<p>破产风险是指亏到一个你无法或不愿再继续的水平的概率。“破产”不一定意味着余额归零。许多交易者把它定义为50%的回撤，或者会违反自营交易公司（prop firm）规则的亏损水平。</p>
+<p>决定破产风险的有三个因素：</p>
+<ol>
+<li><strong>优势</strong>：策略每笔交易的期望值。见<a href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/">盈亏比与期望值</a>。</li>
+<li><strong>收益分布</strong>：盈利和亏损的大小及频率。</li>
+<li><strong>单笔风险</strong>：每笔交易所暴露的资金比例。</li>
+</ol>
+<h3 id="section-7">一个帮助建立直觉的简单公式</h3>
+<p>经典的“赌徒破产”结论适用于一个简化的游戏：每次下注赢或输一个固定单位，获胜概率p高于50%，并且你无限期地一直下注。如果你从N个单位起步，最终全部输光的概率为：</p>
+<p><strong>破产风险 = (q ÷ p)^N</strong>，其中q = 1 − p</p>
+<p>当p = 0.55时，q ÷ p ≈ 0.818：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>起始单位数（N）</th>
+<th>每注风险占起始资金比例</th>
+<th>最终破产风险</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5</td>
+<td>20%</td>
+<td>约37%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>10%</td>
+<td>约13%</td>
+</tr>
+<tr>
+<td>20</td>
+<td>5%</td>
+<td>约1.8%</td>
+</tr>
+<tr>
+<td>50</td>
+<td>2%</td>
+<td>约0.004%</td>
+</tr>
+</tbody></table></div>
+<p>由此可以得出两个结论。相对于资金而言，下注越小，破产风险下降得越剧烈。而如果p等于或低于50%，即没有优势，这个公式就不再适用，因为在无限次下注中破产是必然的。小仓位只能延缓一个亏损策略的失败，却救不了它。</p>
+<p>现实交易在几个方面与这个模型不同，包括收益大小不固定、采用固定比例仓位以及存在成本，所以这些数字只是示意。理论上，固定比例仓位法永远不会归零，因此更有用的问题是出现深度回撤的概率。</p>
+<h2 id="section-8">蒙特卡洛模拟</h2>
+<p>蒙特卡洛模拟通过生成成千上万条符合策略统计特征的随机交易序列，来估计可能结果的范围。你可以把自己的实际交易结果按随机顺序重新抽样，也可以根据假设的胜率和盈亏生成交易。每条序列都会产生自己的净值曲线和最大回撤，合在一起就能显示什么是常态，什么是糟糕但合理可能出现的情况。</p>
+<p>举个例子，下面是一个简单的模拟：策略胜率45%，盈利交易1.5R，亏损交易1R，每笔期望值为小幅正值+0.125R，采用固定比例仓位，模拟200笔交易，随机运行40,000次：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>单笔风险</th>
+<th>典型（中位数）最大回撤</th>
+<th>回撤达30%以上的概率</th>
+<th>回撤达50%以上的概率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1%</td>
+<td>约12%</td>
+<td>低于1%</td>
+<td>接近0%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>约22%</td>
+<td>约19%</td>
+<td>低于1%</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>约49%</td>
+<td>约97%</td>
+<td>约48%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>约79%</td>
+<td>接近100%</td>
+<td>约99%</td>
+</tr>
+</tbody></table></div>
+<p>每一行的优势完全相同。在10%的风险下，大多数模拟路径在200笔交易结束时仍然是盈利的，但几乎每一条都在途中经历过亏掉账户一半的回撤，很少有人能熬过这样的过程而不放弃计划。这些数字来自一组特定的假设，每次运行会略有不同。真实策略的统计数据也只是估计，真实优势可能更小。<a href="/zh/encyclopedia/risk-management/kelly-criterion/">凯利公式</a>一文解释了为什么下注比例过大，会把正优势变成糟糕的长期增长。</p>
+<p>蒙特卡洛的结果好坏完全取决于输入。如果交易样本来自过度拟合的<a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a>，模拟就会信心十足地给出错误答案。它还假设未来与过去相似，而当市场条件变化时，这一点未必成立。</p>
+<h2 id="section-9">实际运用</h2>
+<ul>
+<li><strong>先设定可接受的最大回撤，</strong> 例如20%，然后根据策略现实中可能出现的连亏，选择一个让你不太可能触及这一水平的单笔风险。</li>
+<li><strong>为比你见过的任何一次都更长的连亏做准备。</strong> 回测中最差的连亏只是某个分布中的一次抽样，而不是最坏情况。</li>
+<li><strong>回撤期间减小仓位。</strong> 固定比例仓位法会自动做到这一点。有些交易者还会在回撤达到设定水平后把风险减半。</li>
+<li><strong>提前规定每个回撤水平下要做什么，</strong> 例如回撤10%时复盘、20%时完全停止交易。见<a href="/zh/encyclopedia/psychology/handling-losses-and-tilt/">应对亏损与上头</a>。</li>
+</ul>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>从初始余额而不是从高点衡量回撤。</strong></li>
+<li><strong>以为回测中的最大回撤就是可能发生的最坏情况。</strong></li>
+<li><strong>低估连亏，</strong> 然后在一段统计上完全正常的亏损期中放弃策略。</li>
+<li><strong>加大仓位以求更快回本，</strong> 这会提高出现更深回撤的概率。</li>
+<li><strong>以为小仓位能解决负优势。</strong> 它只会让下跌变慢。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-12">对交易者来说，多大的最大回撤算合理？</h3>
+<p>这取决于策略和个人，但许多交易者力求把最大回撤控制在约20%至25%以下，因为超过这个水平后回本会难得多。自营交易公司的账户通常会设定约5%至10%的上限，这就要求单笔风险小得多。</p>
+<h3 id="section-13">如何计算破产风险？</h3>
+<p>对于一个固定下注、获胜概率p高于50%、有N个下注单位的简单游戏，最终破产的风险是(q ÷ p)的N次方，其中q = 1 − p。现实交易要复杂得多，所以大多数交易者会用自己的交易统计数据进行蒙特卡洛模拟来估计。</p>
+<h3 id="section-14">连续亏损几笔算正常？</h3>
+<p>这取决于胜率和交易笔数。在胜率50%、100笔相互独立的交易中，至少出现一次五连亏的概率约为81%，出现八连亏的概率约为17%。胜率越低，长连亏就越常见。</p>
+<h3 id="section-15">交易中的蒙特卡洛模拟是什么？</h3>
+<p>它是一种方法：根据策略的胜率和盈亏，或者把它过去的实际交易按随机顺序排列，生成成千上万条随机交易序列。结果展示的是可能的回撤和收益范围，而不是单一的历史路径。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">风险与资金管理</div><b>风险管理基础</b><span>为什么风险管理比入场点更重要：单笔风险、每日亏损上限、亏损50%意味着什么，以及交易中主要的风险类型。</span></a><a class="card" href="/zh/encyclopedia/risk-management/position-sizing/"><div class="k">风险与资金管理</div><b>仓位管理</b><span>如何根据账户风险和止损距离计算仓位大小：固定比例、固定金额与ATR仓位法，附股票、外汇和加密货币的实例演算。</span></a><a class="card" href="/zh/encyclopedia/risk-management/kelly-criterion/"><div class="k">风险与资金管理</div><b>凯利公式</b><span>二元下注的凯利公式及其连续形式，含预测市场合约等实例演算，并解释为什么大多数交易者只使用分数凯利（如半凯利）。</span></a><a class="card" href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">风险与资金管理</div><b>盈亏比与期望值</b><span>R倍数、胜率和盈亏比如何共同决定交易期望值：计算公式、保本胜率表，以及为什么高胜率的策略照样可能亏钱。</span></a><a class="card" href="/zh/encyclopedia/psychology/handling-losses-and-tilt/"><div class="k">交易心理</div><b>应对亏损与情绪失控</b><span>如何应对连续亏损和上头：警示信号、单日亏损上限等熔断规则、大亏之后如何重启、何时该停手，以及赌博问题的危险信号。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/"><small>← 上一篇</small>盈亏比与期望值</a><a class="next" href="/zh/encyclopedia/risk-management/kelly-criterion/"><small>下一篇 →</small>凯利公式</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

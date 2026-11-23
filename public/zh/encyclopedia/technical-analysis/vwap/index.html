@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VWAP详解：成交量加权平均价怎么用 | PnL Profit</title>
+<meta name="description" content="VWAP如何计算、机构为何把它当作基准、日内交易者如何围绕它交易，以及锚定VWAP、VWAP通道和该指标的局限。">
+<meta name="keywords" content="VWAP, 成交量加权平均价, 锚定VWAP, VWAP交易策略, VWAP通道">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/vwap/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="VWAP详解：成交量加权平均价怎么用 | PnL Profit">
+<meta property="og:description" content="VWAP如何计算、机构为何把它当作基准、日内交易者如何围绕它交易，以及锚定VWAP、VWAP通道和该指标的局限。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/technical-analysis/vwap/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VWAP详解：成交量加权平均价怎么用 | PnL Profit">
+<meta name="twitter:description" content="VWAP如何计算、机构为何把它当作基准、日内交易者如何围绕它交易，以及锚定VWAP、VWAP通道和该指标的局限。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"VWAP详解：成交量加权平均价怎么用","description":"VWAP如何计算、机构为何把它当作基准、日内交易者如何围绕它交易，以及锚定VWAP、VWAP通道和该指标的局限。","keywords":"VWAP, 成交量加权平均价, 锚定VWAP, VWAP交易策略, VWAP通道","articleSection":"技术分析","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/vwap/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"技术分析","item":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"VWAP","item":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/vwap/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"价格在VWAP上方意味着什么？","acceptedAnswer":{"@type":"Answer","text":"这意味着当前价格高于本时段迄今为止的成交量加权平均成交价，所以今天的平均买家处于盈利状态。许多交易者把这解读为买方占上风的迹象，不过单凭这一点并不能预测任何事情。"}},{"@type":"Question","name":"VWAP每天都会重置吗？","acceptedAnswer":{"@type":"Answer","text":"标准的时段VWAP会在每个交易时段开始时重置。锚定VWAP不会重置，它从交易者选定的起始K线开始持续计算。"}},{"@type":"Question","name":"VWAP比移动平均线更好吗？","acceptedAnswer":{"@type":"Answer","text":"与其说更好，不如说不同。VWAP按成交量对价格加权，并与某个时段或锚点绑定；移动平均线则在滚动窗口内按时间对价格加权。日内交易者更常用VWAP，波段交易者更常用移动平均线。"}},{"@type":"Question","name":"加密货币或外汇可以用VWAP吗？","acceptedAnswer":{"@type":"Answer","text":"可以，但要谨慎。加密货币的VWAP取决于纳入了哪些交易所的成交量，以及一个人为设定的每日重置时间；现货外汇的VWAP使用的是单个经纪商的跳动量，只能作为真实活跃度的替代参考。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/vwap/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/vwap/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/technical-analysis/vwap/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/vwap/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/vwap/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/vwap/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/vwap/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/vwap/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/vwap/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>技术分析</h3><ul><li><a href="/zh/encyclopedia/technical-analysis/technical-analysis-intro/">技术分析入门</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-charts/">读懂K线图</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-patterns/">K线形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑与阻力</a></li><li><a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">趋势与市场结构</a></li><li><a href="/zh/encyclopedia/technical-analysis/chart-patterns/">图表形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/moving-averages/">移动平均线</a></li><li><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/zh/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/">布林带</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/vwap/" class="on" aria-current="page">VWAP</a></li><li><a href="/zh/encyclopedia/technical-analysis/fibonacci-retracement/">斐波那契工具</a></li><li><a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR与波动率</a></li><li><a href="/zh/encyclopedia/technical-analysis/multi-timeframe-analysis/">多周期分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/price-action-trading/">价格行为交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/">成交量分布与市场轮廓</a></li><li><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/">订单流交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/smart-money-concepts/">聪明钱概念（ICT）</a></li><li><a href="/zh/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">艾略特波浪与威科夫</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/" class="on">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/technical-analysis/">技术分析</a></div>
+<h1 class="title">VWAP（成交量加权平均价）</h1>
+<div class="meta">阅读约 5 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>技术分析中的更多文章</summary><ul><li><a href="/zh/encyclopedia/technical-analysis/technical-analysis-intro/">技术分析入门</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-charts/">读懂K线图</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-patterns/">K线形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑与阻力</a></li><li><a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">趋势与市场结构</a></li><li><a href="/zh/encyclopedia/technical-analysis/chart-patterns/">图表形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/moving-averages/">移动平均线</a></li><li><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/zh/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/">布林带</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/vwap/" class="on" aria-current="page">VWAP</a></li><li><a href="/zh/encyclopedia/technical-analysis/fibonacci-retracement/">斐波那契工具</a></li><li><a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR与波动率</a></li><li><a href="/zh/encyclopedia/technical-analysis/multi-timeframe-analysis/">多周期分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/price-action-trading/">价格行为交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/">成交量分布与市场轮廓</a></li><li><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/">订单流交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/smart-money-concepts/">聪明钱概念（ICT）</a></li><li><a href="/zh/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">艾略特波浪与威科夫</a></li></ul></details>
+<article><p>VWAP，即成交量加权平均价（volume-weighted average price），是某资产在一段时间内的平均成交价格，其中每个价格都按该价位的成交量进行加权。它最常从每个交易时段开盘时开始计算，并每日重置。机构用它来评估自己的执行质量，日内交易者则把它当作日内参考线，用来判断本时段是买方还是卖方占据主导。</p>
+<div class="takeaways"><h2 id="key-takeaways">核心要点</h2>
+<ul>
+<li>VWAP等于总成交金额除以总成交量，从选定的起点开始累计。</li>
+<li>标准的时段VWAP每天重置，因此主要是日内工具。</li>
+<li>大型基金常以VWAP衡量自己的成交价格，这也是价格往往在其附近出现反应的原因之一。</li>
+<li>锚定VWAP从选定的事件开始计算，比如财报跳空或一个重要低点。</li>
+<li>VWAP具有滞后性，单凭它本身无法预示未来；在缺乏可靠成交量数据的市场中，它的意义也更小。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#vwap">VWAP如何计算</a></li><li><a href="#vwap">VWAP作为机构基准</a></li><li><a href="#vwap">日内交易者如何使用VWAP</a></li><li><a href="#vwap">锚定VWAP</a></li><li><a href="#vwap">VWAP通道</a></li><li><a href="#section-8">局限性</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="vwap">VWAP如何计算</h2>
+<p>对每根K线取一个代表性价格，通常是<strong>典型价格</strong> = (High + Low + Close) ÷ 3，再乘以该K线的成交量。持续累计：</p>
+<p>VWAP = Σ (Typical price × Volume) ÷ Σ Volume</p>
+<p>累计从时段开盘开始，每多一根K线就增加一项。时段早期VWAP波动较大；到了下午，背后积累的成交量已经很大，它几乎不怎么动了。</p>
+<h3 id="section-3">计算示例</h3>
+<p>某时段开盘后的五根5分钟K线：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>K线</th>
+<th>典型价格</th>
+<th>成交量</th>
+<th>价格 × 成交量</th>
+<th>累计PV</th>
+<th>累计成交量</th>
+<th>VWAP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>100.00</td>
+<td>10,000</td>
+<td>1,000,000</td>
+<td>1,000,000</td>
+<td>10,000</td>
+<td>100.00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>100.50</td>
+<td>8,000</td>
+<td>804,000</td>
+<td>1,804,000</td>
+<td>18,000</td>
+<td>100.22</td>
+</tr>
+<tr>
+<td>3</td>
+<td>101.00</td>
+<td>12,000</td>
+<td>1,212,000</td>
+<td>3,016,000</td>
+<td>30,000</td>
+<td>100.53</td>
+</tr>
+<tr>
+<td>4</td>
+<td>100.80</td>
+<td>6,000</td>
+<td>604,800</td>
+<td>3,620,800</td>
+<td>36,000</td>
+<td>100.58</td>
+</tr>
+<tr>
+<td>5</td>
+<td>100.20</td>
+<td>4,000</td>
+<td>400,800</td>
+<td>4,021,600</td>
+<td>40,000</td>
+<td>100.54</td>
+</tr>
+</tbody></table></div>
+<p>五根K线之后，VWAP为 4,021,600 ÷ 40,000 = 100.54。五个典型价格的简单平均值为 502.50 ÷ 5 = 100.50。VWAP略高一些，是因为最大的成交量（12,000）出现在最高价位（101.00）。这正是VWAP的意义所在：它反映了大部分交易实际是在什么价位完成的。</p>
+<h2 id="vwap">VWAP作为机构基准</h2>
+<p>一家需要买入500,000股的养老基金，无法用一笔订单完成而不推动价格。它会把订单拆分到全天执行，常常借助一种VWAP<a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a>，按市场成交量的比例进行交易。事后，交易台会把自己的平均成交价与当天的VWAP作比较。</p>
+<p><strong>示例。</strong> 某交易台以平均100.48的价格买入50,000股，当时段的VWAP为100.54。该交易台比VWAP低0.06买入，在50,000股上相当于比基准好 0.06 × 50,000 = $3,000。如果它付出的是100.60，就会比基准差$3,000。</p>
+<p>由于大量机构资金都是这样被考核的，持有大额买单的一方往往认为低于VWAP的价格划算，卖方则往往认为高于VWAP的价格划算。这种行为正是VWAP在日内可能像磁铁一样吸引价格、或成为反应位的部分原因——尽管没有人能看到某一天到底有多少以基准考核的资金在活跃。</p>
+<h2 id="vwap">日内交易者如何使用VWAP</h2>
+<p>日内交易者，尤其是交易<a href="/zh/encyclopedia/stocks/day-trading-stocks/">股票</a>和股指期货的人，通常这样观察VWAP：</p>
+<ul>
+<li><strong>趋势过滤。</strong> 价格稳在向上的VWAP之上，被解读为本时段买方掌控；在向下的VWAP之下，则是卖方掌控。有些交易者只在VWAP上方做多、在下方做空。</li>
+<li><strong>回调入场。</strong> 在强势趋势日里，第一次回调到VWAP是很受欢迎的入场点。思路与在回调到<a href="/zh/encyclopedia/technical-analysis/moving-averages/">移动平均线</a>时买入相同，只不过VWAP锚定在当前时段，并按成交量加权。</li>
+<li><strong>收复或跌破VWAP。</strong> 一只开盘疲软的股票，随后重新站上VWAP并守住，有时被视为本时段多空平衡已经转变的信号。</li>
+<li><strong>均值回归。</strong> 在区间震荡的时段，价格常常围绕VWAP来回摆动，偏离过远的走势可能会回落到它附近。</li>
+</ul>
+<p>这些方法单独使用都不可靠。在强趋势日，价格可能一整天都不回到VWAP；在震荡日，价格可能穿越VWAP十几次，每一次都可能是假信号。</p>
+<h2 id="vwap">锚定VWAP</h2>
+<p>标准VWAP从时段开盘开始计算。<strong>锚定VWAP</strong>（Anchored VWAP，AVWAP）让你可以从任意选定的K线开始计算。这一技巧由技术分析师布莱恩·香农（Brian Shannon）推广，如今已内置于大多数图表平台。常见的锚点包括：</p>
+<ul>
+<li>财报跳空或重大新闻日。</li>
+<li>重要的波段高点或低点。</li>
+<li>一年、一个季度或一个月的开始。</li>
+<li>IPO日期。</li>
+</ul>
+<p>其逻辑是：从某一事件开始计算的AVWAP，显示了此后所有交易者的平均成本。如果价格位于锚定在重要低点的AVWAP之上，说明自该低点以来的平均买家处于盈利状态。如果价格回落到AVWAP，这些买家就回到了盈亏平衡点，有些交易者会把它视为潜在的<a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑</a>。这是一种直观的解释，而非经过证实的效应，而且锚点的选择带有主观性。</p>
+<h2 id="vwap">VWAP通道</h2>
+<p>许多平台会在VWAP周围绘制通道，距离为价格相对VWAP的一个、两个、有时三个标准差（按成交量加权）。它们的外观和用法与围绕移动平均线的<a href="/zh/encyclopedia/technical-analysis/bollinger-bands/">布林带</a>很相似。交易者在区间日把外侧通道视为走势过度延伸的信号，在趋势日如果价格持续沿着上轨运行，则把它视为强势的证据。有些平台提供的是百分比通道而不是标准差通道，请确认你的工具使用的是哪一种。</p>
+<h2 id="section-8">局限性</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>局限</th>
+<th>为什么重要</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>滞后</td>
+<td>VWAP是过去价格的平均值。时段后期它几乎不动。</td>
+</tr>
+<tr>
+<td>每日重置</td>
+<td>时段VWAP很难反映多日趋势；那是锚定VWAP或更长周期均线的用武之地。</td>
+</tr>
+<tr>
+<td>数据质量</td>
+<td>不同的数据源和时段定义（是否包含盘前）会得出不同的VWAP数值。</td>
+</tr>
+<tr>
+<td>在某些市场中较弱</td>
+<td>现货外汇没有统一的成交量，加密货币成交量可能被对敲交易虚增。参见<a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a>。</td>
+</tr>
+<tr>
+<td>24小时市场</td>
+<td>加密货币和期货没有自然的开盘时间，因此重置时间（加密货币常为00:00 UTC）只是一种惯例。</td>
+</tr>
+<tr>
+<td>不是信号</td>
+<td>价格穿越VWAP本身并不是买入或卖出信号。</td>
+</tr>
+</tbody></table></div>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>在日线或周线图上使用VWAP。</strong> 时段VWAP是日内工具。更长的周期请使用锚定VWAP或其他均线。</li>
+<li><strong>忽略时段设置。</strong> 你的平台是否包含盘前和盘后交易，会改变VWAP的数值。</li>
+<li><strong>每次触及都当作交易机会。</strong> VWAP与时段背景、关键价位和成交量结合使用时效果最好，而不是作为单独的触发条件。</li>
+<li><strong>以为机构在守护VWAP。</strong> 以基准考核的资金确实存在，但你看不到它，而且它不保证价格一定反弹。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="vwap">价格在VWAP上方意味着什么？</h3>
+<p>这意味着当前价格高于本时段迄今为止的成交量加权平均成交价，所以今天的平均买家处于盈利状态。许多交易者把这解读为买方占上风的迹象，不过单凭这一点并不能预测任何事情。</p>
+<h3 id="vwap">VWAP每天都会重置吗？</h3>
+<p>标准的时段VWAP会在每个交易时段开始时重置。锚定VWAP不会重置，它从交易者选定的起始K线开始持续计算。</p>
+<h3 id="vwap">VWAP比移动平均线更好吗？</h3>
+<p>与其说更好，不如说不同。VWAP按成交量对价格加权，并与某个时段或锚点绑定；移动平均线则在滚动窗口内按时间对价格加权。日内交易者更常用VWAP，波段交易者更常用移动平均线。</p>
+<h3 id="vwap">加密货币或外汇可以用VWAP吗？</h3>
+<p>可以，但要谨慎。加密货币的VWAP取决于纳入了哪些交易所的成交量，以及一个人为设定的每日重置时间；现货外汇的VWAP使用的是单个经纪商的跳动量，只能作为真实活跃度的替代参考。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/technical-analysis/volume-analysis/"><div class="k">技术分析</div><b>成交量分析</b><span>如何看懂成交量：量价确认、天量高潮、相对成交量、OBV与累积/派发线，以及加密货币和外汇成交量数据的局限。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/"><div class="k">算法与量化交易</div><b>执行算法</b><span>执行算法如何运作：TWAP、VWAP、POV 与执行差额算法，智能订单路由，滑点的衡量，以及执行为何影响收益。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/moving-averages/"><div class="k">技术分析</div><b>移动平均线</b><span>简单、指数和加权移动平均线如何计算，20、50、200周期均线意味着什么，金叉与死叉，以及均线的滞后取舍。</span></a><a class="card" href="/zh/encyclopedia/stocks/day-trading-stocks/"><div class="k">股票交易</div><b>股票日内交易</b><span>股票日内交易如何运作：美国 PDT 规则及其 2026 年替代方案、现金账户与保证金账户、T+1 结算、常见形态和现实胜算。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/"><div class="k">技术分析</div><b>成交量分布与市场轮廓</b><span>成交量分布和市场轮廓如何运作：控制点、价值区、高低成交量节点、TPO图、平衡与失衡，以及期货交易中的应用。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/technical-analysis/volume-analysis/"><small>← 上一篇</small>成交量分析</a><a class="next" href="/zh/encyclopedia/technical-analysis/fibonacci-retracement/"><small>下一篇 →</small>斐波那契工具</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

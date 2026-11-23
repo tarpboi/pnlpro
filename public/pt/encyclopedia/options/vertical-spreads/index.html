@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Travas verticais: trava de alta, trava de baixa e de crédito</title>
+<meta name="description" content="Como funcionam as travas verticais: trava de alta e de baixa com calls e puts, no débito e no crédito, com fórmulas de lucro, perda e equilíbrio e exemplos.">
+<meta name="keywords" content="trava vertical opções, trava de alta com calls, trava de baixa com puts, trava de crédito, bull put spread exemplo">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/vertical-spreads/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Travas verticais: trava de alta, trava de baixa e de crédito">
+<meta property="og:description" content="Como funcionam as travas verticais: trava de alta e de baixa com calls e puts, no débito e no crédito, com fórmulas de lucro, perda e equilíbrio e exemplos.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/options/vertical-spreads/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Travas verticais: trava de alta, trava de baixa e de crédito">
+<meta name="twitter:description" content="Como funcionam as travas verticais: trava de alta e de baixa com calls e puts, no débito e no crédito, com fórmulas de lucro, perda e equilíbrio e exemplos.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Travas verticais: trava de alta, trava de baixa e de crédito","description":"Como funcionam as travas verticais: trava de alta e de baixa com calls e puts, no débito e no crédito, com fórmulas de lucro, perda e equilíbrio e exemplos.","keywords":"trava vertical opções, trava de alta com calls, trava de baixa com puts, trava de crédito, bull put spread exemplo","articleSection":"Opções","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/options/vertical-spreads/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Opções","item":"https://pnlpro.fit/pt/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Travas verticais","item":"https://pnlpro.fit/pt/encyclopedia/options/vertical-spreads/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Qual é a diferença entre uma trava de débito e uma trava de crédito?","acceptedAnswer":{"@type":"Answer","text":"Uma trava de débito custa dinheiro para abrir e lucra quando a ação se move na direção escolhida. Uma trava de crédito paga você para abrir e lucra quando a ação fica do lado certo do strike vendido."}},{"@type":"Question","name":"Como calcular a perda máxima de uma trava de crédito?","acceptedAnswer":{"@type":"Answer","text":"Subtraia o crédito líquido da largura entre os strikes e multiplique por 100. Uma trava com $5 de largura vendida por $1.20 tem perda máxima de $3.80 por ação, ou $380 por contrato."}},{"@type":"Question","name":"Dá para perder mais do que a perda máxima numa trava vertical?","acceptedAnswer":{"@type":"Answer","text":"Não no vencimento, se as duas pernas forem mantidas. O risco de surpresa vem do exercício antecipado ou de uma perna vencer dentro do dinheiro, o que pode deixar uma posição em ações que continua se movendo depois do fechamento do mercado."}},{"@type":"Question","name":"A trava de alta com calls é melhor do que comprar uma call?","acceptedAnswer":{"@type":"Answer","text":"Ela é mais barata e tem ponto de equilíbrio mais baixo, mas limita o lucro no strike maior. Combina com uma visão moderadamente altista com preço-alvo, enquanto uma call isolada combina com a aposta num movimento grande."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/options/vertical-spreads/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/vertical-spreads/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/vertical-spreads/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/vertical-spreads/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/vertical-spreads/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/options/vertical-spreads/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/vertical-spreads/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/vertical-spreads/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/vertical-spreads/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Opções</h3><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/" class="on" aria-current="page">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Exposição gama e dealers</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/" class="on">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/options/">Opções</a></div>
+<h1 class="title">Travas verticais</h1>
+<div class="meta">9 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Opções</summary><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/" class="on" aria-current="page">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Exposição gama e dealers</a></li></ul></details>
+<article><p>Uma trava vertical (vertical spread) é uma posição em opções montada comprando uma opção e vendendo outra do mesmo tipo (duas calls ou duas puts), sobre o mesmo ativo-objeto e com o mesmo vencimento, mas em strikes diferentes. A opção vendida compensa parte do custo ou do risco da comprada, então a operação tem lucro máximo e perda máxima fixos, conhecidos desde o início. As travas verticais são uma das formas mais comuns de assumir uma visão direcional com opções mantendo o risco definido.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>Há quatro travas verticais básicas: a trava de alta com calls e a trava de baixa com puts são pagas (débito), enquanto a trava de alta com puts e a trava de baixa com calls recebem um crédito.</li>
+<li>Lucro máximo, perda máxima e ponto de equilíbrio podem ser calculados antes de entrar na operação.</li>
+<li>A distância entre os strikes, chamada largura, define a soma do lucro máximo com a perda máxima.</li>
+<li>Travas de crédito tendem a ganhar com mais frequência, mas ganham menos por acerto do que arriscam; travas de débito tendem a ganhar com menos frequência, mas ganham mais por acerto.</li>
+<li>As travas reduzem a exposição ao decaimento temporal e à volatilidade implícita em comparação com opções isoladas, mas não a eliminam.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#as-quatro-travas-verticais">As quatro travas verticais</a></li><li><a href="#f-rmulas">Fórmulas</a></li><li><a href="#trava-de-alta-com-calls">Trava de alta com calls</a></li><li><a href="#trava-de-baixa-com-puts">Trava de baixa com puts</a></li><li><a href="#trava-de-alta-com-puts-cr-dito">Trava de alta com puts (crédito)</a></li><li><a href="#trava-de-baixa-com-calls-cr-dito">Trava de baixa com calls (crédito)</a></li><li><a href="#d-bito-ou-cr-dito-a-troca-de-probabilidade">Débito ou crédito: a troca de probabilidade</a></li><li><a href="#escolhendo-os-strikes">Escolhendo os strikes</a></li><li><a href="#gerenciando-uma-trava-vertical">Gerenciando uma trava vertical</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="as-quatro-travas-verticais">As quatro travas verticais</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Trava</th>
+<th>Montagem</th>
+<th>Visão</th>
+<th>Débito ou crédito</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Trava de alta com calls (bull call spread)</td>
+<td>Compra call de strike menor, vende call de strike maior</td>
+<td>Altista</td>
+<td>Débito</td>
+</tr>
+<tr>
+<td>Trava de baixa com puts (bear put spread)</td>
+<td>Compra put de strike maior, vende put de strike menor</td>
+<td>Baixista</td>
+<td>Débito</td>
+</tr>
+<tr>
+<td>Trava de alta com puts (bull put spread)</td>
+<td>Vende put de strike maior, compra put de strike menor</td>
+<td>Altista ou neutra</td>
+<td>Crédito</td>
+</tr>
+<tr>
+<td>Trava de baixa com calls (bear call spread)</td>
+<td>Vende call de strike menor, compra call de strike maior</td>
+<td>Baixista ou neutra</td>
+<td>Crédito</td>
+</tr>
+</tbody></table></div>
+<p>Todos os exemplos abaixo usam uma ação cotada a $100, opções com o mesmo vencimento e o multiplicador padrão dos EUA de 100 ações por contrato. Os preços das opções são ilustrativos.</p>
+<h2 id="f-rmulas">Fórmulas</h2>
+<p>Para uma trava cujos strikes estão a uma determinada largura um do outro:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Trava de débito</th>
+<th>Trava de crédito</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Perda máxima</td>
+<td>Débito líquido pago</td>
+<td>Largura - crédito líquido</td>
+</tr>
+<tr>
+<td>Lucro máximo</td>
+<td>Largura - débito líquido</td>
+<td>Crédito líquido recebido</td>
+</tr>
+<tr>
+<td>Ponto de equilíbrio (travas com calls)</td>
+<td>Strike menor + débito líquido</td>
+<td>Strike menor + crédito líquido</td>
+</tr>
+<tr>
+<td>Ponto de equilíbrio (travas com puts)</td>
+<td>Strike maior - débito líquido</td>
+<td>Strike maior - crédito líquido</td>
+</tr>
+</tbody></table></div>
+<p>Repare que o lucro máximo mais a perda máxima é sempre igual à largura da trava.</p>
+<h2 id="trava-de-alta-com-calls">Trava de alta com calls</h2>
+<p>Compre a call de $100 por $4.00 e venda a call de $110 por $1.50.</p>
+<ul>
+<li>Débito líquido: $4.00 - $1.50 = $2.50, ou $250 por trava.</li>
+<li>Perda máxima: $250, se a ação estiver em $100 ou abaixo no vencimento.</li>
+<li>Lucro máximo: ($110 - $100) - $2.50 = $7.50, ou $750, se a ação estiver em $110 ou acima.</li>
+<li>Ponto de equilíbrio: $100 + $2.50 = $102.50.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ação no vencimento</th>
+<th>Valor da call de $100</th>
+<th>Valor da call de $110</th>
+<th>Valor da trava</th>
+<th>Lucro ou prejuízo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$95</td>
+<td>$0</td>
+<td>$0</td>
+<td>$0</td>
+<td>-$250</td>
+</tr>
+<tr>
+<td>$102.50</td>
+<td>$2.50</td>
+<td>$0</td>
+<td>$2.50</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$105</td>
+<td>$5.00</td>
+<td>$0</td>
+<td>$5.00</td>
+<td>+$250</td>
+</tr>
+<tr>
+<td>$110</td>
+<td>$10.00</td>
+<td>$0</td>
+<td>$10.00</td>
+<td>+$750</td>
+</tr>
+<tr>
+<td>$120</td>
+<td>$20.00</td>
+<td>$10.00</td>
+<td>$10.00</td>
+<td>+$750</td>
+</tr>
+</tbody></table></div>
+<p>Em comparação com comprar só a call de $100 por $4.00, a trava custa $1.50 a menos e tem ponto de equilíbrio mais baixo ($102.50 em vez de $104.00). Em troca, abre mão de cada dólar de ganho acima de $110.</p>
+<h2 id="trava-de-baixa-com-puts">Trava de baixa com puts</h2>
+<p>Compre a put de $100 por $3.80 e venda a put de $90 por $1.30.</p>
+<ul>
+<li>Débito líquido: $3.80 - $1.30 = $2.50, ou $250.</li>
+<li>Perda máxima: $250, se a ação estiver em $100 ou acima.</li>
+<li>Lucro máximo: ($100 - $90) - $2.50 = $7.50, ou $750, se a ação estiver em $90 ou abaixo.</li>
+<li>Ponto de equilíbrio: $100 - $2.50 = $97.50.</li>
+</ul>
+<h2 id="trava-de-alta-com-puts-cr-dito">Trava de alta com puts (crédito)</h2>
+<p>Venda a put de $95 por $2.00 e compre a put de $90 por $0.80.</p>
+<ul>
+<li>Crédito líquido: $2.00 - $0.80 = $1.20, ou $120.</li>
+<li>Lucro máximo: $120, se a ação estiver em $95 ou acima no vencimento.</li>
+<li>Perda máxima: ($95 - $90) - $1.20 = $3.80, ou $380, se a ação estiver em $90 ou abaixo.</li>
+<li>Ponto de equilíbrio: $95 - $1.20 = $93.80.</li>
+</ul>
+<p>A ação pode ficar parada, subir ou até cair até $5 e a trava ainda assim rende os $120 inteiros. A contrapartida é arriscar $380 para ganhar $120. As corretoras geralmente bloqueiam a perda máxima, $380, como margem de uma trava de crédito.</p>
+<h2 id="trava-de-baixa-com-calls-cr-dito">Trava de baixa com calls (crédito)</h2>
+<p>Venda a call de $105 por $2.10 e compre a call de $110 por $0.90.</p>
+<ul>
+<li>Crédito líquido: $2.10 - $0.90 = $1.20, ou $120.</li>
+<li>Lucro máximo: $120, se a ação estiver em $105 ou abaixo.</li>
+<li>Perda máxima: ($110 - $105) - $1.20 = $3.80, ou $380, se a ação estiver em $110 ou acima.</li>
+<li>Ponto de equilíbrio: $105 + $1.20 = $106.20.</li>
+</ul>
+<h2 id="d-bito-ou-cr-dito-a-troca-de-probabilidade">Débito ou crédito: a troca de probabilidade</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Travas de débito</th>
+<th>Travas de crédito</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Taxa de acerto típica</td>
+<td>Menor</td>
+<td>Maior</td>
+</tr>
+<tr>
+<td>Tamanho do ganho vs. da perda</td>
+<td>O ganho costuma ser maior que a perda</td>
+<td>O ganho costuma ser menor que a perda</td>
+</tr>
+<tr>
+<td>Precisa que a ação</td>
+<td>Se mova na sua direção</td>
+<td>Não se mova demais contra você</td>
+</tr>
+<tr>
+<td>Decaimento temporal</td>
+<td>Geralmente joga contra você quando OTM</td>
+<td>Geralmente joga a seu favor quando OTM</td>
+</tr>
+</tbody></table></div>
+<p>Nenhuma é melhor por padrão. Os preços das opções já refletem as estimativas de probabilidade do mercado, então uma trava de crédito que ganha 70% das vezes é precificada de modo que as perdas grandes ocasionais compensem os muitos ganhos pequenos, antes dos custos. Os resultados de longo prazo dependem de a sua visão ser melhor que a do mercado e dos custos. Veja <a href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/">risco/retorno e expectativa matemática</a>.</p>
+<h2 id="escolhendo-os-strikes">Escolhendo os strikes</h2>
+<ul>
+<li><strong>Largura:</strong> travas mais largas custam mais (débito) ou arriscam mais (crédito) e têm ganhos potenciais maiores. Travas estreitas mantêm o risco pequeno, mas as comissões levam uma fatia maior.</li>
+<li><strong>Moneyness:</strong> uma trava de débito montada no dinheiro é mais barata do que uma opção isolada, mas ainda precisa de movimento. Uma trava de crédito vendida mais fora do dinheiro tem maior chance de sucesso e um crédito menor.</li>
+<li><strong>Delta como guia:</strong> os traders costumam escolher o strike vendido pelo delta. Um strike vendido com delta em torno de 0.30 costuma ser lido como tendo cerca de 30% de chance de terminar dentro do dinheiro. Veja <a href="/pt/encyclopedia/options/options-greeks/">gregas das opções</a>.</li>
+<li><strong>Volatilidade implícita:</strong> com IV alta, as travas de crédito coletam mais prêmio; com IV baixa, as travas de débito ficam mais baratas. Veja <a href="/pt/encyclopedia/options/implied-volatility/">volatilidade implícita</a>.</li>
+<li><strong>Liquidez:</strong> spreads de compra e venda largos em cada perna podem consumir boa parte da vantagem, então use opções com mercado ativo e ordens limitadas a um preço líquido.</li>
+</ul>
+<h2 id="gerenciando-uma-trava-vertical">Gerenciando uma trava vertical</h2>
+<ul>
+<li><strong>Realizar lucro antes:</strong> muitos traders encerram travas de crédito depois de capturar uma fatia escolhida do lucro máximo, em vez de segurar até o vencimento pelos últimos centavos.</li>
+<li><strong>Cortar perdas:</strong> defina um nível de perda com antecedência, como um valor fixo em dólares ou um múltiplo do crédito recebido.</li>
+<li><strong>Risco no vencimento:</strong> se a ação estiver entre os strikes no vencimento, uma perna pode vencer dentro do dinheiro e a outra fora. Você pode ser exercido na perna vendida e terminar com uma posição de 100 ações. Encerre as travas antes do vencimento se houver qualquer dúvida; veja <a href="/pt/encyclopedia/options/options-expiration-and-assignment/">vencimento e exercício de opções</a>.</li>
+<li><strong>Exercício antecipado:</strong> uma perna vendida muito dentro do dinheiro numa opção de estilo americano pode ser exercida antecipadamente, sobretudo antes de uma data ex-dividendos. Sua perna comprada continua limitando o risco, mas você precisa lidar com a posição em ações resultante.</li>
+</ul>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Comparar taxas de acerto sem olhar os resultados.</strong> Uma taxa de acerto de 75% em travas de crédito ainda pode dar prejuízo se as perdas forem de três a quatro vezes o tamanho dos ganhos.</li>
+<li><strong>Montar a trava perna por perna.</strong> Entrar numa perna e esperar para adicionar a segunda expõe você a um movimento adverso no meio do caminho.</li>
+<li><strong>Chegar ao vencimento com a ação perto do strike vendido.</strong> O pin risk pode transformar uma operação de risco definido numa posição em ações inesperada.</li>
+<li><strong>Ignorar as comissões em travas estreitas.</strong> Quatro comissões (duas pernas na entrada, duas na saída) podem ser uma fatia grande do lucro de uma trava pequena.</li>
+<li><strong>Supor que risco definido significa risco baixo.</strong> A perda máxima é conhecida, mas muitas vezes é realizada por inteiro.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="qual-a-diferen-a-entre-uma-trava-de-d-bito-e-uma-trava-de-cr-dito">Qual é a diferença entre uma trava de débito e uma trava de crédito?</h3>
+<p>Uma trava de débito custa dinheiro para abrir e lucra quando a ação se move na direção escolhida. Uma trava de crédito paga você para abrir e lucra quando a ação fica do lado certo do strike vendido.</p>
+<h3 id="como-calcular-a-perda-m-xima-de-uma-trava-de-cr-dito">Como calcular a perda máxima de uma trava de crédito?</h3>
+<p>Subtraia o crédito líquido da largura entre os strikes e multiplique por 100. Uma trava com $5 de largura vendida por $1.20 tem perda máxima de $3.80 por ação, ou $380 por contrato.</p>
+<h3 id="d-para-perder-mais-do-que-a-perda-m-xima-numa-trava-vertical">Dá para perder mais do que a perda máxima numa trava vertical?</h3>
+<p>Não no vencimento, se as duas pernas forem mantidas. O risco de surpresa vem do exercício antecipado ou de uma perna vencer dentro do dinheiro, o que pode deixar uma posição em ações que continua se movendo depois do fechamento do mercado.</p>
+<h3 id="a-trava-de-alta-com-calls-melhor-do-que-comprar-uma-call">A trava de alta com calls é melhor do que comprar uma call?</h3>
+<p>Ela é mais barata e tem ponto de equilíbrio mais baixo, mas limita o lucro no strike maior. Combina com uma visão moderadamente altista com preço-alvo, enquanto uma call isolada combina com a aposta num movimento grande.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/options/options-basics/"><div class="k">Opções</div><b>Fundamentos das opções</b><span>Como funcionam as opções: call, put, strike, vencimento, prêmio, valor intrínseco e extrínseco, moneyness, ganhos de titular e lançador e níveis de aprovação.</span></a><a class="card" href="/pt/encyclopedia/options/iron-condors-and-butterflies/"><div class="k">Opções</div><b>Iron condors e borboletas</b><span>Como funcionam iron condor, borboleta, iron butterfly e borboleta de asa quebrada, com resultados, pontos de equilíbrio, exemplos, gestão e pin risk.</span></a><a class="card" href="/pt/encyclopedia/options/options-greeks/"><div class="k">Opções</div><b>As gregas</b><span>O que medem delta, gama, theta, vega e rho, com exemplos práticos, como as gregas mudam com o tempo e o moneyness e como ler as gregas de uma posição.</span></a><a class="card" href="/pt/encyclopedia/options/implied-volatility/"><div class="k">Opções</div><b>Volatilidade implícita</b><span>O que é volatilidade implícita, como ela difere da histórica, IV rank e IV percentil, IV crush, skew e a fórmula do movimento esperado com exemplos.</span></a><a class="card" href="/pt/encyclopedia/options/options-expiration-and-assignment/"><div class="k">Opções</div><b>Vencimento e exercício</b><span>Como funcionam exercício e atribuição, exercício antecipado antes de dividendos, exercício automático a $0.01 ITM, pin risk, SPX vs. SPY e risco no after-hours.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/"><small>← Anterior</small>Lançamento coberto e venda de puts</a><a class="next" href="/pt/encyclopedia/options/iron-condors-and-butterflies/"><small>Próximo →</small>Iron condors e borboletas</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

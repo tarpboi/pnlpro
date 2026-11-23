@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>机器学习量化交易：哪些有效，哪些无效 | PnL Profit</title>
+<meta name="description" content="机器学习在交易中的应用：监督学习信号、特征与标签、非平稳性、过拟合、用大语言模型分析新闻与情绪，以及务实的用法。">
+<meta name="keywords" content="机器学习量化交易, 机器学习交易策略, AI交易, 大语言模型情绪分析, 三重障碍标签法">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="机器学习量化交易：哪些有效，哪些无效 | PnL Profit">
+<meta property="og:description" content="机器学习在交易中的应用：监督学习信号、特征与标签、非平稳性、过拟合、用大语言模型分析新闻与情绪，以及务实的用法。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="机器学习量化交易：哪些有效，哪些无效 | PnL Profit">
+<meta name="twitter:description" content="机器学习在交易中的应用：监督学习信号、特征与标签、非平稳性、过拟合、用大语言模型分析新闻与情绪，以及务实的用法。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"机器学习量化交易：哪些有效，哪些无效","description":"机器学习在交易中的应用：监督学习信号、特征与标签、非平稳性、过拟合、用大语言模型分析新闻与情绪，以及务实的用法。","keywords":"机器学习量化交易, 机器学习交易策略, AI交易, 大语言模型情绪分析, 三重障碍标签法","articleSection":"算法与量化交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"算法与量化交易","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"机器学习与交易","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"机器学习能预测股价吗？","acceptedAnswer":{"@type":"Answer","text":"机器学习能在收益中找到微弱但在统计上有用的规律，但无法可靠地预测价格。研究表明，收益中可预测的部分很小，而且规律会随时间变化。"}},{"@type":"Question","name":"哪种机器学习模型最适合交易？","acceptedAnswer":{"@type":"Answer","text":"没有唯一最好的模型。对于表格数据，正则化线性模型和梯度提升树是常见的起点，而标签、特征和验证方法的选择通常比算法更重要。"}},{"@type":"Question","name":"我能用 ChatGPT 或其他大语言模型来交易吗？","acceptedAnswer":{"@type":"Answer","text":"LLM 可以帮助总结新闻、分类情绪以及编写或审查代码，但它们对未来价格并没有可靠的洞察。把它们的输出当作一项有待检验的输入，并警惕可能被模型训练数据污染的回测。"}},{"@type":"Question","name":"机器学习交易策略为什么会失败？","acceptedAnswer":{"@type":"Answer","text":"常见原因包括对噪声过拟合、验证中存在数据泄露、市场环境变化，以及交易成本超过了预测出的微小优势。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>算法与量化交易</h3><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/" class="on" aria-current="page">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/" class="on">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a></div>
+<h1 class="title">交易中的机器学习</h1>
+<div class="meta">阅读约 7 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>算法与量化交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/" class="on" aria-current="page">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a></li></ul></details>
+<article><p>交易中的机器学习（machine learning，ML）是<a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易</a>的一个分支，它使用能从数据中学习规律的算法，而不是遵循人工编写的规则，来预测价格、划分市场状态或处理新闻等文本。量化基金广泛使用机器学习，但金融数据噪声大、变化不断，这让机器学习模型格外容易找到并不存在的规律。谨慎使用时，机器学习是有用的工具；草率使用时，它是做出一份令人信服、却在实盘中失效的<a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a>的最快途径之一。</p>
+<div class="takeaways"><h2 id="key-takeaways">核心要点</h2>
+<ul>
+<li>交易中的机器学习大多是监督学习：根据今天已知的特征预测未来的收益或方向。</li>
+<li>如何定义标签和验证模型，比选择哪种算法更重要。</li>
+<li>市场是非平稳的，信噪比极低，因此微小的准确率提升可能就有意义，而大幅提升则值得怀疑。</li>
+<li>标准的交叉验证在时间序列中会泄露未来信息；应使用滚动前推验证或清除式（purged）验证。</li>
+<li>大语言模型适合阅读和分类文本，但使用它们的回测可能被测试日期之后事件的知识所污染。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">机器学习能做什么、不能做什么</a></li><li><a href="#section-3">用监督学习生成信号</a></li><li><a href="#section-6">特征</a></li><li><a href="#section-7">标签</a></li><li><a href="#section-8">非平稳性与噪声</a></li><li><a href="#section-9">无泄露的验证</a></li><li><a href="#section-10">用大语言模型分析新闻与情绪</a></li><li><a href="#section-11">实例：准确率不等于利润</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">机器学习能做什么、不能做什么</h2>
+<p>机器学习擅长组合大量弱信号、捕捉非线性关系，以及大规模处理人类无法读完的数据，比如数以千计的新闻报道或公告文件。它无法创造数据中本不存在的可预测性。在大多数时间尺度上，资产价格基本上是不可预测的，而现存的可预测性大多也会在竞争中消失。在2020年一项著名研究中，Gu、Kelly 和 Xiu 发现，树集成模型和神经网络等灵活方法预测美股月度收益的效果优于传统线性模型，但收益中可预测的部分很小。</p>
+<h2 id="section-3">用监督学习生成信号</h2>
+<h3 id="section-4">问题类型</h3>
+<ul>
+<li><strong>回归：</strong> 预测下一期收益的大小，例如5日收益。</li>
+<li><strong>分类：</strong> 预测一个类别，比如涨或跌，或者“先触及止盈还是先触及止损”。</li>
+<li><strong>排序：</strong> 按预期收益对资产排序，买入排名靠前的、做空排名靠后的，这是横截面选股的常用方法。</li>
+</ul>
+<h3 id="section-5">常用模型</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>模型类别</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>线性回归与正则化回归（岭回归、Lasso）</td>
+<td>简单、稳定、可解释</td>
+<td>无法捕捉非线性效应</td>
+</tr>
+<tr>
+<td>树集成模型（随机森林、梯度提升）</td>
+<td>能很好地处理非线性和混合类型特征；在表格数据上表现强</td>
+<td>可能过拟合噪声；预测不够平滑</td>
+</tr>
+<tr>
+<td>神经网络</td>
+<td>灵活；能处理序列、文本和图像</td>
+<td>需要大量数据；难以解释；最容易过拟合</td>
+</tr>
+</tbody></table></div>
+<p>对于典型的表格型交易数据，正则化线性模型和梯度提升树是常见的起点。更复杂的模型需要更多数据来证明其合理性。</p>
+<h2 id="section-6">特征</h2>
+<p>特征是模型使用的输入。它们必须在预测时点就已知。</p>
+<ul>
+<li><strong>基于价格：</strong> 多个时间尺度上的过去收益、波动率、与均线的距离，以及<a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a>等技术指标。</li>
+<li><strong>成交量与订单流：</strong> 相对成交量、订单簿失衡、成交方向。</li>
+<li><strong>横截面：</strong> 资产相对于其所在行业或大盘的收益。</li>
+<li><strong>基本面：</strong> 估值比率、业绩超预期幅度，且只使用其发布日期之后的数据。</li>
+<li><strong>另类数据：</strong> 文本情绪、网站流量、卫星或交易流水数据。</li>
+<li><strong>市场环境：</strong> 波动率指数、利率，以及资金费率等<a href="/zh/encyclopedia/fundamental-analysis/market-sentiment-indicators/">情绪指标</a>。</li>
+</ul>
+<p>只用过去的数据对特征做归一化，例如滚动Z值，这样模型就永远不会看到用未来数据计算出的统计量。数据来源与时间戳参见<a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/">市场数据</a>。</p>
+<h2 id="section-7">标签</h2>
+<p>标签是模型要学习预测的目标，选好标签就解决了一半的问题。</p>
+<ul>
+<li><strong>固定周期标签：</strong> 未来 N 根K线收益的正负或大小。简单，但忽略了价格路径以及真实交易会如何管理。</li>
+<li><strong>三重障碍标签：</strong> 由 Marcos López de Prado 在其2018年的著作《Advances in Financial Machine Learning》中提出。每个样本按哪个条件先被触发来打标签：上障碍（止盈目标）、下障碍（止损）或时间上限。这与交易实际离场的方式相吻合。</li>
+<li><strong>元标签（meta-labeling）：</strong> 由一个主模型或规则决定方向，再由一个次级机器学习模型预测每个主信号能否成功，可用于过滤交易或确定仓位规模。</li>
+</ul>
+<p>相互重叠的标签，比如每天计算一次的5日收益，彼此共享信息。这一点必须在验证中加以处理。</p>
+<h2 id="section-8">非平稳性与噪声</h2>
+<p>金融关系会变化。在低利率时期成立的规律，可能在利率上升后消失；一个在众多交易者使用之前有效的特征，可能在那之后失效。信噪比极低：一个预测日度方向准确率达到52%至53%的模型就可能有用，而日度方向准确率达到70%几乎总是意味着程序有错误或存在数据泄露。</p>
+<p>这与困扰基于规则的<a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a>和趋势系统的市场状态问题是一样的。实际的应对办法包括：在滚动窗口上重新训练、优先选择更简单的模型、组合大量弱信号，以及监控实盘表现是否衰减。</p>
+<h2 id="section-9">无泄露的验证</h2>
+<p>标准的 k 折交叉验证会随机打乱数据，于是模型在未来数据上训练、在过去数据上测试。在交易中，应使用：</p>
+<ul>
+<li><strong>滚动前推验证：</strong> 用过去的数据训练，在下一时期测试，然后向前滚动。</li>
+<li><strong>间隔与清除：</strong> 剔除标签与测试期重叠的训练样本，并在测试期之后留出一段禁用间隔（embargo）。</li>
+<li><strong>最终保留集：</strong> 一段在开发过程中从未动用过的近期数据。</li>
+</ul>
+<pre><code class="language-python">import numpy as np
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import TimeSeriesSplit
+
+def walk_forward_accuracy(X, y, horizon=5, n_splits=5):
+    &quot;&quot;&quot;X：t 时刻已知的特征；y：t -&gt; t+horizon 的标签。各行按时间顺序排列。&quot;&quot;&quot;
+    splitter = TimeSeriesSplit(n_splits=n_splits, gap=horizon)  # gap 避免标签重叠
+    scores = []
+    for train_idx, test_idx in splitter.split(X):
+        model = GradientBoostingClassifier(max_depth=3, n_estimators=200)
+        model.fit(X[train_idx], y[train_idx])
+        scores.append((model.predict(X[test_idx]) == y[test_idx]).mean())
+    return np.mean(scores), np.std(scores)
+</code></pre>
+<p>你训练和评估的每一个模型都是又一次试验，因此<a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合与数据窥探</a>中的多重检验问题在这里更加突出。</p>
+<h2 id="section-10">用大语言模型分析新闻与情绪</h2>
+<p>大语言模型（LLM）可以阅读新闻、业绩电话会议记录、公告文件和社交媒体帖子，并把它们转化为结构化信号：正面或负面语气、事件类型、提及的公司，或供人工交易者参考的摘要。实际用途包括过滤新闻流、给事件打标签，以及以远超人工的速度筛查大量文本。</p>
+<p>重要的注意事项：</p>
+<ul>
+<li><strong>前视污染。</strong> 一个用截至近期的互联网文本训练的模型，可能“知道”某家公司或某个市场在一篇历史文章发表之后的实际表现。因此，用过去的新闻回测基于 LLM 的情绪策略，结果可能远好于实盘交易。尽可能使用训练截止日期早于测试期的模型，或只在截止日期之后的数据上测试。</li>
+<li><strong>错误与幻觉。</strong> LLM 可能读错数字、混淆公司或编造细节。要验证输出，尤其是提取出的数字。</li>
+<li><strong>延迟与成本。</strong> 等模型处理完一条新闻标题，快速交易者可能早已行动。LLM 信号往往更适合较慢的时间尺度。</li>
+<li><strong>拥挤交易。</strong> 用人人可得的模型去分析人人可得的新闻，单靠这一点不太可能提供持久的优势。</li>
+</ul>
+<p>强化学习（reinforcement learning）是一个活跃的研究领域，即让智能体在模拟器中通过反复试错学习交易策略，但它对模拟器的真实程度和过拟合尤其敏感。</p>
+<h2 id="section-11">实例：准确率不等于利润</h2>
+<p>某分类器在滚动前推测试中预测某股指基金次日方向的准确率为53%。假设平均上涨日和下跌日的幅度都约为1.0%。</p>
+<ul>
+<li>每笔交易的预期毛收益 = 0.53 × 1.0% − 0.47 × 1.0% = 0.06%。</li>
+<li>如果每个来回的成本为0.05%，净优势为每笔0.01%；若每天交易，每年约为252 × 0.01% ≈ 2.5%（不计复利）。</li>
+<li>如果每个来回的成本为0.10%，净优势为每笔−0.04%，每年约−10%。</li>
+</ul>
+<p>同一个模型还必须在未来保持53%的准确率，而非平稳性让这一点充满不确定性。机器学习信号往往与低换手率策略结合使用效果最好，因为这样成本对微小优势的侵蚀更少。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>对时间序列随机划分训练集和测试集。</strong> 这会把未来信息泄露到训练中。</li>
+<li><strong>用未来数据计算特征，</strong>比如全样本归一化或使用修订后的经济数据。</li>
+<li><strong>追求高准确率。</strong> 对收益预测的准确率极高，通常是数据泄露的迹象。</li>
+<li><strong>在小数据上使用复杂模型。</strong> 用几年日K线训练的深度网络，其参数数量远远多于有效观测值。</li>
+<li><strong>忽视成本和换手率。</strong> 模型交易过于频繁，微小的优势就会消失。</li>
+<li><strong>相信用旧新闻做的 LLM 回测，</strong>却不处理训练数据污染问题。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-14">机器学习能预测股价吗？</h3>
+<p>机器学习能在收益中找到微弱但在统计上有用的规律，但无法可靠地预测价格。研究表明，收益中可预测的部分很小，而且规律会随时间变化。</p>
+<h3 id="section-15">哪种机器学习模型最适合交易？</h3>
+<p>没有唯一最好的模型。对于表格数据，正则化线性模型和梯度提升树是常见的起点，而标签、特征和验证方法的选择通常比算法更重要。</p>
+<h3 id="chatgpt">我能用 ChatGPT 或其他大语言模型来交易吗？</h3>
+<p>LLM 可以帮助总结新闻、分类情绪以及编写或审查代码，但它们对未来价格并没有可靠的洞察。把它们的输出当作一项有待检验的输入，并警惕可能被模型训练数据污染的回测。</p>
+<h3 id="section-17">机器学习交易策略为什么会失败？</h3>
+<p>常见原因包括对噪声过拟合、验证中存在数据泄露、市场环境变化，以及交易成本超过了预测出的微小优势。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">算法与量化交易</div><b>过拟合</b><span>为什么大多数漂亮的回测在实盘中失效：曲线拟合、多重检验、参数不稳定与紧缩夏普比率，以及避免过拟合的方法。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/backtesting/"><div class="k">算法与量化交易</div><b>回测</b><span>如何回测交易策略而不自欺欺人：数据质量、幸存者偏差与未来函数、交易成本、滚动前推测试，以及关键绩效指标。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">算法与量化交易</div><b>市场数据</b><span>交易者需要了解的行情数据：Tick 与K线数据、Level 1/2/3 行情、历史数据来源、费用与授权、时间戳与时钟同步，以及数据清洗。</span></a><a class="card" href="/zh/encyclopedia/fundamental-analysis/market-sentiment-indicators/"><div class="k">基本面与宏观分析</div><b>情绪指标</b><span>交易者如何用COT报告、看跌看涨比、VIX、AAII调查、恐惧贪婪指数、加密货币资金费率和持仓量判断市场情绪，以及它们的局限。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">算法与量化交易</div><b>算法交易入门</b><span>算法交易是什么、散户与机构量化交易有何不同、从策略想法到实盘机器人的完整流程、常用编程语言，以及应有的合理预期。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/"><small>← 上一篇</small>跟单与社交交易</a><a class="next" href="/zh/encyclopedia/algorithmic-trading/market-data-sources/"><small>下一篇 →</small>市场数据</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

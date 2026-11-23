@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vertical Spread: Bull Call, Bear Put và Credit Spread giải thích</title>
+<meta name="description" content="Cách vertical spread hoạt động: bull call, bear put, bull put và bear call spread, kèm công thức lãi tối đa, lỗ tối đa, hòa vốn và các ví dụ số cụ thể.">
+<meta name="keywords" content="vertical spread quyền chọn, bull call spread, bear put spread, credit spread quyền chọn, ví dụ bull put spread">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/vertical-spreads/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/vertical-spreads/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Vertical Spread: Bull Call, Bear Put và Credit Spread giải thích">
+<meta property="og:description" content="Cách vertical spread hoạt động: bull call, bear put, bull put và bear call spread, kèm công thức lãi tối đa, lỗ tối đa, hòa vốn và các ví dụ số cụ thể.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/options/vertical-spreads/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vertical Spread: Bull Call, Bear Put và Credit Spread giải thích">
+<meta name="twitter:description" content="Cách vertical spread hoạt động: bull call, bear put, bull put và bear call spread, kèm công thức lãi tối đa, lỗ tối đa, hòa vốn và các ví dụ số cụ thể.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Vertical Spread: Bull Call, Bear Put và Credit Spread giải thích","description":"Cách vertical spread hoạt động: bull call, bear put, bull put và bear call spread, kèm công thức lãi tối đa, lỗ tối đa, hòa vốn và các ví dụ số cụ thể.","keywords":"vertical spread quyền chọn, bull call spread, bear put spread, credit spread quyền chọn, ví dụ bull put spread","articleSection":"Giao dịch quyền chọn","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/options/vertical-spreads/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch quyền chọn","item":"https://pnlpro.fit/vi/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Vertical spread","item":"https://pnlpro.fit/vi/encyclopedia/options/vertical-spreads/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Debit spread và credit spread khác nhau ở điểm nào?","acceptedAnswer":{"@type":"Answer","text":"Debit spread tốn tiền để mở và sinh lời khi cổ phiếu đi theo hướng bạn chọn. Credit spread trả tiền cho bạn để mở và sinh lời khi cổ phiếu ở đúng phía của giá thực hiện bán."}},{"@type":"Question","name":"Tính lỗ tối đa của credit spread như thế nào?","acceptedAnswer":{"@type":"Answer","text":"Lấy độ rộng của các giá thực hiện trừ đi credit ròng rồi nhân với 100. Một spread rộng $5 bán với giá $1.20 có mức lỗ tối đa $3.80 mỗi cổ phiếu, tức $380 mỗi hợp đồng."}},{"@type":"Question","name":"Bạn có thể lỗ nhiều hơn mức lỗ tối đa trên vertical spread không?","acceptedAnswer":{"@type":"Answer","text":"Không phải khi đáo hạn nếu giữ cả hai chân. Rủi ro bất ngờ đến từ chỉ định sớm hoặc một chân đáo hạn trong giá, có thể để lại một vị thế cổ phiếu tiếp tục biến động sau khi thị trường đóng cửa."}},{"@type":"Question","name":"Bull call spread có tốt hơn mua một call không?","acceptedAnswer":{"@type":"Answer","text":"Nó rẻ hơn và có điểm hòa vốn thấp hơn, nhưng giới hạn lợi nhuận ở giá thực hiện cao hơn. Nó phù hợp với quan điểm tăng giá vừa phải có mục tiêu giá, trong khi một call đơn lẻ phù hợp với quan điểm về một biến động lớn."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/options/vertical-spreads/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/vertical-spreads/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/vertical-spreads/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/vertical-spreads/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/vertical-spreads/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/vertical-spreads/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/vertical-spreads/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/options/vertical-spreads/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/vertical-spreads/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch quyền chọn</h3><ul><li><a href="/vi/encyclopedia/options/options-basics/">Quyền chọn cơ bản</a></li><li><a href="/vi/encyclopedia/options/options-greeks/">Các chỉ số Greeks</a></li><li><a href="/vi/encyclopedia/options/implied-volatility/">Biến động ngụ ý</a></li><li><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered call và CSP</a></li><li><a href="/vi/encyclopedia/options/vertical-spreads/" class="on" aria-current="page">Vertical spread</a></li><li><a href="/vi/encyclopedia/options/iron-condors-and-butterflies/">Iron condor và Butterfly</a></li><li><a href="/vi/encyclopedia/options/straddles-and-strangles/">Straddle và Strangle</a></li><li><a href="/vi/encyclopedia/options/0dte-options/">Quyền chọn 0DTE</a></li><li><a href="/vi/encyclopedia/options/options-expiration-and-assignment/">Đáo hạn và Assignment</a></li><li><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure và dealer</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/" class="on">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a></div>
+<h1 class="title">Vertical Spread</h1>
+<div class="meta">9 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch quyền chọn</summary><ul><li><a href="/vi/encyclopedia/options/options-basics/">Quyền chọn cơ bản</a></li><li><a href="/vi/encyclopedia/options/options-greeks/">Các chỉ số Greeks</a></li><li><a href="/vi/encyclopedia/options/implied-volatility/">Biến động ngụ ý</a></li><li><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered call và CSP</a></li><li><a href="/vi/encyclopedia/options/vertical-spreads/" class="on" aria-current="page">Vertical spread</a></li><li><a href="/vi/encyclopedia/options/iron-condors-and-butterflies/">Iron condor và Butterfly</a></li><li><a href="/vi/encyclopedia/options/straddles-and-strangles/">Straddle và Strangle</a></li><li><a href="/vi/encyclopedia/options/0dte-options/">Quyền chọn 0DTE</a></li><li><a href="/vi/encyclopedia/options/options-expiration-and-assignment/">Đáo hạn và Assignment</a></li><li><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure và dealer</a></li></ul></details>
+<article><p>Vertical spread là một vị thế quyền chọn được tạo ra bằng cách mua một quyền chọn và bán một quyền chọn khác cùng loại (cùng là call hoặc cùng là put) trên cùng tài sản cơ sở và cùng ngày đáo hạn, nhưng ở các giá thực hiện khác nhau. Quyền chọn bán bù đắp một phần chi phí hoặc rủi ro của quyền chọn mua, nên lệnh có mức lãi tối đa cố định và mức lỗ tối đa cố định, biết trước ngay từ đầu. Vertical spread là một trong những cách phổ biến nhất để thể hiện quan điểm theo hướng bằng quyền chọn trong khi vẫn giữ rủi ro xác định.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Có bốn vertical cơ bản: bull call và bear put spread là loại phải trả tiền (debit), còn bull put và bear call spread thu về một khoản phí (credit).</li>
+<li>Lãi tối đa, lỗ tối đa và hòa vốn đều có thể tính trước khi vào lệnh.</li>
+<li>Khoảng cách giữa các giá thực hiện, gọi là độ rộng (width), quyết định tổng quy mô của lãi tối đa và lỗ tối đa.</li>
+<li>Credit spread có xu hướng thắng thường xuyên hơn nhưng mỗi lần thắng kiếm ít hơn mức rủi ro; debit spread có xu hướng thắng ít hơn nhưng mỗi lần thắng kiếm nhiều hơn.</li>
+<li>Spread giảm mức tiếp xúc với time decay và biến động hàm ý so với quyền chọn đơn lẻ, nhưng không loại bỏ hoàn toàn.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#b-n-vertical-spread">Bốn vertical spread</a></li><li><a href="#c-ng-th-c">Công thức</a></li><li><a href="#bull-call-spread">Bull call spread</a></li><li><a href="#bear-put-spread">Bear put spread</a></li><li><a href="#bull-put-spread-credit">Bull put spread (credit)</a></li><li><a href="#bear-call-spread-credit">Bear call spread (credit)</a></li><li><a href="#debit-v-credit-nh-i-v-x-c-su-t">Debit và credit: đánh đổi về xác suất</a></li><li><a href="#ch-n-gi-th-c-hi-n">Chọn giá thực hiện</a></li><li><a href="#qu-n-l-m-t-vertical-spread">Quản lý một vertical spread</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="b-n-vertical-spread">Bốn vertical spread</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Spread</th>
+<th>Cách dựng</th>
+<th>Quan điểm</th>
+<th>Debit hay credit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bull call spread</td>
+<td>Mua call giá thực hiện thấp, bán call giá thực hiện cao</td>
+<td>Tăng giá</td>
+<td>Debit</td>
+</tr>
+<tr>
+<td>Bear put spread</td>
+<td>Mua put giá thực hiện cao, bán put giá thực hiện thấp</td>
+<td>Giảm giá</td>
+<td>Debit</td>
+</tr>
+<tr>
+<td>Bull put spread</td>
+<td>Bán put giá thực hiện cao, mua put giá thực hiện thấp</td>
+<td>Tăng giá hoặc trung lập</td>
+<td>Credit</td>
+</tr>
+<tr>
+<td>Bear call spread</td>
+<td>Bán call giá thực hiện thấp, mua call giá thực hiện cao</td>
+<td>Giảm giá hoặc trung lập</td>
+<td>Credit</td>
+</tr>
+</tbody></table></div>
+<p>Mọi ví dụ dưới đây dùng một cổ phiếu giao dịch ở $100, các quyền chọn cùng ngày đáo hạn, và hệ số nhân tiêu chuẩn của Mỹ là 100 cổ phiếu mỗi hợp đồng. Giá quyền chọn mang tính minh họa.</p>
+<h2 id="c-ng-th-c">Công thức</h2>
+<p>Với một spread có các giá thực hiện cách nhau một độ rộng nhất định:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Debit spread</th>
+<th>Credit spread</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lỗ tối đa</td>
+<td>Debit ròng đã trả</td>
+<td>Độ rộng - credit ròng</td>
+</tr>
+<tr>
+<td>Lãi tối đa</td>
+<td>Độ rộng - debit ròng</td>
+<td>Credit ròng đã nhận</td>
+</tr>
+<tr>
+<td>Hòa vốn (call spread)</td>
+<td>Giá thực hiện thấp + debit ròng</td>
+<td>Giá thực hiện thấp + credit ròng</td>
+</tr>
+<tr>
+<td>Hòa vốn (put spread)</td>
+<td>Giá thực hiện cao - debit ròng</td>
+<td>Giá thực hiện cao - credit ròng</td>
+</tr>
+</tbody></table></div>
+<p>Lưu ý rằng lãi tối đa cộng lỗ tối đa luôn bằng độ rộng của spread.</p>
+<h2 id="bull-call-spread">Bull call spread</h2>
+<p>Mua call $100 giá $4.00 và bán call $110 giá $1.50.</p>
+<ul>
+<li>Debit ròng: $4.00 - $1.50 = $2.50, tức $250 mỗi spread.</li>
+<li>Lỗ tối đa: $250, nếu cổ phiếu ở mức $100 trở xuống khi đáo hạn.</li>
+<li>Lãi tối đa: ($110 - $100) - $2.50 = $7.50, tức $750, nếu cổ phiếu ở mức $110 trở lên.</li>
+<li>Hòa vốn: $100 + $2.50 = $102.50.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Cổ phiếu khi đáo hạn</th>
+<th>Giá trị call $100</th>
+<th>Giá trị call $110</th>
+<th>Giá trị spread</th>
+<th>Lãi hoặc lỗ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$95</td>
+<td>$0</td>
+<td>$0</td>
+<td>$0</td>
+<td>-$250</td>
+</tr>
+<tr>
+<td>$102.50</td>
+<td>$2.50</td>
+<td>$0</td>
+<td>$2.50</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$105</td>
+<td>$5.00</td>
+<td>$0</td>
+<td>$5.00</td>
+<td>+$250</td>
+</tr>
+<tr>
+<td>$110</td>
+<td>$10.00</td>
+<td>$0</td>
+<td>$10.00</td>
+<td>+$750</td>
+</tr>
+<tr>
+<td>$120</td>
+<td>$20.00</td>
+<td>$10.00</td>
+<td>$10.00</td>
+<td>+$750</td>
+</tr>
+</tbody></table></div>
+<p>So với việc chỉ mua call $100 giá $4.00, spread rẻ hơn $1.50 và có điểm hòa vốn thấp hơn ($102.50 thay vì $104.00). Đổi lại, nó từ bỏ mọi đô la lãi phía trên $110.</p>
+<h2 id="bear-put-spread">Bear put spread</h2>
+<p>Mua put $100 giá $3.80 và bán put $90 giá $1.30.</p>
+<ul>
+<li>Debit ròng: $3.80 - $1.30 = $2.50, tức $250.</li>
+<li>Lỗ tối đa: $250, nếu cổ phiếu ở mức $100 trở lên.</li>
+<li>Lãi tối đa: ($100 - $90) - $2.50 = $7.50, tức $750, nếu cổ phiếu ở mức $90 trở xuống.</li>
+<li>Hòa vốn: $100 - $2.50 = $97.50.</li>
+</ul>
+<h2 id="bull-put-spread-credit">Bull put spread (credit)</h2>
+<p>Bán put $95 giá $2.00 và mua put $90 giá $0.80.</p>
+<ul>
+<li>Credit ròng: $2.00 - $0.80 = $1.20, tức $120.</li>
+<li>Lãi tối đa: $120, nếu cổ phiếu ở mức $95 trở lên khi đáo hạn.</li>
+<li>Lỗ tối đa: ($95 - $90) - $1.20 = $3.80, tức $380, nếu cổ phiếu ở mức $90 trở xuống.</li>
+<li>Hòa vốn: $95 - $1.20 = $93.80.</li>
+</ul>
+<p>Cổ phiếu có thể đi ngang, tăng, hoặc thậm chí giảm tới $5 mà spread vẫn thu đủ $120. Đánh đổi là rủi ro $380 để kiếm $120. Công ty môi giới thường giữ mức lỗ tối đa, $380, làm ký quỹ cho một credit spread.</p>
+<h2 id="bear-call-spread-credit">Bear call spread (credit)</h2>
+<p>Bán call $105 giá $2.10 và mua call $110 giá $0.90.</p>
+<ul>
+<li>Credit ròng: $2.10 - $0.90 = $1.20, tức $120.</li>
+<li>Lãi tối đa: $120, nếu cổ phiếu ở mức $105 trở xuống.</li>
+<li>Lỗ tối đa: ($110 - $105) - $1.20 = $3.80, tức $380, nếu cổ phiếu ở mức $110 trở lên.</li>
+<li>Hòa vốn: $105 + $1.20 = $106.20.</li>
+</ul>
+<h2 id="debit-v-credit-nh-i-v-x-c-su-t">Debit và credit: đánh đổi về xác suất</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Debit spread</th>
+<th>Credit spread</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tỷ lệ thắng điển hình</td>
+<td>Thấp hơn</td>
+<td>Cao hơn</td>
+</tr>
+<tr>
+<td>Quy mô thắng so với thua</td>
+<td>Khoản thắng thường lớn hơn khoản thua</td>
+<td>Khoản thắng thường nhỏ hơn khoản thua</td>
+</tr>
+<tr>
+<td>Cần cổ phiếu</td>
+<td>Đi theo hướng của bạn</td>
+<td>Không đi quá xa ngược lại bạn</td>
+</tr>
+<tr>
+<td>Time decay</td>
+<td>Thường chống lại bạn khi OTM</td>
+<td>Thường có lợi cho bạn khi OTM</td>
+</tr>
+</tbody></table></div>
+<p>Không loại nào tốt hơn theo mặc định. Giá quyền chọn đã phản ánh ước tính xác suất của thị trường, nên một credit spread thắng 70 phần trăm số lần được định giá sao cho những khoản lỗ lớn thỉnh thoảng bù đắp cho nhiều khoản lãi nhỏ, trước chi phí. Kết quả dài hạn phụ thuộc vào việc quan điểm của bạn có tốt hơn thị trường hay không, và vào chi phí. Xem <a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">tỷ lệ lợi nhuận/rủi ro và kỳ vọng</a>.</p>
+<h2 id="ch-n-gi-th-c-hi-n">Chọn giá thực hiện</h2>
+<ul>
+<li><strong>Độ rộng:</strong> spread rộng hơn tốn hơn (debit) hoặc rủi ro hơn (credit) và có lãi tiềm năng lớn hơn. Spread hẹp giữ rủi ro nhỏ nhưng hoa hồng chiếm tỷ lệ lớn hơn.</li>
+<li><strong>Moneyness:</strong> một debit spread mua ngang giá rẻ hơn một quyền chọn đơn lẻ nhưng vẫn cần một biến động. Một credit spread bán xa ngoài giá hơn có khả năng thành công cao hơn và credit nhỏ hơn.</li>
+<li><strong>Delta làm hướng dẫn:</strong> nhà giao dịch thường chọn giá thực hiện bán theo delta. Một giá thực hiện bán có delta khoảng 0.30 thường được hiểu là có khoảng 30 phần trăm khả năng kết thúc trong giá. Xem <a href="/vi/encyclopedia/options/options-greeks/">Greeks của quyền chọn</a>.</li>
+<li><strong>Biến động hàm ý:</strong> khi IV cao, credit spread thu nhiều phí hơn; khi IV thấp, debit spread rẻ hơn. Xem <a href="/vi/encyclopedia/options/implied-volatility/">biến động hàm ý</a>.</li>
+<li><strong>Thanh khoản:</strong> chênh lệch bid-ask rộng trên mỗi chân có thể ăn mất phần lớn lợi thế, nên hãy dùng các quyền chọn có thị trường sôi động và dùng lệnh giới hạn theo giá ròng.</li>
+</ul>
+<h2 id="qu-n-l-m-t-vertical-spread">Quản lý một vertical spread</h2>
+<ul>
+<li><strong>Chốt lời sớm:</strong> nhiều nhà giao dịch đóng credit spread sau khi thu được một tỷ lệ chọn trước của lợi nhuận tối đa, thay vì giữ đến ngày đáo hạn để lấy vài cent cuối cùng.</li>
+<li><strong>Cắt lỗ:</strong> đặt trước mức lỗ, chẳng hạn một số tiền cố định hoặc một bội số của credit đã nhận.</li>
+<li><strong>Rủi ro đáo hạn:</strong> nếu cổ phiếu nằm giữa các giá thực hiện khi đáo hạn, một chân có thể đáo hạn trong giá và chân kia ngoài giá. Bạn có thể bị chỉ định trên chân bán và cuối cùng nắm một vị thế cổ phiếu 100 cổ phiếu. Hãy đóng spread trước khi đáo hạn nếu có bất kỳ nghi ngờ nào; xem <a href="/vi/encyclopedia/options/options-expiration-and-assignment/">đáo hạn và chỉ định quyền chọn</a>.</li>
+<li><strong>Chỉ định sớm:</strong> một chân bán nằm sâu trong giá trên quyền chọn kiểu Mỹ có thể bị chỉ định sớm, đặc biệt trước ngày ex-dividend. Chân mua của bạn vẫn giới hạn rủi ro, nhưng bạn phải xử lý vị thế cổ phiếu phát sinh.</li>
+</ul>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>So sánh tỷ lệ thắng mà không xét mức chi trả.</strong> Tỷ lệ thắng 75 phần trăm trên credit spread vẫn có thể thua lỗ nếu khoản thua gấp ba đến bốn lần khoản thắng.</li>
+<li><strong>Vào lệnh từng chân (legging in).</strong> Vào một chân rồi chờ thêm chân thứ hai khiến bạn phơi nhiễm trước một biến động bất lợi ở giữa.</li>
+<li><strong>Giữ đến khi đáo hạn với cổ phiếu gần giá thực hiện bán.</strong> Rủi ro pin có thể biến một lệnh rủi ro xác định thành một vị thế cổ phiếu ngoài ý muốn.</li>
+<li><strong>Bỏ qua hoa hồng trên spread hẹp.</strong> Bốn khoản hoa hồng (hai chân vào, hai chân ra) có thể chiếm tỷ lệ lớn trong lợi nhuận của một spread nhỏ.</li>
+<li><strong>Cho rằng rủi ro xác định nghĩa là rủi ro thấp.</strong> Mức lỗ tối đa đã biết, nhưng nó thường bị chịu đủ.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="debit-spread-v-credit-spread-kh-c-nhau-i-m-n-o">Debit spread và credit spread khác nhau ở điểm nào?</h3>
+<p>Debit spread tốn tiền để mở và sinh lời khi cổ phiếu đi theo hướng bạn chọn. Credit spread trả tiền cho bạn để mở và sinh lời khi cổ phiếu ở đúng phía của giá thực hiện bán.</p>
+<h3 id="t-nh-l-t-i-a-c-a-credit-spread-nh-th-n-o">Tính lỗ tối đa của credit spread như thế nào?</h3>
+<p>Lấy độ rộng của các giá thực hiện trừ đi credit ròng rồi nhân với 100. Một spread rộng $5 bán với giá $1.20 có mức lỗ tối đa $3.80 mỗi cổ phiếu, tức $380 mỗi hợp đồng.</p>
+<h3 id="b-n-c-th-l-nhi-u-h-n-m-c-l-t-i-a-tr-n-vertical-spread-kh-ng">Bạn có thể lỗ nhiều hơn mức lỗ tối đa trên vertical spread không?</h3>
+<p>Không phải khi đáo hạn nếu giữ cả hai chân. Rủi ro bất ngờ đến từ chỉ định sớm hoặc một chân đáo hạn trong giá, có thể để lại một vị thế cổ phiếu tiếp tục biến động sau khi thị trường đóng cửa.</p>
+<h3 id="bull-call-spread-c-t-t-h-n-mua-m-t-call-kh-ng">Bull call spread có tốt hơn mua một call không?</h3>
+<p>Nó rẻ hơn và có điểm hòa vốn thấp hơn, nhưng giới hạn lợi nhuận ở giá thực hiện cao hơn. Nó phù hợp với quan điểm tăng giá vừa phải có mục tiêu giá, trong khi một call đơn lẻ phù hợp với quan điểm về một biến động lớn.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/options/options-basics/"><div class="k">Giao dịch quyền chọn</div><b>Quyền chọn cơ bản</b><span>Cách quyền chọn hoạt động: call, put, giá thực hiện, ngày đáo hạn, phí, giá trị nội tại và ngoại lai, moneyness, lãi lỗ người mua và người bán, cấp phê duyệt.</span></a><a class="card" href="/vi/encyclopedia/options/iron-condors-and-butterflies/"><div class="k">Giao dịch quyền chọn</div><b>Iron condor và Butterfly</b><span>Cách iron condor, butterfly, iron butterfly và broken-wing butterfly hoạt động, kèm lợi nhuận, điểm hòa vốn, ví dụ số, cách quản lý vị thế và rủi ro pin.</span></a><a class="card" href="/vi/encyclopedia/options/options-greeks/"><div class="k">Giao dịch quyền chọn</div><b>Các chỉ số Greeks</b><span>Delta, gamma, theta, vega và rho đo lường điều gì, kèm ví dụ cụ thể, cách các Greeks thay đổi theo thời gian và moneyness, và cách đọc Greeks của cả vị thế.</span></a><a class="card" href="/vi/encyclopedia/options/implied-volatility/"><div class="k">Giao dịch quyền chọn</div><b>Biến động ngụ ý</b><span>Biến động hàm ý là gì, khác biến động lịch sử ra sao, IV rank và IV percentile, IV crush, skew, và công thức mức biến động kỳ vọng kèm ví dụ cụ thể.</span></a><a class="card" href="/vi/encyclopedia/options/options-expiration-and-assignment/"><div class="k">Giao dịch quyền chọn</div><b>Đáo hạn và Assignment</b><span>Cách thực hiện và chỉ định quyền chọn hoạt động, chỉ định sớm trước cổ tức, tự động thực hiện khi trong giá $0.01, rủi ro pin, tất toán SPX và SPY.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/"><small>← Bài trước</small>Covered call và CSP</a><a class="next" href="/vi/encyclopedia/options/iron-condors-and-butterflies/"><small>Bài tiếp →</small>Iron condor và Butterfly</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

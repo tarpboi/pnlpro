@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>取引コストと手数料：毎回のトレードにかかる見えない負担 | PnL Profit</title>
+<meta name="description" content="手数料、スプレッド、メイカー・テイカー手数料、スワップ、ファンディング、貸株料、PFOF、ガス代、スリッページ、税金まで、取引コストを計算例とともに解説します。">
+<meta name="keywords" content="取引コスト, 取引手数料 仕組み, メイカー テイカー 手数料, スワップポイント 支払い, ペイメント・フォー・オーダーフロー, 隠れコスト トレード">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="取引コストと手数料：毎回のトレードにかかる見えない負担 | PnL Profit">
+<meta property="og:description" content="手数料、スプレッド、メイカー・テイカー手数料、スワップ、ファンディング、貸株料、PFOF、ガス代、スリッページ、税金まで、取引コストを計算例とともに解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/basics/trading-costs-and-fees/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="取引コストと手数料：毎回のトレードにかかる見えない負担 | PnL Profit">
+<meta name="twitter:description" content="手数料、スプレッド、メイカー・テイカー手数料、スワップ、ファンディング、貸株料、PFOF、ガス代、スリッページ、税金まで、取引コストを計算例とともに解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"取引コストと手数料：毎回のトレードにかかる見えない負担","description":"手数料、スプレッド、メイカー・テイカー手数料、スワップ、ファンディング、貸株料、PFOF、ガス代、スリッページ、税金まで、取引コストを計算例とともに解説します。","keywords":"取引コスト, 取引手数料 仕組み, メイカー テイカー 手数料, スワップポイント 支払い, ペイメント・フォー・オーダーフロー, 隠れコスト トレード","articleSection":"トレードの基礎","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/basics/trading-costs-and-fees/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"トレードの基礎","item":"https://pnlpro.fit/ja/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"取引コストと手数料","item":"https://pnlpro.fit/ja/encyclopedia/basics/trading-costs-and-fees/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"手数料無料の取引は本当に無料ですか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。手数料を取らないブローカーも、スプレッド、ペイメント・フォー・オーダーフロー、現金の金利、信用取引の貸付、両替、その他の手数料で稼いでいます。さらにスリッページのような市場のコストも負担しています。"}},{"@type":"Question","name":"メイカー手数料とテイカー手数料とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"メイカー手数料は、板に並んで流動性を追加する注文にかかる手数料です。テイカー手数料は、既存の注文と即座に約定する注文にかかる手数料です。通常はメイカー手数料のほうが低く設定されています。"}},{"@type":"Question","name":"オーバーナイトのスワップ手数料とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"日次のロールオーバー時刻を越えて保有したFX、CFD、スプレッドベットのレバレッジポジションに適用される、毎日の資金調達コスト（まれに受け取り）です。金利にブローカーの上乗せ分を加えたものに基づいています。"}},{"@type":"Question","name":"取引コストは利益にどれくらい影響しますか？","acceptedAnswer":{"@type":"Answer","text":"取引の頻度によります。往復0.1%のコストは、月に数回取引する人にとってはわずかですが、1日に何十回も取引する人にとっては粗利益の大半、あるいはすべてを食いつぶすことがあります。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/basics/trading-costs-and-fees/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/trading-costs-and-fees/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/basics/trading-costs-and-fees/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/trading-costs-and-fees/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/trading-costs-and-fees/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/trading-costs-and-fees/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/trading-costs-and-fees/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/trading-costs-and-fees/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/basics/trading-costs-and-fees/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>トレードの基礎</h3><ul><li><a href="/ja/encyclopedia/basics/what-is-trading/">トレードとは</a></li><li><a href="/ja/encyclopedia/basics/financial-markets-overview/">金融市場の全体像</a></li><li><a href="/ja/encyclopedia/basics/trading-styles/">トレードスタイル</a></li><li><a href="/ja/encyclopedia/basics/order-types/">注文の種類</a></li><li><a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板と市場の厚み</a></li><li><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">スプレッドと流動性</a></li><li><a href="/ja/encyclopedia/basics/leverage-and-margin/">レバレッジと証拠金</a></li><li><a href="/ja/encyclopedia/basics/long-and-short-positions/">ロングとショート</a></li><li><a href="/ja/encyclopedia/basics/trading-costs-and-fees/" class="on" aria-current="page">取引コストと手数料</a></li><li><a href="/ja/encyclopedia/basics/brokers-and-exchanges/">ブローカーと取引所</a></li><li><a href="/ja/encyclopedia/basics/market-participants/">市場参加者</a></li><li><a href="/ja/encyclopedia/basics/market-hours-and-sessions/">取引時間とセッション</a></li><li><a href="/ja/encyclopedia/basics/how-to-start-trading/">トレードの始め方</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/" class="on">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/basics/">トレードの基礎</a></div>
+<h1 class="title">取引コストと手数料</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>トレードの基礎の他の記事</summary><ul><li><a href="/ja/encyclopedia/basics/what-is-trading/">トレードとは</a></li><li><a href="/ja/encyclopedia/basics/financial-markets-overview/">金融市場の全体像</a></li><li><a href="/ja/encyclopedia/basics/trading-styles/">トレードスタイル</a></li><li><a href="/ja/encyclopedia/basics/order-types/">注文の種類</a></li><li><a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板と市場の厚み</a></li><li><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">スプレッドと流動性</a></li><li><a href="/ja/encyclopedia/basics/leverage-and-margin/">レバレッジと証拠金</a></li><li><a href="/ja/encyclopedia/basics/long-and-short-positions/">ロングとショート</a></li><li><a href="/ja/encyclopedia/basics/trading-costs-and-fees/" class="on" aria-current="page">取引コストと手数料</a></li><li><a href="/ja/encyclopedia/basics/brokers-and-exchanges/">ブローカーと取引所</a></li><li><a href="/ja/encyclopedia/basics/market-participants/">市場参加者</a></li><li><a href="/ja/encyclopedia/basics/market-hours-and-sessions/">取引時間とセッション</a></li><li><a href="/ja/encyclopedia/basics/how-to-start-trading/">トレードの始め方</a></li></ul></details>
+<article><p>取引コストとは、ポジションを建て、保有し、決済するために支払うすべてのもののことで、取引手数料のような目に見える費用だけでなく、スプレッド、スリッページ、資金調達コスト、税金といった見えにくい費用も含まれます。1つひとつは小さく見え、多くは1%にも満たない水準です。しかし数百回、数千回のトレードで積み重なると、利益の出る戦略と損失を出す戦略を分ける差になることがよくあります。高頻度の個人向け戦略は特に影響を受けやすく、1トレードあたりの期待利益が1トレードあたりのコストより小さいことも珍しくありません。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>コストは3つのグループに分かれます。取引するためのコスト（手数料、スプレッド、取引所手数料、スリッページ）、保有するためのコスト（スワップ、ファンディング、貸株料、信用金利）、そして利益にかかるコスト（税金）です。</li>
+<li>「手数料ゼロ」は無料という意味ではありません。ブローカーはスプレッド、ペイメント・フォー・オーダーフロー、資金調達コスト、その他の費用で稼いでいます。</li>
+<li>流動性を追加する注文にかかるメイカー手数料は、通常、流動性を消費する注文にかかるテイカー手数料より低く設定されています。</li>
+<li>レバレッジをかけたポジションを翌日に持ち越すと、時間とともに膨らむ資金調達コストが加わります。</li>
+<li>取引の頻度が高いほど、損益分岐点に達するだけでも1トレードあたりに必要なエッジが大きくなります。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">取引するためのコスト</a></li><li><a href="#section-10">保有するためのコスト</a></li><li><a href="#section-15">利益にかかるコスト：税金による目減り</a></li><li><a href="#section-16">主なコストのまとめ</a></li><li><a href="#section-17">計算例：コストが高頻度の個人向け戦略をどう潰すか</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">取引するためのコスト</h2>
+<h3 id="section-3">取引手数料</h3>
+<p>取引手数料（コミッション）とは、ブローカーが1取引ごと、1株ごと、1枚ごと、または取引金額に対する割合で課す費用です。現在、米国をはじめ多くの証券会社が株式とETFの手数料ゼロをうたっています。先物とオプションは通常1枚ごとに課金され、FX口座の中には、スプレッドを狭くする代わりに1ロットごとに固定の手数料を取るものもあります。</p>
+<h3 id="section-4">スプレッド</h3>
+<p>アスクで買ってビッドで売る以上、往復取引のたびに<a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">ビッド・アスク・スプレッド</a>分のコストがかかります。個人向けのFX口座やCFD口座の多くのようなスプレッドのみの口座では、スプレッドがブローカーの収益の大部分を占め、原市場のスプレッドより広げられていることがよくあります。</p>
+<h3 id="section-5">メイカー手数料とテイカー手数料</h3>
+<p>多くの取引所、特に暗号資産取引所や一部の予測市場では、注文が流動性を追加するか消費するかによって異なる手数料を課しています。</p>
+<ul>
+<li><strong>メイカー</strong>注文は<a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板（オーダーブック）</a>に並んで約定を待つ注文です。メイカー手数料は低く、ゼロのこともあり、リベートを支払う取引の場もあります。</li>
+<li><strong>テイカー</strong>注文は、板に並んでいる注文と即座に約定する注文です。テイカー手数料は高めです。</li>
+</ul>
+<p>手数料体系は通常、月間の取引高が増えるほど安くなるため、大口のプロトレーダーに有利になっています。</p>
+<h3 id="section-6">取引所手数料と規制関連の手数料</h3>
+<p>取引所、清算機関、規制当局は少額の手数料を課しており、ブローカーがそれを顧客に転嫁することがよくあります。たとえば米国では、株式の売却に証券取引委員会（SEC）の財源となる少額の取引手数料と、FINRAの取引活動手数料がかかり、その料率は定期的に見直されます。先物には1枚ごとに取引所手数料と清算手数料がかかります。マーケットデータの購読料も、活発なトレーダーにとっては継続的なコストです。</p>
+<h3 id="section-7">ペイメント・フォー・オーダーフロー</h3>
+<p>一部のブローカーは顧客の注文をホールセールのマーケットメイカーに回送し、マーケットメイカーはその注文を約定させる権利の対価をブローカーに支払います。これを<strong>ペイメント・フォー・オーダーフロー（PFOF）</strong>と呼びます。支持派は、これが手数料ゼロの取引を支え、公開気配よりわずかに有利な価格を生むことが多いと主張しています。批判派は、利益相反を生み、顧客が他で得られたはずの価格より不利な価格で約定する可能性があると主張しています。PFOFは米国では開示義務付きで合法、英国では禁止されており、EUは段階的に廃止するルールを採択しています。お住まいの国の最新の状況を確認してください。</p>
+<h3 id="section-8">ガス代</h3>
+<p>ブロックチェーンでは、すべてのトランザクションにガス代と呼ばれるネットワーク手数料がかかります。1セントにも満たないネットワークもあれば、混雑時には数ドル以上に達するネットワークもあります。分散型取引所のトレーダーは、トランザクションを素早く取り込んでもらうために優先手数料やチップを支払うこともあり、さらにプールのスワップ手数料もかかります。</p>
+<h3 id="section-9">スリッページ</h3>
+<p>スリッページとは、想定していた価格と実際の約定価格の差のことです。誰からも請求書は届きませんが、実際のコストです。注文サイズが大きいほど、ボラティリティが高いほど、流動性が薄いほど大きくなります。</p>
+<h2 id="section-10">保有するためのコスト</h2>
+<h3 id="section-11">オーバーナイトの資金調達コストとスワップ</h3>
+<p>CFD、スプレッドベット、個人向けFXのレバレッジポジションには、毎日の資金調達コストが課されます（まれに受け取れることもあります）。これはスワップやロールオーバーと呼ばれることが多く、通常は基準金利にブローカーの上乗せ分を加えたものに基づいています。多くのFXブローカーは、週末分をカバーするために平日のある1日にスワップを3日分付与・徴収します。</p>
+<p><strong>例：</strong> $10,000のCFDポジションを年率7%の資金調達レートで30日間保有すると、$10,000 x 7% x 30 / 365 = 約$57.53のコストがかかります。</p>
+<h3 id="section-12">ファンディングレート</h3>
+<p>暗号資産の無期限先物では、コントラクト価格を現物価格の近くに保つために、ロングとショートの間で定期的に<a href="/ja/encyclopedia/crypto/funding-rates/">ファンディング</a>の支払いが行われます。間隔は8時間ごとが多いものの、1時間ごとの取引の場もあります。8時間あたり0.01%のレートなら、$10,000のポジションは1回あたり$1、1日で$3、30日で約$90を支払います。強いトレンドの中ではレートがはるかに高くなることがあります。</p>
+<h3 id="section-13">貸株料と信用金利</h3>
+<p>空売りをする人は株を借りるための料金を支払います。広く借りられる銘柄なら年1%を大きく下回りますが、調達の難しい銘柄では非常に高くなります。また、ショートしている間に支払われた配当も相当額を支払わなければなりません。信用取引で買うトレーダーは、借りた金額に対して金利を支払います。<a href="/ja/encyclopedia/basics/long-and-short-positions/">ロングとショートのポジション</a>をご覧ください。</p>
+<h3 id="section-14">口座維持手数料、出金手数料、両替手数料</h3>
+<p>休眠口座、出金、通貨の両替に手数料を課すブローカーもあります。海外市場で取引するたびにかかる両替手数料は、知らないうちに積み重なっていきます。</p>
+<h2 id="section-15">利益にかかるコスト：税金による目減り</h2>
+<p>税金は手元に残る金額を減らします。多くの国では、短期売買による利益は長期投資による利益より高い税率で課税されるため、頻繁に取引すると、本来なら軽く課税されたはずの長期の利益が、重く課税される短期の利益に変わってしまうことがあります。ルールは国によって大きく異なり、時とともに変わります。<a href="/ja/encyclopedia/trading-business/trading-taxes-overview/">トレードの税金の概要</a>をご覧ください。</p>
+<h2 id="section-16">主なコストのまとめ</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>コスト</th>
+<th>支払うタイミング</th>
+<th>主な市場</th>
+<th>取引明細に載るか</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>取引手数料</td>
+<td>取引ごと</td>
+<td>株式、先物、オプション、一部のFX</td>
+<td>載る</td>
+</tr>
+<tr>
+<td>スプレッド</td>
+<td>往復取引ごと</td>
+<td>すべて</td>
+<td>通常は項目として載らない</td>
+</tr>
+<tr>
+<td>メイカー・テイカー手数料</td>
+<td>取引ごと</td>
+<td>暗号資産、予測市場、一部の先物</td>
+<td>載る</td>
+</tr>
+<tr>
+<td>取引所・規制関連の手数料</td>
+<td>取引ごと</td>
+<td>株式、先物、オプション</td>
+<td>載ることが多い</td>
+</tr>
+<tr>
+<td>スリッページ</td>
+<td>取引ごと</td>
+<td>すべて</td>
+<td>載らない</td>
+</tr>
+<tr>
+<td>スワップ、資金調達コスト</td>
+<td>持ち越す夜ごと</td>
+<td>CFD、FX、スプレッドベット</td>
+<td>載る</td>
+</tr>
+<tr>
+<td>ファンディング</td>
+<td>ファンディングの間隔ごと</td>
+<td>暗号資産の無期限先物</td>
+<td>載る</td>
+</tr>
+<tr>
+<td>貸株料</td>
+<td>ショート中は毎日</td>
+<td>株式</td>
+<td>載る</td>
+</tr>
+<tr>
+<td>ガス代</td>
+<td>オンチェーンのトランザクションごと</td>
+<td>DeFi、ミームコイン</td>
+<td>載る（オンチェーン上）</td>
+</tr>
+<tr>
+<td>税金</td>
+<td>実現益に対して</td>
+<td>すべて</td>
+<td>別途</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-17">計算例：コストが高頻度の個人向け戦略をどう潰すか</h2>
+<p>$10,000の口座を持つトレーダーが、暗号資産の無期限先物でスキャルピングをしており、1トレードあたり$10,000の想定元本（実効レバレッジ1倍）で取引しているとします。大手取引所で見られる範囲内の、次のような説明用のコストを仮定します。</p>
+<ul>
+<li>テイカー手数料：片道0.05%、往復で0.10% = $10</li>
+<li>スプレッドとスリッページ：往復で0.02% = $2</li>
+<li>往復1回あたりの合計コスト：$12</li>
+</ul>
+<p>暗号資産は24/7で取引されているため、このトレーダーは毎日欠かさず1日20回の往復取引を行います。</p>
+<ul>
+<li>1日のコスト：20 x $12 = $240</li>
+<li>1か月のコスト（30日）：$240 x 30 = $7,200</li>
+<li>口座資金に対する割合：$7,200 / $10,000 = 月72%</li>
+</ul>
+<p>損益分岐点に達するには、負けトレードを考慮したうえで、平均して1トレードあたり0.12%を超える粗利益を上げなければなりません。手数料が低く回線も速いプロの業者が同じ小さな値動きを奪い合っている市場では、これは高いハードルです。メイカー手数料が適用される指値注文を使うことや、取引回数を減らすことはどちらも効果がありますが、教訓は変わりません。高頻度で取引すると、コストがエッジを上回ることが多いのです。</p>
+<p>同じ$12のコストで月に4回往復取引をするスイングトレーダーと比べてみましょう。コストは月$48、口座資金の0.48%です。同じコスト構造でも、あるスタイルにとってはわずかな負担であり、別のスタイルにとっては致命的です。<a href="/ja/encyclopedia/basics/trading-styles/">トレードスタイル</a>をご覧ください。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>手数料だけでブローカーを判断する。</strong> スプレッド、資金調達コスト、約定品質のほうが重要なことがよくあります。</li>
+<li><strong>バックテストでコストを無視する。</strong> コストを入れなければ利益が出ているように見える戦略も、コストを入れると損失になることがあります。<a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a>をご覧ください。</li>
+<li><strong>レバレッジをかけたポジションを何か月も保有する。</strong> 資金調達コストが積み重なり、大きな負担になります。</li>
+<li><strong>負けた後に取引しすぎる。</strong> 余計なトレードはエッジを増やさず、コストだけを増やします。</li>
+<li><strong>年末まで税金のことを忘れている。</strong> 短期の利益には重い税金がかかることがあり、すべてのトレードの記録が必要です。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-20">手数料無料の取引は本当に無料ですか？</h3>
+<p>いいえ。手数料を取らないブローカーも、スプレッド、ペイメント・フォー・オーダーフロー、現金の金利、信用取引の貸付、両替、その他の手数料で稼いでいます。さらにスリッページのような市場のコストも負担しています。</p>
+<h3 id="section-21">メイカー手数料とテイカー手数料とは何ですか？</h3>
+<p>メイカー手数料は、板に並んで流動性を追加する注文にかかる手数料です。テイカー手数料は、既存の注文と即座に約定する注文にかかる手数料です。通常はメイカー手数料のほうが低く設定されています。</p>
+<h3 id="section-22">オーバーナイトのスワップ手数料とは何ですか？</h3>
+<p>日次のロールオーバー時刻を越えて保有したFX、CFD、スプレッドベットのレバレッジポジションに適用される、毎日の資金調達コスト（まれに受け取り）です。金利にブローカーの上乗せ分を加えたものに基づいています。</p>
+<h3 id="section-23">取引コストは利益にどれくらい影響しますか？</h3>
+<p>取引の頻度によります。往復0.1%のコストは、月に数回取引する人にとってはわずかですが、1日に何十回も取引する人にとっては粗利益の大半、あるいはすべてを食いつぶすことがあります。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">トレードの基礎</div><b>スプレッドと流動性</b><span>ビッド・アスク・スプレッド・仲値の意味、流動性とスリッページ、マーケットインパクトの仕組み、スプレッドが広がる理由、往復コストの計算方法を解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/brokers-and-exchanges/"><div class="k">トレードの基礎</div><b>ブローカーと取引所</b><span>取引所・ブローカー・ディーラーの違い、資産の分別管理、規制業者と海外業者、ブローカーの収益源、投資者保護制度、選び方のチェックリストと危険信号を解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/trading-styles/"><div class="k">トレードの基礎</div><b>トレードスタイル</b><span>スキャルピング、デイトレード、スイングトレード、ポジショントレード、アルゴ取引を保有期間・時間・資金・コスト・性格で比較し、コストの影響を計算例で示します。</span></a><a class="card" href="/ja/encyclopedia/crypto/funding-rates/"><div class="k">暗号資産トレード</div><b>資金調達率</b><span>無期限先物の資金調達率の仕組みを解説。支払い間隔、支払額の計算と年率換算、プラスとマイナスの読み方、キャッシュ・アンド・キャリーの裁定取引まで。</span></a><a class="card" href="/ja/encyclopedia/trading-business/trading-taxes-overview/"><div class="k">プロップファーム・税金・規制・詐欺</div><b>トレードの税金の概要</b><span>トレードの利益の課税の基本を解説。譲渡益と所得の違い、保有期間、米国のウォッシュセール・ルール、セクション1256、暗号資産まで。税務アドバイスではありません。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/basics/long-and-short-positions/"><small>← 前へ</small>ロングとショート</a><a class="next" href="/ja/encyclopedia/basics/brokers-and-exchanges/"><small>次へ →</small>ブローカーと取引所</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeFi 交易：AMM、无常损失与链上杠杆 | PnL Profit</title>
+<meta name="description" content="DeFi 交易如何运作：恒定乘积 AMM 原理、价格冲击、附计算实例的无常损失、集中流动性、链上借贷与清算，以及智能合约和协议层面的风险。">
+<meta name="keywords" content="DeFi交易, 无常损失计算, AMM原理, 流动性挖矿 提供流动性, DeFi借贷 清算">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/defi-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="DeFi 交易：AMM、无常损失与链上杠杆 | PnL Profit">
+<meta property="og:description" content="DeFi 交易如何运作：恒定乘积 AMM 原理、价格冲击、附计算实例的无常损失、集中流动性、链上借贷与清算，以及智能合约和协议层面的风险。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/crypto/defi-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DeFi 交易：AMM、无常损失与链上杠杆 | PnL Profit">
+<meta name="twitter:description" content="DeFi 交易如何运作：恒定乘积 AMM 原理、价格冲击、附计算实例的无常损失、集中流动性、链上借贷与清算，以及智能合约和协议层面的风险。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"DeFi 交易：AMM、无常损失与链上杠杆","description":"DeFi 交易如何运作：恒定乘积 AMM 原理、价格冲击、附计算实例的无常损失、集中流动性、链上借贷与清算，以及智能合约和协议层面的风险。","keywords":"DeFi交易, 无常损失计算, AMM原理, 流动性挖矿 提供流动性, DeFi借贷 清算","articleSection":"加密货币交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/crypto/defi-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"加密货币交易","item":"https://pnlpro.fit/zh/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"DeFi交易","item":"https://pnlpro.fit/zh/encyclopedia/crypto/defi-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"什么是无常损失？","acceptedAnswer":{"@type":"Answer","text":"它是流动性提供者相比单纯持有代币所承受的价值差额，由资金池随价格变动重新平衡所导致。在 50/50 资金池中，一种代币的相对价格翻倍或腰斩，与单纯持有相比会造成约 5.7% 的损失。"}},{"@type":"Question","name":"AMM 如何定价？","acceptedAnswer":{"@type":"Answer","text":"恒定乘积 AMM 让两种代币余额的乘积保持不变。价格就是两种余额的比率，每笔交易都会改变这个比率，所以交易越大，成交价越差。"}},{"@type":"Question","name":"提供流动性能赚钱吗？","acceptedAnswer":{"@type":"Answer","text":"当手续费收入超过无常损失和各项成本时可以赚钱，通常出现在成交量相对价格波动较大的资金池中。许多 LP，尤其是在波动大的交易对和集中流动性头寸中，赚得比单纯持有还少。"}},{"@type":"Question","name":"DeFi 贷款被清算时会发生什么？","acceptedAnswer":{"@type":"Answer","text":"如果健康因子跌破 1，清算人会偿还部分债务，并以折扣价拿走抵押品。借款人保留借到的资金，但会失去这部分抵押品以及清算奖励。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/crypto/defi-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/defi-trading/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/crypto/defi-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/defi-trading/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/defi-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/defi-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/defi-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/defi-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/defi-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>加密货币交易</h3><ul><li><a href="/zh/encyclopedia/crypto/crypto-trading-basics/">加密货币交易基础</a></li><li><a href="/zh/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX与DEX</a></li><li><a href="/zh/encyclopedia/crypto/crypto-market-cycles/">加密市场周期</a></li><li><a href="/zh/encyclopedia/crypto/perpetual-futures/">永续合约</a></li><li><a href="/zh/encyclopedia/crypto/funding-rates/">资金费率</a></li><li><a href="/zh/encyclopedia/crypto/crypto-liquidations/">爆仓</a></li><li><a href="/zh/encyclopedia/crypto/on-chain-analysis/">链上分析</a></li><li><a href="/zh/encyclopedia/crypto/altcoin-trading/">山寨币交易</a></li><li><a href="/zh/encyclopedia/crypto/tokenomics-and-token-unlocks/">代币经济学与解锁</a></li><li><a href="/zh/encyclopedia/crypto/defi-trading/" class="on" aria-current="page">DeFi交易</a></li><li><a href="/zh/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV与三明治攻击</a></li><li><a href="/zh/encyclopedia/crypto/crypto-arbitrage/">加密货币套利</a></li><li><a href="/zh/encyclopedia/crypto/stablecoins/">稳定币</a></li><li><a href="/zh/encyclopedia/crypto/crypto-wallet-security/">钱包安全</a></li><li><a href="/zh/encyclopedia/crypto/airdrops-and-points-farming/">空投与积分</a></li><li><a href="/zh/encyclopedia/crypto/nft-trading/">NFT交易</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/" class="on">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/crypto/">加密货币交易</a></div>
+<h1 class="title">DeFi 交易</h1>
+<div class="meta">阅读约 5 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>加密货币交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/crypto/crypto-trading-basics/">加密货币交易基础</a></li><li><a href="/zh/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX与DEX</a></li><li><a href="/zh/encyclopedia/crypto/crypto-market-cycles/">加密市场周期</a></li><li><a href="/zh/encyclopedia/crypto/perpetual-futures/">永续合约</a></li><li><a href="/zh/encyclopedia/crypto/funding-rates/">资金费率</a></li><li><a href="/zh/encyclopedia/crypto/crypto-liquidations/">爆仓</a></li><li><a href="/zh/encyclopedia/crypto/on-chain-analysis/">链上分析</a></li><li><a href="/zh/encyclopedia/crypto/altcoin-trading/">山寨币交易</a></li><li><a href="/zh/encyclopedia/crypto/tokenomics-and-token-unlocks/">代币经济学与解锁</a></li><li><a href="/zh/encyclopedia/crypto/defi-trading/" class="on" aria-current="page">DeFi交易</a></li><li><a href="/zh/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV与三明治攻击</a></li><li><a href="/zh/encyclopedia/crypto/crypto-arbitrage/">加密货币套利</a></li><li><a href="/zh/encyclopedia/crypto/stablecoins/">稳定币</a></li><li><a href="/zh/encyclopedia/crypto/crypto-wallet-security/">钱包安全</a></li><li><a href="/zh/encyclopedia/crypto/airdrops-and-points-farming/">空投与积分</a></li><li><a href="/zh/encyclopedia/crypto/nft-trading/">NFT交易</a></li></ul></details>
+<article><p>DeFi（去中心化金融）交易是指通过区块链上的智能合约，而不是通过交易所或银行，进行兑换、出借、借款和提供流动性。其核心构件是自动做市商（AMM），即一个按公式为交易定价的代币资金池。DeFi 让任何人都能从自托管钱包交易任何代币，但也带来了中心化交易所不存在的成本和风险，包括价格冲击、无常损失和智能合约失效。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>恒定乘积 AMM 让两种代币余额的乘积保持不变，所以每笔交易都会推动价格，交易越大推动越大。</li>
+<li>流动性提供者赚取交易手续费，但价格变动时会承受无常损失：如果一种代币相对另一种翻倍，与单纯持有相比价值损失约 5.7%。</li>
+<li>集中流动性提高了每美元的手续费收入，但会放大无常损失，并需要主动管理。</li>
+<li>DeFi 借贷让交易者可以抵押借款，抵押品价值下跌过多时会被自动清算。</li>
+<li>无论交易本身多么漂亮，智能合约漏洞、预言机故障和治理攻击都可能造成损失。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#amm">恒定乘积 AMM 如何运作</a></li><li><a href="#section-5">提供流动性</a></li><li><a href="#section-9">借贷与链上杠杆</a></li><li><a href="#section-11">收益率及其风险</a></li><li><a href="#section-12">智能合约与协议风险</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="amm">恒定乘积 AMM 如何运作</h2>
+<p>最常见的 AMM 设计由 Uniswap 推广普及，它持有两种代币 x 和 y，并强制满足：</p>
+<p>x × y = k</p>
+<p>其中 k 在兑换过程中保持不变（不计手续费）。以 y 计价的 x 的价格为 y / x。要买入 x，你需要放入 y、取出 x，同时保持乘积不变。由于一侧越少、曲线越陡，每多买一个单位都更贵。</p>
+<p>AMM 与订单簿的比较，见 <a href="/zh/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX 与 DEX</a>。</p>
+<h3 id="section-3">实例：价格冲击</h3>
+<p>某资金池有 100 ETH 和 200,000 USDC。k = 100 × 200,000 = 20,000,000，价格为 200,000 / 100 = 每 ETH 2,000 美元。</p>
+<p>某交易者用 10,000 USDC 兑换 ETH。不计手续费：</p>
+<ul>
+<li>新的 USDC 余额：210,000。</li>
+<li>新的 ETH 余额：20,000,000 / 210,000 = 95.238 ETH。</li>
+<li>收到的 ETH：100 − 95.238 = 4.762 ETH。</li>
+<li>平均成交价：10,000 / 4.762 = 2,100 美元，比起始价格高 5%。</li>
+<li>资金池新价格：210,000 / 95.238 = 2,205 美元。</li>
+</ul>
+<p>如果从投入中扣除 0.30% 的手续费，进入曲线的是 9,970 USDC，交易者收到约 4.748 ETH，平均价格约为 2,106 美元。</p>
+<p>这笔交易占资金池 USDC 一侧的 5%，让平均价格偏离了 5%。在同一资金池中兑换 1,000 美元，扣除手续费后可得约 0.496 ETH，平均价格约为 2,016 美元，差了不到 1%。价格冲击随交易规模相对资金池深度的比例而增大，这就是<a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">流动性</a>重要的原因。</p>
+<h3 id="section-4">滑点容忍度</h3>
+<p>由于其他交易可能先于你的交易上链，DEX 界面会要求你设置<strong>滑点容忍度</strong>：你能接受的最差价格。如果价格超出这个范围，交易会失败而不是执行。设得太宽会招来<a href="/zh/encyclopedia/crypto/mev-and-sandwich-attacks/">三明治攻击</a>；设得太窄，在行情波动时兑换就会失败。</p>
+<h2 id="section-5">提供流动性</h2>
+<p>任何人都可以按当前价格比例把两种代币存入资金池，并分得一部分交易手续费。流动性提供者（LP）实际上就是被动做市商：他们始终同时报出买卖双边价格。</p>
+<h3 id="section-6">无常损失</h3>
+<p>价格变动时，套利交易者会让资金池重新平衡。LP 最终会持有更多下跌的代币、更少上涨的代币。与单纯持有最初的代币相比，LP 头寸的价值更低。这一差额被称为<strong>无常损失（impermanent loss，IL）</strong>。之所以说它“无常”，只是因为如果价格回到起点，损失就会消失；如果你在价格变动后撤出，它就是实打实的亏损。</p>
+<p>对于 50/50 的恒定乘积资金池，如果价格比率变动了 r 倍：</p>
+<p>IL = 2 × √r / (1 + r) − 1</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>一种代币相对另一种的价格变化</th>
+<th>无常损失</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+25%（r = 1.25）</td>
+<td>−0.6%</td>
+</tr>
+<tr>
+<td>+50%（r = 1.5）</td>
+<td>−2.0%</td>
+</tr>
+<tr>
+<td>+100%（r = 2）</td>
+<td>−5.7%</td>
+</tr>
+<tr>
+<td>+200%（r = 3）</td>
+<td>−13.4%</td>
+</tr>
+<tr>
+<td>+300%（r = 4）</td>
+<td>−20.0%</td>
+</tr>
+<tr>
+<td>−50%（r = 0.5）</td>
+<td>−5.7%</td>
+</tr>
+<tr>
+<td>−75%（r = 0.25）</td>
+<td>−20.0%</td>
+</tr>
+</tbody></table></div>
+<h3 id="section-7">实例：无常损失</h3>
+<p>在 ETH 价格为 2,000 美元时，某 LP 存入 1 ETH 和 2,000 USDC，总价值 4,000 美元。他在资金池中所占份额的 k = 1 × 2,000 = 2,000。</p>
+<p>ETH 涨到 4,000 美元。套利让头寸重新平衡，使得 x × y = 2,000 且 y / x = 4,000：</p>
+<ul>
+<li>x² = 2,000 / 4,000 = 0.5，所以 x = 0.7071 ETH。</li>
+<li>y = 4,000 × 0.7071 = 2,828.43 USDC。</li>
+<li>LP 头寸价值：0.7071 × 4,000 + 2,828.43 = 5,656.85 美元。</li>
+</ul>
+<p>如果 LP 只是持有 1 ETH 和 2,000 USDC：4,000 + 2,000 = 6,000 美元。</p>
+<p>无常损失 = 5,656.85 / 6,000 − 1 = −5.7%，即 343.15 美元。LP 相比 4,000 美元仍然是赚的，但比单纯持有的人赚得少。赚取的手续费必须超过 343.15 美元，提供流动性才算值得。</p>
+<p>如果 ETH 反而跌到 1,000 美元，头寸会变成 1.4142 ETH 和 1,414.21 USDC，价值 2,828.43 美元，而单纯持有则为 3,000 美元。同样是 −5.7%。</p>
+<h3 id="section-8">集中流动性</h3>
+<p>从 2021 年的 Uniswap v3 开始，较新的 AMM 允许 LP 把流动性放在选定的价格区间内。只要价格保持在区间内，放在窄区间里的资金每美元能赚到多得多的手续费。但如果价格离开区间，头寸会全部转换成较弱的那种代币并停止赚取手续费，而且区间内的无常损失比全区间资金池更大。集中流动性更像是主动做市而非被动投资，一旦算上无常损失和 Gas 费，许多 LP 的表现还不如单纯持有。</p>
+<h2 id="section-9">借贷与链上杠杆</h2>
+<p>Aave、Compound 等借贷协议允许用户存入抵押品并借出其他资产。利率随供需浮动。每种抵押资产都有一个<strong>清算阈值</strong>：在被清算之前，可以按其价值的多大比例借款。</p>
+<h3 id="section-10">实例：健康因子</h3>
+<p>某交易者以 3,000 美元的价格存入 10 ETH（30,000 美元），清算阈值为 80%，借出 15,000 USDC。</p>
+<ul>
+<li>健康因子 =（抵押品价值 × 阈值）/ 债务 = (30,000 × 0.80) / 15,000 = 1.6。</li>
+<li>健康因子低于 1 时发生清算。</li>
+<li>清算价格：10 × P × 0.80 = 15,000，所以 P = 1,875 美元。</li>
+</ul>
+<p>ETH 可以下跌 37.5% 才会被清算。清算发生时，清算人偿还部分债务，并以折扣价拿走抵押品（即清算奖励），因此交易者的损失会超过缺口本身。交易者通过借出稳定币、买入更多 ETH 再存入（“循环贷”，looping）来加杠杆，这会提高风险敞口，并让清算价格更近。永续合约上的<a href="/zh/encyclopedia/crypto/crypto-liquidations/">加密货币爆仓</a>计算在原理上同样适用，不过 DeFi 清算依赖预言机价格，可能因预言机错误而被触发。</p>
+<h2 id="section-11">收益率及其风险</h2>
+<p>高宣传收益率通常来自以下四种来源之一：交易手续费、借款需求、代币增发奖励或杠杆。靠增发驱动的收益以代币支付，而这些代币往往会贬值。远高于借贷市场利率的收益率通常隐藏着风险。</p>
+<h2 id="section-12">智能合约与协议风险</h2>
+<ul>
+<li><strong>漏洞与攻击。</strong> 因代码缺陷、有问题的升级和跨链桥被黑，DeFi 协议已被盗走数十亿美元。审计能降低但无法消除这种风险。</li>
+<li><strong>预言机操纵。</strong> 依赖流动性薄弱的价格源的协议，可能被诱导错误地为抵押品定价。</li>
+<li><strong>管理员密钥与治理。</strong> 团队或代币持有者投票可能有权修改合约或转移资金。</li>
+<li><strong>稳定币与抵押品脱锚。</strong> 见<a href="/zh/encyclopedia/crypto/stablecoins/">稳定币</a>。</li>
+<li><strong>授权风险。</strong> 授予某个合约的代币授权，如果该合约后来被攻击，可能让你的钱包暴露在风险中。见<a href="/zh/encyclopedia/crypto/crypto-wallet-security/">钱包安全</a>。</li>
+</ul>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>在浅资金池中大额兑换</strong>，却不检查价格冲击。</li>
+<li><strong>冲着宣传的年化收益率（APR）去提供流动性</strong>，却不估算无常损失。</li>
+<li><strong>循环加杠杆</strong>，却不给健康因子留出安全边际。</li>
+<li><strong>在未经审计的新协议上追逐收益。</strong></li>
+<li><strong>在不再使用的合约上保留无限额授权。</strong></li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-15">什么是无常损失？</h3>
+<p>它是流动性提供者相比单纯持有代币所承受的价值差额，由资金池随价格变动重新平衡所导致。在 50/50 资金池中，一种代币的相对价格翻倍或腰斩，与单纯持有相比会造成约 5.7% 的损失。</p>
+<h3 id="amm">AMM 如何定价？</h3>
+<p>恒定乘积 AMM 让两种代币余额的乘积保持不变。价格就是两种余额的比率，每笔交易都会改变这个比率，所以交易越大，成交价越差。</p>
+<h3 id="section-17">提供流动性能赚钱吗？</h3>
+<p>当手续费收入超过无常损失和各项成本时可以赚钱，通常出现在成交量相对价格波动较大的资金池中。许多 LP，尤其是在波动大的交易对和集中流动性头寸中，赚得比单纯持有还少。</p>
+<h3 id="defi">DeFi 贷款被清算时会发生什么？</h3>
+<p>如果健康因子跌破 1，清算人会偿还部分债务，并以折扣价拿走抵押品。借款人保留借到的资金，但会失去这部分抵押品以及清算奖励。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/crypto/centralized-vs-decentralized-exchanges/"><div class="k">加密货币交易</div><b>CEX与DEX</b><span>中心化与去中心化加密交易所的全面对比：资产托管、交易对手风险、KYC、手续费、流动性、DEX 聚合器、储备金证明，以及 FTX 崩盘留下的教训。</span></a><a class="card" href="/zh/encyclopedia/crypto/mev-and-sandwich-attacks/"><div class="k">加密货币交易</div><b>MEV与三明治攻击</b><span>什么是 MEV，三明治攻击如何盯上 DEX 兑换，滑点容忍度如何决定你可能被攫取的金额，以及私有 RPC、优先费和 Jito 小费扮演的角色。</span></a><a class="card" href="/zh/encyclopedia/crypto/stablecoins/"><div class="k">加密货币交易</div><b>稳定币</b><span>稳定币如何运作：法币抵押、加密资产抵押和算法稳定币三类设计，UST 崩盘与 USDC 脱锚事件，用作保证金的风险，以及 MiCA 和美国监管规则。</span></a><a class="card" href="/zh/encyclopedia/crypto/crypto-wallet-security/"><div class="k">加密货币交易</div><b>钱包安全</b><span>交易者如何保护加密资产：自托管、助记词保管、硬件钱包、代币授权与撤销、盗币程序、钓鱼网站、地址投毒，以及交易所 API 密钥安全。</span></a><a class="card" href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">交易基础</div><b>点差与流动性</b><span>什么是买价、卖价、点差和中间价，流动性、滑点和市场冲击如何运作，点差为何会扩大，以及如何计算一次往返交易的成本。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/crypto/tokenomics-and-token-unlocks/"><small>← 上一篇</small>代币经济学与解锁</a><a class="next" href="/zh/encyclopedia/crypto/mev-and-sandwich-attacks/"><small>下一篇 →</small>MEV与三明治攻击</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

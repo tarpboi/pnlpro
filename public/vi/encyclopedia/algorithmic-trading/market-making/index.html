@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tạo lập thị trường: spread, tồn kho và lựa chọn bất lợi | PnL Profit</title>
+<meta name="description" content="Hướng dẫn kiểu giáo trình về market making: báo giá hai chiều, thu spread, lệch giá theo tồn kho, adverse selection, hàng đợi, hoàn phí, Avellaneda-Stoikov.">
+<meta name="keywords" content="tạo lập thị trường, chiến lược market making, avellaneda stoikov, rủi ro tồn kho, adverse selection, spread của market maker">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Tạo lập thị trường: spread, tồn kho và lựa chọn bất lợi | PnL Profit">
+<meta property="og:description" content="Hướng dẫn kiểu giáo trình về market making: báo giá hai chiều, thu spread, lệch giá theo tồn kho, adverse selection, hàng đợi, hoàn phí, Avellaneda-Stoikov.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-making/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tạo lập thị trường: spread, tồn kho và lựa chọn bất lợi | PnL Profit">
+<meta name="twitter:description" content="Hướng dẫn kiểu giáo trình về market making: báo giá hai chiều, thu spread, lệch giá theo tồn kho, adverse selection, hàng đợi, hoàn phí, Avellaneda-Stoikov.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Tạo lập thị trường: spread, tồn kho và lựa chọn bất lợi","description":"Hướng dẫn kiểu giáo trình về market making: báo giá hai chiều, thu spread, lệch giá theo tồn kho, adverse selection, hàng đợi, hoàn phí, Avellaneda-Stoikov.","keywords":"tạo lập thị trường, chiến lược market making, avellaneda stoikov, rủi ro tồn kho, adverse selection, spread của market maker","articleSection":"Giao dịch thuật toán và định lượng","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-making/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch thuật toán và định lượng","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Làm thị trường","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-making/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Nhà tạo lập thị trường kiếm tiền như thế nào?","acceptedAnswer":{"@type":"Answer","text":"Họ kiếm chênh lệch giữa giá họ mua (bid) và giá họ bán (ask), cộng với mọi khoản hoàn phí của sàn. Họ mất tiền khi tồn kho đi ngược lại hoặc khi các trader có thông tin khớp báo giá của họ ngay trước khi giá dịch chuyển."}},{"@type":"Question","name":"Adverse selection trong tạo lập thị trường là gì?","acceptedAnswer":{"@type":"Answer","text":"Adverse selection là xu hướng báo giá của nhà tạo lập thị trường được khớp thường xuyên hơn bởi những trader biết giá sắp dịch chuyển. Nó có nghĩa là các lần khớp, tính trung bình, tệ hơn so với vẻ ngoài của chúng vào khoảnh khắc xảy ra."}},{"@type":"Question","name":"Mô hình Avellaneda-Stoikov là gì?","acceptedAnswer":{"@type":"Answer","text":"Đó là một mô hình học thuật năm 2008 để đặt bid và ask cho nhà tạo lập thị trường. Nó dịch chuyển báo giá ra khỏi phía mà tồn kho đang tích lũy, và nới rộng hoặc thu hẹp spread dựa trên biến động, mức ngại rủi ro, hành vi lệnh đến và thời gian còn lại."}},{"@type":"Question","name":"Trader cá nhân có thể làm nhà tạo lập thị trường không?","acceptedAnswer":{"@type":"Answer","text":"Bất kỳ ai cũng có thể đặt lệnh giới hạn ở cả hai phía của một thị trường. Cạnh tranh với các nhà tạo lập thị trường chuyên nghiệp ở các thị trường thanh khoản cao là rất khó vì lợi thế về tốc độ, dữ liệu và phí của họ, và nhiều nỗ lực của trader cá nhân thua lỗ vì adverse selection."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/market-making/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/market-making/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/market-making/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/market-making/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/market-making/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/market-making/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/market-making/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/market-making/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/market-making/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch thuật toán và định lượng</h3><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/" class="on">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a></div>
+<h1 class="title">Tạo lập thị trường</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch thuật toán và định lượng</summary><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul></details>
+<article><p>Tạo lập thị trường (market making) là hoạt động liên tục chào mua và chào bán một tài sản, đặt giá bid thấp hơn một chút so với giá hiện tại và giá ask cao hơn một chút. Nhà tạo lập thị trường nhắm đến việc kiếm chênh lệch, tức spread, qua nhiều giao dịch nhỏ, đồng thời quản lý rủi ro nắm giữ tồn kho và rủi ro giao dịch với các đối tác có thông tin tốt hơn. Bài viết này trình bày góc nhìn giáo trình chuẩn như xuất hiện trong tài liệu học thuật công khai, bao gồm mô hình Avellaneda-Stoikov ở mức khái niệm.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Nhà tạo lập thị trường kiếm bid-ask spread và, ở một số sàn, kiếm hoàn phí vì cung cấp thanh khoản.</li>
+<li>Hai rủi ro chính là rủi ro tồn kho (nắm giữ vị thế trong lúc giá biến động) và adverse selection (chủ yếu bị khớp khi giá sắp đi ngược lại bạn).</li>
+<li>Nhà tạo lập thị trường lệch báo giá để giảm tồn kho không mong muốn, báo giá quyết liệt hơn ở phía đưa tồn kho trở về gần không.</li>
+<li>Vị trí hàng đợi và độ trễ quan trọng vì các lệnh ở cùng một mức giá thường được khớp theo nguyên tắc đến trước được phục vụ trước.</li>
+<li>Mô hình Avellaneda-Stoikov hình thức hóa cách báo giá nên dịch chuyển theo tồn kho, biến động, mức ngại rủi ro và thời gian.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#nh-t-o-l-p-th-tr-ng-l-m-g">Nhà tạo lập thị trường làm gì</a></li><li><a href="#nh-t-o-l-p-th-tr-ng-ki-m-ti-n-nh-th-n-o">Nhà tạo lập thị trường kiếm tiền như thế nào</a></li><li><a href="#c-c-r-i-ro">Các rủi ro</a></li><li><a href="#l-ch-b-o-gi-theo-t-n-kho">Lệch báo giá theo tồn kho</a></li><li><a href="#v-tr-h-ng-i-v-tr">Vị trí hàng đợi và độ trễ</a></li><li><a href="#m-h-nh-avellaneda-stoikov">Mô hình Avellaneda-Stoikov</a></li><li><a href="#v-d-minh-h-a-thu-nh-p-spread-so-v-i-adverse-selection">Ví dụ minh họa: thu nhập spread so với adverse selection</a></li><li><a href="#t-o-l-p-th-tr-ng-cho-trader-c-nh-n">Tạo lập thị trường cho trader cá nhân</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="nh-t-o-l-p-th-tr-ng-l-m-g">Nhà tạo lập thị trường làm gì</h2>
+<p>Trong <a href="/vi/encyclopedia/basics/order-book-and-market-depth/">sổ lệnh</a> giới hạn, nhà tạo lập thị trường đặt các lệnh giới hạn chờ ở cả hai phía. Khi một người mua muốn giao dịch ngay đến, họ mua ở giá ask của nhà tạo lập thị trường. Khi một người bán đến, họ bán ở giá bid của nhà tạo lập thị trường. Nếu nhà tạo lập thị trường mua ở 99.98 và sau đó bán ở 100.02, họ kiếm được 0.04 mỗi đơn vị.</p>
+<p>Nhà tạo lập thị trường trải rộng từ các công ty được chỉ định có nghĩa vụ chính thức, như specialist hoặc nhà tạo lập thị trường được chỉ định trên một số sàn chứng khoán và nhà cung cấp thanh khoản trên các sàn quyền chọn, đến các trader thuật toán độc lập trên các sàn futures và crypto. Nhiều sàn thưởng cho nhà cung cấp thanh khoản qua giảm phí hoặc hoàn phí. Họ là ai và vị trí của họ trong số các trader khác được mô tả trong <a href="/vi/encyclopedia/basics/market-participants/">những người tham gia thị trường</a>.</p>
+<h2 id="nh-t-o-l-p-th-tr-ng-ki-m-ti-n-nh-th-n-o">Nhà tạo lập thị trường kiếm tiền như thế nào</h2>
+<h3 id="thu-spread">Thu spread</h3>
+<p>Thu nhập cốt lõi là <a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">bid-ask spread</a>. Thu nhập mỗi vòng giao dịch nhỏ, nên khả năng sinh lời phụ thuộc vào khối lượng và vào việc giữ các khoản lỗ do biến động bất lợi nhỏ hơn thu nhập từ spread.</p>
+<h3 id="ho-n-ph-v-ph">Hoàn phí và phí</h3>
+<p>Theo cách tính giá maker-taker, các trader đặt lệnh chờ (maker) trả phí thấp hơn hoặc nhận hoàn phí, còn các trader lấy thanh khoản (taker) trả phí. Với một số nhà tạo lập thị trường, hoàn phí là một phần đáng kể của doanh thu. Biểu phí thay đổi và khác nhau theo sàn và bậc khối lượng, nên mọi mô hình chi phí phải dùng biểu phí hiện hành.</p>
+<h2 id="c-c-r-i-ro">Các rủi ro</h2>
+<h3 id="r-i-ro-t-n-kho">Rủi ro tồn kho</h3>
+<p>Các lệnh khớp hiếm khi đến theo từng cặp mua-bán gọn gàng, xen kẽ. Một nhà tạo lập thị trường mua vài lần liên tiếp sẽ ở trạng thái long. Nếu giá sau đó giảm, khoản lỗ trên lượng tồn kho đó có thể vượt thu nhập của nhiều spread. Rủi ro tồn kho tăng theo quy mô vị thế, biến động của tài sản và thời gian giữ vị thế.</p>
+<h3 id="adverse-selection">Adverse selection</h3>
+<p>Một số đối tác biết nhiều hơn nhà tạo lập thị trường, hoặc phản ứng nhanh hơn: một trader có tin tức, một quỹ đang thực hiện lệnh lớn, hoặc một trader nhanh đã thấy giá đổi trên sàn khác. Các giao dịch của họ có xu hướng đến ngay trước khi giá dịch chuyển có lợi cho họ. Nhà tạo lập thị trường bị &quot;hớt&quot;: mua ngay trước khi giảm hoặc bán ngay trước khi tăng.</p>
+<p>Các mô hình kinh điển từ năm 1985 mô tả điều này. Trong mô hình Glosten-Milgrom, một nhà tạo lập thị trường đối mặt với hỗn hợp chưa biết của trader có thông tin và không có thông tin sẽ đặt spread đủ rộng để khoản lãi từ trader không có thông tin bù đắp khoản lỗ cho trader có thông tin. Mô hình của Kyle cho thấy một trader có thông tin trải các lệnh theo thời gian để che giấu thông tin ra sao, và giá dần hấp thụ thông tin đó như thế nào. Bài học thực tế: spread một phần là khoản bù đắp cho rủi ro giao dịch với bên có thông tin tốt hơn, và nó nới rộng khi rủi ro đó tăng, chẳng hạn quanh các lần công bố tin tức.</p>
+<h2 id="l-ch-b-o-gi-theo-t-n-kho">Lệch báo giá theo tồn kho</h2>
+<p>Để kiểm soát tồn kho, nhà tạo lập thị trường dịch chuyển cả hai báo giá thay vì giữ chúng ở giữa giá thị trường.</p>
+<ul>
+<li><strong>Tồn kho long:</strong> hạ cả bid và ask. Ask thấp hơn khiến có nhiều khả năng ai đó mua từ bạn hơn, giảm vị thế của bạn. Bid thấp hơn khiến bạn ít có khả năng mua thêm.</li>
+<li><strong>Tồn kho short:</strong> nâng cả hai báo giá để có hiệu ứng ngược lại.</li>
+</ul>
+<p>Nhà tạo lập thị trường cũng đặt các giới hạn tồn kho cứng, vượt quá đó họ ngừng báo giá một phía hoặc phòng hộ bằng một công cụ liên quan, như hợp đồng tương lai.</p>
+<h2 id="v-tr-h-ng-i-v-tr">Vị trí hàng đợi và độ trễ</h2>
+<p>Hầu hết sổ lệnh dùng ưu tiên giá-thời gian: ở một mức giá nhất định, lệnh sớm nhất được khớp trước. Hai hệ quả theo sau:</p>
+<ul>
+<li><strong>Vị trí hàng đợi có giá trị.</strong> Một lệnh ở gần đầu hàng đợi tại bid tốt nhất có nhiều khả năng được khớp bởi dòng lệnh không có thông tin trước khi giá đổi. Một lệnh ở cuối hàng đợi thường chỉ được khớp khi một lệnh lớn quét sạch cả mức giá đó, điều thường là dấu hiệu giá sắp đi xuyên qua nó.</li>
+<li><strong>Độ trễ quan trọng.</strong> Khi giá hợp lý thay đổi, nhà tạo lập thị trường phải hủy hoặc cập nhật các báo giá cũ trước khi người khác giao dịch ngược lại. Những người tham gia chậm hơn bị adverse selection thường xuyên hơn. Đây là một lý do tạo lập thị trường ở cấp cao nhất của các thị trường thanh khoản cao bị các công ty <a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">giao dịch tần suất cao</a> chi phối.</li>
+</ul>
+<h2 id="m-h-nh-avellaneda-stoikov">Mô hình Avellaneda-Stoikov</h2>
+<p>Trong một bài báo năm 2008, Marco Avellaneda và Sasha Stoikov mô tả một khung cho nhà tạo lập thị trường muốn tối đa hóa lợi nhuận kỳ vọng trong khi phạt rủi ro. Các ý chính của nó có thể phát biểu mà không cần toàn bộ toán học.</p>
+<h3 id="gi-d-ph-ng-reservation-price">Giá dự phòng (reservation price)</h3>
+<p>Mô hình trước hết tính giá dự phòng, mức giá mà tại đó nhà tạo lập thị trường dửng dưng với việc nắm thêm một đơn vị, cho trước tồn kho của họ:</p>
+<p>r = s − q × γ × σ² × (T − t)</p>
+<p>Ở đây s là giá giữa (mid), q là tồn kho (dương khi long), γ là tham số ngại rủi ro, σ là biến động của giá giữa và T − t là thời gian còn lại trong khung giao dịch. Khi nhà tạo lập thị trường đang long, r nằm dưới giá giữa, nên các báo giá dịch xuống, đó chính là lệch báo giá theo tồn kho dưới dạng công thức.</p>
+<h3 id="spread-t-i-u">Spread tối ưu</h3>
+<p>Tổng spread quanh giá dự phòng là:</p>
+<p>δ = γ × σ² × (T − t) + (2 / γ) × ln(1 + γ / k)</p>
+<p>Tham số k mô tả xác suất được khớp giảm nhanh thế nào khi báo giá rời xa giá giữa. Số hạng đầu nới rộng báo giá khi rủi ro cao hơn; số hạng thứ hai phản ánh sự đánh đổi giữa spread rộng hơn (lợi nhuận mỗi lần khớp nhiều hơn) và ít lần khớp hơn.</p>
+<pre><code class="language-python">import math
+
+def avellaneda_stoikov_quotes(mid, inventory, gamma, sigma, k, time_left):
+    &quot;&quot;&quot;Bid và ask Avellaneda-Stoikov (2008) theo giáo trình.&quot;&quot;&quot;
+    reservation = mid - inventory * gamma * sigma**2 * time_left
+    spread = gamma * sigma**2 * time_left + (2 / gamma) * math.log(1 + gamma / k)
+    return reservation - spread / 2, reservation + spread / 2
+
+bid, ask = avellaneda_stoikov_quotes(mid=100, inventory=2, gamma=0.1,
+                                     sigma=2, k=1.5, time_left=0.5)
+print(round(bid, 3), round(ask, 3))   # 98.855 100.345
+</code></pre>
+<p>Với các đầu vào minh họa này, σ² × (T − t) = 4 × 0.5 = 2, nên giá dự phòng là 100 − 2 × 0.1 × 2 = 99.6, và spread là 0.1 × 2 + 20 × ln(1.0667) ≈ 0.2 + 1.291 = 1.491. Các báo giá nằm quanh 99.6 thay vì 100 vì nhà tạo lập thị trường đang long.</p>
+<h3 id="gi-i-h-n-c-a-m-h-nh">Giới hạn của mô hình</h3>
+<p>Mô hình giả định giá giữa đi theo bước ngẫu nhiên với biến động không đổi, tỷ lệ khớp lệnh theo một đường cong mũ đơn giản, và các tham số đã biết. Thị trường thực có các cú nhảy, biến động thay đổi, dòng lệnh có thông tin và hiệu ứng hàng đợi. Nghiên cứu sau đó, như công trình của Guéant, Lehalle và Fernandez-Tapia, mở rộng khung này với giới hạn tồn kho và các xấp xỉ dạng đóng. Người trong nghề coi các mô hình này là cấu trúc khởi đầu, không phải một chiến lược hoàn chỉnh.</p>
+<h2 id="v-d-minh-h-a-thu-nh-p-spread-so-v-i-adverse-selection">Ví dụ minh họa: thu nhập spread so với adverse selection</h2>
+<p>Một nhà tạo lập thị trường báo giá bid 99.98 và ask 100.02 cho mỗi lần 100 đơn vị.</p>
+<ul>
+<li>Một vòng giao dịch hoàn chỉnh (mua 100 ở 99.98, bán 100 ở 100.02) kiếm được 100 × 0.04 = 4.00 đô la trước phí.</li>
+<li>Trong một phiên, họ hoàn tất 10 vòng giao dịch: 10 × 4.00 = 40.00 đô la.</li>
+<li>Có một lần, sau khi mua 100 đơn vị ở 99.98, tin tức ập đến và giá giảm. Nhà tạo lập thị trường bán ở 99.68 để cắt vị thế: lỗ 100 × 0.30 = 30.00 đô la.</li>
+<li>Ròng: 40.00 − 30.00 = 10.00 đô la, trước phí và hoàn phí.</li>
+</ul>
+<p>Một lần khớp bất lợi đã xóa đi ba phần tư thu nhập spread của cả phiên. Nếu biến động bất lợi xảy ra hai lần, phiên đó thua lỗ. Đây là lý do nhà tạo lập thị trường nới spread hoặc rút báo giá quanh tin tức đã lên lịch, và vì sao đo biến động giá trong vài giây sau mỗi lần khớp (thường gọi là markout) là một phép chẩn đoán tiêu chuẩn.</p>
+<h2 id="t-o-l-p-th-tr-ng-cho-trader-c-nh-n">Tạo lập thị trường cho trader cá nhân</h2>
+<p>Trader cá nhân có thể đặt lệnh giới hạn ở cả hai phía của một thị trường, nhưng cạnh tranh ở các thị trường thanh khoản cao, nhanh là rất khó vì độ trễ và adverse selection. Các thị trường nhỏ hơn hoặc mới hơn đôi khi có spread rộng hơn, với rủi ro cao tương ứng, bao gồm thanh khoản mỏng và các cú nhảy đột ngột. Thị trường dự đoán là một ví dụ; xem <a href="/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/">tạo lập thị trường trên thị trường dự đoán</a> và <a href="/blog/prediction-market-making-bot-guide.html">hướng dẫn bot tạo lập thị trường dự đoán</a>.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Chỉ tính thu nhập spread mà bỏ qua markout.</strong> Các lần khớp theo sau bởi biến động bất lợi là chi phí chính.</li>
+<li><strong>Không có giới hạn tồn kho.</strong> Một thị trường một chiều có thể xây dựng vị thế lớn rất nhanh.</li>
+<li><strong>Báo giá xuyên qua tin tức.</strong> Các thông báo đã lên lịch là lúc trader có thông tin và trader nhanh hoạt động mạnh nhất.</li>
+<li><strong>Bỏ qua phí.</strong> Nếu không có hoàn phí maker hoặc giảm phí, spread mỏng có thể không đủ bù chi phí.</li>
+<li><strong>Logic hủy lệnh chậm.</strong> Báo giá cũ là quyền chọn miễn phí cho các trader nhanh hơn.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="nh-t-o-l-p-th-tr-ng-ki-m-ti-n-nh-th-n-o">Nhà tạo lập thị trường kiếm tiền như thế nào?</h3>
+<p>Họ kiếm chênh lệch giữa giá họ mua (bid) và giá họ bán (ask), cộng với mọi khoản hoàn phí của sàn. Họ mất tiền khi tồn kho đi ngược lại hoặc khi các trader có thông tin khớp báo giá của họ ngay trước khi giá dịch chuyển.</p>
+<h3 id="adverse-selection-trong-t-o-l-p-th-tr-ng-l-g">Adverse selection trong tạo lập thị trường là gì?</h3>
+<p>Adverse selection là xu hướng báo giá của nhà tạo lập thị trường được khớp thường xuyên hơn bởi những trader biết giá sắp dịch chuyển. Nó có nghĩa là các lần khớp, tính trung bình, tệ hơn so với vẻ ngoài của chúng vào khoảnh khắc xảy ra.</p>
+<h3 id="m-h-nh-avellaneda-stoikov-l-g">Mô hình Avellaneda-Stoikov là gì?</h3>
+<p>Đó là một mô hình học thuật năm 2008 để đặt bid và ask cho nhà tạo lập thị trường. Nó dịch chuyển báo giá ra khỏi phía mà tồn kho đang tích lũy, và nới rộng hoặc thu hẹp spread dựa trên biến động, mức ngại rủi ro, hành vi lệnh đến và thời gian còn lại.</p>
+<h3 id="trader-c-nh-n-c-th-l-m-nh-t-o-l-p-th-tr-ng-kh-ng">Trader cá nhân có thể làm nhà tạo lập thị trường không?</h3>
+<p>Bất kỳ ai cũng có thể đặt lệnh giới hạn ở cả hai phía của một thị trường. Cạnh tranh với các nhà tạo lập thị trường chuyên nghiệp ở các thị trường thanh khoản cao là rất khó vì lợi thế về tốc độ, dữ liệu và phí của họ, và nhiều nỗ lực của trader cá nhân thua lỗ vì adverse selection.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/basics/order-book-and-market-depth/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Sổ lệnh và độ sâu thị trường</b><span>Sổ lệnh giới hạn và công cụ khớp lệnh hoạt động ra sao, ưu tiên giá-thời gian, dữ liệu Level 1 và Level 2, đọc độ sâu, spoofing, thị trường dealer và AMM.</span></a><a class="card" href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Spread và thanh khoản</b><span>Giá bid, ask, spread và giá giữa là gì; thanh khoản, trượt giá và tác động thị trường vận hành ra sao; vì sao spread nới rộng và cách tính chi phí khứ hồi.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Giao dịch tần suất cao</b><span>HFT làm gì: co-location, cuộc đua độ trễ, tạo lập thị trường, latency arbitrage, các tranh cãi và vì sao trader cá nhân không thể cạnh tranh về tốc độ.</span></a><a class="card" href="/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/"><div class="k">Thị trường dự đoán</div><b>Làm thị trường</b><span>Hướng dẫn nền tảng về tạo lập thị trường trên prediction market: báo giá hai phía, thu spread, rủi ro tồn kho, adverse selection quanh tin tức, thưởng.</span></a><a class="card" href="/vi/encyclopedia/basics/market-participants/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Các bên tham gia thị trường</b><span>Trader cá nhân, tổ chức, quỹ phòng hộ, market maker, công ty HFT, bên phòng hộ, ngân hàng trung ương và cá voi: mỗi bên muốn gì và bạn thực sự giao dịch với ai.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"><small>← Bài trước</small>Pairs trading và Stat Arb</a><a class="next" href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/"><small>Bài tiếp →</small>Chiến lược arbitrage</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

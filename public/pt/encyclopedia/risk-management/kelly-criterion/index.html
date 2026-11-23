@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Critério de Kelly no trading e nas apostas: fórmula e exemplos</title>
+<meta name="description" content="A fórmula de Kelly para apostas binárias e sua forma contínua, exemplos práticos com contratos de mercados de previsão e por que a maioria usa Kelly fracionado.">
+<meta name="keywords" content="critério de Kelly, fórmula de Kelly, Kelly fracionado, critério de Kelly trading, critério de Kelly mercados de previsão">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Critério de Kelly no trading e nas apostas: fórmula e exemplos">
+<meta property="og:description" content="A fórmula de Kelly para apostas binárias e sua forma contínua, exemplos práticos com contratos de mercados de previsão e por que a maioria usa Kelly fracionado.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/risk-management/kelly-criterion/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Critério de Kelly no trading e nas apostas: fórmula e exemplos">
+<meta name="twitter:description" content="A fórmula de Kelly para apostas binárias e sua forma contínua, exemplos práticos com contratos de mercados de previsão e por que a maioria usa Kelly fracionado.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Critério de Kelly no trading e nas apostas: fórmula e exemplos","description":"A fórmula de Kelly para apostas binárias e sua forma contínua, exemplos práticos com contratos de mercados de previsão e por que a maioria usa Kelly fracionado.","keywords":"critério de Kelly, fórmula de Kelly, Kelly fracionado, critério de Kelly trading, critério de Kelly mercados de previsão","articleSection":"Gestão de risco e de capital","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/risk-management/kelly-criterion/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Gestão de risco e de capital","item":"https://pnlpro.fit/pt/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"Critério de Kelly","item":"https://pnlpro.fit/pt/encyclopedia/risk-management/kelly-criterion/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Qual é a fórmula do critério de Kelly?","acceptedAnswer":{"@type":"Answer","text":"Para uma aposta que paga b para 1 com probabilidade de ganho p, a fração de Kelly é f = p − (1 − p) ÷ b. Por exemplo, 60 por cento de chance com pagamento de 1 para 1 dá 0.60 − 0.40 = 0.20, ou 20 por cento da banca. Para retornos contínuos, uma aproximação é o retorno excedente dividido pela variância."}},{"@type":"Question","name":"Por que usar meio Kelly em vez de Kelly cheio?","acceptedAnswer":{"@type":"Answer","text":"Meio Kelly mantém aproximadamente 75 por cento da taxa de crescimento de longo prazo com cerca de metade da volatilidade e drawdowns muito mais rasos. Ele também protege contra o problema comum de superestimar a própria vantagem, que pode levar quem usa Kelly cheio a apostar demais."}},{"@type":"Question","name":"Como usar o Kelly em mercados de previsão?","acceptedAnswer":{"@type":"Answer","text":"Se você compra um contrato ao preço c e acredita que sua probabilidade real é p, a fração de Kelly é (p − c) ÷ (1 − c). Comprar a $0.40 acreditando em 55 por cento dá 0.15 ÷ 0.60 = 25 por cento da banca. A maioria dos traders usa uma fração disso e desconta as taxas antes."}},{"@type":"Question","name":"O critério de Kelly pode perder dinheiro?","acceptedAnswer":{"@type":"Answer","text":"Sim. O Kelly só maximiza o crescimento de longo prazo se as suas estimativas de probabilidade estiverem corretas. Com uma vantagem superestimada, ou simplesmente com azar num período curto, quem aposta pelo Kelly pode sofrer grandes drawdowns ou perdas."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/risk-management/kelly-criterion/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/kelly-criterion/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/kelly-criterion/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/kelly-criterion/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/kelly-criterion/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/risk-management/kelly-criterion/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/kelly-criterion/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/kelly-criterion/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/risk-management/kelly-criterion/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Gestão de risco e de capital</h3><ul><li><a href="/pt/encyclopedia/risk-management/risk-management-fundamentals/">Fundamentos da gestão de risco</a></li><li><a href="/pt/encyclopedia/risk-management/position-sizing/">Dimensionamento de posição</a></li><li><a href="/pt/encyclopedia/risk-management/stop-loss-strategies/">Estratégias de stop loss</a></li><li><a href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/">Risco/retorno e expectativa</a></li><li><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">Drawdown e risco de ruína</a></li><li><a href="/pt/encyclopedia/risk-management/kelly-criterion/" class="on" aria-current="page">Critério de Kelly</a></li><li><a href="/pt/encyclopedia/risk-management/correlation-and-portfolio-risk/">Correlação e risco de carteira</a></li><li><a href="/pt/encyclopedia/risk-management/leverage-risk-and-black-swans/">Risco de alavancagem e cisnes negros</a></li><li><a href="/pt/encyclopedia/risk-management/trading-plan/">Como montar um plano de trading</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/" class="on">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a></div>
+<h1 class="title">Critério de Kelly</h1>
+<div class="meta">9 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Gestão de risco e de capital</summary><ul><li><a href="/pt/encyclopedia/risk-management/risk-management-fundamentals/">Fundamentos da gestão de risco</a></li><li><a href="/pt/encyclopedia/risk-management/position-sizing/">Dimensionamento de posição</a></li><li><a href="/pt/encyclopedia/risk-management/stop-loss-strategies/">Estratégias de stop loss</a></li><li><a href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/">Risco/retorno e expectativa</a></li><li><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">Drawdown e risco de ruína</a></li><li><a href="/pt/encyclopedia/risk-management/kelly-criterion/" class="on" aria-current="page">Critério de Kelly</a></li><li><a href="/pt/encyclopedia/risk-management/correlation-and-portfolio-risk/">Correlação e risco de carteira</a></li><li><a href="/pt/encyclopedia/risk-management/leverage-risk-and-black-swans/">Risco de alavancagem e cisnes negros</a></li><li><a href="/pt/encyclopedia/risk-management/trading-plan/">Como montar um plano de trading</a></li></ul></details>
+<article><p>O critério de Kelly é uma fórmula para escolher que fração do seu capital apostar numa oportunidade com vantagem positiva, de modo que o seu patrimônio cresça o mais rápido possível no longo prazo. Ele foi publicado por John L. Kelly Jr., da Bell Labs, em 1956 e depois aplicado ao blackjack e aos investimentos por Edward Thorp. É muito respeitado como referência teórica, mas no trading é extremamente sensível a erros na estimativa da vantagem, e é por isso que a maioria dos profissionais aposta apenas uma fração do que ele recomenda.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais conclusões</h2>
+<ul>
+<li>Para uma aposta simples de ganhar ou perder, a fração de Kelly é f* = p − q ÷ b, em que p é a probabilidade de ganhar, q = 1 − p e b é o pagamento líquido por unidade apostada.</li>
+<li>Para um contrato binário comprado ao preço c que você acredita ter probabilidade real p, a fração de Kelly se simplifica para (p − c) ÷ (1 − c).</li>
+<li>Apostar mais que a fração de Kelly reduz o crescimento no longo prazo, e apostar cerca do dobro de Kelly pode levá-lo a aproximadamente zero ou abaixo disso.</li>
+<li>Meio Kelly mantém cerca de três quartos da taxa de crescimento com drawdowns muito menores.</li>
+<li>Kelly é tão bom quanto a sua estimativa de probabilidade; superestimar a vantagem leva diretamente a apostar demais.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#o-que-o-kelly-maximiza">O que o Kelly maximiza</a></li><li><a href="#a-f-rmula-para-apostas-bin-rias">A fórmula para apostas binárias</a></li><li><a href="#kelly-para-contratos-de-mercados-de-previs-o">Kelly para contratos de mercados de previsão</a></li><li><a href="#a-forma-cont-nua">A forma contínua</a></li><li><a href="#por-que-os-traders-usam-kelly-fracionado">Por que os traders usam Kelly fracionado</a></li><li><a href="#kelly-com-v-rias-posi-es">Kelly com várias posições</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="o-que-o-kelly-maximiza">O que o Kelly maximiza</h2>
+<p>O dimensionamento de Kelly maximiza o logaritmo esperado do patrimônio, o que equivale a maximizar a taxa de crescimento composto no longo prazo. Ele não maximiza o lucro esperado da próxima aposta. Uma estratégia que maximizasse o lucro esperado apostaria tudo em cada oportunidade favorável e acabaria quebrando depois de uma única perda.</p>
+<p>As propriedades principais são:</p>
+<ul>
+<li>Sem vantagem, a fração de Kelly é zero: não aposte.</li>
+<li>Quanto maior a vantagem em relação ao pagamento, mais você aposta.</li>
+<li>O Kelly nunca aposta a banca inteira, a menos que o ganho seja certo, então um apostador de Kelly com fração fixa, em teoria, nunca chega exatamente a zero.</li>
+</ul>
+<h2 id="a-f-rmula-para-apostas-bin-rias">A fórmula para apostas binárias</h2>
+<p>Para uma aposta que ganha b unidades por unidade apostada ou perde o valor apostado:</p>
+<p><em><em>f</em> = p − q ÷ b</em>*</p>
+<p>ou, de forma equivalente, <em><em>f</em> = (b × p − q) ÷ b</em>*, que pode ser lida como &quot;lucro esperado por unidade apostada, dividido pelas odds de pagamento&quot;.</p>
+<ul>
+<li>p = probabilidade de ganhar</li>
+<li>q = 1 − p = probabilidade de perder</li>
+<li>b = odds líquidas (lucro por $1 arriscado em caso de ganho)</li>
+</ul>
+<h3 id="exemplo-1-aposta-com-pagamento-de-1-para-1">Exemplo 1: aposta com pagamento de 1 para 1</h3>
+<p>Você tem uma aposta que paga 1 para 1 (b = 1) e ganha 60 por cento das vezes.</p>
+<p>f* = 0.60 − 0.40 ÷ 1 = <strong>0.20</strong>, então aposte 20 por cento da banca a cada vez.</p>
+<p>Veja como a taxa de crescimento de longo prazo por aposta muda conforme a fração apostada:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fração apostada</th>
+<th>Crescimento de longo prazo por aposta (aprox.)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5%</td>
+<td>+0.9%</td>
+</tr>
+<tr>
+<td>10% (meio Kelly)</td>
+<td>+1.5%</td>
+</tr>
+<tr>
+<td>20% (Kelly cheio)</td>
+<td>+2.0%</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>+1.5%</td>
+</tr>
+<tr>
+<td>40% (Kelly dobrado)</td>
+<td>−0.2%</td>
+</tr>
+</tbody></table></div>
+<p>A taxa de crescimento aqui é o crescimento logarítmico esperado, 0.6 × ln(1 + f) + 0.4 × ln(1 − f), que se aproxima da taxa composta típica por aposta. Duas coisas chamam a atenção. Meio Kelly abre mão de apenas cerca de um quarto do crescimento. E o Kelly dobrado, com a mesma vantagem de 60 por cento, produz crescimento levemente negativo: apostar demais pode transformar uma vantagem vencedora num resultado perdedor.</p>
+<h2 id="kelly-para-contratos-de-mercados-de-previs-o">Kelly para contratos de mercados de previsão</h2>
+<p>Num contrato de evento binário que paga $1 se o evento acontecer, comprar SIM ao preço c significa arriscar c para ganhar 1 − c. As odds líquidas são b = (1 − c) ÷ c. Substituindo na fórmula, chega-se a um resultado simples:</p>
+<p><em><em>f</em> = (p − c) ÷ (1 − c)</em>*</p>
+<p>em que p é a sua estimativa da probabilidade real.</p>
+<h3 id="exemplo-2-comprando-sim">Exemplo 2: comprando SIM</h3>
+<p>Um contrato é negociado a $0.40. Depois de uma pesquisa cuidadosa, você acredita que a probabilidade real é de 55 por cento.</p>
+<ul>
+<li>b = 0.60 ÷ 0.40 = 1.5</li>
+<li>f* = 0.55 − 0.45 ÷ 1.5 = 0.55 − 0.30 = <strong>0.25</strong></li>
+<li>Conferindo com o atalho: (0.55 − 0.40) ÷ (1 − 0.40) = 0.15 ÷ 0.60 = 0.25</li>
+</ul>
+<p>O Kelly cheio manda apostar 25 por cento da banca. Com uma banca de $2,000, isso dá $500, ou 1,250 contratos a $0.40. Meio Kelly seria $250, ou 625 contratos.</p>
+<h3 id="exemplo-3-comprando-n-o">Exemplo 3: comprando NÃO</h3>
+<p>O lado SIM é negociado a $0.70, então o NÃO custa cerca de $0.30. Você acredita que a probabilidade real do SIM é de apenas 60 por cento, então o NÃO tem 40 por cento de chance.</p>
+<p>Aplicando o mesmo atalho ao contrato NÃO: f* = (0.40 − 0.30) ÷ (1 − 0.30) = 0.10 ÷ 0.70 ≈ <strong>0.143</strong>, ou cerca de 14 por cento da banca.</p>
+<p>Esses exemplos ignoram taxas e spread. As taxas reduzem o pagamento efetivo, então desconte-as antes de calcular b, ou a fórmula vai superestimar a aposta. Precificação, spread e efeito das taxas são tratados em <a href="/pt/encyclopedia/prediction-markets/prediction-market-pricing/">precificação em mercados de previsão</a>. Repare também que 25 por cento da banca em um único evento é uma aposta enorme pelos padrões da maioria dos traders, o que leva ao principal problema do Kelly.</p>
+<h2 id="a-forma-cont-nua">A forma contínua</h2>
+<p>Para um investimento com uma faixa contínua de retornos, como um índice de ações, uma aproximação comum é:</p>
+<p><em><em>f</em> = (μ − r) ÷ σ²</em>*</p>
+<p>em que μ é o retorno anual esperado, r é a taxa livre de risco e σ é a volatilidade anual (desvio-padrão dos retornos).</p>
+<h3 id="exemplo-4-uma-posi-o-alavancada-em-ndice">Exemplo 4: uma posição alavancada em índice</h3>
+<p>Suponha que você espere que um ativo renda 8 por cento ao ano acima da taxa livre de risco, com volatilidade anual de 20 por cento.</p>
+<ul>
+<li>f* = 0.08 ÷ 0.20² = 0.08 ÷ 0.04 = <strong>2.0</strong></li>
+</ul>
+<p>O Kelly cheio manda manter 200 por cento do seu capital no ativo, usando alavancagem de 2x. Sob as premissas do modelo, a taxa de crescimento excedente com Kelly cheio é (μ − r)² ÷ (2σ²) = 0.0064 ÷ 0.08 = 8 por cento ao ano. Com meio Kelly (1x, sem alavancagem), o crescimento excedente é de 6 por cento, ou 75 por cento do máximo, com metade da volatilidade. Com Kelly dobrado (4x), o crescimento excedente cai a zero.</p>
+<p>O modelo supõe que os retornos têm distribuição aproximadamente normal e que os parâmetros são conhecidos. Os mercados reais têm caudas gordas e gaps repentinos, o que torna as posições alavancadas pelo Kelly mais arriscadas do que a fórmula sugere. Veja <a href="/pt/encyclopedia/risk-management/leverage-risk-and-black-swans/">risco de alavancagem e cisnes negros</a>.</p>
+<h2 id="por-que-os-traders-usam-kelly-fracionado">Por que os traders usam Kelly fracionado</h2>
+<h3 id="erro-de-estimativa">Erro de estimativa</h3>
+<p>O maior problema é que p, ou μ e σ, são estimativas. Num jogo de cassino, as probabilidades são conhecidas. No trading, elas são supostas a partir de dados ou de julgamento, e os traders tendem a superestimar a própria vantagem.</p>
+<p>No exemplo contínuo, suponha que o retorno excedente real seja de 4 por cento, e não de 8 por cento. O Kelly verdadeiro passa a ser 1.0, então o trader que mantém 2.0 está em Kelly dobrado, e seu crescimento excedente esperado é de aproximadamente zero, enquanto ele continua sofrendo grandes oscilações.</p>
+<p>No caso binário, suponha que você acredite que um contrato cotado a $0.50 tem 55 por cento de chance, então o Kelly manda apostar 10 por cento. Se a probabilidade real for de 50 por cento, você não tem vantagem nenhuma, e apostar 10 por cento a cada vez produz um crescimento logarítmico esperado de cerca de −0.5 por cento por aposta. O excesso de confiança na própria vantagem, discutido em <a href="/pt/encyclopedia/psychology/cognitive-biases-in-trading/">vieses cognitivos no trading</a>, se traduz diretamente em apostar demais.</p>
+<p>Vantagens encontradas vasculhando muitos backtests têm uma probabilidade especialmente alta de estarem infladas. Veja <a href="/pt/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">overfitting e data snooping</a>.</p>
+<h3 id="drawdowns">Drawdowns</h3>
+<p>Mesmo com a vantagem estimada corretamente, o Kelly cheio é uma viagem turbulenta. Sob premissas contínuas idealizadas, quem aposta Kelly cheio tem cerca de 50 por cento de chance de ver a banca cair à metade em algum momento. Com meio Kelly, a chance de a banca cair à metade cai para cerca de 12.5 por cento. Pouca gente consegue manter uma estratégia durante um drawdown de 50 por cento, e o artigo <a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">drawdown e risco de ruína</a> mostra como a recuperação fica difícil rapidamente.</p>
+<h3 id="kelly-fracionado-na-pr-tica">Kelly fracionado na prática</h3>
+<p>Muitos apostadores e traders profissionais usam de um quarto a meio Kelly, ou simplesmente tratam a fração de Kelly como um máximo que nunca deve ser ultrapassado. Como a curva de crescimento é achatada perto do pico e cai rapidamente depois dele, apostar menos que o Kelly custa pouco crescimento, enquanto apostar mais custa muito. Essa assimetria, somada ao erro de estimativa, faz do subdimensionamento o erro mais seguro.</p>
+<h2 id="kelly-com-v-rias-posi-es">Kelly com várias posições</h2>
+<p>As fórmulas simples supõem uma aposta de cada vez. Quando várias posições estão abertas ao mesmo tempo, especialmente correlacionadas, aplicar o Kelly cheio a cada uma leva a uma exposição total excessiva. Um dimensionamento de Kelly multiativos adequado exige uma estimativa das correlações, o que acrescenta mais uma fonte de erro. Uma abordagem prática é limitar a exposição total e tratar posições correlacionadas como uma única aposta. Veja <a href="/pt/encyclopedia/risk-management/correlation-and-portfolio-risk/">correlação e risco de carteira</a>.</p>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Usar uma taxa de acerto otimista na fórmula.</strong> Uma superestimativa de poucos pontos percentuais pode dobrar a aposta recomendada.</li>
+<li><strong>Ignorar taxas e spreads,</strong> que reduzem o pagamento real e a vantagem real.</li>
+<li><strong>Aplicar o Kelly cheio a todas as posições ao mesmo tempo,</strong> criando uma exposição combinada grande.</li>
+<li><strong>Usar Kelly em estratégias com perdas desconhecidas ou ilimitadas,</strong> como posições que podem abrir com gap muito além do stop.</li>
+<li><strong>Tratar o Kelly como meta, e não como teto.</strong></li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="qual-a-f-rmula-do-crit-rio-de-kelly">Qual é a fórmula do critério de Kelly?</h3>
+<p>Para uma aposta que paga b para 1 com probabilidade de ganho p, a fração de Kelly é f* = p − (1 − p) ÷ b. Por exemplo, 60 por cento de chance com pagamento de 1 para 1 dá 0.60 − 0.40 = 0.20, ou 20 por cento da banca. Para retornos contínuos, uma aproximação é o retorno excedente dividido pela variância.</p>
+<h3 id="por-que-usar-meio-kelly-em-vez-de-kelly-cheio">Por que usar meio Kelly em vez de Kelly cheio?</h3>
+<p>Meio Kelly mantém aproximadamente 75 por cento da taxa de crescimento de longo prazo com cerca de metade da volatilidade e drawdowns muito mais rasos. Ele também protege contra o problema comum de superestimar a própria vantagem, que pode levar quem usa Kelly cheio a apostar demais.</p>
+<h3 id="como-usar-o-kelly-em-mercados-de-previs-o">Como usar o Kelly em mercados de previsão?</h3>
+<p>Se você compra um contrato ao preço c e acredita que sua probabilidade real é p, a fração de Kelly é (p − c) ÷ (1 − c). Comprar a $0.40 acreditando em 55 por cento dá 0.15 ÷ 0.60 = 25 por cento da banca. A maioria dos traders usa uma fração disso e desconta as taxas antes.</p>
+<h3 id="o-crit-rio-de-kelly-pode-perder-dinheiro">O critério de Kelly pode perder dinheiro?</h3>
+<p>Sim. O Kelly só maximiza o crescimento de longo prazo se as suas estimativas de probabilidade estiverem corretas. Com uma vantagem superestimada, ou simplesmente com azar num período curto, quem aposta pelo Kelly pode sofrer grandes drawdowns ou perdas.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/risk-management/position-sizing/"><div class="k">Gestão de risco e de capital</div><b>Dimensionamento de posição</b><span>Como calcular o tamanho da posição a partir do risco da conta e da distância do stop: fração fixa, valor fixo e ATR, com exemplos em ações, forex e cripto.</span></a><a class="card" href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">Gestão de risco e de capital</div><b>Drawdown e risco de ruína</b><span>O que é drawdown máximo, quanto é preciso ganhar para recuperar uma perda, a chance de sequências de perdas e como o tamanho da posição muda o risco de ruína.</span></a><a class="card" href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Gestão de risco e de capital</div><b>Risco/retorno e expectativa</b><span>Como múltiplos de R, taxa de acerto e payoff formam a expectativa matemática: fórmula, taxa de acerto de equilíbrio e por que acertar muito ainda pode perder.</span></a><a class="card" href="/pt/encyclopedia/prediction-markets/prediction-market-pricing/"><div class="k">Mercados de previsão</div><b>Preço e probabilidade</b><span>Como o preço num mercado de previsão vira probabilidade, por que SIM e NÃO somam $1, overround, conversão de odds, taxas, valor do tempo e viés do azarão.</span></a><a class="card" href="/pt/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Trading algorítmico e quantitativo</div><b>Overfitting</b><span>Por que ótimos backtests fracassam ao vivo: sobreajuste, testes múltiplos, parâmetros instáveis, deflated Sharpe ratio e como evitar o overfitting.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><small>← Anterior</small>Drawdown e risco de ruína</a><a class="next" href="/pt/encyclopedia/risk-management/correlation-and-portfolio-risk/"><small>Próximo →</small>Correlação e risco de carteira</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

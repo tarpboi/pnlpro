@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>凯利公式在交易与下注中的应用：公式与实例 | PnL Profit</title>
+<meta name="description" content="二元下注的凯利公式及其连续形式，含预测市场合约等实例演算，并解释为什么大多数交易者只使用分数凯利（如半凯利）。">
+<meta name="keywords" content="凯利公式, 凯利准则, 分数凯利, 半凯利, 凯利公式 交易, 凯利公式 预测市场">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="凯利公式在交易与下注中的应用：公式与实例 | PnL Profit">
+<meta property="og:description" content="二元下注的凯利公式及其连续形式，含预测市场合约等实例演算，并解释为什么大多数交易者只使用分数凯利（如半凯利）。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/risk-management/kelly-criterion/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="凯利公式在交易与下注中的应用：公式与实例 | PnL Profit">
+<meta name="twitter:description" content="二元下注的凯利公式及其连续形式，含预测市场合约等实例演算，并解释为什么大多数交易者只使用分数凯利（如半凯利）。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"凯利公式在交易与下注中的应用：公式与实例","description":"二元下注的凯利公式及其连续形式，含预测市场合约等实例演算，并解释为什么大多数交易者只使用分数凯利（如半凯利）。","keywords":"凯利公式, 凯利准则, 分数凯利, 半凯利, 凯利公式 交易, 凯利公式 预测市场","articleSection":"风险与资金管理","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/risk-management/kelly-criterion/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"风险与资金管理","item":"https://pnlpro.fit/zh/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"凯利公式","item":"https://pnlpro.fit/zh/encyclopedia/risk-management/kelly-criterion/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"凯利公式是什么？","acceptedAnswer":{"@type":"Answer","text":"对于一个b赔1、获胜概率为p的下注，凯利比例为f = p − (1 − p) ÷ b。例如，在等额赔付下有60%的胜率，得出0.60 − 0.40 = 0.20，即资金的20%。对于连续收益，近似公式是超额收益除以方差。"}},{"@type":"Question","name":"为什么用半凯利而不是全凯利？","acceptedAnswer":{"@type":"Answer","text":"半凯利能保留约75%的长期增长率，而波动率只有大约一半，回撤也浅得多。它还能防范高估自身优势这一常见问题，而这个问题可能让全凯利下注者陷入过度下注。"}},{"@type":"Question","name":"如何在预测市场中使用凯利公式？","acceptedAnswer":{"@type":"Answer","text":"如果你以价格c买入一份合约，并认为它的真实概率为p，凯利比例就是(p − c) ÷ (1 − c)。以$0.40买入、你认为概率为55%，得出0.15 ÷ 0.60 = 资金的25%。大多数交易者只会使用其中一部分，并且先扣除手续费再计算。"}},{"@type":"Question","name":"凯利公式会亏钱吗？","acceptedAnswer":{"@type":"Answer","text":"会。只有在你的概率估计正确时，凯利公式才能最大化长期增长。如果高估了优势，或者只是在短期内运气不好，凯利下注者也可能遭受大幅回撤或亏损。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/risk-management/kelly-criterion/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/kelly-criterion/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/risk-management/kelly-criterion/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/kelly-criterion/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/kelly-criterion/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/kelly-criterion/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/kelly-criterion/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/kelly-criterion/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/risk-management/kelly-criterion/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>风险与资金管理</h3><ul><li><a href="/zh/encyclopedia/risk-management/risk-management-fundamentals/">风险管理基础</a></li><li><a href="/zh/encyclopedia/risk-management/position-sizing/">仓位管理</a></li><li><a href="/zh/encyclopedia/risk-management/stop-loss-strategies/">止损策略</a></li><li><a href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/">盈亏比与期望值</a></li><li><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">回撤与破产风险</a></li><li><a href="/zh/encyclopedia/risk-management/kelly-criterion/" class="on" aria-current="page">凯利公式</a></li><li><a href="/zh/encyclopedia/risk-management/correlation-and-portfolio-risk/">相关性与组合风险</a></li><li><a href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/">杠杆风险与黑天鹅</a></li><li><a href="/zh/encyclopedia/risk-management/trading-plan/">制定交易计划</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/" class="on">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/risk-management/">风险与资金管理</a></div>
+<h1 class="title">凯利公式</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>风险与资金管理中的更多文章</summary><ul><li><a href="/zh/encyclopedia/risk-management/risk-management-fundamentals/">风险管理基础</a></li><li><a href="/zh/encyclopedia/risk-management/position-sizing/">仓位管理</a></li><li><a href="/zh/encyclopedia/risk-management/stop-loss-strategies/">止损策略</a></li><li><a href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/">盈亏比与期望值</a></li><li><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">回撤与破产风险</a></li><li><a href="/zh/encyclopedia/risk-management/kelly-criterion/" class="on" aria-current="page">凯利公式</a></li><li><a href="/zh/encyclopedia/risk-management/correlation-and-portfolio-risk/">相关性与组合风险</a></li><li><a href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/">杠杆风险与黑天鹅</a></li><li><a href="/zh/encyclopedia/risk-management/trading-plan/">制定交易计划</a></li></ul></details>
+<article><p>凯利公式（Kelly criterion）用于决定在一个具有正优势的机会上应投入多大比例的资金，使财富的长期增长尽可能快。它由贝尔实验室的John L. Kelly Jr.于1956年发表，后来被Edward Thorp应用于二十一点和投资。作为理论指南，它备受推崇；但在交易中，它对优势估计的误差极为敏感，因此大多数从业者只按它建议比例的一部分下注。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点速览</h2>
+<ul>
+<li>对于简单的输赢下注，凯利比例为f* = p − q ÷ b，其中p是获胜概率，q = 1 − p，b是每单位本金的净赔付。</li>
+<li>对于以价格c买入、你认为真实概率为p的二元合约，凯利比例可简化为(p − c) ÷ (1 − c)。</li>
+<li>下注超过凯利比例会降低长期增长；下注约为凯利的两倍，可能让增长降到约为零甚至为负。</li>
+<li>半凯利能保留约四分之三的增长率，回撤则小得多。</li>
+<li>凯利公式的好坏完全取决于你的概率估计；高估优势会直接导致过度下注。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">凯利公式最大化的是什么</a></li><li><a href="#section-3">二元下注的公式</a></li><li><a href="#section-5">预测市场合约中的凯利公式</a></li><li><a href="#section-8">连续形式</a></li><li><a href="#section-10">为什么交易者使用分数凯利</a></li><li><a href="#section-14">多个仓位时的凯利公式</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">凯利公式最大化的是什么</h2>
+<p>凯利仓位法最大化的是财富对数的期望值，这等同于最大化长期复合增长率。它并不最大化下一次下注的期望利润。一个只追求期望利润最大化的策略，会在每个有利机会上押上全部身家，最终只要输一次就会破产。</p>
+<p>它的关键特性是：</p>
+<ul>
+<li>没有优势时，凯利比例为零：不要下注。</li>
+<li>优势相对于赔付越大，下注越多。</li>
+<li>除非稳赢，凯利永远不会押上全部资金，因此从理论上讲，按固定比例下注的凯利下注者永远不会真正归零。</li>
+</ul>
+<h2 id="section-3">二元下注的公式</h2>
+<p>对于每单位本金要么赢b个单位、要么输掉本金的下注：</p>
+<p><em><em>f</em> = p − q ÷ b</em>*</p>
+<p>或者等价地写成 <em><em>f</em> = (b × p − q) ÷ b</em>*，可以理解为“每单位本金的期望利润除以赔率”。</p>
+<ul>
+<li>p = 获胜概率</li>
+<li>q = 1 − p = 失败概率</li>
+<li>b = 净赔率（赢时每冒$1风险获得的利润）</li>
+</ul>
+<h3 id="1">例1：等额赔付的下注</h3>
+<p>你有一个1赔1（b = 1）、胜率60%的下注。</p>
+<p>f* = 0.60 − 0.40 ÷ 1 = <strong>0.20</strong>，即每次下注资金的20%。</p>
+<p>下表显示每次下注的长期增长率如何随下注比例变化：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>下注比例</th>
+<th>每次下注的长期增长（约）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5%</td>
+<td>+0.9%</td>
+</tr>
+<tr>
+<td>10%（半凯利）</td>
+<td>+1.5%</td>
+</tr>
+<tr>
+<td>20%（全凯利）</td>
+<td>+2.0%</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>+1.5%</td>
+</tr>
+<tr>
+<td>40%（双倍凯利）</td>
+<td>−0.2%</td>
+</tr>
+</tbody></table></div>
+<p>这里的增长率是对数增长的期望值，即0.6 × ln(1 + f) + 0.4 × ln(1 − f)，它近似于每次下注的典型复合增长率。有两点值得注意。半凯利只损失了约四分之一的增长。而双倍凯利在同样60%的优势下，增长率却略为负值：过度下注可以把一个能赢的优势变成亏损的结果。</p>
+<h2 id="section-5">预测市场合约中的凯利公式</h2>
+<p>对于一份事件发生时支付$1的二元事件合约，以价格c买入YES，意味着冒c的风险去赢1 − c。净赔率为b = (1 − c) ÷ c。代入公式后得到一个简单的结果：</p>
+<p><em><em>f</em> = (p − c) ÷ (1 − c)</em>*</p>
+<p>其中p是你对真实概率的估计。</p>
+<h3 id="2-yes">例2：买入YES</h3>
+<p>一份合约的交易价格为$0.40。经过仔细研究，你认为真实概率是55%。</p>
+<ul>
+<li>b = 0.60 ÷ 0.40 = 1.5</li>
+<li>f* = 0.55 − 0.45 ÷ 1.5 = 0.55 − 0.30 = <strong>0.25</strong></li>
+<li>用简化公式验证：(0.55 − 0.40) ÷ (1 − 0.40) = 0.15 ÷ 0.60 = 0.25</li>
+</ul>
+<p>全凯利建议投入资金的25%。如果资金为$2,000，那就是$500，即以$0.40买入1,250份合约。半凯利则为$250，即625份合约。</p>
+<h3 id="3-no">例3：买入NO</h3>
+<p>YES一方的交易价格为$0.70，所以NO的价格约为$0.30。你认为YES的真实概率只有60%，因此NO有40%的概率。</p>
+<p>对NO合约使用同样的简化公式：f* = (0.40 − 0.30) ÷ (1 − 0.30) = 0.10 ÷ 0.70 ≈ <strong>0.143</strong>，即约为资金的14%。</p>
+<p>这些例子没有考虑手续费和点差。手续费会降低实际赔付，所以要在计算b之前先扣除，否则公式会高估下注规模。定价、点差和手续费的影响见<a href="/zh/encyclopedia/prediction-markets/prediction-market-pricing/">预测市场定价</a>。另外要注意，按大多数交易者的标准，在单一事件上投入25%的资金是非常大的一注，这就引出了凯利公式的主要问题。</p>
+<h2 id="section-8">连续形式</h2>
+<p>对于收益连续分布的投资，例如股票指数，常用的近似公式为：</p>
+<p><em><em>f</em> = (μ − r) ÷ σ²</em>*</p>
+<p>其中μ是预期年化收益率，r是无风险利率，σ是年化波动率（收益率的标准差）。</p>
+<h3 id="4">例4：带杠杆的指数仓位</h3>
+<p>假设你预期某资产每年的收益率比无风险利率高8%，年化波动率为20%。</p>
+<ul>
+<li>f* = 0.08 ÷ 0.20² = 0.08 ÷ 0.04 = <strong>2.0</strong></li>
+</ul>
+<p>全凯利建议把资金的200%投入该资产，即使用2倍杠杆。在模型假设下，全凯利的超额增长率为(μ − r)² ÷ (2σ²) = 0.0064 ÷ 0.08 = 每年8%。半凯利（1倍，不加杠杆）的超额增长率为6%，即最大值的75%，而波动率只有一半。双倍凯利（4倍）时，超额增长率降为零。</p>
+<p>该模型假设收益率大致服从正态分布，并且参数已知。真实市场存在肥尾和突然跳空，这使得带杠杆的凯利仓位比公式显示的更危险。见<a href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/">杠杆风险与黑天鹅</a>。</p>
+<h2 id="section-10">为什么交易者使用分数凯利</h2>
+<h3 id="section-11">估计误差</h3>
+<p>最大的问题在于，p或者μ和σ都是估计值。在赌场游戏中，赔率是已知的；在交易中，赔率是根据数据或判断猜出来的，而交易者往往会高估自己的优势。</p>
+<p>在连续形式的例子中，假设真实超额收益是4%而不是8%。那么真实的凯利比例是1.0，持有2.0的交易者实际上处于双倍凯利，他们的期望超额增长约为零，却仍要承受大幅波动。</p>
+<p>在二元情形中，假设你认为一份定价$0.50的合约有55%的概率，于是凯利建议下注10%。如果真实概率是50%，你就没有任何优势，而每次下注10%会产生每次约−0.5%的期望对数增长。对优势的过度自信（见<a href="/zh/encyclopedia/psychology/cognitive-biases-in-trading/">交易中的认知偏差</a>）会直接转化为过度下注。</p>
+<p>通过在大量回测中搜寻而找到的优势，尤其容易被高估。见<a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过度拟合与数据窥探</a>。</p>
+<h3 id="section-12">回撤</h3>
+<p>即使优势估计正确，全凯利的过程也相当颠簸。在理想化的连续假设下，全凯利下注者在某个时刻看到资金腰斩的概率约为50%。在半凯利下，腰斩的概率降至约12.5%。很少有人能在50%的回撤中坚持一个策略，而<a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">回撤与破产风险</a>一文显示了回本难度上升得有多快。</p>
+<h3 id="section-13">分数凯利的实际运用</h3>
+<p>许多职业下注者和交易者会使用四分之一到二分之一凯利，或者干脆把凯利比例当作绝不能超过的上限。由于增长曲线在峰值附近很平坦、越过峰值后急剧下降，下注少于凯利只损失很少的增长，而下注多于凯利则代价巨大。这种不对称性加上估计误差，使得仓位偏小成为更安全的错误。</p>
+<h2 id="section-14">多个仓位时的凯利公式</h2>
+<p>简单公式假设一次只下一注。当同时持有多个仓位，尤其是相关的仓位时，对每个仓位都用全凯利，会导致总敞口过大。真正的多资产凯利仓位法需要估计相关性，这又增加了一个误差来源。一个实用的方法是限制总敞口，并把相关的仓位视为同一注。见<a href="/zh/encyclopedia/risk-management/correlation-and-portfolio-risk/">相关性与组合风险</a>。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>代入过于乐观的胜率。</strong> 高估几个百分点，就可能让建议的下注翻倍。</li>
+<li><strong>忽视手续费和点差，</strong> 它们会降低真实赔付和真实优势。</li>
+<li><strong>同时对每个仓位都用全凯利，</strong> 造成巨大的合计敞口。</li>
+<li><strong>对亏损未知或无上限的策略使用凯利公式，</strong> 例如可能跳空远远越过止损的仓位。</li>
+<li><strong>把凯利比例当作目标，而不是上限。</strong></li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-17">凯利公式是什么？</h3>
+<p>对于一个b赔1、获胜概率为p的下注，凯利比例为f* = p − (1 − p) ÷ b。例如，在等额赔付下有60%的胜率，得出0.60 − 0.40 = 0.20，即资金的20%。对于连续收益，近似公式是超额收益除以方差。</p>
+<h3 id="section-18">为什么用半凯利而不是全凯利？</h3>
+<p>半凯利能保留约75%的长期增长率，而波动率只有大约一半，回撤也浅得多。它还能防范高估自身优势这一常见问题，而这个问题可能让全凯利下注者陷入过度下注。</p>
+<h3 id="section-19">如何在预测市场中使用凯利公式？</h3>
+<p>如果你以价格c买入一份合约，并认为它的真实概率为p，凯利比例就是(p − c) ÷ (1 − c)。以$0.40买入、你认为概率为55%，得出0.15 ÷ 0.60 = 资金的25%。大多数交易者只会使用其中一部分，并且先扣除手续费再计算。</p>
+<h3 id="section-20">凯利公式会亏钱吗？</h3>
+<p>会。只有在你的概率估计正确时，凯利公式才能最大化长期增长。如果高估了优势，或者只是在短期内运气不好，凯利下注者也可能遭受大幅回撤或亏损。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/risk-management/position-sizing/"><div class="k">风险与资金管理</div><b>仓位管理</b><span>如何根据账户风险和止损距离计算仓位大小：固定比例、固定金额与ATR仓位法，附股票、外汇和加密货币的实例演算。</span></a><a class="card" href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">风险与资金管理</div><b>回撤与破产风险</b><span>什么是最大回撤、亏损后需要涨多少才能回本、连续亏损有多常见，以及仓位大小如何改变破产风险，附数据表。</span></a><a class="card" href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">风险与资金管理</div><b>盈亏比与期望值</b><span>R倍数、胜率和盈亏比如何共同决定交易期望值：计算公式、保本胜率表，以及为什么高胜率的策略照样可能亏钱。</span></a><a class="card" href="/zh/encyclopedia/prediction-markets/prediction-market-pricing/"><div class="k">预测市场</div><b>定价与概率</b><span>预测市场价格如何对应概率，YES 和 NO 为何相加等于 $1，抽水（overround），赔率换算，手续费，时间价值和冷门偏差，附计算实例。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">算法与量化交易</div><b>过拟合</b><span>为什么大多数漂亮的回测在实盘中失效：曲线拟合、多重检验、参数不稳定与紧缩夏普比率，以及避免过拟合的方法。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><small>← 上一篇</small>回撤与破产风险</a><a class="next" href="/zh/encyclopedia/risk-management/correlation-and-portfolio-risk/"><small>下一篇 →</small>相关性与组合风险</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

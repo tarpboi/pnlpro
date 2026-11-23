@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Custos e taxas de trading: o peso oculto em cada operação | PnL Profit</title>
+<meta name="description" content="Corretagem, spread, taxas maker/taker, swap, funding, aluguel, PFOF, gas, slippage e impostos, com um exemplo prático de como os custos se acumulam em escala.">
+<meta name="keywords" content="custos de trading, taxas de corretagem, taxa maker taker, swap overnight, pagamento por fluxo de ordens, custos ocultos ao operar">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Custos e taxas de trading: o peso oculto em cada operação | PnL Profit">
+<meta property="og:description" content="Corretagem, spread, taxas maker/taker, swap, funding, aluguel, PFOF, gas, slippage e impostos, com um exemplo prático de como os custos se acumulam em escala.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/basics/trading-costs-and-fees/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Custos e taxas de trading: o peso oculto em cada operação | PnL Profit">
+<meta name="twitter:description" content="Corretagem, spread, taxas maker/taker, swap, funding, aluguel, PFOF, gas, slippage e impostos, com um exemplo prático de como os custos se acumulam em escala.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Custos e taxas de trading: o peso oculto em cada operação","description":"Corretagem, spread, taxas maker/taker, swap, funding, aluguel, PFOF, gas, slippage e impostos, com um exemplo prático de como os custos se acumulam em escala.","keywords":"custos de trading, taxas de corretagem, taxa maker taker, swap overnight, pagamento por fluxo de ordens, custos ocultos ao operar","articleSection":"Fundamentos do trading","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/basics/trading-costs-and-fees/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Fundamentos do trading","item":"https://pnlpro.fit/pt/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"Custos e taxas de trading","item":"https://pnlpro.fit/pt/encyclopedia/basics/trading-costs-and-fees/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Operar com corretagem zero é mesmo de graça?","acceptedAnswer":{"@type":"Answer","text":"Não. Corretoras que não cobram corretagem continuam ganhando dinheiro com o spread, o pagamento por fluxo de ordens, os juros sobre o caixa, o empréstimo de margem, a conversão de moedas e outras taxas. Você também paga custos de mercado, como o slippage."}},{"@type":"Question","name":"O que são taxas maker e taker?","acceptedAnswer":{"@type":"Answer","text":"A taxa maker se aplica a uma ordem que fica parada no book e adiciona liquidez. A taxa taker se aplica a uma ordem que é executada imediatamente contra ordens existentes. As taxas maker costumam ser menores."}},{"@type":"Question","name":"O que é a taxa de swap overnight?","acceptedAnswer":{"@type":"Answer","text":"É uma cobrança diária de financiamento, ou ocasionalmente um crédito, aplicada a posições alavancadas de forex, CFD e spread bet mantidas além do horário diário de rollover. Ela se baseia nas taxas de juros mais uma margem da corretora."}},{"@type":"Question","name":"Quanto os custos de trading afetam os lucros?","acceptedAnswer":{"@type":"Answer","text":"Depende da frequência das operações. Um custo de 0.1% por operação de ida e volta é pequeno para quem opera algumas vezes por mês, mas pode consumir a maior parte ou a totalidade do lucro bruto de quem opera dezenas de vezes por dia."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/basics/trading-costs-and-fees/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/trading-costs-and-fees/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/basics/trading-costs-and-fees/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/trading-costs-and-fees/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/trading-costs-and-fees/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/basics/trading-costs-and-fees/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/trading-costs-and-fees/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/trading-costs-and-fees/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/trading-costs-and-fees/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Fundamentos do trading</h3><ul><li><a href="/pt/encyclopedia/basics/what-is-trading/">O que é trading?</a></li><li><a href="/pt/encyclopedia/basics/financial-markets-overview/">Panorama dos mercados financeiros</a></li><li><a href="/pt/encyclopedia/basics/trading-styles/">Estilos de trading</a></li><li><a href="/pt/encyclopedia/basics/order-types/">Tipos de ordem</a></li><li><a href="/pt/encyclopedia/basics/order-book-and-market-depth/">Livro de ofertas e profundidade</a></li><li><a href="/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread e liquidez</a></li><li><a href="/pt/encyclopedia/basics/leverage-and-margin/">Alavancagem e margem</a></li><li><a href="/pt/encyclopedia/basics/long-and-short-positions/">Comprado e vendido</a></li><li><a href="/pt/encyclopedia/basics/trading-costs-and-fees/" class="on" aria-current="page">Custos e taxas de trading</a></li><li><a href="/pt/encyclopedia/basics/brokers-and-exchanges/">Corretoras e bolsas</a></li><li><a href="/pt/encyclopedia/basics/market-participants/">Participantes do mercado</a></li><li><a href="/pt/encyclopedia/basics/market-hours-and-sessions/">Horários e sessões do mercado</a></li><li><a href="/pt/encyclopedia/basics/how-to-start-trading/">Como começar no trading</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/" class="on">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/basics/">Fundamentos do trading</a></div>
+<h1 class="title">Custos e taxas de trading</h1>
+<div class="meta">9 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Fundamentos do trading</summary><ul><li><a href="/pt/encyclopedia/basics/what-is-trading/">O que é trading?</a></li><li><a href="/pt/encyclopedia/basics/financial-markets-overview/">Panorama dos mercados financeiros</a></li><li><a href="/pt/encyclopedia/basics/trading-styles/">Estilos de trading</a></li><li><a href="/pt/encyclopedia/basics/order-types/">Tipos de ordem</a></li><li><a href="/pt/encyclopedia/basics/order-book-and-market-depth/">Livro de ofertas e profundidade</a></li><li><a href="/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread e liquidez</a></li><li><a href="/pt/encyclopedia/basics/leverage-and-margin/">Alavancagem e margem</a></li><li><a href="/pt/encyclopedia/basics/long-and-short-positions/">Comprado e vendido</a></li><li><a href="/pt/encyclopedia/basics/trading-costs-and-fees/" class="on" aria-current="page">Custos e taxas de trading</a></li><li><a href="/pt/encyclopedia/basics/brokers-and-exchanges/">Corretoras e bolsas</a></li><li><a href="/pt/encyclopedia/basics/market-participants/">Participantes do mercado</a></li><li><a href="/pt/encyclopedia/basics/market-hours-and-sessions/">Horários e sessões do mercado</a></li><li><a href="/pt/encyclopedia/basics/how-to-start-trading/">Como começar no trading</a></li></ul></details>
+<article><p>Os custos de trading são tudo o que você paga para abrir, manter e encerrar posições, incluindo taxas visíveis, como a corretagem, e outras menos visíveis, como spreads, slippage, financiamento e impostos. Individualmente eles parecem pequenos, muitas vezes uma fração de um por cento. Multiplicados por centenas ou milhares de operações, frequentemente são a diferença entre uma estratégia lucrativa e uma perdedora. As estratégias de alta frequência do varejo são especialmente vulneráveis, porque o lucro esperado por operação muitas vezes é menor do que o custo por operação.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>Os custos se dividem em três grupos: custos para negociar (corretagem, spreads, taxas da bolsa, slippage), custos para manter a posição (swaps, funding, aluguel, juros de margem) e custos sobre os lucros (impostos).</li>
+<li>&quot;Corretagem zero&quot; não significa de graça; as corretoras ganham com spreads, pagamento por fluxo de ordens, financiamento e outras cobranças.</li>
+<li>As taxas maker, para ordens que adicionam liquidez, costumam ser menores do que as taxas taker, para ordens que a retiram.</li>
+<li>Manter posições alavancadas de um dia para o outro acrescenta custos de financiamento que crescem com o tempo.</li>
+<li>Quanto mais você opera, maior a vantagem que precisa ter por operação só para empatar.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#custos-para-negociar">Custos para negociar</a></li><li><a href="#custos-para-manter-a-posi-o">Custos para manter a posição</a></li><li><a href="#custos-sobre-os-lucros-o-peso-dos-impostos">Custos sobre os lucros: o peso dos impostos</a></li><li><a href="#resumo-dos-custos-mais-comuns">Resumo dos custos mais comuns</a></li><li><a href="#exemplo-pr-tico-como-os-custos-matam-uma-estrat-gia-de-alta-frequ-ncia-do-varejo">Exemplo prático: como os custos matam uma estratégia de alta frequência do varejo</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="custos-para-negociar">Custos para negociar</h2>
+<h3 id="corretagem">Corretagem</h3>
+<p>A corretagem (ou comissão) é uma taxa cobrada pela corretora por operação, por ação, por contrato ou como porcentagem do valor negociado. Muitas corretoras de ações nos EUA e em outros lugares hoje anunciam corretagem zero em ações e ETFs. Futuros e opções costumam ser cobrados por contrato, e algumas contas de forex cobram uma comissão fixa por lote em troca de spreads mais estreitos.</p>
+<h3 id="o-spread">O spread</h3>
+<p>Comprar no ask e vender no bid custa o <a href="/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/">spread entre compra e venda</a> em toda operação de ida e volta. Em contas só com spread, como muitas contas de forex e CFD para o varejo, é no spread que a corretora obtém a maior parte da receita, e ele costuma ser alargado além do spread do mercado subjacente.</p>
+<h3 id="taxas-maker-e-taker">Taxas maker e taker</h3>
+<p>Muitas bolsas, principalmente em cripto e em alguns mercados de previsão, cobram taxas diferentes conforme sua ordem adicione ou retire liquidez.</p>
+<ul>
+<li>Uma ordem <strong>maker</strong> fica parada no <a href="/pt/encyclopedia/basics/order-book-and-market-depth/">book de ofertas</a> esperando ser executada. As taxas maker são menores, às vezes zero, e algumas plataformas pagam um rebate.</li>
+<li>Uma ordem <strong>taker</strong> é executada imediatamente contra ordens paradas. As taxas taker são maiores.</li>
+</ul>
+<p>As tabelas de taxas costumam cair à medida que o volume mensal sobe, o que favorece os grandes traders profissionais.</p>
+<h3 id="taxas-da-bolsa-e-regulat-rias">Taxas da bolsa e regulatórias</h3>
+<p>Bolsas, câmaras de compensação e reguladores cobram pequenas taxas que as corretoras muitas vezes repassam. Nos EUA, por exemplo, as vendas de ações pagam uma pequena taxa de transação que financia a Securities and Exchange Commission, mais uma taxa de atividade de negociação da FINRA; as alíquotas são ajustadas periodicamente. Os futuros pagam taxas de bolsa e de compensação por contrato. As assinaturas de dados de mercado são outro custo recorrente para traders ativos.</p>
+<h3 id="pagamento-por-fluxo-de-ordens">Pagamento por fluxo de ordens</h3>
+<p>Algumas corretoras encaminham as ordens dos clientes para formadores de mercado atacadistas, que pagam à corretora pelo direito de executá-las. Isso se chama <strong>pagamento por fluxo de ordens (PFOF)</strong>. Os defensores dizem que ele financia a corretagem zero e muitas vezes gera preços um pouco melhores do que a cotação pública. Os críticos dizem que ele cria um conflito de interesses e pode deixar os clientes com preços piores do que conseguiriam em outro lugar. O PFOF é legal nos EUA, com exigências de divulgação, proibido no Reino Unido, e a UE adotou regras para eliminá-lo gradualmente; confira a situação atual no seu país.</p>
+<h3 id="taxas-de-gas">Taxas de gas</h3>
+<p>Nas blockchains, toda transação paga uma taxa de rede, conhecida como gas. Em algumas redes, as taxas são frações de centavo; em outras, podem chegar a vários dólares ou mais quando a rede está congestionada. Quem opera em corretoras descentralizadas também pode pagar taxas de prioridade ou gorjetas para que as transações sejam incluídas rapidamente, além da taxa de swap do pool.</p>
+<h3 id="slippage">Slippage</h3>
+<p>Slippage é a diferença entre o preço esperado e o preço de execução. É um custo real, ainda que ninguém mande uma fatura por ele. Ele cresce com o tamanho da ordem, a volatilidade e a falta de liquidez.</p>
+<h2 id="custos-para-manter-a-posi-o">Custos para manter a posição</h2>
+<h3 id="financiamento-overnight-e-swaps">Financiamento overnight e swaps</h3>
+<p>Posições alavancadas em CFDs, spread bets e forex de varejo pagam (ou, ocasionalmente, recebem) um valor diário de financiamento, muitas vezes chamado de swap ou rollover. Ele normalmente se baseia em uma taxa de juros de referência mais uma margem da corretora. Muitas corretoras de forex cobram swap triplo em um dia da semana para cobrir o fim de semana.</p>
+<p><strong>Exemplo:</strong> uma posição de CFD de $10,000 mantida por 30 dias a uma taxa anual de financiamento de 7% custa $10,000 x 7% x 30 / 365 = cerca de $57.53.</p>
+<h3 id="taxas-de-funding">Taxas de funding</h3>
+<p>Os futuros perpétuos de cripto usam <a href="/pt/encyclopedia/crypto/funding-rates/">pagamentos de funding</a> periódicos entre comprados e vendidos para manter o preço do contrato perto do preço à vista. Os intervalos costumam ser a cada 8 horas, embora algumas plataformas usem 1 hora. A uma taxa de 0.01% a cada 8 horas, uma posição de $10,000 paga $1 por intervalo, ou $3 por dia e cerca de $90 em 30 dias. As taxas podem ser muito maiores em tendências fortes.</p>
+<h3 id="taxa-de-aluguel-e-juros-de-margem">Taxa de aluguel e juros de margem</h3>
+<p>Quem vende a descoberto paga uma taxa para alugar as ações, que vai de bem menos de 1% ao ano, para ações amplamente disponíveis, a taxas muito altas para papéis difíceis de alugar. Também deve os dividendos pagos enquanto estiver vendido. Quem compra na margem paga juros sobre o valor emprestado. Veja <a href="/pt/encyclopedia/basics/long-and-short-positions/">posições compradas e vendidas</a>.</p>
+<h3 id="taxas-de-inatividade-saque-e-convers-o">Taxas de inatividade, saque e conversão</h3>
+<p>Algumas corretoras cobram por contas inativas, saques ou conversão de moedas. Uma taxa de conversão cambial em cada operação em um mercado estrangeiro pode se acumular silenciosamente.</p>
+<h2 id="custos-sobre-os-lucros-o-peso-dos-impostos">Custos sobre os lucros: o peso dos impostos</h2>
+<p>Os impostos reduzem o que você leva para casa. Em muitos países, os ganhos com trading de curto prazo são tributados a alíquotas maiores do que os ganhos de investimentos de longo prazo, e operar com frequência pode transformar o que seriam ganhos de longo prazo pouco tributados em ganhos de curto prazo muito tributados. As regras variam muito de país para país e mudam com o tempo. Veja <a href="/pt/encyclopedia/trading-business/trading-taxes-overview/">visão geral dos impostos sobre trading</a>.</p>
+<h2 id="resumo-dos-custos-mais-comuns">Resumo dos custos mais comuns</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Custo</th>
+<th>Quando é pago</th>
+<th>Mercados típicos</th>
+<th>Aparece no extrato?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Corretagem</td>
+<td>A cada operação</td>
+<td>Ações, futuros, opções, parte do forex</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Spread</td>
+<td>A cada operação de ida e volta</td>
+<td>Todos</td>
+<td>Normalmente não como item separado</td>
+</tr>
+<tr>
+<td>Taxa maker/taker</td>
+<td>A cada operação</td>
+<td>Cripto, mercados de previsão, alguns futuros</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Taxa de bolsa/regulatória</td>
+<td>A cada operação</td>
+<td>Ações, futuros, opções</td>
+<td>Muitas vezes</td>
+</tr>
+<tr>
+<td>Slippage</td>
+<td>A cada operação</td>
+<td>Todos</td>
+<td>Não</td>
+</tr>
+<tr>
+<td>Swap/financiamento</td>
+<td>A cada noite com a posição aberta</td>
+<td>CFDs, forex, spread bets</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Funding</td>
+<td>A cada intervalo de funding</td>
+<td>Perpétuos de cripto</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Taxa de aluguel</td>
+<td>Diariamente enquanto vendido</td>
+<td>Ações</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Gas</td>
+<td>A cada transação on-chain</td>
+<td>DeFi, meme coins</td>
+<td>Sim, on-chain</td>
+</tr>
+<tr>
+<td>Imposto</td>
+<td>Sobre ganhos realizados</td>
+<td>Todos</td>
+<td>À parte</td>
+</tr>
+</tbody></table></div>
+<h2 id="exemplo-pr-tico-como-os-custos-matam-uma-estrat-gia-de-alta-frequ-ncia-do-varejo">Exemplo prático: como os custos matam uma estratégia de alta frequência do varejo</h2>
+<p>Um trader com uma conta de $10,000 faz scalping em um perpétuo de cripto, negociando $10,000 de valor nocional por operação (alavancagem efetiva de 1x). Considere estes custos ilustrativos, dentro da faixa vista nas grandes corretoras:</p>
+<ul>
+<li>Taxa taker: 0.05% em cada ponta, então 0.10% por operação de ida e volta = $10</li>
+<li>Spread e slippage: 0.02% por operação de ida e volta = $2</li>
+<li>Custo total por operação de ida e volta: $12</li>
+</ul>
+<p>O trader faz 20 operações de ida e volta por dia, todos os dias, já que cripto é negociada 24/7.</p>
+<ul>
+<li>Custo diário: 20 x $12 = $240</li>
+<li>Custo mensal (30 dias): $240 x 30 = $7,200</li>
+<li>Em relação à conta: $7,200 / $10,000 = 72% ao mês</li>
+</ul>
+<p>Para empatar, a estratégia precisa obter um lucro bruto de mais de 0.12% por operação em média, já considerando as operações perdedoras. É uma exigência alta em um mercado em que empresas profissionais, com taxas menores e conexões mais rápidas, disputam os mesmos movimentos pequenos. Usar ordens limitadas que paguem taxa maker e operar menos ajudam, mas a lição continua valendo: na alta frequência, os custos muitas vezes são maiores do que a vantagem.</p>
+<p>Compare com um swing trader que faz 4 operações de ida e volta por mês com o mesmo custo de $12: $48 por mês, ou 0.48% da conta. A mesma estrutura de custos é um peso pequeno para um estilo e fatal para outro. Veja <a href="/pt/encyclopedia/basics/trading-styles/">estilos de trading</a>.</p>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Julgar uma corretora só pela corretagem.</strong> Spreads, financiamento e qualidade de execução muitas vezes importam mais.</li>
+<li><strong>Ignorar os custos nos backtests.</strong> Uma estratégia que parece lucrativa sem custos pode perder dinheiro com eles. Veja <a href="/pt/encyclopedia/algorithmic-trading/backtesting/">backtesting</a>.</li>
+<li><strong>Manter posições alavancadas por meses.</strong> Os custos de financiamento se acumulam e viram um peso grande.</li>
+<li><strong>Operar demais depois de perdas.</strong> Cada operação extra acrescenta custo sem acrescentar vantagem.</li>
+<li><strong>Esquecer os impostos até o fim do ano.</strong> Os ganhos de curto prazo podem ser muito tributados, e é preciso ter registro de cada operação.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="operar-com-corretagem-zero-mesmo-de-gra-a">Operar com corretagem zero é mesmo de graça?</h3>
+<p>Não. Corretoras que não cobram corretagem continuam ganhando dinheiro com o spread, o pagamento por fluxo de ordens, os juros sobre o caixa, o empréstimo de margem, a conversão de moedas e outras taxas. Você também paga custos de mercado, como o slippage.</p>
+<h3 id="o-que-s-o-taxas-maker-e-taker">O que são taxas maker e taker?</h3>
+<p>A taxa maker se aplica a uma ordem que fica parada no book e adiciona liquidez. A taxa taker se aplica a uma ordem que é executada imediatamente contra ordens existentes. As taxas maker costumam ser menores.</p>
+<h3 id="o-que-a-taxa-de-swap-overnight">O que é a taxa de swap overnight?</h3>
+<p>É uma cobrança diária de financiamento, ou ocasionalmente um crédito, aplicada a posições alavancadas de forex, CFD e spread bet mantidas além do horário diário de rollover. Ela se baseia nas taxas de juros mais uma margem da corretora.</p>
+<h3 id="quanto-os-custos-de-trading-afetam-os-lucros">Quanto os custos de trading afetam os lucros?</h3>
+<p>Depende da frequência das operações. Um custo de 0.1% por operação de ida e volta é pequeno para quem opera algumas vezes por mês, mas pode consumir a maior parte ou a totalidade do lucro bruto de quem opera dezenas de vezes por dia.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Fundamentos do trading</div><b>Spread e liquidez</b><span>O que são bid, ask, spread e preço médio, como funcionam liquidez, slippage e impacto no preço, por que o spread se alarga e como medir o custo de ida e volta.</span></a><a class="card" href="/pt/encyclopedia/basics/brokers-and-exchanges/"><div class="k">Fundamentos do trading</div><b>Corretoras e bolsas</b><span>Bolsas, corretoras e dealers: custódia, empresas reguladas e offshore, como as corretoras ganham dinheiro, proteção ao investidor, checklist e sinais de alerta.</span></a><a class="card" href="/pt/encyclopedia/basics/trading-styles/"><div class="k">Fundamentos do trading</div><b>Estilos de trading</b><span>Compare os principais estilos de trading por prazo, tempo de tela, capital, custos e temperamento, com um exemplo prático de como os custos mudam a conta.</span></a><a class="card" href="/pt/encyclopedia/crypto/funding-rates/"><div class="k">Trading de cripto</div><b>Taxas de funding</b><span>Como funciona o funding dos perpétuos: intervalos, como calcular e anualizar pagamentos, funding positivo e negativo e a arbitragem cash-and-carry.</span></a><a class="card" href="/pt/encyclopedia/trading-business/trading-taxes-overview/"><div class="k">Mesas proprietárias, impostos, regulação e golpes</div><b>Panorama de impostos no trading</b><span>Como os lucros do trading são tributados: ganho de capital x renda, prazo de posse, a regra wash sale dos EUA, Seção 1256 e cripto. Não é consultoria fiscal.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/basics/long-and-short-positions/"><small>← Anterior</small>Comprado e vendido</a><a class="next" href="/pt/encyclopedia/basics/brokers-and-exchanges/"><small>Próximo →</small>Corretoras e bolsas</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

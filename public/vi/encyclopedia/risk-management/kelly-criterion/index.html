@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiêu chí Kelly trong giao dịch và cá cược: công thức và ví dụ</title>
+<meta name="description" content="Công thức Kelly cho cược nhị phân và dạng liên tục, ví dụ minh họa gồm hợp đồng thị trường dự đoán, và lý do hầu hết trader dùng fractional Kelly.">
+<meta name="keywords" content="tiêu chí Kelly, công thức Kelly, fractional Kelly, Kelly criterion trong trading, Kelly criterion thị trường dự đoán">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/kelly-criterion/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Tiêu chí Kelly trong giao dịch và cá cược: công thức và ví dụ">
+<meta property="og:description" content="Công thức Kelly cho cược nhị phân và dạng liên tục, ví dụ minh họa gồm hợp đồng thị trường dự đoán, và lý do hầu hết trader dùng fractional Kelly.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/risk-management/kelly-criterion/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tiêu chí Kelly trong giao dịch và cá cược: công thức và ví dụ">
+<meta name="twitter:description" content="Công thức Kelly cho cược nhị phân và dạng liên tục, ví dụ minh họa gồm hợp đồng thị trường dự đoán, và lý do hầu hết trader dùng fractional Kelly.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Tiêu chí Kelly trong giao dịch và cá cược: công thức và ví dụ","description":"Công thức Kelly cho cược nhị phân và dạng liên tục, ví dụ minh họa gồm hợp đồng thị trường dự đoán, và lý do hầu hết trader dùng fractional Kelly.","keywords":"tiêu chí Kelly, công thức Kelly, fractional Kelly, Kelly criterion trong trading, Kelly criterion thị trường dự đoán","articleSection":"Quản trị rủi ro và vốn","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/risk-management/kelly-criterion/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Quản trị rủi ro và vốn","item":"https://pnlpro.fit/vi/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"Tiêu chuẩn Kelly","item":"https://pnlpro.fit/vi/encyclopedia/risk-management/kelly-criterion/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Công thức tiêu chí Kelly là gì?","acceptedAnswer":{"@type":"Answer","text":"Với một cược trả b ăn 1 và xác suất thắng p, tỷ lệ Kelly là f = p − (1 − p) ÷ b. Ví dụ, 60 phần trăm cơ hội ở cược ăn đều cho 0.60 − 0.40 = 0.20, tức 20 phần trăm vốn. Với lợi suất liên tục, một xấp xỉ là lợi suất vượt trội chia cho phương sai."}},{"@type":"Question","name":"Vì sao dùng half Kelly thay vì full Kelly?","acceptedAnswer":{"@type":"Answer","text":"Half Kelly giữ khoảng 75 phần trăm tốc độ tăng trưởng dài hạn với biến động khoảng một nửa và drawdown nông hơn nhiều. Nó cũng bảo vệ trước vấn đề phổ biến là đánh giá quá cao lợi thế, vốn có thể đẩy người cược full Kelly vào đặt cược quá mức."}},{"@type":"Question","name":"Dùng Kelly trên thị trường dự đoán như thế nào?","acceptedAnswer":{"@type":"Answer","text":"Nếu bạn mua một hợp đồng ở giá c và tin xác suất thật của nó là p, tỷ lệ Kelly là (p − c) ÷ (1 − c). Mua ở $0.40 với niềm tin 55 phần trăm cho 0.15 ÷ 0.60 = 25 phần trăm vốn. Hầu hết trader dùng một phần của mức này và điều chỉnh theo phí trước."}},{"@type":"Question","name":"Tiêu chí Kelly có thể gây lỗ không?","acceptedAnswer":{"@type":"Answer","text":"Có. Kelly chỉ tối đa hóa tăng trưởng dài hạn nếu các ước tính xác suất của bạn đúng. Với lợi thế bị đánh giá quá cao, hoặc đơn giản là xui xẻo trong một thời gian ngắn, người cược theo Kelly có thể chịu drawdown hoặc khoản lỗ lớn."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/risk-management/kelly-criterion/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/kelly-criterion/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/kelly-criterion/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/kelly-criterion/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/kelly-criterion/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/kelly-criterion/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/kelly-criterion/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/kelly-criterion/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/risk-management/kelly-criterion/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Quản trị rủi ro và vốn</h3><ul><li><a href="/vi/encyclopedia/risk-management/risk-management-fundamentals/">Quản trị rủi ro cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/position-sizing/">Quy mô vị thế</a></li><li><a href="/vi/encyclopedia/risk-management/stop-loss-strategies/">Chiến lược stop-loss</a></li><li><a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">Risk/Reward và kỳ vọng</a></li><li><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">Drawdown và rủi ro cháy tài khoản</a></li><li><a href="/vi/encyclopedia/risk-management/kelly-criterion/" class="on" aria-current="page">Tiêu chuẩn Kelly</a></li><li><a href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/">Tương quan và rủi ro danh mục</a></li><li><a href="/vi/encyclopedia/risk-management/leverage-risk-and-black-swans/">Rủi ro đòn bẩy và thiên nga đen</a></li><li><a href="/vi/encyclopedia/risk-management/trading-plan/">Viết kế hoạch giao dịch</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/" class="on">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a></div>
+<h1 class="title">Tiêu chí Kelly</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Quản trị rủi ro và vốn</summary><ul><li><a href="/vi/encyclopedia/risk-management/risk-management-fundamentals/">Quản trị rủi ro cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/position-sizing/">Quy mô vị thế</a></li><li><a href="/vi/encyclopedia/risk-management/stop-loss-strategies/">Chiến lược stop-loss</a></li><li><a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">Risk/Reward và kỳ vọng</a></li><li><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">Drawdown và rủi ro cháy tài khoản</a></li><li><a href="/vi/encyclopedia/risk-management/kelly-criterion/" class="on" aria-current="page">Tiêu chuẩn Kelly</a></li><li><a href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/">Tương quan và rủi ro danh mục</a></li><li><a href="/vi/encyclopedia/risk-management/leverage-risk-and-black-swans/">Rủi ro đòn bẩy và thiên nga đen</a></li><li><a href="/vi/encyclopedia/risk-management/trading-plan/">Viết kế hoạch giao dịch</a></li></ul></details>
+<article><p>Tiêu chí Kelly là công thức chọn tỷ lệ vốn nên đặt vào một cơ hội có lợi thế dương để tài sản của bạn tăng nhanh nhất có thể trong dài hạn. Công thức do John L. Kelly Jr. của Bell Labs công bố năm 1956, về sau được Edward Thorp áp dụng vào blackjack và đầu tư. Nó được tôn trọng rộng rãi như một kim chỉ nam lý thuyết, nhưng trong giao dịch nó rất nhạy với sai số khi ước tính lợi thế, đó là lý do hầu hết người thực hành chỉ đặt một phần nhỏ so với mức nó khuyến nghị.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Với một cược thắng hoặc thua đơn giản, tỷ lệ Kelly là f* = p − q ÷ b, trong đó p là xác suất thắng, q = 1 − p và b là số tiền thắng ròng trên mỗi đơn vị đặt cược.</li>
+<li>Với hợp đồng nhị phân mua ở giá c mà bạn tin có xác suất thật là p, tỷ lệ Kelly rút gọn thành (p − c) ÷ (1 − c).</li>
+<li>Đặt nhiều hơn tỷ lệ Kelly làm giảm tăng trưởng dài hạn, và đặt khoảng gấp đôi Kelly có thể kéo nó xuống gần bằng không hoặc thấp hơn.</li>
+<li>Half Kelly giữ được khoảng ba phần tư tốc độ tăng trưởng với drawdown nhỏ hơn nhiều.</li>
+<li>Kelly chỉ tốt bằng ước tính xác suất của bạn; đánh giá quá cao lợi thế dẫn thẳng đến đặt cược quá mức.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#kelly-t-i-a-h-a-i-u-g">Kelly tối đa hóa điều gì</a></li><li><a href="#c-ng-th-c-cho-c-c-nh-ph-n">Công thức cho cược nhị phân</a></li><li><a href="#kelly-cho-h-p-ng-th-tr-ng-d-o-n">Kelly cho hợp đồng thị trường dự đoán</a></li><li><a href="#d-ng-li-n-t-c">Dạng liên tục</a></li><li><a href="#v-sao-trader-d-ng-fractional-kelly">Vì sao trader dùng fractional Kelly</a></li><li><a href="#kelly-v-i-nhi-u-v-th">Kelly với nhiều vị thế</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="kelly-t-i-a-h-a-i-u-g">Kelly tối đa hóa điều gì</h2>
+<p>Kelly tối đa hóa kỳ vọng của logarit tài sản, tương đương với tối đa hóa tốc độ tăng trưởng kép dài hạn. Nó không tối đa hóa lợi nhuận kỳ vọng của lần cược kế tiếp. Một chiến lược tối đa hóa lợi nhuận kỳ vọng sẽ đặt toàn bộ vào mọi cơ hội thuận lợi và cuối cùng sẽ cháy sạch chỉ sau một lần thua.</p>
+<p>Các đặc tính chính là:</p>
+<ul>
+<li>Khi không có lợi thế, tỷ lệ Kelly bằng không: đừng cược.</li>
+<li>Lợi thế càng lớn so với khoản trả thưởng, bạn càng đặt nhiều.</li>
+<li>Kelly không bao giờ đặt toàn bộ vốn trừ khi chắc chắn thắng, nên về lý thuyết người cược theo tỷ lệ Kelly cố định không bao giờ hoàn toàn về không.</li>
+</ul>
+<h2 id="c-ng-th-c-cho-c-c-nh-ph-n">Công thức cho cược nhị phân</h2>
+<p>Với một cược hoặc thắng b đơn vị trên mỗi đơn vị đặt, hoặc mất tiền cược:</p>
+<p><em><em>f</em> = p − q ÷ b</em>*</p>
+<p>hoặc tương đương <em><em>f</em> = (b × p − q) ÷ b</em>*, có thể hiểu là &quot;lợi nhuận kỳ vọng trên mỗi đơn vị đặt, chia cho tỷ lệ trả thưởng&quot;.</p>
+<ul>
+<li>p = xác suất thắng</li>
+<li>q = 1 − p = xác suất thua</li>
+<li>b = tỷ lệ cược ròng (lợi nhuận trên mỗi $1 rủi ro nếu bạn thắng)</li>
+</ul>
+<h3 id="v-d-1-c-c-n-u">Ví dụ 1: cược ăn đều</h3>
+<p>Bạn có một cược trả 1 ăn 1 (b = 1) và thắng 60 phần trăm số lần.</p>
+<p>f* = 0.60 − 0.40 ÷ 1 = <strong>0.20</strong>, nên đặt 20 phần trăm vốn mỗi lần.</p>
+<p>Đây là cách tốc độ tăng trưởng dài hạn mỗi lần cược thay đổi theo tỷ lệ đặt:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tỷ lệ đặt</th>
+<th>Tăng trưởng dài hạn mỗi lần cược (xấp xỉ)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5%</td>
+<td>+0.9%</td>
+</tr>
+<tr>
+<td>10% (half Kelly)</td>
+<td>+1.5%</td>
+</tr>
+<tr>
+<td>20% (full Kelly)</td>
+<td>+2.0%</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>+1.5%</td>
+</tr>
+<tr>
+<td>40% (double Kelly)</td>
+<td>−0.2%</td>
+</tr>
+</tbody></table></div>
+<p>Tốc độ tăng trưởng ở đây là log tăng trưởng kỳ vọng, 0.6 × ln(1 + f) + 0.4 × ln(1 − f), xấp xỉ tốc độ kép điển hình mỗi lần cược. Có hai điều nổi bật. Half Kelly chỉ bỏ đi khoảng một phần tư tăng trưởng. Còn double Kelly, với cùng lợi thế 60 phần trăm, cho tăng trưởng âm nhẹ: đặt cược quá mức có thể biến một lợi thế thắng thành kết cục thua.</p>
+<h2 id="kelly-cho-h-p-ng-th-tr-ng-d-o-n">Kelly cho hợp đồng thị trường dự đoán</h2>
+<p>Với hợp đồng sự kiện nhị phân trả $1 nếu sự kiện xảy ra, mua YES ở giá c nghĩa là rủi ro c để thắng 1 − c. Tỷ lệ cược ròng là b = (1 − c) ÷ c. Thay vào công thức cho ra kết quả đơn giản:</p>
+<p><em><em>f</em> = (p − c) ÷ (1 − c)</em>*</p>
+<p>trong đó p là ước tính của bạn về xác suất thật.</p>
+<h3 id="v-d-2-mua-yes">Ví dụ 2: mua YES</h3>
+<p>Một hợp đồng giao dịch ở $0.40. Sau khi nghiên cứu kỹ, bạn tin xác suất thật là 55 phần trăm.</p>
+<ul>
+<li>b = 0.60 ÷ 0.40 = 1.5</li>
+<li>f* = 0.55 − 0.45 ÷ 1.5 = 0.55 − 0.30 = <strong>0.25</strong></li>
+<li>Kiểm tra bằng công thức tắt: (0.55 − 0.40) ÷ (1 − 0.40) = 0.15 ÷ 0.60 = 0.25</li>
+</ul>
+<p>Full Kelly nói hãy đặt 25 phần trăm vốn. Với vốn $2,000, đó là $500, hay 1,250 hợp đồng ở $0.40. Half Kelly sẽ là $250, hay 625 hợp đồng.</p>
+<h3 id="v-d-3-mua-no">Ví dụ 3: mua NO</h3>
+<p>Phía YES giao dịch ở $0.70, nên NO có giá khoảng $0.30. Bạn tin xác suất thật của YES chỉ là 60 phần trăm, vậy NO có 40 phần trăm cơ hội.</p>
+<p>Áp dụng cùng công thức tắt cho hợp đồng NO: f* = (0.40 − 0.30) ÷ (1 − 0.30) = 0.10 ÷ 0.70 ≈ <strong>0.143</strong>, tức khoảng 14 phần trăm vốn.</p>
+<p>Các ví dụ này bỏ qua phí và spread. Phí làm giảm khoản trả thưởng hiệu dụng, nên hãy trừ chúng trước khi tính b, nếu không công thức sẽ đánh giá quá cao mức đặt. Cách định giá, spread và ảnh hưởng của phí được trình bày trong <a href="/vi/encyclopedia/prediction-markets/prediction-market-pricing/">định giá trên thị trường dự đoán</a>. Cũng lưu ý rằng 25 phần trăm vốn đặt vào một sự kiện duy nhất là mức cược rất lớn theo hầu hết tiêu chuẩn của trader, và điều đó dẫn đến vấn đề chính của Kelly.</p>
+<h2 id="d-ng-li-n-t-c">Dạng liên tục</h2>
+<p>Với một khoản đầu tư có dải lợi suất liên tục, như một chỉ số chứng khoán, một xấp xỉ phổ biến là:</p>
+<p><em><em>f</em> = (μ − r) ÷ σ²</em>*</p>
+<p>trong đó μ là lợi suất kỳ vọng hằng năm, r là lãi suất phi rủi ro và σ là độ biến động hằng năm (độ lệch chuẩn của lợi suất).</p>
+<h3 id="v-d-4-v-th-ch-s-d-ng-n-b-y">Ví dụ 4: vị thế chỉ số dùng đòn bẩy</h3>
+<p>Giả sử bạn kỳ vọng một tài sản sinh lời 8 phần trăm một năm trên lãi suất phi rủi ro, với biến động hằng năm 20 phần trăm.</p>
+<ul>
+<li>f* = 0.08 ÷ 0.20² = 0.08 ÷ 0.04 = <strong>2.0</strong></li>
+</ul>
+<p>Full Kelly nói hãy nắm giữ 200 phần trăm vốn trong tài sản đó, tức dùng đòn bẩy 2x. Theo các giả định của mô hình, tốc độ tăng trưởng vượt trội ở full Kelly là (μ − r)² ÷ (2σ²) = 0.0064 ÷ 0.08 = 8 phần trăm một năm. Ở half Kelly (1x, không đòn bẩy), tăng trưởng vượt trội là 6 phần trăm, tức 75 phần trăm mức tối đa, với biến động bằng một nửa. Ở double Kelly (4x), tăng trưởng vượt trội giảm về không.</p>
+<p>Mô hình giả định lợi suất xấp xỉ phân phối chuẩn và các tham số đã biết. Thị trường thật có đuôi dày và những cú gap đột ngột, khiến các vị thế Kelly dùng đòn bẩy rủi ro hơn công thức gợi ý. Xem <a href="/vi/encyclopedia/risk-management/leverage-risk-and-black-swans/">rủi ro đòn bẩy và thiên nga đen</a>.</p>
+<h2 id="v-sao-trader-d-ng-fractional-kelly">Vì sao trader dùng fractional Kelly</h2>
+<h3 id="sai-s-c-t-nh">Sai số ước tính</h3>
+<p>Vấn đề lớn nhất là p, hoặc μ và σ, chỉ là ước tính. Trong trò chơi sòng bạc, xác suất đã biết. Trong giao dịch, chúng được đoán từ dữ liệu hoặc phán đoán, và trader có xu hướng đánh giá quá cao lợi thế của mình.</p>
+<p>Trong ví dụ liên tục, giả sử lợi suất vượt trội thật là 4 phần trăm, không phải 8 phần trăm. Khi đó Kelly thật là 1.0, nên trader đang nắm 2.0 là ở mức double Kelly, và tăng trưởng vượt trội kỳ vọng của họ gần bằng không trong khi vẫn chịu những dao động lớn.</p>
+<p>Trong trường hợp nhị phân, giả sử bạn tin hợp đồng giá $0.50 có 55 phần trăm cơ hội, nên Kelly nói đặt 10 phần trăm. Nếu xác suất thật là 50 phần trăm, bạn không có lợi thế, và đặt 10 phần trăm mỗi lần cho log tăng trưởng kỳ vọng khoảng −0.5 phần trăm mỗi lần cược. Sự tự tin thái quá về lợi thế, được bàn trong <a href="/vi/encyclopedia/psychology/cognitive-biases-in-trading/">thiên kiến nhận thức trong giao dịch</a>, chuyển thẳng thành đặt cược quá mức.</p>
+<p>Các lợi thế tìm được bằng cách lục qua nhiều backtest đặc biệt dễ bị thổi phồng. Xem <a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">overfitting và data snooping</a>.</p>
+<h3 id="drawdown">Drawdown</h3>
+<p>Ngay cả khi lợi thế được ước tính đúng, full Kelly vẫn là một chặng đường gập ghềnh. Theo các giả định liên tục lý tưởng, người cược full Kelly có khoảng 50 phần trăm khả năng chứng kiến vốn giảm còn một nửa giá trị vào lúc nào đó. Ở half Kelly, khả năng giảm một nửa hạ xuống khoảng 12.5 phần trăm. Ít người có thể bám một chiến lược qua drawdown 50 phần trăm, và bài <a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">drawdown và rủi ro cháy tài khoản</a> cho thấy việc hồi phục khó lên nhanh đến mức nào.</p>
+<h3 id="fractional-kelly-trong-th-c-t">Fractional Kelly trong thực tế</h3>
+<p>Nhiều người cược và trader chuyên nghiệp dùng từ một phần tư đến một nửa Kelly, hoặc đơn giản coi tỷ lệ Kelly là mức tối đa không bao giờ được vượt. Vì đường cong tăng trưởng phẳng gần đỉnh và dốc xuống mạnh sau đỉnh, đặt ít hơn Kelly tốn rất ít tăng trưởng, trong khi đặt nhiều hơn tốn rất nhiều. Sự bất đối xứng đó, cộng với sai số ước tính, khiến việc đặt thiếu là sai lầm an toàn hơn.</p>
+<h2 id="kelly-v-i-nhi-u-v-th">Kelly với nhiều vị thế</h2>
+<p>Các công thức đơn giản giả định mỗi lần chỉ có một cược. Khi nhiều vị thế được mở cùng lúc, nhất là các vị thế tương quan, áp dụng full Kelly cho từng vị thế dẫn đến tổng mức phơi nhiễm quá lớn. Việc xác định quy mô Kelly đa tài sản đúng cách đòi hỏi ước tính các tương quan, thêm một nguồn sai số nữa. Một cách thực tế là giới hạn tổng mức phơi nhiễm và coi các vị thế tương quan như một cược. Xem <a href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/">tương quan và rủi ro danh mục</a>.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Đưa vào một tỷ lệ thắng lạc quan.</strong> Đánh giá quá cao vài điểm phần trăm có thể làm gấp đôi mức cược khuyến nghị.</li>
+<li><strong>Bỏ qua phí và spread</strong>, vốn làm giảm khoản trả thưởng thực và lợi thế thực.</li>
+<li><strong>Áp dụng full Kelly cho mọi vị thế cùng lúc</strong>, tạo ra mức phơi nhiễm gộp lớn.</li>
+<li><strong>Dùng Kelly cho các chiến lược có khoản lỗ không rõ hoặc không giới hạn</strong>, chẳng hạn các vị thế có thể gap rất xa qua mức cắt lỗ.</li>
+<li><strong>Coi Kelly là mục tiêu thay vì là trần.</strong></li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="c-ng-th-c-ti-u-ch-kelly-l-g">Công thức tiêu chí Kelly là gì?</h3>
+<p>Với một cược trả b ăn 1 và xác suất thắng p, tỷ lệ Kelly là f* = p − (1 − p) ÷ b. Ví dụ, 60 phần trăm cơ hội ở cược ăn đều cho 0.60 − 0.40 = 0.20, tức 20 phần trăm vốn. Với lợi suất liên tục, một xấp xỉ là lợi suất vượt trội chia cho phương sai.</p>
+<h3 id="v-sao-d-ng-half-kelly-thay-v-full-kelly">Vì sao dùng half Kelly thay vì full Kelly?</h3>
+<p>Half Kelly giữ khoảng 75 phần trăm tốc độ tăng trưởng dài hạn với biến động khoảng một nửa và drawdown nông hơn nhiều. Nó cũng bảo vệ trước vấn đề phổ biến là đánh giá quá cao lợi thế, vốn có thể đẩy người cược full Kelly vào đặt cược quá mức.</p>
+<h3 id="d-ng-kelly-tr-n-th-tr-ng-d-o-n-nh-th-n-o">Dùng Kelly trên thị trường dự đoán như thế nào?</h3>
+<p>Nếu bạn mua một hợp đồng ở giá c và tin xác suất thật của nó là p, tỷ lệ Kelly là (p − c) ÷ (1 − c). Mua ở $0.40 với niềm tin 55 phần trăm cho 0.15 ÷ 0.60 = 25 phần trăm vốn. Hầu hết trader dùng một phần của mức này và điều chỉnh theo phí trước.</p>
+<h3 id="ti-u-ch-kelly-c-th-g-y-l-kh-ng">Tiêu chí Kelly có thể gây lỗ không?</h3>
+<p>Có. Kelly chỉ tối đa hóa tăng trưởng dài hạn nếu các ước tính xác suất của bạn đúng. Với lợi thế bị đánh giá quá cao, hoặc đơn giản là xui xẻo trong một thời gian ngắn, người cược theo Kelly có thể chịu drawdown hoặc khoản lỗ lớn.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/risk-management/position-sizing/"><div class="k">Quản trị rủi ro và vốn</div><b>Quy mô vị thế</b><span>Cách tính quy mô vị thế từ rủi ro tài khoản và khoảng cách cắt lỗ: fixed fractional, số tiền cố định và ATR, kèm ví dụ cổ phiếu, forex và crypto.</span></a><a class="card" href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">Quản trị rủi ro và vốn</div><b>Drawdown và rủi ro cháy tài khoản</b><span>Drawdown tối đa là gì, cần lãi bao nhiêu để bù khoản lỗ, chuỗi thua có khả năng xảy ra đến đâu và quy mô vị thế thay đổi rủi ro cháy tài khoản ra sao, kèm bảng.</span></a><a class="card" href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Quản trị rủi ro và vốn</div><b>Risk/Reward và kỳ vọng</b><span>Bội số R, tỷ lệ thắng và tỷ lệ lãi lỗ kết hợp thành kỳ vọng ra sao. Công thức, bảng tỷ lệ thắng hòa vốn và vì sao tỷ lệ thắng cao vẫn có thể thua tiền.</span></a><a class="card" href="/vi/encyclopedia/prediction-markets/prediction-market-pricing/"><div class="k">Thị trường dự đoán</div><b>Định giá và xác suất</b><span>Giá prediction market quy ra xác suất ra sao, vì sao YES và NO cộng lại bằng $1, overround, quy đổi tỷ lệ cược, phí, giá trị thời gian và thiên lệch long-shot.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Overfitting</b><span>Vì sao hầu hết backtest tuyệt đẹp thất bại khi chạy thật: curve fitting, kiểm định đa lần, tham số không ổn định, deflated Sharpe ratio, cách tránh overfitting.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><small>← Bài trước</small>Drawdown và rủi ro cháy tài khoản</a><a class="next" href="/vi/encyclopedia/risk-management/correlation-and-portfolio-risk/"><small>Bài tiếp →</small>Tương quan và rủi ro danh mục</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

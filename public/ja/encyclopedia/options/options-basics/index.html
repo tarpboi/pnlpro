@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>オプション取引の基本：コール・プット・権利行使価格・プレミアム | PnL Profit</title>
+<meta name="description" content="コールとプット、権利行使価格、満期、プレミアム、本質的価値と時間価値、マネーネス、買い手と売り手の損益、取引レベルを具体例で解説します。">
+<meta name="keywords" content="オプション取引 初心者, コール プット 違い, オプション 仕組み, 本質的価値 時間価値, オプション 取引単位 100株">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/options-basics/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="オプション取引の基本：コール・プット・権利行使価格・プレミアム | PnL Profit">
+<meta property="og:description" content="コールとプット、権利行使価格、満期、プレミアム、本質的価値と時間価値、マネーネス、買い手と売り手の損益、取引レベルを具体例で解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/options/options-basics/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="オプション取引の基本：コール・プット・権利行使価格・プレミアム | PnL Profit">
+<meta name="twitter:description" content="コールとプット、権利行使価格、満期、プレミアム、本質的価値と時間価値、マネーネス、買い手と売り手の損益、取引レベルを具体例で解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"オプション取引の基本：コール・プット・権利行使価格・プレミアム","description":"コールとプット、権利行使価格、満期、プレミアム、本質的価値と時間価値、マネーネス、買い手と売り手の損益、取引レベルを具体例で解説します。","keywords":"オプション取引 初心者, コール プット 違い, オプション 仕組み, 本質的価値 時間価値, オプション 取引単位 100株","articleSection":"オプション取引","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/options/options-basics/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"オプション取引","item":"https://pnlpro.fit/ja/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"オプションの基礎","item":"https://pnlpro.fit/ja/encyclopedia/options/options-basics/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"コールとプットの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"コールは買い手に原資産を権利行使価格で買う権利を与えるため、価格が上がると価値が増えます。プットは権利行使価格で売る権利を与えるため、価格が下がると価値が増えます。"}},{"@type":"Question","name":"オプション1枚はいくらで買えますか？","acceptedAnswer":{"@type":"Answer","text":"表示されたプレミアムに乗数を掛けます。米国の標準的な株式オプションの乗数は100です。$2.50と表示されたコールは1枚$250で、これに手数料などがかかります。"}},{"@type":"Question","name":"オプションで投資額以上に損をすることはありますか？","acceptedAnswer":{"@type":"Answer","text":"オプションの買い手の損失は、最大でも支払ったプレミアムまでです。オプションの売り手は受け取ったプレミアムをはるかに超える損失を被ることがあり、カバーなしのコールの売り手の潜在的な損失は無制限です。"}},{"@type":"Question","name":"オプションがイン・ザ・マネーで満期を迎えるとどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"米国では、上場株式オプションが満期時に$0.01以上イン・ザ・マネーであれば、別段の指示をしない限り原則として自動的に権利行使され、株式のポジションが残ることがあります。証券会社の方針を確認し、それを望まない場合は満期前にポジションを手仕舞ってください。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/options/options-basics/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/options-basics/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/options-basics/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/options-basics/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/options-basics/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/options-basics/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/options-basics/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/options-basics/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/options/options-basics/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>オプション取引</h3><ul><li><a href="/ja/encyclopedia/options/options-basics/" class="on" aria-current="page">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">ガンマエクスポージャーとディーラー</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/" class="on">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/options/">オプション取引</a></div>
+<h1 class="title">オプションの基本</h1>
+<div class="meta">約9分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>オプション取引の他の記事</summary><ul><li><a href="/ja/encyclopedia/options/options-basics/" class="on" aria-current="page">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">ガンマエクスポージャーとディーラー</a></li></ul></details>
+<article><p>オプションとは、決められた期日まで（または期日に）、あらかじめ決めた価格で資産を買う、または売る「権利」を買い手に与える契約です。義務ではありません。買い手はプレミアムと呼ばれる代金を支払い、売り手はそれを受け取る代わりに義務を負います。オプションは投機、ヘッジ、インカム獲得に使われ、現物株の売買だけでは表現できない方向・タイミング・ボラティリティへの見方をポジションにできます。一方で、オプションは時間の経過とともに価値が目減りします。方向を当てたのに損をするオプションの買い手が多いのはそのためです。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>コールは権利行使価格で買う権利、プットは権利行使価格で売る権利です。</li>
+<li>オプションのプレミアムは、今すぐ権利行使した場合の価値である本質的価値と、時間とボラティリティを反映した時間価値（外在的価値）で構成されます。</li>
+<li>オプションの買い手のリスクは支払ったプレミアムだけですが、売り手はプレミアムを受け取る代わりに、それをはるかに上回る損失を被る可能性があります。</li>
+<li>米国の標準的な株式オプションは100株分を対象とするため、$2.00と表示されたプレミアムは1枚あたり$200になります。</li>
+<li>証券会社はオプションの取引権限をレベル別に付与しており、ネイキッド（カバーなし）の売りなど最もリスクの高い戦略は経験のある口座に限られます。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">基本用語</a></li><li><a href="#section-3">取引単位（乗数）</a></li><li><a href="#section-4">コール：買う権利</a></li><li><a href="#section-7">プット：売る権利</a></li><li><a href="#4">4つの基本ポジション</a></li><li><a href="#section-10">本質的価値と時間価値</a></li><li><a href="#section-12">マネーネス</a></li><li><a href="#section-13">アメリカン型とヨーロピアン型</a></li><li><a href="#section-14">トレーダーがオプションを使う理由</a></li><li><a href="#section-15">オプションの取引レベル</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">基本用語</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>用語</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>原資産</td>
+<td>オプションの対象となる資産。株式、ETF、指数、先物、暗号資産など</td>
+</tr>
+<tr>
+<td>コール</td>
+<td>原資産を権利行使価格で買う権利</td>
+</tr>
+<tr>
+<td>プット</td>
+<td>原資産を権利行使価格で売る権利</td>
+</tr>
+<tr>
+<td>権利行使価格（ストライク）</td>
+<td>オプションを行使できる固定価格</td>
+</tr>
+<tr>
+<td>満期日</td>
+<td>オプションが存在する最後の日</td>
+</tr>
+<tr>
+<td>プレミアム</td>
+<td>オプションの価格。買い手が売り手に支払う</td>
+</tr>
+<tr>
+<td>権利行使</td>
+<td>買い手が権利行使価格で買う、または売る権利を使うこと</td>
+</tr>
+<tr>
+<td>割り当て（アサインメント）</td>
+<td>権利行使を受けて、売り手が義務の履行を求められること</td>
+</tr>
+<tr>
+<td>乗数</td>
+<td>1枚が対象とする原資産の単位数。米国の標準的な株式オプションでは100株</td>
+</tr>
+</tbody></table></div>
+<p>買い手はオプションを「ロング」している、売り手（ライターとも呼ばれます）は「ショート」していると言います。どのオプションにも買い手と売り手がいるため、コストを除けばオプションはゼロサムの契約です。買い手の利益は売り手の損失であり、その逆も同じです。</p>
+<h2 id="section-3">取引単位（乗数）</h2>
+<p>オプション価格は1株あたりで表示されますが、米国の標準的な上場株式オプションは1枚で100株を対象とします。したがって$3.40という気配値は、手数料を除いて1枚あたり$340を意味します。S&amp;P 500（SPX）などの指数オプションも、指数値に対して$100の乗数を使います。他の市場では乗数が異なり、先物オプションは先物の取引単位を使うので、必ず商品仕様を確認してください。</p>
+<h2 id="section-4">コール：買う権利</h2>
+<p>コールオプションは、原資産が上昇すると価値が上がります。満期時のコールの価値は「株価 − 権利行使価格」で、株価が権利行使価格以下ならゼロです。</p>
+<h3 id="section-5">計算例：コールを買う</h3>
+<p>株価は$100です。権利行使価格$105、残存30日のコールを1枚、プレミアム$2.00で買います。コスト：$2.00 x 100 = $200。</p>
+<ul>
+<li><strong>満期時の損益分岐点：</strong> 権利行使価格 + プレミアム = $105 + $2.00 = $107。</li>
+<li><strong>満期時に株価が$115の場合：</strong> コールの価値は$115 - $105 = $10.00、つまり$1,000です。利益 = $1,000 - $200 = $800。</li>
+<li><strong>株価が$107の場合：</strong> コールの価値は$2.00、つまり$200です。利益 = $0。</li>
+<li><strong>株価が$105以下の場合：</strong> コールは無価値で満期を迎えます。損失 = $200で、プレミアム全額です。</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>満期時の株価</th>
+<th>1株あたりのコール価値</th>
+<th>1枚あたりの損益</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$95</td>
+<td>$0.00</td>
+<td>-$200</td>
+</tr>
+<tr>
+<td>$105</td>
+<td>$0.00</td>
+<td>-$200</td>
+</tr>
+<tr>
+<td>$107</td>
+<td>$2.00</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$110</td>
+<td>$5.00</td>
+<td>+$300</td>
+</tr>
+<tr>
+<td>$115</td>
+<td>$10.00</td>
+<td>+$800</td>
+</tr>
+<tr>
+<td>$120</td>
+<td>$15.00</td>
+<td>+$1,300</td>
+</tr>
+</tbody></table></div>
+<p>買い手の損失は$200が上限で、利益には決まった上限がありません。$115のケースでは株価は15%上昇し、コールのポジションは$200のプレミアムに対して400%のリターンになりました。$105のケースでは株価は5%上昇しましたが、コールのポジションは100%の損失です。レバレッジは両方向に効きます。</p>
+<h3 id="section-6">コールの売り手側</h3>
+<p>このコールの売り手は、最初に$200を受け取ります。株価が$105以下にとどまれば、売り手は$200をすべて手元に残せます。$115なら売り手の損失は$800、$120なら$1,300です。株を保有せずにコールを売る売り手（ネイキッド・コール、またはアンカバード・コールの売り手）は、株価が上がるほど損失が際限なく膨らみます。100株を保有している売り手はカバードコールを書いていることになります。詳しくは<a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">カバードコールとキャッシュ・セキュアード・プット</a>を参照してください。</p>
+<h2 id="section-7">プット：売る権利</h2>
+<p>プットオプションは、原資産が下落すると価値が上がります。満期時のプットの価値は「権利行使価格 − 株価」で、株価が権利行使価格以上ならゼロです。</p>
+<h3 id="section-8">計算例：プットを買う</h3>
+<p>株価は$100です。権利行使価格$95、残存30日のプットを1枚、$1.50で買います。コスト：$150。</p>
+<ul>
+<li><strong>満期時の損益分岐点：</strong> 権利行使価格 - プレミアム = $95 - $1.50 = $93.50。</li>
+<li><strong>満期時に株価が$85の場合：</strong> プットの価値は$95 - $85 = $10.00、つまり$1,000です。利益 = $1,000 - $150 = $850。</li>
+<li><strong>株価が$93.50の場合：</strong> プットの価値は$1.50です。利益 = $0。</li>
+<li><strong>株価が$95以上の場合：</strong> プットは無価値で満期を迎えます。損失 = $150。</li>
+</ul>
+<p>プットの買い手の利益が最大になるのは株価がゼロになったときで、($95 - $0) x 100 - $150 = $9,350です。プットの売り手はその鏡像で、株価が$95以上にとどまれば$150をそのまま得て、ゼロになれば最大$9,350を失います。</p>
+<p>プットは保険としてよく使われます。$100で100株を保有している投資家が上記の$95のプットを買えば、1株あたり$1.50のコストで、満期まで最低売却価格を$95に固定できます。これをプロテクティブ・プットと呼びます。</p>
+<h2 id="4">4つの基本ポジション</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ポジション</th>
+<th>相場観</th>
+<th>最大利益</th>
+<th>最大損失</th>
+<th>満期時の損益分岐点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>コールの買い</td>
+<td>強気</td>
+<td>無制限</td>
+<td>支払ったプレミアム</td>
+<td>権利行使価格 + プレミアム</td>
+</tr>
+<tr>
+<td>コールの売り（カバーなし）</td>
+<td>中立〜弱気</td>
+<td>受け取ったプレミアム</td>
+<td>無制限</td>
+<td>権利行使価格 + プレミアム</td>
+</tr>
+<tr>
+<td>プットの買い</td>
+<td>弱気</td>
+<td>権利行使価格 - プレミアム（株価ゼロ時）</td>
+<td>支払ったプレミアム</td>
+<td>権利行使価格 - プレミアム</td>
+</tr>
+<tr>
+<td>プットの売り</td>
+<td>中立〜強気</td>
+<td>受け取ったプレミアム</td>
+<td>権利行使価格 - プレミアム（株価ゼロ時）</td>
+<td>権利行使価格 - プレミアム</td>
+</tr>
+</tbody></table></div>
+<p><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカル・スプレッド</a>から<a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアン・コンドルとバタフライ</a>まで、他のあらゆるオプション戦略は、この4つの基本ポジションの組み合わせであり、場合によっては現物株を加えたものです。</p>
+<h2 id="section-10">本質的価値と時間価値</h2>
+<p>オプションのプレミアムは2つの部分からできています。</p>
+<ul>
+<li><strong>本質的価値</strong>は、今すぐ権利行使した場合のオプションの価値です。コールなら「株価 − 権利行使価格」、プットなら「権利行使価格 − 株価」で、いずれもプラスの場合だけです。マイナスになることはありません。</li>
+<li><strong>外在的価値</strong>（時間価値とも呼びます）はそれ以外のすべてで、プレミアムから本質的価値を引いたものです。満期までにオプションの価値がさらに増える可能性を反映しており、残存期間と予想ボラティリティに左右されます。</li>
+</ul>
+<h3 id="section-11">計算例</h3>
+<p>株価は$100です。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>プレミアム</th>
+<th>本質的価値</th>
+<th>時間価値</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$95のコール</td>
+<td>$6.20</td>
+<td>$100 - $95 = $5.00</td>
+<td>$6.20 - $5.00 = $1.20</td>
+</tr>
+<tr>
+<td>$100のコール</td>
+<td>$3.50</td>
+<td>$0.00</td>
+<td>$3.50</td>
+</tr>
+<tr>
+<td>$105のコール</td>
+<td>$1.40</td>
+<td>$0.00</td>
+<td>$1.40</td>
+</tr>
+<tr>
+<td>$105のプット</td>
+<td>$6.10</td>
+<td>$105 - $100 = $5.00</td>
+<td>$6.10 - $5.00 = $1.10</td>
+</tr>
+</tbody></table></div>
+<p>時間価値は満期が近づくにつれてゼロに向かって縮小します。これをタイム・ディケイ（時間的価値の減少）と呼びます。満期時点のオプションには本質的価値しか残りません。減少のスピードを測るのが、<a href="/ja/encyclopedia/options/options-greeks/">オプションのグリークス</a>の1つであるセータです。市場が予想するボラティリティ、つまり<a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a>も、時間価値を左右する大きな要因です。</p>
+<h2 id="section-12">マネーネス</h2>
+<p>マネーネスとは、原資産の現在価格に対して権利行使価格がどこにあるかを表す言葉です。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>用語</th>
+<th>コール</th>
+<th>プット</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>イン・ザ・マネー（ITM）</td>
+<td>株価が権利行使価格より上</td>
+<td>株価が権利行使価格より下</td>
+</tr>
+<tr>
+<td>アット・ザ・マネー（ATM）</td>
+<td>株価が権利行使価格と同じか近い</td>
+<td>株価が権利行使価格と同じか近い</td>
+</tr>
+<tr>
+<td>アウト・オブ・ザ・マネー（OTM）</td>
+<td>株価が権利行使価格より下</td>
+<td>株価が権利行使価格より上</td>
+</tr>
+</tbody></table></div>
+<p>ITMのオプションは本質的価値を持つため、価格が高くなります。OTMのオプションは全額が時間価値です。安い代わりに、満期時に少しでも価値を残すには、満期までに株価が権利行使価格を超えて動く必要があります。安価なディープOTMのオプションは値段の安さから初心者を惹きつけますが、そのほとんどは無価値で満期を迎えます。</p>
+<h2 id="section-13">アメリカン型とヨーロピアン型</h2>
+<ul>
+<li><strong>アメリカン型</strong>のオプションは、満期日を含め満期までのどの営業日でも権利行使できます。米国の個別株やETFの標準的なオプションはアメリカン型です。</li>
+<li><strong>ヨーロピアン型</strong>のオプションは、満期時にしか権利行使できません。SPXオプションを含む多くの指数オプションはヨーロピアン型で、差金決済です。</li>
+</ul>
+<p>実際には、ほとんどのオプションポジションは権利行使ではなく、市場で売却して手仕舞われます。売却すれば残っている時間価値も回収できるからです。権利行使と割り当てのルールは<a href="/ja/encyclopedia/options/options-expiration-and-assignment/">オプションの満期と割り当て</a>で解説しています。</p>
+<h2 id="section-14">トレーダーがオプションを使う理由</h2>
+<ol>
+<li><strong>レバレッジを効かせた投機：</strong> コールやプットは株価のごく一部の金額で100株分をコントロールでき、リスクはプレミアムに限定されます。</li>
+<li><strong>ヘッジ：</strong> プットは株式ポートフォリオを下落から守れます。<a href="/ja/encyclopedia/risk-management/correlation-and-portfolio-risk/">相関とポートフォリオリスク</a>を参照してください。</li>
+<li><strong>インカム：</strong> オプションを売るとプレミアムを受け取れますが、その代わりに義務とリスクを負います。</li>
+<li><strong>ボラティリティの売買：</strong> <a href="/ja/encyclopedia/options/straddles-and-strangles/">ストラドルとストラングル</a>のように、方向に関係なく大きな値動きや静かな相場から利益を狙う戦略もあります。</li>
+</ol>
+<h2 id="section-15">オプションの取引レベル</h2>
+<p>オプションの売りは大きな損失を生む可能性があるため、証券会社はオプション取引の前に申請を求め、経験、収入、純資産、投資目的に基づいて取引レベルを付与します。レベルの区分や名称は証券会社や国によって異なりますが、典型的な体系は次のとおりです。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>レベル</th>
+<th>一般に認められる取引</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>カバードコール、キャッシュ・セキュアード・プット</td>
+</tr>
+<tr>
+<td>2</td>
+<td>コールとプットの買い</td>
+</tr>
+<tr>
+<td>3</td>
+<td>バーティカルやアイアン・コンドルなど、リスク限定型のスプレッド</td>
+</tr>
+<tr>
+<td>4</td>
+<td>カバーなし（ネイキッド）のプットの売り</td>
+</tr>
+<tr>
+<td>5</td>
+<td>カバーなし（ネイキッド）のコールの売り</td>
+</tr>
+</tbody></table></div>
+<p>米国では、証券会社はOptions Clearing Corporationが発行するオプション開示書類「Characteristics and Risks of Standardized Options」の提供も義務付けられています。一読する価値があります。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>安いからといってディープOTMのオプションを買う。</strong> 価格が安いのは、利益が出る確率が低いことの裏返しです。</li>
+<li><strong>タイム・ディケイを無視する。</strong> 株価が正しい方向に動いても、動きが遅すぎればオプションの買いポジションは損失になり得ます。</li>
+<li><strong>乗数を忘れる。</strong> $5.00のオプションは1枚$500で、10枚なら$5,000です。</li>
+<li><strong>「簡単な」インカム目的でネイキッドの売りをする。</strong> 小さな利益を何度積み重ねても、1回の大きな値動きで消えることがあります。最悪のケースを前提にサイズを決めてください。</li>
+<li><strong>ボラティリティを理解しないまま決算をまたいで保有する。</strong> 株価が動いても、発表後にオプション価格が急落することはよくあります。<a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a>を参照してください。</li>
+</ul>
+<p>オプションはレバレッジ商品であり、個人投資家のオプション取引に関する研究では、コスト控除後の個人投資家全体としては損失を出しているという結果が概ね得られています。特に満期の短い限月でその傾向が顕著です。</p>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-18">コールとプットの違いは何ですか？</h3>
+<p>コールは買い手に原資産を権利行使価格で買う権利を与えるため、価格が上がると価値が増えます。プットは権利行使価格で売る権利を与えるため、価格が下がると価値が増えます。</p>
+<h3 id="1">オプション1枚はいくらで買えますか？</h3>
+<p>表示されたプレミアムに乗数を掛けます。米国の標準的な株式オプションの乗数は100です。$2.50と表示されたコールは1枚$250で、これに手数料などがかかります。</p>
+<h3 id="section-20">オプションで投資額以上に損をすることはありますか？</h3>
+<p>オプションの買い手の損失は、最大でも支払ったプレミアムまでです。オプションの売り手は受け取ったプレミアムをはるかに超える損失を被ることがあり、カバーなしのコールの売り手の潜在的な損失は無制限です。</p>
+<h3 id="section-21">オプションがイン・ザ・マネーで満期を迎えるとどうなりますか？</h3>
+<p>米国では、上場株式オプションが満期時に$0.01以上イン・ザ・マネーであれば、別段の指示をしない限り原則として自動的に権利行使され、株式のポジションが残ることがあります。証券会社の方針を確認し、それを望まない場合は満期前にポジションを手仕舞ってください。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/options/options-greeks/"><div class="k">オプション取引</div><b>グリークス</b><span>デルタ、ガンマ、セータ、ベガ、ローが何を測るのかを計算例で解説。時間やマネーネスによる変化、ポジション・グリークスの読み方も紹介します。</span></a><a class="card" href="/ja/encyclopedia/options/implied-volatility/"><div class="k">オプション取引</div><b>インプライド・ボラティリティ</b><span>IVとヒストリカル・ボラティリティの違い、IVランクとIVパーセンタイル、IVクラッシュ、スキュー、予想変動幅の計算式を例を使って解説します。</span></a><a class="card" href="/ja/encyclopedia/options/vertical-spreads/"><div class="k">オプション取引</div><b>バーティカルスプレッド</b><span>ブル・コール、ベア・プット、ブル・プット、ベア・コールの4つのバーティカル・スプレッドの仕組みを、最大利益・最大損失・損益分岐点の計算例で解説。</span></a><a class="card" href="/ja/encyclopedia/options/options-expiration-and-assignment/"><div class="k">オプション取引</div><b>満期と権利割当</b><span>権利行使と割り当ての仕組み、配当前の早期割り当て、$0.01 ITMでの自動権利行使、ピン・リスク、SPXとSPYの決済の違い、時間外のリスクを解説。</span></a><a class="card" href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/"><div class="k">オプション取引</div><b>カバードコールとCSP</b><span>カバードコールとキャッシュ・セキュアード・プットの仕組み、損益と損益分岐点の計算例、ホイール戦略、上値の限定と割り当てのリスクを解説します。</span></a></div></section>
+<div class="pager"><span></span><a class="next" href="/ja/encyclopedia/options/options-greeks/"><small>次へ →</small>グリークス</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

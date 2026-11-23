@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>옵션 기초: 콜, 풋, 행사가, 프리미엄 이해하기 | PnL Profit</title>
+<meta name="description" content="콜과 풋, 행사가, 만기, 프리미엄, 내재가치와 시간가치, 머니니스, 매수자·매도자 손익을 예시로 설명하고 옵션 승인 단계도 정리합니다.">
+<meta name="keywords" content="옵션 기초, 콜옵션 풋옵션 차이, 옵션 거래 방법, 내재가치 시간가치, 옵션 승수">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/options-basics/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/options-basics/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="옵션 기초: 콜, 풋, 행사가, 프리미엄 이해하기 | PnL Profit">
+<meta property="og:description" content="콜과 풋, 행사가, 만기, 프리미엄, 내재가치와 시간가치, 머니니스, 매수자·매도자 손익을 예시로 설명하고 옵션 승인 단계도 정리합니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/options/options-basics/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="옵션 기초: 콜, 풋, 행사가, 프리미엄 이해하기 | PnL Profit">
+<meta name="twitter:description" content="콜과 풋, 행사가, 만기, 프리미엄, 내재가치와 시간가치, 머니니스, 매수자·매도자 손익을 예시로 설명하고 옵션 승인 단계도 정리합니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"옵션 기초: 콜, 풋, 행사가, 프리미엄 이해하기","description":"콜과 풋, 행사가, 만기, 프리미엄, 내재가치와 시간가치, 머니니스, 매수자·매도자 손익을 예시로 설명하고 옵션 승인 단계도 정리합니다.","keywords":"옵션 기초, 콜옵션 풋옵션 차이, 옵션 거래 방법, 내재가치 시간가치, 옵션 승수","articleSection":"옵션 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/options/options-basics/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"옵션 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"옵션 기초","item":"https://pnlpro.fit/ko/encyclopedia/options/options-basics/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"콜과 풋의 차이는 무엇입니까?","acceptedAnswer":{"@type":"Answer","text":"콜은 매수자에게 기초자산을 행사가에 살 권리를 주므로 가격이 오르면 가치가 올라갑니다. 풋은 행사가에 팔 권리를 주므로 가격이 내리면 가치가 올라갑니다."}},{"@type":"Question","name":"옵션 1계약은 얼마입니까?","acceptedAnswer":{"@type":"Answer","text":"호가된 프리미엄에 계약 승수를 곱합니다. 미국 표준 주식옵션의 승수는 100입니다. $2.50에 호가된 콜은 계약당 $250이며, 여기에 수수료와 비용이 더해집니다."}},{"@type":"Question","name":"옵션으로 투자금보다 더 많이 잃을 수 있습니까?","acceptedAnswer":{"@type":"Answer","text":"옵션 매수자는 지불한 프리미엄까지만 잃을 수 있습니다. 옵션 매도자는 받은 프리미엄보다 훨씬 많이 잃을 수 있으며, 네이키드 콜 매도자의 잠재 손실은 무제한입니다."}},{"@type":"Question","name":"옵션이 내가격으로 만기를 맞으면 어떻게 됩니까?","acceptedAnswer":{"@type":"Answer","text":"미국에서 상장 주식옵션은 내가격 폭이 $0.01 이상이면 별도로 지시하지 않는 한 일반적으로 자동 행사되며, 그 결과 주식 포지션이 생길 수 있습니다. 브로커의 정책을 확인하고, 원하지 않는다면 만기 전에 포지션을 청산하십시오."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/options/options-basics/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/options-basics/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/options-basics/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/options-basics/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/options-basics/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/options-basics/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/options-basics/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/options-basics/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/options-basics/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>옵션 트레이딩</h3><ul><li><a href="/ko/encyclopedia/options/options-basics/" class="on" aria-current="page">옵션 기초</a></li><li><a href="/ko/encyclopedia/options/options-greeks/">옵션 그릭스</a></li><li><a href="/ko/encyclopedia/options/implied-volatility/">내재 변동성</a></li><li><a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">커버드 콜과 CSP</a></li><li><a href="/ko/encyclopedia/options/vertical-spreads/">버티컬 스프레드</a></li><li><a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a></li><li><a href="/ko/encyclopedia/options/straddles-and-strangles/">스트래들과 스트랭글</a></li><li><a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a></li><li><a href="/ko/encyclopedia/options/options-expiration-and-assignment/">만기와 배정</a></li><li><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">감마 익스포저와 딜러</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/" class="on">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/options/">옵션 트레이딩</a></div>
+<h1 class="title">옵션 기초</h1>
+<div class="meta">7분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>옵션 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/options/options-basics/" class="on" aria-current="page">옵션 기초</a></li><li><a href="/ko/encyclopedia/options/options-greeks/">옵션 그릭스</a></li><li><a href="/ko/encyclopedia/options/implied-volatility/">내재 변동성</a></li><li><a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">커버드 콜과 CSP</a></li><li><a href="/ko/encyclopedia/options/vertical-spreads/">버티컬 스프레드</a></li><li><a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a></li><li><a href="/ko/encyclopedia/options/straddles-and-strangles/">스트래들과 스트랭글</a></li><li><a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a></li><li><a href="/ko/encyclopedia/options/options-expiration-and-assignment/">만기와 배정</a></li><li><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">감마 익스포저와 딜러</a></li></ul></details>
+<article><p>옵션은 매수자에게 정해진 날짜 또는 그 이전에 고정된 가격으로 자산을 사거나 팔 수 있는 권리를 주되, 의무는 지우지 않는 계약입니다. 매수자는 프리미엄이라는 대가를 지불하고, 매도자는 이를 받는 대신 의무를 집니다. 옵션은 투기, 헤지, 수익 창출에 쓰이며, 주식 현물 거래로는 표현할 수 없는 방향성, 타이밍, 변동성에 대한 견해를 담을 수 있게 해 줍니다. 동시에 시간이 지날수록 가치가 줄어들기 때문에, 많은 옵션 매수자는 방향을 맞히고도 돈을 잃습니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>콜은 행사가에 살 수 있는 권리이고, 풋은 행사가에 팔 수 있는 권리입니다.</li>
+<li>옵션 프리미엄은 지금 행사하면 얻을 수 있는 가치인 내재가치와, 시간과 변동성을 반영하는 외재가치(시간가치)로 이루어집니다.</li>
+<li>옵션 매수자의 위험은 지불한 프리미엄으로 한정되지만, 옵션 매도자는 프리미엄을 받는 대신 그보다 훨씬 큰 손실을 볼 수 있습니다.</li>
+<li>미국의 표준 주식옵션은 100주를 대상으로 하므로, 프리미엄 호가가 $2.00이면 계약당 $200가 듭니다.</li>
+<li>브로커는 옵션 거래 권한을 단계별로 부여하며, 커버되지 않은 옵션 매도처럼 위험이 가장 큰 전략은 경험 많은 계좌에만 허용합니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">기본 구성 요소</a></li><li><a href="#section-3">계약 승수</a></li><li><a href="#section-4">콜: 살 수 있는 권리</a></li><li><a href="#section-7">풋: 팔 수 있는 권리</a></li><li><a href="#section-9">네 가지 기본 포지션</a></li><li><a href="#section-10">내재가치와 외재가치</a></li><li><a href="#section-12">머니니스</a></li><li><a href="#section-13">미국식과 유럽식 행사</a></li><li><a href="#section-14">트레이더가 옵션을 쓰는 이유</a></li><li><a href="#section-15">옵션 거래 승인 단계</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">기본 구성 요소</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>용어</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>기초자산</td>
+<td>옵션의 대상이 되는 자산: 주식, ETF, 지수, 선물, 암호화폐</td>
+</tr>
+<tr>
+<td>콜</td>
+<td>기초자산을 행사가에 살 수 있는 권리</td>
+</tr>
+<tr>
+<td>풋</td>
+<td>기초자산을 행사가에 팔 수 있는 권리</td>
+</tr>
+<tr>
+<td>행사가</td>
+<td>옵션을 행사할 수 있는 고정 가격</td>
+</tr>
+<tr>
+<td>만기일</td>
+<td>옵션이 존재하는 마지막 날</td>
+</tr>
+<tr>
+<td>프리미엄</td>
+<td>옵션의 가격으로, 매수자가 매도자에게 지불</td>
+</tr>
+<tr>
+<td>행사</td>
+<td>매수자가 행사가에 사거나 팔 권리를 사용하는 것</td>
+</tr>
+<tr>
+<td>배정</td>
+<td>행사가 일어난 뒤 매도자가 의무를 이행하도록 지정되는 것</td>
+</tr>
+<tr>
+<td>승수</td>
+<td>계약 하나가 대상으로 하는 단위 수. 미국 표준 주식옵션은 100주</td>
+</tr>
+</tbody></table></div>
+<p>매수자는 옵션을 &quot;롱&quot;으로, 매도자(라이터라고도 합니다)는 &quot;숏&quot;으로 보유한다고 말합니다. 모든 옵션에는 매수자와 매도자가 함께 있으므로 비용을 빼기 전에는 제로섬 계약입니다. 매수자의 이익은 매도자의 손실이고, 그 반대도 마찬가지입니다.</p>
+<h2 id="section-3">계약 승수</h2>
+<p>옵션 가격은 주당 기준으로 호가되지만, 미국의 표준 상장 주식옵션 하나는 100주를 대상으로 합니다. 따라서 $3.40이라는 호가는 수수료를 빼기 전 계약당 $340를 뜻합니다. S&amp;P 500(SPX) 같은 지수옵션도 지수 수준에 $100 승수를 적용합니다. 다른 시장은 승수가 다르고, 선물옵션은 해당 선물 계약의 크기를 따르므로 반드시 계약 명세를 확인하십시오.</p>
+<h2 id="section-4">콜: 살 수 있는 권리</h2>
+<p>콜옵션은 기초자산이 오르면 가치가 올라갑니다. 만기 시 콜의 가치는 주가에서 행사가를 뺀 값이며, 주가가 행사가 이하이면 0입니다.</p>
+<h3 id="section-5">계산 예시: 콜 매수</h3>
+<p>주가가 $100입니다. 만기 30일, 행사가 $105인 콜 1계약을 프리미엄 $2.00에 삽니다. 비용: $2.00 x 100 = $200.</p>
+<ul>
+<li><strong>만기 손익분기점:</strong> 행사가 + 프리미엄 = $105 + $2.00 = $107.</li>
+<li><strong>만기 주가가 $115라면:</strong> 콜의 가치는 $115 - $105 = $10.00, 즉 $1,000입니다. 이익 = $1,000 - $200 = $800.</li>
+<li><strong>주가가 $107라면:</strong> 콜의 가치는 $2.00, 즉 $200입니다. 이익 = $0.</li>
+<li><strong>주가가 $105 이하라면:</strong> 콜은 가치 없이 소멸합니다. 손실 = $200, 프리미엄 전액입니다.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>만기 주가</th>
+<th>주당 콜 가치</th>
+<th>계약당 손익</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$95</td>
+<td>$0.00</td>
+<td>-$200</td>
+</tr>
+<tr>
+<td>$105</td>
+<td>$0.00</td>
+<td>-$200</td>
+</tr>
+<tr>
+<td>$107</td>
+<td>$2.00</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$110</td>
+<td>$5.00</td>
+<td>+$300</td>
+</tr>
+<tr>
+<td>$115</td>
+<td>$10.00</td>
+<td>+$800</td>
+</tr>
+<tr>
+<td>$120</td>
+<td>$15.00</td>
+<td>+$1,300</td>
+</tr>
+</tbody></table></div>
+<p>매수자의 손실은 $200로 제한되고, 잠재 이익에는 정해진 상한이 없습니다. $115 사례에서 주가는 15% 올랐고, 콜 포지션은 프리미엄 $200 대비 400%의 수익을 냈습니다. $105 사례에서는 주가가 5% 올랐지만 콜 포지션은 100% 손실을 봤습니다. 레버리지는 양쪽으로 작용합니다.</p>
+<h3 id="section-6">콜 매도자의 입장</h3>
+<p>같은 콜의 매도자는 처음에 $200를 받습니다. 주가가 $105 이하에 머물면 매도자는 $200를 모두 가집니다. $115에서는 $800 손실, $120에서는 $1,300 손실을 봅니다. 주식을 보유하지 않은 매도자, 즉 네이키드(커버되지 않은) 콜 매도자는 주가가 오를수록 손실이 한없이 커집니다. 100주를 보유한 매도자는 커버드 콜을 쓰는 것이며, <a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">커버드 콜과 현금 담보 풋</a>에서 설명합니다.</p>
+<h2 id="section-7">풋: 팔 수 있는 권리</h2>
+<p>풋옵션은 기초자산이 내리면 가치가 올라갑니다. 만기 시 풋의 가치는 행사가에서 주가를 뺀 값이며, 주가가 행사가 이상이면 0입니다.</p>
+<h3 id="section-8">계산 예시: 풋 매수</h3>
+<p>주가가 $100입니다. 만기 30일, 행사가 $95인 풋 1계약을 $1.50에 삽니다. 비용: $150.</p>
+<ul>
+<li><strong>만기 손익분기점:</strong> 행사가 - 프리미엄 = $95 - $1.50 = $93.50.</li>
+<li><strong>만기 주가가 $85라면:</strong> 풋의 가치는 $95 - $85 = $10.00, 즉 $1,000입니다. 이익 = $1,000 - $150 = $850.</li>
+<li><strong>주가가 $93.50라면:</strong> 풋의 가치는 $1.50입니다. 이익 = $0.</li>
+<li><strong>주가가 $95 이상이라면:</strong> 풋은 가치 없이 소멸합니다. 손실 = $150.</li>
+</ul>
+<p>풋 매수자가 얻을 수 있는 최대 이익은 주가가 0이 될 때입니다: ($95 - $0) x 100 - $150 = $9,350. 풋 매도자는 정반대입니다. 주가가 $95 이상이면 $150를 가지고, 주가가 0이 되면 최대 $9,350를 잃습니다.</p>
+<p>풋은 보험으로 흔히 쓰입니다. 주당 $100에 100주를 보유한 투자자가 위의 $95 풋을 사면, 주당 $1.50의 비용으로 만기까지 최저 매도 가격을 $95로 확보합니다. 이를 프로텍티브 풋이라고 합니다.</p>
+<h2 id="section-9">네 가지 기본 포지션</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>포지션</th>
+<th>전망</th>
+<th>최대 이익</th>
+<th>최대 손실</th>
+<th>만기 손익분기점</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>콜 매수</td>
+<td>강세</td>
+<td>무제한</td>
+<td>지불한 프리미엄</td>
+<td>행사가 + 프리미엄</td>
+</tr>
+<tr>
+<td>콜 매도(네이키드)</td>
+<td>중립~약세</td>
+<td>받은 프리미엄</td>
+<td>무제한</td>
+<td>행사가 + 프리미엄</td>
+</tr>
+<tr>
+<td>풋 매수</td>
+<td>약세</td>
+<td>행사가 - 프리미엄(주가 0 시)</td>
+<td>지불한 프리미엄</td>
+<td>행사가 - 프리미엄</td>
+</tr>
+<tr>
+<td>풋 매도</td>
+<td>중립~강세</td>
+<td>받은 프리미엄</td>
+<td>행사가 - 프리미엄(주가 0 시)</td>
+<td>행사가 - 프리미엄</td>
+</tr>
+</tbody></table></div>
+<p><a href="/ko/encyclopedia/options/vertical-spreads/">버티컬 스프레드</a>부터 <a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a>까지 다른 모든 옵션 전략은 이 네 가지 구성 요소를 조합한 것이며, 때로는 기초 주식이 더해집니다.</p>
+<h2 id="section-10">내재가치와 외재가치</h2>
+<p>옵션 프리미엄은 두 부분으로 나뉩니다.</p>
+<ul>
+<li><strong>내재가치</strong>는 지금 즉시 행사했을 때 옵션이 갖는 가치입니다. 콜은 주가에서 행사가를 뺀 값(양수일 때), 풋은 행사가에서 주가를 뺀 값(양수일 때)입니다. 음수가 되는 일은 없습니다.</li>
+<li><strong>외재가치</strong>는 시간가치라고도 하며, 나머지 전부, 즉 프리미엄에서 내재가치를 뺀 값입니다. 만기 전에 옵션 가치가 더 오를 가능성을 반영하며, 남은 시간과 예상 변동성에 좌우됩니다.</li>
+</ul>
+<h3 id="section-11">계산 예시</h3>
+<p>주가가 $100입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>옵션</th>
+<th>프리미엄</th>
+<th>내재가치</th>
+<th>외재가치</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$95 콜</td>
+<td>$6.20</td>
+<td>$100 - $95 = $5.00</td>
+<td>$6.20 - $5.00 = $1.20</td>
+</tr>
+<tr>
+<td>$100 콜</td>
+<td>$3.50</td>
+<td>$0.00</td>
+<td>$3.50</td>
+</tr>
+<tr>
+<td>$105 콜</td>
+<td>$1.40</td>
+<td>$0.00</td>
+<td>$1.40</td>
+</tr>
+<tr>
+<td>$105 풋</td>
+<td>$6.10</td>
+<td>$105 - $100 = $5.00</td>
+<td>$6.10 - $5.00 = $1.10</td>
+</tr>
+</tbody></table></div>
+<p>외재가치는 만기가 다가올수록 0을 향해 줄어드는데, 이를 시간가치 감소(타임 디케이)라고 합니다. 만기에 옵션은 내재가치만큼만 가치가 있습니다. 감소 속도는 <a href="/ko/encyclopedia/options/options-greeks/">옵션 그릭스</a> 가운데 하나인 세타로 측정합니다. 시장이 예상하는 변동성, 즉 <a href="/ko/encyclopedia/options/implied-volatility/">내재변동성</a>은 외재가치를 움직이는 또 하나의 주요 요인입니다.</p>
+<h2 id="section-12">머니니스</h2>
+<p>머니니스는 행사가가 기초자산의 현재 가격에 비해 어디에 있는지를 나타냅니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>용어</th>
+<th>콜</th>
+<th>풋</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>내가격(ITM)</td>
+<td>주가가 행사가보다 높음</td>
+<td>주가가 행사가보다 낮음</td>
+</tr>
+<tr>
+<td>등가격(ATM)</td>
+<td>주가가 행사가와 같거나 근접</td>
+<td>주가가 행사가와 같거나 근접</td>
+</tr>
+<tr>
+<td>외가격(OTM)</td>
+<td>주가가 행사가보다 낮음</td>
+<td>주가가 행사가보다 높음</td>
+</tr>
+</tbody></table></div>
+<p>ITM 옵션은 내재가치가 있어 더 비쌉니다. OTM 옵션은 전부 외재가치로 이루어져 있습니다. 더 싸지만, 만기에 조금이라도 가치가 있으려면 주가가 만기 전에 행사가를 넘어서야 합니다. 값싼 깊은 외가격 옵션은 낮은 가격 때문에 초보자를 끌어들이지만, 대부분 가치 없이 소멸합니다.</p>
+<h2 id="section-13">미국식과 유럽식 행사</h2>
+<ul>
+<li><strong>미국식</strong> 옵션은 만기일을 포함해 만기까지 어느 영업일에나 행사할 수 있습니다. 미국의 개별 주식과 ETF에 대한 표준 옵션은 미국식입니다.</li>
+<li><strong>유럽식</strong> 옵션은 만기에만 행사할 수 있습니다. SPX 옵션을 비롯한 많은 지수옵션이 유럽식이며 현금 결제됩니다.</li>
+</ul>
+<p>실제로는 대부분의 옵션 포지션을 행사하지 않고 시장에서 매도해 청산합니다. 매도하면 남은 외재가치까지 챙길 수 있기 때문입니다. 행사와 배정 규칙은 <a href="/ko/encyclopedia/options/options-expiration-and-assignment/">옵션 만기와 배정</a>에서 다룹니다.</p>
+<h2 id="section-14">트레이더가 옵션을 쓰는 이유</h2>
+<ol>
+<li><strong>레버리지 투기:</strong> 콜이나 풋은 주가의 일부에 불과한 비용으로 100주를 통제하며, 위험은 프리미엄으로 한정됩니다.</li>
+<li><strong>헤지:</strong> 풋으로 주식 포트폴리오를 하락으로부터 보호할 수 있습니다. <a href="/ko/encyclopedia/risk-management/correlation-and-portfolio-risk/">상관관계와 포트폴리오 리스크</a>를 참고하십시오.</li>
+<li><strong>수익 창출:</strong> 옵션을 매도하면 프리미엄을 받는 대신 의무와 위험을 떠안습니다.</li>
+<li><strong>변동성 거래:</strong> <a href="/ko/encyclopedia/options/straddles-and-strangles/">스트래들과 스트랭글</a> 같은 일부 전략은 방향과 무관하게 큰 움직임이나 조용한 시장에서 수익을 냅니다.</li>
+</ol>
+<h2 id="section-15">옵션 거래 승인 단계</h2>
+<p>옵션 매도는 큰 손실을 낳을 수 있으므로, 브로커는 옵션 거래를 허용하기 전에 신청서를 받고 경험, 소득, 순자산, 투자 목적에 따라 승인 단계를 부여합니다. 단계와 명칭은 브로커와 국가마다 다르지만, 일반적인 구성은 다음과 같습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>일반적으로 허용되는 거래</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>커버드 콜, 현금 담보 풋</td>
+</tr>
+<tr>
+<td>2</td>
+<td>콜과 풋 매수</td>
+</tr>
+<tr>
+<td>3</td>
+<td>버티컬, 아이언 콘도르 같은 위험 한정형 스프레드</td>
+</tr>
+<tr>
+<td>4</td>
+<td>커버되지 않은(네이키드) 풋 매도</td>
+</tr>
+<tr>
+<td>5</td>
+<td>커버되지 않은(네이키드) 콜 매도</td>
+</tr>
+</tbody></table></div>
+<p>미국에서는 브로커가 옵션청산공사(Options Clearing Corporation)가 발행하는 옵션 공시 문서 &quot;Characteristics and Risks of Standardized Options&quot;도 제공해야 합니다. 읽어 볼 가치가 있습니다.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>싸다는 이유로 깊은 외가격 옵션을 산다.</strong> 가격이 낮다는 것은 수익이 날 확률이 낮다는 뜻입니다.</li>
+<li><strong>시간가치 감소를 무시한다.</strong> 주가가 맞는 방향으로 움직여도 너무 느리면 옵션 매수 포지션은 손실이 날 수 있습니다.</li>
+<li><strong>승수를 잊는다.</strong> $5.00짜리 옵션은 계약당 $500이고, 10계약이면 $5,000입니다.</li>
+<li><strong>&quot;쉬운&quot; 수익을 노리고 네이키드 옵션을 판다.</strong> 작은 수익을 여러 번 쌓아도 한 번의 큰 움직임에 사라질 수 있습니다. 최악의 경우를 기준으로 규모를 정하십시오.</li>
+<li><strong>변동성을 이해하지 못한 채 실적 발표를 넘겨 보유한다.</strong> 주가가 움직이더라도 발표 뒤에는 옵션 가격이 급락하는 경우가 많습니다. <a href="/ko/encyclopedia/options/implied-volatility/">내재변동성</a>을 참고하십시오.</li>
+</ul>
+<p>옵션은 레버리지 상품이며, 개인 투자자의 옵션 거래에 관한 연구들은 대체로 개인 투자자 전체가 비용을 뺀 뒤 손실을 본다는 결과를 보여 주었습니다. 특히 만기가 짧은 계약에서 그렇습니다.</p>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-18">콜과 풋의 차이는 무엇입니까?</h3>
+<p>콜은 매수자에게 기초자산을 행사가에 살 권리를 주므로 가격이 오르면 가치가 올라갑니다. 풋은 행사가에 팔 권리를 주므로 가격이 내리면 가치가 올라갑니다.</p>
+<h3 id="1">옵션 1계약은 얼마입니까?</h3>
+<p>호가된 프리미엄에 계약 승수를 곱합니다. 미국 표준 주식옵션의 승수는 100입니다. $2.50에 호가된 콜은 계약당 $250이며, 여기에 수수료와 비용이 더해집니다.</p>
+<h3 id="section-20">옵션으로 투자금보다 더 많이 잃을 수 있습니까?</h3>
+<p>옵션 매수자는 지불한 프리미엄까지만 잃을 수 있습니다. 옵션 매도자는 받은 프리미엄보다 훨씬 많이 잃을 수 있으며, 네이키드 콜 매도자의 잠재 손실은 무제한입니다.</p>
+<h3 id="section-21">옵션이 내가격으로 만기를 맞으면 어떻게 됩니까?</h3>
+<p>미국에서 상장 주식옵션은 내가격 폭이 $0.01 이상이면 별도로 지시하지 않는 한 일반적으로 자동 행사되며, 그 결과 주식 포지션이 생길 수 있습니다. 브로커의 정책을 확인하고, 원하지 않는다면 만기 전에 포지션을 청산하십시오.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/options/options-greeks/"><div class="k">옵션 트레이딩</div><b>옵션 그릭스</b><span>델타, 감마, 세타, 베가, 로가 무엇을 측정하는지 계산 예시로 설명하고, 시간과 머니니스에 따른 변화와 포지션 그릭스 읽는 법을 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/options/implied-volatility/"><div class="k">옵션 트레이딩</div><b>내재 변동성</b><span>내재변동성의 정의와 역사적 변동성과의 차이, IV 랭크와 IV 백분위, IV 크러시, 변동성 스큐, 예상 변동폭 공식을 예시와 함께 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/options/vertical-spreads/"><div class="k">옵션 트레이딩</div><b>버티컬 스프레드</b><span>불 콜, 베어 풋, 불 풋, 베어 콜 스프레드의 구조와 최대 이익, 최대 손실, 손익분기점 공식을 계산 예시와 함께 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/options/options-expiration-and-assignment/"><div class="k">옵션 트레이딩</div><b>만기와 배정</b><span>행사와 배정의 원리, 배당 전 조기 배정, 내가격 $0.01 자동 행사, 핀 리스크, SPX와 SPY 결제 차이, 시간외 위험을 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/"><div class="k">옵션 트레이딩</div><b>커버드 콜과 CSP</b><span>커버드 콜과 현금 담보 풋의 원리, 손익과 손익분기점 계산, 휠 전략, 상승 이익 제한과 배정 위험까지 계산 예시와 함께 설명합니다.</span></a></div></section>
+<div class="pager"><span></span><a class="next" href="/ko/encyclopedia/options/options-greeks/"><small>다음 글 →</small>옵션 그릭스</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

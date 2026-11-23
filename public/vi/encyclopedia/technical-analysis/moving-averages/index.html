@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đường trung bình động: SMA, EMA, Golden Cross và độ trễ | PnL Profit</title>
+<meta name="description" content="Cách tính đường trung bình động đơn giản, hàm mũ và có trọng số, ý nghĩa của chu kỳ 20, 50, 200, golden cross, death cross và sự đánh đổi về độ trễ.">
+<meta name="keywords" content="đường trung bình động, SMA và EMA, đường MA200, golden cross, death cross, giao cắt đường trung bình động">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/moving-averages/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Đường trung bình động: SMA, EMA, Golden Cross và độ trễ | PnL Profit">
+<meta property="og:description" content="Cách tính đường trung bình động đơn giản, hàm mũ và có trọng số, ý nghĩa của chu kỳ 20, 50, 200, golden cross, death cross và sự đánh đổi về độ trễ.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/technical-analysis/moving-averages/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Đường trung bình động: SMA, EMA, Golden Cross và độ trễ | PnL Profit">
+<meta name="twitter:description" content="Cách tính đường trung bình động đơn giản, hàm mũ và có trọng số, ý nghĩa của chu kỳ 20, 50, 200, golden cross, death cross và sự đánh đổi về độ trễ.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Đường trung bình động: SMA, EMA, Golden Cross và độ trễ","description":"Cách tính đường trung bình động đơn giản, hàm mũ và có trọng số, ý nghĩa của chu kỳ 20, 50, 200, golden cross, death cross và sự đánh đổi về độ trễ.","keywords":"đường trung bình động, SMA và EMA, đường MA200, golden cross, death cross, giao cắt đường trung bình động","articleSection":"Phân tích kỹ thuật","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/technical-analysis/moving-averages/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Phân tích kỹ thuật","item":"https://pnlpro.fit/vi/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"Đường trung bình động","item":"https://pnlpro.fit/vi/encyclopedia/technical-analysis/moving-averages/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"SMA và EMA khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"SMA đặt trọng số bằng nhau cho mọi kỳ trong cửa sổ của nó, còn EMA đặt trọng số lớn hơn cho các mức giá gần nhất. EMA phản ứng nhanh hơn với thay đổi đột ngột nhưng cũng nhạy hơn với các cú đột biến đơn lẻ."}},{"@type":"Question","name":"Đường trung bình động nào tốt nhất cho day trading?","acceptedAnswer":{"@type":"Answer","text":"Không có thiết lập nào là tốt nhất. Day trader thường dùng các EMA ngắn, như 9 hoặc 20 kỳ, trên biểu đồ 1 đến 15 phút, cùng với các chuẩn so sánh trong ngày như VWAP, nhưng lựa chọn nên được kiểm tra trên thị trường và khung thời gian đang giao dịch."}},{"@type":"Question","name":"Golden cross là gì?","acceptedAnswer":{"@type":"Answer","text":"Golden cross xảy ra khi đường trung bình động 50 ngày cắt lên trên đường trung bình động 200 ngày. Nó được đưa tin rộng rãi như một dấu hiệu tích cực nhưng là tín hiệu chậm, thường đến sau khi phần lớn nhịp đi đã diễn ra."}},{"@type":"Question","name":"Vì sao đường trung bình động 200 ngày quan trọng?","acceptedAnswer":{"@type":"Answer","text":"Đó là đường xu hướng dài hạn được theo dõi nhiều nhất, đặc biệt với các chỉ số chứng khoán, nên nhiều trader và cơ quan truyền thông theo dõi việc giá nằm trên hay dưới nó. Sự chú ý đó có thể gây ra phản ứng gần đường này, nhưng đó là một quy ước, không phải quy luật."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/moving-averages/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/moving-averages/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/moving-averages/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/moving-averages/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/moving-averages/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/moving-averages/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/moving-averages/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/moving-averages/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/moving-averages/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Phân tích kỹ thuật</h3><ul><li><a href="/vi/encyclopedia/technical-analysis/technical-analysis-intro/">Nhập môn phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-charts/">Đọc biểu đồ nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-patterns/">Mô hình nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/support-and-resistance/">Hỗ trợ và kháng cự</a></li><li><a href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/">Xu hướng và cấu trúc thị trường</a></li><li><a href="/vi/encyclopedia/technical-analysis/chart-patterns/">Mô hình giá</a></li><li><a href="/vi/encyclopedia/technical-analysis/moving-averages/" class="on" aria-current="page">Đường trung bình động</a></li><li><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/vi/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/vi/encyclopedia/technical-analysis/bollinger-bands/">Dải Bollinger</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-analysis/">Phân tích khối lượng</a></li><li><a href="/vi/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/vi/encyclopedia/technical-analysis/fibonacci-retracement/">Công cụ Fibonacci</a></li><li><a href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR và biến động</a></li><li><a href="/vi/encyclopedia/technical-analysis/multi-timeframe-analysis/">Phân tích đa khung thời gian</a></li><li><a href="/vi/encyclopedia/technical-analysis/price-action-trading/">Giao dịch price action</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile và Market Profile</a></li><li><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/">Giao dịch order flow</a></li><li><a href="/vi/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/vi/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Sóng Elliott và Wyckoff</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/" class="on">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a></div>
+<h1 class="title">Đường trung bình động</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Phân tích kỹ thuật</summary><ul><li><a href="/vi/encyclopedia/technical-analysis/technical-analysis-intro/">Nhập môn phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-charts/">Đọc biểu đồ nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/candlestick-patterns/">Mô hình nến</a></li><li><a href="/vi/encyclopedia/technical-analysis/support-and-resistance/">Hỗ trợ và kháng cự</a></li><li><a href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/">Xu hướng và cấu trúc thị trường</a></li><li><a href="/vi/encyclopedia/technical-analysis/chart-patterns/">Mô hình giá</a></li><li><a href="/vi/encyclopedia/technical-analysis/moving-averages/" class="on" aria-current="page">Đường trung bình động</a></li><li><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/vi/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/vi/encyclopedia/technical-analysis/bollinger-bands/">Dải Bollinger</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-analysis/">Phân tích khối lượng</a></li><li><a href="/vi/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/vi/encyclopedia/technical-analysis/fibonacci-retracement/">Công cụ Fibonacci</a></li><li><a href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR và biến động</a></li><li><a href="/vi/encyclopedia/technical-analysis/multi-timeframe-analysis/">Phân tích đa khung thời gian</a></li><li><a href="/vi/encyclopedia/technical-analysis/price-action-trading/">Giao dịch price action</a></li><li><a href="/vi/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile và Market Profile</a></li><li><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/">Giao dịch order flow</a></li><li><a href="/vi/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/vi/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Sóng Elliott và Wyckoff</a></li></ul></details>
+<article><p>Đường trung bình động (moving average) là giá trung bình trong một số kỳ gần nhất, được tính lại mỗi khi có thanh nến mới, nên nó &quot;di chuyển&quot; dọc theo biểu đồ. Nó làm mượt nhiễu ngắn hạn và giúp nhìn rõ hướng của xu hướng hơn. Đường trung bình động là chỉ báo kỹ thuật được dùng rộng rãi nhất và là nền tảng của nhiều chỉ báo khác, gồm MACD và dải Bollinger. Hạn chế cơ bản của chúng là độ trễ: vì tính trung bình giá quá khứ, chúng luôn phản ứng sau khi giá đã di chuyển.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Đường trung bình động đơn giản (SMA) đặt trọng số bằng nhau cho mọi kỳ; đường hàm mũ (EMA) và đường có trọng số (WMA) đặt trọng số lớn hơn cho các mức giá gần đây.</li>
+<li>Các chu kỳ phổ biến là 20 (ngắn hạn), 50 (trung hạn) và 200 (dài hạn), và sự phổ biến của chúng một phần tự củng cố.</li>
+<li>Golden cross (50 cắt lên trên 200) và death cross (50 cắt xuống dưới 200) được đưa tin rộng rãi nhưng là các tín hiệu chậm, bị quét hai chiều trong thị trường đi ngang.</li>
+<li>Mọi đường trung bình động đều đánh đổi độ nhạy lấy độ mượt; không có thiết lập nào vừa nhanh vừa không có tín hiệu giả.</li>
+<li>Quy tắc đường trung bình động là cốt lõi của giao dịch theo xu hướng có hệ thống, vốn từng hiệu quả ở một số thị trường với những giai đoạn thua kéo dài.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#c-c-lo-i-ng-trung-b-nh-ng">Các loại đường trung bình động</a></li><li><a href="#v-d-minh-h-a-sma-ema-v-wma">Ví dụ minh họa: SMA, EMA và WMA</a></li><li><a href="#c-c-chu-k-ph-bi-n-v-c-ch-d-ng">Các chu kỳ phổ biến và cách dùng</a></li><li><a href="#c-ch-s-d-ng-ng-trung-b-nh-ng">Cách sử dụng đường trung bình động</a></li><li><a href="#s-nh-i-v-tr">Sự đánh đổi về độ trễ</a></li><li><a href="#b-ng-ch-ng-n-i-g">Bằng chứng nói gì</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="c-c-lo-i-ng-trung-b-nh-ng">Các loại đường trung bình động</h2>
+<h3 id="ng-trung-b-nh-ng-n-gi-n-sma">Đường trung bình động đơn giản (SMA)</h3>
+<p>SMA cộng N giá đóng cửa gần nhất rồi chia cho N. SMA 20 ngày là giá đóng cửa trung bình của 20 ngày giao dịch gần nhất. Khi có ngày mới, ngày cũ nhất rơi ra khỏi cửa sổ.</p>
+<p>Vì mỗi ngày có trọng số như nhau, SMA có thể nhảy vọt khi một biến động lớn rơi khỏi cửa sổ, kể cả khi giá hôm nay không làm gì. Hiện tượng này đôi khi được gọi là hiệu ứng rơi khỏi cửa sổ (drop-off effect).</p>
+<h3 id="ng-trung-b-nh-ng-h-m-m-ema">Đường trung bình động hàm mũ (EMA)</h3>
+<p>EMA đặt trọng số lớn nhất cho giá mới nhất và giảm dần cho giá cũ hơn, không có điểm cắt cứng. Mỗi giá trị mới là:</p>
+<ul>
+<li>EMA hôm nay = EMA hôm qua + k x (giá đóng hôm nay - EMA hôm qua)</li>
+<li>trong đó k = 2 / (N + 1)</li>
+</ul>
+<p>Với EMA 20 kỳ, k = 2 / 21, khoảng 0.095. Với EMA 5 kỳ, k = 2 / 6, khoảng 0.333. EMA cần một giá trị khởi đầu, thường là một SMA, và các giá trị đầu phụ thuộc vào giá trị khởi tạo đó.</p>
+<h3 id="ng-trung-b-nh-ng-c-tr-ng-s-wma">Đường trung bình động có trọng số (WMA)</h3>
+<p>WMA gán trọng số tuyến tính: trong WMA 5 kỳ, giá đóng cửa mới nhất được nhân với 5, giá trước đó nhân với 4, và cứ thế xuống tới 1, rồi chia tổng cho tổng các trọng số (15). Nó phản ứng nhanh hơn SMA.</p>
+<p>Còn có các biến thể khác, gồm đường trung bình động Hull, EMA kép và EMA ba, và cách làm mượt của Wilder (dùng bên trong <a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a> và <a href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR</a>). Tất cả đều nhằm cân bằng giữa độ mượt và tốc độ theo những cách khác nhau.</p>
+<h2 id="v-d-minh-h-a-sma-ema-v-wma">Ví dụ minh họa: SMA, EMA và WMA</h2>
+<p>Năm giá đóng cửa theo ngày: $10, $11, $12, $13, $14.</p>
+<ul>
+<li><strong>SMA 5 ngày</strong> = (10 + 11 + 12 + 13 + 14) / 5 = 60 / 5 = <strong>$12.00</strong></li>
+<li>Giả sử EMA 5 ngày cũng bằng $12.00 tại thời điểm này (khởi tạo bằng SMA).</li>
+</ul>
+<p>Ngày hôm sau đóng cửa ở <strong>$16</strong>, một cú nhảy lớn hơn thường lệ.</p>
+<ul>
+<li><strong>SMA mới:</strong> bỏ $10, thêm $16. (11 + 12 + 13 + 14 + 16) / 5 = 66 / 5 = <strong>$13.20</strong></li>
+<li><strong>EMA mới:</strong> k = 2 / 6 = 1/3. EMA = 12.00 + (1/3) x (16 - 12.00) = 12.00 + 1.33 = <strong>$13.33</strong></li>
+<li><strong>WMA mới:</strong> (11 x 1 + 12 x 2 + 13 x 3 + 14 x 4 + 16 x 5) / 15 = (11 + 24 + 39 + 56 + 80) / 15 = 210 / 15 = <strong>$14.00</strong></li>
+</ul>
+<p>Cả ba đều thấp hơn giá mới nhất $16, đó chính là độ trễ. WMA di chuyển gần giá nhất vì nó đặt trọng số lớn nhất lên thanh nến mới nhất; SMA di chuyển ít nhất.</p>
+<h2 id="c-c-chu-k-ph-bi-n-v-c-ch-d-ng">Các chu kỳ phổ biến và cách dùng</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Chu kỳ</th>
+<th>Cách dùng điển hình</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>9 hoặc 10</td>
+<td>Xu hướng rất ngắn hạn; thường là EMA trên biểu đồ trong ngày</td>
+</tr>
+<tr>
+<td>20 hoặc 21</td>
+<td>Xu hướng ngắn hạn; xấp xỉ một tháng ngày giao dịch. Đường giữa của <a href="/vi/encyclopedia/technical-analysis/bollinger-bands/">dải Bollinger</a></td>
+</tr>
+<tr>
+<td>50</td>
+<td>Xu hướng trung hạn; được theo dõi rộng rãi trên biểu đồ ngày của cổ phiếu</td>
+</tr>
+<tr>
+<td>100</td>
+<td>Trung gian; ít phổ biến hơn</td>
+</tr>
+<tr>
+<td>200</td>
+<td>Xu hướng dài hạn; đường trung bình được theo dõi nhiều nhất với các chỉ số chứng khoán</td>
+</tr>
+</tbody></table></div>
+<p>Các chu kỳ này không có tính chất toán học đặc biệt nào. Chúng trở thành quy ước, và sự phổ biến của chúng nghĩa là nhiều trader theo dõi cùng những đường. Chẳng hạn, truyền thông tài chính thường đưa tin khi một chỉ số lớn cắt qua đường trung bình động 200 ngày. Sự chú ý đó có thể tạo ra phản ứng ngắn hạn gần các đường này, một phần là hiệu ứng tự ứng nghiệm.</p>
+<p>Đường trung bình động có thể tính trên bất kỳ khung thời gian nào. Đường 50 kỳ trên biểu đồ 5 phút bao phủ khoảng bốn giờ, không phải 50 ngày.</p>
+<h2 id="c-ch-s-d-ng-ng-trung-b-nh-ng">Cách sử dụng đường trung bình động</h2>
+<h3 id="b-l-c-xu-h-ng">Bộ lọc xu hướng</h3>
+<p>Cách dùng đơn giản nhất là xác định hướng: giá nằm trên đường 200 ngày đang dốc lên được coi là xu hướng tăng dài hạn; dưới đường đang dốc xuống là xu hướng giảm. Nhiều trader chỉ vào lệnh mua khi giá nằm trên một đường đã chọn, và chỉ bán khi giá nằm dưới. Độ dốc quan trọng không kém vị trí: một đường phẳng gợi ý vùng đi ngang. Xem <a href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/">xu hướng và cấu trúc thị trường</a>.</p>
+<h3 id="giao-c-t">Giao cắt</h3>
+<p>Hệ thống giao cắt dùng hai đường, một nhanh và một chậm. Tín hiệu mua xuất hiện khi đường nhanh cắt lên trên đường chậm, và tín hiệu bán khi nó cắt xuống dưới.</p>
+<ul>
+<li><strong>Golden cross:</strong> đường 50 ngày cắt lên trên đường 200 ngày.</li>
+<li><strong>Death cross:</strong> đường 50 ngày cắt xuống dưới đường 200 ngày.</li>
+</ul>
+<p>Golden cross và death cross vốn chậm theo thiết kế. Đến khi đường 50 ngày cắt đường 200 ngày, giá thường đã đi một đoạn rất xa. Trong thị trường đi ngang, các đường có thể cắt qua lại nhiều lần, tạo ra chuỗi các khoản lỗ nhỏ gọi là whipsaw (bị quét hai chiều). Việc giá cắt qua một đường duy nhất (ví dụ, đóng cửa trên đường 50 ngày) là phiên bản nhanh hơn nhưng nhiễu hơn của cùng ý tưởng.</p>
+<h3 id="h-tr-v-kh-ng-c-ng">Hỗ trợ và kháng cự động</h3>
+<p>Trong một xu hướng ổn định, giá thường điều chỉnh về phía một đường trung bình động rồi tiếp tục. Trader coi đường trung bình là phiên bản di động của <a href="/vi/encyclopedia/technical-analysis/support-and-resistance/">hỗ trợ và kháng cự</a>. Đường 20 và 50 được ưa dùng cho mục đích này trong cổ phiếu. Cũng như các mức nằm ngang, đường trung bình là một vùng, không phải đường chính xác, và nó thất bại thường xuyên, nhất là khi xu hướng đang kết thúc.</p>
+<h3 id="n-n-t-ng-cho-c-c-ch-b-o-kh-c">Nền tảng cho các chỉ báo khác</h3>
+<p><a href="/vi/encyclopedia/technical-analysis/macd/">MACD</a> là hiệu của hai EMA. Dải Bollinger là đường trung bình động cộng và trừ các độ lệch chuẩn. Kênh Keltner dùng một EMA và ATR. Hiểu đường trung bình động giúp việc diễn giải các công cụ này dễ hơn.</p>
+<h2 id="s-nh-i-v-tr">Sự đánh đổi về độ trễ</h2>
+<p>Mọi đường trung bình động đều có độ trễ. Trong một xu hướng đều, thẳng, SMA N kỳ chạy sau giá khoảng (N - 1) / 2 thanh. SMA 20 ngày chậm khoảng 9.5 ngày; SMA 200 ngày chậm khoảng 100 ngày.</p>
+<p>EMA N kỳ có độ trễ trung bình xấp xỉ như vậy trong xu hướng đều. Ưu điểm của nó là phản ứng sớm hơn khi giá đổi hướng đột ngột, vì thanh nến mới nhất có trọng số lớn hơn. Cái giá phải trả là nó cũng phản ứng nhiều hơn với các cú đột biến ngẫu nhiên.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Lựa chọn</th>
+<th>Lợi ích</th>
+<th>Cái giá</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Chu kỳ ngắn hơn</td>
+<td>Tín hiệu sớm hơn, sát giá hơn</td>
+<td>Nhiều tín hiệu giả và whipsaw hơn</td>
+</tr>
+<tr>
+<td>Chu kỳ dài hơn</td>
+<td>Mượt hơn, ít tín hiệu giả hơn</td>
+<td>Vào và thoát lệnh muộn hơn, nhả lại nhiều lợi nhuận hơn</td>
+</tr>
+<tr>
+<td>EMA hoặc WMA thay vì SMA</td>
+<td>Phản ứng nhanh hơn khi đổi hướng</td>
+<td>Nhạy hơn với các cú đột biến đơn lẻ</td>
+</tr>
+</tbody></table></div>
+<p>Không có thiết lập nào loại bỏ được sự đánh đổi này. Tối ưu hóa chu kỳ trên dữ liệu quá khứ để tìm chu kỳ &quot;tốt nhất&quot; thường cho ra các thiết lập khớp với quá khứ nhưng thất bại trong tương lai. Xem <a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">overfitting</a>.</p>
+<h2 id="b-ng-ch-ng-n-i-g">Bằng chứng nói gì</h2>
+<p>Quy tắc đường trung bình động nằm trong số những công cụ kỹ thuật được nghiên cứu nhiều nhất. Brock, Lakonishok và LeBaron (1992) phát hiện rằng các quy tắc đường trung bình động đơn giản trên chỉ số Dow Jones có khả năng dự báo trong một mẫu lịch sử dài, nhưng các nghiên cứu sau đó đã hiệu chỉnh cho hiện tượng khai thác dữ liệu (data snooping) và thấy hiệu ứng không còn tồn tại trong dữ liệu gần đây hơn. Nói rộng hơn, nghiên cứu học thuật về động lượng chuỗi thời gian ủng hộ ý tưởng rằng các quy tắc theo xu hướng, thường xây dựng từ đường trung bình động, trong lịch sử đã đem lại lợi suất trên các danh mục hợp đồng tương lai đa dạng trong thời gian dài. Thành công đó đi kèm những giai đoạn đi ngang hoặc thua lỗ kéo dài và phụ thuộc vào việc giao dịch nhiều thị trường với kiểm soát rủi ro kỷ luật. Xem <a href="/vi/encyclopedia/algorithmic-trading/trend-following/">theo xu hướng</a>.</p>
+<p>Với một cổ phiếu hoặc tài sản tiền điện tử đơn lẻ, quy tắc giao cắt có thể hơn hoặc thua chiến lược mua và nắm giữ tùy giai đoạn được kiểm tra. Kết quả nhạy cảm với giai đoạn, tài sản và chi phí.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Kỳ vọng đường trung bình dự báo được.</strong> Đường trung bình động tóm tắt quá khứ. Giao cắt chỉ xác nhận một nhịp đi đã xảy ra.</li>
+<li><strong>Dùng giao cắt trong vùng đi ngang.</strong> Thị trường đi ngang tạo ra whipsaw lặp đi lặp lại và một chuỗi các khoản lỗ nhỏ.</li>
+<li><strong>Tối ưu hóa chu kỳ quá mức.</strong> Đường 47 ngày hiệu quả nhất năm ngoái khó có thể đặc biệt vào năm sau.</li>
+<li><strong>Chồng nhiều đường trung bình.</strong> Năm đường trung bình động trên một biểu đồ là năm phiên bản của cùng một thông tin.</li>
+<li><strong>Coi đường 200 ngày như bức tường.</strong> Giá có thể và vẫn thường xuyên cắt thẳng qua các đường được theo dõi rộng rãi.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="sma-v-ema-kh-c-nhau-th-n-o">SMA và EMA khác nhau thế nào?</h3>
+<p>SMA đặt trọng số bằng nhau cho mọi kỳ trong cửa sổ của nó, còn EMA đặt trọng số lớn hơn cho các mức giá gần nhất. EMA phản ứng nhanh hơn với thay đổi đột ngột nhưng cũng nhạy hơn với các cú đột biến đơn lẻ.</p>
+<h3 id="ng-trung-b-nh-ng-n-o-t-t-nh-t-cho-day-trading">Đường trung bình động nào tốt nhất cho day trading?</h3>
+<p>Không có thiết lập nào là tốt nhất. Day trader thường dùng các EMA ngắn, như 9 hoặc 20 kỳ, trên biểu đồ 1 đến 15 phút, cùng với các chuẩn so sánh trong ngày như VWAP, nhưng lựa chọn nên được kiểm tra trên thị trường và khung thời gian đang giao dịch.</p>
+<h3 id="golden-cross-l-g">Golden cross là gì?</h3>
+<p>Golden cross xảy ra khi đường trung bình động 50 ngày cắt lên trên đường trung bình động 200 ngày. Nó được đưa tin rộng rãi như một dấu hiệu tích cực nhưng là tín hiệu chậm, thường đến sau khi phần lớn nhịp đi đã diễn ra.</p>
+<h3 id="v-sao-ng-trung-b-nh-ng-200-ng-y-quan-tr-ng">Vì sao đường trung bình động 200 ngày quan trọng?</h3>
+<p>Đó là đường xu hướng dài hạn được theo dõi nhiều nhất, đặc biệt với các chỉ số chứng khoán, nên nhiều trader và cơ quan truyền thông theo dõi việc giá nằm trên hay dưới nó. Sự chú ý đó có thể gây ra phản ứng gần đường này, nhưng đó là một quy ước, không phải quy luật.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/technical-analysis/trends-and-market-structure/"><div class="k">Phân tích kỹ thuật</div><b>Xu hướng và cấu trúc thị trường</b><span>Cách trader xác định xu hướng tăng, giảm và vùng đi ngang bằng đỉnh đáy dao động, đường xu hướng, kênh giá, phá vỡ cấu trúc và chỉ báo ADX đo sức mạnh xu hướng.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/macd/"><div class="k">Phân tích kỹ thuật</div><b>MACD</b><span>MACD được tạo từ hai đường EMA như thế nào, đường tín hiệu và histogram cho thấy gì, cách trader đọc giao cắt và phân kỳ, cài đặt 12/26/9 và vấn đề độ trễ.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/bollinger-bands/"><div class="k">Phân tích kỹ thuật</div><b>Dải Bollinger</b><span>Dải Bollinger được xây dựng từ đường trung bình 20 kỳ và 2 độ lệch chuẩn ra sao, squeeze, đi dọc theo dải, %B, độ rộng dải (bandwidth) và kênh Keltner.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/trend-following/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Bám theo xu hướng</b><span>Cách trend following hoạt động: momentum chuỗi thời gian, CTA và managed futures, hệ thống phá vỡ và đường trung bình, Turtle traders, độ lệch dương, drawdown.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/support-and-resistance/"><div class="k">Phân tích kỹ thuật</div><b>Hỗ trợ và kháng cự</b><span>Hỗ trợ và kháng cự là gì, vì sao chúng hình thành, cách vẽ thành vùng, đảo vai trò, số tròn, và cách phân biệt phá vỡ thật với phá vỡ giả (fakeout).</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/technical-analysis/chart-patterns/"><small>← Bài trước</small>Mô hình giá</a><a class="next" href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/"><small>Bài tiếp →</small>RSI</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

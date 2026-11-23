@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drawdown e risco de ruína: recuperação e sequências de perdas</title>
+<meta name="description" content="O que é drawdown máximo, quanto é preciso ganhar para recuperar uma perda, a chance de sequências de perdas e como o tamanho da posição muda o risco de ruína.">
+<meta name="keywords" content="drawdown máximo, risco de ruína, recuperação de drawdown, probabilidade de sequência de perdas, simulação de Monte Carlo trading">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Drawdown e risco de ruína: recuperação e sequências de perdas">
+<meta property="og:description" content="O que é drawdown máximo, quanto é preciso ganhar para recuperar uma perda, a chance de sequências de perdas e como o tamanho da posição muda o risco de ruína.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Drawdown e risco de ruína: recuperação e sequências de perdas">
+<meta name="twitter:description" content="O que é drawdown máximo, quanto é preciso ganhar para recuperar uma perda, a chance de sequências de perdas e como o tamanho da posição muda o risco de ruína.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Drawdown e risco de ruína: recuperação e sequências de perdas","description":"O que é drawdown máximo, quanto é preciso ganhar para recuperar uma perda, a chance de sequências de perdas e como o tamanho da posição muda o risco de ruína.","keywords":"drawdown máximo, risco de ruína, recuperação de drawdown, probabilidade de sequência de perdas, simulação de Monte Carlo trading","articleSection":"Gestão de risco e de capital","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Gestão de risco e de capital","item":"https://pnlpro.fit/pt/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"Drawdown e risco de ruína","item":"https://pnlpro.fit/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Qual é um bom drawdown máximo para um trader?","acceptedAnswer":{"@type":"Answer","text":"Depende da estratégia e da pessoa, mas muitos traders buscam manter o drawdown máximo abaixo de cerca de 20 a 25 por cento, porque a recuperação fica muito mais difícil além disso. Contas de mesas proprietárias costumam impor limites de cerca de 5 a 10 por cento, o que exige um risco por operação bem menor."}},{"@type":"Question","name":"Como calcular o risco de ruína?","acceptedAnswer":{"@type":"Answer","text":"Para um jogo simples com apostas fixas, probabilidade de acerto p acima de 50 por cento e N unidades de aposta, o risco de ruína ao longo do tempo é (q ÷ p) elevado à potência N, em que q = 1 − p. O trading real é mais complexo, então a maioria dos traders o estima com simulação de Monte Carlo usando as estatísticas das próprias operações."}},{"@type":"Question","name":"Quantas operações perdedoras seguidas são normais?","acceptedAnswer":{"@type":"Answer","text":"Depende da taxa de acerto e do número de operações. Em 100 operações independentes com taxa de acerto de 50 por cento, há uma chance de aproximadamente 81 por cento de ocorrer pelo menos uma sequência de cinco perdas e de cerca de 17 por cento de ocorrer uma de oito. Taxas de acerto menores tornam as sequências longas muito mais comuns."}},{"@type":"Question","name":"O que é uma simulação de Monte Carlo no trading?","acceptedAnswer":{"@type":"Answer","text":"É um método que gera milhares de sequências aleatórias de operações com base na taxa de acerto e nos payoffs de uma estratégia, ou nas suas operações passadas reais em ordem aleatória. Os resultados mostram a faixa de drawdowns e retornos possíveis, em vez de um único caminho histórico."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Gestão de risco e de capital</h3><ul><li><a href="/pt/encyclopedia/risk-management/risk-management-fundamentals/">Fundamentos da gestão de risco</a></li><li><a href="/pt/encyclopedia/risk-management/position-sizing/">Dimensionamento de posição</a></li><li><a href="/pt/encyclopedia/risk-management/stop-loss-strategies/">Estratégias de stop loss</a></li><li><a href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/">Risco/retorno e expectativa</a></li><li><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">Drawdown e risco de ruína</a></li><li><a href="/pt/encyclopedia/risk-management/kelly-criterion/">Critério de Kelly</a></li><li><a href="/pt/encyclopedia/risk-management/correlation-and-portfolio-risk/">Correlação e risco de carteira</a></li><li><a href="/pt/encyclopedia/risk-management/leverage-risk-and-black-swans/">Risco de alavancagem e cisnes negros</a></li><li><a href="/pt/encyclopedia/risk-management/trading-plan/">Como montar um plano de trading</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/" class="on">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a></div>
+<h1 class="title">Drawdown e risco de ruína</h1>
+<div class="meta">10 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Gestão de risco e de capital</summary><ul><li><a href="/pt/encyclopedia/risk-management/risk-management-fundamentals/">Fundamentos da gestão de risco</a></li><li><a href="/pt/encyclopedia/risk-management/position-sizing/">Dimensionamento de posição</a></li><li><a href="/pt/encyclopedia/risk-management/stop-loss-strategies/">Estratégias de stop loss</a></li><li><a href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/">Risco/retorno e expectativa</a></li><li><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">Drawdown e risco de ruína</a></li><li><a href="/pt/encyclopedia/risk-management/kelly-criterion/">Critério de Kelly</a></li><li><a href="/pt/encyclopedia/risk-management/correlation-and-portfolio-risk/">Correlação e risco de carteira</a></li><li><a href="/pt/encyclopedia/risk-management/leverage-risk-and-black-swans/">Risco de alavancagem e cisnes negros</a></li><li><a href="/pt/encyclopedia/risk-management/trading-plan/">Como montar um plano de trading</a></li></ul></details>
+<article><p>Drawdown é a queda do patrimônio da conta desde um pico até uma mínima posterior, e o drawdown máximo é a maior dessas quedas em um período. Risco de ruína é a probabilidade de as perdas ficarem tão grandes que o trader não consiga mais continuar, seja porque a conta acabou, seja porque ela caiu abaixo de um nível que ele definiu como inaceitável. Os dois dependem muito do tamanho da posição, e é por isso que o dimensionamento costuma ser descrito como a decisão de risco mais importante.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais conclusões</h2>
+<ul>
+<li>O drawdown máximo é medido do ponto mais alto do patrimônio até o ponto mais baixo que vem depois dele, e não a partir do saldo inicial.</li>
+<li>O ganho necessário para recuperar um drawdown é a perda dividida por um menos a perda, então drawdowns profundos ficam muito difíceis de recuperar.</li>
+<li>Longas sequências de perdas são muito mais comuns do que a intuição sugere, mesmo em estratégias lucrativas.</li>
+<li>O risco de ruína cai drasticamente à medida que o risco por operação diminui e, sem vantagem estatística, a ruína se torna quase certa depois de operações suficientes.</li>
+<li>A simulação de Monte Carlo embaralha ou reamostra os resultados das operações para mostrar a faixa de drawdowns que uma estratégia poderia plausivelmente produzir.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#como-medir-o-drawdown">Como medir o drawdown</a></li><li><a href="#a-matem-tica-da-recupera-o">A matemática da recuperação</a></li><li><a href="#como-sequ-ncias-viram-drawdowns">Como sequências viram drawdowns</a></li><li><a href="#probabilidade-de-sequ-ncias-de-perdas">Probabilidade de sequências de perdas</a></li><li><a href="#risco-de-ru-na">Risco de ruína</a></li><li><a href="#simula-o-de-monte-carlo">Simulação de Monte Carlo</a></li><li><a href="#como-usar-isso-na-pr-tica">Como usar isso na prática</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="como-medir-o-drawdown">Como medir o drawdown</h2>
+<p>O drawdown é sempre medido a partir de um pico. Suponha que uma conta comece com $10,000, cresça até $12,000 e depois caia para $9,000 antes de se recuperar.</p>
+<ul>
+<li><strong>Drawdown máximo</strong> = ($12,000 − $9,000) ÷ $12,000 = <strong>25 por cento</strong></li>
+<li>Medida a partir do saldo inicial, a conta está apenas 10 por cento abaixo, mas isso subestima o sofrimento. O trader viu um quarto do valor do pico desaparecer.</li>
+<li><strong>Recuperação necessária</strong> = $3,000 ÷ $9,000 = <strong>33.3 por cento</strong> para voltar ao pico de $12,000.</li>
+</ul>
+<p>Duas medidas relacionadas também importam:</p>
+<ul>
+<li><strong>Duração do drawdown</strong>: quanto tempo a conta fica abaixo do pico anterior. Algumas estratégias, principalmente as de seguimento de tendência, podem passar muitos meses no vermelho.</li>
+<li><strong>Drawdown médio</strong>: a profundidade típica das quedas, que dá uma ideia do desconforto normal, e não do pior cenário.</li>
+</ul>
+<h2 id="a-matem-tica-da-recupera-o">A matemática da recuperação</h2>
+<p>Como cada perda reduz a base, o ganho percentual necessário para recuperar é sempre maior que o percentual perdido:</p>
+<p><strong>Ganho necessário = drawdown ÷ (1 − drawdown)</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Drawdown</th>
+<th>Ganho para recuperar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10%</td>
+<td>11.1%</td>
+</tr>
+<tr>
+<td>20%</td>
+<td>25.0%</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>42.9%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>66.7%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>75%</td>
+<td>300%</td>
+</tr>
+</tbody></table></div>
+<p>A curva fica íngreme rapidamente a partir de cerca de 30 por cento. O artigo <a href="/pt/encyclopedia/risk-management/risk-management-fundamentals/">fundamentos do gerenciamento de risco</a> explica por que essa assimetria orienta a maioria das regras de risco.</p>
+<h2 id="como-sequ-ncias-viram-drawdowns">Como sequências viram drawdowns</h2>
+<p>Com o dimensionamento por fração fixa, cada perda tira um percentual do patrimônio atual. Depois de n perdas seguidas com risco r por operação, o patrimônio fica em (1 − r)^n do valor inicial.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Risco por operação</th>
+<th>5 perdas</th>
+<th>10 perdas</th>
+<th>15 perdas</th>
+<th>20 perdas</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.5%</td>
+<td>2.5%</td>
+<td>4.9%</td>
+<td>7.2%</td>
+<td>9.5%</td>
+</tr>
+<tr>
+<td>1%</td>
+<td>4.9%</td>
+<td>9.6%</td>
+<td>14.0%</td>
+<td>18.2%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>9.6%</td>
+<td>18.3%</td>
+<td>26.1%</td>
+<td>33.2%</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>22.6%</td>
+<td>40.1%</td>
+<td>53.7%</td>
+<td>64.2%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>41.0%</td>
+<td>65.1%</td>
+<td>79.4%</td>
+<td>87.8%</td>
+</tr>
+</tbody></table></div>
+<p>Na prática, os drawdowns costumam vir de uma fase perdedora com alguns ganhos no meio, e não de uma única sequência ininterrupta, mas a tabela mostra a escala do estrago que cada nível de risco permite.</p>
+<h2 id="probabilidade-de-sequ-ncias-de-perdas">Probabilidade de sequências de perdas</h2>
+<p>A chance de uma operação específica dar início a uma sequência de k perdas é (1 − W)^k, em que W é a taxa de acerto. Com taxa de acerto de 50 por cento, a chance de as próximas cinco operações darem todas prejuízo é 0.5^5, ou cerca de 3.1 por cento. Parece raro, mas o trader faz muitas operações, e cada uma é uma nova chance de começar uma sequência.</p>
+<p>A pergunta mais útil é: qual a probabilidade de pelo menos uma sequência de determinado tamanho ao longo de uma série de operações? Supondo que cada operação seja independente, as respostas são:</p>
+<p><strong>Probabilidade de pelo menos uma sequência de k ou mais perdas em 100 operações</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Taxa de acerto</th>
+<th>5 perdas</th>
+<th>6 perdas</th>
+<th>8 perdas</th>
+<th>10 perdas</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>60%</td>
+<td>46%</td>
+<td>21%</td>
+<td>3.6%</td>
+<td>0.6%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>81%</td>
+<td>55%</td>
+<td>17%</td>
+<td>4.4%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>98%</td>
+<td>87%</td>
+<td>49%</td>
+<td>21%</td>
+</tr>
+</tbody></table></div>
+<p>Em 200 operações com taxa de acerto de 40 por cento, a chance de pelo menos uma sequência de oito ou mais perdas sobe para cerca de 75 por cento, e a de dez ou mais, para cerca de 38 por cento.</p>
+<p>Uma estratégia de seguimento de tendência que acerta 35 ou 40 por cento das vezes deve, portanto, contar com sequências de oito ou mais perdas como parte normal da sua vida. O trader que não sabe disso tende a abandonar uma estratégia sólida, ou a alterá-la, exatamente no momento errado.</p>
+<p>Operações reais costumam ser menos independentes que lançamentos de moeda. Os regimes de mercado mudam, e uma estratégia que funciona em mercados de tendência pode perder repetidamente num mercado lateral. Isso tende a tornar as sequências longas um pouco mais prováveis do que a tabela mostra, e não menos.</p>
+<h2 id="risco-de-ru-na">Risco de ruína</h2>
+<p>Risco de ruína é a probabilidade de chegar a um nível de perda a partir do qual você não pode ou não quer continuar. &quot;Ruína&quot; não precisa significar saldo zero. Muitos traders a definem como um drawdown de 50 por cento, ou como o nível de perda que violaria as regras de uma mesa proprietária (prop firm).</p>
+<p>Três fatores a determinam:</p>
+<ol>
+<li><strong>Vantagem (edge)</strong>: a expectativa matemática da estratégia por operação. Veja <a href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/">risco/retorno e expectativa matemática</a>.</li>
+<li><strong>Perfil de payoff</strong>: o tamanho e a frequência dos ganhos e das perdas.</li>
+<li><strong>Risco por operação</strong>: a fração do capital exposta em cada operação.</li>
+</ol>
+<h3 id="uma-f-rmula-simples-para-a-intui-o">Uma fórmula simples para a intuição</h3>
+<p>O resultado clássico da &quot;ruína do apostador&quot; se aplica a um jogo simplificado: cada aposta ganha ou perde uma unidade fixa, com probabilidade de acerto p acima de 50 por cento, e você continua apostando indefinidamente. Se você começa com N unidades, a probabilidade de acabar perdendo todas é:</p>
+<p><strong>Risco de ruína = (q ÷ p)^N</strong>, em que q = 1 − p</p>
+<p>Com p = 0.55, q ÷ p ≈ 0.818:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Unidades iniciais (N)</th>
+<th>Risco por aposta em % do capital inicial</th>
+<th>Risco de ruína ao longo do tempo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5</td>
+<td>20%</td>
+<td>cerca de 37%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>10%</td>
+<td>cerca de 13%</td>
+</tr>
+<tr>
+<td>20</td>
+<td>5%</td>
+<td>cerca de 1.8%</td>
+</tr>
+<tr>
+<td>50</td>
+<td>2%</td>
+<td>cerca de 0.004%</td>
+</tr>
+</tbody></table></div>
+<p>Daí saem duas lições. Apostas menores em relação ao capital reduzem drasticamente o risco de ruína. E se p for 50 por cento ou menos, ou seja, sem vantagem, a fórmula deixa de valer porque a ruína se torna certa num número ilimitado de apostas. Um tamanho pequeno desacelera uma estratégia perdedora; não consegue salvá-la.</p>
+<p>O trading real difere desse modelo em vários aspectos, entre eles payoffs variáveis, dimensionamento por fração fixa e custos, então os números são ilustrativos. Na teoria, o dimensionamento por fração fixa nunca chega a zero, e por isso é mais útil perguntar qual a probabilidade de um drawdown profundo.</p>
+<h2 id="simula-o-de-monte-carlo">Simulação de Monte Carlo</h2>
+<p>A simulação de Monte Carlo estima a faixa de resultados possíveis gerando milhares de sequências aleatórias de operações coerentes com as estatísticas de uma estratégia. Você pode reamostrar seus resultados reais em ordem aleatória ou gerar operações a partir de uma taxa de acerto e de um payoff supostos. Cada sequência produz sua própria curva de patrimônio e seu próprio drawdown máximo, e juntas elas mostram o que é típico e o que é um cenário ruim, mas plausível.</p>
+<p>Como ilustração, eis uma simulação simples de 200 operações de uma estratégia com taxa de acerto de 45 por cento, ganhos de 1.5R e perdas de 1R, uma expectativa positiva modesta de +0.125R por operação, usando dimensionamento por fração fixa e 40,000 rodadas aleatórias:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Risco por operação</th>
+<th>Drawdown máximo típico (mediana)</th>
+<th>Chance de drawdown de 30%+</th>
+<th>Chance de drawdown de 50%+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1%</td>
+<td>cerca de 12%</td>
+<td>menos de 1%</td>
+<td>perto de 0%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>cerca de 22%</td>
+<td>cerca de 19%</td>
+<td>menos de 1%</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>cerca de 49%</td>
+<td>cerca de 97%</td>
+<td>cerca de 48%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>cerca de 79%</td>
+<td>quase 100%</td>
+<td>cerca de 99%</td>
+</tr>
+</tbody></table></div>
+<p>A vantagem é idêntica em todas as linhas. Com 10 por cento de risco, a maioria das rodadas ainda terminou as 200 operações com lucro, mas quase todas passaram no caminho por um drawdown de metade da conta, algo que pouca gente aguentaria sem abandonar o plano. Esses números vêm de um único conjunto de premissas e vão variar um pouco de uma execução para outra. As estatísticas de uma estratégia real também são estimativas, e a vantagem verdadeira pode ser menor. O artigo <a href="/pt/encyclopedia/risk-management/kelly-criterion/">critério de Kelly</a> explica por que apostar uma fração grande demais pode transformar uma vantagem positiva em crescimento fraco no longo prazo.</p>
+<p>Os resultados de Monte Carlo são tão bons quanto os dados de entrada. Se a amostra de operações veio de um <a href="/pt/encyclopedia/algorithmic-trading/backtesting/">backtest</a> sobreajustado, a simulação estará errada com toda a confiança. Ela também supõe que o futuro se parecerá com o passado, o que pode não se confirmar quando as condições de mercado mudam.</p>
+<h2 id="como-usar-isso-na-pr-tica">Como usar isso na prática</h2>
+<ul>
+<li><strong>Defina primeiro um drawdown máximo aceitável,</strong> por exemplo 20 por cento, e então escolha um risco por operação que torne improvável atingi-lo, dadas as sequências de perdas realistas da sua estratégia.</li>
+<li><strong>Planeje-se para uma sequência mais longa do que qualquer uma que você já viu.</strong> A pior sequência de um backtest é uma única amostra de uma distribuição, não o pior cenário.</li>
+<li><strong>Reduza o tamanho durante drawdowns.</strong> O dimensionamento por fração fixa faz isso automaticamente. Alguns traders também cortam o risco pela metade depois de um drawdown definido.</li>
+<li><strong>Defina com antecedência o que acontece em cada nível de drawdown,</strong> como uma revisão aos 10 por cento e uma parada total aos 20 por cento. Veja <a href="/pt/encyclopedia/psychology/handling-losses-and-tilt/">como lidar com perdas e tilt</a>.</li>
+</ul>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Medir o drawdown a partir do saldo inicial</strong> em vez de a partir do pico.</li>
+<li><strong>Supor que o pior drawdown do backtest é o pior que pode acontecer.</strong></li>
+<li><strong>Subestimar as sequências</strong> e depois abandonar uma estratégia durante uma fase perdedora estatisticamente normal.</li>
+<li><strong>Aumentar o tamanho para recuperar mais rápido,</strong> o que eleva a chance de um drawdown muito mais profundo.</li>
+<li><strong>Achar que um tamanho pequeno resolve uma vantagem negativa.</strong> Ele só torna a queda mais lenta.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="qual-um-bom-drawdown-m-ximo-para-um-trader">Qual é um bom drawdown máximo para um trader?</h3>
+<p>Depende da estratégia e da pessoa, mas muitos traders buscam manter o drawdown máximo abaixo de cerca de 20 a 25 por cento, porque a recuperação fica muito mais difícil além disso. Contas de mesas proprietárias costumam impor limites de cerca de 5 a 10 por cento, o que exige um risco por operação bem menor.</p>
+<h3 id="como-calcular-o-risco-de-ru-na">Como calcular o risco de ruína?</h3>
+<p>Para um jogo simples com apostas fixas, probabilidade de acerto p acima de 50 por cento e N unidades de aposta, o risco de ruína ao longo do tempo é (q ÷ p) elevado à potência N, em que q = 1 − p. O trading real é mais complexo, então a maioria dos traders o estima com simulação de Monte Carlo usando as estatísticas das próprias operações.</p>
+<h3 id="quantas-opera-es-perdedoras-seguidas-s-o-normais">Quantas operações perdedoras seguidas são normais?</h3>
+<p>Depende da taxa de acerto e do número de operações. Em 100 operações independentes com taxa de acerto de 50 por cento, há uma chance de aproximadamente 81 por cento de ocorrer pelo menos uma sequência de cinco perdas e de cerca de 17 por cento de ocorrer uma de oito. Taxas de acerto menores tornam as sequências longas muito mais comuns.</p>
+<h3 id="o-que-uma-simula-o-de-monte-carlo-no-trading">O que é uma simulação de Monte Carlo no trading?</h3>
+<p>É um método que gera milhares de sequências aleatórias de operações com base na taxa de acerto e nos payoffs de uma estratégia, ou nas suas operações passadas reais em ordem aleatória. Os resultados mostram a faixa de drawdowns e retornos possíveis, em vez de um único caminho histórico.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">Gestão de risco e de capital</div><b>Fundamentos da gestão de risco</b><span>Por que o gerenciamento de risco importa mais que a entrada: risco por operação, limite de perda diária, a matemática de perder 50% e os tipos de risco.</span></a><a class="card" href="/pt/encyclopedia/risk-management/position-sizing/"><div class="k">Gestão de risco e de capital</div><b>Dimensionamento de posição</b><span>Como calcular o tamanho da posição a partir do risco da conta e da distância do stop: fração fixa, valor fixo e ATR, com exemplos em ações, forex e cripto.</span></a><a class="card" href="/pt/encyclopedia/risk-management/kelly-criterion/"><div class="k">Gestão de risco e de capital</div><b>Critério de Kelly</b><span>A fórmula de Kelly para apostas binárias e sua forma contínua, exemplos práticos com contratos de mercados de previsão e por que a maioria usa Kelly fracionado.</span></a><a class="card" href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Gestão de risco e de capital</div><b>Risco/retorno e expectativa</b><span>Como múltiplos de R, taxa de acerto e payoff formam a expectativa matemática: fórmula, taxa de acerto de equilíbrio e por que acertar muito ainda pode perder.</span></a><a class="card" href="/pt/encyclopedia/psychology/handling-losses-and-tilt/"><div class="k">Psicologia do trading</div><b>Lidando com perdas e tilt</b><span>Como lidar com sequências de perdas e tilt: sinais de alerta, circuit breakers como limite diário, recomeço após grande perda, quando parar e vício em jogo.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/risk-management/risk-reward-and-expectancy/"><small>← Anterior</small>Risco/retorno e expectativa</a><a class="next" href="/pt/encyclopedia/risk-management/kelly-criterion/"><small>Próximo →</small>Critério de Kelly</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

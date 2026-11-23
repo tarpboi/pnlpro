@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>移動平均線とは：SMA・EMA・ゴールデンクロスと遅行性 | PnL Profit</title>
+<meta name="description" content="単純・指数平滑・加重移動平均線の計算方法、20・50・200期間の意味、ゴールデンクロスとデッドクロス、そして遅行性とのトレードオフを解説します。">
+<meta name="keywords" content="移動平均線, SMA EMA 違い, 200日移動平均線, ゴールデンクロス, デッドクロス, 移動平均線 クロス">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/moving-averages/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="移動平均線とは：SMA・EMA・ゴールデンクロスと遅行性 | PnL Profit">
+<meta property="og:description" content="単純・指数平滑・加重移動平均線の計算方法、20・50・200期間の意味、ゴールデンクロスとデッドクロス、そして遅行性とのトレードオフを解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/technical-analysis/moving-averages/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="移動平均線とは：SMA・EMA・ゴールデンクロスと遅行性 | PnL Profit">
+<meta name="twitter:description" content="単純・指数平滑・加重移動平均線の計算方法、20・50・200期間の意味、ゴールデンクロスとデッドクロス、そして遅行性とのトレードオフを解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"移動平均線とは：SMA・EMA・ゴールデンクロスと遅行性","description":"単純・指数平滑・加重移動平均線の計算方法、20・50・200期間の意味、ゴールデンクロスとデッドクロス、そして遅行性とのトレードオフを解説します。","keywords":"移動平均線, SMA EMA 違い, 200日移動平均線, ゴールデンクロス, デッドクロス, 移動平均線 クロス","articleSection":"テクニカル分析","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/technical-analysis/moving-averages/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"テクニカル分析","item":"https://pnlpro.fit/ja/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"移動平均線","item":"https://pnlpro.fit/ja/encyclopedia/technical-analysis/moving-averages/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"SMAとEMAの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"SMAは計算期間内のすべての期間に均等な比重を置き、EMAは直近の価格により大きな比重を置きます。EMAは急な変化に速く反応しますが、一時的な急騰や急落にも敏感です。"}},{"@type":"Question","name":"デイトレードに最適な移動平均線はどれですか？","acceptedAnswer":{"@type":"Answer","text":"最適な設定はありません。デイトレーダーは、1分足〜15分足で9期間や20期間などの短いEMAを、VWAPなどの日中のベンチマークと併用することがよくあります。ただし、どれを選ぶかは、取引する市場と時間足で検証して決めるべきです。"}},{"@type":"Question","name":"ゴールデンクロスとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"ゴールデンクロスとは、50日移動平均線が200日移動平均線を上抜けることです。強気のサインとして広く報じられますが、シグナルは遅く、値動きの大部分が終わった後に出ることがよくあります。"}},{"@type":"Question","name":"200日移動平均線が重要なのはなぜですか？","acceptedAnswer":{"@type":"Answer","text":"200日移動平均線は、特に株価指数において、最も広く注目されている長期のトレンドラインです。そのため多くのトレーダーやメディアが、価格がその上にあるか下にあるかを追っています。その注目が線の近くで反応を生むことはありますが、これは慣習であって法則ではありません。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/moving-averages/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/moving-averages/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/moving-averages/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/moving-averages/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/moving-averages/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/moving-averages/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/moving-averages/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/moving-averages/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/technical-analysis/moving-averages/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>テクニカル分析</h3><ul><li><a href="/ja/encyclopedia/technical-analysis/technical-analysis-intro/">テクニカル分析入門</a></li><li><a href="/ja/encyclopedia/technical-analysis/candlestick-charts/">ローソク足の見方</a></li><li><a href="/ja/encyclopedia/technical-analysis/candlestick-patterns/">ローソク足のパターン</a></li><li><a href="/ja/encyclopedia/technical-analysis/support-and-resistance/">サポートとレジスタンス</a></li><li><a href="/ja/encyclopedia/technical-analysis/trends-and-market-structure/">トレンドと相場構造</a></li><li><a href="/ja/encyclopedia/technical-analysis/chart-patterns/">チャートパターン</a></li><li><a href="/ja/encyclopedia/technical-analysis/moving-averages/" class="on" aria-current="page">移動平均線</a></li><li><a href="/ja/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/ja/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ja/encyclopedia/technical-analysis/bollinger-bands/">ボリンジャーバンド</a></li><li><a href="/ja/encyclopedia/technical-analysis/volume-analysis/">出来高分析</a></li><li><a href="/ja/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/ja/encyclopedia/technical-analysis/fibonacci-retracement/">フィボナッチ</a></li><li><a href="/ja/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATRとボラティリティ</a></li><li><a href="/ja/encyclopedia/technical-analysis/multi-timeframe-analysis/">マルチタイムフレーム分析</a></li><li><a href="/ja/encyclopedia/technical-analysis/price-action-trading/">プライスアクション・トレード</a></li><li><a href="/ja/encyclopedia/technical-analysis/volume-profile-and-market-profile/">ボリュームプロファイルとマーケットプロファイル</a></li><li><a href="/ja/encyclopedia/technical-analysis/order-flow-trading/">オーダーフロー・トレード</a></li><li><a href="/ja/encyclopedia/technical-analysis/smart-money-concepts/">スマートマネーコンセプト（ICT）</a></li><li><a href="/ja/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">エリオット波動とワイコフ</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/" class="on">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a></div>
+<h1 class="title">移動平均線</h1>
+<div class="meta">約7分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>テクニカル分析の他の記事</summary><ul><li><a href="/ja/encyclopedia/technical-analysis/technical-analysis-intro/">テクニカル分析入門</a></li><li><a href="/ja/encyclopedia/technical-analysis/candlestick-charts/">ローソク足の見方</a></li><li><a href="/ja/encyclopedia/technical-analysis/candlestick-patterns/">ローソク足のパターン</a></li><li><a href="/ja/encyclopedia/technical-analysis/support-and-resistance/">サポートとレジスタンス</a></li><li><a href="/ja/encyclopedia/technical-analysis/trends-and-market-structure/">トレンドと相場構造</a></li><li><a href="/ja/encyclopedia/technical-analysis/chart-patterns/">チャートパターン</a></li><li><a href="/ja/encyclopedia/technical-analysis/moving-averages/" class="on" aria-current="page">移動平均線</a></li><li><a href="/ja/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/ja/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ja/encyclopedia/technical-analysis/bollinger-bands/">ボリンジャーバンド</a></li><li><a href="/ja/encyclopedia/technical-analysis/volume-analysis/">出来高分析</a></li><li><a href="/ja/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/ja/encyclopedia/technical-analysis/fibonacci-retracement/">フィボナッチ</a></li><li><a href="/ja/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATRとボラティリティ</a></li><li><a href="/ja/encyclopedia/technical-analysis/multi-timeframe-analysis/">マルチタイムフレーム分析</a></li><li><a href="/ja/encyclopedia/technical-analysis/price-action-trading/">プライスアクション・トレード</a></li><li><a href="/ja/encyclopedia/technical-analysis/volume-profile-and-market-profile/">ボリュームプロファイルとマーケットプロファイル</a></li><li><a href="/ja/encyclopedia/technical-analysis/order-flow-trading/">オーダーフロー・トレード</a></li><li><a href="/ja/encyclopedia/technical-analysis/smart-money-concepts/">スマートマネーコンセプト（ICT）</a></li><li><a href="/ja/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">エリオット波動とワイコフ</a></li></ul></details>
+<article><p>移動平均線とは、直近の一定期間の平均価格を、新しいバーが加わるたびに計算し直したもので、チャート上を「移動」していきます。短期的なノイズを平滑化し、トレンドの方向を見やすくします。移動平均線は最も広く使われているテクニカル指標であり、MACDやボリンジャーバンドなど、多くの指標の土台にもなっています。基本的な限界は遅行性です。過去の価格を平均するため、移動平均線は常に価格が動いた後に反応します。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>単純移動平均線（SMA）はすべての期間を均等に扱い、指数平滑移動平均線（EMA）と加重移動平均線（WMA）は直近の価格により大きな比重を置きます。</li>
+<li>よく使われる期間は20（短期）、50（中期）、200（長期）で、その人気には自己強化的な面もあります。</li>
+<li>ゴールデンクロス（50が200を上抜け）とデッドクロス（50が200を下抜け）は広く報じられますが、シグナルは遅く、横ばいの相場ではダマシが頻発します。</li>
+<li>どの移動平均線も、反応の速さと滑らかさのトレードオフです。速くてダマシのない設定は存在しません。</li>
+<li>移動平均線のルールは体系的なトレンドフォローの中核であり、トレンドフォローは過去に一部の市場で機能してきましたが、長い損失期間も伴っています。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">移動平均線の種類</a></li><li><a href="#sma-ema-wma">計算例：SMA、EMA、WMAの比較</a></li><li><a href="#section-7">よく使われる期間とその使い方</a></li><li><a href="#section-8">移動平均線の使い方</a></li><li><a href="#section-13">遅行性とのトレードオフ</a></li><li><a href="#section-14">研究が示す根拠</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">移動平均線の種類</h2>
+<h3 id="sma">単純移動平均線（SMA）</h3>
+<p>SMAは、直近N本の終値を合計してNで割ったものです。20日SMAは、直近20営業日の終値の平均です。新しい日が加わると、最も古い日が外れます。</p>
+<p>すべての日が均等に数えられるため、当日の価格がまったく動かなくても、大きな値動きが計算期間から外れたときにSMAが跳ねることがあります。これはドロップオフ効果と呼ばれることがあります。</p>
+<h3 id="ema">指数平滑移動平均線（EMA）</h3>
+<p>EMAは、最新の価格に最も大きな比重を置き、古い価格ほど比重を小さくしていきます。明確な打ち切りはありません。新しい値は次のように計算します。</p>
+<ul>
+<li>今日のEMA = 昨日のEMA + k ×（今日の終値 − 昨日のEMA）</li>
+<li>ここで k = 2 /（N + 1）</li>
+</ul>
+<p>20期間EMAでは k = 2 / 21で、約0.095です。5期間EMAでは k = 2 / 6で、約0.333です。EMAには初期値が必要で、通常はSMAを使います。初期の値はこの初期値に左右されます。</p>
+<h3 id="wma">加重移動平均線（WMA）</h3>
+<p>WMAは直線的な重みを割り当てます。5期間WMAでは、最新の終値に5を掛け、その1つ前に4を掛け、というように1まで続け、合計を重みの合計（15）で割ります。SMAよりも反応が速くなります。</p>
+<p>ほかにも、ハル移動平均線（HMA）、二重・三重指数平滑移動平均線（DEMA・TEMA）、ワイルダーの平滑化（<a href="/ja/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a>や<a href="/ja/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR</a>の内部で使われます）などの種類があります。いずれも、滑らかさと速さのバランスをそれぞれの方法でとろうとしたものです。</p>
+<h2 id="sma-ema-wma">計算例：SMA、EMA、WMAの比較</h2>
+<p>5日間の終値が10ドル、11ドル、12ドル、13ドル、14ドルだったとします。</p>
+<ul>
+<li><strong>5日SMA</strong> =（10 + 11 + 12 + 13 + 14）/ 5 = 60 / 5 = <strong>12.00ドル</strong></li>
+<li>この時点で、5日EMAも12.00ドルだったとします（SMAを初期値としたもの）。</li>
+</ul>
+<p>翌日の終値は<strong>16ドル</strong>で、通常より大きな上昇でした。</p>
+<ul>
+<li><strong>新しいSMA：</strong> 10ドルを外し、16ドルを加えます。（11 + 12 + 13 + 14 + 16）/ 5 = 66 / 5 = <strong>13.20ドル</strong></li>
+<li><strong>新しいEMA：</strong> k = 2 / 6 = 1/3。EMA = 12.00 +（1/3）×（16 − 12.00）= 12.00 + 1.33 = <strong>13.33ドル</strong></li>
+<li><strong>新しいWMA：</strong>（11 × 1 + 12 × 2 + 13 × 3 + 14 × 4 + 16 × 5）/ 15 =（11 + 24 + 39 + 56 + 80）/ 15 = 210 / 15 = <strong>14.00ドル</strong></li>
+</ul>
+<p>3つとも最新価格の16ドルを下回っており、これが遅行です。WMAは最新のバーに最も大きな比重を置くため、価格に最も近づきました。SMAの動きが最も小さくなりました。</p>
+<h2 id="section-7">よく使われる期間とその使い方</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>期間</th>
+<th>一般的な用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>9または10</td>
+<td>ごく短期のトレンド。日中足ではEMAで使われることが多い</td>
+</tr>
+<tr>
+<td>20または21</td>
+<td>短期のトレンド。約1か月分の営業日。<a href="/ja/encyclopedia/technical-analysis/bollinger-bands/">ボリンジャーバンド</a>の中心線</td>
+</tr>
+<tr>
+<td>50</td>
+<td>中期のトレンド。株式の日足で広く注目される</td>
+</tr>
+<tr>
+<td>100</td>
+<td>中期的。あまり一般的ではない</td>
+</tr>
+<tr>
+<td>200</td>
+<td>長期のトレンド。株価指数で最も注目される移動平均線</td>
+</tr>
+</tbody></table></div>
+<p>これらの期間に、数学的に特別な性質はありません。慣習として定着したもので、人気があるために多くのトレーダーが同じ線を見ています。たとえば金融メディアは、主要な株価指数が200日移動平均線を上抜けたり下抜けたりするとよく報じます。そうした注目が、一部は自己実現的な効果として、これらの移動平均線の近くで短期的な反応を生むことがあります。</p>
+<p>移動平均線はどの時間足でも計算できます。5分足の50期間移動平均線がカバーするのは約4時間であり、50日ではありません。</p>
+<h2 id="section-8">移動平均線の使い方</h2>
+<h3 id="section-9">トレンドフィルター</h3>
+<p>最も単純な使い方は方向の判断です。上向きの200日移動平均線より価格が上にあれば長期的な上昇トレンド、下向きの移動平均線より下にあれば下降トレンドとみなします。多くのトレーダーは、選んだ移動平均線より価格が上にあるときだけ買い、下にあるときだけ売りを仕掛けます。位置と同じくらい傾きも重要で、平らな移動平均線はレンジを示唆します。<a href="/ja/encyclopedia/technical-analysis/trends-and-market-structure/">トレンドと相場構造</a>をご覧ください。</p>
+<h3 id="section-10">クロス</h3>
+<p>クロスのシステムでは、速い移動平均線と遅い移動平均線の2本を使います。速い線が遅い線を上抜けると買いシグナル、下抜けると売りシグナルです。</p>
+<ul>
+<li><strong>ゴールデンクロス：</strong> 50日線が200日線を上抜けること。</li>
+<li><strong>デッドクロス：</strong> 50日線が200日線を下抜けること。</li>
+</ul>
+<p>ゴールデンクロスとデッドクロスは、そもそも遅くなるように設計されています。50日移動平均線が200日移動平均線とクロスする頃には、価格は通常すでに大きく動いています。横ばいの相場では移動平均線が何度も交差を繰り返し、小さな損失の連続を生みます。これをダマシ（ウィップソー）と呼びます。価格が1本の移動平均線をクロスする（たとえば50日線を上回って引ける）のは、同じ考え方のより速い、しかしノイズの多いバージョンです。</p>
+<h3 id="section-11">動的なサポートとレジスタンス</h3>
+<p>安定したトレンドでは、価格が移動平均線に向かって押したり戻したりした後、トレンドが再開することがよくあります。トレーダーは移動平均線を、動く<a href="/ja/encyclopedia/technical-analysis/support-and-resistance/">サポートとレジスタンス</a>として扱います。株式では20と50がこの用途で人気です。水平な水準と同様に、移動平均線も正確な線ではなくゾーンであり、特にトレンドが終わりつつあるときには頻繁に機能しなくなります。</p>
+<h3 id="section-12">ほかの指標の構成要素</h3>
+<p><a href="/ja/encyclopedia/technical-analysis/macd/">MACD</a>は2本のEMAの差です。ボリンジャーバンドは移動平均線に標準偏差を加減したものです。ケルトナーチャネルはEMAとATRを使います。移動平均線を理解すると、これらのツールが解釈しやすくなります。</p>
+<h2 id="section-13">遅行性とのトレードオフ</h2>
+<p>すべての移動平均線は遅行します。一定のペースで直線的に進むトレンドでは、N期間SMAは価格から約（N − 1）/ 2本遅れます。20日SMAは約9.5日、200日SMAは約100日遅れます。</p>
+<p>N期間EMAも、一定のトレンドでは平均的な遅れはほぼ同じです。EMAの利点は、最新のバーの比重が大きいため、価格が急に方向を変えたときにより早く反応することです。その代償として、ランダムな急騰や急落にも反応しやすくなります。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>選択</th>
+<th>利点</th>
+<th>代償</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>期間を短くする</td>
+<td>シグナルが早く、価格に近い</td>
+<td>ダマシとウィップソーが増える</td>
+</tr>
+<tr>
+<td>期間を長くする</td>
+<td>滑らかで、ダマシが少ない</td>
+<td>エントリーと手仕舞いが遅れ、利益の吐き出しが増える</td>
+</tr>
+<tr>
+<td>SMAの代わりにEMAやWMAを使う</td>
+<td>転換への反応が速い</td>
+<td>一時的な急騰・急落に敏感になる</td>
+</tr>
+</tbody></table></div>
+<p>このトレードオフをなくす設定はありません。過去のデータで期間を最適化して「最良」のものを探すと、過去には合っても将来には通用しない設定になりがちです。<a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a>をご覧ください。</p>
+<h2 id="section-14">研究が示す根拠</h2>
+<p>移動平均線のルールは、最も研究されてきたテクニカルツールの一つです。Brock, Lakonishok and LeBaron（1992）は、長期の過去データにおいて、ダウ・ジョーンズ指数に対する単純な移動平均線のルールに予測力があったことを示しましたが、データスヌーピングを補正したその後の研究では、より最近のデータではこの効果が持続しなかったことがわかりました。より広く見ると、時系列モメンタムに関する学術研究は、移動平均線から作られることが多いトレンドフォローのルールが、分散された先物ポートフォリオで長期にわたってリターンを上げてきたという考えを支持しています。ただしその成功は、長い横ばいや損失の期間を伴っており、多くの市場を規律あるリスク管理のもとで取引することが前提になっています。<a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a>をご覧ください。</p>
+<p>個別株や単一の暗号資産では、クロスのルールが買い持ち（バイ・アンド・ホールド）を上回るか下回るかは、検証する期間によって変わります。結果は期間、資産、コストに左右されます。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>移動平均線に予測を期待する。</strong> 移動平均線は過去を要約したものです。クロスは、すでに起きた値動きを確認するにすぎません。</li>
+<li><strong>レンジでクロスを使う。</strong> 横ばいの相場では、ダマシが繰り返され、小さな損失が続きます。</li>
+<li><strong>期間を最適化しすぎる。</strong> 昨年最もうまくいった47日移動平均線が、来年も特別である可能性は低いでしょう。</li>
+<li><strong>移動平均線を何本も重ねる。</strong> 1つのチャートに引いた5本の移動平均線は、同じ情報の5つのバージョンにすぎません。</li>
+<li><strong>200日線を壁とみなす。</strong> 価格は、広く注目されている移動平均線でもあっさり突き抜けることがありますし、実際によく突き抜けます。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="sma-ema">SMAとEMAの違いは何ですか？</h3>
+<p>SMAは計算期間内のすべての期間に均等な比重を置き、EMAは直近の価格により大きな比重を置きます。EMAは急な変化に速く反応しますが、一時的な急騰や急落にも敏感です。</p>
+<h3 id="section-18">デイトレードに最適な移動平均線はどれですか？</h3>
+<p>最適な設定はありません。デイトレーダーは、1分足〜15分足で9期間や20期間などの短いEMAを、VWAPなどの日中のベンチマークと併用することがよくあります。ただし、どれを選ぶかは、取引する市場と時間足で検証して決めるべきです。</p>
+<h3 id="section-19">ゴールデンクロスとは何ですか？</h3>
+<p>ゴールデンクロスとは、50日移動平均線が200日移動平均線を上抜けることです。強気のサインとして広く報じられますが、シグナルは遅く、値動きの大部分が終わった後に出ることがよくあります。</p>
+<h3 id="200">200日移動平均線が重要なのはなぜですか？</h3>
+<p>200日移動平均線は、特に株価指数において、最も広く注目されている長期のトレンドラインです。そのため多くのトレーダーやメディアが、価格がその上にあるか下にあるかを追っています。その注目が線の近くで反応を生むことはありますが、これは慣習であって法則ではありません。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/technical-analysis/trends-and-market-structure/"><div class="k">テクニカル分析</div><b>トレンドと相場構造</b><span>スイングハイ・ロー、トレンドライン、チャネル、ブレイク・オブ・ストラクチャー、トレンドの強さを測るADXで上昇・下降トレンドとレンジを見分ける方法を解説します。</span></a><a class="card" href="/ja/encyclopedia/technical-analysis/macd/"><div class="k">テクニカル分析</div><b>MACD</b><span>MACDが2本のEMAからどう作られるか、シグナル線とヒストグラムが示すもの、クロスとダイバージェンスの読み方、12/26/9の設定と遅行性の問題を解説します。</span></a><a class="card" href="/ja/encyclopedia/technical-analysis/bollinger-bands/"><div class="k">テクニカル分析</div><b>ボリンジャーバンド</b><span>20期間の移動平均と2標準偏差で作るボリンジャーバンドの仕組み、スクイーズ、バンドウォーク、%B、バンド幅、ケルトナーチャネルとの違いを解説します。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/trend-following/"><div class="k">アルゴリズム取引とクオンツ</div><b>トレンドフォロー</b><span>トレンドフォローの仕組みを解説。時系列モメンタム、CTAとマネージド・フューチャーズ、ブレイクアウトと移動平均のシステム、タートルズ、正の歪度とドローダウン。</span></a><a class="card" href="/ja/encyclopedia/technical-analysis/support-and-resistance/"><div class="k">テクニカル分析</div><b>サポートとレジスタンス</b><span>サポートとレジスタンスとは何か、なぜ形成されるのか、ゾーンとしての引き方、役割転換、キリのいい数字、本物のブレイクアウトとダマシの見分け方を解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/technical-analysis/chart-patterns/"><small>← 前へ</small>チャートパターン</a><a class="next" href="/ja/encyclopedia/technical-analysis/rsi-relative-strength-index/"><small>次へ →</small>RSI</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

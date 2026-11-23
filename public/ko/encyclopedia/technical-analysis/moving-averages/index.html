@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이동평균선 총정리: SMA, EMA, 골든크로스와 후행성 | PnL Profit</title>
+<meta name="description" content="단순·지수·가중 이동평균의 계산법, 20·50·200 기간의 의미, 골든크로스와 데드크로스, 그리고 후행성이라는 맞교환 관계를 설명합니다.">
+<meta name="keywords" content="이동평균선, SMA EMA 차이, 200일 이동평균선, 골든크로스, 데드크로스, 이평선 크로스">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/moving-averages/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/moving-averages/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="이동평균선 총정리: SMA, EMA, 골든크로스와 후행성 | PnL Profit">
+<meta property="og:description" content="단순·지수·가중 이동평균의 계산법, 20·50·200 기간의 의미, 골든크로스와 데드크로스, 그리고 후행성이라는 맞교환 관계를 설명합니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/technical-analysis/moving-averages/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="이동평균선 총정리: SMA, EMA, 골든크로스와 후행성 | PnL Profit">
+<meta name="twitter:description" content="단순·지수·가중 이동평균의 계산법, 20·50·200 기간의 의미, 골든크로스와 데드크로스, 그리고 후행성이라는 맞교환 관계를 설명합니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"이동평균선 총정리: SMA, EMA, 골든크로스와 후행성","description":"단순·지수·가중 이동평균의 계산법, 20·50·200 기간의 의미, 골든크로스와 데드크로스, 그리고 후행성이라는 맞교환 관계를 설명합니다.","keywords":"이동평균선, SMA EMA 차이, 200일 이동평균선, 골든크로스, 데드크로스, 이평선 크로스","articleSection":"기술적 분석","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/technical-analysis/moving-averages/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"기술적 분석","item":"https://pnlpro.fit/ko/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"이동평균선","item":"https://pnlpro.fit/ko/encyclopedia/technical-analysis/moving-averages/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"SMA와 EMA는 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"SMA는 계산 구간 안의 모든 기간에 같은 가중치를 주고, EMA는 가장 최근 가격에 더 큰 가중치를 줍니다. EMA는 갑작스러운 변화에 더 빠르게 반응하지만, 일회성 급등락에도 더 민감합니다."}},{"@type":"Question","name":"데이 트레이딩에는 어떤 이동평균선이 가장 좋나요?","acceptedAnswer":{"@type":"Answer","text":"최고의 설정은 없습니다. 데이 트레이더들은 1~15분봉에서 9기간이나 20기간 같은 짧은 EMA를 VWAP 같은 장중 기준선과 함께 쓰는 경우가 많지만, 선택은 매매하는 시장과 타임프레임에서 검증해야 합니다."}},{"@type":"Question","name":"골든크로스란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"골든크로스는 50일 이동평균선이 200일 이동평균선을 위로 교차하는 것입니다. 상승 신호로 널리 보도되지만, 움직임의 상당 부분이 이미 일어난 뒤에 나오는 경우가 많은 느린 신호입니다."}},{"@type":"Question","name":"200일 이동평균선은 왜 중요한가요?","acceptedAnswer":{"@type":"Answer","text":"특히 주가지수에서 가장 널리 주목받는 장기 추세선이라, 많은 트레이더와 언론이 가격이 그 위에 있는지 아래에 있는지를 추적합니다. 이런 관심 때문에 그 근처에서 반응이 나올 수 있지만, 어디까지나 관례이지 법칙이 아닙니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/moving-averages/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/moving-averages/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/moving-averages/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/moving-averages/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/moving-averages/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/moving-averages/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/moving-averages/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/moving-averages/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/moving-averages/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>기술적 분석</h3><ul><li><a href="/ko/encyclopedia/technical-analysis/technical-analysis-intro/">기술적 분석 입문</a></li><li><a href="/ko/encyclopedia/technical-analysis/candlestick-charts/">캔들 차트 보는 법</a></li><li><a href="/ko/encyclopedia/technical-analysis/candlestick-patterns/">캔들 패턴</a></li><li><a href="/ko/encyclopedia/technical-analysis/support-and-resistance/">지지선과 저항선</a></li><li><a href="/ko/encyclopedia/technical-analysis/trends-and-market-structure/">추세와 시장 구조</a></li><li><a href="/ko/encyclopedia/technical-analysis/chart-patterns/">차트 패턴</a></li><li><a href="/ko/encyclopedia/technical-analysis/moving-averages/" class="on" aria-current="page">이동평균선</a></li><li><a href="/ko/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/ko/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ko/encyclopedia/technical-analysis/bollinger-bands/">볼린저 밴드</a></li><li><a href="/ko/encyclopedia/technical-analysis/volume-analysis/">거래량 분석</a></li><li><a href="/ko/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/ko/encyclopedia/technical-analysis/fibonacci-retracement/">피보나치 도구</a></li><li><a href="/ko/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR과 변동성</a></li><li><a href="/ko/encyclopedia/technical-analysis/multi-timeframe-analysis/">멀티 타임프레임 분석</a></li><li><a href="/ko/encyclopedia/technical-analysis/price-action-trading/">프라이스 액션 매매</a></li><li><a href="/ko/encyclopedia/technical-analysis/volume-profile-and-market-profile/">볼륨·마켓 프로파일</a></li><li><a href="/ko/encyclopedia/technical-analysis/order-flow-trading/">오더플로 매매</a></li><li><a href="/ko/encyclopedia/technical-analysis/smart-money-concepts/">스마트 머니 콘셉트(ICT)</a></li><li><a href="/ko/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">엘리엇 파동과 와이코프</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/" class="on">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a></div>
+<h1 class="title">이동평균선</h1>
+<div class="meta">6분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>기술적 분석의 다른 글</summary><ul><li><a href="/ko/encyclopedia/technical-analysis/technical-analysis-intro/">기술적 분석 입문</a></li><li><a href="/ko/encyclopedia/technical-analysis/candlestick-charts/">캔들 차트 보는 법</a></li><li><a href="/ko/encyclopedia/technical-analysis/candlestick-patterns/">캔들 패턴</a></li><li><a href="/ko/encyclopedia/technical-analysis/support-and-resistance/">지지선과 저항선</a></li><li><a href="/ko/encyclopedia/technical-analysis/trends-and-market-structure/">추세와 시장 구조</a></li><li><a href="/ko/encyclopedia/technical-analysis/chart-patterns/">차트 패턴</a></li><li><a href="/ko/encyclopedia/technical-analysis/moving-averages/" class="on" aria-current="page">이동평균선</a></li><li><a href="/ko/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/ko/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ko/encyclopedia/technical-analysis/bollinger-bands/">볼린저 밴드</a></li><li><a href="/ko/encyclopedia/technical-analysis/volume-analysis/">거래량 분석</a></li><li><a href="/ko/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/ko/encyclopedia/technical-analysis/fibonacci-retracement/">피보나치 도구</a></li><li><a href="/ko/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR과 변동성</a></li><li><a href="/ko/encyclopedia/technical-analysis/multi-timeframe-analysis/">멀티 타임프레임 분석</a></li><li><a href="/ko/encyclopedia/technical-analysis/price-action-trading/">프라이스 액션 매매</a></li><li><a href="/ko/encyclopedia/technical-analysis/volume-profile-and-market-profile/">볼륨·마켓 프로파일</a></li><li><a href="/ko/encyclopedia/technical-analysis/order-flow-trading/">오더플로 매매</a></li><li><a href="/ko/encyclopedia/technical-analysis/smart-money-concepts/">스마트 머니 콘셉트(ICT)</a></li><li><a href="/ko/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">엘리엇 파동과 와이코프</a></li></ul></details>
+<article><p>이동평균은 최근 일정 기간의 평균 가격으로, 새 봉이 생길 때마다 다시 계산되기 때문에 차트를 따라 &#39;이동&#39;합니다. 단기 노이즈를 완화해 추세의 방향을 보기 쉽게 만들어 줍니다. 이동평균선은 가장 널리 쓰이는 기술적 지표이며, MACD와 볼린저 밴드를 비롯한 여러 지표의 기초가 됩니다. 기본적인 한계는 후행성입니다. 과거 가격의 평균이므로 언제나 가격이 이미 움직인 뒤에 반응합니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>단순이동평균(SMA)은 모든 기간에 같은 가중치를 주고, 지수이동평균(EMA)과 가중이동평균(WMA)은 최근 가격에 더 큰 가중치를 줍니다.</li>
+<li>흔히 쓰는 기간은 20(단기), 50(중기), 200(장기)이며, 이 기간들의 인기는 어느 정도 스스로 강화되는 성격이 있습니다.</li>
+<li>골든크로스(50이 200 위로)와 데드크로스(50이 200 아래로)는 널리 보도되지만, 느린 신호이고 횡보장에서는 휩소가 납니다.</li>
+<li>모든 이동평균은 반응성과 매끄러움을 맞바꿉니다. 빠르면서도 거짓 신호가 없는 설정은 없습니다.</li>
+<li>이동평균 규칙은 체계적 추세추종의 핵심 요소로, 역사적으로 일부 시장에서 효과가 있었지만 긴 손실 기간도 있었습니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">이동평균의 종류</a></li><li><a href="#sma-ema-wma">계산 예시: SMA, EMA, WMA 비교</a></li><li><a href="#section-7">자주 쓰는 기간과 활용법</a></li><li><a href="#section-8">이동평균선 활용법</a></li><li><a href="#section-13">후행성이라는 맞교환</a></li><li><a href="#section-14">실증 연구가 말하는 것</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">이동평균의 종류</h2>
+<h3 id="sma">단순이동평균(SMA)</h3>
+<p>SMA는 최근 N개의 종가를 더해 N으로 나눈 값입니다. 20일 SMA는 최근 20거래일 종가의 평균입니다. 새로운 날이 추가되면 가장 오래된 날이 빠집니다.</p>
+<p>모든 날을 똑같이 계산하기 때문에, 오늘 가격이 전혀 움직이지 않았더라도 큰 움직임이 계산 구간에서 빠져나가면 SMA가 튈 수 있습니다. 이를 드롭오프 효과라고 부르기도 합니다.</p>
+<h3 id="ema">지수이동평균(EMA)</h3>
+<p>EMA는 가장 최근 가격에 가장 큰 가중치를 주고, 오래된 가격일수록 가중치를 점차 줄이며, 딱 잘리는 경계가 없습니다. 새 값은 다음과 같이 구합니다.</p>
+<ul>
+<li>오늘 EMA = 어제 EMA + k x (오늘 종가 - 어제 EMA)</li>
+<li>여기서 k = 2 / (N + 1)</li>
+</ul>
+<p>20기간 EMA라면 k = 2 / 21, 약 0.095입니다. 5기간 EMA라면 k = 2 / 6, 약 0.333입니다. EMA에는 시작값이 필요한데 보통 SMA를 쓰며, 초기 값들은 이 시작값에 좌우됩니다.</p>
+<h3 id="wma">가중이동평균(WMA)</h3>
+<p>WMA는 선형 가중치를 줍니다. 5기간 WMA에서는 최근 종가에 5를, 그 전 종가에 4를 곱하는 식으로 1까지 내려가며, 합계를 가중치의 합(15)으로 나눕니다. SMA보다 빠르게 반응합니다.</p>
+<p>헐 이동평균(HMA), 이중·삼중 EMA, 와일더 평활법(<a href="/ko/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a>와 <a href="/ko/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR</a> 내부에서 사용) 같은 변형도 있습니다. 모두 매끄러움과 속도의 균형을 각기 다른 방식으로 맞추려는 시도입니다.</p>
+<h2 id="sma-ema-wma">계산 예시: SMA, EMA, WMA 비교</h2>
+<p>일별 종가 다섯 개: $10, $11, $12, $13, $14.</p>
+<ul>
+<li><strong>5일 SMA</strong> = (10 + 11 + 12 + 13 + 14) / 5 = 60 / 5 = <strong>$12.00</strong></li>
+<li>이 시점의 5일 EMA도 $12.00이라고 가정합니다(SMA를 시작값으로 사용).</li>
+</ul>
+<p>다음 날 평소보다 크게 뛰어 <strong>$16</strong>에 마감합니다.</p>
+<ul>
+<li><strong>새 SMA:</strong> $10을 빼고 $16을 더합니다. (11 + 12 + 13 + 14 + 16) / 5 = 66 / 5 = <strong>$13.20</strong></li>
+<li><strong>새 EMA:</strong> k = 2 / 6 = 1/3. EMA = 12.00 + (1/3) x (16 - 12.00) = 12.00 + 1.33 = <strong>$13.33</strong></li>
+<li><strong>새 WMA:</strong> (11 x 1 + 12 x 2 + 13 x 3 + 14 x 4 + 16 x 5) / 15 = (11 + 24 + 39 + 56 + 80) / 15 = 210 / 15 = <strong>$14.00</strong></li>
+</ul>
+<p>세 값 모두 최근 가격 $16보다 낮으며, 이것이 후행성입니다. WMA는 최근 봉에 가장 큰 가중치를 두므로 가격에 가장 가깝게 움직였고, SMA는 가장 적게 움직였습니다.</p>
+<h2 id="section-7">자주 쓰는 기간과 활용법</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>기간</th>
+<th>일반적인 용도</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>9 또는 10</td>
+<td>초단기 추세. 장중 차트에서 EMA로 쓰는 경우가 많음</td>
+</tr>
+<tr>
+<td>20 또는 21</td>
+<td>단기 추세. 대략 한 달치 거래일. <a href="/ko/encyclopedia/technical-analysis/bollinger-bands/">볼린저 밴드</a>의 중심선</td>
+</tr>
+<tr>
+<td>50</td>
+<td>중기 추세. 주식 일봉 차트에서 널리 주목</td>
+</tr>
+<tr>
+<td>100</td>
+<td>중간 정도. 덜 쓰임</td>
+</tr>
+<tr>
+<td>200</td>
+<td>장기 추세. 주가지수에서 가장 주목받는 이동평균선</td>
+</tr>
+</tbody></table></div>
+<p>이 기간들에 수학적으로 특별한 성질이 있는 것은 아닙니다. 관례가 되었을 뿐이고, 인기가 많다 보니 많은 트레이더가 같은 선을 지켜봅니다. 예를 들어 금융 언론은 주요 지수가 200일 이동평균선을 돌파하면 이를 자주 보도합니다. 이런 관심이 부분적으로 자기실현적 효과로 작용해 이 이동평균선 근처에서 단기적인 반응을 만들 수 있습니다.</p>
+<p>이동평균은 어떤 타임프레임에서든 계산할 수 있습니다. 5분봉에서 50기간 이동평균은 50일이 아니라 약 네 시간을 포괄합니다.</p>
+<h2 id="section-8">이동평균선 활용법</h2>
+<h3 id="section-9">추세 필터</h3>
+<p>가장 단순한 용도는 방향 판단입니다. 가격이 상승하는 200일 이동평균선 위에 있으면 장기 상승 추세로, 하락하는 이동평균선 아래에 있으면 하락 추세로 봅니다. 많은 트레이더가 가격이 정해 둔 이동평균선 위에 있을 때만 매수하고, 아래에 있을 때만 매도(공매도)합니다. 위치만큼 기울기도 중요합니다. 평평한 이동평균선은 박스권을 시사합니다. <a href="/ko/encyclopedia/technical-analysis/trends-and-market-structure/">추세와 시장 구조</a>를 참고하십시오.</p>
+<h3 id="section-10">크로스</h3>
+<p>크로스 시스템은 빠른 이동평균선과 느린 이동평균선 두 개를 씁니다. 빠른 선이 느린 선을 위로 교차하면 매수 신호, 아래로 교차하면 매도 신호입니다.</p>
+<ul>
+<li><strong>골든크로스:</strong> 50일선이 200일선을 위로 교차합니다.</li>
+<li><strong>데드크로스:</strong> 50일선이 200일선을 아래로 교차합니다.</li>
+</ul>
+<p>골든크로스와 데드크로스는 본래 느린 신호입니다. 50일선이 200일선을 교차할 무렵이면 가격은 대개 이미 많이 움직인 상태입니다. 횡보장에서는 두 선이 여러 번 엇갈리며 휩소라고 불리는 작은 손실을 연달아 만듭니다. 가격이 이동평균선 하나를 교차하는 것(예를 들어 50일선 위에서 마감하는 것)은 같은 아이디어의 더 빠르지만 노이즈가 많은 버전입니다.</p>
+<h3 id="section-11">움직이는 지지와 저항</h3>
+<p>꾸준한 추세에서는 가격이 이동평균선 쪽으로 되돌렸다가 다시 추세를 이어 가는 경우가 많습니다. 트레이더들은 이동평균선을 움직이는 <a href="/ko/encyclopedia/technical-analysis/support-and-resistance/">지지선과 저항선</a>으로 봅니다. 주식에서는 20일선과 50일선이 이런 용도로 인기가 많습니다. 수평 지지·저항과 마찬가지로 이동평균선도 정확한 선이 아니라 구간이며, 특히 추세가 끝나 갈 때는 자주 깨집니다.</p>
+<h3 id="section-12">다른 지표의 기초</h3>
+<p><a href="/ko/encyclopedia/technical-analysis/macd/">MACD</a>는 두 EMA의 차이입니다. 볼린저 밴드는 이동평균선에 표준편차를 더하고 뺀 것입니다. 켈트너 채널은 EMA와 ATR을 씁니다. 이동평균을 이해하면 이런 도구들을 해석하기 쉬워집니다.</p>
+<h2 id="section-13">후행성이라는 맞교환</h2>
+<p>모든 이동평균은 후행합니다. 꾸준한 직선 추세에서 N기간 SMA는 가격보다 약 (N - 1) / 2봉 뒤처집니다. 20일 SMA는 약 9.5일, 200일 SMA는 약 100일 뒤처집니다.</p>
+<p>N기간 EMA도 꾸준한 추세에서는 평균 후행 정도가 거의 같습니다. 장점은 최근 봉의 가중치가 크기 때문에 가격이 갑자기 방향을 바꿀 때 더 빨리 반응한다는 것입니다. 그 대가로 무작위 급등락에도 더 많이 반응합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>선택</th>
+<th>이점</th>
+<th>대가</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>짧은 기간</td>
+<td>신호가 빠르고 가격에 가까움</td>
+<td>거짓 신호와 휩소가 많음</td>
+</tr>
+<tr>
+<td>긴 기간</td>
+<td>더 매끄럽고 거짓 신호가 적음</td>
+<td>진입과 청산이 늦고, 반납하는 이익이 큼</td>
+</tr>
+<tr>
+<td>SMA 대신 EMA나 WMA</td>
+<td>전환에 더 빠르게 반응</td>
+<td>일회성 급등락에 더 민감</td>
+</tr>
+</tbody></table></div>
+<p>이 맞교환을 없애는 설정은 없습니다. 과거 데이터로 기간을 최적화해 &#39;최고&#39;의 값을 찾으면 과거에는 맞지만 미래에는 실패하는 설정이 나오기 쉽습니다. <a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화</a>를 참고하십시오.</p>
+<h2 id="section-14">실증 연구가 말하는 것</h2>
+<p>이동평균 규칙은 가장 많이 연구된 기술적 도구 중 하나입니다. Brock, Lakonishok, LeBaron(1992)은 장기간의 다우존스 지수 데이터에서 단순 이동평균 규칙이 예측력을 가졌다고 보고했지만, 이후 데이터 스누핑을 보정한 연구에서는 그 효과가 최근 데이터에서 지속되지 않은 것으로 나타났습니다. 더 넓게 보면, 시계열 모멘텀에 관한 학술 연구는 흔히 이동평균으로 만드는 추세추종 규칙이 분산된 선물 포트폴리오에서 오랜 기간 수익을 내 왔다는 생각을 뒷받침합니다. 다만 그 성공에는 긴 횡보 또는 손실 구간이 따랐고, 규율 있는 리스크 관리 아래 많은 시장을 매매해야 가능했습니다. <a href="/ko/encyclopedia/algorithmic-trading/trend-following/">추세추종</a>을 참고하십시오.</p>
+<p>개별 주식이나 암호화폐 하나에서는 크로스 규칙이 검증 기간에 따라 매수 후 보유보다 나을 수도, 못할 수도 있습니다. 결과는 기간, 자산, 비용에 민감합니다.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>이동평균선이 예측해 주기를 기대한다.</strong> 이동평균선은 과거를 요약할 뿐입니다. 크로스는 이미 일어난 움직임을 확인해 줄 뿐입니다.</li>
+<li><strong>박스권에서 크로스를 쓴다.</strong> 횡보장은 휩소를 반복적으로 만들어 작은 손실을 연달아 냅니다.</li>
+<li><strong>기간을 과도하게 최적화한다.</strong> 작년에 가장 잘 통한 47일 이동평균이 내년에도 특별할 가능성은 낮습니다.</li>
+<li><strong>이동평균선을 여러 개 겹친다.</strong> 차트 하나에 이동평균선 다섯 개를 띄우면 같은 정보의 다섯 가지 버전일 뿐입니다.</li>
+<li><strong>200일선을 벽으로 여긴다.</strong> 가격은 많은 사람이 지켜보는 이동평균선도 그대로 뚫고 지나갈 수 있고, 실제로 그렇습니다.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="sma-ema">SMA와 EMA는 무엇이 다른가요?</h3>
+<p>SMA는 계산 구간 안의 모든 기간에 같은 가중치를 주고, EMA는 가장 최근 가격에 더 큰 가중치를 줍니다. EMA는 갑작스러운 변화에 더 빠르게 반응하지만, 일회성 급등락에도 더 민감합니다.</p>
+<h3 id="section-18">데이 트레이딩에는 어떤 이동평균선이 가장 좋나요?</h3>
+<p>최고의 설정은 없습니다. 데이 트레이더들은 1~15분봉에서 9기간이나 20기간 같은 짧은 EMA를 VWAP 같은 장중 기준선과 함께 쓰는 경우가 많지만, 선택은 매매하는 시장과 타임프레임에서 검증해야 합니다.</p>
+<h3 id="section-19">골든크로스란 무엇인가요?</h3>
+<p>골든크로스는 50일 이동평균선이 200일 이동평균선을 위로 교차하는 것입니다. 상승 신호로 널리 보도되지만, 움직임의 상당 부분이 이미 일어난 뒤에 나오는 경우가 많은 느린 신호입니다.</p>
+<h3 id="200">200일 이동평균선은 왜 중요한가요?</h3>
+<p>특히 주가지수에서 가장 널리 주목받는 장기 추세선이라, 많은 트레이더와 언론이 가격이 그 위에 있는지 아래에 있는지를 추적합니다. 이런 관심 때문에 그 근처에서 반응이 나올 수 있지만, 어디까지나 관례이지 법칙이 아닙니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/technical-analysis/trends-and-market-structure/"><div class="k">기술적 분석</div><b>추세와 시장 구조</b><span>스윙 고점과 저점, 추세선, 채널, 구조 붕괴(BOS), 추세 강도 지표 ADX로 상승 추세, 하락 추세, 박스권을 구분하는 방법을 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/technical-analysis/macd/"><div class="k">기술적 분석</div><b>MACD</b><span>두 EMA로 MACD를 만드는 방법, 시그널선과 히스토그램의 의미, 크로스와 다이버전스 해석, 12/26/9 설정과 후행성 문제를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/technical-analysis/bollinger-bands/"><div class="k">기술적 분석</div><b>볼린저 밴드</b><span>20기간 이동평균과 2 표준편차로 볼린저 밴드를 만드는 법, 스퀴즈, 밴드 타기, %B, 밴드폭, 켈트너 채널과의 차이를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/trend-following/"><div class="k">알고리즘·퀀트 트레이딩</div><b>추세추종</b><span>추세추종의 원리: 시계열 모멘텀, CTA와 매니지드 퓨처스, 돌파·이동평균 시스템, 터틀 트레이더, 양의 왜도와 낙폭을 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/technical-analysis/support-and-resistance/"><div class="k">기술적 분석</div><b>지지선과 저항선</b><span>지지선과 저항선의 개념과 형성 원리, 구간으로 긋는 법, 역할 전환, 라운드 넘버, 진짜 돌파와 가짜 돌파를 구분하는 방법을 설명합니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/technical-analysis/chart-patterns/"><small>← 이전 글</small>차트 패턴</a><a class="next" href="/ko/encyclopedia/technical-analysis/rsi-relative-strength-index/"><small>다음 글 →</small>RSI</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

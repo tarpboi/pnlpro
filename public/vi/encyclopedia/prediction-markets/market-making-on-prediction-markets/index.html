@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tạo lập thị trường prediction market: spread, tồn kho, rủi ro</title>
+<meta name="description" content="Hướng dẫn nền tảng về tạo lập thị trường trên prediction market: báo giá hai phía, thu spread, rủi ro tồn kho, adverse selection quanh tin tức, thưởng.">
+<meta name="keywords" content="tạo lập thị trường prediction market, market maker polymarket, thưởng thanh khoản, rủi ro tồn kho, adverse selection">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Tạo lập thị trường prediction market: spread, tồn kho, rủi ro">
+<meta property="og:description" content="Hướng dẫn nền tảng về tạo lập thị trường trên prediction market: báo giá hai phía, thu spread, rủi ro tồn kho, adverse selection quanh tin tức, thưởng.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tạo lập thị trường prediction market: spread, tồn kho, rủi ro">
+<meta name="twitter:description" content="Hướng dẫn nền tảng về tạo lập thị trường trên prediction market: báo giá hai phía, thu spread, rủi ro tồn kho, adverse selection quanh tin tức, thưởng.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Tạo lập thị trường prediction market: spread, tồn kho, rủi ro","description":"Hướng dẫn nền tảng về tạo lập thị trường trên prediction market: báo giá hai phía, thu spread, rủi ro tồn kho, adverse selection quanh tin tức, thưởng.","keywords":"tạo lập thị trường prediction market, market maker polymarket, thưởng thanh khoản, rủi ro tồn kho, adverse selection","articleSection":"Thị trường dự đoán","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Thị trường dự đoán","item":"https://pnlpro.fit/vi/encyclopedia/prediction-markets/"},{"@type":"ListItem","position":3,"name":"Làm thị trường","item":"https://pnlpro.fit/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Market maker kiếm tiền trên prediction market như thế nào?","acceptedAnswer":{"@type":"Answer","text":"Họ đặt bid và ask và kiếm spread khi các nhà giao dịch khác mua từ ask và bán vào bid của họ. Một số nền tảng thêm thưởng thanh khoản hoặc phí maker thấp hơn. Khoản lỗ đến từ tồn kho đi ngược lại họ và từ việc bị các nhà giao dịch có thông tin tốt hơn \"bắt bài\"."}},{"@type":"Question","name":"Rủi ro tồn kho trong tạo lập thị trường là gì?","acceptedAnswer":{"@type":"Answer","text":"Đó là rủi ro một market maker tích lũy vị thế ở một phía, thường vì giá đang có xu hướng, rồi thua lỗ khi giá tiếp tục di chuyển. Trên prediction market, tồn kho còn nắm khi giải quyết sẽ trả $1 hoặc không gì cả."}},{"@type":"Question","name":"Thưởng thanh khoản trên prediction market là gì?","acceptedAnswer":{"@type":"Answer","text":"Đó là các khoản khuyến khích mà một số nền tảng trả cho nhà giao dịch giữ lệnh chờ gần điểm giữa trong một khoảng thời gian. Quy định và mức thưởng thay đổi, nên hãy kiểm tra chương trình hiện hành của từng nền tảng."}},{"@type":"Question","name":"Tạo lập thị trường trên prediction market có sinh lời không?","acceptedAnswer":{"@type":"Answer","text":"Có thể với những hoạt động được xây dựng tốt và kiểm soát tốt, nhưng nhiều nỗ lực thua lỗ vì adverse selection và biến động tồn kho. Các market maker chuyên nghiệp dựa vào tự động hóa, hủy lệnh nhanh và giới hạn rủi ro nghiêm ngặt; báo giá thủ công ở thế bất lợi lớn."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Thị trường dự đoán</h3><ul><li><a href="/vi/encyclopedia/prediction-markets/prediction-markets-explained/">Thị trường dự đoán là gì</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-pricing/">Định giá và xác suất</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-platforms/">So sánh các nền tảng</a></li><li><a href="/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/">Giải quyết kết quả và oracle</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-strategies/">Tổng quan chiến lược</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitrage</a></li><li><a href="/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/" class="on" aria-current="page">Làm thị trường</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-regulation/">Quy định</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/" class="on">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a></div>
+<h1 class="title">Tạo lập thị trường trên prediction market</h1>
+<div class="meta">9 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Thị trường dự đoán</summary><ul><li><a href="/vi/encyclopedia/prediction-markets/prediction-markets-explained/">Thị trường dự đoán là gì</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-pricing/">Định giá và xác suất</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-platforms/">So sánh các nền tảng</a></li><li><a href="/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/">Giải quyết kết quả và oracle</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-strategies/">Tổng quan chiến lược</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitrage</a></li><li><a href="/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/" class="on" aria-current="page">Làm thị trường</a></li><li><a href="/vi/encyclopedia/prediction-markets/prediction-market-regulation/">Quy định</a></li></ul></details>
+<article><p>Tạo lập thị trường (market making) trên một prediction market nghĩa là liên tục đặt cả giá mua (bid) lẫn giá bán (ask) trên một hợp đồng, nhằm kiếm phần chênh lệch giữa hai giá khi các nhà giao dịch khác đến và đi. Market maker cung cấp thanh khoản để mọi người khác giao dịch nhanh chóng. Công việc này trông đơn giản, nhưng prediction market thêm vào một điểm khó: mọi hợp đồng đều kết thúc ở đúng $0 hoặc $1, nên bất kỳ tồn kho nào market maker còn nắm khi thị trường được giải quyết sẽ trở thành thắng trọn hoặc thua trọn. Bài viết này mô tả góc nhìn chung, mang tính giáo khoa.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Market maker kiếm chênh lệch bid-ask khi người mua và người bán giao dịch với cả hai giá chào của họ.</li>
+<li>Rủi ro tồn kho phát sinh khi các lệnh khớp chủ yếu đến từ một phía và giá đi ngược lại vị thế đã tích lũy.</li>
+<li>Adverse selection, tức bị các bên có thông tin tốt hơn giao dịch ngược lại, nghiêm trọng nhất quanh tin tức và gần thời điểm giải quyết thị trường.</li>
+<li>Các biện pháp kiểm soát trong giáo trình gồm dịch giá chào để giảm tồn kho, nới rộng hoặc rút giá chào trước các sự kiện đã biết, và giới hạn vị thế cứng.</li>
+<li>Một số nền tảng trả thưởng thanh khoản hoặc tính phí thấp hơn cho maker, nhưng những điều này thay đổi và không nên che giấu một chiến lược thua lỗ.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#t-o-l-p-th-tr-ng-ho-t-ng-nh-th-n-o">Tạo lập thị trường hoạt động như thế nào</a></li><li><a href="#r-i-ro-t-n-kho">Rủi ro tồn kho</a></li><li><a href="#adverse-selection">Adverse selection</a></li><li><a href="#th-ng-thanh-kho-n-v-ph">Thưởng thanh khoản và phí</a></li><li><a href="#prediction-market-so-v-i-th-tr-ng-truy-n-th-ng">Prediction market so với thị trường truyền thống</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="t-o-l-p-th-tr-ng-ho-t-ng-nh-th-n-o">Tạo lập thị trường hoạt động như thế nào</h2>
+<h3 id="b-o-gi-hai-ph-a">Báo giá hai phía</h3>
+<p>Giả sử giá trị hợp lý của một hợp đồng YES vào khoảng 50 cent. Một market maker có thể đặt:</p>
+<ul>
+<li>Một lệnh bid mua 100 YES ở 48 cent.</li>
+<li>Một lệnh ask bán 100 YES ở 52 cent.</li>
+</ul>
+<p>Khoảng chênh 4 cent là spread niêm yết. Nếu một nhà giao dịch bán vào bid và một người khác mua từ ask, market maker đã mua ở 48 và bán ở 52 và không nắm vị thế nào. Trên các nền tảng ghép YES và NO với nhau, bán YES ở 52 cent giống như mua NO ở 48 cent, nên market maker có thể báo giá trên một trong hai sổ lệnh.</p>
+<h3 id="v-d-minh-h-a-thu-spread">Ví dụ minh họa: thu spread</h3>
+<p>Trong một ngày, market maker hoàn thành 30 vòng mua bán, mỗi vòng 100 hợp đồng, mua ở 48 cent và bán ở 52 cent.</p>
+<ul>
+<li>Lợi nhuận mỗi vòng: 100 × ($0.52 − $0.48) = $4.00.</li>
+<li>Tổng gộp trong ngày: 30 × $4.00 = $120.00.</li>
+</ul>
+<p>Nếu sàn không tính phí maker và giá trị hợp lý giữ gần 50 cent, đó là kết quả. Những ngày thực tế hiếm khi gọn gàng như vậy, như các phần sau sẽ cho thấy.</p>
+<h2 id="r-i-ro-t-n-kho">Rủi ro tồn kho</h2>
+<p>Các lệnh khớp hiếm khi đến thành từng cặp gọn gàng. Khi giá trôi xuống, người bán liên tục đập vào bid trong khi người mua đứng ngoài, và market maker tích lũy cổ phần YES.</p>
+<h3 id="v-d-minh-h-a-th-tr-ng-c-xu-h-ng">Ví dụ minh họa: thị trường có xu hướng</h3>
+<p>Tin tức quay lưng với kết cục YES. Suốt buổi chiều lệnh bid của market maker bị khớp liên tục khi giá trượt xuống, và cuối cùng họ nắm 500 cổ phần YES với giá vốn trung bình 46 cent. Giá ổn định ở 30 cent.</p>
+<ul>
+<li>Lỗ chưa thực hiện: 500 × ($0.46 − $0.30) = $80.00.</li>
+<li>Con số đó xóa mất 20 trong 30 vòng của ví dụ trước.</li>
+<li>Nếu kết cục sau đó được giải quyết là NO, khoản lỗ trở thành 500 × $0.46 = $230.00, gần hai ngày thu nhập từ spread theo nhịp trước đó.</li>
+</ul>
+<p>Vì hợp đồng prediction market kết thúc ở $0 hoặc $1, rủi ro tồn kho không phai đi. Nó sắc nét hơn khi đến gần thời điểm giải quyết.</p>
+<h3 id="d-ch-gi-ch-o-skew">Dịch giá chào (skew)</h3>
+<p>Cách ứng phó chuẩn trong giáo trình là dịch giá chào dựa trên tồn kho. Một market maker đang long YES hạ cả bid lẫn ask, khiến họ dễ bán hơn và khó mua thêm hơn. Các mô hình học thuật, như khung của Avellaneda và Stoikov, hình thức hóa ý tưởng này bằng một &quot;giá dự trữ&quot; (reservation price) dịch ra xa điểm giữa khi tồn kho tăng. Bài tổng quát về <a href="/vi/encyclopedia/algorithmic-trading/market-making/">tạo lập thị trường</a> giải thích khái niệm này mà không dùng nhiều toán.</p>
+<h3 id="gi-i-h-n-v-th">Giới hạn vị thế</h3>
+<p>Một mức trần cứng cho tồn kho trên mỗi thị trường, và trên các thị trường liên quan, ngăn một thị trường có xu hướng biến market maker thành một nhà giao dịch theo hướng không tự nguyện. Khi chạm mức trần, maker ngừng báo giá ở phía sẽ làm tăng thêm tồn kho.</p>
+<h2 id="adverse-selection">Adverse selection</h2>
+<p>Adverse selection nghĩa là phần lớn lệnh của bạn khớp với những nhà giao dịch biết nhiều hơn bạn. Giá chào của market maker là một quyền chọn miễn phí cho bất kỳ ai có thông tin tốt hơn: họ chỉ giao dịch với nó khi nó sai.</p>
+<h3 id="quanh-tin-t-c">Quanh tin tức</h3>
+<p>Khi một đợt công bố theo lịch, một cuộc tranh luận, phán quyết tòa án hoặc diễn biến trận đấu sắp xảy ra, các nhà giao dịch có thông tin hoặc nhanh hơn có thể phản ứng trong vài giây. Một giá chào đang chờ vốn hợp lý trước tin có thể lỗi thời nghiêm trọng sau đó. Prediction market đặc biệt dễ bị tổn thương vì nhiều kết cục nhảy trong một bước thay vì trôi dần.</p>
+<h3 id="g-n-th-i-i-m-gi-i-quy-t">Gần thời điểm giải quyết</h3>
+<p>Khi kết cục của một sự kiện trở nên rõ ràng, giá trị hợp lý của hợp đồng dịch về $0 hoặc $1, đôi khi chỉ trong chốc lát.</p>
+<p><strong>Ví dụ.</strong> Một market maker có lệnh ask bán 200 YES ở 60 cent. Kết quả quyết định được công bố, khiến YES chắc chắn xảy ra. Trước khi maker kịp hủy, một nhà giao dịch nhanh mua hết 200 ở 60 cent. Hợp đồng được giải quyết ở $1, nên maker lỗ 200 × ($1.00 − $0.60) = $80.00 chỉ trong lần khớp đó.</p>
+<p>Các biện pháp phòng thủ trong giáo trình gồm:</p>
+<ul>
+<li>Nới rộng spread hoặc rút giá chào trước các sự kiện đã định lịch.</li>
+<li>Giảm khối lượng khi đến gần thời điểm giải quyết.</li>
+<li>Hủy nhanh khi các giá liên quan, như tài sản cơ sở trong một vòng tiền mã hóa, biến động mạnh.</li>
+<li>Tránh những thị trường mà người khác rõ ràng có thông tin nhanh hơn hoặc tốt hơn.</li>
+</ul>
+<p>Bài về <a href="/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/">giải quyết thị trường và oracle</a> giải thích vì sao những giờ cuối mang thêm rủi ro.</p>
+<h2 id="th-ng-thanh-kho-n-v-ph">Thưởng thanh khoản và phí</h2>
+<p>Một số nền tảng prediction market khuyến khích tạo lập thị trường bằng:</p>
+<ul>
+<li><strong>Thưởng thanh khoản.</strong> Khoản thanh toán cho các nhà giao dịch giữ lệnh chờ trong một khoảng cách nhất định quanh điểm giữa, thường được tính theo khối lượng, độ gần điểm giữa và thời gian nằm trên sổ lệnh.</li>
+<li><strong>Lợi thế phí maker.</strong> Phí thấp hơn hoặc bằng không cho các lệnh bổ sung thanh khoản, so với các lệnh lấy thanh khoản. Xem <a href="/vi/encyclopedia/basics/trading-costs-and-fees/">chi phí giao dịch và phí</a>.</li>
+<li><strong>Hoàn phí (rebate).</strong> Một phần phí được trả lại cho maker trên một số sàn.</li>
+</ul>
+<p>Các chương trình này khác nhau tùy nền tảng và thay đổi thường xuyên, nên hãy đọc quy định hiện hành. Phần thưởng có thể khiến một chiến lược thua lỗ trông có lãi trong một thời gian; đáng để đo riêng thu nhập từ spread, khoản lỗ tồn kho và phần thưởng.</p>
+<h2 id="prediction-market-so-v-i-th-tr-ng-truy-n-th-ng">Prediction market so với thị trường truyền thống</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Đặc điểm</th>
+<th>Tạo lập thị trường cổ phiếu hoặc hợp đồng tương lai</th>
+<th>Tạo lập thị trường prediction market</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Giá trị cuối cùng</td>
+<td>Không giới hạn</td>
+<td>Đúng $0 hoặc $1</td>
+</tr>
+<tr>
+<td>Giá nhảy vọt</td>
+<td>Thỉnh thoảng</td>
+<td>Phổ biến khi có tin tức và lúc giải quyết</td>
+</tr>
+<tr>
+<td>Phòng hộ tồn kho</td>
+<td>Thường có thể bằng các công cụ liên quan</td>
+<td>Thường hạn chế hoặc không có</td>
+</tr>
+<tr>
+<td>Cạnh tranh</td>
+<td>Các công ty chuyên nghiệp, spread rất hẹp</td>
+<td>Hỗn hợp; spread có thể rộng ở các thị trường ít người biết</td>
+</tr>
+<tr>
+<td>Nguồn giá trị hợp lý</td>
+<td>Nhiều giá liên quan</td>
+<td>Đôi khi ít, đôi khi không có</td>
+</tr>
+</tbody></table></div>
+<p>Spread rộng trên các thị trường ngách thu hút market maker mới, nhưng những spread đó thường tồn tại vì rủi ro cao và khó đánh giá giá trị hợp lý. Các bài về <a href="/vi/encyclopedia/basics/order-book-and-market-depth/">sổ lệnh</a> và <a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">chênh lệch bid-ask</a> trình bày các cơ chế áp dụng ở mọi thị trường.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Báo giá mà không có góc nhìn về giá trị hợp lý.</strong> Một maker không có ước tính giá trị hợp lý rất dễ bị giao dịch ngược.</li>
+<li><strong>Để giá chào nằm lại qua tin tức.</strong> Những khoản lỗ lớn nhất thường đến từ vài lệnh khớp lỗi thời.</li>
+<li><strong>Không có giới hạn tồn kho.</strong> Một thị trường có xu hướng có thể xóa sạch thu nhập spread của nhiều tuần.</li>
+<li><strong>Coi phần thưởng là kỹ năng.</strong> Hãy theo dõi phần thưởng riêng với kết quả giao dịch.</li>
+<li><strong>Tạo lập các thị trường tương quan một cách độc lập.</strong> Các thị trường liên quan có thể cùng đi ngược lại bạn một lúc.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="market-maker-ki-m-ti-n-tr-n-prediction-market-nh-th-n-o">Market maker kiếm tiền trên prediction market như thế nào?</h3>
+<p>Họ đặt bid và ask và kiếm spread khi các nhà giao dịch khác mua từ ask và bán vào bid của họ. Một số nền tảng thêm thưởng thanh khoản hoặc phí maker thấp hơn. Khoản lỗ đến từ tồn kho đi ngược lại họ và từ việc bị các nhà giao dịch có thông tin tốt hơn &quot;bắt bài&quot;.</p>
+<h3 id="r-i-ro-t-n-kho-trong-t-o-l-p-th-tr-ng-l-g">Rủi ro tồn kho trong tạo lập thị trường là gì?</h3>
+<p>Đó là rủi ro một market maker tích lũy vị thế ở một phía, thường vì giá đang có xu hướng, rồi thua lỗ khi giá tiếp tục di chuyển. Trên prediction market, tồn kho còn nắm khi giải quyết sẽ trả $1 hoặc không gì cả.</p>
+<h3 id="th-ng-thanh-kho-n-tr-n-prediction-market-l-g">Thưởng thanh khoản trên prediction market là gì?</h3>
+<p>Đó là các khoản khuyến khích mà một số nền tảng trả cho nhà giao dịch giữ lệnh chờ gần điểm giữa trong một khoảng thời gian. Quy định và mức thưởng thay đổi, nên hãy kiểm tra chương trình hiện hành của từng nền tảng.</p>
+<h3 id="t-o-l-p-th-tr-ng-tr-n-prediction-market-c-sinh-l-i-kh-ng">Tạo lập thị trường trên prediction market có sinh lời không?</h3>
+<p>Có thể với những hoạt động được xây dựng tốt và kiểm soát tốt, nhưng nhiều nỗ lực thua lỗ vì adverse selection và biến động tồn kho. Các market maker chuyên nghiệp dựa vào tự động hóa, hủy lệnh nhanh và giới hạn rủi ro nghiêm ngặt; báo giá thủ công ở thế bất lợi lớn.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/algorithmic-trading/market-making/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Làm thị trường</b><span>Hướng dẫn kiểu giáo trình về market making: báo giá hai chiều, thu spread, lệch giá theo tồn kho, adverse selection, hàng đợi, hoàn phí, Avellaneda-Stoikov.</span></a><a class="card" href="/vi/encyclopedia/basics/order-book-and-market-depth/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Sổ lệnh và độ sâu thị trường</b><span>Sổ lệnh giới hạn và công cụ khớp lệnh hoạt động ra sao, ưu tiên giá-thời gian, dữ liệu Level 1 và Level 2, đọc độ sâu, spoofing, thị trường dealer và AMM.</span></a><a class="card" href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Spread và thanh khoản</b><span>Giá bid, ask, spread và giá giữa là gì; thanh khoản, trượt giá và tác động thị trường vận hành ra sao; vì sao spread nới rộng và cách tính chi phí khứ hồi.</span></a><a class="card" href="/vi/encyclopedia/prediction-markets/prediction-market-strategies/"><div class="k">Thị trường dự đoán</div><b>Tổng quan chiến lược</b><span>Các chiến lược prediction market chính: lợi thế thông tin, resolution sniping, arbitrage, tạo lập thị trường, vòng tiền mã hóa ngắn hạn, copy trading, rủi ro.</span></a><a class="card" href="/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/"><div class="k">Thị trường dự đoán</div><b>Giải quyết kết quả và oracle</b><span>Kết cục prediction market được quyết định ra sao: quy tắc và nguồn giải quyết, optimistic oracle của UMA, tranh chấp, price feed Chainlink, quy tắc mơ hồ.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/"><small>← Bài trước</small>Arbitrage</a><a class="next" href="/vi/encyclopedia/prediction-markets/prediction-market-regulation/"><small>Bài tiếp →</small>Quy định</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

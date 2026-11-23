@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VWAP: o que é o preço médio ponderado por volume e como usar</title>
+<meta name="description" content="Como o VWAP é calculado, por que instituições o usam como referência, como day traders operam em torno dele, VWAP ancorado, bandas e limites do indicador.">
+<meta name="keywords" content="vwap, preço médio ponderado por volume, vwap ancorado, estratégia vwap day trade, bandas de vwap">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/vwap/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="VWAP: o que é o preço médio ponderado por volume e como usar">
+<meta property="og:description" content="Como o VWAP é calculado, por que instituições o usam como referência, como day traders operam em torno dele, VWAP ancorado, bandas e limites do indicador.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/technical-analysis/vwap/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VWAP: o que é o preço médio ponderado por volume e como usar">
+<meta name="twitter:description" content="Como o VWAP é calculado, por que instituições o usam como referência, como day traders operam em torno dele, VWAP ancorado, bandas e limites do indicador.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"VWAP: o que é o preço médio ponderado por volume e como usar","description":"Como o VWAP é calculado, por que instituições o usam como referência, como day traders operam em torno dele, VWAP ancorado, bandas e limites do indicador.","keywords":"vwap, preço médio ponderado por volume, vwap ancorado, estratégia vwap day trade, bandas de vwap","articleSection":"Análise técnica","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/technical-analysis/vwap/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Análise técnica","item":"https://pnlpro.fit/pt/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"VWAP","item":"https://pnlpro.fit/pt/encyclopedia/technical-analysis/vwap/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"O que significa o preço estar acima do VWAP?","acceptedAnswer":{"@type":"Answer","text":"Significa que o preço atual está acima do preço médio ponderado por volume pago até agora no pregão, então o comprador médio do dia está no lucro. Muitos traders leem isso como sinal de que os compradores levaram vantagem, embora isso não preveja nada por si só."}},{"@type":"Question","name":"O VWAP zera todo dia?","acceptedAnswer":{"@type":"Answer","text":"O VWAP padrão do pregão zera no início de cada sessão de negociação. O VWAP ancorado não zera; ele corre continuamente a partir da barra inicial que o trader escolher."}},{"@type":"Question","name":"O VWAP é melhor do que uma média móvel?","acceptedAnswer":{"@type":"Answer","text":"É diferente, não melhor. O VWAP pondera os preços pelo volume e está ligado a um pregão ou a uma âncora, enquanto a média móvel pondera os preços pelo tempo em uma janela móvel. Traders intraday usam muito o VWAP; swing traders usam mais as médias móveis."}},{"@type":"Question","name":"Dá para usar o VWAP em cripto ou forex?","acceptedAnswer":{"@type":"Answer","text":"Dá, mas com cuidado. O VWAP em cripto depende de quais exchanges têm o volume incluído e de um horário de reinício diário arbitrário, e o VWAP do forex à vista usa o volume de ticks de uma única corretora, que é apenas uma aproximação da atividade real."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/vwap/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/vwap/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/vwap/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/vwap/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/vwap/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/technical-analysis/vwap/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/vwap/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/vwap/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/vwap/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Análise técnica</h3><ul><li><a href="/pt/encyclopedia/technical-analysis/technical-analysis-intro/">Introdução à análise técnica</a></li><li><a href="/pt/encyclopedia/technical-analysis/candlestick-charts/">Como ler candles</a></li><li><a href="/pt/encyclopedia/technical-analysis/candlestick-patterns/">Padrões de candles</a></li><li><a href="/pt/encyclopedia/technical-analysis/support-and-resistance/">Suporte e resistência</a></li><li><a href="/pt/encyclopedia/technical-analysis/trends-and-market-structure/">Tendências e estrutura de mercado</a></li><li><a href="/pt/encyclopedia/technical-analysis/chart-patterns/">Padrões gráficos</a></li><li><a href="/pt/encyclopedia/technical-analysis/moving-averages/">Médias móveis</a></li><li><a href="/pt/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI (IFR)</a></li><li><a href="/pt/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/pt/encyclopedia/technical-analysis/bollinger-bands/">Bandas de Bollinger</a></li><li><a href="/pt/encyclopedia/technical-analysis/volume-analysis/">Análise de volume</a></li><li><a href="/pt/encyclopedia/technical-analysis/vwap/" class="on" aria-current="page">VWAP</a></li><li><a href="/pt/encyclopedia/technical-analysis/fibonacci-retracement/">Ferramentas de Fibonacci</a></li><li><a href="/pt/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR e volatilidade</a></li><li><a href="/pt/encyclopedia/technical-analysis/multi-timeframe-analysis/">Análise em múltiplos tempos gráficos</a></li><li><a href="/pt/encyclopedia/technical-analysis/price-action-trading/">Trading com price action</a></li><li><a href="/pt/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile e Market Profile</a></li><li><a href="/pt/encyclopedia/technical-analysis/order-flow-trading/">Trading com fluxo de ordens</a></li><li><a href="/pt/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/pt/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Ondas de Elliott e Wyckoff</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/" class="on">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a></div>
+<h1 class="title">VWAP (preço médio ponderado por volume)</h1>
+<div class="meta">8 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Análise técnica</summary><ul><li><a href="/pt/encyclopedia/technical-analysis/technical-analysis-intro/">Introdução à análise técnica</a></li><li><a href="/pt/encyclopedia/technical-analysis/candlestick-charts/">Como ler candles</a></li><li><a href="/pt/encyclopedia/technical-analysis/candlestick-patterns/">Padrões de candles</a></li><li><a href="/pt/encyclopedia/technical-analysis/support-and-resistance/">Suporte e resistência</a></li><li><a href="/pt/encyclopedia/technical-analysis/trends-and-market-structure/">Tendências e estrutura de mercado</a></li><li><a href="/pt/encyclopedia/technical-analysis/chart-patterns/">Padrões gráficos</a></li><li><a href="/pt/encyclopedia/technical-analysis/moving-averages/">Médias móveis</a></li><li><a href="/pt/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI (IFR)</a></li><li><a href="/pt/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/pt/encyclopedia/technical-analysis/bollinger-bands/">Bandas de Bollinger</a></li><li><a href="/pt/encyclopedia/technical-analysis/volume-analysis/">Análise de volume</a></li><li><a href="/pt/encyclopedia/technical-analysis/vwap/" class="on" aria-current="page">VWAP</a></li><li><a href="/pt/encyclopedia/technical-analysis/fibonacci-retracement/">Ferramentas de Fibonacci</a></li><li><a href="/pt/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR e volatilidade</a></li><li><a href="/pt/encyclopedia/technical-analysis/multi-timeframe-analysis/">Análise em múltiplos tempos gráficos</a></li><li><a href="/pt/encyclopedia/technical-analysis/price-action-trading/">Trading com price action</a></li><li><a href="/pt/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile e Market Profile</a></li><li><a href="/pt/encyclopedia/technical-analysis/order-flow-trading/">Trading com fluxo de ordens</a></li><li><a href="/pt/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/pt/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Ondas de Elliott e Wyckoff</a></li></ul></details>
+<article><p>O VWAP (volume-weighted average price), ou preço médio ponderado por volume, é o preço médio pelo qual um ativo foi negociado em um período, com cada preço ponderado pelo volume negociado nele. Na maioria das vezes é calculado a partir do início de cada pregão e zera diariamente. Instituições usam o VWAP para avaliar a qualidade das suas execuções, e day traders o usam como referência intraday para saber se compradores ou vendedores dominaram o pregão.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>O VWAP é igual ao valor financeiro total negociado dividido pelo volume total negociado, acumulados a partir de um ponto inicial escolhido.</li>
+<li>O VWAP padrão do pregão zera todo dia, então é principalmente uma ferramenta intraday.</li>
+<li>Grandes fundos costumam medir suas execuções em relação ao VWAP, e esse é um dos motivos pelos quais o preço tende a reagir perto dele.</li>
+<li>O VWAP ancorado começa o cálculo a partir de um evento escolhido, como um gap de resultado ou uma mínima importante.</li>
+<li>O VWAP é atrasado, sozinho não diz nada sobre o futuro e tem menos significado em mercados sem dados de volume confiáveis.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#como-o-vwap-calculado">Como o VWAP é calculado</a></li><li><a href="#o-vwap-como-refer-ncia-institucional">O VWAP como referência institucional</a></li><li><a href="#como-os-day-traders-usam-o-vwap">Como os day traders usam o VWAP</a></li><li><a href="#vwap-ancorado">VWAP ancorado</a></li><li><a href="#bandas-de-vwap">Bandas de VWAP</a></li><li><a href="#limita-es">Limitações</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="como-o-vwap-calculado">Como o VWAP é calculado</h2>
+<p>Para cada barra, pegue um preço representativo, geralmente o <strong>preço típico</strong> = (High + Low + Close) ÷ 3, e multiplique pelo volume daquela barra. Mantenha totais acumulados:</p>
+<p>VWAP = Σ (Typical price × Volume) ÷ Σ Volume</p>
+<p>As somas começam na abertura do pregão e crescem a cada barra. No início do pregão o VWAP oscila bastante; à tarde ele já tem tanto volume acumulado que quase não se mexe.</p>
+<h3 id="exemplo-pr-tico">Exemplo prático</h3>
+<p>Cinco barras de 5 minutos no início de um pregão:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Barra</th>
+<th>Preço típico</th>
+<th>Volume</th>
+<th>Preço × Volume</th>
+<th>PV acumulado</th>
+<th>Volume acumulado</th>
+<th>VWAP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>100.00</td>
+<td>10,000</td>
+<td>1,000,000</td>
+<td>1,000,000</td>
+<td>10,000</td>
+<td>100.00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>100.50</td>
+<td>8,000</td>
+<td>804,000</td>
+<td>1,804,000</td>
+<td>18,000</td>
+<td>100.22</td>
+</tr>
+<tr>
+<td>3</td>
+<td>101.00</td>
+<td>12,000</td>
+<td>1,212,000</td>
+<td>3,016,000</td>
+<td>30,000</td>
+<td>100.53</td>
+</tr>
+<tr>
+<td>4</td>
+<td>100.80</td>
+<td>6,000</td>
+<td>604,800</td>
+<td>3,620,800</td>
+<td>36,000</td>
+<td>100.58</td>
+</tr>
+<tr>
+<td>5</td>
+<td>100.20</td>
+<td>4,000</td>
+<td>400,800</td>
+<td>4,021,600</td>
+<td>40,000</td>
+<td>100.54</td>
+</tr>
+</tbody></table></div>
+<p>Depois de cinco barras, o VWAP é 4,021,600 ÷ 40,000 = 100.54. A média simples dos cinco preços típicos é 502.50 ÷ 5 = 100.50. O VWAP fica um pouco acima porque o maior volume (12,000) foi negociado no preço mais alto (101.00). Essa é justamente a ideia: o VWAP reflete onde a maior parte dos negócios realmente aconteceu.</p>
+<h2 id="o-vwap-como-refer-ncia-institucional">O VWAP como referência institucional</h2>
+<p>Um fundo de pensão que precisa comprar 500,000 ações não consegue fazer isso em uma única ordem sem mexer no preço. Ele divide a ordem ao longo do dia, muitas vezes com um <a href="/pt/encyclopedia/algorithmic-trading/execution-algorithms/">algoritmo de execução</a> VWAP que tenta negociar em proporção ao volume do mercado. Depois, a mesa de operações compara o preço médio de execução com o VWAP do dia.</p>
+<p><strong>Exemplo.</strong> Uma mesa compra 50,000 ações a um preço médio de 100.48. O VWAP do pregão é 100.54. A mesa comprou 0.06 abaixo do VWAP, o que em 50,000 ações dá 0.06 × 50,000 = $3,000 melhor do que a referência. Se tivesse pago 100.60, teria ficado $3,000 pior.</p>
+<p>Como uma parcela tão grande do fluxo institucional é medida assim, compradores com ordens grandes tendem a ver preços abaixo do VWAP como boa oportunidade, e vendedores tendem a ver preços acima do VWAP da mesma forma. Esse comportamento ajuda a explicar por que o VWAP pode funcionar como ímã ou nível de reação durante o dia, embora ninguém consiga ver quanto fluxo referenciado no VWAP está ativo em um determinado dia.</p>
+<h2 id="como-os-day-traders-usam-o-vwap">Como os day traders usam o VWAP</h2>
+<p>Day traders, especialmente em <a href="/pt/encyclopedia/stocks/day-trading-stocks/">ações</a> e em futuros de índice, acompanham o VWAP de algumas formas comuns:</p>
+<ul>
+<li><strong>Filtro de tendência.</strong> Preço se mantendo acima de um VWAP ascendente é lido como compradores no controle do pregão; abaixo de um VWAP descendente, vendedores. Alguns traders só abrem compras acima do VWAP e vendas a descoberto abaixo dele.</li>
+<li><strong>Entradas em correções.</strong> Em um dia de tendência forte, a primeira correção até o VWAP é uma entrada popular. A ideia é a mesma de comprar uma correção até uma <a href="/pt/encyclopedia/technical-analysis/moving-averages/">média móvel</a>, mas o VWAP é ancorado no pregão e ponderado por volume.</li>
+<li><strong>Recuperação ou perda do VWAP.</strong> Uma ação que abre fraca, depois volta para cima do VWAP e se mantém, às vezes é vista como sinal de que o equilíbrio do pregão mudou.</li>
+<li><strong>Reversão à média.</strong> Em pregões laterais, o preço muitas vezes oscila em torno do VWAP, e movimentos esticados para longe dele podem voltar aos poucos.</li>
+</ul>
+<p>Nenhum desses usos é confiável sozinho. Em um dia de tendência forte, o preço pode nunca voltar ao VWAP; em um dia picado, pode cruzar o VWAP uma dúzia de vezes, cada uma delas um possível sinal falso.</p>
+<h2 id="vwap-ancorado">VWAP ancorado</h2>
+<p>O VWAP padrão começa na abertura do pregão. O <strong>VWAP ancorado</strong> (AVWAP) permite começar o cálculo em qualquer barra que você escolher. A técnica foi popularizada pelo analista técnico Brian Shannon e hoje vem embutida na maioria das plataformas gráficas. Âncoras comuns:</p>
+<ul>
+<li>Um gap de resultado ou um dia de notícia importante.</li>
+<li>Um topo ou fundo relevante.</li>
+<li>O início de um ano, trimestre ou mês.</li>
+<li>A data de um IPO.</li>
+</ul>
+<p>A lógica é que o AVWAP a partir de um evento mostra o custo médio de todos que negociaram desde então. Se o preço está acima de um AVWAP ancorado em uma mínima importante, o comprador médio desde aquela mínima está no lucro. Se o preço volta até ele, esses compradores ficam no zero a zero, o que alguns traders tratam como possível <a href="/pt/encyclopedia/technical-analysis/support-and-resistance/">suporte</a>. É uma narrativa intuitiva, não um efeito comprovado, e a escolha da âncora é subjetiva.</p>
+<h2 id="bandas-de-vwap">Bandas de VWAP</h2>
+<p>Muitas plataformas traçam bandas em torno do VWAP a um, dois e às vezes três desvios-padrão do preço em relação ao VWAP, ponderados por volume. Elas se parecem e funcionam de modo muito semelhante às <a href="/pt/encyclopedia/technical-analysis/bollinger-bands/">Bandas de Bollinger</a> em torno de uma média móvel. Traders usam as bandas externas como sinal de movimento esticado em um dia lateral, ou como evidência de força quando o preço segue colado à banda superior em um dia de tendência. Algumas plataformas oferecem bandas percentuais em vez de bandas de desvio-padrão; confira qual delas a sua ferramenta usa.</p>
+<h2 id="limita-es">Limitações</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Limitação</th>
+<th>Por que importa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Atraso</td>
+<td>O VWAP é uma média do passado. No fim do pregão ele quase não se move.</td>
+</tr>
+<tr>
+<td>Reinício diário</td>
+<td>O VWAP do pregão diz pouco sobre tendências de vários dias; para isso servem o VWAP ancorado ou médias mais longas.</td>
+</tr>
+<tr>
+<td>Qualidade dos dados</td>
+<td>Feeds e definições de pregão diferentes (com ou sem pré-mercado) geram valores de VWAP diferentes.</td>
+</tr>
+<tr>
+<td>Fraco em alguns mercados</td>
+<td>O forex à vista não tem volume central, e o volume em cripto pode ser inflado por wash trading. Veja <a href="/pt/encyclopedia/technical-analysis/volume-analysis/">análise de volume</a>.</td>
+</tr>
+<tr>
+<td>Mercados 24 horas</td>
+<td>Cripto e futuros não têm uma abertura natural, então o horário de reinício (muitas vezes 00:00 UTC em cripto) é uma convenção.</td>
+</tr>
+<tr>
+<td>Não é sinal</td>
+<td>Cruzar o VWAP não é, por si só, um sinal de compra ou venda.</td>
+</tr>
+</tbody></table></div>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Usar o VWAP em gráficos diários ou semanais.</strong> O VWAP do pregão é uma ferramenta intraday. Para horizontes mais longos, use o VWAP ancorado ou outras médias.</li>
+<li><strong>Ignorar a configuração do pregão.</strong> O fato de a sua plataforma incluir ou não o pré-mercado e o after-hours muda o número.</li>
+<li><strong>Tratar cada toque como uma operação.</strong> O VWAP funciona melhor combinado com o contexto do pregão, níveis e volume, e não como gatilho isolado.</li>
+<li><strong>Supor que as instituições estão defendendo o VWAP.</strong> O fluxo referenciado existe, mas você não consegue vê-lo, e ele não garante um repique.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="o-que-significa-o-pre-o-estar-acima-do-vwap">O que significa o preço estar acima do VWAP?</h3>
+<p>Significa que o preço atual está acima do preço médio ponderado por volume pago até agora no pregão, então o comprador médio do dia está no lucro. Muitos traders leem isso como sinal de que os compradores levaram vantagem, embora isso não preveja nada por si só.</p>
+<h3 id="o-vwap-zera-todo-dia">O VWAP zera todo dia?</h3>
+<p>O VWAP padrão do pregão zera no início de cada sessão de negociação. O VWAP ancorado não zera; ele corre continuamente a partir da barra inicial que o trader escolher.</p>
+<h3 id="o-vwap-melhor-do-que-uma-m-dia-m-vel">O VWAP é melhor do que uma média móvel?</h3>
+<p>É diferente, não melhor. O VWAP pondera os preços pelo volume e está ligado a um pregão ou a uma âncora, enquanto a média móvel pondera os preços pelo tempo em uma janela móvel. Traders intraday usam muito o VWAP; swing traders usam mais as médias móveis.</p>
+<h3 id="d-para-usar-o-vwap-em-cripto-ou-forex">Dá para usar o VWAP em cripto ou forex?</h3>
+<p>Dá, mas com cuidado. O VWAP em cripto depende de quais exchanges têm o volume incluído e de um horário de reinício diário arbitrário, e o VWAP do forex à vista usa o volume de ticks de uma única corretora, que é apenas uma aproximação da atividade real.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/technical-analysis/volume-analysis/"><div class="k">Análise técnica</div><b>Análise de volume</b><span>Como ler o volume: confirmação, clímax, volume relativo, OBV e acumulação/distribuição, além dos limites dos dados de volume em cripto e forex.</span></a><a class="card" href="/pt/encyclopedia/algorithmic-trading/execution-algorithms/"><div class="k">Trading algorítmico e quantitativo</div><b>Algoritmos de execução</b><span>Como funcionam TWAP, VWAP, POV e implementation shortfall, o roteamento inteligente de ordens, a medição de slippage e o peso da execução no retorno.</span></a><a class="card" href="/pt/encyclopedia/technical-analysis/moving-averages/"><div class="k">Análise técnica</div><b>Médias móveis</b><span>Como calcular médias móveis simples, exponenciais e ponderadas, o que significam os períodos de 20, 50 e 200, golden cross, death cross e o atraso.</span></a><a class="card" href="/pt/encyclopedia/stocks/day-trading-stocks/"><div class="k">Trading de ações</div><b>Day trade de ações</b><span>Day trade de ações na prática: a regra do pattern day trader nos EUA e sua substituta de 2026, conta à vista vs margem, liquidação T+1, setups e chances reais.</span></a><a class="card" href="/pt/encyclopedia/technical-analysis/volume-profile-and-market-profile/"><div class="k">Análise técnica</div><b>Volume Profile e Market Profile</b><span>Como funcionam o volume profile e o market profile: POC, área de valor, nós de alto e baixo volume, gráficos TPO, equilíbrio e desequilíbrio e uso em futuros.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/technical-analysis/volume-analysis/"><small>← Anterior</small>Análise de volume</a><a class="next" href="/pt/encyclopedia/technical-analysis/fibonacci-retracement/"><small>Próximo →</small>Ferramentas de Fibonacci</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

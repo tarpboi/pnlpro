@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trader'lar için Kripto Cüzdan Güvenliği: Seed, Onaylar, Drainer</title>
+<meta name="description" content="Trader'lar kriptolarını nasıl korur? Kendi kendine saklama, seed phrase, donanım cüzdan, token onayları, drainer'lar, oltalama ve API anahtarları.">
+<meta name="keywords" content="kripto cüzdan güvenliği, seed phrase nasıl saklanır, token onayı iptal etme, wallet drainer nedir, adres zehirleme, borsa api anahtarı güvenliği">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/tr/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/crypto-wallet-security/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Ansiklopedisi">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Trader'lar için Kripto Cüzdan Güvenliği: Seed, Onaylar, Drainer">
+<meta property="og:description" content="Trader'lar kriptolarını nasıl korur? Kendi kendine saklama, seed phrase, donanım cüzdan, token onayları, drainer'lar, oltalama ve API anahtarları.">
+<meta property="og:url" content="https://pnlpro.fit/tr/encyclopedia/crypto/crypto-wallet-security/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trader'lar için Kripto Cüzdan Güvenliği: Seed, Onaylar, Drainer">
+<meta name="twitter:description" content="Trader'lar kriptolarını nasıl korur? Kendi kendine saklama, seed phrase, donanım cüzdan, token onayları, drainer'lar, oltalama ve API anahtarları.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"tr","headline":"Trader'lar için Kripto Cüzdan Güvenliği: Seed, Onaylar, Drainer","description":"Trader'lar kriptolarını nasıl korur? Kendi kendine saklama, seed phrase, donanım cüzdan, token onayları, drainer'lar, oltalama ve API anahtarları.","keywords":"kripto cüzdan güvenliği, seed phrase nasıl saklanır, token onayı iptal etme, wallet drainer nedir, adres zehirleme, borsa api anahtarı güvenliği","articleSection":"Kripto Para İşlemleri","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/tr/encyclopedia/crypto/crypto-wallet-security/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ansiklopedi","item":"https://pnlpro.fit/tr/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Kripto Para İşlemleri","item":"https://pnlpro.fit/tr/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"Cüzdan Güvenliği","item":"https://pnlpro.fit/tr/encyclopedia/crypto/crypto-wallet-security/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"tr","mainEntity":[{"@type":"Question","name":"Kripto saklamanın en güvenli yolu nedir?","acceptedAnswer":{"@type":"Answer","text":"Uzun vadeli varlıklar için standart yaklaşım, üreticiden alınmış bir donanım cüzdan ve seed phrase'in güvenli yerlerde çevrim dışı yedeklenmesidir. Borsalarda ve sıcak cüzdanlarda yalnızca aktif olarak işlem yaptığınız tutarı tutun."}},{"@type":"Question","name":"Token onaylarını nasıl iptal ederim?","acceptedAnswer":{"@type":"Answer","text":"Bir blok gezgininin token onay kontrol aracını veya saygın bir revoke aracını kullanın, cüzdanı bağlayın ve artık ihtiyaç duymadığınız onayları iptal edin. Her iptal, küçük bir ücreti olan zincir üstü bir işlemdir."}},{"@type":"Question","name":"Wallet drainer nedir?","acceptedAnswer":{"@type":"Answer","text":"Drainer, genellikle sahte bir web sitesinde bulunan ve sizi varlıklarınızı bir saldırgana taşıyan onaylar veya transferler imzalamaya kandıran kötü niyetli bir betiktir. İmza taleplerini okumak ve yalnızca yer imlerine eklenmiş siteleri kullanmak başlıca korunma yollarıdır."}},{"@type":"Question","name":"Adres zehirleme nedir?","acceptedAnswer":{"@type":"Answer","text":"Saldırganın, kullandığınız bir adrese benzeyen bir adresten küçük bir transfer gönderip onu geçmişinizden kopyalamanızı umduğu bir dolandırıcılıktır. Adresleri her zaman güvenilir bir kaynaktan kopyalayın ve dizinin tamamını kontrol edin."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/tr/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Ansiklopedi</small></a>
+  <nav class="top"><a href="/tr/encyclopedia/" class="on">Ansiklopedi</a><a href="/tr/encyclopedia/reference/trading-glossary/">Sözlük</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Trading botları</a></nav>
+  <details class="langmenu"><summary aria-label="Dil">🌐 <span>Türkçe</span></summary><div class="menu"><a href="/encyclopedia/crypto/crypto-wallet-security/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/crypto-wallet-security/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/crypto-wallet-security/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/crypto-wallet-security/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/crypto-wallet-security/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/crypto-wallet-security/" hreflang="tr" lang="tr" class="on" aria-current="true">Türkçe</a><a href="/vi/encyclopedia/crypto/crypto-wallet-security/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/crypto-wallet-security/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/crypto-wallet-security/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150+ makalede arayın  ( / )" autocomplete="off" aria-label="Ansiklopedide ara"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Kripto Para İşlemleri</h3><ul><li><a href="/tr/encyclopedia/crypto/crypto-trading-basics/">Kripto İşlemlerinin Temelleri</a></li><li><a href="/tr/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX ve DEX</a></li><li><a href="/tr/encyclopedia/crypto/crypto-market-cycles/">Kripto Piyasa Döngüleri</a></li><li><a href="/tr/encyclopedia/crypto/perpetual-futures/">Perpetual Vadeliler</a></li><li><a href="/tr/encyclopedia/crypto/funding-rates/">Fonlama Oranları</a></li><li><a href="/tr/encyclopedia/crypto/crypto-liquidations/">Likidasyonlar</a></li><li><a href="/tr/encyclopedia/crypto/on-chain-analysis/">Zincir Üstü Analiz</a></li><li><a href="/tr/encyclopedia/crypto/altcoin-trading/">Altcoin İşlemleri</a></li><li><a href="/tr/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics ve Kilit Açılımları</a></li><li><a href="/tr/encyclopedia/crypto/defi-trading/">DeFi'de İşlem</a></li><li><a href="/tr/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV ve Sandviç Saldırıları</a></li><li><a href="/tr/encyclopedia/crypto/crypto-arbitrage/">Kripto Arbitraj</a></li><li><a href="/tr/encyclopedia/crypto/stablecoins/">Stablecoin'ler</a></li><li><a href="/tr/encyclopedia/crypto/crypto-wallet-security/" class="on" aria-current="page">Cüzdan Güvenliği</a></li><li><a href="/tr/encyclopedia/crypto/airdrops-and-points-farming/">Airdrop ve Puan Farmı</a></li><li><a href="/tr/encyclopedia/crypto/nft-trading/">NFT İşlemleri</a></li></ul><h3>Tüm konular</h3><ul><li><a href="/tr/encyclopedia/basics/">📘 Trading'in Temelleri</a></li><li><a href="/tr/encyclopedia/risk-management/">🛡️ Risk ve Para Yönetimi</a></li><li><a href="/tr/encyclopedia/psychology/">🧠 Trading Psikolojisi</a></li><li><a href="/tr/encyclopedia/technical-analysis/">📈 Teknik Analiz</a></li><li><a href="/tr/encyclopedia/fundamental-analysis/">🏦 Temel ve Makro Analiz</a></li><li><a href="/tr/encyclopedia/stocks/">🏛️ Hisse Senedi İşlemleri</a></li><li><a href="/tr/encyclopedia/forex/">💱 Forex İşlemleri</a></li><li><a href="/tr/encyclopedia/futures/">📊 Vadeli İşlemler</a></li><li><a href="/tr/encyclopedia/options/">🎯 Opsiyon İşlemleri</a></li><li><a href="/tr/encyclopedia/crypto/" class="on">₿ Kripto Para İşlemleri</a></li><li><a href="/tr/encyclopedia/meme-coins/">🐸 Meme Coin İşlemleri</a></li><li><a href="/tr/encyclopedia/prediction-markets/">🔮 Tahmin Piyasaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/">🤖 Algoritmik ve Kantitatif İşlem</a></li><li><a href="/tr/encyclopedia/other-markets/">🛢️ Emtia, Tahvil ve Diğerleri</a></li><li><a href="/tr/encyclopedia/trading-business/">⚖️ Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a></li><li><a href="/tr/encyclopedia/reference/">📖 Başvuru Kaynakları</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/tr/encyclopedia/">Ansiklopedi</a> › <a href="/tr/encyclopedia/crypto/">Kripto Para İşlemleri</a></div>
+<h1 class="title">Kripto Cüzdan Güvenliği</h1>
+<div class="meta">7 dk okuma · Güncelleme: 23 Kas 2026</div>
+<details class="side-m"><summary>Kripto Para İşlemleri: diğer makaleler</summary><ul><li><a href="/tr/encyclopedia/crypto/crypto-trading-basics/">Kripto İşlemlerinin Temelleri</a></li><li><a href="/tr/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX ve DEX</a></li><li><a href="/tr/encyclopedia/crypto/crypto-market-cycles/">Kripto Piyasa Döngüleri</a></li><li><a href="/tr/encyclopedia/crypto/perpetual-futures/">Perpetual Vadeliler</a></li><li><a href="/tr/encyclopedia/crypto/funding-rates/">Fonlama Oranları</a></li><li><a href="/tr/encyclopedia/crypto/crypto-liquidations/">Likidasyonlar</a></li><li><a href="/tr/encyclopedia/crypto/on-chain-analysis/">Zincir Üstü Analiz</a></li><li><a href="/tr/encyclopedia/crypto/altcoin-trading/">Altcoin İşlemleri</a></li><li><a href="/tr/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics ve Kilit Açılımları</a></li><li><a href="/tr/encyclopedia/crypto/defi-trading/">DeFi'de İşlem</a></li><li><a href="/tr/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV ve Sandviç Saldırıları</a></li><li><a href="/tr/encyclopedia/crypto/crypto-arbitrage/">Kripto Arbitraj</a></li><li><a href="/tr/encyclopedia/crypto/stablecoins/">Stablecoin'ler</a></li><li><a href="/tr/encyclopedia/crypto/crypto-wallet-security/" class="on" aria-current="page">Cüzdan Güvenliği</a></li><li><a href="/tr/encyclopedia/crypto/airdrops-and-points-farming/">Airdrop ve Puan Farmı</a></li><li><a href="/tr/encyclopedia/crypto/nft-trading/">NFT İşlemleri</a></li></ul></details>
+<article><p>Cüzdan güvenliği, kriptonun kaybolmasını veya çalınmasını önleyen alışkanlıklar ve araçlar bütünüdür. Kriptoda genellikle sahte bir işlemi geri alacak bir banka yoktur; bu yüzden sahte bir web sitesine seed phrase yazmak veya kötü niyetli bir onay imzalamak gibi tek bir hata, bir cüzdanı saniyeler içinde boşaltabilir. Aktif trader&#39;lar birçok uygulamaya bağlandıkları, çok sayıda işlem imzaladıkları ve fonlarını borsalarda ve sıcak cüzdanlarda tuttukları için ek risk altındadır.</p>
+<div class="takeaways"><h2 id="key-takeaways">Önemli noktalar</h2>
+<ul>
+<li>Borsada anahtarlarınızı borsa kontrol eder; kendi kendine saklamada siz kontrol edersiniz ve anahtarlar kaybolur ya da çalınırsa fonlarınızı kimse kurtaramaz.</li>
+<li>Seed phrase&#39;iniz ana anahtardır: onu asla bir web sitesine, uygulamaya, sohbete veya bulut belgesine yazmayın.</li>
+<li>Günümüzdeki hırsızlıkların çoğu çalınan seed&#39;lerle değil imzalarla olur: kötü niyetli onaylar ve permit imzaları drainer&#39;ların token&#39;larınızı taşımasına izin verir.</li>
+<li>Fonları soğuk saklama, günlük aktivite için bir sıcak cüzdan ve aktif olarak işlem yaptığınız miktara göre ayarlanmış borsa bakiyeleri arasında bölün.</li>
+<li>Botlar için kullanılan borsa API anahtarlarında çekim yetkisi kapalı olmalı ve anahtarlar belirli IP adresleriyle sınırlandırılmalıdır.</li>
+</ul></div><details class="toc"><summary>Bu sayfada</summary><ol><li><a href="#emanet-i-saklama-ve-kendi-kendine-saklama">Emanetçi saklama ve kendi kendine saklama</a></li><li><a href="#seed-phrase-ler">Seed phrase&amp;#39;ler</a></li><li><a href="#donan-m-c-zdanlar">Donanım cüzdanlar</a></li><li><a href="#token-onaylar-ve-iptal-edilmesi">Token onayları ve iptal edilmesi</a></li><li><a href="#drainer-lar-ve-oltalama">Drainer&amp;#39;lar ve oltalama</a></li><li><a href="#sahte-airdrop-lar">Sahte airdrop&amp;#39;lar</a></li><li><a href="#adres-zehirleme">Adres zehirleme</a></li><li><a href="#trader-lar-i-in-s-cak-so-uk-ayr-m">Trader&amp;#39;lar için sıcak-soğuk ayrımı</a></li><li><a href="#api-anahtar-g-venli-i">API anahtarı güvenliği</a></li><li><a href="#bir-eyler-ters-giderse">Bir şeyler ters giderse</a></li><li><a href="#common-mistakes">Sık yapılan hatalar</a></li></ol></details>
+<h2 id="emanet-i-saklama-ve-kendi-kendine-saklama">Emanetçi saklama ve kendi kendine saklama</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Emanetçi (borsa)</th>
+<th>Kendi kendine saklama (sizin cüzdanınız)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Anahtarları kim tutar</td>
+<td>Borsa</td>
+<td>Siz</td>
+</tr>
+<tr>
+<td>Ana riskler</td>
+<td>Borsanın çöküşü, hack&#39;ler, hesap dondurma, hesabın ele geçirilmesi</td>
+<td>Kaybolan anahtarlar, oltalama, kötü niyetli imzalar, zararlı yazılım</td>
+</tr>
+<tr>
+<td>Kurtarma</td>
+<td>Şifre sıfırlama ve destek</td>
+<td>Önceden bir kurtarma yöntemi kurmadıysanız yok</td>
+</tr>
+<tr>
+<td>En uygun kullanım</td>
+<td>Aktif trading bakiyeleri, itibari para girişi</td>
+<td>Uzun vadeli varlıklar, DeFi kullanımı</td>
+</tr>
+</tbody></table></div>
+<p>Kasım 2022&#39;deki FTX çöküşü emanetçi saklamanın riskini gösterdi; bkz. <a href="/tr/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX mi DEX mi</a>. Kendi kendine saklama bu riski ortadan kaldırır, ama güvenlik ekibi siz olursunuz.</p>
+<p>Borsalarda hesabınızı benzersiz bir şifre, iki faktörlü doğrulama için bir authenticator uygulaması veya donanım güvenlik anahtarı (SIM kart değiştirme saldırılarına açık olan SMS değil), çekim adresi beyaz listeleri ve sunulduğu yerlerde oltalama karşıtı kodlarla koruyun.</p>
+<h2 id="seed-phrase-ler">Seed phrase&#39;ler</h2>
+<p>Kendi kendine saklama cüzdanı, genellikle 12 veya 24 kelimeden oluşan bir <strong>seed phrase</strong> (kurtarma ifadesi de denir) ile oluşturulur. Bu kelimelere sahip olan herkes, onlardan türetilen tüm hesapları kontrol eder.</p>
+<p>Pratik kurallar:</p>
+<ul>
+<li>Kâğıda yazın veya metale kazıyın. Kopyalarını ayrı ve güvenli yerlerde saklayın.</li>
+<li>Ödünleşimi tam olarak anlamadığınız sürece asla fotoğrafını çekmeyin, bulut notlarında saklamayın, e-postayla göndermeyin veya internete bağlı bir şifre yöneticisinde tutmayın.</li>
+<li>Asla bir web sitesine, tarayıcı eklentisi penceresine veya forma girmeyin. Hiçbir meşru destek görevlisi, airdrop veya &quot;cüzdan doğrulama&quot; bunu istemez.</li>
+<li>Yeni bir cüzdana güvenmeden önce kurtarmayı küçük bir tutarla test edin.</li>
+</ul>
+<p>İsteğe bağlı bir passphrase (bazen 25. kelime denir), seed bulunursa ek koruma sağlar; ancak onu unutursanız fonlar kaybolur.</p>
+<h2 id="donan-m-c-zdanlar">Donanım cüzdanlar</h2>
+<p>Donanım cüzdan (hardware wallet), özel anahtarları özel bir cihazda tutar ve işlemleri cihazın içinde imzalar; böylece anahtarlar bilgisayarınıza hiç değmez. Anahtarları çalan zararlı yazılımlara karşı korur, ancak kötü niyetli bir işlemi sizin onaylamanıza karşı korumaz.</p>
+<p>İyi kullanmak için:</p>
+<ul>
+<li>Doğrudan üreticiden veya yetkili bir satıcıdan alın, asla ikinci el almayın.</li>
+<li>Onaylamadan önce cihaz ekranında gösterileni okuyun. Okunamayan bir hex yığını gösteriyorsa (&quot;kör imzalama&quot;, blind signing), özellikle büyük tutarlarda bunu bir uyarı olarak görün.</li>
+<li>Donanım yazılımını (firmware) resmi uygulama üzerinden güncel tutun.</li>
+</ul>
+<p>FBI&#39;ın Kuzey Koreli hacker&#39;lara atfettiği, Şubat 2025&#39;te Bybit borsasından yaklaşık $1.5 milyarlık hırsızlık, imzacılara meşru görünen bir işlem gösterirken altta yatan işlemin cüzdanın kontrolünü devrettiği, ele geçirilmiş bir web arayüzü üzerinden gerçekleşti. Donanım cüzdanlı çoklu imza (multisig) kurulumları bile, imzacılar doğrulayamadıkları şeyi onaylarsa aşılabilir.</p>
+<h2 id="token-onaylar-ve-iptal-edilmesi">Token onayları ve iptal edilmesi</h2>
+<p>Bir DEX&#39;in veya protokolün token&#39;larınızı taşımasına izin vermek için onun akıllı kontratına bir <strong>onay</strong> (approval, allowance) imzalarsınız. Pek çok uygulama, tekrar onay vermeniz gerekmesin diye sınırsız onay ister. O kontrat daha sonra istismar edilirse ya da kötü niyetli bir kontrata onay verdiyseniz, token&#39;larınız sizden başka bir imza alınmadan herhangi bir anda alınabilir.</p>
+<p>Bazı token&#39;lar ayrıca <strong>permit</strong> imzalarını destekler; bunlar onayı bir işlem yerine zincir dışında imzalanan bir mesajla verir. Drainer&#39;lar bunları sever, çünkü imza gas ücreti gerektirmez ve zararsız görünür.</p>
+<h3 id="rnek-eski-bir-onay">Örnek: eski bir onay</h3>
+<p>Bir trader iki yıl önce bir DeFi protokolüne sınırsız USDC harcama onayı vermiş ve o günden beri kullanmamış. Cüzdanda şimdi 25,000 USDC var. Protokolün kontratı istismar edilirse saldırgan 25,000 USDC&#39;nin tamamını çekebilir. Trader yalnızca o tek işlem için gereken 2,000 USDC&#39;yi onaylamış olsaydı, işlem tamamlandıktan sonra maruziyet sıfır, en fazla da 2,000 USDC olurdu.</p>
+<p>İyi alışkanlıklar:</p>
+<ul>
+<li>Arayüz izin verdiğinde yalnızca ihtiyacınız olan miktarı onaylayın.</li>
+<li>Bir blok gezgininin onay kontrol aracını veya saygın bir revoke aracını kullanarak eski onayları düzenli aralıklarla gözden geçirin ve iptal edin. İptal etmek küçük bir gas ücretine mal olur.</li>
+<li>Yeni uygulamaları denemek için ayrı bir cüzdan kullanın.</li>
+</ul>
+<h2 id="drainer-lar-ve-oltalama">Drainer&#39;lar ve oltalama</h2>
+<p><strong>Drainer&#39;lar</strong>, cüzdanınızı bağlayıp imza attığınızda token&#39;larınızı ve NFT&#39;lerinizi saldırgana aktaran kötü niyetli araç setleridir. Şu yollarla yayılırlar:</p>
+<ul>
+<li>Çoğu zaman arama reklamlarıyla tanıtılan, gerçek DEX&#39;leri, cüzdanları ve launchpad&#39;leri taklit eden sahte web siteleri.</li>
+<li>Projelerin ve influencer&#39;ların ele geçirilmiş sosyal medya hesaplarından paylaşılan &quot;mint&quot; veya &quot;claim&quot; bağlantıları.</li>
+<li>Destek, iş veya işbirliği teklif eden doğrudan mesajlar.</li>
+<li>Sahte tarayıcı eklentileri ve cüzdan uygulamaları.</li>
+</ul>
+<p>Korunma yolları:</p>
+<ul>
+<li>Kullandığınız siteleri yer imlerine ekleyin ve yer imlerinden gezinin.</li>
+<li>Acele ettiren her &quot;hemen claim et&quot; veya &quot;cüzdanınız tehlikede, burada doğrulayın&quot; mesajını düşmanca kabul edin.</li>
+<li>İmza taleplerini okuyun. Cüzdanlar giderek daha fazla işlemleri simüle ediyor ve cüzdanınızdan neyin çıkacağını gösteriyor. Simülasyon beklemediğiniz varlıkların çıktığını gösteriyorsa reddedin.</li>
+<li>Anlamadığınız mesajları, özellikle permit ve &quot;setApprovalForAll&quot; taleplerini asla imzalamayın.</li>
+</ul>
+<h2 id="sahte-airdrop-lar">Sahte airdrop&#39;lar</h2>
+<p>Bazen cüzdanınızda bilinmeyen token&#39;lar belirir. Pek çoğu yemdir: token&#39;ın adı veya web sitesi sizi, satmaya ya da claim etmeye çalıştığınızda cüzdanınızı boşaltan bir siteye yönlendirir. Beklenmedik token&#39;larla etkileşime girmeyin. Bunun yerine cüzdan arayüzünüzde gizleyin. Gerçek airdrop&#39;ların nasıl işlediği için <a href="/tr/encyclopedia/crypto/airdrops-and-points-farming/">airdrop ve puan farmı</a> maddesine bakın.</p>
+<h2 id="adres-zehirleme">Adres zehirleme</h2>
+<p>Saldırganlar, ilk ve son birkaç karakteri eşleşecek şekilde, kullandığınız bir adrese benzeyen bir adresten çok küçük veya sıfır değerli transferler gönderir. Örneğin gerçek karşı tarafınız 0x7a3F...9c21, saldırganınki 0x7a3E...9c21 olabilir. Sahte adres böylece işlem geçmişinizde görünür. Adresi geçmişten kopyalarsanız fonları saldırgana gönderebilirsiniz.</p>
+<p>Korunma yolları:</p>
+<ul>
+<li>Adresleri işlem geçmişinden değil, kayıtlı bir adres defterinden veya orijinal kaynaktan kopyalayın.</li>
+<li>Yalnızca başını ve sonunu değil, adresin tamamını kontrol edin.</li>
+<li>Büyük bir transferden önce küçük bir test işlemi gönderin.</li>
+</ul>
+<h2 id="trader-lar-i-in-s-cak-so-uk-ayr-m">Trader&#39;lar için sıcak-soğuk ayrımı</h2>
+<p>Aktif işlem yapan ve $40,000&#39;lık bir kripto portföyü olan biri için pratik bir yapı:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Konum</th>
+<th>Tutar</th>
+<th>Amaç</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Donanım cüzdan (soğuk)</td>
+<td>$30,000</td>
+<td>Uzun vadeli varlıklar; nadiren bağlanır</td>
+</tr>
+<tr>
+<td>Borsa hesabı</td>
+<td>$7,000</td>
+<td>Aktif trading ve marjin</td>
+</tr>
+<tr>
+<td>Sıcak cüzdan</td>
+<td>$2,500</td>
+<td>DeFi ve zincir üstü işlemler</td>
+</tr>
+<tr>
+<td>Burner (harcanabilir) cüzdan</td>
+<td>$500</td>
+<td>Yeni uygulamaları, mint&#39;leri ve bilinmeyen siteleri test etmek</td>
+</tr>
+</tbody></table></div>
+<p>Buradaki fikir, ele geçirilen tek bir cüzdanın veya çöken tek bir borsanın her şeyi götürememesidir. Kârları düzenli olarak sıcaktan soğuğa taşıyın. Oranları kendi aktivitenize göre ayarlayın.</p>
+<h2 id="api-anahtar-g-venli-i">API anahtarı güvenliği</h2>
+<p>Trading botları ve portföy takip araçları borsalara API anahtarlarıyla bağlanır. Çekim yetkisi olan sızdırılmış bir anahtar bir hesabı boşaltabilir.</p>
+<ul>
+<li>Her bot veya hizmet için ayrı anahtarlar oluşturun.</li>
+<li>Her trading anahtarında çekimleri devre dışı bırakın.</li>
+<li>Borsanın izin verdiği yerlerde anahtarları belirli IP adresleriyle sınırlayın.</li>
+<li>Anahtarları ortam değişkenlerinde veya bir gizli bilgi yöneticisinde (secrets manager) saklayın; asla paylaştığınız ya da herkese açık bir depoya commit&#39;lediğiniz kodda tutmayın.</li>
+<li>Artık kullanmadığınız anahtarları silin.</li>
+<li>Geniş yetkili anahtarlar isteyen üçüncü taraf botlara veya &quot;copy trading&quot; hizmetlerine karşı temkinli olun. Bkz. <a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/">trading botu geliştirme</a>.</li>
+</ul>
+<p>Özel anahtarlarınızı tutan Telegram trading botları da benzer risk taşır; bkz. <a href="/tr/encyclopedia/meme-coins/meme-coin-trading-bots/">meme coin trading botları</a>.</p>
+<h2 id="bir-eyler-ters-giderse">Bir şeyler ters giderse</h2>
+<ul>
+<li>Kalan fonları hemen yeni bir seed phrase ile oluşturulmuş yeni, temiz bir cüzdana taşıyın.</li>
+<li>Ele geçirilen cüzdanda varlık kaldıysa onayları iptal edin.</li>
+<li>Hırsızlığı polise ve ilgiliyse fonların gittiği borsaya bildirin.</li>
+<li>Çalınan kriptoyu ücret karşılığında geri getirmeyi teklif eden herkesi görmezden gelin. Kurtarma dolandırıcılıkları, hırsızlığın hemen ardından mağdurları hedef alır. Bkz. <a href="/tr/encyclopedia/trading-business/trading-scams/">trading dolandırıcılıkları</a>.</li>
+</ul>
+<h2 id="common-mistakes">Sık yapılan hatalar</h2>
+<ul>
+<li><strong>Seed phrase&#39;i dijital ortamda saklamak.</strong></li>
+<li><strong>İşlemleri okumadan imzalamak.</strong></li>
+<li>Eski kontratlarda <strong>sınırsız onayları açık bırakmak</strong>.</li>
+<li><strong>Her şey için tek bir cüzdan kullanmak.</strong></li>
+<li><strong>Adresleri işlem geçmişinden kopyalamak.</strong></li>
+<li><strong>API anahtarlarına çekim yetkisi vermek.</strong></li>
+</ul>
+<h2 id="faq">Sıkça sorulan sorular</h2>
+<h3 id="kripto-saklaman-n-en-g-venli-yolu-nedir">Kripto saklamanın en güvenli yolu nedir?</h3>
+<p>Uzun vadeli varlıklar için standart yaklaşım, üreticiden alınmış bir donanım cüzdan ve seed phrase&#39;in güvenli yerlerde çevrim dışı yedeklenmesidir. Borsalarda ve sıcak cüzdanlarda yalnızca aktif olarak işlem yaptığınız tutarı tutun.</p>
+<h3 id="token-onaylar-n-nas-l-iptal-ederim">Token onaylarını nasıl iptal ederim?</h3>
+<p>Bir blok gezgininin token onay kontrol aracını veya saygın bir revoke aracını kullanın, cüzdanı bağlayın ve artık ihtiyaç duymadığınız onayları iptal edin. Her iptal, küçük bir ücreti olan zincir üstü bir işlemdir.</p>
+<h3 id="wallet-drainer-nedir">Wallet drainer nedir?</h3>
+<p>Drainer, genellikle sahte bir web sitesinde bulunan ve sizi varlıklarınızı bir saldırgana taşıyan onaylar veya transferler imzalamaya kandıran kötü niyetli bir betiktir. İmza taleplerini okumak ve yalnızca yer imlerine eklenmiş siteleri kullanmak başlıca korunma yollarıdır.</p>
+<h3 id="adres-zehirleme-nedir">Adres zehirleme nedir?</h3>
+<p>Saldırganın, kullandığınız bir adrese benzeyen bir adresten küçük bir transfer gönderip onu geçmişinizden kopyalamanızı umduğu bir dolandırıcılıktır. Adresleri her zaman güvenilir bir kaynaktan kopyalayın ve dizinin tamamını kontrol edin.</p>
+</article>
+<div class="disclaimer"><strong>Yalnızca eğitim amaçlıdır.</strong> Buradaki hiçbir içerik finansal, yatırım, hukuki veya vergi tavsiyesi değildir. Alım satım yüksek kayıp riski taşır ve kaldıraçlı ürünlerde yatırdığınızdan fazlasını kaybedebilirsiniz. Kurallar, ücretler ve platform koşulları değişir: işlem yapmadan önce güncel koşulları aracı kurumunuz, borsanız veya düzenleyici kurumla teyit edin.</div>
+<section class="related"><h2>İlgili makaleler</h2><div class="cards"><a class="card" href="/tr/encyclopedia/crypto/centralized-vs-decentralized-exchanges/"><div class="k">Kripto Para İşlemleri</div><b>CEX ve DEX</b><span>Merkezi ve merkeziyetsiz kripto borsaların karşılaştırması: saklama, karşı taraf riski, KYC, komisyonlar, likidite, agregatörler, rezerv kanıtı ve FTX dersi.</span></a><a class="card" href="/tr/encyclopedia/crypto/airdrops-and-points-farming/"><div class="k">Kripto Para İşlemleri</div><b>Airdrop ve Puan Farmı</b><span>Kripto airdrop ve puan programları nasıl işler? Sybil filtreleri, farm yapmanın gerçek maliyeti, listelenmedeki satış baskısı, vergi ve sahte airdrop tuzakları.</span></a><a class="card" href="/tr/encyclopedia/crypto/defi-trading/"><div class="k">Kripto Para İşlemleri</div><b>DeFi'de İşlem</b><span>DeFi'de işlem nasıl yapılır? Sabit çarpımlı AMM'ler, fiyat etkisi, rakamlarla geçici kayıp, yoğunlaştırılmış likidite, zincir üstü borç verme ve protokol riski.</span></a><a class="card" href="/tr/encyclopedia/trading-business/trading-scams/"><div class="k">Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</div><b>Trading Dolandırıcılıkları</b><span>Trading dolandırıcılıkları: pig butchering, sahte uygulamalar, yapay zekâ bot Ponzi'leri ve geri alma hileleri; uyarı işaretleri ve dolandırılırsanız yapılacaklar.</span></a><a class="card" href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>İşlem Botu Geliştirme</b><span>Trading botları nasıl kurulur: veri, sinyal, risk ve emir katmanları; REST, WebSocket ve FIX API'leri, istek limitleri, API anahtarı güvenliği ve kill switch.</span></a></div></section>
+<div class="pager"><a href="/tr/encyclopedia/crypto/stablecoins/"><small>← Önceki</small>Stablecoin'ler</a><a class="next" href="/tr/encyclopedia/crypto/airdrops-and-points-farming/"><small>Sonraki →</small>Airdrop ve Puan Farmı</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/tr/encyclopedia/basics/">Trading'in Temelleri</a><a href="/tr/encyclopedia/risk-management/">Risk ve Para Yönetimi</a><a href="/tr/encyclopedia/psychology/">Trading Psikolojisi</a><a href="/tr/encyclopedia/technical-analysis/">Teknik Analiz</a><a href="/tr/encyclopedia/fundamental-analysis/">Temel ve Makro Analiz</a><a href="/tr/encyclopedia/stocks/">Hisse Senedi İşlemleri</a><a href="/tr/encyclopedia/forex/">Forex İşlemleri</a><a href="/tr/encyclopedia/futures/">Vadeli İşlemler</a><a href="/tr/encyclopedia/options/">Opsiyon İşlemleri</a><a href="/tr/encyclopedia/crypto/">Kripto Para İşlemleri</a><a href="/tr/encyclopedia/meme-coins/">Meme Coin İşlemleri</a><a href="/tr/encyclopedia/prediction-markets/">Tahmin Piyasaları</a><a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a><a href="/tr/encyclopedia/other-markets/">Emtia, Tahvil ve Diğerleri</a><a href="/tr/encyclopedia/trading-business/">Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a><a href="/tr/encyclopedia/reference/">Başvuru Kaynakları</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Açık kaynak trading botları</a></div>
+  <p>PnL Profit Trading Ansiklopedisi: büyük piyasaların nasıl işlediğine dair ücretsiz ve bağımsız açıklamalar. Eğitim amaçlıdır, yatırım tavsiyesi değildir. İletişim: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/tr/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sonuç bulunamadı. Sözlüğe göz atın.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

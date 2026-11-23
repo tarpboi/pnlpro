@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order flow trading: cinta, DOM, gráficos footprint y delta</title>
+<meta name="description" content="El order flow explicado: time and sales, la escalera DOM, gráficos footprint, delta y delta acumulado, absorción, órdenes iceberg y los datos que necesitas.">
+<meta name="keywords" content="order flow trading, flujo de órdenes, gráfico footprint, delta acumulado, lectura de cinta">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/order-flow-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Order flow trading: cinta, DOM, gráficos footprint y delta">
+<meta property="og:description" content="El order flow explicado: time and sales, la escalera DOM, gráficos footprint, delta y delta acumulado, absorción, órdenes iceberg y los datos que necesitas.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/technical-analysis/order-flow-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Order flow trading: cinta, DOM, gráficos footprint y delta">
+<meta name="twitter:description" content="El order flow explicado: time and sales, la escalera DOM, gráficos footprint, delta y delta acumulado, absorción, órdenes iceberg y los datos que necesitas.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Order flow trading: cinta, DOM, gráficos footprint y delta","description":"El order flow explicado: time and sales, la escalera DOM, gráficos footprint, delta y delta acumulado, absorción, órdenes iceberg y los datos que necesitas.","keywords":"order flow trading, flujo de órdenes, gráfico footprint, delta acumulado, lectura de cinta","articleSection":"Análisis técnico","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/technical-analysis/order-flow-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Análisis técnico","item":"https://pnlpro.fit/es/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"Trading con order flow","item":"https://pnlpro.fit/es/encyclopedia/technical-analysis/order-flow-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Qué es el delta en el order flow trading?","acceptedAnswer":{"@type":"Answer","text":"El delta es la diferencia entre el volumen negociado en el ask (compradores agresivos) y el volumen negociado en el bid (vendedores agresivos) en una barra o periodo. Un delta positivo significa que los compradores fueron más agresivos; no garantiza que el precio vaya a subir."}},{"@type":"Question","name":"¿Qué es un gráfico footprint?","acceptedAnswer":{"@type":"Answer","text":"Un gráfico footprint muestra, dentro de cada barra de precio, cuánto volumen se negoció en el bid y en el ask en cada precio. Permite ver dónde se produjeron las compras y ventas agresivas dentro de la barra."}},{"@type":"Question","name":"¿Se puede usar el order flow en acciones?","acceptedAnswer":{"@type":"Answer","text":"Sí, pero con límites. La negociación de acciones en EE. UU. está repartida entre muchas plataformas, incluidas algunas fuera de bolsa, así que cualquier feed individual capta solo una parte de la actividad, y la dirección de las operaciones a menudo se deduce en lugar de reportarse."}},{"@type":"Question","name":"¿Qué es la absorción en trading?","acceptedAnswer":{"@type":"Answer","text":"La absorción se produce cuando una fuerte compra o venta agresiva golpea un nivel de precio pero no logra que el precio lo atraviese, lo que sugiere que una orden pasiva grande está tomando el otro lado. Puede preceder a un giro, o el nivel puede romperse una vez ejecutada la orden pasiva."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/order-flow-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/order-flow-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/order-flow-trading/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/technical-analysis/order-flow-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/order-flow-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/order-flow-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/order-flow-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/order-flow-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Análisis técnico</h3><ul><li><a href="/es/encyclopedia/technical-analysis/technical-analysis-intro/">Introducción al análisis técnico</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-charts/">Cómo leer velas japonesas</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-patterns/">Patrones de velas</a></li><li><a href="/es/encyclopedia/technical-analysis/support-and-resistance/">Soporte y resistencia</a></li><li><a href="/es/encyclopedia/technical-analysis/trends-and-market-structure/">Tendencias y estructura de mercado</a></li><li><a href="/es/encyclopedia/technical-analysis/chart-patterns/">Patrones chartistas</a></li><li><a href="/es/encyclopedia/technical-analysis/moving-averages/">Medias móviles</a></li><li><a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/es/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/es/encyclopedia/technical-analysis/bollinger-bands/">Bandas de Bollinger</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-analysis/">Análisis de volumen</a></li><li><a href="/es/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/es/encyclopedia/technical-analysis/fibonacci-retracement/">Herramientas de Fibonacci</a></li><li><a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR y volatilidad</a></li><li><a href="/es/encyclopedia/technical-analysis/multi-timeframe-analysis/">Análisis multitemporal</a></li><li><a href="/es/encyclopedia/technical-analysis/price-action-trading/">Trading con price action</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile y Market Profile</a></li><li><a href="/es/encyclopedia/technical-analysis/order-flow-trading/" class="on" aria-current="page">Trading con order flow</a></li><li><a href="/es/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/es/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Ondas de Elliott y Wyckoff</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/" class="on">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a></div>
+<h1 class="title">Order flow trading</h1>
+<div class="meta">9 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Análisis técnico</summary><ul><li><a href="/es/encyclopedia/technical-analysis/technical-analysis-intro/">Introducción al análisis técnico</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-charts/">Cómo leer velas japonesas</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-patterns/">Patrones de velas</a></li><li><a href="/es/encyclopedia/technical-analysis/support-and-resistance/">Soporte y resistencia</a></li><li><a href="/es/encyclopedia/technical-analysis/trends-and-market-structure/">Tendencias y estructura de mercado</a></li><li><a href="/es/encyclopedia/technical-analysis/chart-patterns/">Patrones chartistas</a></li><li><a href="/es/encyclopedia/technical-analysis/moving-averages/">Medias móviles</a></li><li><a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/es/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/es/encyclopedia/technical-analysis/bollinger-bands/">Bandas de Bollinger</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-analysis/">Análisis de volumen</a></li><li><a href="/es/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/es/encyclopedia/technical-analysis/fibonacci-retracement/">Herramientas de Fibonacci</a></li><li><a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR y volatilidad</a></li><li><a href="/es/encyclopedia/technical-analysis/multi-timeframe-analysis/">Análisis multitemporal</a></li><li><a href="/es/encyclopedia/technical-analysis/price-action-trading/">Trading con price action</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile y Market Profile</a></li><li><a href="/es/encyclopedia/technical-analysis/order-flow-trading/" class="on" aria-current="page">Trading con order flow</a></li><li><a href="/es/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/es/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Ondas de Elliott y Wyckoff</a></li></ul></details>
+<article><p>El order flow trading (trading de flujo de órdenes) es el análisis de las operaciones individuales y de las órdenes en espera para ver quién actúa de forma agresiva en cada precio y si esa agresividad está moviendo el mercado. En lugar de leer solo la vela terminada, los traders de order flow leen la cinta (time and sales), la escalera de profundidad de mercado y los gráficos footprint, que dividen el volumen de cada barra en compras y ventas en cada precio. Es sobre todo una herramienta de corto plazo y se usa principalmente en futuros y cripto, donde hay datos completos de las operaciones.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>El order flow separa las órdenes agresivas (a mercado) de las pasivas (limitadas), algo que el volumen ordinario no puede hacer.</li>
+<li>El delta es la compra agresiva menos la venta agresiva; el delta acumulado lo sigue en el tiempo y puede divergir del precio.</li>
+<li>La absorción se produce cuando una fuerte agresividad golpea un nivel sin mover el precio, lo que sugiere que hay un participante pasivo grande al otro lado.</li>
+<li>El order flow necesita datos tick a tick con el lado agresor de cada operación, y su calidad depende de la estructura del mercado.</li>
+<li>Es una disciplina exigente y de horizonte corto, en la que los costos y la competencia de las firmas profesionales rápidas son importantes.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#agresores-y-rdenes-en-espera">Agresores y órdenes en espera</a></li><li><a href="#las-herramientas">Las herramientas</a></li><li><a href="#delta-y-delta-acumulado">Delta y delta acumulado</a></li><li><a href="#absorci-n">Absorción</a></li><li><a href="#rdenes-iceberg">Órdenes iceberg</a></li><li><a href="#requisitos-de-datos">Requisitos de datos</a></li><li><a href="#por-qu-es-sobre-todo-una-herramienta-de-futuros-y-cripto">Por qué es sobre todo una herramienta de futuros y cripto</a></li><li><a href="#limitaciones-con-honestidad">Limitaciones, con honestidad</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="agresores-y-rdenes-en-espera">Agresores y órdenes en espera</h2>
+<p>Toda operación tiene dos lados. Una parte tenía una orden limitada <strong>en espera</strong> en el <a href="/es/encyclopedia/basics/order-book-and-market-depth/">libro de órdenes</a>. La otra envió una orden <strong>ejecutable</strong> que cruzó el spread y se ejecutó contra ella. La parte que cruzó el spread es el <strong>agresor</strong>.</p>
+<ul>
+<li>Una operación al precio ask significa que el agresor fue un comprador: alguien &quot;tomó la oferta&quot;.</li>
+<li>Una operación al precio bid significa que el agresor fue un vendedor: alguien &quot;golpeó el bid&quot;.</li>
+</ul>
+<p>El volumen ordinario mezcla ambas cosas. Las herramientas de order flow las cuentan por separado. Las bolsas de futuros y la mayoría de las plataformas cripto etiquetan directamente cada operación con su lado agresor. En las acciones, el lado agresor a menudo se deduce con reglas de clasificación como el algoritmo de Lee-Ready (publicado en 1991), que compara el precio de las operaciones con la cotización vigente.</p>
+<h2 id="las-herramientas">Las herramientas</h2>
+<h3 id="time-and-sales-la-cinta">Time and sales (la cinta)</h3>
+<p>El time and sales es una lista que se desplaza con cada operación: hora, precio, tamaño y, normalmente, si golpeó el bid o tomó el ask. &quot;Leer la cinta&quot; significa observar el ritmo y el tamaño de las operaciones. Una ráfaga repentina de grandes impresiones del lado comprador, o una secuencia rápida de operaciones que suben a través de varios precios, puede indicar urgencia.</p>
+<h3 id="dom-o-escalera-de-precios">DOM o escalera de precios</h3>
+<p>La profundidad de mercado (depth of market, DOM) es una escalera vertical de precios que muestra el tamaño en espera en el bid y en el ask de cada nivel, a menudo con el volumen negociado reciente al lado. Los traders observan cómo cambia la liquidez en espera a medida que se acerca el precio: si se añade tamaño, si se retira o si se consume. Muchas plataformas permiten colocar y mover órdenes directamente en la escalera.</p>
+<p>Una advertencia: el tamaño mostrado no es un compromiso. Las órdenes pueden cancelarse en milisegundos, y gran parte del libro visible la colocan y retiran creadores de mercado automatizados. El <strong>spoofing</strong>, colocar órdenes con la intención de cancelarlas antes de su ejecución para engañar a otros, es ilegal en EE. UU. (está prohibido de forma explícita por la Ley Dodd-Frank) y en muchas otras jurisdicciones, pero sigue ocurriendo. Desconfía de las órdenes grandes mostradas que desaparecen cuando el precio se acerca.</p>
+<h3 id="gr-ficos-footprint">Gráficos footprint</h3>
+<p>Un gráfico footprint (también llamado gráfico de clústeres o gráfico bid-ask) muestra, dentro de cada vela, el volumen negociado en el bid y en el ask en cada precio.</p>
+<p><strong>Ejemplo de footprint de una barra de 5 minutos:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Precio</th>
+<th>Vendido en el bid</th>
+<th>Comprado en el ask</th>
+<th>Delta</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100.75</td>
+<td>40</td>
+<td>210</td>
+<td>+170</td>
+</tr>
+<tr>
+<td>100.50</td>
+<td>180</td>
+<td>380</td>
+<td>+200</td>
+</tr>
+<tr>
+<td>100.25</td>
+<td>260</td>
+<td>300</td>
+<td>+40</td>
+</tr>
+<tr>
+<td>100.00</td>
+<td>410</td>
+<td>150</td>
+<td>−260</td>
+</tr>
+<tr>
+<td>99.75</td>
+<td>120</td>
+<td>30</td>
+<td>−90</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>1,010</strong></td>
+<td><strong>1,070</strong></td>
+<td><strong>+60</strong></td>
+</tr>
+</tbody></table></div>
+<p>El volumen total es de 2,080 contratos. Los vendedores fueron agresivos cerca de la parte baja de la barra y los compradores cerca de la parte alta, y el neto es ligeramente positivo. Las plataformas de footprint suelen resaltar los <strong>desequilibrios</strong> (imbalances), donde un lado supera ampliamente al otro en un precio (algunas comparan en diagonal, el bid de un precio con el ask un tick más arriba), y los desequilibrios apilados en varios precios, que algunos traders interpretan como una fuerte presión unilateral.</p>
+<h2 id="delta-y-delta-acumulado">Delta y delta acumulado</h2>
+<p>El <strong>delta</strong> de una barra es el volumen de compra agresiva menos el volumen de venta agresiva. El <strong>delta acumulado</strong> suma el delta de cada barra a un total acumulado, que a menudo se reinicia en cada sesión.</p>
+<p>La señal más vigilada es la <strong>divergencia</strong> entre el precio y el delta acumulado.</p>
+<p><strong>Ejemplo desarrollado:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Barra</th>
+<th>Máximo</th>
+<th>Comprado en el ask</th>
+<th>Vendido en el bid</th>
+<th>Delta</th>
+<th>Delta acumulado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>101.00</td>
+<td>5,200</td>
+<td>4,100</td>
+<td>+1,100</td>
+<td>+1,100</td>
+</tr>
+<tr>
+<td>2</td>
+<td>101.50</td>
+<td>4,800</td>
+<td>4,300</td>
+<td>+500</td>
+<td>+1,600</td>
+</tr>
+<tr>
+<td>3</td>
+<td>101.75</td>
+<td>3,900</td>
+<td>4,600</td>
+<td>−700</td>
+<td>+900</td>
+</tr>
+<tr>
+<td>4</td>
+<td>101.25</td>
+<td>3,500</td>
+<td>5,100</td>
+<td>−1,600</td>
+<td>−700</td>
+</tr>
+</tbody></table></div>
+<p>En la barra 3 el precio marcó un nuevo máximo, pero el delta fue negativo y el delta acumulado bajó. El nuevo máximo llegó con menos compra agresiva que en las barras anteriores, lo que algunos traders interpretan como una demanda que se debilita o como vendedores pasivos que absorben a los compradores. Luego la barra 4 giró a la baja. Es una secuencia ilustrativa; divergencias como esta también aparecen con frecuencia sin que les siga ningún giro.</p>
+<h2 id="absorci-n">Absorción</h2>
+<p>La absorción se produce cuando las órdenes agresivas siguen golpeando un precio sin lograr atravesarlo. Por ejemplo, se venden 2,500 contratos en el bid a 100.00 durante unos minutos, pero el precio nunca se negocia a 99.75 y el tamaño del bid se sigue reponiendo. Eso sugiere que un comprador pasivo grande está absorbiendo la venta. Si los vendedores se agotan, el precio puede rebotar con fuerza porque la oferta ha sido absorbida. Si el comprador pasivo termina su orden y se retira, el nivel puede romperse rápidamente.</p>
+<h2 id="rdenes-iceberg">Órdenes iceberg</h2>
+<p>Una orden iceberg muestra solo una pequeña parte de su tamaño total; cuando se ejecuta la porción visible, aparece la siguiente. Los traders de order flow intentan detectar icebergs cuando en un precio se negocia más volumen del que llegó a mostrarse allí. Si el bid en 100.00 nunca mostró más de 50 contratos pero se negociaron 1,200 mientras el tamaño mostrado seguía reapareciendo, probablemente había una orden oculta. Algunas plataformas señalan automáticamente los posibles icebergs, pero la detección es una inferencia, no una certeza.</p>
+<h2 id="requisitos-de-datos">Requisitos de datos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Requisito</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Operaciones tick a tick</td>
+<td>Las barras agregadas ocultan las impresiones individuales</td>
+</tr>
+<tr>
+<td>Lado agresor de cada operación</td>
+<td>Necesario para el delta y los footprints</td>
+</tr>
+<tr>
+<td>Datos de profundidad de mercado</td>
+<td>Necesarios para la escalera y los cambios de liquidez</td>
+</tr>
+<tr>
+<td>Feed de baja latencia</td>
+<td>El order flow se juega en segundos y minutos</td>
+</tr>
+<tr>
+<td>Software especializado</td>
+<td>La mayoría de las herramientas de gráficos básicas no ofrecen footprints ni delta</td>
+</tr>
+</tbody></table></div>
+<p>Las tarifas de datos de las bolsas, las suscripciones a plataformas y los costos de los feeds de datos se acumulan. Consulta <a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">fuentes de datos de mercado</a> para ver los tipos de datos y las licencias.</p>
+<h2 id="por-qu-es-sobre-todo-una-herramienta-de-futuros-y-cripto">Por qué es sobre todo una herramienta de futuros y cripto</h2>
+<ul>
+<li>Los <strong>futuros</strong> se negocian en una única bolsa central por contrato (por ejemplo, los futuros E-mini S&amp;P 500 en CME), así que la cinta y el libro muestran prácticamente toda la actividad. Por eso el order flow se asocia sobre todo con los <a href="/es/encyclopedia/futures/index-futures/">futuros sobre índices</a>, los futuros del Tesoro y el petróleo crudo.</li>
+<li>Los exchanges de <strong>cripto</strong> publican datos completos de operaciones y del libro de órdenes, a menudo gratis a través de sus API. Pero la liquidez está repartida entre muchos exchanges, así que el flujo de una sola plataforma es solo una imagen parcial.</li>
+<li>Las <strong>acciones de EE. UU.</strong> se negocian en muchas bolsas y plataformas fuera de bolsa, incluidos dark pools y mayoristas que ejecutan las órdenes minoristas. Cualquier feed individual ve solo una parte del flujo, y las órdenes ocultas son comunes.</li>
+<li>El <strong>forex al contado</strong> no tiene ninguna cinta central. Los datos de un broker minorista reflejan solo a los clientes de ese broker.</li>
+</ul>
+<h2 id="limitaciones-con-honestidad">Limitaciones, con honestidad</h2>
+<p>El order flow es información real, pero convertirlo en una ventaja rentable es difícil. Las <a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">firmas profesionales de alta frecuencia</a> ven los mismos datos más rápido y reaccionan en microsegundos. El trading de horizonte corto tiene un <a href="/es/encyclopedia/basics/trading-costs-and-fees/">costo por operación</a> alto en relación con los objetivos, y las investigaciones sobre day traders minoristas, como el trabajo de Barber, Lee, Liu y Odean sobre Taiwán, han encontrado que la gran mayoría pierde dinero. El order flow puede ayudar con el timing de las operaciones y a leer si un nivel aguanta, pero no elimina esos vientos en contra.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Confiar en el libro visible.</strong> El tamaño mostrado puede cancelarse al instante.</li>
+<li><strong>Tratar una sola lectura del delta como una señal.</strong> El delta es ruidoso de una barra a otra; el contexto y la ubicación importan.</li>
+<li><strong>Ignorar la estructura del mercado.</strong> Un footprint de un solo exchange cripto o de una sola plataforma de acciones es una visión parcial.</li>
+<li><strong>Subestimar los costos.</strong> Los datos, las plataformas y las muchas operaciones pequeñas que fomenta el order flow son caros.</li>
+<li><strong>Usarlo sin un plan.</strong> Mirar la cinta todo el día sin setups definidos de antemano lleva a operar por impulso.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="qu-es-el-delta-en-el-order-flow-trading">¿Qué es el delta en el order flow trading?</h3>
+<p>El delta es la diferencia entre el volumen negociado en el ask (compradores agresivos) y el volumen negociado en el bid (vendedores agresivos) en una barra o periodo. Un delta positivo significa que los compradores fueron más agresivos; no garantiza que el precio vaya a subir.</p>
+<h3 id="qu-es-un-gr-fico-footprint">¿Qué es un gráfico footprint?</h3>
+<p>Un gráfico footprint muestra, dentro de cada barra de precio, cuánto volumen se negoció en el bid y en el ask en cada precio. Permite ver dónde se produjeron las compras y ventas agresivas dentro de la barra.</p>
+<h3 id="se-puede-usar-el-order-flow-en-acciones">¿Se puede usar el order flow en acciones?</h3>
+<p>Sí, pero con límites. La negociación de acciones en EE. UU. está repartida entre muchas plataformas, incluidas algunas fuera de bolsa, así que cualquier feed individual capta solo una parte de la actividad, y la dirección de las operaciones a menudo se deduce en lugar de reportarse.</p>
+<h3 id="qu-es-la-absorci-n-en-trading">¿Qué es la absorción en trading?</h3>
+<p>La absorción se produce cuando una fuerte compra o venta agresiva golpea un nivel de precio pero no logra que el precio lo atraviese, lo que sugiere que una orden pasiva grande está tomando el otro lado. Puede preceder a un giro, o el nivel puede romperse una vez ejecutada la orden pasiva.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/basics/order-book-and-market-depth/"><div class="k">Fundamentos del trading</div><b>Libro de órdenes y profundidad</b><span>Cómo funcionan el libro de órdenes y el motor de casamiento, la prioridad precio-tiempo, el Nivel 1 y 2, la profundidad, el spoofing, los dealers y los AMM.</span></a><a class="card" href="/es/encyclopedia/technical-analysis/volume-profile-and-market-profile/"><div class="k">Análisis técnico</div><b>Volume Profile y Market Profile</b><span>Volume profile y market profile: punto de control, área de valor, nodos de alto y bajo volumen, gráficos TPO, equilibrio y desequilibrio, y su uso en futuros.</span></a><a class="card" href="/es/encyclopedia/technical-analysis/volume-analysis/"><div class="k">Análisis técnico</div><b>Análisis de volumen</b><span>Cómo leer el volumen: confirmación, clímax, volumen relativo, OBV y acumulación/distribución, y los límites de los datos de volumen en cripto y forex.</span></a><a class="card" href="/es/encyclopedia/futures/index-futures/"><div class="k">Trading de futuros</div><b>Futuros sobre índices (ES, NQ)</b><span>Cómo funcionan los futuros sobre índices: E-mini y Micro E-mini del S&amp;P 500 y Nasdaq, Dow, Russell, DAX y Nikkei, valor del tick, valor justo y sesiones.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">Trading algorítmico y cuantitativo</div><b>Datos de mercado</b><span>Datos de mercado para traders: ticks frente a barras, feeds de Nivel 1, 2 y 3, fuentes históricas, costos y licencias, marcas de tiempo y limpieza de datos.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/technical-analysis/volume-profile-and-market-profile/"><small>← Anterior</small>Volume Profile y Market Profile</a><a class="next" href="/es/encyclopedia/technical-analysis/smart-money-concepts/"><small>Siguiente →</small>Smart Money Concepts (ICT)</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

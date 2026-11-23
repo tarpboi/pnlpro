@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Greeks của quyền chọn: Delta, Gamma, Theta, Vega và Rho | PnL Profit</title>
+<meta name="description" content="Delta, gamma, theta, vega và rho đo lường điều gì, kèm ví dụ cụ thể, cách các Greeks thay đổi theo thời gian và moneyness, và cách đọc Greeks của cả vị thế.">
+<meta name="keywords" content="greeks quyền chọn, delta gamma theta vega, delta quyền chọn là gì, theta decay, position greeks">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/options-greeks/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Greeks của quyền chọn: Delta, Gamma, Theta, Vega và Rho | PnL Profit">
+<meta property="og:description" content="Delta, gamma, theta, vega và rho đo lường điều gì, kèm ví dụ cụ thể, cách các Greeks thay đổi theo thời gian và moneyness, và cách đọc Greeks của cả vị thế.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/options/options-greeks/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Greeks của quyền chọn: Delta, Gamma, Theta, Vega và Rho | PnL Profit">
+<meta name="twitter:description" content="Delta, gamma, theta, vega và rho đo lường điều gì, kèm ví dụ cụ thể, cách các Greeks thay đổi theo thời gian và moneyness, và cách đọc Greeks của cả vị thế.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Greeks của quyền chọn: Delta, Gamma, Theta, Vega và Rho","description":"Delta, gamma, theta, vega và rho đo lường điều gì, kèm ví dụ cụ thể, cách các Greeks thay đổi theo thời gian và moneyness, và cách đọc Greeks của cả vị thế.","keywords":"greeks quyền chọn, delta gamma theta vega, delta quyền chọn là gì, theta decay, position greeks","articleSection":"Giao dịch quyền chọn","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/options/options-greeks/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch quyền chọn","item":"https://pnlpro.fit/vi/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Các chỉ số Greeks","item":"https://pnlpro.fit/vi/encyclopedia/options/options-greeks/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Delta nào tốt khi mua quyền chọn?","acceptedAnswer":{"@type":"Answer","text":"Không có một delta tốt nhất duy nhất. Quyền chọn delta cao hơn, nằm trong giá, hoạt động giống cổ phiếu hơn và decay ít hơn theo phần trăm, trong khi quyền chọn delta thấp hơn, nằm ngoài giá, rẻ hơn nhưng ít có khả năng kết thúc trong giá hơn."}},{"@type":"Question","name":"Vì sao theta tăng gần ngày đáo hạn?","acceptedAnswer":{"@type":"Answer","text":"Giá trị ngoại lai phải về không khi đáo hạn. Với quyền chọn ngang giá, giá trị thời gian còn lại bị mất trong số ngày ngày càng ít, nên mức decay hằng ngày lớn dần khi đến gần ngày đáo hạn."}},{"@type":"Question","name":"Gamma âm nghĩa là gì?","acceptedAnswer":{"@type":"Answer","text":"Gamma âm, đến từ việc bán quyền chọn, nghĩa là delta của bạn di chuyển ngược lại bạn khi tài sản cơ sở di chuyển: bạn thành long nhiều hơn khi giá giảm và short nhiều hơn khi giá tăng. Khoản lỗ có thể tăng tốc khi có biến động lớn."}},{"@type":"Question","name":"Greek nào quan trọng nhất?","acceptedAnswer":{"@type":"Answer","text":"Tùy chiến lược. Nhà giao dịch theo hướng chú ý delta, nhà giao dịch ngắn hạn chú ý gamma và theta, và nhà giao dịch quanh báo cáo thu nhập hoặc các sự kiện khác chú ý vega nhất."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/options/options-greeks/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/options-greeks/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/options-greeks/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/options-greeks/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/options-greeks/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/options-greeks/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/options-greeks/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/options/options-greeks/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/options-greeks/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch quyền chọn</h3><ul><li><a href="/vi/encyclopedia/options/options-basics/">Quyền chọn cơ bản</a></li><li><a href="/vi/encyclopedia/options/options-greeks/" class="on" aria-current="page">Các chỉ số Greeks</a></li><li><a href="/vi/encyclopedia/options/implied-volatility/">Biến động ngụ ý</a></li><li><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered call và CSP</a></li><li><a href="/vi/encyclopedia/options/vertical-spreads/">Vertical spread</a></li><li><a href="/vi/encyclopedia/options/iron-condors-and-butterflies/">Iron condor và Butterfly</a></li><li><a href="/vi/encyclopedia/options/straddles-and-strangles/">Straddle và Strangle</a></li><li><a href="/vi/encyclopedia/options/0dte-options/">Quyền chọn 0DTE</a></li><li><a href="/vi/encyclopedia/options/options-expiration-and-assignment/">Đáo hạn và Assignment</a></li><li><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure và dealer</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/" class="on">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a></div>
+<h1 class="title">Các Greeks của quyền chọn</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch quyền chọn</summary><ul><li><a href="/vi/encyclopedia/options/options-basics/">Quyền chọn cơ bản</a></li><li><a href="/vi/encyclopedia/options/options-greeks/" class="on" aria-current="page">Các chỉ số Greeks</a></li><li><a href="/vi/encyclopedia/options/implied-volatility/">Biến động ngụ ý</a></li><li><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered call và CSP</a></li><li><a href="/vi/encyclopedia/options/vertical-spreads/">Vertical spread</a></li><li><a href="/vi/encyclopedia/options/iron-condors-and-butterflies/">Iron condor và Butterfly</a></li><li><a href="/vi/encyclopedia/options/straddles-and-strangles/">Straddle và Strangle</a></li><li><a href="/vi/encyclopedia/options/0dte-options/">Quyền chọn 0DTE</a></li><li><a href="/vi/encyclopedia/options/options-expiration-and-assignment/">Đáo hạn và Assignment</a></li><li><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure và dealer</a></li></ul></details>
+<article><p>Greeks là một bộ thước đo mô tả giá quyền chọn được kỳ vọng thay đổi ra sao khi một đầu vào thay đổi còn các đầu vào khác giữ nguyên. Delta đo độ nhạy với giá tài sản cơ sở, gamma đo tốc độ thay đổi của chính delta, theta đo time decay, vega đo độ nhạy với biến động hàm ý, và rho đo độ nhạy với lãi suất. Gộp lại, chúng biến quyền chọn từ một tấm vé số thành một vị thế có rủi ro có thể đo lường, so sánh và quản lý.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Delta cho bạn biết sơ bộ giá quyền chọn dịch chuyển bao nhiêu khi tài sản cơ sở biến động $1, và nó cũng đóng vai trò là mức tiếp xúc tương đương cổ phiếu.</li>
+<li>Gamma là tốc độ thay đổi của delta, và lớn nhất ở các quyền chọn ngang giá gần ngày đáo hạn.</li>
+<li>Theta là chi phí hằng ngày của việc nắm giữ một quyền chọn, và tăng tốc khi đến gần ngày đáo hạn.</li>
+<li>Vega đo mức tiếp xúc với thay đổi của biến động hàm ý, thứ có thể làm giá quyền chọn dịch chuyển ngay cả khi cổ phiếu không đổi.</li>
+<li>Cộng các Greeks trên mọi vị thế cho ra Greeks của vị thế (position Greeks), bản tóm tắt rõ ràng nhất về những gì một danh mục thực sự đang chịu rủi ro.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#m-t-quy-n-ch-n-tham-chi-u">Một quyền chọn tham chiếu</a></li><li><a href="#delta">Delta</a></li><li><a href="#gamma">Gamma</a></li><li><a href="#theta">Theta</a></li><li><a href="#vega">Vega</a></li><li><a href="#rho">Rho</a></li><li><a href="#c-c-greeks-thay-i-c-ng-nhau-nh-th-n-o">Các Greeks thay đổi cùng nhau như thế nào</a></li><li><a href="#greeks-c-a-v-th">Greeks của vị thế</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="m-t-quy-n-ch-n-tham-chi-u">Một quyền chọn tham chiếu</h2>
+<p>Các ví dụ dưới đây dùng một quyền chọn xuyên suốt. Một cổ phiếu có giá $100. Một call giá thực hiện $100 còn 30 ngày đến hạn được định giá $3.50, với biến động hàm ý khoảng 30 phần trăm. Các Greeks của nó, đã làm tròn và xấp xỉ như một mô hình định giá quyền chọn sẽ cho ra, là:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>Giá trị</th>
+<th>Ý nghĩa giản dị</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Delta</td>
+<td>0.52</td>
+<td>Call tăng khoảng $0.52 mỗi cổ phiếu nếu cổ phiếu tăng $1</td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>0.046</td>
+<td>Delta tăng khoảng 0.046 nếu cổ phiếu tăng $1</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>-0.06</td>
+<td>Call mất khoảng $0.06 mỗi cổ phiếu mỗi ngày do time decay</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>0.11</td>
+<td>Call tăng khoảng $0.11 mỗi cổ phiếu nếu biến động hàm ý tăng 1 điểm phần trăm</td>
+</tr>
+<tr>
+<td>Rho</td>
+<td>0.04</td>
+<td>Call tăng khoảng $0.04 mỗi cổ phiếu nếu lãi suất tăng 1 điểm phần trăm</td>
+</tr>
+</tbody></table></div>
+<p>Quyền chọn cổ phiếu Mỹ tiêu chuẩn bao phủ 100 cổ phiếu, nên hãy nhân mỗi con số với 100 để có tác động bằng đô la mỗi hợp đồng. Theta -0.06 nghĩa là khoảng $6 mỗi ngày mỗi hợp đồng. Greeks là ước tính từ một mô hình, và chúng thay đổi liên tục; xem <a href="/vi/encyclopedia/options/options-basics/">kiến thức cơ bản về quyền chọn</a> để biết cơ chế hợp đồng.</p>
+<h2 id="delta">Delta</h2>
+<p>Delta là mức thay đổi kỳ vọng của giá quyền chọn khi tài sản cơ sở thay đổi $1. Call có delta dương từ 0 đến 1. Put có delta âm từ 0 đến -1.</p>
+<h3 id="delta-cho-b-n-bi-t-i-u-g">Delta cho bạn biết điều gì</h3>
+<ul>
+<li><strong>Độ nhạy giá:</strong> với delta 0.52, cổ phiếu tăng $1 cộng thêm khoảng $0.52 cho call, tức $52 mỗi hợp đồng.</li>
+<li><strong>Tương đương cổ phiếu:</strong> một hợp đồng có delta 0.52 hoạt động gần giống 52 cổ phiếu với các biến động nhỏ.</li>
+<li><strong>Xác suất sơ bộ:</strong> nhà giao dịch thường dùng delta như một ước tính lỏng lẻo về khả năng quyền chọn kết thúc trong giá. Một quyền chọn delta 0.30 thường được hiểu là có khoảng 30 phần trăm khả năng. Đây là quy tắc ngón tay cái, không phải xác suất chính xác.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Moneyness</th>
+<th>Delta call điển hình</th>
+<th>Delta put điển hình</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nằm sâu trong giá</td>
+<td>Gần 1.00</td>
+<td>Gần -1.00</td>
+</tr>
+<tr>
+<td>Ngang giá</td>
+<td>Khoảng 0.50</td>
+<td>Khoảng -0.50</td>
+</tr>
+<tr>
+<td>Nằm rất xa ngoài giá</td>
+<td>Gần 0</td>
+<td>Gần 0</td>
+</tr>
+</tbody></table></div>
+<h2 id="gamma">Gamma</h2>
+<p>Gamma là mức thay đổi của delta khi tài sản cơ sở thay đổi $1. Quyền chọn mua vào, call hay put, luôn có gamma dương; quyền chọn bán có gamma âm.</p>
+<h3 id="v-d-minh-h-a-delta-v-gamma-c-ng-nhau">Ví dụ minh họa: delta và gamma cùng nhau</h3>
+<p>Cổ phiếu tăng từ $100 lên $101.</p>
+<ul>
+<li>Delta mới là khoảng 0.52 + 0.046 = 0.566.</li>
+<li>Vì delta tăng trong suốt biến động, mức thay đổi giá được ước tính tốt hơn bằng delta trung bình: 0.52 + (0.5 x 0.046) = 0.543.</li>
+<li>Giá call mới là khoảng $3.50 + $0.543 = $4.04.</li>
+</ul>
+<p>Nếu cổ phiếu giảm $1 thì sao, delta giảm xuống khoảng 0.474 và call giảm khoảng 0.52 - 0.023 = $0.497, xuống khoảng $3.00. Gamma dương nghĩa là call được lợi nhiều hơn một chút khi giá lên so với mức nó mất khi giá xuống cùng một biên độ. Người bán quyền chọn thì ngược lại: khoản lỗ của họ tăng tốc khi cổ phiếu đi ngược họ.</p>
+<h3 id="gamma-thay-i-nh-th-n-o">Gamma thay đổi như thế nào</h3>
+<p>Gamma cao nhất ở quyền chọn ngang giá và tăng mạnh khi đến gần ngày đáo hạn. Một quyền chọn ngang giá đáo hạn trong ngày có thể thấy delta dao động từ khoảng 0.50 đến gần 1 hoặc 0 chỉ với một biến động nhỏ. Đó là lý do <a href="/vi/encyclopedia/options/0dte-options/">quyền chọn 0DTE</a> nhạy đến vậy, và vì sao việc phòng hộ gamma của dealer có thể ảnh hưởng đến thị trường cơ sở, như được giải thích trong <a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">gamma exposure và phòng hộ của dealer</a>.</p>
+<h2 id="theta">Theta</h2>
+<p>Theta là mức thay đổi giá quyền chọn do một ngày trôi qua, khi mọi thứ khác không đổi. Quyền chọn mua vào có theta âm; quyền chọn bán có theta dương. Theta là chi phí nắm giữ quyền mà quyền chọn trao cho bạn.</p>
+<h3 id="v-d-minh-h-a">Ví dụ minh họa</h3>
+<p>Nắm call tham chiếu trong 5 ngày với cổ phiếu đứng yên và biến động không đổi tốn khoảng 5 x $0.06 = $0.30 mỗi cổ phiếu, tức $30 mỗi hợp đồng, đưa call từ khoảng $3.50 xuống khoảng $3.20. Trong thực tế theta không cố định: nó tăng lên khi ngày đáo hạn đến gần hơn.</p>
+<h3 id="theta-thay-i-nh-th-n-o">Theta thay đổi như thế nào</h3>
+<ul>
+<li><strong>Thời gian:</strong> quyền chọn ngang giá mất giá trị ngoại lai chậm lúc đầu và nhanh hơn trong những tuần cuối. Một quyền chọn 90 ngày có thể mất vài cent mỗi ngày, và cùng giá thực hiện đó khi còn một tuần có thể mất gấp vài lần.</li>
+<li><strong>Moneyness:</strong> theta lớn nhất theo số đô la ở các quyền chọn ngang giá, loại mang nhiều giá trị ngoại lai nhất. Quyền chọn nằm sâu trong giá và nằm rất xa ngoài giá có ít thứ để mất hơn.</li>
+</ul>
+<p>Người bán quyền chọn nhắm tới việc thu theta. Họ được trả cho điều đó vì họ cũng gánh gamma âm, tức rủi ro của một biến động lớn.</p>
+<h2 id="vega">Vega</h2>
+<p>Vega là mức thay đổi giá quyền chọn khi <a href="/vi/encyclopedia/options/implied-volatility/">biến động hàm ý</a> thay đổi 1 điểm phần trăm. Quyền chọn mua vào có vega dương; quyền chọn bán có vega âm.</p>
+<h3 id="v-d-minh-h-a">Ví dụ minh họa</h3>
+<p>Trước báo cáo thu nhập, biến động hàm ý của call tham chiếu tăng từ 30 phần trăm lên 36 phần trăm với cổ phiếu không đổi. Call tăng khoảng 6 x $0.11 = $0.66, lên khoảng $4.16. Sau báo cáo, nếu biến động hàm ý giảm về 30 phần trăm, khoản $0.66 đó biến mất, ngay cả khi cổ phiếu hầu như không dịch chuyển. Hiện tượng này gọi là IV crush.</p>
+<h3 id="vega-thay-i-nh-th-n-o">Vega thay đổi như thế nào</h3>
+<p>Vega lớn nhất ở quyền chọn ngang giá và quyền chọn dài hạn hơn, vì có nhiều thời gian hơn để biến động phát huy tác dụng. Một quyền chọn một năm có vega lớn hơn nhiều so với quyền chọn một tuần ở cùng giá thực hiện.</p>
+<h2 id="rho">Rho</h2>
+<p>Rho là mức thay đổi giá quyền chọn khi lãi suất thay đổi 1 điểm phần trăm. Call có rho dương và put có rho âm, vì lãi suất cao hơn khiến việc nắm một call tương đối hấp dẫn hơn việc mua thẳng cổ phiếu. Rho nhỏ với các quyền chọn ngắn hạn và thường là Greek ít quan trọng nhất với nhà giao dịch cá nhân, nhưng nó quan trọng với quyền chọn dài hạn như LEAPS.</p>
+<h2 id="c-c-greeks-thay-i-c-ng-nhau-nh-th-n-o">Các Greeks thay đổi cùng nhau như thế nào</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>Ngang giá</th>
+<th>Nằm sâu trong giá</th>
+<th>Nằm rất xa ngoài giá</th>
+<th>Khi đến gần ngày đáo hạn (ATM)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Delta</td>
+<td>Khoảng ±0.50</td>
+<td>Gần ±1.00</td>
+<td>Gần 0</td>
+<td>Vẫn gần ±0.50, nhưng trở nên bất ổn định</td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>Cao nhất</td>
+<td>Thấp</td>
+<td>Thấp</td>
+<td>Tăng mạnh</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>Decay lớn nhất</td>
+<td>Nhỏ hơn</td>
+<td>Nhỏ hơn</td>
+<td>Decay tăng tốc</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>Cao nhất</td>
+<td>Thấp hơn</td>
+<td>Thấp hơn</td>
+<td>Giảm</td>
+</tr>
+</tbody></table></div>
+<h2 id="greeks-c-a-v-th">Greeks của vị thế</h2>
+<p>Greeks của vị thế là tổng của mỗi Greek trên mọi vị thế quyền chọn và cổ phiếu, nhân với số hợp đồng và hệ số nhân. Cổ phiếu có delta là 1 mỗi cổ phiếu và không có gamma, theta hay vega.</p>
+<h3 id="v-d-minh-h-a-m-t-danh-m-c-nh">Ví dụ minh họa: một danh mục nhỏ</h3>
+<p>Một nhà giao dịch nắm:</p>
+<ul>
+<li>Long 5 call tham chiếu (delta 0.52, gamma 0.046, theta -0.06, vega 0.11)</li>
+<li>Short 200 cổ phiếu của cùng cổ phiếu đó</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>Call: 5 x 100 x Greek</th>
+<th>Cổ phiếu</th>
+<th>Tổng vị thế</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Delta</td>
+<td>5 x 100 x 0.52 = +260</td>
+<td>-200</td>
+<td>+60 cổ phiếu</td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>5 x 100 x 0.046 = +23</td>
+<td>0</td>
+<td>+23 mỗi $1</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>5 x 100 x -0.06 = -$30</td>
+<td>0</td>
+<td>-$30 mỗi ngày</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>5 x 100 x 0.11 = +$55</td>
+<td>0</td>
+<td>+$55 mỗi điểm biến động</td>
+</tr>
+</tbody></table></div>
+<p>Cách đọc: ngay lúc này vị thế hoạt động như đang long 60 cổ phiếu. Nếu cổ phiếu tăng $1, delta tăng lên khoảng +83. Vị thế mất khoảng $30 mỗi ngày nếu không có gì xảy ra, và lãi khoảng $55 cho mỗi điểm tăng của biến động hàm ý. Đây là vị thế long gamma, long vega trả theta để có được đặc quyền đó. Hầu hết nền tảng của công ty môi giới đều hiển thị Greeks của vị thế; kiểm tra chúng trước và sau mỗi lệnh là một thói quen tốt.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Coi delta là cố định.</strong> Delta thay đổi theo giá, thời gian và biến động. Một vị thế đang trung lập bây giờ có thể không còn như vậy sau một nhịp giá.</li>
+<li><strong>Bỏ qua theta trên quyền chọn mua vào.</strong> Một quan điểm đúng về hướng vẫn có thể thua lỗ nếu biến động đến quá muộn.</li>
+<li><strong>Quên vega quanh các sự kiện.</strong> Mua quyền chọn khi biến động hàm ý cao rồi nhìn nó sụp đổ là một cách phổ biến để thua lỗ dù dự đoán đúng.</li>
+<li><strong>Đánh giá thấp gamma âm.</strong> Bán quyền chọn gần ngày đáo hạn thu theta nhanh, nhưng một biến động mạnh có thể nhanh chóng gây khoản lỗ lớn.</li>
+<li><strong>Tin mù quáng vào Greeks của mô hình.</strong> Greeks đến từ các mô hình có giả định. Biến động lớn, gap và cú nhảy biến động có thể khiến chúng thiếu chính xác đúng lúc quan trọng nhất.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="delta-n-o-t-t-khi-mua-quy-n-ch-n">Delta nào tốt khi mua quyền chọn?</h3>
+<p>Không có một delta tốt nhất duy nhất. Quyền chọn delta cao hơn, nằm trong giá, hoạt động giống cổ phiếu hơn và decay ít hơn theo phần trăm, trong khi quyền chọn delta thấp hơn, nằm ngoài giá, rẻ hơn nhưng ít có khả năng kết thúc trong giá hơn.</p>
+<h3 id="v-sao-theta-t-ng-g-n-ng-y-o-h-n">Vì sao theta tăng gần ngày đáo hạn?</h3>
+<p>Giá trị ngoại lai phải về không khi đáo hạn. Với quyền chọn ngang giá, giá trị thời gian còn lại bị mất trong số ngày ngày càng ít, nên mức decay hằng ngày lớn dần khi đến gần ngày đáo hạn.</p>
+<h3 id="gamma-m-ngh-a-l-g">Gamma âm nghĩa là gì?</h3>
+<p>Gamma âm, đến từ việc bán quyền chọn, nghĩa là delta của bạn di chuyển ngược lại bạn khi tài sản cơ sở di chuyển: bạn thành long nhiều hơn khi giá giảm và short nhiều hơn khi giá tăng. Khoản lỗ có thể tăng tốc khi có biến động lớn.</p>
+<h3 id="greek-n-o-quan-tr-ng-nh-t">Greek nào quan trọng nhất?</h3>
+<p>Tùy chiến lược. Nhà giao dịch theo hướng chú ý delta, nhà giao dịch ngắn hạn chú ý gamma và theta, và nhà giao dịch quanh báo cáo thu nhập hoặc các sự kiện khác chú ý vega nhất.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/options/options-basics/"><div class="k">Giao dịch quyền chọn</div><b>Quyền chọn cơ bản</b><span>Cách quyền chọn hoạt động: call, put, giá thực hiện, ngày đáo hạn, phí, giá trị nội tại và ngoại lai, moneyness, lãi lỗ người mua và người bán, cấp phê duyệt.</span></a><a class="card" href="/vi/encyclopedia/options/implied-volatility/"><div class="k">Giao dịch quyền chọn</div><b>Biến động ngụ ý</b><span>Biến động hàm ý là gì, khác biến động lịch sử ra sao, IV rank và IV percentile, IV crush, skew, và công thức mức biến động kỳ vọng kèm ví dụ cụ thể.</span></a><a class="card" href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/"><div class="k">Giao dịch quyền chọn</div><b>Gamma Exposure và dealer</b><span>Cách market maker phòng hộ delta, gamma dương và âm của dealer, gamma squeeze, cách ước tính GEX và giới hạn của nó, hiệu ứng OPEX, vanna và charm.</span></a><a class="card" href="/vi/encyclopedia/options/0dte-options/"><div class="k">Giao dịch quyền chọn</div><b>Quyền chọn 0DTE</b><span>Quyền chọn 0DTE là gì, vì sao quyền chọn SPX, SPY và QQQ đáo hạn trong ngày bùng nổ, gamma và time decay cực đoan, các chiến lược phổ biến và rủi ro hai phía.</span></a><a class="card" href="/vi/encyclopedia/options/straddles-and-strangles/"><div class="k">Giao dịch quyền chọn</div><b>Straddle và Strangle</b><span>Cách long và short straddle, strangle hoạt động, điểm hòa vốn kèm ví dụ số, hòa vốn so với biến động hàm ý, giao dịch báo cáo thu nhập và rủi ro đuôi.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/options/options-basics/"><small>← Bài trước</small>Quyền chọn cơ bản</a><a class="next" href="/vi/encyclopedia/options/implied-volatility/"><small>Bài tiếp →</small>Biến động ngụ ý</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

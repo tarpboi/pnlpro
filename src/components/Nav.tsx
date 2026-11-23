@@ -2,9 +2,11 @@ import { useState, useRef, useEffect } from 'react';
 import { GITHUB_URL } from '../bots';
 import { useLang, LOCALES, localeOf } from '../i18n';
 import { useT, READY_LANGS } from '../messages';
+import { encyclopediaHome } from './EncyclopediaSection';
 
 export function Nav() {
   const t = useT();
+  const { lang } = useLang();
   return (
     <header className="sticky top-0 z-50 backdrop-blur-lg bg-bg-base/70 border-b border-border-subtle">
       <nav className="container-x flex items-center justify-between h-16">
@@ -14,7 +16,7 @@ export function Nav() {
         </a>
 
         <div className="hidden md:flex items-center gap-8 text-sm text-zinc-400">
-          <a href="/encyclopedia/" className="text-green-400 hover:text-green-300 font-medium transition-colors">{t.nav.encyclopedia}</a>
+          <a href={encyclopediaHome(lang)} className="text-green-400 hover:text-green-300 font-medium transition-colors">{t.nav.encyclopedia}</a>
           <a href="#strategies" className="hover:text-white transition-colors">{t.nav.strategies}</a>
           <a href="#managed" className="hover:text-white transition-colors">{t.nav.managed}</a>
           <a href="#venues" className="hover:text-white transition-colors">{t.nav.venues}</a>

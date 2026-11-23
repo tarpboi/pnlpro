@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chiến lược giao dịch theo xu hướng (trend following) | PnL Profit</title>
+<meta name="description" content="Cách trend following hoạt động: momentum chuỗi thời gian, CTA và managed futures, hệ thống phá vỡ và đường trung bình, Turtle traders, độ lệch dương, drawdown.">
+<meta name="keywords" content="trend following, chiến lược giao dịch theo xu hướng, time series momentum, managed futures, quy tắc turtle trading">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Chiến lược giao dịch theo xu hướng (trend following) | PnL Profit">
+<meta property="og:description" content="Cách trend following hoạt động: momentum chuỗi thời gian, CTA và managed futures, hệ thống phá vỡ và đường trung bình, Turtle traders, độ lệch dương, drawdown.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/trend-following/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chiến lược giao dịch theo xu hướng (trend following) | PnL Profit">
+<meta name="twitter:description" content="Cách trend following hoạt động: momentum chuỗi thời gian, CTA và managed futures, hệ thống phá vỡ và đường trung bình, Turtle traders, độ lệch dương, drawdown.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Chiến lược giao dịch theo xu hướng (trend following)","description":"Cách trend following hoạt động: momentum chuỗi thời gian, CTA và managed futures, hệ thống phá vỡ và đường trung bình, Turtle traders, độ lệch dương, drawdown.","keywords":"trend following, chiến lược giao dịch theo xu hướng, time series momentum, managed futures, quy tắc turtle trading","articleSection":"Giao dịch thuật toán và định lượng","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/trend-following/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch thuật toán và định lượng","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Bám theo xu hướng","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/trend-following/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Trend following còn hiệu quả không?","acceptedAnswer":{"@type":"Answer","text":"Trend following có thành tích dài trên nhiều thị trường và nhiều thập kỷ, nhưng hiệu suất khác nhau rất nhiều theo giai đoạn, với những quãng nhiều năm lợi nhuận yếu. Không ai có thể hứa hẹn kết quả tương lai, và chi phí cùng đám đông hóa có thể làm giảm lợi nhuận."}},{"@type":"Question","name":"Trend following và momentum khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"Trend following, hay momentum chuỗi thời gian, xem xét lợi suất quá khứ của từng tài sản. Momentum cắt ngang xếp hạng các tài sản với nhau và mua những kẻ thắng tương đối ngay cả khi tất cả đều đang giảm."}},{"@type":"Question","name":"Vì sao trader theo xu hướng có tỷ lệ thắng thấp?","acceptedAnswer":{"@type":"Answer","text":"Nhiều điểm phá vỡ đảo chiều nhanh, nên hệ thống chịu các khoản lỗ nhỏ thường xuyên. Lợi nhuận đến từ vài xu hướng lớn đi xa hơn nhiều so với khoản lỗ điển hình, điều có thể khiến kết quả tổng thể dương dù tỷ lệ thắng dưới 50%."}},{"@type":"Question","name":"Thị trường nào tốt nhất cho trend following?","acceptedAnswer":{"@type":"Answer","text":"Các trader theo xu hướng chuyên nghiệp thường giao dịch một tập đa dạng các hợp đồng tương lai và tiền tệ thanh khoản cao. Thanh khoản giữ chi phí thấp, và đa dạng hóa tăng khả năng có thị trường nào đó đang có xu hướng vào bất kỳ lúc nào."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/trend-following/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/trend-following/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/trend-following/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/trend-following/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/trend-following/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/trend-following/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/trend-following/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/trend-following/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/trend-following/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch thuật toán và định lượng</h3><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/" class="on">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a></div>
+<h1 class="title">Giao dịch theo xu hướng</h1>
+<div class="meta">10 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch thuật toán và định lượng</summary><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul></details>
+<article><p>Giao dịch theo xu hướng (trend following) là chiến lược có hệ thống mua các tài sản có giá đang tăng và bán hoặc bán khống các tài sản có giá đang giảm, giữ vị thế chừng nào xu hướng còn tiếp diễn. Đây là một trong những cách tiếp cận lâu đời nhất và được ghi chép đầy đủ nhất trong <a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">giao dịch thuật toán</a>, được nhiều quỹ managed futures sử dụng. Nó có xu hướng thua nhỏ thường xuyên và thắng lớn thỉnh thoảng, khiến nó có lãi trong một số giai đoạn và khó kiên trì về mặt tâm lý trong những giai đoạn khác.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Trend following dựa trên momentum chuỗi thời gian: lợi suất quá khứ của chính một tài sản trong lịch sử đã giúp dự đoán hướng đi trong tương lai gần của nó.</li>
+<li>Các hệ thống điển hình dùng phá vỡ giá hoặc đường trung bình động, kết hợp xác định quy mô vị thế dựa trên biến động và đa dạng hóa trên nhiều thị trường.</li>
+<li>Lợi nhuận có xu hướng lệch dương: nhiều khoản lỗ nhỏ, vài khoản lãi lớn.</li>
+<li>Những giai đoạn đi ngang hoặc thua lỗ dài, đôi khi kéo dài nhiều năm, là đặc điểm bình thường của chiến lược.</li>
+<li>Trend following trong lịch sử đã hoạt động tốt trong một số cuộc khủng hoảng kéo dài, nhưng không phải công cụ phòng hộ đáng tin cậy trong những cú sụp đổ mạnh, đột ngột.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#momentum-chu-i-th-i-gian">Momentum chuỗi thời gian</a></li><li><a href="#cta-v-managed-futures">CTA và managed futures</a></li><li><a href="#c-c-h-th-ng-xu-h-ng-ph-bi-n">Các hệ thống xu hướng phổ biến</a></li><li><a href="#c-c-turtle-trader">Các Turtle trader</a></li><li><a href="#l-ch-d-ng-v-nh-ng-giai-o-n-i-ngang-d-i">Độ lệch dương và những giai đoạn đi ngang dài</a></li><li><a href="#v-d-minh-h-a">Ví dụ minh họa</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="momentum-chu-i-th-i-gian">Momentum chuỗi thời gian</h2>
+<p>Có hai loại momentum xuất hiện trong nghiên cứu. Momentum cắt ngang (cross-sectional) so sánh các tài sản với nhau và mua những kẻ thắng tương đối; nó được Jegadeesh và Titman ghi nhận trên cổ phiếu Mỹ năm 1993 và được trình bày trong <a href="/vi/encyclopedia/stocks/momentum-trading/">giao dịch momentum</a>. Momentum chuỗi thời gian (time-series) xem xét từng tài sản riêng: nếu lợi suất của nó trong vài tháng qua dương, mua long; nếu âm, bán khống.</p>
+<p>Trong một bài báo năm 2012, Moskowitz, Ooi và Pedersen ghi nhận momentum chuỗi thời gian trên hàng chục thị trường futures, gồm chỉ số chứng khoán, tiền tệ, hàng hóa và trái phiếu. Họ thấy lợi suất 12 tháng qua có xu hướng dự đoán lợi suất tháng kế tiếp, với hiệu ứng đảo ngược một phần ở các khung thời gian dài hơn. Các lời giải thích được đề xuất gồm việc nhà đầu tư lúc đầu phản ứng chưa đủ với tin tức rồi sau đó phản ứng thái quá, cộng với các dòng tiền phòng hộ và quản lý rủi ro đẩy giá cùng một hướng trong thời gian dài.</p>
+<h2 id="cta-v-managed-futures">CTA và managed futures</h2>
+<p>Nhiều trader theo xu hướng chuyên nghiệp là các nhà tư vấn giao dịch hàng hóa (CTA), tức các công ty đăng ký quản lý giao dịch futures cho khách hàng. Ngành này thường được gọi là managed futures. Một chương trình theo xu hướng đa dạng hóa điển hình:</p>
+<ul>
+<li>Giao dịch một tập rộng các thị trường futures và forex thanh khoản cao: chỉ số chứng khoán, trái phiếu chính phủ, lãi suất, tiền tệ, năng lượng, kim loại và nông sản.</li>
+<li>Mở các vị thế long và short, nên có thể kiếm lời trong thị trường giảm cũng như tăng.</li>
+<li>Xác định quy mô từng vị thế theo biến động, để một hợp đồng tương lai trái phiếu yên ả và một hợp đồng tương lai dầu thô biến động đóng góp rủi ro xấp xỉ bằng nhau.</li>
+<li>Giữ vị thế từ vài tuần đến vài tháng.</li>
+</ul>
+<p>Đa dạng hóa là cốt lõi. Bất kỳ thị trường đơn lẻ nào cũng chỉ thỉnh thoảng có xu hướng; trên 50 thị trường trở lên, thường luôn có thứ gì đó đang có xu hướng. Các quỹ theo xu hướng nói chung đã ghi nhận lãi trong một số thị trường gấu kéo dài và cú sốc lạm phát, như 2008 và 2022, đó là lý do chiến lược này đôi khi được gọi là &quot;crisis alpha&quot;. Nhưng phần lớn thập niên 2010 là một giai đoạn khó khăn với nhiều trader theo xu hướng, và một cú sụp đổ đột ngột không có xu hướng trước đó có thể gây tổn hại cho họ.</p>
+<h2 id="c-c-h-th-ng-xu-h-ng-ph-bi-n">Các hệ thống xu hướng phổ biến</h2>
+<h3 id="h-th-ng-ph-v">Hệ thống phá vỡ</h3>
+<p>Hệ thống phá vỡ (breakout) mua khi giá tăng vượt mức cao nhất của N ngày gần nhất và bán khống khi giá giảm xuống dưới mức thấp nhất của N ngày gần nhất. Các đường đỉnh cao nhất và đáy thấp nhất này được gọi là kênh Donchian, theo tên Richard Donchian, người tiên phong sớm của giao dịch xu hướng có hệ thống. Điểm thoát dùng một kênh ngắn hơn theo hướng ngược lại hoặc một lệnh dừng động (trailing stop).</p>
+<h3 id="h-th-ng-ng-trung-b-nh-ng">Hệ thống đường trung bình động</h3>
+<p>Hệ thống <a href="/vi/encyclopedia/technical-analysis/moving-averages/">đường trung bình động</a> mua long khi đường nhanh nằm trên đường chậm (ví dụ 50 ngày trên 200 ngày) và bán khống khi nó nằm dưới. Các biến thể dùng giá so với một đường trung bình duy nhất, hoặc độ dốc của đường trung bình.</p>
+<h3 id="t-n-hi-u-d-a-tr-n-l-i-su-t">Tín hiệu dựa trên lợi suất</h3>
+<p>Một số hệ thống chỉ đơn giản lấy dấu của lợi suất 3, 6 hoặc 12 tháng qua, thường pha trộn nhiều cửa sổ nhìn lại để giảm sự phụ thuộc vào bất kỳ cửa sổ nào.</p>
+<p>Logic phá vỡ có thể viết trong vài dòng. Kênh được dịch đi một nến để tín hiệu không bao giờ dùng đỉnh hoặc đáy của chính nến hiện tại, và vị thế của mỗi ngày nên được áp dụng cho lợi suất của ngày kế tiếp.</p>
+<pre><code class="language-python">import pandas as pd
+
+def donchian_positions(close: pd.Series, entry=55, exit=20) -&gt; pd.Series:
+    upper = close.rolling(entry).max().shift(1)
+    lower = close.rolling(entry).min().shift(1)
+    exit_high = close.rolling(exit).max().shift(1)
+    exit_low = close.rolling(exit).min().shift(1)
+    pos, out = 0, []
+    for px, up, lo, xh, xl in zip(close, upper, lower, exit_high, exit_low):
+        if pos == 0 and px &gt; up:
+            pos = 1
+        elif pos == 0 and px &lt; lo:
+            pos = -1
+        elif pos == 1 and px &lt; xl:
+            pos = 0
+        elif pos == -1 and px &gt; xh:
+            pos = 0
+        out.append(pos)
+    return pd.Series(out, index=close.index)
+</code></pre>
+<h2 id="c-c-turtle-trader">Các Turtle trader</h2>
+<p>Câu chuyện nổi tiếng nhất trong trend following liên quan đến Richard Dennis, một trader futures thành công ở Chicago, và cộng sự của ông William Eckhardt. Đầu những năm 1980, họ bất đồng về việc liệu giao dịch có thể được dạy hay không. Dennis tuyển một nhóm học viên qua quảng cáo trên báo, dạy họ một hệ thống xu hướng dựa trên quy tắc trong một thời gian ngắn, và đưa tiền cho họ giao dịch. Các học viên được biết đến với tên Turtles.</p>
+<p>Các bản tường thuật về sau do những cựu Turtle công bố mô tả một hệ thống xây dựng trên các điểm phá vỡ Donchian (phiên bản 20 ngày và 55 ngày), thoát lệnh bằng các điểm phá vỡ ngược chiều ngắn hơn, đặt lệnh dừng cách một bội số của biến động gần đây, và quy mô vị thế được điều chỉnh sao cho một biến động ngày điển hình ở mỗi thị trường chiếm một phần nhỏ, cố định của vốn. Một số học viên sau đó tự điều hành quỹ riêng. Câu chuyện này thường được trích dẫn như bằng chứng rằng một hệ thống kỷ luật quan trọng hơn trực giác, dù, như mọi câu chuyện thành công nổi tiếng, thiên lệch người sống sót đóng một vai trò trong cách nó được kể lại.</p>
+<h2 id="l-ch-d-ng-v-nh-ng-giai-o-n-i-ngang-d-i">Độ lệch dương và những giai đoạn đi ngang dài</h2>
+<p>Trend following thường có tỷ lệ thắng thấp. Nhiều điểm phá vỡ thất bại nhanh và bị đóng với khoản lỗ nhỏ. Lợi nhuận đến từ thiểu số giao dịch bắt được những biến động lớn, kéo dài.</p>
+<p>Mô hình đó tạo ra độ lệch dương (positive skew): phân phối lợi suất có đuôi phải dài. Nó ngược lại với <a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">hồi quy về trung bình</a>, vốn có xu hướng thắng thường xuyên và thỉnh thoảng thua lớn.</p>
+<p>Cái giá là tâm lý. Những chuỗi dài các khoản lỗ nhỏ là bình thường, và một chiến lược có thể nhiều năm không lập đỉnh vốn mới. Nhiều trader bỏ các hệ thống xu hướng đúng vào những giai đoạn đó, ngay trước xu hướng lớn tiếp theo.</p>
+<h2 id="v-d-minh-h-a">Ví dụ minh họa</h2>
+<h3 id="k-v-ng-v-i-t-l-th-ng-th-p">Kỳ vọng với tỷ lệ thắng thấp</h3>
+<p>Một hệ thống xu hướng thắng 35% số giao dịch. Giao dịch thắng trung bình lãi 3R và giao dịch thua trung bình tốn 1R, trong đó R là số tiền đặt rủi ro mỗi giao dịch.</p>
+<ul>
+<li>Kỳ vọng = 0.35 × 3R − 0.65 × 1R = 1.05R − 0.65R = 0.40R mỗi giao dịch.</li>
+<li>Với 1,000 đô la rủi ro mỗi giao dịch, đó là trung bình 400 đô la mỗi giao dịch qua nhiều giao dịch.</li>
+<li>Xác suất để một chuỗi 10 giao dịch bất kỳ đều thua là 0.65^10 ≈ 1.3%. Qua vài trăm giao dịch, một chuỗi dài như vậy trở nên nhiều khả năng xảy ra vào một lúc nào đó.</li>
+</ul>
+<h3 id="x-c-nh-quy-m-theo-bi-n-ng">Xác định quy mô theo biến động</h3>
+<p>Một tài khoản 100,000 đô la đặt rủi ro 1% mỗi giao dịch, tức 1,000 đô la. Một cổ phiếu giao dịch ở 50 đô la với <a href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/">Average True Range</a> là 1.25 đô la. Lệnh dừng được đặt cách 2 ATR, tức 2.50 đô la.</p>
+<ul>
+<li>Quy mô vị thế = 1,000 / 2.50 = 400 cổ phiếu, trị giá 20,000 đô la.</li>
+<li>Một cổ phiếu êm đềm hơn với ATR 0.50 đô la sẽ có lệnh dừng cách 1.00 đô la và vị thế 1,000 cổ phiếu cho cùng mức rủi ro bằng đô la.</li>
+</ul>
+<p>Mỗi vị thế, dù yên ả hay biến động, giờ mang mức rủi ro tương tự.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Chỉ giao dịch một thị trường.</strong> Không đa dạng hóa, các giai đoạn đi ngang dài trở nên rất dài.</li>
+<li><strong>Can thiệp vào hệ thống sau các khoản lỗ.</strong> Bỏ qua tín hiệu kế tiếp thường nghĩa là bỏ lỡ giao dịch bù đắp cho chuỗi thua.</li>
+<li><strong>Tối ưu chính xác các cửa sổ nhìn lại.</strong> Tín hiệu xu hướng vững vàng trên một dải rộng các cửa sổ; tinh chỉnh quá mức chủ yếu là khớp nhiễu.</li>
+<li><strong>Bỏ qua chi phí roll và gap.</strong> Futures cần được roll, và lệnh dừng có thể bị gap xuyên qua qua đêm. Xem <a href="/vi/encyclopedia/futures/futures-basics/">kiến thức cơ bản về futures</a>.</li>
+<li><strong>Kỳ vọng đường vốn mượt mà.</strong> Drawdown 20% trở lên là phổ biến ngay cả với các chương trình theo xu hướng chuyên nghiệp.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="trend-following-c-n-hi-u-qu-kh-ng">Trend following còn hiệu quả không?</h3>
+<p>Trend following có thành tích dài trên nhiều thị trường và nhiều thập kỷ, nhưng hiệu suất khác nhau rất nhiều theo giai đoạn, với những quãng nhiều năm lợi nhuận yếu. Không ai có thể hứa hẹn kết quả tương lai, và chi phí cùng đám đông hóa có thể làm giảm lợi nhuận.</p>
+<h3 id="trend-following-v-momentum-kh-c-nhau-th-n-o">Trend following và momentum khác nhau thế nào?</h3>
+<p>Trend following, hay momentum chuỗi thời gian, xem xét lợi suất quá khứ của từng tài sản. Momentum cắt ngang xếp hạng các tài sản với nhau và mua những kẻ thắng tương đối ngay cả khi tất cả đều đang giảm.</p>
+<h3 id="v-sao-trader-theo-xu-h-ng-c-t-l-th-ng-th-p">Vì sao trader theo xu hướng có tỷ lệ thắng thấp?</h3>
+<p>Nhiều điểm phá vỡ đảo chiều nhanh, nên hệ thống chịu các khoản lỗ nhỏ thường xuyên. Lợi nhuận đến từ vài xu hướng lớn đi xa hơn nhiều so với khoản lỗ điển hình, điều có thể khiến kết quả tổng thể dương dù tỷ lệ thắng dưới 50%.</p>
+<h3 id="th-tr-ng-n-o-t-t-nh-t-cho-trend-following">Thị trường nào tốt nhất cho trend following?</h3>
+<p>Các trader theo xu hướng chuyên nghiệp thường giao dịch một tập đa dạng các hợp đồng tương lai và tiền tệ thanh khoản cao. Thanh khoản giữ chi phí thấp, và đa dạng hóa tăng khả năng có thị trường nào đó đang có xu hướng vào bất kỳ lúc nào.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/technical-analysis/moving-averages/"><div class="k">Phân tích kỹ thuật</div><b>Đường trung bình động</b><span>Cách tính đường trung bình động đơn giản, hàm mũ và có trọng số, ý nghĩa của chu kỳ 20, 50, 200, golden cross, death cross và sự đánh đổi về độ trễ.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Hồi quy về trung bình</b><span>Cách giao dịch hồi quy về trung bình hoạt động: đảo chiều ngắn hạn, z-score, Bollinger Band và RSI, độ lệch âm, rủi ro chế độ thị trường và khi nó thất bại.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/atr-and-volatility-indicators/"><div class="k">Phân tích kỹ thuật</div><b>ATR và biến động</b><span>Cách ATR hoạt động, dùng ATR để đặt dừng lỗ và tính khối lượng lệnh, biến động lịch sử, Keltner Channels và lý do biến động xuất hiện theo từng cụm.</span></a><a class="card" href="/vi/encyclopedia/stocks/momentum-trading/"><div class="k">Giao dịch cổ phiếu</div><b>Giao dịch động lượng</b><span>Giao dịch momentum cổ phiếu hoạt động thế nào: chất xúc tác, khối lượng tương đối, float, breakout, halt, nghiên cứu nói gì và rủi ro khi đuổi nhịp đã xa.</span></a><a class="card" href="/vi/encyclopedia/futures/futures-basics/"><div class="k">Giao dịch hợp đồng tương lai</div><b>Hợp đồng tương lai cơ bản</b><span>Cách hợp đồng tương lai hoạt động: sàn giao dịch, quy cách hợp đồng, giá trị tick, mã tháng, mark-to-market hằng ngày, ký quỹ, thanh toán và người dùng futures.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><small>← Bài trước</small>Overfitting</a><a class="next" href="/vi/encyclopedia/algorithmic-trading/mean-reversion/"><small>Bài tiếp →</small>Hồi quy về trung bình</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

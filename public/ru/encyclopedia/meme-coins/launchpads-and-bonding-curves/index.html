@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаунчпады и бондинг-кривая: как устроены запуски в стиле pump.fun</title>
+<meta name="description" content="Как лаунчпады с бондинг-кривой назначают цену новым токенам, что такое порог миграции и комиссии создателя и почему «честный запуск» редко бывает честным.">
+<meta name="keywords" content="бондинг-кривая, бондинг кривая pump.fun, лаунчпад мемкоинов, как работает pump.fun, миграция токена pump.fun, fair launch">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Энциклопедия трейдинга">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Лаунчпады и бондинг-кривая: как устроены запуски в стиле pump.fun">
+<meta property="og:description" content="Как лаунчпады с бондинг-кривой назначают цену новым токенам, что такое порог миграции и комиссии создателя и почему «честный запуск» редко бывает честным.">
+<meta property="og:url" content="https://pnlpro.fit/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Лаунчпады и бондинг-кривая: как устроены запуски в стиле pump.fun">
+<meta name="twitter:description" content="Как лаунчпады с бондинг-кривой назначают цену новым токенам, что такое порог миграции и комиссии создателя и почему «честный запуск» редко бывает честным.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Лаунчпады и бондинг-кривая: как устроены запуски в стиле pump.fun","description":"Как лаунчпады с бондинг-кривой назначают цену новым токенам, что такое порог миграции и комиссии создателя и почему «честный запуск» редко бывает честным.","keywords":"бондинг-кривая, бондинг кривая pump.fun, лаунчпад мемкоинов, как работает pump.fun, миграция токена pump.fun, fair launch","articleSection":"Торговля мемкоинами","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Торговля мемкоинами","item":"https://pnlpro.fit/ru/encyclopedia/meme-coins/"},{"@type":"ListItem","position":3,"name":"Лаунчпады и бондинг-кривые","item":"https://pnlpro.fit/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Что такое бондинг-кривая в криптовалютах?","acceptedAnswer":{"@type":"Answer","text":"Бондинг-кривая — это смарт-контракт, который покупает и продаёт токен по цене, заданной формулой в зависимости от того, какая часть предложения уже продана. На лаунчпадах мемкоинов она служит единственным рынком токена, пока тот не выпустится в пул на DEX."}},{"@type":"Question","name":"Сколько нужно, чтобы токен на pump.fun выпустился?","acceptedAnswer":{"@type":"Answer","text":"По состоянию на 2025 и 2026 годы порог pump.fun, по имеющимся данным, в целом составлял около 85 собранных SOL; это соответствует рыночной стоимости, которая меняется вместе с ценой SOL. Платформа может его изменить, поэтому сверяйтесь с её актуальной документацией."}},{"@type":"Question","name":"Получают ли создатели токенов на pump.fun деньги?","acceptedAnswer":{"@type":"Answer","text":"С 2025 года pump.fun и несколько других лаунчпадов делятся частью торговых комиссий с создателями токенов. Точные ставки и модели несколько раз менялись, поэтому проверяйте актуальные условия."}},{"@type":"Question","name":"Безопаснее ли запуск на бондинг-кривой, чем обычный запуск на DEX?","acceptedAnswer":{"@type":"Answer","text":"Он устраняет часть рисков — например, вывод ликвидности из пула создателем или скрытые налоги, — поскольку контракт стандартизирован, а LP блокируется при выпуске. Но он не мешает инсайдерам, бандлерам и снайперам покупать рано и продавать поздним покупателям."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
+  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/meme-coins/launchpads-and-bonding-curves/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Торговля мемкоинами</h3><ul><li><a href="/ru/encyclopedia/meme-coins/meme-coins-explained/">Что такое мемкоины</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coin-lifecycle/">Жизненный цикл мемкоина</a></li><li><a href="/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/" class="on" aria-current="page">Лаунчпады и бондинг-кривые</a></li><li><a href="/ru/encyclopedia/meme-coins/finding-meme-coins/">Поиск мемкоинов</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coin-due-diligence/">Проверка мемкоина</a></li><li><a href="/ru/encyclopedia/meme-coins/rug-pulls-and-honeypots/">Рагпулы и ханипоты</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coin-trading-bots/">Торговые боты (Telegram)</a></li><li><a href="/ru/encyclopedia/meme-coins/sniping-new-launches/">Снайпинг запусков</a></li><li><a href="/ru/encyclopedia/meme-coins/copy-trading-wallets/">Копирование кошельков</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coin-risk-and-exits/">Риски и выходы</a></li><li><a href="/ru/encyclopedia/meme-coins/kols-insiders-and-cabals/">KOL, инсайдеры и кабалы</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coins-by-chain/">Мемкоины по блокчейнам</a></li></ul><h3>Все темы</h3><ul><li><a href="/ru/encyclopedia/basics/">📘 Основы трейдинга</a></li><li><a href="/ru/encyclopedia/risk-management/">🛡️ Риск- и мани-менеджмент</a></li><li><a href="/ru/encyclopedia/psychology/">🧠 Психология трейдинга</a></li><li><a href="/ru/encyclopedia/technical-analysis/">📈 Технический анализ</a></li><li><a href="/ru/encyclopedia/fundamental-analysis/">🏦 Фундаментальный и макроанализ</a></li><li><a href="/ru/encyclopedia/stocks/">🏛️ Торговля акциями</a></li><li><a href="/ru/encyclopedia/forex/">💱 Торговля на форекс</a></li><li><a href="/ru/encyclopedia/futures/">📊 Торговля фьючерсами</a></li><li><a href="/ru/encyclopedia/options/">🎯 Торговля опционами</a></li><li><a href="/ru/encyclopedia/crypto/">₿ Торговля криптовалютой</a></li><li><a href="/ru/encyclopedia/meme-coins/" class="on">🐸 Торговля мемкоинами</a></li><li><a href="/ru/encyclopedia/prediction-markets/">🔮 Рынки предсказаний</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/">🤖 Алгоритмическая и квант-торговля</a></li><li><a href="/ru/encyclopedia/other-markets/">🛢️ Сырье, облигации и другие рынки</a></li><li><a href="/ru/encyclopedia/trading-business/">⚖️ Проп-фирмы, налоги, регулирование и мошенничество</a></li><li><a href="/ru/encyclopedia/reference/">📖 Справочник</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ru/encyclopedia/">Энциклопедия</a> › <a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a></div>
+<h1 class="title">Лаунчпады и бондинг-кривые</h1>
+<div class="meta">8 мин чтения · Обновлено 23 нояб. 2026 г.</div>
+<details class="side-m"><summary>Ещё в разделе «Торговля мемкоинами»</summary><ul><li><a href="/ru/encyclopedia/meme-coins/meme-coins-explained/">Что такое мемкоины</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coin-lifecycle/">Жизненный цикл мемкоина</a></li><li><a href="/ru/encyclopedia/meme-coins/launchpads-and-bonding-curves/" class="on" aria-current="page">Лаунчпады и бондинг-кривые</a></li><li><a href="/ru/encyclopedia/meme-coins/finding-meme-coins/">Поиск мемкоинов</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coin-due-diligence/">Проверка мемкоина</a></li><li><a href="/ru/encyclopedia/meme-coins/rug-pulls-and-honeypots/">Рагпулы и ханипоты</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coin-trading-bots/">Торговые боты (Telegram)</a></li><li><a href="/ru/encyclopedia/meme-coins/sniping-new-launches/">Снайпинг запусков</a></li><li><a href="/ru/encyclopedia/meme-coins/copy-trading-wallets/">Копирование кошельков</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coin-risk-and-exits/">Риски и выходы</a></li><li><a href="/ru/encyclopedia/meme-coins/kols-insiders-and-cabals/">KOL, инсайдеры и кабалы</a></li><li><a href="/ru/encyclopedia/meme-coins/meme-coins-by-chain/">Мемкоины по блокчейнам</a></li></ul></details>
+<article><p>Лаунчпад мемкоинов — это платформа, на которой любой может меньше чем за минуту создать токен и начать им торговать без стартовой ликвидности. Токен продаётся по бондинг-кривой (bonding curve) — фиксированной формуле, которая поднимает цену по мере выкупа предложения. Когда кривая заполняется, лаунчпад переносит токен в обычный пул децентрализованной биржи; этот шаг называется выпуском (graduation) или миграцией. Модель популяризировал pump.fun на Solana в 2024 году, и сегодня похожие лаунчпады есть на большинстве крупных блокчейнов.</p>
+<div class="takeaways"><h2 id="key-takeaways">Главное</h2>
+<ul>
+<li>Бондинг-кривая — это смарт-контракт, который продаёт токены по цене, заданной формулой, поэтому первые покупатели платят крошечную долю того, что платят поздние.</li>
+<li>Цена растёт быстрее, чем приток денег: на типичной кривой в стиле pump.fun удвоение резерва SOL в кривой (включая виртуальный стартовый резерв) примерно учетверяет цену.</li>
+<li>Пороги выпуска, комиссии и DEX, на который переходит токен, различаются между платформами и часто меняются; всегда проверяйте актуальные условия.</li>
+<li>Лаунчпады берут комиссию с каждой сделки, создатели часто тоже получают комиссии, так что платформа зарабатывает независимо от того, зарабатывают ли трейдеры.</li>
+<li>«Честный запуск» (fair launch) означает отсутствие пресейла, а не то, что инсайдеры не могут купить рано через бандлы и снайперов.</li>
+</ul></div><details class="toc"><summary>Содержание</summary><ol><li><a href="#section-2">Почему лаунчпады вытеснили старый способ</a></li><li><a href="#section-3">Как работает формула цены</a></li><li><a href="#section-5">Пороги выпуска</a></li><li><a href="#section-6">Комиссии: кто получает деньги</a></li><li><a href="#section-7">Честный запуск: заявление и реальность</a></li><li><a href="#section-8">Лаунчпады на других блокчейнах</a></li><li><a href="#common-mistakes">Частые ошибки</a></li></ol></details>
+<h2 id="section-2">Почему лаунчпады вытеснили старый способ</h2>
+<p>До лаунчпадов запуск токена на DEX означал создать его, а затем наполнить пул ликвидности и самим токеном, и котируемым активом вроде SOL или ETH. Для этого требовались капитал и некоторые технические навыки, а пул оставался под контролем создателя, из-за чего «вытягивание ликвидности» и стало классическим <a href="/ru/encyclopedia/meme-coins/rug-pulls-and-honeypots/">рагпулом</a>.</p>
+<p>Лаунчпад с бондинг-кривой меняет три вещи:</p>
+<ol>
+<li><strong>Стартовая ликвидность не нужна.</strong> Рынком служит сама кривая.</li>
+<li><strong>Контракт стандартизирован.</strong> Каждый токен на платформе использует один и тот же проаудированный шаблон, поэтому в самом токене нет скрытых налогов или блокировок продажи, а право минта (mint authority), как правило, отозвано.</li>
+<li><strong>Ликвидность блокируется при выпуске.</strong> Платформа наполняет пул на DEX и обычно сжигает или блокирует LP-токены, так что создатель не может её вывести.</li>
+</ol>
+<p>Это устранило часть старых схем, но создало новые проблемы: число запусков взорвалось, а конкуренция сместилась к скорости, бандлам и борьбе за внимание.</p>
+<h2 id="section-3">Как работает формула цены</h2>
+<p>Большинство кривых в стиле pump.fun используют формулу постоянного произведения с «виртуальными резервами». Контракт ведёт себя так, будто держит пул из x единиц SOL и y единиц токена, где x, умноженное на y, всегда равно константе k. На старте ни один из резервов не является полностью реальным: виртуальный резерв SOL позволяет цене начинаться с ненулевого уровня, хотя никто не вносил ликвидность.</p>
+<ul>
+<li>Спотовая цена (SOL за токен) = x / y.</li>
+<li>При покупке SOL добавляется к x, а y должен уменьшиться так, чтобы произведение x на y оставалось равным k. Токены, изъятые из y, и есть то, что вы получаете.</li>
+<li>При продаже происходит обратное.</li>
+</ul>
+<p>Поскольку y = k / x, спотовая цена равна x в квадрате, делённому на k. Поэтому цена растёт тем быстрее, чем больше SOL входит: удвойте резерв SOL — и цена вырастет примерно вчетверо.</p>
+<h3 id="section-4">Пример расчёта с иллюстративными параметрами</h3>
+<p>Приведённые ниже цифры близки к исходной конструкции pump.fun в том виде, как она была широко задокументирована в 2024 году, но они иллюстративны; реальные параметры меняются и различаются между платформами.</p>
+<ul>
+<li>Общее предложение: 1,000,000,000 токенов.</li>
+<li>Виртуальные резервы при запуске: x = 30 SOL, y = 1,073,000,000 токенов.</li>
+<li>k = 30 × 1,073,000,000 = 32,190,000,000.</li>
+<li>Начальная спотовая цена = 30 / 1,073,000,000 ≈ 0.0000000280 SOL за токен.</li>
+<li>Начальная рыночная стоимость = цена × 1 миллиард ≈ 28 SOL. При цене SOL $150 это около $4,200.</li>
+</ul>
+<p><strong>Покупатель A покупает на 1 SOL сразу при запуске</strong> (без учёта комиссий):</p>
+<ul>
+<li>Новый x = 31 SOL. Новый y = 32,190,000,000 / 31 ≈ 1,038,387,097.</li>
+<li>Получено токенов = 1,073,000,000 − 1,038,387,097 ≈ 34,612,903, или около 3.46 процента предложения.</li>
+</ul>
+<p><strong>Позже в кривую вошло 30 реальных SOL</strong> (x = 60):</p>
+<ul>
+<li>y = 32,190,000,000 / 60 = 536,500,000.</li>
+<li>Спотовая цена = 60 / 536,500,000 ≈ 0.000000112 SOL, в четыре раза выше начальной.</li>
+<li>Токены покупателя A по споту стоят около 3.87 SOL. Но их продажа двигает цену вниз: добавление 34,612,903 токенов даёт y ≈ 571,112,903, значит, x падает примерно до 56.36, и покупатель A получает около 3.64 SOL. Это доходность 3.6x на 1 SOL до комиссий.</li>
+</ul>
+<p><strong>Примерно при 85 реальных SOL</strong> (x = 115):</p>
+<ul>
+<li>y = 32,190,000,000 / 115 ≈ 279,913,043, то есть с кривой продано около 793 миллионов токенов.</li>
+<li>Спотовая цена ≈ 0.000000411 SOL, примерно в 14.7 раза выше начальной.</li>
+<li>Рыночная стоимость ≈ 411 SOL, или около $61,600 при $150 за SOL.</li>
+</ul>
+<p>В исходной конструкции pump.fun примерно эта точка запускала выпуск: оставшиеся токены (около 200 миллионов) и собранные SOL за вычетом комиссий наполняли пул на DEX. Урок — в соотношении: самые первые покупатели заплатили примерно одну пятнадцатую той цены, которую заплатили покупатели в момент выпуска.</p>
+<h2 id="section-5">Пороги выпуска</h2>
+<p>Каждый лаунчпад устанавливает порог, завершающий фазу кривой. Обычно он задаётся в нативном активе блокчейна (собранная сумма SOL, ETH или BNB) или как доля проданного предложения, поэтому эквивалентная рыночная стоимость в долларах меняется вместе с ценой нативного актива. По состоянию на 2025 и 2026 годы порог pump.fun, по имеющимся данным, в целом составлял около 85 собранных SOL; его часто приводят как рыночную стоимость где-то в диапазоне $60,000–$100,000 в зависимости от цены SOL. Другие платформы используют другие значения. Воспринимайте любую цифру как моментальный снимок и сверяйтесь с документацией самой платформы.</p>
+<p>При выпуске важно, куда переходит токен. Pump.fun изначально переносил токены на Raydium, а в марте 2025 года перешёл на собственный DEX PumpSwap. Другие лаунчпады переносят токены на Raydium, Meteora, Uniswap, PancakeSwap или в собственные пулы.</p>
+<h2 id="section-6">Комиссии: кто получает деньги</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Тип комиссии</th>
+<th>Кто получает</th>
+<th>Типичная форма (проверяйте актуальные условия)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Торговая комиссия на кривой</td>
+<td>Лаунчпад, иногда создатель</td>
+<td>Распространены около 1 процента за сделку</td>
+</tr>
+<tr>
+<td>Комиссия пула после выпуска</td>
+<td>Лаунчпад, создатель, поставщики ликвидности</td>
+<td>Разная; некоторые платформы ступенчато привязывают её к рыночной стоимости</td>
+</tr>
+<tr>
+<td>Комиссия за создание</td>
+<td>Лаунчпад</td>
+<td>Часто нулевая или очень маленькая</td>
+</tr>
+<tr>
+<td>Комиссия за миграцию</td>
+<td>Лаунчпад</td>
+<td>Некоторые платформы берут долю собранных средств</td>
+</tr>
+<tr>
+<td>Комиссии ботов и фронтендов</td>
+<td>Сторонние приложения</td>
+<td>Часто около 1 процента за сделку сверху</td>
+</tr>
+</tbody></table></div>
+<p>С 2025 года несколько лаунчпадов добавили или расширили комиссии для создателей, выплачивая им долю от торгового объёма. Сторонники говорят, что это вознаграждает создателей, которые строят сообщества. Критики указывают, что это также платит создателям за массовый запуск токенов и прокрутку объёма. По состоянию на конец 2026 года модели комиссий на крупных платформах всё ещё менялись, включая возможность для создателей выбирать между разными структурами комиссий.</p>
+<p>С точки зрения трейдера, ключевой факт в том, что комиссии платятся с каждой покупки и каждой продажи, независимо от результата. Тот, кто входит в 50 токенов и выходит из них, платит комиссию 100 раз. См. <a href="/ru/encyclopedia/basics/trading-costs-and-fees/">торговые издержки и комиссии</a>.</p>
+<h2 id="section-7">Честный запуск: заявление и реальность</h2>
+<p>Лаунчпады позиционируют себя как честные: нет пресейла, нет доли команды, все покупают с одной и той же кривой. В узком смысле это правда. На практике:</p>
+<ul>
+<li><strong>Создатель покупает первым.</strong> Деплоер может включить покупку по самой низкой цене в транзакцию создания.</li>
+<li><strong>Бандлы скрывают концентрацию.</strong> Создатель может купить с множества свежих кошельков в одном блоке, и список держателей выглядит распределённым. См. <a href="/ru/encyclopedia/meme-coins/meme-coin-due-diligence/">проверка мемкоина перед покупкой</a>.</li>
+<li><strong>Снайперы быстрее людей.</strong> Боты покупают в первом блоке или в первые секунды. См. <a href="/ru/encyclopedia/meme-coins/sniping-new-launches/">снайпинг новых запусков</a>.</li>
+<li><strong>Заранее скоординированные группы</strong> выбирают токен ещё до его появления и покупают вместе.</li>
+</ul>
+<p>Так что кривая честна в том смысле, что для всех действует одна формула. Но она не честна в том смысле, что у всех одинаковые шансы купить рано.</p>
+<h2 id="section-8">Лаунчпады на других блокчейнах</h2>
+<p>Модель бондинг-кривой широко скопирована. Среди примеров — Raydium LaunchLab и LetsBonk на Solana, Four.meme на BNB Chain и различные лаунчеры на Base, включая интеграции с социальными приложениями, такие как Zora и Clanker, которые создают токены вокруг постов или кастов. Доли рынка резко колебались: в середине 2025 года LetsBonk ненадолго обогнал pump.fun по некоторым дневным метрикам, прежде чем pump.fun вернул лидерство. Механика, пороги и комиссии различаются; см. <a href="/ru/encyclopedia/meme-coins/meme-coins-by-chain/">мемкоины по блокчейнам</a>.</p>
+<h2 id="common-mistakes">Частые ошибки</h2>
+<ul>
+<li><strong>Считать цену на кривой оценкой стоимости.</strong> Это лишь результат формулы при текущем объёме вложенных денег.</li>
+<li><strong>Покупать у порога выпуска в ожидании скачка.</strong> Многие покупатели с кривой продают при миграции.</li>
+<li><strong>Забывать, что продажа двигает цену.</strong> Бумажная стоимость по споту завышает то, что вы реально можете получить.</li>
+<li><strong>Не проверять условия платформы.</strong> Комиссии, пороги и направления миграции меняются; то, что было верно в прошлом квартале, может быть неверно сейчас.</li>
+<li><strong>Приравнивать «стандартный контракт» к «безопасному токену».</strong> Чистый контракт не мешает инсайдерам сбрасывать токены.</li>
+</ul>
+<h2 id="faq">Частые вопросы</h2>
+<h3 id="section-11">Что такое бондинг-кривая в криптовалютах?</h3>
+<p>Бондинг-кривая — это смарт-контракт, который покупает и продаёт токен по цене, заданной формулой в зависимости от того, какая часть предложения уже продана. На лаунчпадах мемкоинов она служит единственным рынком токена, пока тот не выпустится в пул на DEX.</p>
+<h3 id="pump-fun">Сколько нужно, чтобы токен на pump.fun выпустился?</h3>
+<p>По состоянию на 2025 и 2026 годы порог pump.fun, по имеющимся данным, в целом составлял около 85 собранных SOL; это соответствует рыночной стоимости, которая меняется вместе с ценой SOL. Платформа может его изменить, поэтому сверяйтесь с её актуальной документацией.</p>
+<h3 id="pump-fun">Получают ли создатели токенов на pump.fun деньги?</h3>
+<p>С 2025 года pump.fun и несколько других лаунчпадов делятся частью торговых комиссий с создателями токенов. Точные ставки и модели несколько раз менялись, поэтому проверяйте актуальные условия.</p>
+<h3 id="dex">Безопаснее ли запуск на бондинг-кривой, чем обычный запуск на DEX?</h3>
+<p>Он устраняет часть рисков — например, вывод ликвидности из пула создателем или скрытые налоги, — поскольку контракт стандартизирован, а LP блокируется при выпуске. Но он не мешает инсайдерам, бандлерам и снайперам покупать рано и продавать поздним покупателям.</p>
+</article>
+<div class="disclaimer"><strong>Только образовательный материал.</strong> Ничто здесь не является финансовой, инвестиционной, юридической или налоговой консультацией. Торговля сопряжена с высоким риском потерь, а с кредитным плечом можно потерять больше, чем вы внесли. Правила, комиссии и условия площадок меняются: перед сделкой проверяйте актуальные условия у брокера, биржи или регулятора.</div>
+<section class="related"><h2>Похожие статьи</h2><div class="cards"><a class="card" href="/ru/encyclopedia/meme-coins/meme-coin-lifecycle/"><div class="k">Торговля мемкоинами</div><b>Жизненный цикл мемкоина</b><span>Стадии мемкоина: запуск, бондинг-кривая, миграция в пул на DEX, ранний рост, консолидация, листинг на CEX и угасание — и кто продаёт на каждой из них.</span></a><a class="card" href="/ru/encyclopedia/meme-coins/meme-coins-explained/"><div class="k">Торговля мемкоинами</div><b>Что такое мемкоины</b><span>Что такое мемкоины, от Dogecoin до эпохи лаунчпадов: зачем их торгуют, как внимание формирует цену и почему большинство токенов обнуляется.</span></a><a class="card" href="/ru/encyclopedia/meme-coins/sniping-new-launches/"><div class="k">Торговля мемкоинами</div><b>Снайпинг запусков</b><span>Что такое снайпинг новых токенов, как приоритетные комиссии и задержка решают, кто первый, почему инсайдеры и бандлеры обходят снайперов и как ограничить ущерб.</span></a><a class="card" href="/ru/encyclopedia/meme-coins/meme-coin-due-diligence/"><div class="k">Торговля мемкоинами</div><b>Проверка мемкоина</b><span>Практический чек-лист для мемкоинов: mint и freeze authority, статус LP, концентрация держателей, бандлы, снайперы, налоги, соцсети и пределы токен-чекеров.</span></a><a class="card" href="/ru/encyclopedia/meme-coins/meme-coins-by-chain/"><div class="k">Торговля мемкоинами</div><b>Мемкоины по блокчейнам</b><span>Торговля мемкоинами на Solana, Ethereum, Base, BNB Chain и других сетях: комиссии, скорость, лаунчпады, инструменты, риски токенов, культура и бриджи.</span></a></div></section>
+<div class="pager"><a href="/ru/encyclopedia/meme-coins/meme-coin-lifecycle/"><small>← Назад</small>Жизненный цикл мемкоина</a><a class="next" href="/ru/encyclopedia/meme-coins/finding-meme-coins/"><small>Далее →</small>Поиск мемкоинов</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ru/encyclopedia/basics/">Основы трейдинга</a><a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a><a href="/ru/encyclopedia/psychology/">Психология трейдинга</a><a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a><a href="/ru/encyclopedia/fundamental-analysis/">Фундаментальный и макроанализ</a><a href="/ru/encyclopedia/stocks/">Торговля акциями</a><a href="/ru/encyclopedia/forex/">Торговля на форекс</a><a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a><a href="/ru/encyclopedia/options/">Торговля опционами</a><a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a><a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a><a href="/ru/encyclopedia/prediction-markets/">Рынки предсказаний</a><a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a><a href="/ru/encyclopedia/other-markets/">Сырье, облигации и другие рынки</a><a href="/ru/encyclopedia/trading-business/">Проп-фирмы, налоги, регулирование и мошенничество</a><a href="/ru/encyclopedia/reference/">Справочник</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Открытый набор торговых ботов</a></div>
+  <p>PnL Profit Энциклопедия трейдинга: бесплатные независимые объяснения того, как работают крупнейшие рынки. Только образовательный материал, не инвестиционная рекомендация. Контакты: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ru/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Ничего не найдено. Загляните в глоссарий.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

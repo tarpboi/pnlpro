@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bandas de Bollinger: squeeze, %B, ancho de banda y Keltner</title>
+<meta name="description" content="Cómo se construyen las Bandas de Bollinger con una media de 20 periodos y 2 desviaciones estándar: el squeeze, caminar por la banda, %B, ancho y Keltner.">
+<meta name="keywords" content="bandas de bollinger, squeeze bandas de bollinger, estrategia bandas de bollinger, indicador %B, bandas de bollinger vs canales de keltner">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Bandas de Bollinger: squeeze, %B, ancho de banda y Keltner">
+<meta property="og:description" content="Cómo se construyen las Bandas de Bollinger con una media de 20 periodos y 2 desviaciones estándar: el squeeze, caminar por la banda, %B, ancho y Keltner.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/technical-analysis/bollinger-bands/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bandas de Bollinger: squeeze, %B, ancho de banda y Keltner">
+<meta name="twitter:description" content="Cómo se construyen las Bandas de Bollinger con una media de 20 periodos y 2 desviaciones estándar: el squeeze, caminar por la banda, %B, ancho y Keltner.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Bandas de Bollinger: squeeze, %B, ancho de banda y Keltner","description":"Cómo se construyen las Bandas de Bollinger con una media de 20 periodos y 2 desviaciones estándar: el squeeze, caminar por la banda, %B, ancho y Keltner.","keywords":"bandas de bollinger, squeeze bandas de bollinger, estrategia bandas de bollinger, indicador %B, bandas de bollinger vs canales de keltner","articleSection":"Análisis técnico","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/technical-analysis/bollinger-bands/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Análisis técnico","item":"https://pnlpro.fit/es/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"Bandas de Bollinger","item":"https://pnlpro.fit/es/encyclopedia/technical-analysis/bollinger-bands/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Cuál es la mejor configuración de las Bandas de Bollinger?","acceptedAnswer":{"@type":"Answer","text":"La configuración predeterminada de una media móvil de 20 periodos con 2 desviaciones estándar es, con diferencia, la más utilizada y un punto de partida sensato. Los periodos más cortos hacen que las bandas reaccionen más rápido, y cualquier cambio debe probarse en el mercado y la temporalidad que operas."}},{"@type":"Question","name":"¿Qué significa un squeeze de las Bandas de Bollinger?","acceptedAnswer":{"@type":"Answer","text":"Un squeeze se produce cuando las bandas se estrechan hasta un ancho inusualmente bajo, lo que muestra un periodo de baja volatilidad. A estos periodos a menudo les han seguido movimientos más amplios, pero el squeeze no indica en qué dirección irá el movimiento."}},{"@type":"Question","name":"¿Que el precio toque la banda superior de Bollinger es una señal de venta?","acceptedAnswer":{"@type":"Answer","text":"No por sí solo. En los rangos, el precio a menudo se revierte desde la banda superior, pero en tendencias alcistas fuertes puede cerrar en la banda superior o por encima de ella durante muchas barras seguidas."}},{"@type":"Question","name":"¿Cuál es la diferencia entre las Bandas de Bollinger y los canales de Keltner?","acceptedAnswer":{"@type":"Answer","text":"Las Bandas de Bollinger usan la desviación estándar de los precios de cierre alrededor de una media móvil simple, mientras que los canales de Keltner usan el rango verdadero medio alrededor de una media móvil exponencial. Los canales de Keltner son más suaves, y las Bandas de Bollinger se expanden y contraen de forma más marcada."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/bollinger-bands/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/bollinger-bands/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/bollinger-bands/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/technical-analysis/bollinger-bands/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/bollinger-bands/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/bollinger-bands/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/bollinger-bands/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/bollinger-bands/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Análisis técnico</h3><ul><li><a href="/es/encyclopedia/technical-analysis/technical-analysis-intro/">Introducción al análisis técnico</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-charts/">Cómo leer velas japonesas</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-patterns/">Patrones de velas</a></li><li><a href="/es/encyclopedia/technical-analysis/support-and-resistance/">Soporte y resistencia</a></li><li><a href="/es/encyclopedia/technical-analysis/trends-and-market-structure/">Tendencias y estructura de mercado</a></li><li><a href="/es/encyclopedia/technical-analysis/chart-patterns/">Patrones chartistas</a></li><li><a href="/es/encyclopedia/technical-analysis/moving-averages/">Medias móviles</a></li><li><a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/es/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/es/encyclopedia/technical-analysis/bollinger-bands/" class="on" aria-current="page">Bandas de Bollinger</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-analysis/">Análisis de volumen</a></li><li><a href="/es/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/es/encyclopedia/technical-analysis/fibonacci-retracement/">Herramientas de Fibonacci</a></li><li><a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR y volatilidad</a></li><li><a href="/es/encyclopedia/technical-analysis/multi-timeframe-analysis/">Análisis multitemporal</a></li><li><a href="/es/encyclopedia/technical-analysis/price-action-trading/">Trading con price action</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile y Market Profile</a></li><li><a href="/es/encyclopedia/technical-analysis/order-flow-trading/">Trading con order flow</a></li><li><a href="/es/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/es/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Ondas de Elliott y Wyckoff</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/" class="on">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a></div>
+<h1 class="title">Bandas de Bollinger</h1>
+<div class="meta">11 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Análisis técnico</summary><ul><li><a href="/es/encyclopedia/technical-analysis/technical-analysis-intro/">Introducción al análisis técnico</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-charts/">Cómo leer velas japonesas</a></li><li><a href="/es/encyclopedia/technical-analysis/candlestick-patterns/">Patrones de velas</a></li><li><a href="/es/encyclopedia/technical-analysis/support-and-resistance/">Soporte y resistencia</a></li><li><a href="/es/encyclopedia/technical-analysis/trends-and-market-structure/">Tendencias y estructura de mercado</a></li><li><a href="/es/encyclopedia/technical-analysis/chart-patterns/">Patrones chartistas</a></li><li><a href="/es/encyclopedia/technical-analysis/moving-averages/">Medias móviles</a></li><li><a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/es/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/es/encyclopedia/technical-analysis/bollinger-bands/" class="on" aria-current="page">Bandas de Bollinger</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-analysis/">Análisis de volumen</a></li><li><a href="/es/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/es/encyclopedia/technical-analysis/fibonacci-retracement/">Herramientas de Fibonacci</a></li><li><a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR y volatilidad</a></li><li><a href="/es/encyclopedia/technical-analysis/multi-timeframe-analysis/">Análisis multitemporal</a></li><li><a href="/es/encyclopedia/technical-analysis/price-action-trading/">Trading con price action</a></li><li><a href="/es/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Volume Profile y Market Profile</a></li><li><a href="/es/encyclopedia/technical-analysis/order-flow-trading/">Trading con order flow</a></li><li><a href="/es/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/es/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Ondas de Elliott y Wyckoff</a></li></ul></details>
+<article><p>Las Bandas de Bollinger son un indicador de volatilidad formado por tres líneas: una media móvil en el centro y una banda superior y otra inferior situadas a un número determinado de desviaciones estándar de ella. Las bandas se ensanchan cuando los precios se vuelven más volátiles y se estrechan cuando se calman, así que muestran tanto dónde se sitúa el precio respecto a su promedio reciente como lo volátil que está el mercado en ese momento. Desarrolladas por John Bollinger en la década de 1980, se usan tanto para el trading de reversión a la media como para el de rupturas, dos enfoques que interpretan el mismo toque de banda de formas opuestas. Un toque de banda describe dónde está el precio; no es una señal por sí solo.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>La configuración estándar es una media móvil simple de 20 periodos con bandas a 2 desviaciones estándar por encima y por debajo.</li>
+<li>El ancho de las bandas sigue a la volatilidad: un &quot;squeeze&quot; (estrechamiento) de las bandas describe una volatilidad inusualmente baja, a la que a menudo han seguido movimientos más amplios, aunque no en una dirección predecible.</li>
+<li>En tendencias fuertes, el precio puede &quot;caminar por la banda&quot;, cerrando en la banda superior o inferior, o cerca de ella, durante muchas barras seguidas.</li>
+<li>El %B muestra dónde se sitúa el precio dentro de las bandas, y el ancho de banda (bandwidth) mide lo anchas que son las bandas en relación con la línea central.</li>
+<li>Los canales de Keltner usan el rango verdadero medio en lugar de la desviación estándar, lo que los hace más suaves y menos reactivos a barras grandes aisladas.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#c-mo-se-construyen-las-bandas-de-bollinger">Cómo se construyen las Bandas de Bollinger</a></li><li><a href="#b-y-ancho-de-banda">%B y ancho de banda</a></li><li><a href="#ejemplo-pr-ctico">Ejemplo práctico</a></li><li><a href="#el-squeeze">El squeeze</a></li><li><a href="#caminar-por-las-bandas">Caminar por las bandas</a></li><li><a href="#uso-para-reversi-n-a-la-media-frente-a-rupturas">Uso para reversión a la media frente a rupturas</a></li><li><a href="#bandas-de-bollinger-frente-a-canales-de-keltner">Bandas de Bollinger frente a canales de Keltner</a></li><li><a href="#qu-dice-la-evidencia">Qué dice la evidencia</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="c-mo-se-construyen-las-bandas-de-bollinger">Cómo se construyen las Bandas de Bollinger</h2>
+<p>Con la configuración predeterminada:</p>
+<ul>
+<li><strong>Banda central</strong> = media móvil simple (SMA) de 20 periodos del cierre.</li>
+<li><strong>Banda superior</strong> = banda central + 2 x la desviación estándar de 20 periodos del cierre.</li>
+<li><strong>Banda inferior</strong> = banda central - 2 x la desviación estándar de 20 periodos.</li>
+</ul>
+<p>La desviación estándar mide lo dispersos que están los últimos 20 cierres alrededor de su promedio. Cuando los cierres están muy agrupados, la desviación estándar es pequeña y las bandas están cerca de la línea central. Cuando los cierres oscilan mucho, las bandas se separan. Las plataformas difieren ligeramente en si dividen entre N o entre N - 1 al calcular la desviación estándar; con 20 periodos la diferencia es pequeña.</p>
+<p>A veces se dice que alrededor del 95 por ciento de los precios quedan dentro de las bandas de 2 desviaciones estándar. Esa cifra procede de la distribución normal, pero los precios no siguen una distribución normal y el cálculo usa una ventana móvil de precios, no de rentabilidades. En la práctica, los cierres fuera de las bandas son más frecuentes de lo que sugiere esa cifra, y la proporción varía según el mercado y el periodo.</p>
+<h2 id="b-y-ancho-de-banda">%B y ancho de banda</h2>
+<p>Dos indicadores derivados convierten las bandas en números:</p>
+<ul>
+<li><strong>%B</strong> = (precio - banda inferior) / (banda superior - banda inferior). Un valor de 1 significa que el precio está en la banda superior, 0 que está en la banda inferior y 0.5 que está en la línea central. Los valores por encima de 1 o por debajo de 0 significan que el precio está fuera de las bandas.</li>
+<li><strong>Ancho de banda</strong> = (banda superior - banda inferior) / banda central. Expresa el ancho de las bandas como fracción del precio, lo que lo hace comparable a lo largo del tiempo y entre activos.</li>
+</ul>
+<p>El %B es útil en sistemas que necesitan un único número para medir &quot;cuánto se ha estirado&quot; el precio. El ancho de banda es la forma estándar de identificar un squeeze.</p>
+<h2 id="ejemplo-pr-ctico">Ejemplo práctico</h2>
+<p>Los últimos 20 cierres diarios de una acción tienen un promedio de $50.00 y una desviación estándar de $1.50.</p>
+<ul>
+<li>Banda central = <strong>$50.00</strong></li>
+<li>Banda superior = 50.00 + 2 x 1.50 = <strong>$53.00</strong></li>
+<li>Banda inferior = 50.00 - 2 x 1.50 = <strong>$47.00</strong></li>
+<li>Ancho de banda = (53.00 - 47.00) / 50.00 = 6.00 / 50.00 = <strong>0.12, es decir, 12 por ciento</strong></li>
+</ul>
+<p>Si el cierre de hoy es $52.40:</p>
+<ul>
+<li>%B = (52.40 - 47.00) / (53.00 - 47.00) = 5.40 / 6.00 = <strong>0.90</strong>. El precio está cerca de la banda superior.</li>
+</ul>
+<p>Si, en cambio, cierra en $53.60:</p>
+<ul>
+<li>%B = (53.60 - 47.00) / 6.00 = 6.60 / 6.00 = <strong>1.10</strong>. El precio cerró fuera de la banda superior.</li>
+</ul>
+<p><strong>Un squeeze.</strong> Unas semanas después, la acción ha cotizado con calma y la desviación estándar de 20 días ha bajado a $0.50, con el promedio todavía cerca de $50.00.</p>
+<ul>
+<li>Banda superior = 50.00 + 2 x 0.50 = $51.00; banda inferior = 50.00 - 2 x 0.50 = $49.00</li>
+<li>Ancho de banda = 2.00 / 50.00 = <strong>4 por ciento</strong></li>
+</ul>
+<p>El ancho de banda ha caído del 12 por ciento al 4 por ciento, un tercio de su nivel anterior. Si el 4 por ciento está cerca de la lectura más baja de ancho de banda de los últimos meses, los traders lo describirían como un squeeze.</p>
+<h2 id="el-squeeze">El squeeze</h2>
+<p>La volatilidad tiende a agruparse: a los periodos tranquilos suelen seguirles más periodos tranquilos, y a los periodos activos, más actividad, pero con el tiempo la volatilidad también tiende a volver hacia su nivel de largo plazo. Un squeeze señala un periodo de volatilidad inusualmente baja. Los traders que lo vigilan esperan una expansión tarde o temprano, un movimiento más amplio en una dirección u otra.</p>
+<p>La dificultad es que un squeeze no dice nada sobre la dirección, y el primer movimiento al salir de un squeeze a veces es una falsa ruptura que se revierte. Los traders suelen combinar el squeeze con algún otro elemento para elegir un lado:</p>
+<ul>
+<li>La dirección de la <a href="/es/encyclopedia/technical-analysis/trends-and-market-structure/">tendencia</a> de mayor escala.</li>
+<li>Un cierre más allá de un nivel cercano de <a href="/es/encyclopedia/technical-analysis/support-and-resistance/">soporte o resistencia</a>.</li>
+<li>Un aumento del volumen en la ruptura. Consulta <a href="/es/encyclopedia/technical-analysis/volume-analysis/">análisis de volumen</a>.</li>
+</ul>
+<p>Un squeeze también puede durar mucho más de lo esperado, con las bandas estrechas durante semanas.</p>
+<h2 id="caminar-por-las-bandas">Caminar por las bandas</h2>
+<p>En una tendencia alcista fuerte, el precio puede cerrar en la banda superior o por encima de ella durante muchas barras seguidas, mientras la banda central actúa como zona donde los retrocesos encuentran compradores. Lo contrario ocurre en tendencias bajistas fuertes a lo largo de la banda inferior. Esto se llama caminar por las bandas (walking the bands).</p>
+<p>Caminar por las bandas es la principal razón por la que vender cada toque de la banda superior es peligroso. En una tendencia, un cierre fuera de la banda superior a menudo refleja fortaleza más que un giro inminente. El propio Bollinger subrayó que tocar una banda no es, por sí solo, una señal de compra o de venta.</p>
+<h2 id="uso-para-reversi-n-a-la-media-frente-a-rupturas">Uso para reversión a la media frente a rupturas</h2>
+<p>El mismo hecho, que el precio cierre fuera de una banda, se interpreta de formas opuestas según el enfoque:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Enfoque</th>
+<th>Lectura de un cierre por encima de la banda superior</th>
+<th>Funciona mejor en</th>
+<th>Riesgo principal</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></td>
+<td>El precio está estirado; se espera un regreso hacia la banda central</td>
+<td>Rangos, mercados erráticos</td>
+<td>Empieza una tendencia y el precio camina por la banda</td>
+</tr>
+<tr>
+<td>Ruptura / tendencia</td>
+<td>La volatilidad y el momentum se expanden al alza; considerar sumarse</td>
+<td>Tendencias incipientes, rupturas después de un squeeze</td>
+<td>La ruptura falla y el precio vuelve dentro de las bandas</td>
+</tr>
+</tbody></table></div>
+<p>Los traders de reversión a la media suelen combinar los toques de banda con un oscilador como el <a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a> y un filtro que evite operar contra tendencias fuertes. Los traders de rupturas suelen exigir un squeeze previo y un cierre más allá de un nivel clave. Ningún enfoque es correcto en todas las condiciones; lo difícil es juzgar en qué régimen está el mercado, y ese juicio a menudo solo queda claro en retrospectiva.</p>
+<p>Las estrategias de reversión a la media tienden a tener tasas de acierto altas con pérdidas grandes ocasionales; las estrategias de ruptura tienden a tener tasas de acierto más bajas con ganancias grandes ocasionales. Cualquiera de las dos puede perder dinero después de costos, y por eso la <a href="/es/encyclopedia/risk-management/risk-reward-and-expectancy/">esperanza matemática</a> importa más que la tasa de acierto.</p>
+<h2 id="bandas-de-bollinger-frente-a-canales-de-keltner">Bandas de Bollinger frente a canales de Keltner</h2>
+<p>Los canales de Keltner se parecen, pero miden la volatilidad de otra forma. La versión moderna, que es la predeterminada en la mayoría de las plataformas, usa:</p>
+<ul>
+<li><strong>Línea central:</strong> una media móvil exponencial, a menudo de 20 periodos.</li>
+<li><strong>Líneas superior e inferior:</strong> la línea central más y menos un múltiplo del <a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">rango verdadero medio (ATR)</a>, habitualmente 1.5 o 2.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Bandas de Bollinger</th>
+<th>Canales de Keltner</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Línea central</td>
+<td>SMA de 20</td>
+<td>EMA, a menudo de 20</td>
+</tr>
+<tr>
+<td>Medida de volatilidad</td>
+<td>Desviación estándar de los cierres</td>
+<td>Rango verdadero medio, que incluye gaps y el rango dentro de la barra</td>
+</tr>
+<tr>
+<td>Reacción a una sola barra grande</td>
+<td>Las bandas se ensanchan bruscamente</td>
+<td>Ensanchamiento más suave y gradual</td>
+</tr>
+<tr>
+<td>Forma típica</td>
+<td>Abultamientos y estrechamientos</td>
+<td>Más estable, más paralela</td>
+</tr>
+</tbody></table></div>
+<p>Como la desviación estándar reacciona con más fuerza a los movimientos grandes, las Bandas de Bollinger se expanden y contraen de forma más marcada. Algunos traders definen un squeeze como el momento en que las Bandas de Bollinger se contraen dentro de los canales de Keltner.</p>
+<p><strong>Ejemplo.</strong> Con la acción anterior, supón que la EMA de 20 periodos está en torno a $50.00 y el ATR es de $1.20. Los canales de Keltner a 2 x ATR se sitúan en 50.00 +/- 2.40, es decir, en $47.60 y $52.40, con un ancho de $4.80. Durante el periodo volátil anterior, las Bandas de Bollinger ($47.00 a $53.00, ancho de $6.00) estaban fuera de los canales de Keltner. Durante el squeeze, las Bandas de Bollinger ($49.00 a $51.00, ancho de $2.00) quedan dentro de ellos, lo que esos traders llamarían un squeeze. En la práctica, el ATR también se habría reducido algo durante el periodo tranquilo; la comparación funciona siempre que la desviación estándar caiga más rápido que el ATR.</p>
+<h2 id="qu-dice-la-evidencia">Qué dice la evidencia</h2>
+<p>Las Bandas de Bollinger son una forma de medir la volatilidad y la distancia del precio respecto a su promedio reciente, y esas magnitudes son reales y útiles para fijar <a href="/es/encyclopedia/risk-management/stop-loss-strategies/">stops</a> y dimensionar posiciones. Las reglas sencillas de comprar en la banda inferior y vender en la superior, u operar cada ruptura, han mostrado resultados mixtos en las pruebas publicadas, con un rendimiento que depende mucho del mercado, el periodo y los costos. La agrupación de la volatilidad está bien documentada en las rentabilidades financieras, lo que respalda la idea en la que se basa el squeeze, pero eso no hace predecible la dirección del siguiente movimiento.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Tratar los toques de banda como señales.</strong> Un toque solo muestra dónde está el precio en relación con la volatilidad reciente.</li>
+<li><strong>Operar en contra de tendencias fuertes.</strong> Vender en la banda superior mientras el precio camina por ella es una forma habitual de perder una y otra vez.</li>
+<li><strong>Suponer que el 95 por ciento de los precios queda dentro.</strong> Los precios no siguen una distribución normal, y los cierres fuera de las bandas son frecuentes.</li>
+<li><strong>Adivinar la dirección del squeeze.</strong> El squeeze describe una volatilidad baja, no hacia dónde romperá el precio.</li>
+<li><strong>Sobreoptimizar la configuración.</strong> Cambiar el periodo y el multiplicador para que encajen con los datos pasados difícilmente ayudará con los datos futuros.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="cu-l-es-la-mejor-configuraci-n-de-las-bandas-de-bollinger">¿Cuál es la mejor configuración de las Bandas de Bollinger?</h3>
+<p>La configuración predeterminada de una media móvil de 20 periodos con 2 desviaciones estándar es, con diferencia, la más utilizada y un punto de partida sensato. Los periodos más cortos hacen que las bandas reaccionen más rápido, y cualquier cambio debe probarse en el mercado y la temporalidad que operas.</p>
+<h3 id="qu-significa-un-squeeze-de-las-bandas-de-bollinger">¿Qué significa un squeeze de las Bandas de Bollinger?</h3>
+<p>Un squeeze se produce cuando las bandas se estrechan hasta un ancho inusualmente bajo, lo que muestra un periodo de baja volatilidad. A estos periodos a menudo les han seguido movimientos más amplios, pero el squeeze no indica en qué dirección irá el movimiento.</p>
+<h3 id="que-el-precio-toque-la-banda-superior-de-bollinger-es-una-se-al-de-venta">¿Que el precio toque la banda superior de Bollinger es una señal de venta?</h3>
+<p>No por sí solo. En los rangos, el precio a menudo se revierte desde la banda superior, pero en tendencias alcistas fuertes puede cerrar en la banda superior o por encima de ella durante muchas barras seguidas.</p>
+<h3 id="cu-l-es-la-diferencia-entre-las-bandas-de-bollinger-y-los-canales-de-keltner">¿Cuál es la diferencia entre las Bandas de Bollinger y los canales de Keltner?</h3>
+<p>Las Bandas de Bollinger usan la desviación estándar de los precios de cierre alrededor de una media móvil simple, mientras que los canales de Keltner usan el rango verdadero medio alrededor de una media móvil exponencial. Los canales de Keltner son más suaves, y las Bandas de Bollinger se expanden y contraen de forma más marcada.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/technical-analysis/moving-averages/"><div class="k">Análisis técnico</div><b>Medias móviles</b><span>Cómo se calculan las medias móviles simple, exponencial y ponderada, qué significan los periodos 20, 50 y 200, los cruces dorado y de la muerte, y el retraso.</span></a><a class="card" href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/"><div class="k">Análisis técnico</div><b>ATR y volatilidad</b><span>Cómo funciona el Average True Range, el ATR para stops y tamaño de posición, la volatilidad histórica, los canales de Keltner y la volatilidad en clústeres.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Trading algorítmico y cuantitativo</div><b>Reversión a la media</b><span>Cómo funciona la reversión a la media: reversión de corto plazo, z-scores, sistemas con Bollinger y RSI, asimetría negativa, riesgo de régimen y cuándo falla.</span></a><a class="card" href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/"><div class="k">Análisis técnico</div><b>RSI</b><span>Cómo se calcula el índice de fuerza relativa, qué significan de verdad la sobrecompra y la sobreventa, las divergencias, el RSI en tendencia y sus malos usos.</span></a><a class="card" href="/es/encyclopedia/technical-analysis/trends-and-market-structure/"><div class="k">Análisis técnico</div><b>Tendencias y estructura de mercado</b><span>Cómo definen los traders tendencias alcistas, bajistas y rangos con máximos y mínimos de swing, líneas de tendencia, canales, ruptura de estructura y el ADX.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/technical-analysis/macd/"><small>← Anterior</small>MACD</a><a class="next" href="/es/encyclopedia/technical-analysis/volume-analysis/"><small>Siguiente →</small>Análisis de volumen</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

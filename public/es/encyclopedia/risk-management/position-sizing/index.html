@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tamaño de la posición en trading: fórmulas y ejemplos | PnL Profit</title>
+<meta name="description" content="Cómo calcular el tamaño de la posición según el riesgo y la distancia al stop: fracción fija, monto fijo y ATR, con ejemplos en acciones, forex y cripto.">
+<meta name="keywords" content="tamaño de la posición, calculadora de tamaño de posición, cuántas acciones comprar, regla del 1% trading, cálculo de lotaje forex">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/position-sizing/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/position-sizing/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Tamaño de la posición en trading: fórmulas y ejemplos | PnL Profit">
+<meta property="og:description" content="Cómo calcular el tamaño de la posición según el riesgo y la distancia al stop: fracción fija, monto fijo y ATR, con ejemplos en acciones, forex y cripto.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/risk-management/position-sizing/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tamaño de la posición en trading: fórmulas y ejemplos | PnL Profit">
+<meta name="twitter:description" content="Cómo calcular el tamaño de la posición según el riesgo y la distancia al stop: fracción fija, monto fijo y ATR, con ejemplos en acciones, forex y cripto.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Tamaño de la posición en trading: fórmulas y ejemplos","description":"Cómo calcular el tamaño de la posición según el riesgo y la distancia al stop: fracción fija, monto fijo y ATR, con ejemplos en acciones, forex y cripto.","keywords":"tamaño de la posición, calculadora de tamaño de posición, cuántas acciones comprar, regla del 1% trading, cálculo de lotaje forex","articleSection":"Gestión del riesgo y del capital","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/risk-management/position-sizing/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Gestión del riesgo y del capital","item":"https://pnlpro.fit/es/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"Tamaño de posición","item":"https://pnlpro.fit/es/encyclopedia/risk-management/position-sizing/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Cómo calculo el tamaño de la posición?","acceptedAnswer":{"@type":"Answer","text":"Divide el monto que estás dispuesto a perder entre la distancia por unidad de tu entrada a tu stop. Por ejemplo, arriesgar $200 con una distancia al stop de $2.50 por acción da 80 acciones. Después confirma que tienes el margen o el efectivo para esa posición."}},{"@type":"Question","name":"¿Qué es la regla del 2 por ciento en el tamaño de la posición?","acceptedAnswer":{"@type":"Answer","text":"La regla del 2 por ciento consiste en no arriesgar más del 2 por ciento del capital de la cuenta en una sola operación, medido como la pérdida si se activa el stop. Muchos traders usan el 1 por ciento o menos, sobre todo mientras aprenden o cuando mantienen varias posiciones a la vez."}},{"@type":"Question","name":"¿Más apalancamiento significa que arriesgo más?","acceptedAnswer":{"@type":"Answer","text":"No por sí solo. El riesgo lo fijan el tamaño de la posición y la distancia al stop. Un apalancamiento mayor te permite abrir una posición más grande con menos margen y acerca el precio de liquidación, así que facilita tomar posiciones sobredimensionadas."}},{"@type":"Question","name":"¿Debe cambiar el tamaño de la posición con la volatilidad?","acceptedAnswer":{"@type":"Answer","text":"Muchos traders creen que sí. Con el dimensionamiento por volatilidad, un mercado más volátil recibe un stop más amplio y una posición más pequeña, de modo que el riesgo en dólares se mantiene igual. Así se evita que un solo instrumento volátil domine los resultados de la cuenta."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/risk-management/position-sizing/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/position-sizing/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/position-sizing/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/risk-management/position-sizing/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/risk-management/position-sizing/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/position-sizing/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/position-sizing/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/position-sizing/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/risk-management/position-sizing/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Gestión del riesgo y del capital</h3><ul><li><a href="/es/encyclopedia/risk-management/risk-management-fundamentals/">Fundamentos de gestión del riesgo</a></li><li><a href="/es/encyclopedia/risk-management/position-sizing/" class="on" aria-current="page">Tamaño de posición</a></li><li><a href="/es/encyclopedia/risk-management/stop-loss-strategies/">Estrategias de stop loss</a></li><li><a href="/es/encyclopedia/risk-management/risk-reward-and-expectancy/">Riesgo/beneficio y esperanza matemática</a></li><li><a href="/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">Drawdown y riesgo de ruina</a></li><li><a href="/es/encyclopedia/risk-management/kelly-criterion/">Criterio de Kelly</a></li><li><a href="/es/encyclopedia/risk-management/correlation-and-portfolio-risk/">Correlación y riesgo de cartera</a></li><li><a href="/es/encyclopedia/risk-management/leverage-risk-and-black-swans/">Riesgo de apalancamiento y cisnes negros</a></li><li><a href="/es/encyclopedia/risk-management/trading-plan/">Cómo redactar un plan de trading</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/" class="on">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a></div>
+<h1 class="title">Tamaño de la posición</h1>
+<div class="meta">10 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Gestión del riesgo y del capital</summary><ul><li><a href="/es/encyclopedia/risk-management/risk-management-fundamentals/">Fundamentos de gestión del riesgo</a></li><li><a href="/es/encyclopedia/risk-management/position-sizing/" class="on" aria-current="page">Tamaño de posición</a></li><li><a href="/es/encyclopedia/risk-management/stop-loss-strategies/">Estrategias de stop loss</a></li><li><a href="/es/encyclopedia/risk-management/risk-reward-and-expectancy/">Riesgo/beneficio y esperanza matemática</a></li><li><a href="/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">Drawdown y riesgo de ruina</a></li><li><a href="/es/encyclopedia/risk-management/kelly-criterion/">Criterio de Kelly</a></li><li><a href="/es/encyclopedia/risk-management/correlation-and-portfolio-risk/">Correlación y riesgo de cartera</a></li><li><a href="/es/encyclopedia/risk-management/leverage-risk-and-black-swans/">Riesgo de apalancamiento y cisnes negros</a></li><li><a href="/es/encyclopedia/risk-management/trading-plan/">Cómo redactar un plan de trading</a></li></ul></details>
+<article><p>Calcular el tamaño de la posición (position sizing) es decidir cuántas acciones, lotes o contratos operar para que una operación perdedora cueste un monto fijado de antemano. Convierte una regla de riesgo, como &quot;arriesgar el 1 por ciento por operación&quot;, en un tamaño de orden concreto. El tamaño es la principal palanca que controla el trader sobre sus drawdowns, y pesa tanto como la elección de las operaciones que toma.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>El tamaño de la posición debe salir de dos datos: cuánto estás dispuesto a perder y a qué distancia está tu stop loss.</li>
+<li>La fórmula básica es tamaño de la posición = monto en riesgo ÷ riesgo por unidad, donde el riesgo por unidad es la distancia entre la entrada y el stop.</li>
+<li>El método de fracción fija (arriesgar un porcentaje determinado del capital) reduce las posiciones después de las pérdidas y las aumenta después de las ganancias.</li>
+<li>El apalancamiento cambia cuánto margen necesita una posición, no cuánto arriesga la operación; el riesgo lo fijan el tamaño y la distancia al stop.</li>
+<li>Redondea siempre hacia abajo y recuerda que los spreads, las comisiones y el slippage se suman a la pérdida prevista.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#la-f-rmula-b-sica">La fórmula básica</a></li><li><a href="#m-todos-de-dimensionamiento">Métodos de dimensionamiento</a></li><li><a href="#ejemplos-pr-cticos">Ejemplos prácticos</a></li><li><a href="#d-nde-encaja-el-apalancamiento">Dónde encaja el apalancamiento</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="la-f-rmula-b-sica">La fórmula básica</h2>
+<p>Todos los métodos de dimensionamiento se basan en la misma relación:</p>
+<p><strong>Tamaño de la posición = Monto en riesgo ÷ Riesgo por unidad</strong></p>
+<ul>
+<li><strong>Monto en riesgo</strong> es el dinero que pierdes si se activa el stop, por ejemplo el 1 por ciento de una cuenta de $20,000, es decir, $200.</li>
+<li><strong>Riesgo por unidad</strong> es la pérdida en una acción, un lote o una moneda entre tu precio de entrada y tu precio de stop.</li>
+</ul>
+<p>Primero va el stop. Decides en qué punto queda invalidada la idea de la operación, lo que fija el stop, y después dimensionas la posición para que encaje en tu presupuesto de riesgo. Elegir primero el tamaño y luego colocar el stop allí donde se acaba el dinero es hacerlo al revés, y suele dar lugar a stops en lugares arbitrarios. La colocación del stop se explica en <a href="/es/encyclopedia/risk-management/stop-loss-strategies/">estrategias de stop loss</a>.</p>
+<p>Reordenando la fórmula se ve qué peso tendrá la posición dentro de la cuenta:</p>
+<p><strong>Posición como % de la cuenta = % de riesgo ÷ % de distancia al stop</strong></p>
+<p>Arriesgar el 1 por ciento con un stop a un 2 por ciento de distancia da una posición equivalente al 50 por ciento de la cuenta. Arriesgar el 1 por ciento con un stop a un 0.5 por ciento de distancia da una posición equivalente al 200 por ciento de la cuenta, lo que requiere apalancamiento.</p>
+<h2 id="m-todos-de-dimensionamiento">Métodos de dimensionamiento</h2>
+<h3 id="fracci-n-fija-porcentaje-de-riesgo">Fracción fija (porcentaje de riesgo)</h3>
+<p>El método de fracción fija (fixed fractional) arriesga el mismo porcentaje del capital actual en cada operación. La conocida &quot;regla del 1 al 2 por ciento&quot; es una versión de este método. Su propiedad principal es que se ajusta solo: tras las pérdidas, el riesgo en dólares por operación baja, lo que frena la caída; tras las ganancias, sube.</p>
+<p>Como cada pérdida es un porcentaje de un saldo más pequeño, la fracción fija hace matemáticamente imposible perder toda la cuenta solo por operaciones cerradas en el stop, aunque los gaps, el slippage y el apalancamiento pueden seguir provocando pérdidas mayores de lo previsto.</p>
+<h3 id="monto-fijo">Monto fijo</h3>
+<p>El método de monto fijo arriesga la misma cantidad de dólares en cada operación, por ejemplo $100, sea cual sea el saldo de la cuenta. Es sencillo y fácil de seguir en múltiplos de R, donde 1R equivale a ese riesgo fijo en dólares. La desventaja es que no reduce el riesgo durante un drawdown, así que una racha perdedora larga hace más daño que con la fracción fija. Muchos traders usan un riesgo fijo en dólares y actualizan el monto a intervalos regulares, por ejemplo cada mes.</p>
+<h3 id="unidades-fijas">Unidades fijas</h3>
+<p>Algunos traders compran siempre 100 acciones o un contrato. Es el método más sencillo, pero también el más débil, porque el riesgo real varía con la distancia al stop y con la volatilidad de cada instrumento. Una operación de un contrato puede arriesgar $50 un día y $500 al siguiente.</p>
+<h3 id="dimensionamiento-por-volatilidad-atr">Dimensionamiento por volatilidad (ATR)</h3>
+<p>El dimensionamiento por volatilidad fija el stop como un múltiplo de una medida de volatilidad, normalmente el Average True Range (ATR), y después ajusta el tamaño de la posición para que el riesgo en dólares se mantenga constante. Con volatilidad alta, el stop es más amplio y la posición más pequeña; con el mercado tranquilo, el stop es más ajustado y la posición más grande. Así el riesgo se mantiene más o menos igual entre instrumentos con oscilaciones de precio muy distintas. El ATR se explica en <a href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR e indicadores de volatilidad</a>.</p>
+<h3 id="comparaci-n">Comparación</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Cómo se fija el tamaño</th>
+<th>Ventaja</th>
+<th>Desventaja</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fracción fija</td>
+<td>% determinado del capital actual en riesgo</td>
+<td>Reduce el riesgo en los drawdowns, crece con la cuenta</td>
+<td>Recuperación lenta tras las pérdidas</td>
+</tr>
+<tr>
+<td>Monto fijo</td>
+<td>El mismo riesgo en $ en cada operación</td>
+<td>Sencillo, seguimiento limpio en R</td>
+<td>No se adapta a los drawdowns</td>
+</tr>
+<tr>
+<td>Unidades fijas</td>
+<td>El mismo número de acciones o contratos</td>
+<td>Muy sencillo</td>
+<td>El riesgo varía muchísimo de una operación a otra</td>
+</tr>
+<tr>
+<td>Basado en ATR</td>
+<td>Stop = múltiplo del ATR, tamaño ajustado al riesgo en $</td>
+<td>Normaliza el riesgo entre instrumentos</td>
+<td>Depende del parámetro de ATR elegido</td>
+</tr>
+<tr>
+<td>Basado en Kelly</td>
+<td>Fracción según la ventaja estimada</td>
+<td>Óptimo en teoría para el crecimiento</td>
+<td>Muy sensible a los errores de estimación</td>
+</tr>
+</tbody></table></div>
+<p>El <a href="/es/encyclopedia/risk-management/kelly-criterion/">criterio de Kelly</a> es un enfoque distinto que dimensiona según la ventaja estimada; la mayoría de los traders que lo usan lo reducen mucho.</p>
+<h2 id="ejemplos-pr-cticos">Ejemplos prácticos</h2>
+<h3 id="acciones">Acciones</h3>
+<p>Cuenta: $20,000. Riesgo por operación: 1 por ciento, es decir, $200.</p>
+<p>Planeas comprar una acción a $50.00 con un stop en $47.50.</p>
+<ul>
+<li>Riesgo por acción = $50.00 − $47.50 = $2.50</li>
+<li>Acciones = $200 ÷ $2.50 = 80 acciones</li>
+<li>Valor de la posición = 80 × $50 = $4,000, o el 20 por ciento de la cuenta</li>
+</ul>
+<p>Si se activa el stop, la pérdida es de 80 × $2.50 = $200, más comisiones y el slippage que haya.</p>
+<p><strong>Versión con ATR.</strong> Supón que el ATR de 14 días de la acción es de $1.20 y colocas el stop dos ATR por debajo de la entrada. La distancia al stop es de $2.40. Acciones = $200 ÷ $2.40 = 83.3, redondeado hacia abajo a 83 acciones, una posición de $4,150. La pérdida en el stop es de 83 × $2.40 = $199.20.</p>
+<h3 id="lotes-en-forex">Lotes en forex</h3>
+<p>En forex, el tamaño se fija en lotes. Un lote estándar son 100,000 unidades de la divisa base, un minilote son 10,000 y un microlote, 1,000. En los pares cotizados en dólares estadounidenses, como el EUR/USD, un pip (0.0001) en un lote estándar vale $10. El valor del pip en otros pares se explica en <a href="/es/encyclopedia/forex/pips-lots-and-leverage/">pips, lotes y apalancamiento</a>.</p>
+<p>Cuenta: $10,000. Riesgo: 1 por ciento, es decir, $100.</p>
+<p>Compras EUR/USD a 1.0850 con un stop en 1.0825, es decir, a 25 pips.</p>
+<ul>
+<li>Riesgo por lote estándar = 25 pips × $10 = $250</li>
+<li>Lotes = $100 ÷ $250 = 0.40 lotes estándar (cuatro minilotes, o 40,000 unidades)</li>
+</ul>
+<p>Con un apalancamiento de 30:1, el margen necesario es de unos 40,000 × 1.0850 ÷ 30 = $1,447. El margen no cambia el riesgo: la operación sigue perdiendo unos $100 en el stop.</p>
+<p><strong>Un par con el yen.</strong> En el USD/JPY, un pip es 0.01, así que un pip en un lote estándar equivale a 1,000 yenes. Con un tipo de cambio de 150.00, eso son unos $6.67. Con un stop de 30 pips, el riesgo por lote estándar es de unos $200, de modo que un presupuesto de riesgo de $100 permite 0.50 lotes.</p>
+<h3 id="futuros-perpetuos-de-cripto">Futuros perpetuos de cripto</h3>
+<p>Cuenta: $5,000. Riesgo: 1 por ciento, es decir, $50.</p>
+<p>Abres un largo en BTC con un contrato de futuros perpetuos a $60,000 con un stop en $58,800, un 2 por ciento por debajo de la entrada.</p>
+<ul>
+<li>Riesgo por BTC = $1,200</li>
+<li>Tamaño de la posición = $50 ÷ $1,200 = 0.0417 BTC</li>
+<li>Valor nocional = 0.0417 × $60,000 ≈ $2,500</li>
+</ul>
+<p>La posición equivale a la mitad del valor de la cuenta. Con un apalancamiento de 10x, inmoviliza unos $250 de margen. Con 2x, unos $1,250. En ambos casos, la pérdida en el stop es de unos $50. Lo que cambia el apalancamiento es lo cerca que queda el precio de liquidación, que debe estar bastante más allá del stop. Consulta <a href="/es/encyclopedia/crypto/perpetual-futures/">futuros perpetuos</a> y <a href="/es/encyclopedia/crypto/crypto-liquidations/">liquidaciones en cripto</a>.</p>
+<p>A esta escala, las comisiones importan. Con una comisión taker de ejemplo del 0.05 por ciento en cada lado, abrir y cerrar $2,500 cuesta unos $2.50, es decir, el 5 por ciento del presupuesto de riesgo de $50, antes de los pagos de funding.</p>
+<h3 id="contratos-binarios-en-mercados-de-predicci-n">Contratos binarios en mercados de predicción</h3>
+<p>En un contrato de evento que paga $1 si ocurre un resultado y $0 si no, lo máximo que puedes perder en una posición mantenida hasta la resolución es el precio pagado. Comprar YES a $0.40 arriesga $0.40 por contrato. Con un presupuesto de riesgo de $100 y sin intención de salir antes, eso son 250 contratos. Si planeas vender a $0.30 cuando la tesis deje de sostenerse, el riesgo por contrato es de $0.10, pero un libro de órdenes poco profundo puede hacer que esa salida no sea fiable. La formación de precios se explica en <a href="/es/encyclopedia/prediction-markets/prediction-market-pricing/">precios en los mercados de predicción</a>.</p>
+<h2 id="d-nde-encaja-el-apalancamiento">Dónde encaja el apalancamiento</h2>
+<p>A menudo se confunde el apalancamiento con el riesgo. En el ejemplo de cripto, un trader que usara el 10x completo sobre toda la cuenta de $5,000 controlaría $50,000 en BTC. Un movimiento del 2 por ciento hasta el mismo stop costaría $1,000, o el 20 por ciento de la cuenta, en una sola operación.</p>
+<p>La regla es esta: primero dimensiona la posición a partir del stop y del presupuesto de riesgo, y después comprueba que tienes disponible el margen necesario y que el precio de liquidación, si lo hay, queda holgadamente más allá del stop. Trata el apalancamiento que ofrece el bróker como un techo, no como un objetivo. <a href="/es/encyclopedia/basics/leverage-and-margin/">Apalancamiento y margen</a> explica las llamadas de margen y la liquidación.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Dimensionar antes de elegir el stop.</strong> Así se acaban poniendo los stops según el presupuesto y no según el punto en el que la operación queda invalidada.</li>
+<li><strong>Usar el apalancamiento máximo por defecto.</strong> Un apalancamiento alto multiplica el daño de un gap o de un stop movido.</li>
+<li><strong>Olvidar los costos.</strong> Los spreads, las comisiones, el funding y el slippage hacen que la pérdida real sea mayor que la prevista. Consulta <a href="/es/encyclopedia/basics/trading-costs-and-fees/">costos y comisiones del trading</a>.</li>
+<li><strong>Redondear hacia arriba.</strong> Redondea el tamaño de las posiciones hacia abajo para que el riesgo real nunca supere el presupuesto.</li>
+<li><strong>Ignorar la correlación.</strong> Tres posiciones de tamaño completo en mercados muy relacionados conllevan aproximadamente el triple de riesgo que una sola.</li>
+<li><strong>Aumentar el tamaño para recuperar pérdidas.</strong> Así es como un dimensionamiento disciplinado se convierte en un gran drawdown.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="c-mo-calculo-el-tama-o-de-la-posici-n">¿Cómo calculo el tamaño de la posición?</h3>
+<p>Divide el monto que estás dispuesto a perder entre la distancia por unidad de tu entrada a tu stop. Por ejemplo, arriesgar $200 con una distancia al stop de $2.50 por acción da 80 acciones. Después confirma que tienes el margen o el efectivo para esa posición.</p>
+<h3 id="qu-es-la-regla-del-2-por-ciento-en-el-tama-o-de-la-posici-n">¿Qué es la regla del 2 por ciento en el tamaño de la posición?</h3>
+<p>La regla del 2 por ciento consiste en no arriesgar más del 2 por ciento del capital de la cuenta en una sola operación, medido como la pérdida si se activa el stop. Muchos traders usan el 1 por ciento o menos, sobre todo mientras aprenden o cuando mantienen varias posiciones a la vez.</p>
+<h3 id="m-s-apalancamiento-significa-que-arriesgo-m-s">¿Más apalancamiento significa que arriesgo más?</h3>
+<p>No por sí solo. El riesgo lo fijan el tamaño de la posición y la distancia al stop. Un apalancamiento mayor te permite abrir una posición más grande con menos margen y acerca el precio de liquidación, así que facilita tomar posiciones sobredimensionadas.</p>
+<h3 id="debe-cambiar-el-tama-o-de-la-posici-n-con-la-volatilidad">¿Debe cambiar el tamaño de la posición con la volatilidad?</h3>
+<p>Muchos traders creen que sí. Con el dimensionamiento por volatilidad, un mercado más volátil recibe un stop más amplio y una posición más pequeña, de modo que el riesgo en dólares se mantiene igual. Así se evita que un solo instrumento volátil domine los resultados de la cuenta.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">Gestión del riesgo y del capital</div><b>Fundamentos de gestión del riesgo</b><span>Por qué la gestión del riesgo importa más que las entradas: riesgo por operación, pérdida diaria máxima, la matemática de perder un 50% y los tipos de riesgo.</span></a><a class="card" href="/es/encyclopedia/risk-management/stop-loss-strategies/"><div class="k">Gestión del riesgo y del capital</div><b>Estrategias de stop loss</b><span>Cómo colocar un stop loss por estructura, ATR, porcentaje o tiempo, además de trailing stops, stops garantizados, gaps, caza de stops y take profit.</span></a><a class="card" href="/es/encyclopedia/risk-management/kelly-criterion/"><div class="k">Gestión del riesgo y del capital</div><b>Criterio de Kelly</b><span>La fórmula de Kelly para apuestas binarias y su forma continua, ejemplos con mercados de predicción y por qué la mayoría de los traders usa Kelly fraccionado.</span></a><a class="card" href="/es/encyclopedia/forex/pips-lots-and-leverage/"><div class="k">Trading de forex</div><b>Pips, lotes y apalancamiento</b><span>Cómo calcular el valor del pip en cualquier par, qué son los lotes estándar, mini y micro, y cuánto margen exige una operación de forex, con ejemplos exactos.</span></a><a class="card" href="/es/encyclopedia/technical-analysis/atr-and-volatility-indicators/"><div class="k">Análisis técnico</div><b>ATR y volatilidad</b><span>Cómo funciona el Average True Range, el ATR para stops y tamaño de posición, la volatilidad histórica, los canales de Keltner y la volatilidad en clústeres.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/risk-management/risk-management-fundamentals/"><small>← Anterior</small>Fundamentos de gestión del riesgo</a><a class="next" href="/es/encyclopedia/risk-management/stop-loss-strategies/"><small>Siguiente →</small>Estrategias de stop loss</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

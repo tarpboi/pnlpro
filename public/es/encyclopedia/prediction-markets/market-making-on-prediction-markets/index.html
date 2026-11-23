@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market making en mercados de predicción: spread e inventario</title>
+<meta name="description" content="Guía de manual sobre market making en mercados de predicción: cotizar ambos lados, captura del spread, riesgo de inventario, selección adversa y recompensas.">
+<meta name="keywords" content="market making mercados de predicción, creador de mercado polymarket, recompensas de liquidez, riesgo de inventario, selección adversa">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Market making en mercados de predicción: spread e inventario">
+<meta property="og:description" content="Guía de manual sobre market making en mercados de predicción: cotizar ambos lados, captura del spread, riesgo de inventario, selección adversa y recompensas.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Market making en mercados de predicción: spread e inventario">
+<meta name="twitter:description" content="Guía de manual sobre market making en mercados de predicción: cotizar ambos lados, captura del spread, riesgo de inventario, selección adversa y recompensas.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Market making en mercados de predicción: spread e inventario","description":"Guía de manual sobre market making en mercados de predicción: cotizar ambos lados, captura del spread, riesgo de inventario, selección adversa y recompensas.","keywords":"market making mercados de predicción, creador de mercado polymarket, recompensas de liquidez, riesgo de inventario, selección adversa","articleSection":"Mercados de predicción","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Mercados de predicción","item":"https://pnlpro.fit/es/encyclopedia/prediction-markets/"},{"@type":"ListItem","position":3,"name":"Market making","item":"https://pnlpro.fit/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Cómo ganan dinero los creadores de mercado en los mercados de predicción?","acceptedAnswer":{"@type":"Answer","text":"Publican bids y asks y ganan el spread cuando otros traders compran en su ask y venden en su bid. Algunas plataformas añaden recompensas de liquidez o comisiones maker más bajas. Las pérdidas vienen del inventario que se mueve en su contra y de que traders mejor informados los \"cacen\" (picked off)."}},{"@type":"Question","name":"¿Qué es el riesgo de inventario en el market making?","acceptedAnswer":{"@type":"Answer","text":"Es el riesgo de que un creador de mercado acumule una posición en un lado, normalmente porque el precio tiene tendencia, y luego pierda dinero a medida que el precio sigue moviéndose. En los mercados de predicción, el inventario que se mantiene en la resolución paga $1 o nada."}},{"@type":"Question","name":"¿Qué son las recompensas de liquidez en los mercados de predicción?","acceptedAnswer":{"@type":"Answer","text":"Son incentivos que algunas plataformas pagan a los traders que mantienen órdenes en el libro cerca del punto medio durante un período de tiempo. Las reglas y los importes cambian, así que consulta el programa vigente de cada plataforma."}},{"@type":"Question","name":"¿Es rentable hacer market making en mercados de predicción?","acceptedAnswer":{"@type":"Answer","text":"Puede serlo para operaciones bien construidas y bien controladas, pero muchos intentos pierden dinero por la selección adversa y las oscilaciones del inventario. Los creadores de mercado profesionales dependen de la automatización, la cancelación rápida y límites de riesgo estrictos; cotizar manualmente supone una gran desventaja."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/prediction-markets/market-making-on-prediction-markets/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Mercados de predicción</h3><ul><li><a href="/es/encyclopedia/prediction-markets/prediction-markets-explained/">Qué son los mercados de predicción</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-pricing/">Precios y probabilidad</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-platforms/">Comparativa de plataformas</a></li><li><a href="/es/encyclopedia/prediction-markets/market-resolution-and-oracles/">Resolución y oráculos</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-strategies/">Panorama de estrategias</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitraje</a></li><li><a href="/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/" class="on" aria-current="page">Market making</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-regulation/">Regulación</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/" class="on">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a></div>
+<h1 class="title">Market making en mercados de predicción</h1>
+<div class="meta">8 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Mercados de predicción</summary><ul><li><a href="/es/encyclopedia/prediction-markets/prediction-markets-explained/">Qué son los mercados de predicción</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-pricing/">Precios y probabilidad</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-platforms/">Comparativa de plataformas</a></li><li><a href="/es/encyclopedia/prediction-markets/market-resolution-and-oracles/">Resolución y oráculos</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-strategies/">Panorama de estrategias</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitraje</a></li><li><a href="/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/" class="on" aria-current="page">Market making</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-regulation/">Regulación</a></li></ul></details>
+<article><p>Hacer market making en un mercado de predicción significa publicar de forma continua un precio de compra (bid) y un precio de venta (ask) para un contrato, con el objetivo de ganar la diferencia entre ambos a medida que otros traders entran y salen. Los creadores de mercado aportan la liquidez que permite a todos los demás operar con rapidez. La tarea parece sencilla, pero los mercados de predicción añaden una complicación importante: cada contrato termina exactamente en $0 o en $1, así que cualquier inventario que le quede a un creador de mercado en la resolución se convierte en una ganancia total o en una pérdida total. Este artículo describe la visión genérica, de manual.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>Un creador de mercado gana el spread bid-ask cuando compradores y vendedores operan contra sus dos cotizaciones.</li>
+<li>El riesgo de inventario surge cuando las ejecuciones llegan sobre todo por un lado y el precio se mueve en contra de la posición acumulada.</li>
+<li>La selección adversa, es decir, que operen contra ti participantes mejor informados, es más grave en torno a las noticias y cerca de la resolución.</li>
+<li>Los controles de manual incluyen sesgar las cotizaciones para reducir el inventario, ampliar o retirar las cotizaciones antes de eventos conocidos y fijar límites estrictos de posición.</li>
+<li>Algunas plataformas pagan recompensas de liquidez o cobran comisiones más bajas a los makers, pero esto cambia y no debería ocultar una estrategia perdedora.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#c-mo-funciona-el-market-making">Cómo funciona el market making</a></li><li><a href="#riesgo-de-inventario">Riesgo de inventario</a></li><li><a href="#selecci-n-adversa">Selección adversa</a></li><li><a href="#recompensas-de-liquidez-y-comisiones">Recompensas de liquidez y comisiones</a></li><li><a href="#mercados-de-predicci-n-frente-a-mercados-tradicionales">Mercados de predicción frente a mercados tradicionales</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="c-mo-funciona-el-market-making">Cómo funciona el market making</h2>
+<h3 id="cotizar-ambos-lados">Cotizar ambos lados</h3>
+<p>Supongamos que el valor justo de un contrato YES ronda los 50 centavos. Un creador de mercado podría publicar:</p>
+<ul>
+<li>Un bid para comprar 100 YES a 48 centavos.</li>
+<li>Un ask para vender 100 YES a 52 centavos.</li>
+</ul>
+<p>La diferencia de 4 centavos es el spread cotizado. Si un trader vende contra el bid y otro compra en el ask, el creador de mercado ha comprado a 48 y vendido a 52 y no mantiene ninguna posición. En las plataformas que casan YES y NO juntos, vender YES a 52 centavos equivale a comprar NO a 48 centavos, así que un creador de mercado puede cotizar en cualquiera de los dos libros.</p>
+<h3 id="ejemplo-pr-ctico-captura-del-spread">Ejemplo práctico: captura del spread</h3>
+<p>A lo largo de un día, el creador de mercado completa 30 operaciones de ida y vuelta de 100 contratos cada una, comprando a 48 centavos y vendiendo a 52 centavos.</p>
+<ul>
+<li>Ganancia por ida y vuelta: 100 × ($0.52 − $0.48) = $4.00.</li>
+<li>Resultado bruto del día: 30 × $4.00 = $120.00.</li>
+</ul>
+<p>Si la plataforma no cobra nada a los makers y el valor justo se mantiene cerca de 50 centavos, ese es el resultado. Los días reales rara vez son tan ordenados, como muestran las secciones siguientes.</p>
+<h2 id="riesgo-de-inventario">Riesgo de inventario</h2>
+<p>Las ejecuciones rara vez llegan en pares ordenados. Cuando el precio va bajando, los vendedores siguen golpeando el bid mientras los compradores se mantienen al margen, y el creador de mercado acumula acciones YES.</p>
+<h3 id="ejemplo-pr-ctico-un-mercado-con-tendencia">Ejemplo práctico: un mercado con tendencia</h3>
+<p>Las noticias se vuelven en contra del resultado YES. Durante la tarde, el bid del creador de mercado se ejecuta una y otra vez mientras el precio se desliza, y termina con 500 acciones YES a un costo promedio de 46 centavos. El precio se estabiliza en 30 centavos.</p>
+<ul>
+<li>Pérdida no realizada: 500 × ($0.46 − $0.30) = $80.00.</li>
+<li>Eso borra 20 de las 30 operaciones de ida y vuelta del ejemplo anterior.</li>
+<li>Si después el resultado se resuelve como NO, la pérdida pasa a ser de 500 × $0.46 = $230.00, casi dos días de ingresos por spread al ritmo anterior.</li>
+</ul>
+<p>Como los contratos de los mercados de predicción terminan en $0 o en $1, el riesgo de inventario no se diluye. Se agudiza a medida que se acerca la resolución.</p>
+<h3 id="sesgar-las-cotizaciones">Sesgar las cotizaciones</h3>
+<p>La respuesta estándar de manual es desplazar las cotizaciones en función del inventario. Un creador de mercado que está largo en YES baja tanto su bid como su ask, lo que hace más probable que venda y menos probable que compre más. Los modelos académicos, como el marco de Avellaneda y Stoikov, formalizan esta idea con un &quot;precio de reserva&quot; que se aleja del punto medio a medida que crece el inventario. El artículo general sobre <a href="/es/encyclopedia/algorithmic-trading/market-making/">market making</a> explica el concepto sin matemáticas complejas.</p>
+<h3 id="l-mites-de-posici-n">Límites de posición</h3>
+<p>Un tope estricto de inventario por mercado, y en el conjunto de mercados relacionados, evita que un mercado con tendencia convierta a un creador de mercado en un trader direccional a su pesar. Una vez alcanzado el tope, el maker deja de cotizar en el lado que lo aumentaría.</p>
+<h2 id="selecci-n-adversa">Selección adversa</h2>
+<p>La selección adversa significa que te ejecutan sobre todo traders que saben más que tú. La cotización de un creador de mercado es una opción gratuita para cualquiera con mejor información: solo operan contra ella cuando está equivocada.</p>
+<h3 id="en-torno-a-las-noticias">En torno a las noticias</h3>
+<p>Cuando se acerca una publicación programada, un debate, una decisión judicial o un evento de un partido, los traders informados o más rápidos pueden reaccionar en segundos. Una cotización en el libro que era justa antes de la noticia puede quedar muy desfasada después. Los mercados de predicción están especialmente expuestos porque muchos resultados saltan de golpe en lugar de moverse de forma gradual.</p>
+<h3 id="cerca-de-la-resoluci-n">Cerca de la resolución</h3>
+<p>A medida que se conoce el resultado de un evento, el valor justo del contrato se mueve hacia $0 o $1, a veces en un instante.</p>
+<p><strong>Ejemplo.</strong> Un creador de mercado tiene un ask para vender 200 YES a 60 centavos. Se anuncia el resultado decisivo, que hace que YES sea seguro. Antes de que el maker pueda cancelar, un trader rápido compra las 200 a 60 centavos. El contrato se resuelve a $1, así que el maker pierde 200 × ($1.00 − $0.60) = $80.00 en esa sola ejecución.</p>
+<p>Las defensas de manual incluyen:</p>
+<ul>
+<li>Ampliar los spreads o retirar las cotizaciones antes de los eventos programados.</li>
+<li>Reducir el tamaño a medida que se acerca la resolución.</li>
+<li>Cancelar rápidamente cuando los precios relacionados, como el activo subyacente en una ronda cripto, se mueven con fuerza.</li>
+<li>Evitar los mercados en los que otros tienen claramente información más rápida o mejor.</li>
+</ul>
+<p>El artículo sobre <a href="/es/encyclopedia/prediction-markets/market-resolution-and-oracles/">resolución y oráculos</a> explica por qué las últimas horas conllevan un riesgo adicional.</p>
+<h2 id="recompensas-de-liquidez-y-comisiones">Recompensas de liquidez y comisiones</h2>
+<p>Algunas plataformas de mercados de predicción fomentan el market making con:</p>
+<ul>
+<li><strong>Recompensas de liquidez.</strong> Pagos a los traders que mantienen órdenes en el libro dentro de una distancia determinada del punto medio, a menudo ponderados por el tamaño, la cercanía al punto medio y el tiempo en el libro.</li>
+<li><strong>Ventajas en las comisiones maker.</strong> Comisiones más bajas o nulas para las órdenes que añaden liquidez, en comparación con las que la toman. Consulta <a href="/es/encyclopedia/basics/trading-costs-and-fees/">costos y comisiones de trading</a>.</li>
+<li><strong>Reembolsos (rebates).</strong> Una parte de las comisiones que se devuelve a los makers en algunas plataformas.</li>
+</ul>
+<p>Estos programas varían según la plataforma y cambian a menudo, así que lee las reglas vigentes. Las recompensas pueden hacer que una estrategia perdedora parezca rentable durante un tiempo; vale la pena medir por separado los ingresos por spread, las pérdidas de inventario y las recompensas.</p>
+<h2 id="mercados-de-predicci-n-frente-a-mercados-tradicionales">Mercados de predicción frente a mercados tradicionales</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Market making en acciones o futuros</th>
+<th>Market making en mercados de predicción</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Valor final</td>
+<td>Abierto</td>
+<td>Exactamente $0 o $1</td>
+</tr>
+<tr>
+<td>Saltos de precio</td>
+<td>Ocasionales</td>
+<td>Habituales con noticias y en la resolución</td>
+</tr>
+<tr>
+<td>Cobertura del inventario</td>
+<td>A menudo posible con instrumentos relacionados</td>
+<td>A menudo limitada o inexistente</td>
+</tr>
+<tr>
+<td>Competencia</td>
+<td>Firmas profesionales, spreads muy estrechos</td>
+<td>Mixta; los spreads pueden ser amplios en mercados poco conocidos</td>
+</tr>
+<tr>
+<td>Fuentes de valor justo</td>
+<td>Muchos precios relacionados</td>
+<td>A veces pocas, a veces ninguna</td>
+</tr>
+</tbody></table></div>
+<p>Los spreads amplios en mercados de nicho atraen a nuevos creadores de mercado, pero esos spreads suelen existir porque el riesgo es alto y el valor justo es difícil de estimar. Los artículos sobre el <a href="/es/encyclopedia/basics/order-book-and-market-depth/">libro de órdenes</a> y el <a href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/">spread bid-ask</a> explican la mecánica que se aplica en todos los mercados.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Cotizar sin una idea del valor justo.</strong> Contra un maker sin una estimación del valor justo es fácil operar.</li>
+<li><strong>Dejar las cotizaciones activas durante las noticias.</strong> Las mayores pérdidas suelen venir de unas pocas ejecuciones desfasadas.</li>
+<li><strong>No tener límite de inventario.</strong> Un mercado con tendencia puede borrar semanas de ingresos por spread.</li>
+<li><strong>Contar las recompensas como habilidad.</strong> Registra las recompensas por separado de los resultados de trading.</li>
+<li><strong>Hacer market making en mercados correlacionados como si fueran independientes.</strong> Los mercados relacionados pueden moverse todos en tu contra a la vez.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="c-mo-ganan-dinero-los-creadores-de-mercado-en-los-mercados-de-predicci-n">¿Cómo ganan dinero los creadores de mercado en los mercados de predicción?</h3>
+<p>Publican bids y asks y ganan el spread cuando otros traders compran en su ask y venden en su bid. Algunas plataformas añaden recompensas de liquidez o comisiones maker más bajas. Las pérdidas vienen del inventario que se mueve en su contra y de que traders mejor informados los &quot;cacen&quot; (picked off).</p>
+<h3 id="qu-es-el-riesgo-de-inventario-en-el-market-making">¿Qué es el riesgo de inventario en el market making?</h3>
+<p>Es el riesgo de que un creador de mercado acumule una posición en un lado, normalmente porque el precio tiene tendencia, y luego pierda dinero a medida que el precio sigue moviéndose. En los mercados de predicción, el inventario que se mantiene en la resolución paga $1 o nada.</p>
+<h3 id="qu-son-las-recompensas-de-liquidez-en-los-mercados-de-predicci-n">¿Qué son las recompensas de liquidez en los mercados de predicción?</h3>
+<p>Son incentivos que algunas plataformas pagan a los traders que mantienen órdenes en el libro cerca del punto medio durante un período de tiempo. Las reglas y los importes cambian, así que consulta el programa vigente de cada plataforma.</p>
+<h3 id="es-rentable-hacer-market-making-en-mercados-de-predicci-n">¿Es rentable hacer market making en mercados de predicción?</h3>
+<p>Puede serlo para operaciones bien construidas y bien controladas, pero muchos intentos pierden dinero por la selección adversa y las oscilaciones del inventario. Los creadores de mercado profesionales dependen de la automatización, la cancelación rápida y límites de riesgo estrictos; cotizar manualmente supone una gran desventaja.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/algorithmic-trading/market-making/"><div class="k">Trading algorítmico y cuantitativo</div><b>Market making</b><span>Market making de manual: cotizar ambos lados, captura del spread, sesgo por inventario, selección adversa, posición en la cola, rebates y Avellaneda-Stoikov.</span></a><a class="card" href="/es/encyclopedia/basics/order-book-and-market-depth/"><div class="k">Fundamentos del trading</div><b>Libro de órdenes y profundidad</b><span>Cómo funcionan el libro de órdenes y el motor de casamiento, la prioridad precio-tiempo, el Nivel 1 y 2, la profundidad, el spoofing, los dealers y los AMM.</span></a><a class="card" href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Fundamentos del trading</div><b>Spread y liquidez</b><span>Qué son el bid, el ask, el spread y el precio medio, cómo funcionan la liquidez, el slippage y el impacto de mercado, y cómo medir el costo de cada operación.</span></a><a class="card" href="/es/encyclopedia/prediction-markets/prediction-market-strategies/"><div class="k">Mercados de predicción</div><b>Panorama de estrategias</b><span>Estrategias en mercados de predicción: ventaja informativa, resolution sniping, arbitraje, market making, rondas cripto y copy trading, con sus riesgos.</span></a><a class="card" href="/es/encyclopedia/prediction-markets/market-resolution-and-oracles/"><div class="k">Mercados de predicción</div><b>Resolución y oráculos</b><span>Cómo se decide el resultado de un mercado de predicción: reglas y fuentes, el oráculo optimista de UMA y las disputas, Chainlink y el riesgo de reglas ambiguas.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/prediction-markets/prediction-market-arbitrage/"><small>← Anterior</small>Arbitraje</a><a class="next" href="/es/encyclopedia/prediction-markets/prediction-market-regulation/"><small>Siguiente →</small>Regulación</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

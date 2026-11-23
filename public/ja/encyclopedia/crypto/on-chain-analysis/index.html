@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>オンチェーン分析とは？取引所フロー・MVRV・SOPR | PnL Profit</title>
+<meta name="description" content="ブロックチェーンデータの使い方を解説。取引所フロー、クジラ追跡、保有者分布、実現価格、MVRV、SOPR、ステーブルコインのフロー、そしてデータの限界まで。">
+<meta name="keywords" content="オンチェーン分析, MVRV とは, SOPR 指標, 実現価格 ビットコイン, 取引所 流入 流出, クジラ 追跡">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/on-chain-analysis/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="オンチェーン分析とは？取引所フロー・MVRV・SOPR | PnL Profit">
+<meta property="og:description" content="ブロックチェーンデータの使い方を解説。取引所フロー、クジラ追跡、保有者分布、実現価格、MVRV、SOPR、ステーブルコインのフロー、そしてデータの限界まで。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/crypto/on-chain-analysis/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="オンチェーン分析とは？取引所フロー・MVRV・SOPR | PnL Profit">
+<meta name="twitter:description" content="ブロックチェーンデータの使い方を解説。取引所フロー、クジラ追跡、保有者分布、実現価格、MVRV、SOPR、ステーブルコインのフロー、そしてデータの限界まで。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"オンチェーン分析とは？取引所フロー・MVRV・SOPR","description":"ブロックチェーンデータの使い方を解説。取引所フロー、クジラ追跡、保有者分布、実現価格、MVRV、SOPR、ステーブルコインのフロー、そしてデータの限界まで。","keywords":"オンチェーン分析, MVRV とは, SOPR 指標, 実現価格 ビットコイン, 取引所 流入 流出, クジラ 追跡","articleSection":"暗号資産トレード","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/crypto/on-chain-analysis/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"暗号資産トレード","item":"https://pnlpro.fit/ja/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"オンチェーン分析","item":"https://pnlpro.fit/ja/encyclopedia/crypto/on-chain-analysis/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"暗号資産のオンチェーン分析とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"トランザクション、残高、取引所フローなどの公開ブロックチェーンデータを分析して、保有者や大口プレイヤーがどう行動しているかを把握することです。トレーダーは価格チャートやデリバティブのデータと合わせて使います。"}},{"@type":"Question","name":"MVRVレシオとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"MVRVは、時価総額を実現時価総額で割ったものです。実現時価総額は、各コインを最後に動いたときの価格で評価します。1を上回れば平均的な保有者は含み益の状態にあり、1を下回る水準は歴史的に深い弱気相場と結びついてきました。"}},{"@type":"Question","name":"SOPRとはどういう意味ですか？","acceptedAnswer":{"@type":"Answer","text":"SOPR（spent output profit ratio、使用済み出力利益率）は、コインが使われたときの価値を、最後に動いたときの価値と比較するものです。1を上回ればコインは平均して利益の出る状態で売られており、1を下回れば損失の出る状態で売られていることを意味します。"}},{"@type":"Question","name":"取引所への流入は弱気のサインですか？","acceptedAnswer":{"@type":"Answer","text":"大量の流入は売りの意図を示すことがありますが、取引所内部の送金、担保の入金、カストディアンの移動からも生じます。1回の送金よりも、継続的な傾向のほうが意味があります。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/crypto/on-chain-analysis/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/on-chain-analysis/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/on-chain-analysis/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/on-chain-analysis/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/on-chain-analysis/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/on-chain-analysis/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/on-chain-analysis/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/on-chain-analysis/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/crypto/on-chain-analysis/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>暗号資産トレード</h3><ul><li><a href="/ja/encyclopedia/crypto/crypto-trading-basics/">暗号資産トレードの基礎</a></li><li><a href="/ja/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEXとDEXの違い</a></li><li><a href="/ja/encyclopedia/crypto/crypto-market-cycles/">暗号資産の市場サイクル</a></li><li><a href="/ja/encyclopedia/crypto/perpetual-futures/">無期限先物</a></li><li><a href="/ja/encyclopedia/crypto/funding-rates/">資金調達率</a></li><li><a href="/ja/encyclopedia/crypto/crypto-liquidations/">清算</a></li><li><a href="/ja/encyclopedia/crypto/on-chain-analysis/" class="on" aria-current="page">オンチェーン分析</a></li><li><a href="/ja/encyclopedia/crypto/altcoin-trading/">アルトコイン取引</a></li><li><a href="/ja/encyclopedia/crypto/tokenomics-and-token-unlocks/">トークノミクスとアンロック</a></li><li><a href="/ja/encyclopedia/crypto/defi-trading/">DeFiトレード</a></li><li><a href="/ja/encyclopedia/crypto/mev-and-sandwich-attacks/">MEVとサンドイッチ攻撃</a></li><li><a href="/ja/encyclopedia/crypto/crypto-arbitrage/">暗号資産のアービトラージ</a></li><li><a href="/ja/encyclopedia/crypto/stablecoins/">ステーブルコイン</a></li><li><a href="/ja/encyclopedia/crypto/crypto-wallet-security/">ウォレットのセキュリティ</a></li><li><a href="/ja/encyclopedia/crypto/airdrops-and-points-farming/">エアドロップとポイント</a></li><li><a href="/ja/encyclopedia/crypto/nft-trading/">NFTトレード</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/" class="on">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/crypto/">暗号資産トレード</a></div>
+<h1 class="title">オンチェーン分析</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>暗号資産トレードの他の記事</summary><ul><li><a href="/ja/encyclopedia/crypto/crypto-trading-basics/">暗号資産トレードの基礎</a></li><li><a href="/ja/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEXとDEXの違い</a></li><li><a href="/ja/encyclopedia/crypto/crypto-market-cycles/">暗号資産の市場サイクル</a></li><li><a href="/ja/encyclopedia/crypto/perpetual-futures/">無期限先物</a></li><li><a href="/ja/encyclopedia/crypto/funding-rates/">資金調達率</a></li><li><a href="/ja/encyclopedia/crypto/crypto-liquidations/">清算</a></li><li><a href="/ja/encyclopedia/crypto/on-chain-analysis/" class="on" aria-current="page">オンチェーン分析</a></li><li><a href="/ja/encyclopedia/crypto/altcoin-trading/">アルトコイン取引</a></li><li><a href="/ja/encyclopedia/crypto/tokenomics-and-token-unlocks/">トークノミクスとアンロック</a></li><li><a href="/ja/encyclopedia/crypto/defi-trading/">DeFiトレード</a></li><li><a href="/ja/encyclopedia/crypto/mev-and-sandwich-attacks/">MEVとサンドイッチ攻撃</a></li><li><a href="/ja/encyclopedia/crypto/crypto-arbitrage/">暗号資産のアービトラージ</a></li><li><a href="/ja/encyclopedia/crypto/stablecoins/">ステーブルコイン</a></li><li><a href="/ja/encyclopedia/crypto/crypto-wallet-security/">ウォレットのセキュリティ</a></li><li><a href="/ja/encyclopedia/crypto/airdrops-and-points-farming/">エアドロップとポイント</a></li><li><a href="/ja/encyclopedia/crypto/nft-trading/">NFTトレード</a></li></ul></details>
+<article><p>オンチェーン分析とは、送金、ウォレット残高、コインが最後に動いたときの価格など、公開ブロックチェーンに記録されたデータを調べて、保有者がどう行動しているかを把握する手法です。ビットコインやイーサリアムのトランザクションはすべて公開されているため、トレーダーは取引所へ流れ込むコインを監視したり、大口ウォレットを追跡したり、市場の平均取得コストを推定したりできます。株式市場にはない視点を得られますが、データの解釈には注意が必要で、正確なタイミングのシグナルが得られることはほとんどありません。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>ブロックチェーンは公開台帳なので、ウォレットと取引所の間のフローは直接測定できますが、ウォレットの所有者は推測するしかありません。</li>
+<li>取引所への流入は売りの可能性、流出は買い集めと読まれることが多いですが、取引所内部の資金移動がどちらもゆがめることがあります。</li>
+<li>実現価格は市場の平均取得コストを推定するもので、MVRVは時価総額をその取得コストと比較するものです。</li>
+<li>SOPRは、使われた（動かされた）コインが平均して利益と損失のどちらの状態で動いているかを示します。</li>
+<li>オンチェーン指標は、短期のトレードのきっかけとしてではなく、サイクル上の位置を知る文脈として使うのが最も効果的です。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">オンチェーンデータとは</a></li><li><a href="#section-3">取引所フロー</a></li><li><a href="#section-4">クジラの追跡</a></li><li><a href="#section-5">保有者分布</a></li><li><a href="#mvrv-sopr">実現価格、MVRV、SOPR</a></li><li><a href="#section-11">ステーブルコインのフロー</a></li><li><a href="#section-12">オンチェーンデータの限界</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">オンチェーンデータとは</h2>
+<p>公開ブロックチェーン上のトランザクションには、送信元アドレス、受信先アドレス、金額、タイムスタンプが記録されます。分析会社はこの生データを処理し、<strong>ウォレットラベル</strong>を付けます。これは、そのアドレスを誰が管理しているか（取引所、ファンド、マイナー、ブリッジ、既知のハッカーなど）についての推測です。ラベルは、公開情報、入金テスト、クラスタリングのヒューリスティクス（一緒に使われるアドレスは同じ主体が管理していることが多い）、そして調査活動から得られます。</p>
+<p>オンチェーン分析は、暗号資産に特有の<a href="/ja/encyclopedia/fundamental-analysis/fundamental-analysis-intro/">ファンダメンタル分析</a>の一種です。価格ベースのツールや、<a href="/ja/encyclopedia/crypto/funding-rates/">資金調達率</a>などのデリバティブのデータを補完します。</p>
+<h2 id="section-3">取引所フロー</h2>
+<p><strong>流入</strong>（インフロー）とは、取引所の入金アドレスとしてラベル付けされたウォレットにコインが移動することです。<strong>流出</strong>（アウトフロー）とは、コインが取引所から出ていくことです。</p>
+<p>一般的な読み方は次のとおりです。</p>
+<ul>
+<li>BTCやETHの大量流入は、保有者が売る準備をしていることを意味する場合があります。</li>
+<li>継続的な流出は、保有者がコインを長期保管に移しており、取引所の売り側の供給が減っていることを意味する場合があります。</li>
+<li>取引所の<strong>ステーブルコイン</strong>残高の増加は、買い余力が流れ込んできていることを意味する場合があります。</li>
+</ul>
+<p>ただし、注意点が重要です。取引所はホットウォレットとコールドウォレットの間で資金を移したり、入金をまとめたり、コインをカストディアンに移したりします。現物ETFのカストディウォレット、OTCデスク、ラップドトークンのブリッジも、売買ではない大きなフローを生み出します。取引所に送られたコインは、売られるのではなく、デリバティブの担保として使われることもあります。1回の大口送金は弱い証拠にすぎず、多くのウォレットにわたる継続的な傾向のほうが意味があります。</p>
+<h2 id="section-4">クジラの追跡</h2>
+<p>「クジラ」とは、非常に大量のコインを保有する人のことです。トレーダーはクジラのウォレットの大きな動きを監視しており、アラートサービスは大口送金をリアルタイムで公開しています。</p>
+<p>役に立つ習慣：</p>
+<ul>
+<li>ラベルを確認しましょう。「クジラ」の送金とされるものの多くは、取引所が自社の資金を動かしているだけです。</li>
+<li>送金先を見ましょう。長く動いていなかったウォレットから取引所への送金は、2つのコールドウォレット間の送金よりも多くの情報を含んでいます。</li>
+<li>洗練されたプレイヤーは、自分が監視されていることを知っています。送金を分割したり、OTCデスクを使ったり、相手を欺くためにわざと目立つ動きをしたりすることがあります。</li>
+</ul>
+<p>小型トークンでのウォレットのコピーについては、成功しているように見えるウォレットが罠になりうることを解説した<a href="/ja/encyclopedia/meme-coins/copy-trading-wallets/">ウォレットのコピートレード</a>を参照してください。</p>
+<h2 id="section-5">保有者分布</h2>
+<p>保有者分布は、供給がアドレス間にどう分散しているかを示します。ビットコインでは、アナリストはアドレスを残高の規模や保有期間でグループ分けします。<strong>長期保有者</strong>（一部の分析プロバイダーの慣例では、155日以上動いていないコインであることが多い）と<strong>短期保有者</strong>です。</p>
+<p>小型トークンでは、保有の集中はリスクのシグナルです。取引所やコントラクト以外の上位10ウォレットが供給の大半を保有していれば、少数の売り手で価格が暴落する可能性があります。集中度を判断する前に、必ず取引所のウォレット、流動性プール、ベスティングのコントラクト、バーンアドレスを除外しましょう。<a href="/ja/encyclopedia/crypto/tokenomics-and-token-unlocks/">トークノミクスとトークンアンロック</a>を参照してください。</p>
+<h2 id="mvrv-sopr">実現価格、MVRV、SOPR</h2>
+<p>この3つの指標は、各コイン（厳密には各未使用トランザクション出力、UTXO）が最後に動いたときの価格を持っているという、ビットコインのモデルから生まれたものです。</p>
+<h3 id="section-7">実現時価総額と実現価格</h3>
+<ul>
+<li><strong>時価総額</strong> = 現在の価格 × 流通供給量。</li>
+<li><strong>実現時価総額</strong>（realized cap）= 各コインが最後に動いたときの価格で評価した価値の合計。</li>
+<li><strong>実現価格</strong>（realized price）= 実現時価総額 / 供給量。すべての保有者の平均取得コストの近似値です。</li>
+</ul>
+<h3 id="mvrv">MVRV</h3>
+<p><strong>MVRV</strong> = 時価総額 / 実現時価総額。</p>
+<ul>
+<li>1を上回る：平均的な保有者は含み益の状態です。</li>
+<li>1を下回る：平均的な保有者は含み損の状態で、これは歴史的に大きな弱気相場の底付近で起きてきました。</li>
+<li>非常に高い値は歴史的にサイクルの天井付近で現れてきましたが、ピークの水準はサイクルを重ねるごとに低くなっています。</li>
+</ul>
+<h3 id="section-9">計算例</h3>
+<p>4枚のコインしかない小さなブロックチェーンを想像してみましょう。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>コイン枚数</th>
+<th>最後に動いたときの価格</th>
+<th>実現価値</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>$20,000</td>
+<td>$20,000</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$40,000</td>
+<td>$80,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>$80,000</td>
+<td>$80,000</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td></td>
+<td><strong>$180,000</strong></td>
+</tr>
+</tbody></table></div>
+<ul>
+<li>実現時価総額 = $180,000。実現価格 = $180,000 / 4 = $45,000。</li>
+<li>市場価格が$60,000なら、時価総額 = 4 × $60,000 = $240,000。</li>
+<li>MVRV = $240,000 / $180,000 = 1.33。平均的な保有者は約33%の含み益です。</li>
+</ul>
+<p>最後に$80,000で動いたコインが$60,000で売られれば、損失が実現します。$40,000のコインのうち1枚が$60,000で売られれば、利益が実現します。</p>
+<h3 id="sopr">SOPR</h3>
+<p><strong>SOPR</strong>（spent output profit ratio、使用済み出力利益率）= コインが使われたときの価値 / そのコインが最後に動いたときの価値。</p>
+<ul>
+<li>$40,000で買って$50,000で売ったコインのSOPRは、50,000 / 40,000 = 1.25です。</li>
+<li>日次のSOPRは、その日に使われたすべてのコインを平均したものです。</li>
+<li>1を上回れば、コインは平均して利益の出る状態で売られており、1を下回れば損失の出る状態で売られています。</li>
+</ul>
+<p>強気相場では、SOPRが1に向かって下がってから反発する動きは、保有者が損益トントンでは売ろうとしない表れと読まれてきました。弱気相場では、SOPRが1の上を維持できないことは、保有者が戻り局面で取得コストで逃げようと売っていることを示唆します。ノイズを減らすため、保有期間でフィルタリングした派生指標もあります。</p>
+<h2 id="section-11">ステーブルコインのフロー</h2>
+<p><a href="/ja/encyclopedia/crypto/stablecoins/">ステーブルコイン</a>は暗号資産における現金の役割を果たしています。トレーダーは次のものを追跡しています。</p>
+<ul>
+<li><strong>ステーブルコインの総供給量。</strong> 増加は新しいドルが暗号資産に入ってきていることを、減少は資金が出ていっていることを意味する場合があります。</li>
+<li><strong>発行体によるミントとバーン。</strong> 大口プレイヤーが法定通貨を出し入れしていることを示します。</li>
+<li><strong>チェーンごとのフロー。</strong> 特定のチェーンへブリッジされるステーブルコインは、投機的な活動の向かう先を示すシグナルになることがあります。</li>
+<li><strong>取引所のステーブルコイン準備高。</strong> すぐに投入できる買い余力の大まかな目安です。</li>
+</ul>
+<h2 id="section-12">オンチェーンデータの限界</h2>
+<ul>
+<li><strong>帰属は確率的なものです。</strong> ラベルは間違っていたり、欠けていたりすることがあります。</li>
+<li><strong>オフチェーンの活動は見えません。</strong> 中央集権型取引所内での取引、ETFの持ち分の売買、OTCの取引はオンチェーンに現れません。取引高の大部分は一度もチェーンに触れません。</li>
+<li><strong>失われたコインが供給をゆがめます。</strong> 何年も前に失われたコインも、供給量や実現時価総額に含まれています。</li>
+<li><strong>構造変化。</strong> ETF、カストディアン、レイヤー2ネットワークによってフローの意味が変わったため、過去のしきい値が当てはまらない可能性があります。</li>
+<li><strong>チェーンが違えばモデルも違います。</strong> ビットコインの出力（UTXO）モデル向けにつくられた指標は、イーサリアムやソラナのようなアカウントベースのチェーンにはうまく当てはまりません。</li>
+<li><strong>データベンダーによって違います。</strong> ラベルや手法が異なるため、2つのプロバイダーが「同じ」指標で異なる値を示すことがあります。</li>
+<li><strong>チャートの後知恵。</strong> 「すべての天井を当てた」指標は、後知恵で調整されていることが多く、これは<a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a>の一種です。</li>
+</ul>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>ラベルや送金先を確認せずに、</strong> 1件のクジラアラートに反応すること。</li>
+<li><strong>取引所への流入を確実な売りとみなすこと。</strong></li>
+<li><strong>MVRVやSOPRのしきい値を、正確なエントリーやエグジットのポイントとして使うこと。</strong></li>
+<li><strong>需要を判断する際に、</strong> 特にETFのフローなど、オフチェーンの活動を無視すること。</li>
+<li><strong>取引所やコントラクトのウォレットを除外せずに、</strong> 保有の集中度を判断すること。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-15">暗号資産のオンチェーン分析とは何ですか？</h3>
+<p>トランザクション、残高、取引所フローなどの公開ブロックチェーンデータを分析して、保有者や大口プレイヤーがどう行動しているかを把握することです。トレーダーは価格チャートやデリバティブのデータと合わせて使います。</p>
+<h3 id="mvrv">MVRVレシオとは何ですか？</h3>
+<p>MVRVは、時価総額を実現時価総額で割ったものです。実現時価総額は、各コインを最後に動いたときの価格で評価します。1を上回れば平均的な保有者は含み益の状態にあり、1を下回る水準は歴史的に深い弱気相場と結びついてきました。</p>
+<h3 id="sopr">SOPRとはどういう意味ですか？</h3>
+<p>SOPR（spent output profit ratio、使用済み出力利益率）は、コインが使われたときの価値を、最後に動いたときの価値と比較するものです。1を上回ればコインは平均して利益の出る状態で売られており、1を下回れば損失の出る状態で売られていることを意味します。</p>
+<h3 id="section-18">取引所への流入は弱気のサインですか？</h3>
+<p>大量の流入は売りの意図を示すことがありますが、取引所内部の送金、担保の入金、カストディアンの移動からも生じます。1回の送金よりも、継続的な傾向のほうが意味があります。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/crypto/crypto-market-cycles/"><div class="k">暗号資産トレード</div><b>暗号資産の市場サイクル</b><span>ビットコインの半減期サイクルとその限界、BTCドミナンス、アルトシーズン、セクターローテーション、マクロ環境とETFの資金フローがサイクルに与える影響を解説。</span></a><a class="card" href="/ja/encyclopedia/crypto/stablecoins/"><div class="k">暗号資産トレード</div><b>ステーブルコイン</b><span>ステーブルコインの仕組み。法定通貨担保型・暗号資産担保型・アルゴリズム型の違い、USTの崩壊、USDCのデペッグ、担保としての利用、MiCAと米国の規制を解説。</span></a><a class="card" href="/ja/encyclopedia/fundamental-analysis/market-sentiment-indicators/"><div class="k">ファンダメンタル分析とマクロ分析</div><b>センチメント指標</b><span>COTレポート、プットコールレシオ、VIX、AAII調査、恐怖と強欲指数、暗号資産の資金調達率と建玉で市場心理を測る方法と、その限界を解説します。</span></a><a class="card" href="/ja/encyclopedia/fundamental-analysis/fundamental-analysis-intro/"><div class="k">ファンダメンタル分析とマクロ分析</div><b>ファンダメンタル分析入門</b><span>ファンダメンタルズ分析とは何か、本質的価値と価格の違い、トップダウンとボトムアップ、株式、通貨、コモディティ、暗号資産への応用を解説します。</span></a><a class="card" href="/ja/encyclopedia/crypto/altcoin-trading/"><div class="k">暗号資産トレード</div><b>アルトコイン取引</b><span>アルトコインの取引方法を解説。流動性の階層、上場効果、低フロート・高FDVトークン、ビットコインに対するベータ、ナラティブ、上場廃止リスク、偽の出来高まで。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/crypto/crypto-liquidations/"><small>← 前へ</small>清算</a><a class="next" href="/ja/encyclopedia/crypto/altcoin-trading/"><small>次へ →</small>アルトコイン取引</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

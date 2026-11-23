@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Просадка и риск разорения: математика восстановления и серии</title>
+<meta name="description" content="Что такое максимальная просадка, какая прибыль нужна, чтобы отыграть убыток, насколько вероятны серии убытков и как размер позиции влияет на риск разорения.">
+<meta name="keywords" content="максимальная просадка, риск разорения, восстановление после просадки, вероятность серии убыточных сделок, метод Монте-Карло в трейдинге">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Энциклопедия трейдинга">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Просадка и риск разорения: математика восстановления и серии">
+<meta property="og:description" content="Что такое максимальная просадка, какая прибыль нужна, чтобы отыграть убыток, насколько вероятны серии убытков и как размер позиции влияет на риск разорения.">
+<meta property="og:url" content="https://pnlpro.fit/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Просадка и риск разорения: математика восстановления и серии">
+<meta name="twitter:description" content="Что такое максимальная просадка, какая прибыль нужна, чтобы отыграть убыток, насколько вероятны серии убытков и как размер позиции влияет на риск разорения.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Просадка и риск разорения: математика восстановления и серии","description":"Что такое максимальная просадка, какая прибыль нужна, чтобы отыграть убыток, насколько вероятны серии убытков и как размер позиции влияет на риск разорения.","keywords":"максимальная просадка, риск разорения, восстановление после просадки, вероятность серии убыточных сделок, метод Монте-Карло в трейдинге","articleSection":"Риск- и мани-менеджмент","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Риск- и мани-менеджмент","item":"https://pnlpro.fit/ru/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"Просадка и риск разорения","item":"https://pnlpro.fit/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Какая максимальная просадка считается приемлемой для трейдера?","acceptedAnswer":{"@type":"Answer","text":"Это зависит от стратегии и человека, но многие трейдеры стремятся удерживать максимальную просадку ниже примерно 20–25%, потому что дальше восстановиться гораздо сложнее. На счетах проп-фирм лимиты часто составляют около 5–10%, а это требует намного меньшего риска на сделку."}},{"@type":"Question","name":"Как рассчитать риск разорения?","acceptedAnswer":{"@type":"Answer","text":"Для простой игры с фиксированными ставками, вероятностью выигрыша p выше 50% и N единицами для ставок риск разорения в итоге равен (q ÷ p) в степени N, где q = 1 − p. Реальная торговля сложнее, поэтому большинство трейдеров оценивают его методом Монте-Карло на основе собственной статистики сделок."}},{"@type":"Question","name":"Сколько убыточных сделок подряд — это нормально?","acceptedAnswer":{"@type":"Answer","text":"Это зависит от винрейта и количества сделок. На 100 независимых сделках при винрейте 50% вероятность хотя бы одной серии из пяти убытков составляет примерно 81%, а из восьми — около 17%. При более низком винрейте длинные серии встречаются намного чаще."}},{"@type":"Question","name":"Что такое моделирование Монте-Карло в трейдинге?","acceptedAnswer":{"@type":"Answer","text":"Это метод, который генерирует тысячи случайных последовательностей сделок на основе винрейта и выплат стратегии или ее реальных прошлых сделок в случайном порядке. Результаты показывают диапазон возможных просадок и доходностей, а не единственную историческую траекторию."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
+  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Риск- и мани-менеджмент</h3><ul><li><a href="/ru/encyclopedia/risk-management/risk-management-fundamentals/">Основы риск-менеджмента</a></li><li><a href="/ru/encyclopedia/risk-management/position-sizing/">Размер позиции</a></li><li><a href="/ru/encyclopedia/risk-management/stop-loss-strategies/">Стратегии стоп-лосса</a></li><li><a href="/ru/encyclopedia/risk-management/risk-reward-and-expectancy/">Риск/прибыль и матожидание</a></li><li><a href="/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">Просадка и риск разорения</a></li><li><a href="/ru/encyclopedia/risk-management/kelly-criterion/">Критерий Келли</a></li><li><a href="/ru/encyclopedia/risk-management/correlation-and-portfolio-risk/">Корреляция и риск портфеля</a></li><li><a href="/ru/encyclopedia/risk-management/leverage-risk-and-black-swans/">Риски плеча и черные лебеди</a></li><li><a href="/ru/encyclopedia/risk-management/trading-plan/">Торговый план</a></li></ul><h3>Все темы</h3><ul><li><a href="/ru/encyclopedia/basics/">📘 Основы трейдинга</a></li><li><a href="/ru/encyclopedia/risk-management/" class="on">🛡️ Риск- и мани-менеджмент</a></li><li><a href="/ru/encyclopedia/psychology/">🧠 Психология трейдинга</a></li><li><a href="/ru/encyclopedia/technical-analysis/">📈 Технический анализ</a></li><li><a href="/ru/encyclopedia/fundamental-analysis/">🏦 Фундаментальный и макроанализ</a></li><li><a href="/ru/encyclopedia/stocks/">🏛️ Торговля акциями</a></li><li><a href="/ru/encyclopedia/forex/">💱 Торговля на форекс</a></li><li><a href="/ru/encyclopedia/futures/">📊 Торговля фьючерсами</a></li><li><a href="/ru/encyclopedia/options/">🎯 Торговля опционами</a></li><li><a href="/ru/encyclopedia/crypto/">₿ Торговля криптовалютой</a></li><li><a href="/ru/encyclopedia/meme-coins/">🐸 Торговля мемкоинами</a></li><li><a href="/ru/encyclopedia/prediction-markets/">🔮 Рынки предсказаний</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/">🤖 Алгоритмическая и квант-торговля</a></li><li><a href="/ru/encyclopedia/other-markets/">🛢️ Сырье, облигации и другие рынки</a></li><li><a href="/ru/encyclopedia/trading-business/">⚖️ Проп-фирмы, налоги, регулирование и мошенничество</a></li><li><a href="/ru/encyclopedia/reference/">📖 Справочник</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ru/encyclopedia/">Энциклопедия</a> › <a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a></div>
+<h1 class="title">Просадка и риск разорения</h1>
+<div class="meta">8 мин чтения · Обновлено 23 нояб. 2026 г.</div>
+<details class="side-m"><summary>Ещё в разделе «Риск- и мани-менеджмент»</summary><ul><li><a href="/ru/encyclopedia/risk-management/risk-management-fundamentals/">Основы риск-менеджмента</a></li><li><a href="/ru/encyclopedia/risk-management/position-sizing/">Размер позиции</a></li><li><a href="/ru/encyclopedia/risk-management/stop-loss-strategies/">Стратегии стоп-лосса</a></li><li><a href="/ru/encyclopedia/risk-management/risk-reward-and-expectancy/">Риск/прибыль и матожидание</a></li><li><a href="/ru/encyclopedia/risk-management/drawdown-and-risk-of-ruin/" class="on" aria-current="page">Просадка и риск разорения</a></li><li><a href="/ru/encyclopedia/risk-management/kelly-criterion/">Критерий Келли</a></li><li><a href="/ru/encyclopedia/risk-management/correlation-and-portfolio-risk/">Корреляция и риск портфеля</a></li><li><a href="/ru/encyclopedia/risk-management/leverage-risk-and-black-swans/">Риски плеча и черные лебеди</a></li><li><a href="/ru/encyclopedia/risk-management/trading-plan/">Торговый план</a></li></ul></details>
+<article><p>Просадка — это снижение капитала на счете от пика до последующего минимума, а максимальная просадка — наибольшее такое снижение за период. Риск разорения — это вероятность того, что убытки станут настолько большими, что трейдер больше не сможет продолжать торговлю: либо счет полностью потерян, либо он опустился ниже уровня, который трейдер заранее счел недопустимым. Оба показателя сильно зависят от размера позиции, поэтому выбор размера часто называют самым важным решением в управлении риском.</p>
+<div class="takeaways"><h2 id="key-takeaways">Главное</h2>
+<ul>
+<li>Максимальная просадка измеряется от наивысшей точки капитала до самой низкой точки после нее, а не от стартового баланса.</li>
+<li>Прибыль, необходимая для выхода из просадки, равна убытку, деленному на единицу минус убыток, поэтому из глубоких просадок выбраться очень трудно.</li>
+<li>Длинные серии убытков встречаются гораздо чаще, чем подсказывает интуиция, даже у прибыльных стратегий.</li>
+<li>Риск разорения резко падает по мере снижения риска на сделку, а при отсутствии преимущества разорение на достаточно длинной дистанции становится почти неизбежным.</li>
+<li>Моделирование методом Монте-Карло перемешивает или заново выбирает результаты сделок и показывает диапазон просадок, которые стратегия может правдоподобно дать.</li>
+</ul></div><details class="toc"><summary>Содержание</summary><ol><li><a href="#section-2">Как измеряют просадку</a></li><li><a href="#section-3">Математика восстановления</a></li><li><a href="#section-4">Как серии превращаются в просадки</a></li><li><a href="#section-5">Вероятность серий убытков</a></li><li><a href="#section-6">Риск разорения</a></li><li><a href="#section-8">Моделирование методом Монте-Карло</a></li><li><a href="#section-9">Как применять это на практике</a></li><li><a href="#common-mistakes">Типичные ошибки</a></li></ol></details>
+<h2 id="section-2">Как измеряют просадку</h2>
+<p>Просадка всегда отсчитывается от пика. Допустим, счет стартует с $10,000, растет до $12,000, затем падает до $9,000 и только потом восстанавливается.</p>
+<ul>
+<li><strong>Максимальная просадка</strong> = ($12,000 − $9,000) ÷ $12,000 = <strong>25%</strong></li>
+<li>Если считать от стартового баланса, счет потерял всего 10%, но это преуменьшает реальную боль. Трейдер видел, как исчезла четверть пиковой стоимости.</li>
+<li><strong>Необходимое восстановление</strong> = $3,000 ÷ $9,000 = <strong>33.3%</strong>, чтобы вернуться к пику в $12,000.</li>
+</ul>
+<p>Важны и два связанных показателя:</p>
+<ul>
+<li><strong>Длительность просадки</strong>: сколько времени счет остается ниже предыдущего пика. Некоторые стратегии, особенно трендовые, могут проводить «под водой» многие месяцы.</li>
+<li><strong>Средняя просадка</strong>: типичная глубина снижений, которая дает представление о нормальном дискомфорте, а не о худшем сценарии.</li>
+</ul>
+<h2 id="section-3">Математика восстановления</h2>
+<p>Поскольку каждый убыток уменьшает базу, процентная прибыль, необходимая для восстановления, всегда больше потерянного процента:</p>
+<p><strong>Необходимая прибыль = просадка ÷ (1 − просадка)</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Просадка</th>
+<th>Прибыль для восстановления</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10%</td>
+<td>11.1%</td>
+</tr>
+<tr>
+<td>20%</td>
+<td>25.0%</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>42.9%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>66.7%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>75%</td>
+<td>300%</td>
+</tr>
+</tbody></table></div>
+<p>После отметки примерно в 30% кривая быстро становится круче. В статье об <a href="/ru/encyclopedia/risk-management/risk-management-fundamentals/">основах управления рисками</a> объясняется, почему именно эта асимметрия лежит в основе большинства правил риск-менеджмента.</p>
+<h2 id="section-4">Как серии превращаются в просадки</h2>
+<p>При фиксированном процентном риске (fixed fractional) каждый убыток забирает процент от текущего капитала. После n убытков подряд при риске r на сделку капитал составляет (1 − r)^n от исходного.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Риск на сделку</th>
+<th>5 убытков</th>
+<th>10 убытков</th>
+<th>15 убытков</th>
+<th>20 убытков</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.5%</td>
+<td>2.5%</td>
+<td>4.9%</td>
+<td>7.2%</td>
+<td>9.5%</td>
+</tr>
+<tr>
+<td>1%</td>
+<td>4.9%</td>
+<td>9.6%</td>
+<td>14.0%</td>
+<td>18.2%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>9.6%</td>
+<td>18.3%</td>
+<td>26.1%</td>
+<td>33.2%</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>22.6%</td>
+<td>40.1%</td>
+<td>53.7%</td>
+<td>64.2%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>41.0%</td>
+<td>65.1%</td>
+<td>79.4%</td>
+<td>87.8%</td>
+</tr>
+</tbody></table></div>
+<p>Реальные просадки обычно складываются из неудачного отрезка, в который вкраплены несколько прибыльных сделок, а не из одной непрерывной серии, но таблица показывает масштаб ущерба, который допускает каждый уровень риска.</p>
+<h2 id="section-5">Вероятность серий убытков</h2>
+<p>Вероятность того, что конкретная сделка откроет серию из k убытков, равна (1 − W)^k, где W — доля прибыльных сделок (винрейт). При винрейте 50% шанс, что все пять следующих сделок окажутся убыточными, равен 0.5^5, или примерно 3.1%. Звучит как редкость, но трейдер совершает много сделок, и каждая — новый шанс начать серию.</p>
+<p>Полезнее другой вопрос: насколько вероятна хотя бы одна серия заданной длины на определенном количестве сделок? Если считать сделки независимыми, ответы такие:</p>
+<p><strong>Вероятность хотя бы одной серии из k и более убытков на 100 сделках</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Винрейт</th>
+<th>5 убытков</th>
+<th>6 убытков</th>
+<th>8 убытков</th>
+<th>10 убытков</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>60%</td>
+<td>46%</td>
+<td>21%</td>
+<td>3.6%</td>
+<td>0.6%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>81%</td>
+<td>55%</td>
+<td>17%</td>
+<td>4.4%</td>
+</tr>
+<tr>
+<td>40%</td>
+<td>98%</td>
+<td>87%</td>
+<td>49%</td>
+<td>21%</td>
+</tr>
+</tbody></table></div>
+<p>На 200 сделках при винрейте 40% вероятность хотя бы одной серии из восьми и более убытков возрастает примерно до 75%, а из десяти и более — примерно до 38%.</p>
+<p>Поэтому трендовая стратегия, которая выигрывает в 35 или 40% случаев, должна ожидать серии из восьми и более убытков как нормальную часть своей жизни. Трейдер, который этого не знает, склонен бросить или переделать рабочую стратегию в самый неподходящий момент.</p>
+<p>Реальные сделки часто менее независимы, чем подбрасывания монеты. Рыночные режимы меняются, и стратегия, подходящая для трендового рынка, может раз за разом терять в боковике. Из-за этого длинные серии обычно становятся несколько более вероятными, чем показывает таблица, а не менее.</p>
+<h2 id="section-6">Риск разорения</h2>
+<p>Риск разорения — это вероятность дойти до уровня убытков, после которого вы не можете или не станете продолжать. «Разорение» не обязательно означает нулевой баланс. Многие трейдеры определяют его как просадку в 50% или как уровень убытка, при котором нарушаются правила проп-фирмы.</p>
+<p>Его определяют три фактора:</p>
+<ol>
+<li><strong>Преимущество (edge)</strong>: математическое ожидание стратегии на сделку. См. <a href="/ru/encyclopedia/risk-management/risk-reward-and-expectancy/">соотношение риск/прибыль и матожидание</a>.</li>
+<li><strong>Профиль выплат</strong>: насколько велики и насколько часты прибыли и убытки.</li>
+<li><strong>Риск на сделку</strong>: доля капитала, которой вы рискуете в каждой сделке.</li>
+</ol>
+<h3 id="section-7">Простая формула для интуиции</h3>
+<p>Классический результат «разорения игрока» относится к упрощенной игре: каждая ставка выигрывает или проигрывает одну фиксированную единицу, вероятность выигрыша p выше 50%, и вы продолжаете ставить бесконечно. Если вы начинаете с N единиц, вероятность в итоге потерять их все равна:</p>
+<p><strong>Риск разорения = (q ÷ p)^N</strong>, где q = 1 − p</p>
+<p>При p = 0.55 q ÷ p ≈ 0.818:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Стартовые единицы (N)</th>
+<th>Риск на ставку в % от стартового капитала</th>
+<th>Риск разорения в итоге</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5</td>
+<td>20%</td>
+<td>около 37%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>10%</td>
+<td>около 13%</td>
+</tr>
+<tr>
+<td>20</td>
+<td>5%</td>
+<td>около 1.8%</td>
+</tr>
+<tr>
+<td>50</td>
+<td>2%</td>
+<td>около 0.004%</td>
+</tr>
+</tbody></table></div>
+<p>Отсюда два вывода. Чем меньше ставки относительно капитала, тем радикальнее снижается риск разорения. А если p равно 50% или меньше, то есть преимущества нет, формула перестает работать, потому что при неограниченном числе ставок разорение становится неизбежным. Малый размер позиции замедляет убыточную стратегию, но не может ее спасти.</p>
+<p>Реальная торговля отличается от этой модели по ряду параметров, включая переменные выплаты, фиксированный процентный риск и издержки, поэтому цифры носят иллюстративный характер. Теоретически при фиксированном процентном риске счет никогда не обнуляется, поэтому полезнее спрашивать о вероятности глубокой просадки.</p>
+<h2 id="section-8">Моделирование методом Монте-Карло</h2>
+<p>Метод Монте-Карло оценивает диапазон возможных исходов, генерируя тысячи случайных последовательностей сделок, согласующихся со статистикой стратегии. Можно заново выбирать ваши реальные результаты сделок в случайном порядке или генерировать сделки по заданным винрейту и выплатам. Каждая последовательность дает свою кривую капитала и свою максимальную просадку, а вместе они показывают, что типично и каков плохой, но правдоподобный сценарий.</p>
+<p>Для иллюстрации — простая симуляция 200 сделок стратегии с винрейтом 45%, прибыльными сделками по 1.5R и убыточными по 1R, то есть со скромным положительным матожиданием +0.125R на сделку, с фиксированным процентным риском и 40,000 случайных прогонов:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Риск на сделку</th>
+<th>Типичная (медианная) максимальная просадка</th>
+<th>Вероятность просадки 30%+</th>
+<th>Вероятность просадки 50%+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1%</td>
+<td>около 12%</td>
+<td>менее 1%</td>
+<td>близко к 0%</td>
+</tr>
+<tr>
+<td>2%</td>
+<td>около 22%</td>
+<td>около 19%</td>
+<td>менее 1%</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>около 49%</td>
+<td>около 97%</td>
+<td>около 48%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>около 79%</td>
+<td>почти 100%</td>
+<td>около 99%</td>
+</tr>
+</tbody></table></div>
+<p>Преимущество во всех строках одинаковое. При риске 10% большинство прогонов все же завершили 200 сделок с прибылью, но почти каждый прошел по пути через просадку в половину счета, которую мало кто способен пересидеть, не отказавшись от плана. Эти цифры получены при одном наборе допущений и будут немного меняться от прогона к прогону. Статистика реальной стратегии — тоже лишь оценка, и истинное преимущество может оказаться меньше. В статье о <a href="/ru/encyclopedia/risk-management/kelly-criterion/">критерии Келли</a> объясняется, почему слишком большая доля капитала в каждой ставке может превратить положительное преимущество в слабый долгосрочный рост.</p>
+<p>Результаты Монте-Карло хороши ровно настолько, насколько хороши исходные данные. Если выборка сделок взята из переоптимизированного <a href="/ru/encyclopedia/algorithmic-trading/backtesting/">бэктеста</a>, симуляция будет уверенно ошибаться. Кроме того, она предполагает, что будущее похоже на прошлое, а это может не выполняться при смене рыночных условий.</p>
+<h2 id="section-9">Как применять это на практике</h2>
+<ul>
+<li><strong>Сначала задайте максимально допустимую просадку</strong>, например 20%, а затем выберите риск на сделку, при котором достичь ее маловероятно с учетом реалистичных серий убытков вашей стратегии.</li>
+<li><strong>Закладывайте серию длиннее любой, которую вы видели.</strong> Худшая серия в бэктесте — лишь одна реализация из распределения, а не худший возможный сценарий.</li>
+<li><strong>Снижайте размер позиций во время просадок.</strong> Фиксированный процентный риск делает это автоматически. Некоторые трейдеры дополнительно вдвое урезают риск после заданной просадки.</li>
+<li><strong>Заранее определите, что происходит на каждом уровне просадки</strong>, например разбор торговли при 10% и полная остановка при 20%. См. <a href="/ru/encyclopedia/psychology/handling-losses-and-tilt/">как справляться с убытками и тильтом</a>.</li>
+</ul>
+<h2 id="common-mistakes">Типичные ошибки</h2>
+<ul>
+<li><strong>Измерять просадку от стартового баланса</strong>, а не от пика.</li>
+<li><strong>Считать худшую просадку бэктеста худшим, что может случиться.</strong></li>
+<li><strong>Недооценивать серии убытков</strong>, а потом бросать стратегию во время статистически нормальной полосы неудач.</li>
+<li><strong>Увеличивать размер позиций, чтобы быстрее отыграться</strong>, что повышает шанс гораздо более глубокой просадки.</li>
+<li><strong>Думать, что малый размер позиций исправит отрицательное преимущество.</strong> Он лишь замедляет падение.</li>
+</ul>
+<h2 id="faq">Частые вопросы</h2>
+<h3 id="section-12">Какая максимальная просадка считается приемлемой для трейдера?</h3>
+<p>Это зависит от стратегии и человека, но многие трейдеры стремятся удерживать максимальную просадку ниже примерно 20–25%, потому что дальше восстановиться гораздо сложнее. На счетах проп-фирм лимиты часто составляют около 5–10%, а это требует намного меньшего риска на сделку.</p>
+<h3 id="section-13">Как рассчитать риск разорения?</h3>
+<p>Для простой игры с фиксированными ставками, вероятностью выигрыша p выше 50% и N единицами для ставок риск разорения в итоге равен (q ÷ p) в степени N, где q = 1 − p. Реальная торговля сложнее, поэтому большинство трейдеров оценивают его методом Монте-Карло на основе собственной статистики сделок.</p>
+<h3 id="section-14">Сколько убыточных сделок подряд — это нормально?</h3>
+<p>Это зависит от винрейта и количества сделок. На 100 независимых сделках при винрейте 50% вероятность хотя бы одной серии из пяти убытков составляет примерно 81%, а из восьми — около 17%. При более низком винрейте длинные серии встречаются намного чаще.</p>
+<h3 id="section-15">Что такое моделирование Монте-Карло в трейдинге?</h3>
+<p>Это метод, который генерирует тысячи случайных последовательностей сделок на основе винрейта и выплат стратегии или ее реальных прошлых сделок в случайном порядке. Результаты показывают диапазон возможных просадок и доходностей, а не единственную историческую траекторию.</p>
+</article>
+<div class="disclaimer"><strong>Только образовательный материал.</strong> Ничто здесь не является финансовой, инвестиционной, юридической или налоговой консультацией. Торговля сопряжена с высоким риском потерь, а с кредитным плечом можно потерять больше, чем вы внесли. Правила, комиссии и условия площадок меняются: перед сделкой проверяйте актуальные условия у брокера, биржи или регулятора.</div>
+<section class="related"><h2>Похожие статьи</h2><div class="cards"><a class="card" href="/ru/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">Риск- и мани-менеджмент</div><b>Основы риск-менеджмента</b><span>Почему управление рисками важнее точек входа: риск на сделку, дневной лимит убытков, математика потери 50% и основные виды торговых рисков.</span></a><a class="card" href="/ru/encyclopedia/risk-management/position-sizing/"><div class="k">Риск- и мани-менеджмент</div><b>Размер позиции</b><span>Как рассчитать размер позиции по риску и расстоянию до стопа: фиксированный процент, фиксированная сумма и расчет по ATR на примерах акций, форекса и крипты.</span></a><a class="card" href="/ru/encyclopedia/risk-management/kelly-criterion/"><div class="k">Риск- и мани-менеджмент</div><b>Критерий Келли</b><span>Формула Келли для бинарных ставок и ее непрерывная форма, примеры расчета, в том числе для контрактов рынков предсказаний, и почему трейдеры берут долю Келли.</span></a><a class="card" href="/ru/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Риск- и мани-менеджмент</div><b>Риск/прибыль и матожидание</b><span>Как R-кратные, винрейт и размер прибылей складываются в матожидание. Формула, таблица безубыточного винрейта и почему высокий винрейт не гарантирует прибыль.</span></a><a class="card" href="/ru/encyclopedia/psychology/handling-losses-and-tilt/"><div class="k">Психология трейдинга</div><b>Убытки и тильт</b><span>Как пережить серию убытков и тильт: тревожные признаки, стоп-правила вроде дневного лимита убытка, перезагрузка после крупной потери и признаки игромании.</span></a></div></section>
+<div class="pager"><a href="/ru/encyclopedia/risk-management/risk-reward-and-expectancy/"><small>← Назад</small>Риск/прибыль и матожидание</a><a class="next" href="/ru/encyclopedia/risk-management/kelly-criterion/"><small>Далее →</small>Критерий Келли</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ru/encyclopedia/basics/">Основы трейдинга</a><a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a><a href="/ru/encyclopedia/psychology/">Психология трейдинга</a><a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a><a href="/ru/encyclopedia/fundamental-analysis/">Фундаментальный и макроанализ</a><a href="/ru/encyclopedia/stocks/">Торговля акциями</a><a href="/ru/encyclopedia/forex/">Торговля на форекс</a><a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a><a href="/ru/encyclopedia/options/">Торговля опционами</a><a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a><a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a><a href="/ru/encyclopedia/prediction-markets/">Рынки предсказаний</a><a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a><a href="/ru/encyclopedia/other-markets/">Сырье, облигации и другие рынки</a><a href="/ru/encyclopedia/trading-business/">Проп-фирмы, налоги, регулирование и мошенничество</a><a href="/ru/encyclopedia/reference/">Справочник</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Открытый набор торговых ботов</a></div>
+  <p>PnL Profit Энциклопедия трейдинга: бесплатные независимые объяснения того, как работают крупнейшие рынки. Только образовательный материал, не инвестиционная рекомендация. Контакты: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ru/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Ничего не найдено. Загляните в глоссарий.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

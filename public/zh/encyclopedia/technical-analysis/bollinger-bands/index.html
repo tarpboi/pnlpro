@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>布林带详解：收口、%B、带宽与肯特纳通道 | PnL Profit</title>
+<meta name="description" content="布林带如何由20周期均线和2倍标准差构成，布林带收口、沿轨运行、%B、带宽，以及与肯特纳通道的区别。">
+<meta name="keywords" content="布林带, 布林带收口, 布林带交易策略, %B指标, 布林带和肯特纳通道区别">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/bollinger-bands/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="布林带详解：收口、%B、带宽与肯特纳通道 | PnL Profit">
+<meta property="og:description" content="布林带如何由20周期均线和2倍标准差构成，布林带收口、沿轨运行、%B、带宽，以及与肯特纳通道的区别。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/technical-analysis/bollinger-bands/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="布林带详解：收口、%B、带宽与肯特纳通道 | PnL Profit">
+<meta name="twitter:description" content="布林带如何由20周期均线和2倍标准差构成，布林带收口、沿轨运行、%B、带宽，以及与肯特纳通道的区别。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"布林带详解：收口、%B、带宽与肯特纳通道","description":"布林带如何由20周期均线和2倍标准差构成，布林带收口、沿轨运行、%B、带宽，以及与肯特纳通道的区别。","keywords":"布林带, 布林带收口, 布林带交易策略, %B指标, 布林带和肯特纳通道区别","articleSection":"技术分析","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/bollinger-bands/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"技术分析","item":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"布林带","item":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/bollinger-bands/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"布林带参数设多少最好？","acceptedAnswer":{"@type":"Answer","text":"默认的20周期均线加2倍标准差是迄今使用最广的设置，也是一个合理的起点。较短的周期会让轨道反应更快，任何改动都应在你所交易的市场和时间周期上进行检验。"}},{"@type":"Question","name":"布林带收口意味着什么？","acceptedAnswer":{"@type":"Answer","text":"收口是指轨道收窄到异常小的宽度，显示出一段低波动时期。这类时期之后往往会出现较大的行情，但收口并不能说明行情会朝哪个方向走。"}},{"@type":"Question","name":"价格触及布林带上轨是卖出信号吗？","acceptedAnswer":{"@type":"Answer","text":"单凭这一点不是。在震荡中，价格常常从上轨回落；但在强劲的上升趋势中，价格可能连续多根K线收在上轨处或上轨之上。"}},{"@type":"Question","name":"布林带和肯特纳通道有什么区别？","acceptedAnswer":{"@type":"Answer","text":"布林带使用围绕简单移动平均线的收盘价标准差，肯特纳通道则使用围绕指数移动平均线的平均真实波幅。肯特纳通道更平滑，布林带的扩张和收缩更为剧烈。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/bollinger-bands/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/technical-analysis/bollinger-bands/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/bollinger-bands/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/bollinger-bands/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/bollinger-bands/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/bollinger-bands/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/bollinger-bands/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/bollinger-bands/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>技术分析</h3><ul><li><a href="/zh/encyclopedia/technical-analysis/technical-analysis-intro/">技术分析入门</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-charts/">读懂K线图</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-patterns/">K线形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑与阻力</a></li><li><a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">趋势与市场结构</a></li><li><a href="/zh/encyclopedia/technical-analysis/chart-patterns/">图表形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/moving-averages/">移动平均线</a></li><li><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/zh/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/" class="on" aria-current="page">布林带</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/zh/encyclopedia/technical-analysis/fibonacci-retracement/">斐波那契工具</a></li><li><a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR与波动率</a></li><li><a href="/zh/encyclopedia/technical-analysis/multi-timeframe-analysis/">多周期分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/price-action-trading/">价格行为交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/">成交量分布与市场轮廓</a></li><li><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/">订单流交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/smart-money-concepts/">聪明钱概念（ICT）</a></li><li><a href="/zh/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">艾略特波浪与威科夫</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/" class="on">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/technical-analysis/">技术分析</a></div>
+<h1 class="title">布林带</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>技术分析中的更多文章</summary><ul><li><a href="/zh/encyclopedia/technical-analysis/technical-analysis-intro/">技术分析入门</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-charts/">读懂K线图</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-patterns/">K线形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑与阻力</a></li><li><a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">趋势与市场结构</a></li><li><a href="/zh/encyclopedia/technical-analysis/chart-patterns/">图表形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/moving-averages/">移动平均线</a></li><li><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/zh/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/" class="on" aria-current="page">布林带</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/zh/encyclopedia/technical-analysis/fibonacci-retracement/">斐波那契工具</a></li><li><a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR与波动率</a></li><li><a href="/zh/encyclopedia/technical-analysis/multi-timeframe-analysis/">多周期分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/price-action-trading/">价格行为交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/">成交量分布与市场轮廓</a></li><li><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/">订单流交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/smart-money-concepts/">聪明钱概念（ICT）</a></li><li><a href="/zh/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">艾略特波浪与威科夫</a></li></ul></details>
+<article><p>布林带（Bollinger Bands，又称布林线、BOLL）是一种由三条线构成的波动率指标：中间是一条移动平均线，上下两条轨道与中轨相距若干倍标准差。价格波动加剧时轨道变宽，波动平缓时轨道收窄，因此布林带既能显示价格相对于近期均值所处的位置，也能显示市场当前的波动程度。布林带由John Bollinger于1980年代提出，既用于均值回归交易，也用于突破交易，而这两种方法对同一次触轨的解读恰恰相反。价格触及轨道只是描述了价格所在的位置，本身并不是信号。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点速览</h2>
+<ul>
+<li>标准参数是20周期简单移动平均线，上下轨距离中轨各2倍标准差。</li>
+<li>轨道宽度反映波动率：&quot;收口&quot;（squeeze，轨道收窄）描述的是异常低的波动率，此后往往会出现较大的行情，但方向无法预测。</li>
+<li>在强劲趋势中，价格可能&quot;沿轨运行&quot;，连续多根K线收在上轨或下轨处或附近。</li>
+<li>%B显示价格在轨道内所处的位置，带宽则衡量轨道相对于中轨的宽度。</li>
+<li>肯特纳通道（Keltner Channels）用平均真实波幅代替标准差，因此更平滑，对单根大K线的反应也更小。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">布林带如何构成</a></li><li><a href="#b">%B与带宽</a></li><li><a href="#section-4">计算示例</a></li><li><a href="#section-5">收口</a></li><li><a href="#section-6">沿轨运行</a></li><li><a href="#section-7">均值回归与突破两种用法</a></li><li><a href="#section-8">布林带与肯特纳通道</a></li><li><a href="#section-9">实证研究怎么说</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">布林带如何构成</h2>
+<p>使用默认参数时：</p>
+<ul>
+<li><strong>中轨</strong> = 收盘价的20周期简单移动平均线（SMA）。</li>
+<li><strong>上轨</strong> = 中轨 + 2 x 收盘价的20周期标准差。</li>
+<li><strong>下轨</strong> = 中轨 - 2 x 20周期标准差。</li>
+</ul>
+<p>标准差衡量最近20个收盘价围绕其平均值的分散程度。收盘价紧密聚集时，标准差小，轨道靠近中轨；收盘价大幅摆动时，轨道就会张开。在计算标准差时，各平台除以N还是N - 1略有不同；在20个周期下，差别很小。</p>
+<p>有一种说法是，约95%的价格会落在2倍标准差的轨道之内。这个数字来自正态分布，但价格并不服从正态分布，而且该计算使用的是价格的滚动窗口而非收益率。实践中，收盘价落在轨道之外的情况比这个数字所暗示的更常见，其比例也因市场和时期而异。</p>
+<h2 id="b">%B与带宽</h2>
+<p>两个衍生指标把布林带转换成数字：</p>
+<ul>
+<li><strong>%B</strong> = (价格 - 下轨) / (上轨 - 下轨)。数值为1表示价格位于上轨，0表示位于下轨，0.5表示位于中轨。高于1或低于0表示价格位于轨道之外。</li>
+<li><strong>带宽</strong> = (上轨 - 下轨) / 中轨。它把轨道宽度表示为价格的一个比例，从而可以在不同时间和不同资产之间进行比较。</li>
+</ul>
+<p>%B适用于需要用单一数字表示价格&quot;偏离程度&quot;的系统。带宽则是识别收口的标准方法。</p>
+<h2 id="section-4">计算示例</h2>
+<p>某股票最近20个日收盘价的平均值为$50.00，标准差为$1.50。</p>
+<ul>
+<li>中轨 = <strong>$50.00</strong></li>
+<li>上轨 = 50.00 + 2 x 1.50 = <strong>$53.00</strong></li>
+<li>下轨 = 50.00 - 2 x 1.50 = <strong>$47.00</strong></li>
+<li>带宽 = (53.00 - 47.00) / 50.00 = 6.00 / 50.00 = <strong>0.12，即12%</strong></li>
+</ul>
+<p>如果今天收盘价为$52.40：</p>
+<ul>
+<li>%B = (52.40 - 47.00) / (53.00 - 47.00) = 5.40 / 6.00 = <strong>0.90</strong>。价格接近上轨。</li>
+</ul>
+<p>如果收盘价为$53.60：</p>
+<ul>
+<li>%B = (53.60 - 47.00) / 6.00 = 6.60 / 6.00 = <strong>1.10</strong>。价格收在上轨之外。</li>
+</ul>
+<p><strong>一次收口。</strong> 几周后，这只股票交投清淡，20日标准差降到$0.50，均值仍在$50.00附近。</p>
+<ul>
+<li>上轨 = 50.00 + 2 x 0.50 = $51.00；下轨 = 50.00 - 2 x 0.50 = $49.00</li>
+<li>带宽 = 2.00 / 50.00 = <strong>4%</strong></li>
+</ul>
+<p>带宽从12%降至4%，只有之前水平的三分之一。如果4%接近过去几个月的最低带宽读数，交易者就会把这描述为一次收口。</p>
+<h2 id="section-5">收口</h2>
+<p>波动率有聚集性：平静时期之后往往还是平静，活跃时期之后往往还是活跃；但随着时间推移，波动率也倾向于回归其长期水平。收口突显了一段异常低波动的时期。关注收口的交易者预期波动最终会扩张，即出现一波朝某个方向的较大行情。</p>
+<p>难点在于，收口完全不说明方向，而且收口后的第一波行情有时是会反转的假突破。交易者通常会把收口与其他因素结合起来选择方向：</p>
+<ul>
+<li>更大级别<a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">趋势</a>的方向。</li>
+<li>收盘价突破附近的<a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑或阻力</a>价位。</li>
+<li>突破时成交量放大。参见<a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a>。</li>
+</ul>
+<p>收口也可能持续得比预期久得多，轨道可能连续几周保持狭窄。</p>
+<h2 id="section-6">沿轨运行</h2>
+<p>在强劲的上升趋势中，价格可能连续多根K线收在上轨处或上轨之上，而中轨成为回调遇到买盘的区域。在强劲的下降趋势中，则会沿下轨出现相反的情形。这被称为沿轨运行（walking the bands）。</p>
+<p>沿轨运行是&quot;每次触及上轨就卖出&quot;之所以危险的主要原因。在趋势中，收在上轨之外往往反映的是强势，而不是即将反转。Bollinger本人也强调，触及轨道本身并不是买入或卖出信号。</p>
+<h2 id="section-7">均值回归与突破两种用法</h2>
+<p>同一个事件——价格收在轨道之外——会因方法不同而得出截然相反的解读：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>对收在上轨之上的解读</th>
+<th>最适用的环境</th>
+<th>主要风险</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></td>
+<td>价格偏离过度；预期回到中轨附近</td>
+<td>震荡、来回拉锯的市场</td>
+<td>趋势启动，价格沿轨运行</td>
+</tr>
+<tr>
+<td>突破 / 趋势</td>
+<td>波动率和动能正向上扩张；考虑顺势跟进</td>
+<td>新兴趋势、收口后的突破</td>
+<td>突破失败，价格回到轨道之内</td>
+</tr>
+</tbody></table></div>
+<p>均值回归交易者常把触轨与<a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a>等震荡指标结合使用，并加上避免逆强势趋势交易的过滤条件。突破交易者则常要求事先出现收口，并且收盘价突破关键价位。两种方法都不是在所有情况下都正确；难点在于判断市场处于哪种状态，而这种判断往往只有事后才清楚。</p>
+<p>均值回归策略往往胜率高，但偶尔会出现大额亏损；突破策略往往胜率较低，但偶尔会有大额盈利。两者扣除成本后都可能亏钱，这就是为什么<a href="/zh/encyclopedia/risk-management/risk-reward-and-expectancy/">期望值</a>比胜率更重要。</p>
+<h2 id="section-8">布林带与肯特纳通道</h2>
+<p>肯特纳通道看起来与布林带相似，但衡量波动率的方式不同。其现代版本（也是大多数平台的默认版本）使用：</p>
+<ul>
+<li><strong>中线：</strong> 一条指数移动平均线，通常为20周期。</li>
+<li><strong>上下轨：</strong> 中线加减若干倍<a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">平均真实波幅（ATR）</a>，常用1.5倍或2倍。</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>特征</th>
+<th>布林带</th>
+<th>肯特纳通道</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>中线</td>
+<td>20 SMA</td>
+<td>EMA，通常为20</td>
+</tr>
+<tr>
+<td>波动率度量</td>
+<td>收盘价的标准差</td>
+<td>平均真实波幅，包含跳空缺口和K线内振幅</td>
+</tr>
+<tr>
+<td>对单根大K线的反应</td>
+<td>轨道急剧变宽</td>
+<td>更平滑，逐渐变宽</td>
+</tr>
+<tr>
+<td>典型形状</td>
+<td>时而鼓起、时而收紧</td>
+<td>更稳定，更接近平行</td>
+</tr>
+</tbody></table></div>
+<p>由于标准差对大幅波动反应更强烈，布林带的扩张和收缩更为剧烈。有些交易者把布林带收缩到肯特纳通道之内的那一刻定义为收口。</p>
+<p><strong>示例。</strong> 沿用上面的股票，假设20周期EMA约为$50.00，ATR为$1.20。2 x ATR的肯特纳通道位于50.00 +/- 2.40，即$47.60和$52.40，宽度为$4.80。在早先的高波动时期，布林带（$47.00至$53.00，宽度$6.00）位于肯特纳通道之外。在收口期间，布林带（$49.00至$51.00，宽度$2.00）位于肯特纳通道之内，这些交易者就会称之为收口。实际上，ATR在平静时期也会有所收缩；只要标准差下降得比ATR快，这种比较就成立。</p>
+<h2 id="section-9">实证研究怎么说</h2>
+<p>布林带是一种衡量波动率以及价格偏离近期均值程度的方法，这些量是真实存在的，对设置<a href="/zh/encyclopedia/risk-management/stop-loss-strategies/">止损</a>和确定仓位很有用。在已发表的检验中，&quot;下轨买入、上轨卖出&quot;或交易每一次突破这类简单规则，结果不一，表现在很大程度上取决于市场、时期和成本。波动率聚集本身在金融收益率中有充分记载，这支持了收口背后的思路，但这并不意味着下一波行情的方向可以预测。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>把触轨当成信号。</strong> 触轨只显示价格相对于近期波动率所处的位置。</li>
+<li><strong>逆强势趋势交易。</strong> 在沿轨运行时卖出上轨，是反复亏钱的常见方式。</li>
+<li><strong>假定95%的价格都在轨道内。</strong> 价格并不服从正态分布，收盘价落在轨道之外很常见。</li>
+<li><strong>猜测收口后的方向。</strong> 收口描述的是低波动率，而不是价格将向哪里突破。</li>
+<li><strong>过度优化参数。</strong> 为拟合历史数据而修改周期和倍数，不太可能在未来的数据中有所帮助。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-12">布林带参数设多少最好？</h3>
+<p>默认的20周期均线加2倍标准差是迄今使用最广的设置，也是一个合理的起点。较短的周期会让轨道反应更快，任何改动都应在你所交易的市场和时间周期上进行检验。</p>
+<h3 id="section-13">布林带收口意味着什么？</h3>
+<p>收口是指轨道收窄到异常小的宽度，显示出一段低波动时期。这类时期之后往往会出现较大的行情，但收口并不能说明行情会朝哪个方向走。</p>
+<h3 id="section-14">价格触及布林带上轨是卖出信号吗？</h3>
+<p>单凭这一点不是。在震荡中，价格常常从上轨回落；但在强劲的上升趋势中，价格可能连续多根K线收在上轨处或上轨之上。</p>
+<h3 id="section-15">布林带和肯特纳通道有什么区别？</h3>
+<p>布林带使用围绕简单移动平均线的收盘价标准差，肯特纳通道则使用围绕指数移动平均线的平均真实波幅。肯特纳通道更平滑，布林带的扩张和收缩更为剧烈。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/technical-analysis/moving-averages/"><div class="k">技术分析</div><b>移动平均线</b><span>简单、指数和加权移动平均线如何计算，20、50、200周期均线意味着什么，金叉与死叉，以及均线的滞后取舍。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/"><div class="k">技术分析</div><b>ATR与波动率</b><span>平均真实波幅（ATR）如何计算，如何用ATR设置止损和计算仓位，以及历史波动率、肯特纳通道和波动率为何会聚集出现。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">算法与量化交易</div><b>均值回归</b><span>均值回归交易如何运作：短期反转效应、Z值、布林带与RSI系统、负偏度、市场状态风险，以及策略失效的情形。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/"><div class="k">技术分析</div><b>RSI</b><span>相对强弱指数（RSI）如何计算，超买超卖的真正含义，RSI背离，RSI在趋势中的表现，以及常见的误用。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/"><div class="k">技术分析</div><b>趋势与市场结构</b><span>交易者如何用波段高低点、趋势线、通道、结构突破（BOS）和ADX趋势强度指标来界定上升趋势、下降趋势与震荡区间。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/technical-analysis/macd/"><small>← 上一篇</small>MACD</a><a class="next" href="/zh/encyclopedia/technical-analysis/volume-analysis/"><small>下一篇 →</small>成交量分析</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

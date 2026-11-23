@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Что такое VWAP: средневзвешенная по объёму цена для трейдера</title>
+<meta name="description" content="Как рассчитывается VWAP, почему институционалы используют его как бенчмарк, как дейтрейдеры торгуют от него, якорный VWAP, полосы VWAP и ограничения индикатора.">
+<meta name="keywords" content="vwap индикатор, средневзвешенная цена по объему, якорный vwap, стратегия vwap, полосы vwap">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/vwap/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/vwap/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Энциклопедия трейдинга">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Что такое VWAP: средневзвешенная по объёму цена для трейдера">
+<meta property="og:description" content="Как рассчитывается VWAP, почему институционалы используют его как бенчмарк, как дейтрейдеры торгуют от него, якорный VWAP, полосы VWAP и ограничения индикатора.">
+<meta property="og:url" content="https://pnlpro.fit/ru/encyclopedia/technical-analysis/vwap/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Что такое VWAP: средневзвешенная по объёму цена для трейдера">
+<meta name="twitter:description" content="Как рассчитывается VWAP, почему институционалы используют его как бенчмарк, как дейтрейдеры торгуют от него, якорный VWAP, полосы VWAP и ограничения индикатора.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Что такое VWAP: средневзвешенная по объёму цена для трейдера","description":"Как рассчитывается VWAP, почему институционалы используют его как бенчмарк, как дейтрейдеры торгуют от него, якорный VWAP, полосы VWAP и ограничения индикатора.","keywords":"vwap индикатор, средневзвешенная цена по объему, якорный vwap, стратегия vwap, полосы vwap","articleSection":"Технический анализ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/technical-analysis/vwap/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Технический анализ","item":"https://pnlpro.fit/ru/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"VWAP","item":"https://pnlpro.fit/ru/encyclopedia/technical-analysis/vwap/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Что означает, когда цена выше VWAP?","acceptedAnswer":{"@type":"Answer","text":"Это значит, что текущая цена выше средневзвешенной по объёму цены, уплаченной с начала сессии, то есть средний сегодняшний покупатель в прибыли. Многие трейдеры читают это как признак того, что преимущество было на стороне покупателей, хотя само по себе это ничего не предсказывает."}},{"@type":"Question","name":"Обнуляется ли VWAP каждый день?","acceptedAnswer":{"@type":"Answer","text":"Стандартный сессионный VWAP обнуляется в начале каждой торговой сессии. Якорный VWAP не обнуляется: он считается непрерывно с того начального бара, который выбрал трейдер."}},{"@type":"Question","name":"VWAP лучше скользящей средней?","acceptedAnswer":{"@type":"Answer","text":"Он не лучше, а просто другой. VWAP взвешивает цены по объёму и привязан к сессии или якорю, а скользящая средняя взвешивает цены по времени в скользящем окне. Внутридневные трейдеры часто используют VWAP, свинг-трейдеры — чаще скользящие средние."}},{"@type":"Question","name":"Можно ли использовать VWAP для крипты или форекса?","acceptedAnswer":{"@type":"Answer","text":"Можно, но осторожно. VWAP в крипте зависит от того, объём каких бирж в него включён, и от произвольного времени ежедневного обнуления, а VWAP на спотовом форексе строится по тиковому объёму одного брокера, который лишь приблизительно отражает реальную активность."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
+  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/vwap/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/vwap/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/vwap/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/technical-analysis/vwap/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/vwap/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/vwap/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/vwap/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/vwap/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/vwap/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Технический анализ</h3><ul><li><a href="/ru/encyclopedia/technical-analysis/technical-analysis-intro/">Введение в теханализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-charts/">Как читать свечи</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-patterns/">Свечные паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/support-and-resistance/">Поддержка и сопротивление</a></li><li><a href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/">Тренды и структура рынка</a></li><li><a href="/ru/encyclopedia/technical-analysis/chart-patterns/">Графические паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/moving-averages/">Скользящие средние</a></li><li><a href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/ru/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ru/encyclopedia/technical-analysis/bollinger-bands/">Полосы Боллинджера</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-analysis/">Анализ объема</a></li><li><a href="/ru/encyclopedia/technical-analysis/vwap/" class="on" aria-current="page">VWAP</a></li><li><a href="/ru/encyclopedia/technical-analysis/fibonacci-retracement/">Инструменты Фибоначчи</a></li><li><a href="/ru/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR и волатильность</a></li><li><a href="/ru/encyclopedia/technical-analysis/multi-timeframe-analysis/">Мультитаймфреймовый анализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/price-action-trading/">Торговля по прайс-экшен</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Профиль объема и Market Profile</a></li><li><a href="/ru/encyclopedia/technical-analysis/order-flow-trading/">Торговля по ордерфлоу</a></li><li><a href="/ru/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/ru/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Волны Эллиотта и Вайкофф</a></li></ul><h3>Все темы</h3><ul><li><a href="/ru/encyclopedia/basics/">📘 Основы трейдинга</a></li><li><a href="/ru/encyclopedia/risk-management/">🛡️ Риск- и мани-менеджмент</a></li><li><a href="/ru/encyclopedia/psychology/">🧠 Психология трейдинга</a></li><li><a href="/ru/encyclopedia/technical-analysis/" class="on">📈 Технический анализ</a></li><li><a href="/ru/encyclopedia/fundamental-analysis/">🏦 Фундаментальный и макроанализ</a></li><li><a href="/ru/encyclopedia/stocks/">🏛️ Торговля акциями</a></li><li><a href="/ru/encyclopedia/forex/">💱 Торговля на форекс</a></li><li><a href="/ru/encyclopedia/futures/">📊 Торговля фьючерсами</a></li><li><a href="/ru/encyclopedia/options/">🎯 Торговля опционами</a></li><li><a href="/ru/encyclopedia/crypto/">₿ Торговля криптовалютой</a></li><li><a href="/ru/encyclopedia/meme-coins/">🐸 Торговля мемкоинами</a></li><li><a href="/ru/encyclopedia/prediction-markets/">🔮 Рынки предсказаний</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/">🤖 Алгоритмическая и квант-торговля</a></li><li><a href="/ru/encyclopedia/other-markets/">🛢️ Сырье, облигации и другие рынки</a></li><li><a href="/ru/encyclopedia/trading-business/">⚖️ Проп-фирмы, налоги, регулирование и мошенничество</a></li><li><a href="/ru/encyclopedia/reference/">📖 Справочник</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ru/encyclopedia/">Энциклопедия</a> › <a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a></div>
+<h1 class="title">VWAP (средневзвешенная по объёму цена)</h1>
+<div class="meta">6 мин чтения · Обновлено 23 нояб. 2026 г.</div>
+<details class="side-m"><summary>Ещё в разделе «Технический анализ»</summary><ul><li><a href="/ru/encyclopedia/technical-analysis/technical-analysis-intro/">Введение в теханализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-charts/">Как читать свечи</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-patterns/">Свечные паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/support-and-resistance/">Поддержка и сопротивление</a></li><li><a href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/">Тренды и структура рынка</a></li><li><a href="/ru/encyclopedia/technical-analysis/chart-patterns/">Графические паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/moving-averages/">Скользящие средние</a></li><li><a href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a></li><li><a href="/ru/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ru/encyclopedia/technical-analysis/bollinger-bands/">Полосы Боллинджера</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-analysis/">Анализ объема</a></li><li><a href="/ru/encyclopedia/technical-analysis/vwap/" class="on" aria-current="page">VWAP</a></li><li><a href="/ru/encyclopedia/technical-analysis/fibonacci-retracement/">Инструменты Фибоначчи</a></li><li><a href="/ru/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR и волатильность</a></li><li><a href="/ru/encyclopedia/technical-analysis/multi-timeframe-analysis/">Мультитаймфреймовый анализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/price-action-trading/">Торговля по прайс-экшен</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Профиль объема и Market Profile</a></li><li><a href="/ru/encyclopedia/technical-analysis/order-flow-trading/">Торговля по ордерфлоу</a></li><li><a href="/ru/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/ru/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Волны Эллиотта и Вайкофф</a></li></ul></details>
+<article><p>VWAP (volume-weighted average price), средневзвешенная по объёму цена, — это средняя цена, по которой актив торговался за период, где каждая цена взвешена по объёму, прошедшему на ней. Чаще всего VWAP считают с начала каждой торговой сессии и ежедневно обнуляют. Институциональные игроки по нему оценивают качество исполнения своих сделок, а дейтрейдеры используют его как внутридневной ориентир: кто контролировал сессию — покупатели или продавцы.</p>
+<div class="takeaways"><h2 id="key-takeaways">Ключевые выводы</h2>
+<ul>
+<li>VWAP равен общему проторгованному обороту в деньгах, делённому на общий проторгованный объём, накопленные с выбранной начальной точки.</li>
+<li>Стандартный сессионный VWAP обнуляется каждый день, поэтому это прежде всего внутридневной инструмент.</li>
+<li>Крупные фонды часто сравнивают свои исполнения с VWAP, и это одна из причин, по которым цена склонна реагировать около него.</li>
+<li>Якорный VWAP начинает расчёт с выбранного события, например с гэпа на отчётности или крупного минимума.</li>
+<li>VWAP запаздывает, сам по себе ничего не говорит о будущем и менее информативен на рынках без надёжных данных об объёме.</li>
+</ul></div><details class="toc"><summary>Содержание</summary><ol><li><a href="#vwap">Как рассчитывается VWAP</a></li><li><a href="#vwap">VWAP как институциональный бенчмарк</a></li><li><a href="#vwap">Как дейтрейдеры используют VWAP</a></li><li><a href="#vwap">Якорный VWAP</a></li><li><a href="#vwap">Полосы VWAP</a></li><li><a href="#section-8">Ограничения</a></li><li><a href="#common-mistakes">Типичные ошибки</a></li></ol></details>
+<h2 id="vwap">Как рассчитывается VWAP</h2>
+<p>Для каждого бара берут репрезентативную цену, обычно <strong>типичную цену</strong> = (High + Low + Close) ÷ 3, и умножают её на объём этого бара. Затем ведут накопительные суммы:</p>
+<p>VWAP = Σ (Типичная цена × Объём) ÷ Σ Объём</p>
+<p>Суммы начинаются с открытия сессии и растут с каждым баром. В начале сессии VWAP сильно двигается; к середине дня за ним стоит уже такой объём, что он почти не меняется.</p>
+<h3 id="section-3">Разбор на примере</h3>
+<p>Пять 5-минутных баров в начале сессии:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Бар</th>
+<th>Типичная цена</th>
+<th>Объём</th>
+<th>Цена × Объём</th>
+<th>Накопленный PV</th>
+<th>Накопленный объём</th>
+<th>VWAP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>100.00</td>
+<td>10,000</td>
+<td>1,000,000</td>
+<td>1,000,000</td>
+<td>10,000</td>
+<td>100.00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>100.50</td>
+<td>8,000</td>
+<td>804,000</td>
+<td>1,804,000</td>
+<td>18,000</td>
+<td>100.22</td>
+</tr>
+<tr>
+<td>3</td>
+<td>101.00</td>
+<td>12,000</td>
+<td>1,212,000</td>
+<td>3,016,000</td>
+<td>30,000</td>
+<td>100.53</td>
+</tr>
+<tr>
+<td>4</td>
+<td>100.80</td>
+<td>6,000</td>
+<td>604,800</td>
+<td>3,620,800</td>
+<td>36,000</td>
+<td>100.58</td>
+</tr>
+<tr>
+<td>5</td>
+<td>100.20</td>
+<td>4,000</td>
+<td>400,800</td>
+<td>4,021,600</td>
+<td>40,000</td>
+<td>100.54</td>
+</tr>
+</tbody></table></div>
+<p>После пяти баров VWAP равен 4,021,600 ÷ 40,000 = 100.54. Простое среднее пяти типичных цен — 502.50 ÷ 5 = 100.50. VWAP немного выше, потому что наибольший объём (12,000) прошёл по самой высокой цене (101.00). В этом и весь смысл: VWAP отражает, где на самом деле была заключена основная часть сделок.</p>
+<h2 id="vwap">VWAP как институциональный бенчмарк</h2>
+<p>Пенсионный фонд, которому нужно купить 500,000 акций, не может сделать это одной заявкой, не сдвинув цену. Он дробит заявку на протяжении дня, часто с помощью <a href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/">алгоритма исполнения</a> VWAP, который старается торговать пропорционально объёму рынка. После этого торговый деск сравнивает свою среднюю цену исполнения с дневным VWAP.</p>
+<p><strong>Пример.</strong> Деск покупает 50,000 акций по средней цене 100.48. Сессионный VWAP — 100.54. Деск купил на 0.06 ниже VWAP, что на 50,000 акций даёт 0.06 × 50,000 = $3,000 выигрыша относительно бенчмарка. Если бы он заплатил 100.60, результат был бы на $3,000 хуже.</p>
+<p>Поскольку так оценивается большая часть институционального потока, покупатели с крупными заявками склонны считать цены ниже VWAP выгодными, а продавцы — цены выше VWAP. Такое поведение отчасти объясняет, почему VWAP может работать как магнит или уровень реакции в течение дня, хотя никто не видит, какой объём потока с привязкой к бенчмарку активен в конкретный день.</p>
+<h2 id="vwap">Как дейтрейдеры используют VWAP</h2>
+<p>Дейтрейдеры, особенно в <a href="/ru/encyclopedia/stocks/day-trading-stocks/">акциях</a> и индексных фьючерсах, следят за VWAP несколькими распространёнными способами:</p>
+<ul>
+<li><strong>Фильтр тренда.</strong> Если цена держится выше растущего VWAP, считается, что сессию контролируют покупатели; ниже падающего VWAP — продавцы. Некоторые трейдеры открывают лонги только выше VWAP, а шорты — только ниже.</li>
+<li><strong>Вход на откате.</strong> В день сильного тренда первый откат к VWAP — популярная точка входа. Идея та же, что и при покупке на откате к <a href="/ru/encyclopedia/technical-analysis/moving-averages/">скользящей средней</a>, но VWAP привязан к сессии и взвешен по объёму.</li>
+<li><strong>Возврат над VWAP или его потеря.</strong> Акция, которая открылась слабо, а затем вернулась выше VWAP и удержалась там, иногда расценивается как признак того, что баланс сил в сессии сместился.</li>
+<li><strong>Возврат к среднему.</strong> В боковых сессиях цена часто колеблется вокруг VWAP, а растянутые движения от него могут откатываться обратно.</li>
+</ul>
+<p>Ни один из этих приёмов не надёжен сам по себе. В день сильного тренда цена может так и не вернуться к VWAP; в рваный день она может пересечь VWAP десяток раз, и каждый раз это потенциально ложный сигнал.</p>
+<h2 id="vwap">Якорный VWAP</h2>
+<p>Стандартный VWAP начинается с открытия сессии. <strong>Якорный VWAP</strong> (anchored VWAP, AVWAP) позволяет начать расчёт с любого выбранного бара. Технику популяризировал технический аналитик Брайан Шеннон, и сейчас она встроена в большинство платформ для построения графиков. Типичные якоря:</p>
+<ul>
+<li>Гэп на отчётности или день крупных новостей.</li>
+<li>Значимый swing-максимум или минимум.</li>
+<li>Начало года, квартала или месяца.</li>
+<li>Дата IPO.</li>
+</ul>
+<p>Логика в том, что AVWAP от события показывает среднюю цену входа всех, кто торговал с того момента. Если цена выше AVWAP, привязанного к крупному минимуму, средний покупатель с этого минимума в прибыли. Если цена возвращается к нему, эти покупатели выходят в ноль, и некоторые трейдеры считают такую зону потенциальной <a href="/ru/encyclopedia/technical-analysis/support-and-resistance/">поддержкой</a>. Это интуитивно понятная история, а не доказанный эффект, и выбор якоря субъективен.</p>
+<h2 id="vwap">Полосы VWAP</h2>
+<p>Многие платформы строят вокруг VWAP полосы на расстоянии одного, двух, а иногда и трёх стандартных отклонений цены от VWAP, взвешенных по объёму. Они выглядят и работают во многом как <a href="/ru/encyclopedia/technical-analysis/bollinger-bands/">полосы Боллинджера</a> вокруг скользящей средней. Трейдеры используют внешние полосы как признак растянутого движения в боковой день или как свидетельство силы, когда цена в трендовый день продолжает идти вдоль верхней полосы. Некоторые платформы вместо полос стандартного отклонения предлагают процентные полосы; проверьте, какие использует ваш инструмент.</p>
+<h2 id="section-8">Ограничения</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ограничение</th>
+<th>Почему это важно</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Запаздывание</td>
+<td>VWAP — среднее прошлых значений. К концу сессии он почти не двигается.</td>
+</tr>
+<tr>
+<td>Ежедневное обнуление</td>
+<td>Сессионный VWAP мало говорит о многодневных трендах; для этого есть якорный VWAP или более длинные средние.</td>
+</tr>
+<tr>
+<td>Качество данных</td>
+<td>Разные потоки данных и определения сессии (с премаркетом или без) дают разные значения VWAP.</td>
+</tr>
+<tr>
+<td>Слабость на некоторых рынках</td>
+<td>У спотового форекса нет централизованного объёма, а объём в крипте может быть раздут фиктивной торговлей. См. <a href="/ru/encyclopedia/technical-analysis/volume-analysis/">анализ объёма</a>.</td>
+</tr>
+<tr>
+<td>Рынки, работающие 24 часа в сутки</td>
+<td>У крипты и фьючерсов нет естественного открытия, поэтому время обнуления (для крипты часто 00:00 UTC) — условность.</td>
+</tr>
+<tr>
+<td>Это не сигнал</td>
+<td>Пересечение VWAP само по себе не является сигналом на покупку или продажу.</td>
+</tr>
+</tbody></table></div>
+<h2 id="common-mistakes">Типичные ошибки</h2>
+<ul>
+<li><strong>Использовать VWAP на дневных или недельных графиках.</strong> Сессионный VWAP — внутридневной инструмент. Для более длинных горизонтов используйте якорный VWAP или другие средние.</li>
+<li><strong>Не обращать внимания на настройку сессии.</strong> От того, включает ли ваша платформа торги на премаркете и постмаркете, зависит значение индикатора.</li>
+<li><strong>Считать каждое касание поводом для сделки.</strong> VWAP лучше всего работает в сочетании с контекстом сессии, уровнями и объёмом, а не как самостоятельный триггер.</li>
+<li><strong>Полагать, что институционалы защищают VWAP.</strong> Поток с привязкой к бенчмарку существует, но вы его не видите, и он не гарантирует отскок.</li>
+</ul>
+<h2 id="faq">Частые вопросы</h2>
+<h3 id="vwap">Что означает, когда цена выше VWAP?</h3>
+<p>Это значит, что текущая цена выше средневзвешенной по объёму цены, уплаченной с начала сессии, то есть средний сегодняшний покупатель в прибыли. Многие трейдеры читают это как признак того, что преимущество было на стороне покупателей, хотя само по себе это ничего не предсказывает.</p>
+<h3 id="vwap">Обнуляется ли VWAP каждый день?</h3>
+<p>Стандартный сессионный VWAP обнуляется в начале каждой торговой сессии. Якорный VWAP не обнуляется: он считается непрерывно с того начального бара, который выбрал трейдер.</p>
+<h3 id="vwap">VWAP лучше скользящей средней?</h3>
+<p>Он не лучше, а просто другой. VWAP взвешивает цены по объёму и привязан к сессии или якорю, а скользящая средняя взвешивает цены по времени в скользящем окне. Внутридневные трейдеры часто используют VWAP, свинг-трейдеры — чаще скользящие средние.</p>
+<h3 id="vwap">Можно ли использовать VWAP для крипты или форекса?</h3>
+<p>Можно, но осторожно. VWAP в крипте зависит от того, объём каких бирж в него включён, и от произвольного времени ежедневного обнуления, а VWAP на спотовом форексе строится по тиковому объёму одного брокера, который лишь приблизительно отражает реальную активность.</p>
+</article>
+<div class="disclaimer"><strong>Только образовательный материал.</strong> Ничто здесь не является финансовой, инвестиционной, юридической или налоговой консультацией. Торговля сопряжена с высоким риском потерь, а с кредитным плечом можно потерять больше, чем вы внесли. Правила, комиссии и условия площадок меняются: перед сделкой проверяйте актуальные условия у брокера, биржи или регулятора.</div>
+<section class="related"><h2>Похожие статьи</h2><div class="cards"><a class="card" href="/ru/encyclopedia/technical-analysis/volume-analysis/"><div class="k">Технический анализ</div><b>Анализ объема</b><span>Как читать объём: подтверждение движения, кульминации, относительный объём, OBV и линия накопления/распределения, ограничения данных в крипте и на форексе.</span></a><a class="card" href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/"><div class="k">Алгоритмическая и квант-торговля</div><b>Алгоритмы исполнения</b><span>Как работают алгоритмы исполнения: TWAP, VWAP, POV и implementation shortfall, умная маршрутизация ордеров, измерение проскальзывания и роль исполнения.</span></a><a class="card" href="/ru/encyclopedia/technical-analysis/moving-averages/"><div class="k">Технический анализ</div><b>Скользящие средние</b><span>Как рассчитываются простая, экспоненциальная и взвешенная скользящие средние, что значат периоды 20, 50 и 200, золотой и мёртвый крест и цена запаздывания.</span></a><a class="card" href="/ru/encyclopedia/stocks/day-trading-stocks/"><div class="k">Торговля акциями</div><b>Дейтрейдинг акциями</b><span>Как устроен дейтрейдинг акциями: правило PDT в США и его замена в 2026 г., кассовый и маржинальный счёт, расчёты T+1, типовые сетапы и реальные шансы.</span></a><a class="card" href="/ru/encyclopedia/technical-analysis/volume-profile-and-market-profile/"><div class="k">Технический анализ</div><b>Профиль объема и Market Profile</b><span>Как работают профиль объёма и Market Profile: POC, зона стоимости, узлы высокого и низкого объёма, TPO-графики, баланс и дисбаланс, применение на фьючерсах.</span></a></div></section>
+<div class="pager"><a href="/ru/encyclopedia/technical-analysis/volume-analysis/"><small>← Назад</small>Анализ объема</a><a class="next" href="/ru/encyclopedia/technical-analysis/fibonacci-retracement/"><small>Далее →</small>Инструменты Фибоначчи</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ru/encyclopedia/basics/">Основы трейдинга</a><a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a><a href="/ru/encyclopedia/psychology/">Психология трейдинга</a><a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a><a href="/ru/encyclopedia/fundamental-analysis/">Фундаментальный и макроанализ</a><a href="/ru/encyclopedia/stocks/">Торговля акциями</a><a href="/ru/encyclopedia/forex/">Торговля на форекс</a><a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a><a href="/ru/encyclopedia/options/">Торговля опционами</a><a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a><a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a><a href="/ru/encyclopedia/prediction-markets/">Рынки предсказаний</a><a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a><a href="/ru/encyclopedia/other-markets/">Сырье, облигации и другие рынки</a><a href="/ru/encyclopedia/trading-business/">Проп-фирмы, налоги, регулирование и мошенничество</a><a href="/ru/encyclopedia/reference/">Справочник</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Открытый набор торговых ботов</a></div>
+  <p>PnL Profit Энциклопедия трейдинга: бесплатные независимые объяснения того, как работают крупнейшие рынки. Только образовательный материал, не инвестиционная рекомендация. Контакты: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ru/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Ничего не найдено. Загляните в глоссарий.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

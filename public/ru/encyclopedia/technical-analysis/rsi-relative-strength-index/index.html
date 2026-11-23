@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Индикатор RSI: перекупленность, перепроданность, дивергенции</title>
+<meta name="description" content="Как рассчитывается индекс относительной силы, что на самом деле значат перекупленность и перепроданность, дивергенции RSI, поведение в тренде и типичные ошибки.">
+<meta name="keywords" content="индикатор RSI, индекс относительной силы, RSI перекупленность перепроданность, дивергенция RSI, настройки RSI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Энциклопедия трейдинга">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Индикатор RSI: перекупленность, перепроданность, дивергенции">
+<meta property="og:description" content="Как рассчитывается индекс относительной силы, что на самом деле значат перекупленность и перепроданность, дивергенции RSI, поведение в тренде и типичные ошибки.">
+<meta property="og:url" content="https://pnlpro.fit/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Индикатор RSI: перекупленность, перепроданность, дивергенции">
+<meta name="twitter:description" content="Как рассчитывается индекс относительной силы, что на самом деле значат перекупленность и перепроданность, дивергенции RSI, поведение в тренде и типичные ошибки.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Индикатор RSI: перекупленность, перепроданность, дивергенции","description":"Как рассчитывается индекс относительной силы, что на самом деле значат перекупленность и перепроданность, дивергенции RSI, поведение в тренде и типичные ошибки.","keywords":"индикатор RSI, индекс относительной силы, RSI перекупленность перепроданность, дивергенция RSI, настройки RSI","articleSection":"Технический анализ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Технический анализ","item":"https://pnlpro.fit/ru/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"RSI","item":"https://pnlpro.fit/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Какая настройка RSI лучше?","acceptedAnswer":{"@type":"Answer","text":"Значение по умолчанию в 14 периодов самое распространённое и вполне разумно для начала. Короткие настройки делают RSI чувствительнее и чаще выводят его на экстремумы, длинные — делают его глаже; любое изменение нужно проверять на своём рынке и таймфрейме."}},{"@type":"Question","name":"RSI выше 70 означает, что нужно продавать?","acceptedAnswer":{"@type":"Answer","text":"Не обязательно. RSI выше 70 означает, что недавние приросты были намного больше недавних снижений, а в сильных восходящих трендах RSI может долго оставаться выше 70, пока цена продолжает расти."}},{"@type":"Question","name":"Что такое дивергенция RSI?","acceptedAnswer":{"@type":"Answer","text":"Дивергенция — это когда цена и RSI движутся в разные стороны, например цена делает более высокий максимум, а RSI — более низкий. Это говорит об угасании моментума, но многие дивергенции не приводят к развороту, поэтому трейдеры обычно ждут подтверждения ценой."}},{"@type":"Question","name":"RSI лучше, чем MACD?","acceptedAnswer":{"@type":"Answer","text":"Ни один не лучше: оба построены по одним и тем же ценам закрытия и измеряют моментум по-разному. RSI ограничен диапазоном от 0 до 100, поэтому экстремумы легко заметить, а MACD не ограничен и сосредоточен на соотношении двух скользящих средних."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
+  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Технический анализ</h3><ul><li><a href="/ru/encyclopedia/technical-analysis/technical-analysis-intro/">Введение в теханализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-charts/">Как читать свечи</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-patterns/">Свечные паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/support-and-resistance/">Поддержка и сопротивление</a></li><li><a href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/">Тренды и структура рынка</a></li><li><a href="/ru/encyclopedia/technical-analysis/chart-patterns/">Графические паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/moving-averages/">Скользящие средние</a></li><li><a href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/" class="on" aria-current="page">RSI</a></li><li><a href="/ru/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ru/encyclopedia/technical-analysis/bollinger-bands/">Полосы Боллинджера</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-analysis/">Анализ объема</a></li><li><a href="/ru/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/ru/encyclopedia/technical-analysis/fibonacci-retracement/">Инструменты Фибоначчи</a></li><li><a href="/ru/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR и волатильность</a></li><li><a href="/ru/encyclopedia/technical-analysis/multi-timeframe-analysis/">Мультитаймфреймовый анализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/price-action-trading/">Торговля по прайс-экшен</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Профиль объема и Market Profile</a></li><li><a href="/ru/encyclopedia/technical-analysis/order-flow-trading/">Торговля по ордерфлоу</a></li><li><a href="/ru/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/ru/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Волны Эллиотта и Вайкофф</a></li></ul><h3>Все темы</h3><ul><li><a href="/ru/encyclopedia/basics/">📘 Основы трейдинга</a></li><li><a href="/ru/encyclopedia/risk-management/">🛡️ Риск- и мани-менеджмент</a></li><li><a href="/ru/encyclopedia/psychology/">🧠 Психология трейдинга</a></li><li><a href="/ru/encyclopedia/technical-analysis/" class="on">📈 Технический анализ</a></li><li><a href="/ru/encyclopedia/fundamental-analysis/">🏦 Фундаментальный и макроанализ</a></li><li><a href="/ru/encyclopedia/stocks/">🏛️ Торговля акциями</a></li><li><a href="/ru/encyclopedia/forex/">💱 Торговля на форекс</a></li><li><a href="/ru/encyclopedia/futures/">📊 Торговля фьючерсами</a></li><li><a href="/ru/encyclopedia/options/">🎯 Торговля опционами</a></li><li><a href="/ru/encyclopedia/crypto/">₿ Торговля криптовалютой</a></li><li><a href="/ru/encyclopedia/meme-coins/">🐸 Торговля мемкоинами</a></li><li><a href="/ru/encyclopedia/prediction-markets/">🔮 Рынки предсказаний</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/">🤖 Алгоритмическая и квант-торговля</a></li><li><a href="/ru/encyclopedia/other-markets/">🛢️ Сырье, облигации и другие рынки</a></li><li><a href="/ru/encyclopedia/trading-business/">⚖️ Проп-фирмы, налоги, регулирование и мошенничество</a></li><li><a href="/ru/encyclopedia/reference/">📖 Справочник</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ru/encyclopedia/">Энциклопедия</a> › <a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a></div>
+<h1 class="title">RSI (индекс относительной силы)</h1>
+<div class="meta">7 мин чтения · Обновлено 23 нояб. 2026 г.</div>
+<details class="side-m"><summary>Ещё в разделе «Технический анализ»</summary><ul><li><a href="/ru/encyclopedia/technical-analysis/technical-analysis-intro/">Введение в теханализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-charts/">Как читать свечи</a></li><li><a href="/ru/encyclopedia/technical-analysis/candlestick-patterns/">Свечные паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/support-and-resistance/">Поддержка и сопротивление</a></li><li><a href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/">Тренды и структура рынка</a></li><li><a href="/ru/encyclopedia/technical-analysis/chart-patterns/">Графические паттерны</a></li><li><a href="/ru/encyclopedia/technical-analysis/moving-averages/">Скользящие средние</a></li><li><a href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/" class="on" aria-current="page">RSI</a></li><li><a href="/ru/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/ru/encyclopedia/technical-analysis/bollinger-bands/">Полосы Боллинджера</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-analysis/">Анализ объема</a></li><li><a href="/ru/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/ru/encyclopedia/technical-analysis/fibonacci-retracement/">Инструменты Фибоначчи</a></li><li><a href="/ru/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR и волатильность</a></li><li><a href="/ru/encyclopedia/technical-analysis/multi-timeframe-analysis/">Мультитаймфреймовый анализ</a></li><li><a href="/ru/encyclopedia/technical-analysis/price-action-trading/">Торговля по прайс-экшен</a></li><li><a href="/ru/encyclopedia/technical-analysis/volume-profile-and-market-profile/">Профиль объема и Market Profile</a></li><li><a href="/ru/encyclopedia/technical-analysis/order-flow-trading/">Торговля по ордерфлоу</a></li><li><a href="/ru/encyclopedia/technical-analysis/smart-money-concepts/">Smart Money Concepts (ICT)</a></li><li><a href="/ru/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">Волны Эллиотта и Вайкофф</a></li></ul></details>
+<article><p>Индекс относительной силы (Relative Strength Index, RSI) — это осциллятор моментума, который сравнивает величину недавних приростов с величиной недавних снижений и выражает результат по шкале от 0 до 100. Значения около 100 означают, что недавние движения были в основном вверх, около 0 — в основном вниз. Индикатор разработал Дж. Уэллс Уайлдер-младший и опубликовал в книге 1978 года <em>New Concepts in Technical Trading Systems</em>; сегодня это один из самых популярных индикаторов на любой графической платформе. Он измеряет недавний баланс движений вверх и вниз, и высокое или низкое значение само по себе не означает, что цена вот-вот развернётся.</p>
+<div class="takeaways"><h2 id="key-takeaways">Ключевые выводы</h2>
+<ul>
+<li>RSI = 100 - 100 / (1 + RS), где RS — средний прирост, делённый на среднее снижение за период расчёта, по умолчанию 14.</li>
+<li>Значения выше 70 и ниже 30 условно называют перекупленностью и перепроданностью, но в сильных трендах RSI может долго оставаться в этих крайних зонах.</li>
+<li>В восходящих трендах RSI часто колеблется примерно в зоне 40–80, а в нисходящих — примерно 20–60, что помогает определить режим.</li>
+<li>Дивергенция между ценой и RSI показывает угасание моментума, но многие дивергенции так и не приводят к развороту.</li>
+<li>RSI — это преобразование цен закрытия, поэтому он не добавляет к ценовому графику независимой информации.</li>
+</ul></div><details class="toc"><summary>Содержание</summary><ol><li><a href="#rsi">Как рассчитывается RSI</a></li><li><a href="#section-3">Пример расчёта</a></li><li><a href="#section-4">Перекупленность и перепроданность</a></li><li><a href="#rsi">RSI в тренде: взгляд через режимы</a></li><li><a href="#section-6">Дивергенции</a></li><li><a href="#section-7">Настройки</a></li><li><a href="#common-mistakes">Типичные ошибки</a></li><li><a href="#section-9">Что говорят доказательства</a></li></ol></details>
+<h2 id="rsi">Как рассчитывается RSI</h2>
+<p>RSI смотрит на изменения от одного закрытия к следующему за период расчёта, обычно 14 баров:</p>
+<ol>
+<li>Для каждого бара записывается прирост (если закрытие выросло) или снижение (если упало, записывается положительным числом). У выросшего бара снижение равно нулю, и наоборот.</li>
+<li>Рассчитываются <strong>средний прирост</strong> и <strong>среднее снижение</strong> за период. Уайлдер использовал метод сглаживания: каждое новое среднее равно (предыдущее среднее x 13 + текущее значение) / 14. Это ведёт себя как экспоненциальная средняя и означает, что каждый прошлый бар сохраняет небольшое влияние.</li>
+<li>Рассчитывается <strong>RS</strong> = средний прирост / среднее снижение.</li>
+<li>Рассчитывается <strong>RSI</strong> = 100 - 100 / (1 + RS).</li>
+</ol>
+<p>Интуиция проста. Если средние приросты и снижения равны, RS равен 1, а RSI — 50. Если приросты вдвое больше снижений, RSI около 67. Если снижений не было совсем, RSI был бы равен 100.</p>
+<p>Обратите внимание: RSI — это не то же самое, что «относительная сила» в смысле сравнения одной акции с индексом. Такое сравнение, которое иногда называют сравнительной относительной силой, рассчитывается иначе.</p>
+<h2 id="section-3">Пример расчёта</h2>
+<p>14-дневный средний прирост акции составляет $1.20, а среднее снижение — $0.60.</p>
+<ul>
+<li>RS = 1.20 / 0.60 = 2.00</li>
+<li>RSI = 100 - 100 / (1 + 2) = 100 - 33.33 = <strong>66.67</strong></li>
+</ul>
+<p><strong>День 1:</strong> акция вырастает на $2.00.</p>
+<ul>
+<li>Новый средний прирост = (1.20 x 13 + 2.00) / 14 = (15.60 + 2.00) / 14 = 17.60 / 14 = 1.2571</li>
+<li>Новое среднее снижение = (0.60 x 13 + 0) / 14 = 7.80 / 14 = 0.5571</li>
+<li>RS = 1.2571 / 0.5571 = 2.2564</li>
+<li>RSI = 100 - 100 / 3.2564 = <strong>69.29</strong></li>
+</ul>
+<p><strong>День 2:</strong> акция вырастает на $3.00.</p>
+<ul>
+<li>Средний прирост = (1.2571 x 13 + 3.00) / 14 = 1.3816</li>
+<li>Среднее снижение = (0.5571 x 13 + 0) / 14 = 0.5173</li>
+<li>RS = 2.6706, значит, RSI = <strong>72.76</strong>. Теперь он выше 70, в зоне «перекупленности».</li>
+</ul>
+<p><strong>День 3:</strong> акция падает на $1.50.</p>
+<ul>
+<li>Средний прирост = (1.3816 x 13 + 0) / 14 = 1.2829</li>
+<li>Среднее снижение = (0.5173 x 13 + 1.50) / 14 = 0.5875</li>
+<li>RS = 2.1836, значит, RSI = <strong>68.59</strong>.</li>
+</ul>
+<p>Два сильных дня роста подняли RSI примерно с 67 примерно до 73, а один умеренный день снижения вернул его ниже 70. Значение говорит вам, что недавние приросты перевешивали снижения. Оно не говорит, что рост на $3 был «чрезмерным» или что снижение неизбежно.</p>
+<h2 id="section-4">Перекупленность и перепроданность</h2>
+<p>Общепринятые пороги:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Значение</th>
+<th>Условное название</th>
+<th>Что это на самом деле значит</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Выше 70</td>
+<td>Перекупленность</td>
+<td>Недавние приросты были намного больше недавних снижений</td>
+</tr>
+<tr>
+<td>От 30 до 70</td>
+<td>Нейтральная зона</td>
+<td>Сильного дисбаланса нет</td>
+</tr>
+<tr>
+<td>Ниже 30</td>
+<td>Перепроданность</td>
+<td>Недавние снижения были намного больше недавних приростов</td>
+</tr>
+</tbody></table></div>
+<p>Некоторые трейдеры используют 80 и 20 для более строгих сигналов, особенно на волатильных активах.</p>
+<p>Эти названия вводят в заблуждение. «Перекупленность» звучит так, будто цена обязана упасть, но на деле описывает лишь сильный недавний моментум. А сильный моментум часто сохраняется. Акция в мощном восходящем тренде может неделями держаться выше 70 и продолжать расти, и продажа при каждом пересечении RSI отметки 70 означала бы раз за разом слишком ранний выход или шорт.</p>
+<p>Торговля против экстремумов обычно лучше работает на <a href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/">рынке в диапазоне</a>, где цена колеблется между <a href="/ru/encyclopedia/technical-analysis/support-and-resistance/">поддержкой и сопротивлением</a>. На трендовом рынке она может дорого обойтись.</p>
+<h2 id="rsi">RSI в тренде: взгляд через режимы</h2>
+<p>Широко распространено наблюдение, что типичный диапазон RSI смещается вместе с трендом:</p>
+<ul>
+<li>В <strong>восходящем тренде</strong> RSI обычно колеблется примерно между 40 и 80. Откаты часто останавливаются в районе 40–50, не доходя до 30.</li>
+<li>В <strong>нисходящем тренде</strong> RSI обычно колеблется примерно между 20 и 60. Отскоки часто выдыхаются в районе 50–60, не доходя до 70.</li>
+</ul>
+<p>Трейдеры используют это двумя способами:</p>
+<ul>
+<li><strong>Определение режима.</strong> Если RSI на откатах раз за разом удерживается выше 40, это согласуется с восходящим трендом. Если на подъёмах он перестаёт доходить до 60, тренд может слабеть.</li>
+<li><strong>Входы на откатах.</strong> В сложившемся восходящем тренде снижение RSI в зону 40–50, а не до 30, можно использовать как зону покупки со стопом ниже swing-минимума отката.</li>
+</ul>
+<p>Эти диапазоны — эмпирические правила, а не жёсткие границы. Разные активы и таймфреймы ведут себя по-разному.</p>
+<h2 id="section-6">Дивергенции</h2>
+<p><strong>Дивергенция</strong> возникает, когда цена и RSI расходятся:</p>
+<ul>
+<li><strong>Медвежья дивергенция:</strong> цена делает более высокий максимум, а RSI — более низкий максимум. Последний подъём шёл с меньшим моментумом, чем предыдущий.</li>
+<li><strong>Бычья дивергенция:</strong> цена делает более низкий минимум, а RSI — более высокий минимум. Последнее снижение шло с меньшим моментумом.</li>
+</ul>
+<p>Некоторые трейдеры также следят за <strong>скрытой дивергенцией</strong>, которую читают как сигнал продолжения: в восходящем тренде цена делает более высокий минимум, а RSI — более низкий минимум.</p>
+<p>Дивергенции описывают угасание моментума, которое часто предшествует разворотам. Но моментум может угасать и при продолжении тренда, а в сильном тренде дивергенции могут появиться несколько раз подряд до какого-либо разворота. Обычно трейдеры, прежде чем действовать по дивергенции, ждут подтверждения от самой цены, например <a href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/">слома структуры</a> или закрытия ниже уровня поддержки.</p>
+<h2 id="section-7">Настройки</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Настройка</th>
+<th>Эффект</th>
+<th>Типичное применение</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>14 (по умолчанию)</td>
+<td>Сбалансированный</td>
+<td>Универсальное, любой таймфрейм</td>
+</tr>
+<tr>
+<td>От 2 до 7</td>
+<td>Очень чувствительный; часто достигает экстремумов</td>
+<td>Краткосрочные системы <a href="/ru/encyclopedia/algorithmic-trading/mean-reversion/">возврата к среднему</a>, особенно на фондовых индексах</td>
+</tr>
+<tr>
+<td>От 20 до 25</td>
+<td>Более гладкий; экстремумы редки</td>
+<td>Контекст долгосрочного тренда</td>
+</tr>
+</tbody></table></div>
+<p>При коротких периодах RSI гораздо чаще достигает 70 и 30. 2-периодный RSI может за пару дней качнуться от значения ниже 10 до значения выше 90. Короткие настройки стали популярны в стратегиях возврата к среднему, которые покупают короткие просадки в растущих фондовых индексах. Как и любую систему, их нужно тестировать с реалистичными издержками, потому что их небольшая средняя прибыль на сделку чувствительна к спредам и комиссиям.</p>
+<h2 id="common-mistakes">Типичные ошибки</h2>
+<ul>
+<li><strong>Считать 70 сигналом на продажу.</strong> В восходящем тренде значения перекупленности нормальны. Шортить их — значит бороться с трендом.</li>
+<li><strong>Считать 30 сигналом на покупку во время обвала.</strong> RSI может оставаться ниже 30 на протяжении всего крутого снижения. «Перепроданность» — не дно.</li>
+<li><strong>Торговать каждую дивергенцию.</strong> Дивергенции встречаются часто, и многие не срабатывают. Без подтверждения ценой они преждевременны, а преждевременно часто значит ошибочно.</li>
+<li><strong>Сочетать RSI с похожими осцилляторами.</strong> RSI, стохастик и <a href="/ru/encyclopedia/technical-analysis/macd/">MACD</a> выводятся из цен закрытия. Когда они согласны, это в основном одна и та же информация, учтённая несколько раз.</li>
+<li><strong>Оптимизировать пороги на прошлых данных.</strong> Выбор RSI 11 с уровнями 73 и 27 только потому, что они дали лучший бэктест, — классический путь к <a href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">переобучению</a>.</li>
+<li><strong>Игнорировать таймфрейм.</strong> RSI 80 на 5-минутном графике мало что говорит о дневном тренде.</li>
+</ul>
+<h2 id="section-9">Что говорят доказательства</h2>
+<p>Правила на основе RSI тестировали много раз, и результаты неоднозначны. Простые правила «покупать ниже 30, продавать выше 70» на отдельных активах в целом не показали надёжной прибыли после учёта издержек, а результаты сильно различаются по рынкам и периодам. Эффекты краткосрочного разворота, которые пытаются уловить системы на RSI с коротким периодом, задокументированы на некоторых рынках акций, но они малы в расчёте на сделку и очень чувствительны к транзакционным издержкам. Между тем более широкие исследования моментума говорят о том, что сильные прошлые результаты обычно сохраняются на средних горизонтах, — это повод с осторожностью относиться к автоматической торговле против высоких значений RSI.</p>
+<h2 id="faq">Часто задаваемые вопросы</h2>
+<h3 id="rsi">Какая настройка RSI лучше?</h3>
+<p>Значение по умолчанию в 14 периодов самое распространённое и вполне разумно для начала. Короткие настройки делают RSI чувствительнее и чаще выводят его на экстремумы, длинные — делают его глаже; любое изменение нужно проверять на своём рынке и таймфрейме.</p>
+<h3 id="rsi-70">RSI выше 70 означает, что нужно продавать?</h3>
+<p>Не обязательно. RSI выше 70 означает, что недавние приросты были намного больше недавних снижений, а в сильных восходящих трендах RSI может долго оставаться выше 70, пока цена продолжает расти.</p>
+<h3 id="rsi">Что такое дивергенция RSI?</h3>
+<p>Дивергенция — это когда цена и RSI движутся в разные стороны, например цена делает более высокий максимум, а RSI — более низкий. Это говорит об угасании моментума, но многие дивергенции не приводят к развороту, поэтому трейдеры обычно ждут подтверждения ценой.</p>
+<h3 id="rsi-macd">RSI лучше, чем MACD?</h3>
+<p>Ни один не лучше: оба построены по одним и тем же ценам закрытия и измеряют моментум по-разному. RSI ограничен диапазоном от 0 до 100, поэтому экстремумы легко заметить, а MACD не ограничен и сосредоточен на соотношении двух скользящих средних.</p>
+</article>
+<div class="disclaimer"><strong>Только образовательный материал.</strong> Ничто здесь не является финансовой, инвестиционной, юридической или налоговой консультацией. Торговля сопряжена с высоким риском потерь, а с кредитным плечом можно потерять больше, чем вы внесли. Правила, комиссии и условия площадок меняются: перед сделкой проверяйте актуальные условия у брокера, биржи или регулятора.</div>
+<section class="related"><h2>Похожие статьи</h2><div class="cards"><a class="card" href="/ru/encyclopedia/technical-analysis/macd/"><div class="k">Технический анализ</div><b>MACD</b><span>Как MACD строится из двух EMA, что показывают сигнальная линия и гистограмма, как читать пересечения и дивергенции, настройки 12/26/9 и проблема запаздывания.</span></a><a class="card" href="/ru/encyclopedia/technical-analysis/trends-and-market-structure/"><div class="k">Технический анализ</div><b>Тренды и структура рынка</b><span>Как трейдеры определяют восходящий и нисходящий тренд и боковик по swing-максимумам и минимумам, линиям тренда, каналам, слому структуры и индикатору ADX.</span></a><a class="card" href="/ru/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Алгоритмическая и квант-торговля</div><b>Возврат к среднему</b><span>Как работает торговля на возврате к среднему: краткосрочный разворот, z-score, системы на полосах Боллинджера и RSI, отрицательная асимметрия и риск режима.</span></a><a class="card" href="/ru/encyclopedia/technical-analysis/bollinger-bands/"><div class="k">Технический анализ</div><b>Полосы Боллинджера</b><span>Как полосы Боллинджера строятся по 20-периодной средней и 2 стандартным отклонениям: сжатие, «прогулка по полосе», %B, ширина полос и каналы Кельтнера.</span></a><a class="card" href="/ru/encyclopedia/technical-analysis/moving-averages/"><div class="k">Технический анализ</div><b>Скользящие средние</b><span>Как рассчитываются простая, экспоненциальная и взвешенная скользящие средние, что значат периоды 20, 50 и 200, золотой и мёртвый крест и цена запаздывания.</span></a></div></section>
+<div class="pager"><a href="/ru/encyclopedia/technical-analysis/moving-averages/"><small>← Назад</small>Скользящие средние</a><a class="next" href="/ru/encyclopedia/technical-analysis/macd/"><small>Далее →</small>MACD</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ru/encyclopedia/basics/">Основы трейдинга</a><a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a><a href="/ru/encyclopedia/psychology/">Психология трейдинга</a><a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a><a href="/ru/encyclopedia/fundamental-analysis/">Фундаментальный и макроанализ</a><a href="/ru/encyclopedia/stocks/">Торговля акциями</a><a href="/ru/encyclopedia/forex/">Торговля на форекс</a><a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a><a href="/ru/encyclopedia/options/">Торговля опционами</a><a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a><a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a><a href="/ru/encyclopedia/prediction-markets/">Рынки предсказаний</a><a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a><a href="/ru/encyclopedia/other-markets/">Сырье, облигации и другие рынки</a><a href="/ru/encyclopedia/trading-business/">Проп-фирмы, налоги, регулирование и мошенничество</a><a href="/ru/encyclopedia/reference/">Справочник</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Открытый набор торговых ботов</a></div>
+  <p>PnL Profit Энциклопедия трейдинга: бесплатные независимые объяснения того, как работают крупнейшие рынки. Только образовательный материал, не инвестиционная рекомендация. Контакты: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ru/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Ничего не найдено. Загляните в глоссарий.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

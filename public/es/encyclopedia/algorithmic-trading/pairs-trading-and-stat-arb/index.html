@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pairs trading y arbitraje estadístico: cómo funcionan | PnL Profit</title>
+<meta name="description" content="Pairs trading y arbitraje estadístico: cointegración frente a correlación, ratio de cobertura, z-score del spread, reglas de entrada y el quant quake de 2007.">
+<meta name="keywords" content="pairs trading, arbitraje estadístico, trading con cointegración, estrategia de pairs trading, ratio de cobertura, quant quake 2007">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Pairs trading y arbitraje estadístico: cómo funcionan | PnL Profit">
+<meta property="og:description" content="Pairs trading y arbitraje estadístico: cointegración frente a correlación, ratio de cobertura, z-score del spread, reglas de entrada y el quant quake de 2007.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pairs trading y arbitraje estadístico: cómo funcionan | PnL Profit">
+<meta name="twitter:description" content="Pairs trading y arbitraje estadístico: cointegración frente a correlación, ratio de cobertura, z-score del spread, reglas de entrada y el quant quake de 2007.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Pairs trading y arbitraje estadístico: cómo funcionan","description":"Pairs trading y arbitraje estadístico: cointegración frente a correlación, ratio de cobertura, z-score del spread, reglas de entrada y el quant quake de 2007.","keywords":"pairs trading, arbitraje estadístico, trading con cointegración, estrategia de pairs trading, ratio de cobertura, quant quake 2007","articleSection":"Trading algorítmico y cuantitativo","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading algorítmico y cuantitativo","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Pairs trading y arbitraje estadístico","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿El pairs trading no tiene riesgo?","acceptedAnswer":{"@type":"Answer","text":"No. La relación entre los dos activos puede romperse, el diferencial puede ampliarse aún más antes de estrecharse y las posiciones saturadas pueden deshacerse de repente. El pairs trading reduce la exposición a la dirección del mercado, pero añade otros riesgos."}},{"@type":"Question","name":"¿Cuál es la diferencia entre cointegración y correlación?","acceptedAnswer":{"@type":"Answer","text":"La correlación mide si los rendimientos de dos activos se mueven juntos de un periodo a otro. La cointegración significa que una combinación de sus precios forma un diferencial que tiende a volver a una media estable, que es en lo que se basa una operación de pares."}},{"@type":"Question","name":"¿Qué z-score debo usar para el pairs trading?","acceptedAnswer":{"@type":"Answer","text":"Muchos traders entran en torno a ±2 y salen cerca de 0, con un stop en un valor mayor como ±4. Los mejores umbrales dependen de los costos, de la vida media del diferencial y del propio par, y deben probarse fuera de muestra."}},{"@type":"Question","name":"¿Sigue funcionando el pairs trading?","acceptedAnswer":{"@type":"Answer","text":"Los estudios académicos encontraron que los rendimientos de las reglas sencillas de pairs trading disminuyeron con el tiempo a medida que la estrategia se fue conociendo. Siguen existiendo oportunidades, pero tienden a ser más pequeñas, más rápidas y más competidas que en el pasado."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading algorítmico y cuantitativo</h3><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/" class="on">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a></div>
+<h1 class="title">Pairs trading y arbitraje estadístico</h1>
+<div class="meta">9 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Trading algorítmico y cuantitativo</summary><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul></details>
+<article><p>El pairs trading (trading de pares) es una estrategia neutral al mercado que compra un activo y vende en corto otro estrechamente relacionado cuando la relación de precios entre ambos se estira de forma inusual, apostando a que la brecha se reducirá. El arbitraje estadístico, o stat arb, extiende la idea a grandes carteras de posiciones seleccionadas con modelos estadísticos. Ambos son formas de <a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">reversión a la media</a> aplicadas a precios relativos en lugar de a precios individuales, y ambos dependen de relaciones que pueden debilitarse o romperse.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>El pairs trading obtiene beneficio de los cambios en el diferencial (spread) entre dos activos, no de la dirección del mercado en su conjunto.</li>
+<li>La cointegración, es decir, que el propio diferencial tienda a volver a un nivel estable, importa más que la correlación.</li>
+<li>El ratio de cobertura fija cuánto operar de cada activo para que el diferencial quede equilibrado.</li>
+<li>Las entradas y salidas suelen definirse mediante z-scores del diferencial, además de stops para cuando la relación se rompe.</li>
+<li>Los beneficios publicados del pairs trading han disminuido con el tiempo, y las posiciones saturadas de stat arb pueden deshacerse de forma violenta, como en agosto de 2007.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#c-mo-funciona-el-pairs-trading">Cómo funciona el pairs trading</a></li><li><a href="#correlaci-n-frente-a-cointegraci-n">Correlación frente a cointegración</a></li><li><a href="#construir-el-diferencial">Construir el diferencial</a></li><li><a href="#reglas-de-entrada-y-salida">Reglas de entrada y salida</a></li><li><a href="#de-los-pares-al-arbitraje-estad-stico">De los pares al arbitraje estadístico</a></li><li><a href="#degradaci-n-y-saturaci-n">Degradación y saturación</a></li><li><a href="#ejemplo-pr-ctico">Ejemplo práctico</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="c-mo-funciona-el-pairs-trading">Cómo funciona el pairs trading</h2>
+<p>El ejemplo clásico son dos empresas del mismo sector con negocios similares, como dos grandes productoras de petróleo, dos redes de pago o dos clases de acciones de una misma empresa. Sus precios dependen de muchos de los mismos factores. Cuando una sube con fuerza en relación con la otra sin una razón clara, el trader de pares vende en corto la que lo ha hecho mejor y compra la que lo ha hecho peor. Si la relación se mantiene, la brecha se cierra y la operación gana dinero tanto si el mercado en conjunto sube como si baja.</p>
+<p>El origen del pairs trading suele situarse en los grupos cuantitativos de las mesas de trading de Wall Street en la década de 1980, y con frecuencia se atribuye a un equipo de Morgan Stanley. En un estudio de 2006 muy citado, Gatev, Goetzmann y Rouwenhorst probaron una regla sencilla con acciones estadounidenses: emparejar las acciones cuyos precios normalizados se movían de forma más parecida y operar cuando divergían. Encontraron rendimientos excedentes históricos, pero también que los beneficios eran menores en la parte final de su muestra, un patrón que también señalaron estudios posteriores.</p>
+<h2 id="correlaci-n-frente-a-cointegraci-n">Correlación frente a cointegración</h2>
+<p>La correlación y la cointegración se confunden a menudo, y la diferencia es importante.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Qué mide</th>
+<th>¿Sirve para pares?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Correlación</td>
+<td>Si los rendimientos de dos series suben y bajan juntos de un periodo a otro</td>
+<td>No basta por sí sola. Dos acciones muy correlacionadas pueden separarse de forma permanente</td>
+</tr>
+<tr>
+<td>Cointegración</td>
+<td>Si alguna combinación de las dos series de precios (el diferencial) es estacionaria, es decir, tiende a volver a una media estable</td>
+<td>Sí. Es aquello por lo que realmente apuesta una operación de pares</td>
+</tr>
+</tbody></table></div>
+<p>Dos acciones pueden tener rendimientos diarios muy correlacionados mientras una crece poco a poco más rápido que la otra durante años. El diferencial entonces tiene tendencia, y un trader que vende en corto la &quot;cara&quot; pierde de forma constante. A la inversa, las series cointegradas pueden tener una correlación diaria solo moderada y aun así mantener una relación estable a largo plazo.</p>
+<p>El método en dos pasos de Engle-Granger, presentado por Engle y Granger en 1987, es una prueba habitual: se hace una regresión de un precio sobre el otro para estimar la relación y luego se comprueba si el diferencial residual es estacionario. La prueba de Johansen permite trabajar con más de dos activos. Consulta <a href="/es/encyclopedia/risk-management/correlation-and-portfolio-risk/">correlación y riesgo de cartera</a> para ver cómo se comporta la correlación en una cartera.</p>
+<h2 id="construir-el-diferencial">Construir el diferencial</h2>
+<h3 id="ratio-de-cobertura">Ratio de cobertura</h3>
+<p>El ratio de cobertura β indica cuántas unidades del activo B compensan una unidad del activo A. A menudo se estima con una regresión del precio de A sobre el precio de B (o de sus logaritmos) en una ventana de cálculo:</p>
+<p>Diferencial = Precio_A − β × Precio_B</p>
+<p>Un par neutral en dólares mantiene la misma cantidad en dólares en largo y en corto. Un par neutral en beta se ajusta a las diferencias de sensibilidad al mercado. Los ratios de cobertura se desplazan con el tiempo, así que muchos traders los reestiman en una ventana móvil o usan un filtro de Kalman para actualizarlos de forma continua.</p>
+<h3 id="vida-media">Vida media</h3>
+<p>La vida media (half-life) estima cuánto tarda normalmente el diferencial en cerrar la mitad de una desviación respecto de su media. Se obtiene con una regresión del cambio del diferencial sobre su nivel anterior. Una vida media de 5 a 20 días encaja con el swing trading; una vida media de meses inmoviliza capital y aumenta la probabilidad de que la relación se rompa antes.</p>
+<pre><code class="language-python">import numpy as np
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import coint
+
+def pair_stats(a: np.ndarray, b: np.ndarray):
+    &quot;&quot;&quot;a, b: arrays de precios alineados (a menudo se usan precios logarítmicos).&quot;&quot;&quot;
+    beta = sm.OLS(a, sm.add_constant(b)).fit().params[1]
+    spread = a - beta * b
+    coint_p = coint(a, b)[1]          # prueba de Engle-Granger; un p pequeño sugiere cointegración
+    lagged = spread[:-1]
+    delta = np.diff(spread)
+    lam = sm.OLS(delta, sm.add_constant(lagged)).fit().params[1]
+    half_life = -np.log(2) / lam if lam &lt; 0 else np.inf
+    return beta, coint_p, half_life
+</code></pre>
+<h2 id="reglas-de-entrada-y-salida">Reglas de entrada y salida</h2>
+<p>La mayoría de los sistemas de pares operan el z-score del diferencial: su distancia respecto de su media móvil, medida en desviaciones estándar.</p>
+<ul>
+<li><strong>Entrada:</strong> vender el diferencial (corto en A, largo en β unidades de B) cuando z sube por encima de aproximadamente +2; comprar el diferencial cuando z cae por debajo de aproximadamente −2.</li>
+<li><strong>Salida:</strong> cerrar cuando z vuelve cerca de 0.</li>
+<li><strong>Stop:</strong> cerrar si z alcanza un extremo como ±4, o si la operación dura varias veces más que la vida media.</li>
+<li><strong>Nueva prueba:</strong> dejar de operar el par si la prueba de cointegración falla con los datos recientes.</li>
+</ul>
+<h2 id="de-los-pares-al-arbitraje-estad-stico">De los pares al arbitraje estadístico</h2>
+<p>El arbitraje estadístico aplica la misma lógica a gran escala. En lugar de un solo par, un fondo de stat arb puede mantener cientos o miles de pequeñas posiciones largas y cortas. Entre los enfoques habituales están:</p>
+<ul>
+<li>Operar cada acción frente a una cesta de sus pares del sector.</li>
+<li>Usar modelos de factores o análisis de componentes principales para eliminar los movimientos del mercado y del sector, y luego operar los rendimientos residuales que se espera que reviertan. Avellaneda y Lee describieron este enfoque para la renta variable estadounidense en un artículo de 2010.</li>
+<li>Modelos de horizonte corto que combinan señales de reversión con información del flujo de órdenes y del volumen.</li>
+</ul>
+<p>A pesar del nombre, el arbitraje estadístico no es arbitraje en el sentido de &quot;sin riesgo&quot; descrito en <a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">estrategias de arbitraje</a>. Se basa en probabilidades que se cumplen de media en muchas posiciones.</p>
+<h2 id="degradaci-n-y-saturaci-n">Degradación y saturación</h2>
+<h3 id="degradaci-n-de-la-ventaja">Degradación de la ventaja</h3>
+<p>A medida que más traders aplican modelos similares, los diferenciales que buscan se cierran más rápido y las oportunidades se reducen. Los competidores más rápidos capturan las señales más limpias. Estrategias que antes mantenían posiciones durante semanas pueden necesitar ahora actuar en minutos, o no actuar en absoluto.</p>
+<h3 id="el-quant-quake-de-agosto-de-2007">El quant quake de agosto de 2007</h3>
+<p>En la semana del 6 de agosto de 2007, muchos fondos cuantitativos de renta variable market-neutral sufrieron pérdidas repentinas y grandes. En un conocido análisis, Khandani y Lo sostuvieron que el desencadenante probable fue que uno o varios fondos grandes deshicieron posiciones rápidamente, quizá para obtener liquidez o reducir riesgo en otros ámbitos. Como muchos fondos tenían carteras largas y cortas similares, las ventas forzadas movieron los precios en contra de todos a la vez, lo que provocó nuevas reducciones de riesgo. Gran parte de la pérdida se revirtió en pocos días, pero los fondos que recortaron posiciones en el punto más bajo la consolidaron. La lección es que una estrategia puede ser neutral al mercado y aun así conllevar un riesgo de saturación concentrado.</p>
+<h2 id="ejemplo-pr-ctico">Ejemplo práctico</h2>
+<p>Dos acciones tienen un ratio de cobertura estimado de 1.2. Históricamente, el diferencial A − 1.2 × B ha promediado 2.00 dólares, con una desviación estándar de 0.50 dólares.</p>
+<ul>
+<li>Hoy A cotiza a 51.50 dólares y B a 40.00 dólares. Diferencial = 51.50 − 1.2 × 40.00 = 51.50 − 48.00 = 3.50 dólares.</li>
+<li>z = (3.50 − 2.00) / 0.50 = 3.0, por encima del nivel de entrada de +2, así que el trader vende el diferencial: vende en corto 1,000 acciones de A (51,500 dólares) y compra 1,200 acciones de B (48,000 dólares).</li>
+<li>Dos semanas después, A está en 51.00 y B en 40.75. Diferencial = 51.00 − 48.90 = 2.10 dólares, z = 0.2, así que el trader cierra.</li>
+<li>Beneficio del corto en A: (51.50 − 51.00) × 1,000 = 500 dólares. Beneficio del largo en B: (40.75 − 40.00) × 1,200 = 900 dólares. Total: 1,400 dólares.</li>
+<li>Comprobación: el diferencial bajó de 3.50 a 2.10, un cambio de 1.40 dólares, multiplicado por 1,000 unidades del diferencial = 1,400 dólares.</li>
+</ul>
+<p>A eso hay que restarle las comisiones de las cuatro patas, el spread pagado en cada una y la comisión por préstamo de la acción vendida en corto. La mecánica y los costos de las ventas en corto se tratan en <a href="/es/encyclopedia/stocks/short-selling/">venta en corto</a>.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Elegir pares solo por correlación.</strong> Una correlación alta no significa que el diferencial vaya a revertir.</li>
+<li><strong>Explorar miles de pares y operar los mejores backtests.</strong> Con suficientes candidatos, algunos pares parecen cointegrados por casualidad. Consulta <a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">sobreajuste y data snooping</a>.</li>
+<li><strong>Ignorar los cambios estructurales.</strong> Las fusiones, las escisiones, la nueva regulación o un cambio en la composición del negocio pueden romper una relación de forma permanente.</li>
+<li><strong>No poner stop al diferencial.</strong> Un par roto puede seguir divergiendo durante meses.</li>
+<li><strong>Subestimar los costos del lado corto.</strong> Las comisiones por préstamo, las retiradas de títulos prestados (recalls) y las restricciones a la venta en corto pueden borrar ventajas estrechas.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="el-pairs-trading-no-tiene-riesgo">¿El pairs trading no tiene riesgo?</h3>
+<p>No. La relación entre los dos activos puede romperse, el diferencial puede ampliarse aún más antes de estrecharse y las posiciones saturadas pueden deshacerse de repente. El pairs trading reduce la exposición a la dirección del mercado, pero añade otros riesgos.</p>
+<h3 id="cu-l-es-la-diferencia-entre-cointegraci-n-y-correlaci-n">¿Cuál es la diferencia entre cointegración y correlación?</h3>
+<p>La correlación mide si los rendimientos de dos activos se mueven juntos de un periodo a otro. La cointegración significa que una combinación de sus precios forma un diferencial que tiende a volver a una media estable, que es en lo que se basa una operación de pares.</p>
+<h3 id="qu-z-score-debo-usar-para-el-pairs-trading">¿Qué z-score debo usar para el pairs trading?</h3>
+<p>Muchos traders entran en torno a ±2 y salen cerca de 0, con un stop en un valor mayor como ±4. Los mejores umbrales dependen de los costos, de la vida media del diferencial y del propio par, y deben probarse fuera de muestra.</p>
+<h3 id="sigue-funcionando-el-pairs-trading">¿Sigue funcionando el pairs trading?</h3>
+<p>Los estudios académicos encontraron que los rendimientos de las reglas sencillas de pairs trading disminuyeron con el tiempo a medida que la estrategia se fue conociendo. Siguen existiendo oportunidades, pero tienden a ser más pequeñas, más rápidas y más competidas que en el pasado.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Trading algorítmico y cuantitativo</div><b>Reversión a la media</b><span>Cómo funciona la reversión a la media: reversión de corto plazo, z-scores, sistemas con Bollinger y RSI, asimetría negativa, riesgo de régimen y cuándo falla.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/"><div class="k">Trading algorítmico y cuantitativo</div><b>Estrategias de arbitraje</b><span>Arbitraje puro y estadístico, de índices y ETF, de fusiones, entre exchanges y triangular, operaciones de base y por qué el arbitraje sin riesgo es raro.</span></a><a class="card" href="/es/encyclopedia/risk-management/correlation-and-portfolio-risk/"><div class="k">Gestión del riesgo y del capital</div><b>Correlación y riesgo de cartera</b><span>Por qué las posiciones correlacionadas son una sola apuesta, por qué la correlación se dispara en las crisis, límites de exposición, coberturas y beta.</span></a><a class="card" href="/es/encyclopedia/stocks/short-selling/"><div class="k">Trading de acciones</div><b>Venta en corto</b><span>Cómo funciona la venta en corto: localización y préstamo, comisiones, short interest y días para cubrir, short squeezes, regla SSR, dividendos y alternativas.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Trading algorítmico y cuantitativo</div><b>Sobreajuste</b><span>Por qué fracasan en real tantos backtests brillantes: curve fitting, pruebas múltiples, parámetros inestables, deflated Sharpe y cómo evitar el sobreajuste.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/"><small>← Anterior</small>Reversión a la media</a><a class="next" href="/es/encyclopedia/algorithmic-trading/market-making/"><small>Siguiente →</small>Market making</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

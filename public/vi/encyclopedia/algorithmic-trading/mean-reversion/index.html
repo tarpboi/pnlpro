@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chiến lược giao dịch hồi quy về trung bình (mean reversion)</title>
+<meta name="description" content="Cách giao dịch hồi quy về trung bình hoạt động: đảo chiều ngắn hạn, z-score, Bollinger Band và RSI, độ lệch âm, rủi ro chế độ thị trường và khi nó thất bại.">
+<meta name="keywords" content="mean reversion, chiến lược giao dịch mean reversion, giao dịch z-score, đảo chiều ngắn hạn, rsi mean reversion">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/mean-reversion/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Chiến lược giao dịch hồi quy về trung bình (mean reversion)">
+<meta property="og:description" content="Cách giao dịch hồi quy về trung bình hoạt động: đảo chiều ngắn hạn, z-score, Bollinger Band và RSI, độ lệch âm, rủi ro chế độ thị trường và khi nó thất bại.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/mean-reversion/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chiến lược giao dịch hồi quy về trung bình (mean reversion)">
+<meta name="twitter:description" content="Cách giao dịch hồi quy về trung bình hoạt động: đảo chiều ngắn hạn, z-score, Bollinger Band và RSI, độ lệch âm, rủi ro chế độ thị trường và khi nó thất bại.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Chiến lược giao dịch hồi quy về trung bình (mean reversion)","description":"Cách giao dịch hồi quy về trung bình hoạt động: đảo chiều ngắn hạn, z-score, Bollinger Band và RSI, độ lệch âm, rủi ro chế độ thị trường và khi nó thất bại.","keywords":"mean reversion, chiến lược giao dịch mean reversion, giao dịch z-score, đảo chiều ngắn hạn, rsi mean reversion","articleSection":"Giao dịch thuật toán và định lượng","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/mean-reversion/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch thuật toán và định lượng","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Hồi quy về trung bình","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/mean-reversion/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Mean reversion trong giao dịch là gì?","acceptedAnswer":{"@type":"Answer","text":"Mean reversion là ý tưởng rằng giá đi xa khỏi mức trung bình có xu hướng quay trở lại về phía đó. Các trader khai thác điều này bằng cách mua sau những đợt giảm mạnh và bán sau những đợt tăng mạnh, thường kèm các quy tắc thoát lệnh xác định."}},{"@type":"Question","name":"Mean reversion có tốt hơn theo xu hướng không?","acceptedAnswer":{"@type":"Answer","text":"Không cái nào tốt hơn nói chung. Mean reversion có xu hướng hiệu quả ở thị trường đi ngang và theo xu hướng hiệu quả ở thị trường có xu hướng, và mô hình lợi nhuận của chúng khác nhau: mean reversion có nhiều lần thắng nhỏ thường xuyên và hiếm khoản lỗ lớn, còn theo xu hướng thì ngược lại."}},{"@type":"Question","name":"Tôi nên dùng z-score bao nhiêu cho mean reversion?","acceptedAnswer":{"@type":"Answer","text":"Ngưỡng vào lệnh khoảng ±2 độ lệch chuẩn là phổ biến, với điểm thoát gần không. Giá trị phù hợp phụ thuộc vào thị trường, độ dài cửa sổ và chi phí, và nên được kiểm thử ngoài mẫu thay vì tối ưu quá tinh vi."}},{"@type":"Question","name":"Vì sao các chiến lược mean reversion cháy tài khoản?","acceptedAnswer":{"@type":"Answer","text":"Chúng thường nắm giữ các vị thế đi ngược xa hơn trong các xu hướng, khủng hoảng hoặc cú sốc tin tức. Kết hợp với đòn bẩy hoặc trung bình giá xuống, một vài giao dịch như vậy có thể xóa sạch những khoản lãi nhỏ tích lũy nhiều năm."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/mean-reversion/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/mean-reversion/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/mean-reversion/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch thuật toán và định lượng</h3><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/" class="on" aria-current="page">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/" class="on">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a></div>
+<h1 class="title">Giao dịch hồi quy về trung bình</h1>
+<div class="meta">9 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch thuật toán và định lượng</summary><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/" class="on" aria-current="page">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul></details>
+<article><p>Hồi quy về trung bình (mean reversion) là xu hướng của một mức giá hoặc spread đã đi xa khỏi mức trung bình gần đây quay trở lại về phía đó. Các chiến lược mean reversion mua sau những đợt giảm mạnh bất thường và bán sau những đợt tăng mạnh bất thường, đặt cược rằng biến động đó là phản ứng thái quá hoặc mất cân bằng tạm thời. Chúng thường thắng thường xuyên và thua hiếm nhưng nặng, điều khiến chúng hấp dẫn trong thị trường yên ả và nguy hiểm khi một xu hướng hình thành.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Mean reversion đặt cược rằng các cực trị giá ngắn hạn đảo ngược một phần; theo xu hướng đặt cược điều ngược lại.</li>
+<li>Z-score đo giá nằm cách mức trung bình bao xa theo đơn vị độ lệch chuẩn và là cách chuẩn để định nghĩa &quot;cực trị&quot;.</li>
+<li>Hệ thống Bollinger Band và RSI chu kỳ ngắn là các phiên bản phổ biến của giới cá nhân cho cùng một ý tưởng.</li>
+<li>Lợi nhuận thường lệch âm: tỷ lệ thắng cao với những khoản lỗ lớn thỉnh thoảng xuất hiện.</li>
+<li>Rủi ro chính là thay đổi chế độ thị trường, khi một mức giá đã căng tiếp tục đi thay vì bật ngược lại.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#v-sao-gi-h-i-quy">Vì sao giá hồi quy</a></li><li><a href="#o-chi-u-ng-n-h-n">Đảo chiều ngắn hạn</a></li><li><a href="#o-m-c-c-ng-z-score">Đo mức &amp;quot;căng&amp;quot;: z-score</a></li><li><a href="#c-c-h-th-ng-ph-bi-n-c-a-trader-c-nh-n">Các hệ thống phổ biến của trader cá nhân</a></li><li><a href="#l-ch-m">Độ lệch âm</a></li><li><a href="#khi-mean-reversion-th-t-b-i">Khi mean reversion thất bại</a></li><li><a href="#v-d-minh-h-a">Ví dụ minh họa</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="v-sao-gi-h-i-quy">Vì sao giá hồi quy</h2>
+<p>Một số cơ chế có thể đẩy giá trở về mức trung bình trong các khung thời gian ngắn:</p>
+<ul>
+<li><strong>Nhu cầu thanh khoản.</strong> Một người bán lớn cần thoát nhanh đẩy giá xuống dưới giá trị hợp lý. Các trader hấp thụ lực bán đó đòi hỏi khoản bù đắp, kiếm được khi giá phục hồi.</li>
+<li><strong>Phản ứng thái quá.</strong> Các trader đôi khi phản ứng quá mạnh với tin tức, tâm lý hoặc các cú biến động mạnh, và giá điều chỉnh một phần.</li>
+<li><strong>Bid-ask bounce.</strong> Các giao dịch luân phiên giữa bid và ask, tạo ra sự đảo chiều thống kê trong giá ghi nhận mà thực tế không thể nắm bắt. Backtest trên giá giao dịch có thể nhầm điều này với lợi thế giao dịch được.</li>
+<li><strong>Điểm neo cấu trúc.</strong> Một số spread, như chênh lệch giá giữa hai tài sản liên quan chặt chẽ, bị ràng buộc với nhau bởi kinh tế, đó là nền tảng của <a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">giao dịch cặp</a>.</li>
+</ul>
+<h2 id="o-chi-u-ng-n-h-n">Đảo chiều ngắn hạn</h2>
+<p>Các nghiên cứu học thuật từ khoảng năm 1990, bao gồm công trình của Jegadeesh và của Lehmann, thấy rằng cổ phiếu Mỹ có lợi suất tệ nhất trong tuần hoặc tháng vừa qua có xu hướng vượt trội trong tuần hoặc tháng tiếp theo, và những cổ phiếu tốt nhất có xu hướng tụt lại. Hiệu ứng đảo chiều ngắn hạn này tồn tại song song với momentum trung hạn, nơi những kẻ thắng cuộc trong 3 đến 12 tháng có xu hướng tiếp tục thắng. Hai điều này không mâu thuẫn: chúng hoạt động ở các khung thời gian khác nhau.</p>
+<p>Phần lớn lợi nhuận đảo chiều ngắn hạn trong nghiên cứu đến từ các cổ phiếu nhỏ, kém thanh khoản và nhạy cảm với chi phí giao dịch. Sau chi phí thực tế, các phiên bản đơn giản kém hấp dẫn hơn nhiều so với con số thô gợi ý.</p>
+<h2 id="o-m-c-c-ng-z-score">Đo mức &quot;căng&quot;: z-score</h2>
+<p>Z-score biểu thị mức giá hiện tại bất thường thế nào so với lịch sử gần đây:</p>
+<p>z = (Giá − Đường trung bình động) / Độ lệch chuẩn của giá trong cùng cửa sổ</p>
+<p>Z-score bằng −2 nghĩa là giá thấp hơn mức trung bình hai độ lệch chuẩn. Một bộ quy tắc điển hình:</p>
+<ul>
+<li>Vào lệnh long khi z xuống dưới −2; vào lệnh short khi z tăng trên +2.</li>
+<li>Thoát khi z trở về 0 (mức trung bình), hoặc theo một lệnh dừng thời gian.</li>
+<li>Tùy chọn, thêm một lệnh dừng nếu z chạm cực trị như ±4.</li>
+</ul>
+<pre><code class="language-python">import pandas as pd
+
+def zscore_positions(close: pd.Series, lookback=20, entry=2.0, exit=0.0) -&gt; pd.Series:
+    mean = close.rolling(lookback).mean()
+    std = close.rolling(lookback).std()
+    z = (close - mean) / std
+    pos, out = 0, []
+    for zt in z:
+        if pos == 0 and zt &lt; -entry:
+            pos = 1
+        elif pos == 0 and zt &gt; entry:
+            pos = -1
+        elif pos == 1 and zt &gt;= -exit:
+            pos = 0
+        elif pos == -1 and zt &lt;= exit:
+            pos = 0
+        out.append(pos)
+    return pd.Series(out, index=close.index)
+</code></pre>
+<p>Vị thế được tính từ giá đóng cửa, nên nó cần được áp dụng cho lợi suất của nến kế tiếp để tránh look-ahead bias, như giải thích trong <a href="/vi/encyclopedia/algorithmic-trading/backtesting/">backtesting</a>.</p>
+<h2 id="c-c-h-th-ng-ph-bi-n-c-a-trader-c-nh-n">Các hệ thống phổ biến của trader cá nhân</h2>
+<h3 id="h-i-quy-theo-bollinger-band">Hồi quy theo Bollinger Band</h3>
+<p><a href="/vi/encyclopedia/technical-analysis/bollinger-bands/">Bollinger Bands</a> vẽ một đường trung bình động với các dải cách trên và dưới hai độ lệch chuẩn. Mua ở dải dưới và thoát ở dải giữa về bản chất là một hệ thống z-score với điểm vào ở −2 và thoát ở 0.</p>
+<h3 id="rsi-chu-k-ng-n">RSI chu kỳ ngắn</h3>
+<p><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a> thường dùng 14 kỳ, nhưng các trader mean reversion thường dùng thiết lập ngắn hơn nhiều. RSI 2 kỳ, được trader kiêm tác giả Larry Connors phổ biến, đánh dấu các cực trị rất ngắn hạn. Một mô hình phổ biến là mua khi RSI 2 kỳ xuống dưới 10 trong khi giá nằm trên đường trung bình 200 ngày, và thoát khi RSI phục hồi hoặc giá đóng cửa trên một đường trung bình động ngắn. Bộ lọc dài hạn cố gắng chỉ mua các nhịp giảm trong xu hướng tăng, giảm rủi ro bắt dao rơi.</p>
+<h3 id="b-l-c-xu-h-ng-v-l-nh-d-ng-th-i-gian">Bộ lọc xu hướng và lệnh dừng thời gian</h3>
+<p>Nhiều hệ thống hồi quy thêm một bộ lọc tránh giao dịch ngược xu hướng mạnh, và một lệnh dừng thời gian thoát nếu cú bật kỳ vọng không xảy ra trong vài nến. Một giao dịch không hồi quy nhanh thường là dấu hiệu điều kiện đã thay đổi.</p>
+<h2 id="l-ch-m">Độ lệch âm</h2>
+<p>Các chiến lược mean reversion thường có tỷ lệ thắng cao. Hầu hết các mức giá căng đều bật lại một chút. Nhưng các giao dịch thua là những giao dịch mà giá tiếp tục đi: một cổ phiếu giảm 10% vì tin xấu rồi giảm thêm 30%, hoặc một đồng tiền phá vỡ khỏi vùng đi ngang dài.</p>
+<p>Mô hình đó tạo ra độ lệch âm (negative skew): một cái đuôi trái dài gồm những khoản lỗ lớn hiếm gặp. Đường vốn có thể trông mượt mà trong nhiều năm rồi trả lại thành quả của nhiều tháng chỉ trong vài ngày. Nó là hình ảnh phản chiếu của <a href="/vi/encyclopedia/algorithmic-trading/trend-following/">theo xu hướng</a>.</p>
+<h2 id="khi-mean-reversion-th-t-b-i">Khi mean reversion thất bại</h2>
+<ul>
+<li><strong>Thay đổi chế độ thị trường.</strong> Một thị trường đi ngang chuyển thành thị trường có xu hướng, thường sau một cú sốc cơ bản.</li>
+<li><strong>Biến động do tin tức.</strong> Bất ngờ về lợi nhuận, thâu tóm, vạch trần gian lận và thay đổi của ngân hàng trung ương có thể định giá lại một tài sản vĩnh viễn. Thứ trông như phản ứng thái quá có thể là thị trường đang điều chỉnh theo thông tin mới.</li>
+<li><strong>Khủng hoảng thanh khoản.</strong> Trong các đợt bán tháo diện rộng, nhiều tài sản cùng giữ trạng thái căng, và các trader thường cung cấp thanh khoản cũng buộc phải bán.</li>
+<li><strong>Gap.</strong> Giá có thể nhảy qua đêm vượt qua mọi lệnh dừng.</li>
+<li><strong>Đám đông hóa (crowding).</strong> Khi nhiều quỹ chạy các chiến lược hồi quy tương tự, việc họ thoát đồng thời có thể làm sự căng thẳng tệ hơn, như đã xảy ra với các quỹ trung lập thị trường cổ phiếu vào tháng 8 năm 2007.</li>
+</ul>
+<h2 id="v-d-minh-h-a">Ví dụ minh họa</h2>
+<h3 id="m-t-giao-d-ch-z-score">Một giao dịch z-score</h3>
+<p>Một cổ phiếu có giá đóng cửa trung bình 20 ngày là 100 đô la và độ lệch chuẩn 20 ngày là 2 đô la. Hôm nay nó đóng cửa ở 95 đô la.</p>
+<ul>
+<li>z = (95 − 100) / 2 = −2.5, dưới ngưỡng vào lệnh −2, nên hệ thống mua 200 cổ phiếu ở phiên mở cửa kế tiếp, giả sử ở 95.20 đô la.</li>
+<li>Bốn ngày sau giá đóng cửa ở 99.80 đô la, gần mức trung bình (z ≈ −0.1, giả sử mức trung bình và độ lệch chuẩn không đổi), nên vị thế vẫn mở.</li>
+<li>Ngày hôm sau nó đóng cửa ở 100.30 đô la, z chuyển dương, và vị thế được bán ở phiên mở cửa tiếp theo, 100.10 đô la.</li>
+<li>Lợi nhuận gộp = (100.10 − 95.20) × 200 = 980 đô la, trước chi phí.</li>
+</ul>
+<h3 id="c-i-b-y-c-a-l-ch-m">Cái bẫy của độ lệch âm</h3>
+<p>Một hệ thống hồi quy thắng 75% số giao dịch với mức thắng trung bình 1% và mức thua trung bình 2.5%.</p>
+<ul>
+<li>Kỳ vọng = 0.75 × 1% − 0.25 × 2.5% = 0.75% − 0.625% = +0.125% mỗi giao dịch.</li>
+<li>Một giao dịch không được bảo vệ lỗ 15% do gap xóa sạch lợi nhuận kỳ vọng của 15 / 0.125 = 120 giao dịch trung bình.</li>
+</ul>
+<p>Đây là lý do giới hạn quy mô vị thế và kế hoạch cho rủi ro gap quan trọng với mean reversion hơn với hầu hết các chiến lược.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Trung bình giá xuống không giới hạn.</strong> Thêm vào một giao dịch hồi quy đang thua có thể biến khoản lỗ nhỏ thành thảm họa.</li>
+<li><strong>Không có lệnh dừng hoặc lệnh dừng thời gian.</strong> &quot;Nó phải quay lại&quot; không phải là kế hoạch rủi ro.</li>
+<li><strong>Backtest trên giá giao dịch với mục tiêu rất nhỏ.</strong> Bid-ask bounce và spread có thể khiến một tín hiệu vô giá trị trông có lãi.</li>
+<li><strong>Bỏ qua tin tức.</strong> Một mức giá căng sau một thông báo lớn rất khác với một mức giá căng khi không có tin.</li>
+<li><strong>Đánh giá theo tỷ lệ thắng.</strong> Tỷ lệ thắng 80% không nói lên điều gì nếu không biết độ lớn của các khoản lỗ.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="mean-reversion-trong-giao-d-ch-l-g">Mean reversion trong giao dịch là gì?</h3>
+<p>Mean reversion là ý tưởng rằng giá đi xa khỏi mức trung bình có xu hướng quay trở lại về phía đó. Các trader khai thác điều này bằng cách mua sau những đợt giảm mạnh và bán sau những đợt tăng mạnh, thường kèm các quy tắc thoát lệnh xác định.</p>
+<h3 id="mean-reversion-c-t-t-h-n-theo-xu-h-ng-kh-ng">Mean reversion có tốt hơn theo xu hướng không?</h3>
+<p>Không cái nào tốt hơn nói chung. Mean reversion có xu hướng hiệu quả ở thị trường đi ngang và theo xu hướng hiệu quả ở thị trường có xu hướng, và mô hình lợi nhuận của chúng khác nhau: mean reversion có nhiều lần thắng nhỏ thường xuyên và hiếm khoản lỗ lớn, còn theo xu hướng thì ngược lại.</p>
+<h3 id="t-i-n-n-d-ng-z-score-bao-nhi-u-cho-mean-reversion">Tôi nên dùng z-score bao nhiêu cho mean reversion?</h3>
+<p>Ngưỡng vào lệnh khoảng ±2 độ lệch chuẩn là phổ biến, với điểm thoát gần không. Giá trị phù hợp phụ thuộc vào thị trường, độ dài cửa sổ và chi phí, và nên được kiểm thử ngoài mẫu thay vì tối ưu quá tinh vi.</p>
+<h3 id="v-sao-c-c-chi-n-l-c-mean-reversion-ch-y-t-i-kho-n">Vì sao các chiến lược mean reversion cháy tài khoản?</h3>
+<p>Chúng thường nắm giữ các vị thế đi ngược xa hơn trong các xu hướng, khủng hoảng hoặc cú sốc tin tức. Kết hợp với đòn bẩy hoặc trung bình giá xuống, một vài giao dịch như vậy có thể xóa sạch những khoản lãi nhỏ tích lũy nhiều năm.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/technical-analysis/bollinger-bands/"><div class="k">Phân tích kỹ thuật</div><b>Dải Bollinger</b><span>Dải Bollinger được xây dựng từ đường trung bình 20 kỳ và 2 độ lệch chuẩn ra sao, squeeze, đi dọc theo dải, %B, độ rộng dải (bandwidth) và kênh Keltner.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/"><div class="k">Phân tích kỹ thuật</div><b>RSI</b><span>Cách tính chỉ số sức mạnh tương đối RSI, quá mua và quá bán thực sự có nghĩa gì, phân kỳ RSI, RSI trong xu hướng và những cách dùng sai phổ biến.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Pairs trading và Stat Arb</b><span>Cách pairs trading và stat arb hoạt động: đồng tích hợp và tương quan, hệ số phòng hộ, z-score của spread, quy tắc vào ra, suy giảm lợi thế, quant quake 2007.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/trend-following/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Bám theo xu hướng</b><span>Cách trend following hoạt động: momentum chuỗi thời gian, CTA và managed futures, hệ thống phá vỡ và đường trung bình, Turtle traders, độ lệch dương, drawdown.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/backtesting/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Backtest</b><span>Cách backtest chiến lược giao dịch mà không tự đánh lừa mình: chất lượng dữ liệu, survivorship bias, look-ahead bias, chi phí, walk-forward và các chỉ số chính.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/algorithmic-trading/trend-following/"><small>← Bài trước</small>Bám theo xu hướng</a><a class="next" href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"><small>Bài tiếp →</small>Pairs trading và Stat Arb</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

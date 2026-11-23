@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine learning en trading: qué funciona y qué no | PnL Profit</title>
+<meta name="description" content="Machine learning en trading: señales supervisadas, features y etiquetas, no estacionariedad, sobreajuste, LLM para noticias y sentimiento, y un uso realista.">
+<meta name="keywords" content="machine learning en trading, aprendizaje automático trading, trading con inteligencia artificial, análisis de sentimiento con LLM, triple barrera etiquetado">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Machine learning en trading: qué funciona y qué no | PnL Profit">
+<meta property="og:description" content="Machine learning en trading: señales supervisadas, features y etiquetas, no estacionariedad, sobreajuste, LLM para noticias y sentimiento, y un uso realista.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Machine learning en trading: qué funciona y qué no | PnL Profit">
+<meta name="twitter:description" content="Machine learning en trading: señales supervisadas, features y etiquetas, no estacionariedad, sobreajuste, LLM para noticias y sentimiento, y un uso realista.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Machine learning en trading: qué funciona y qué no","description":"Machine learning en trading: señales supervisadas, features y etiquetas, no estacionariedad, sobreajuste, LLM para noticias y sentimiento, y un uso realista.","keywords":"machine learning en trading, aprendizaje automático trading, trading con inteligencia artificial, análisis de sentimiento con LLM, triple barrera etiquetado","articleSection":"Trading algorítmico y cuantitativo","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading algorítmico y cuantitativo","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Machine learning en trading","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Puede el machine learning predecir el precio de las acciones?","acceptedAnswer":{"@type":"Answer","text":"El machine learning puede encontrar patrones débiles y estadísticamente útiles en los rendimientos, pero no puede predecir los precios de forma fiable. La investigación sugiere que la parte predecible de los rendimientos es pequeña y que los patrones cambian con el tiempo."}},{"@type":"Question","name":"¿Cuál es el mejor modelo de machine learning para trading?","acceptedAnswer":{"@type":"Answer","text":"No existe un único mejor modelo. Los modelos lineales regularizados y los árboles con gradient boosting son puntos de partida habituales para datos tabulares, y la elección de las etiquetas, las features y el método de validación suele importar más que el algoritmo."}},{"@type":"Question","name":"¿Puedo usar ChatGPT u otros LLM para operar?","acceptedAnswer":{"@type":"Answer","text":"Los LLM pueden ayudar a resumir noticias, clasificar el sentimiento y escribir o revisar código, pero no tienen una visión fiable de los precios futuros. Trata sus resultados como un dato más que hay que probar, y desconfía de los backtests que puedan estar contaminados por los datos de entrenamiento del modelo."}},{"@type":"Question","name":"¿Por qué fracasan las estrategias de trading con machine learning?","acceptedAnswer":{"@type":"Answer","text":"Los motivos habituales son el sobreajuste al ruido, las filtraciones de datos en la validación, los cambios en las condiciones de mercado y unos costos de operación que superan una ventaja prevista pequeña."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading algorítmico y cuantitativo</h3><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/" class="on" aria-current="page">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/" class="on">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a></div>
+<h1 class="title">Machine learning en trading</h1>
+<div class="meta">9 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Trading algorítmico y cuantitativo</summary><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/" class="on" aria-current="page">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul></details>
+<article><p>El machine learning (ML, aprendizaje automático) en trading es una rama del <a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">trading algorítmico</a> que usa algoritmos que aprenden patrones a partir de los datos, en lugar de seguir reglas escritas a mano, para pronosticar precios, clasificar condiciones de mercado o procesar texto como las noticias. Los fondos cuantitativos lo usan mucho, pero los datos financieros son ruidosos y cambian constantemente, lo que hace que los modelos de ML sean especialmente propensos a encontrar patrones que no existen. Usado con cuidado, el ML es una herramienta útil; usado sin cuidado, es una de las formas más rápidas de construir un <a href="/es/encyclopedia/algorithmic-trading/backtesting/">backtest</a> convincente que fracasa en real.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>La mayor parte del ML aplicado al trading es aprendizaje supervisado: predecir un rendimiento o una dirección futura a partir de variables (features) conocidas hoy.</li>
+<li>Cómo defines las etiquetas y validas los modelos importa más que el algoritmo que elijas.</li>
+<li>Los mercados no son estacionarios y la relación señal-ruido es muy baja, así que pequeñas mejoras de precisión pueden ser significativas y las grandes resultan sospechosas.</li>
+<li>La validación cruzada estándar filtra información del futuro en las series temporales; usa validación walk-forward o con purga.</li>
+<li>Los grandes modelos de lenguaje (LLM) son útiles para leer y clasificar texto, pero los backtests que los usan pueden estar contaminados por el conocimiento de hechos posteriores a la fecha de la prueba.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#qu-puede-y-qu-no-puede-hacer-el-ml">Qué puede y qué no puede hacer el ML</a></li><li><a href="#aprendizaje-supervisado-para-generar-se-ales">Aprendizaje supervisado para generar señales</a></li><li><a href="#features">Features</a></li><li><a href="#etiquetado">Etiquetado</a></li><li><a href="#no-estacionariedad-y-ruido">No estacionariedad y ruido</a></li><li><a href="#validaci-n-sin-filtraciones">Validación sin filtraciones</a></li><li><a href="#llm-para-noticias-y-sentimiento">LLM para noticias y sentimiento</a></li><li><a href="#ejemplo-pr-ctico-precisi-n-no-es-beneficio">Ejemplo práctico: precisión no es beneficio</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="qu-puede-y-qu-no-puede-hacer-el-ml">Qué puede y qué no puede hacer el ML</h2>
+<p>El ML es bueno para combinar muchas señales débiles, capturar relaciones no lineales y procesar datos que las personas no pueden leer a gran escala, como miles de artículos de noticias o documentos regulatorios. No puede crear una previsibilidad que no esté en los datos. Los precios de los activos son en gran medida impredecibles en la mayoría de los horizontes, y buena parte de la previsibilidad que existe desaparece por la competencia. En un conocido estudio de 2020, Gu, Kelly y Xiu encontraron que métodos flexibles como los ensambles de árboles y las redes neuronales pronosticaban los rendimientos mensuales de las acciones estadounidenses mejor que los modelos lineales tradicionales, pero la parte predecible de los rendimientos era pequeña.</p>
+<h2 id="aprendizaje-supervisado-para-generar-se-ales">Aprendizaje supervisado para generar señales</h2>
+<h3 id="tipos-de-problema">Tipos de problema</h3>
+<ul>
+<li><strong>Regresión:</strong> predecir la magnitud del próximo rendimiento, como el rendimiento a 5 días.</li>
+<li><strong>Clasificación:</strong> predecir una categoría, como sube o baja, o &quot;alcanza el objetivo de beneficio antes que el stop&quot;.</li>
+<li><strong>Ranking:</strong> ordenar los activos por rendimiento esperado, comprar los primeros y vender en corto los últimos, un enfoque habitual en la selección transversal (cross-sectional) de acciones.</li>
+</ul>
+<h3 id="modelos-habituales">Modelos habituales</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Familia de modelos</th>
+<th>Fortalezas</th>
+<th>Debilidades</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Regresión lineal y regularizada (ridge, lasso)</td>
+<td>Simple, estable, interpretable</td>
+<td>No capta efectos no lineales</td>
+</tr>
+<tr>
+<td>Ensambles de árboles (random forests, gradient boosting)</td>
+<td>Manejan bien la no linealidad y las features mixtas; fuertes con datos tabulares</td>
+<td>Pueden sobreajustarse al ruido; predicciones menos suaves</td>
+</tr>
+<tr>
+<td>Redes neuronales</td>
+<td>Flexibles; manejan secuencias, texto e imágenes</td>
+<td>Necesitan muchos datos; difíciles de interpretar; las más fáciles de sobreajustar</td>
+</tr>
+</tbody></table></div>
+<p>Con los datos tabulares típicos del trading, los modelos lineales regularizados y los árboles con gradient boosting son puntos de partida habituales. Los modelos más complejos necesitan más datos que los justifiquen.</p>
+<h2 id="features">Features</h2>
+<p>Las features (variables de entrada) son los datos que usa un modelo. Deben ser conocidas en el momento de la predicción.</p>
+<ul>
+<li><strong>Basadas en el precio:</strong> rendimientos pasados en varios horizontes, volatilidad, distancia a las medias móviles, indicadores técnicos como el <a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a>.</li>
+<li><strong>Volumen y flujo de órdenes:</strong> volumen relativo, desequilibrio del libro de órdenes, dirección de las operaciones.</li>
+<li><strong>Transversales:</strong> el rendimiento de un activo en relación con su sector o con el mercado.</li>
+<li><strong>Fundamentales:</strong> ratios de valoración, sorpresas en los resultados, usando los datos solo a partir de su fecha de publicación.</li>
+<li><strong>Datos alternativos:</strong> sentimiento en textos, tráfico web, datos satelitales o de transacciones.</li>
+<li><strong>Contexto de mercado:</strong> índices de volatilidad, tasas de interés, <a href="/es/encyclopedia/fundamental-analysis/market-sentiment-indicators/">indicadores de sentimiento</a> como las tasas de financiación.</li>
+</ul>
+<p>Normaliza las features usando solo datos pasados, por ejemplo con un z-score móvil, para que el modelo nunca vea estadísticas calculadas con el futuro. La obtención de datos y las marcas de tiempo se tratan en <a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">datos de mercado</a>.</p>
+<h2 id="etiquetado">Etiquetado</h2>
+<p>La etiqueta es lo que el modelo aprende a predecir, y elegirla bien es la mitad del problema.</p>
+<ul>
+<li><strong>Etiquetas de horizonte fijo:</strong> el signo o la magnitud del rendimiento en las próximas N barras. Son sencillas, pero ignoran la trayectoria del precio y la forma en que se gestionaría una operación real.</li>
+<li><strong>Etiquetas de triple barrera:</strong> descritas por Marcos López de Prado en su libro de 2018 <em>Advances in Financial Machine Learning</em>. Cada muestra se etiqueta según qué ocurre primero: una barrera superior (objetivo de beneficio), una barrera inferior (stop) o un límite de tiempo. Esto refleja cómo se cierran realmente las operaciones.</li>
+<li><strong>Meta-etiquetado (meta-labeling):</strong> un modelo o regla principal decide la dirección, y un modelo de ML secundario predice si cada señal principal tendrá éxito, lo que puede usarse para filtrar operaciones o fijar el tamaño de la posición.</li>
+</ul>
+<p>Las etiquetas solapadas, como los rendimientos a 5 días calculados cada día, comparten información. Eso hay que tratarlo en la validación.</p>
+<h2 id="no-estacionariedad-y-ruido">No estacionariedad y ruido</h2>
+<p>Las relaciones financieras cambian. Un patrón que se cumplía con tasas de interés bajas puede desaparecer cuando suben; una feature que funcionaba antes de que muchos traders la usaran puede dejar de funcionar después. La relación señal-ruido es muy baja: un modelo que acierta la dirección diaria entre el 52% y el 53% de las veces puede ser útil, mientras que una precisión del 70% en la dirección diaria casi siempre indica un bug o una filtración de datos.</p>
+<p>Es el mismo problema de régimen que afecta a los sistemas basados en reglas de <a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">reversión a la media</a> y de tendencia. Entre las respuestas prácticas están reentrenar con ventanas móviles, preferir modelos más simples, combinar muchas señales débiles y vigilar el rendimiento en real para detectar su degradación.</p>
+<h2 id="validaci-n-sin-filtraciones">Validación sin filtraciones</h2>
+<p>La validación cruzada k-fold estándar baraja los datos al azar, de modo que el modelo se entrena con el futuro y se prueba con el pasado. Para trading, usa:</p>
+<ul>
+<li><strong>Validación walk-forward:</strong> entrenar con datos pasados, probar con el periodo siguiente y avanzar.</li>
+<li><strong>Huecos y purga:</strong> eliminar las muestras de entrenamiento cuyas etiquetas se solapan con el periodo de prueba y dejar un hueco de embargo después de este.</li>
+<li><strong>Un conjunto de reserva final (holdout):</strong> un periodo reciente que nunca se toca durante el desarrollo.</li>
+</ul>
+<pre><code class="language-python">import numpy as np
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import TimeSeriesSplit
+
+def walk_forward_accuracy(X, y, horizon=5, n_splits=5):
+    &quot;&quot;&quot;X: features conocidas en t; y: etiqueta de t -&gt; t+horizon. Filas en orden temporal.&quot;&quot;&quot;
+    splitter = TimeSeriesSplit(n_splits=n_splits, gap=horizon)  # el hueco evita el solapamiento de etiquetas
+    scores = []
+    for train_idx, test_idx in splitter.split(X):
+        model = GradientBoostingClassifier(max_depth=3, n_estimators=200)
+        model.fit(X[train_idx], y[train_idx])
+        scores.append((model.predict(X[test_idx]) == y[test_idx]).mean())
+    return np.mean(scores), np.std(scores)
+</code></pre>
+<p>Cada modelo que entrenas y evalúas es un intento más, así que los problemas de pruebas múltiples descritos en <a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">sobreajuste y data snooping</a> se aplican con mayor fuerza.</p>
+<h2 id="llm-para-noticias-y-sentimiento">LLM para noticias y sentimiento</h2>
+<p>Los grandes modelos de lenguaje pueden leer noticias, transcripciones de conferencias de resultados, documentos regulatorios y publicaciones en redes sociales, y convertirlos en señales estructuradas: tono positivo o negativo, tipo de evento, empresas mencionadas o resúmenes para un trader humano. Entre sus usos prácticos están filtrar un flujo de noticias, etiquetar eventos y revisar grandes volúmenes de texto más rápido de lo que podría hacerlo una persona.</p>
+<p>Advertencias importantes:</p>
+<ul>
+<li><strong>Contaminación por anticipación.</strong> Un modelo entrenado con texto de internet hasta una fecha reciente puede &quot;saber&quot; cómo le fue realmente a una empresa o a un mercado después de la fecha de un artículo histórico. Por eso, un backtest de sentimiento basado en LLM sobre noticias pasadas puede verse mucho mejor que la operativa real. Cuando sea posible, usa modelos cuya fecha de corte de entrenamiento sea anterior al periodo de prueba, o prueba solo con datos posteriores a esa fecha de corte.</li>
+<li><strong>Errores y alucinaciones.</strong> Los LLM pueden leer mal las cifras, confundir empresas o inventar detalles. Valida los resultados, sobre todo las cifras extraídas.</li>
+<li><strong>Latencia y costo.</strong> Para cuando un modelo procesa un titular, los traders rápidos puede que ya hayan actuado. Las señales de los LLM tienden a encajar mejor en horizontes más lentos.</li>
+<li><strong>Saturación (crowding).</strong> Es poco probable que modelos ampliamente disponibles aplicados a noticias ampliamente disponibles aporten por sí solos una ventaja duradera.</li>
+</ul>
+<p>El aprendizaje por refuerzo, en el que un agente aprende una política de trading por ensayo y error en un simulador, es un área de investigación activa, pero es especialmente sensible al realismo del simulador y al sobreajuste.</p>
+<h2 id="ejemplo-pr-ctico-precisi-n-no-es-beneficio">Ejemplo práctico: precisión no es beneficio</h2>
+<p>Un clasificador predice la dirección del día siguiente de un fondo indexado de acciones con una precisión del 53% en pruebas walk-forward. Supongamos que los días alcistas y bajistas medios son ambos de alrededor del 1.0%.</p>
+<ul>
+<li>Rendimiento bruto esperado por operación = 0.53 × 1.0% − 0.47 × 1.0% = 0.06%.</li>
+<li>Con costos de ida y vuelta de 0.05%, la ventaja neta es de 0.01% por operación, o aproximadamente 252 × 0.01% ≈ 2.5% anual si opera todos los días (sin considerar la capitalización compuesta).</li>
+<li>Con costos de 0.10% por operación de ida y vuelta, la ventaja neta es de −0.04% por operación, aproximadamente −10% anual.</li>
+</ul>
+<p>Además, el mismo modelo tiene que mantener su 53% de precisión en el futuro, algo que la no estacionariedad vuelve incierto. Las señales de ML suelen funcionar mejor combinadas con estrategias de baja rotación, donde los costos se comen una parte menor de una ventaja pequeña.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Divisiones aleatorias entre entrenamiento y prueba en series temporales.</strong> Esto filtra el futuro al entrenamiento.</li>
+<li><strong>Features calculadas con datos futuros,</strong> como la normalización con toda la muestra o las cifras económicas revisadas.</li>
+<li><strong>Perseguir una precisión alta.</strong> Una precisión muy alta sobre los rendimientos suele ser señal de filtración de datos.</li>
+<li><strong>Modelos complejos con pocos datos.</strong> Una red profunda entrenada con unos pocos años de barras diarias tiene muchos más parámetros que observaciones útiles.</li>
+<li><strong>Ignorar los costos y la rotación.</strong> Las ventajas pequeñas desaparecen si el modelo opera con demasiada frecuencia.</li>
+<li><strong>Fiarse de backtests con LLM sobre noticias antiguas</strong> sin abordar la contaminación de los datos de entrenamiento.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="puede-el-machine-learning-predecir-el-precio-de-las-acciones">¿Puede el machine learning predecir el precio de las acciones?</h3>
+<p>El machine learning puede encontrar patrones débiles y estadísticamente útiles en los rendimientos, pero no puede predecir los precios de forma fiable. La investigación sugiere que la parte predecible de los rendimientos es pequeña y que los patrones cambian con el tiempo.</p>
+<h3 id="cu-l-es-el-mejor-modelo-de-machine-learning-para-trading">¿Cuál es el mejor modelo de machine learning para trading?</h3>
+<p>No existe un único mejor modelo. Los modelos lineales regularizados y los árboles con gradient boosting son puntos de partida habituales para datos tabulares, y la elección de las etiquetas, las features y el método de validación suele importar más que el algoritmo.</p>
+<h3 id="puedo-usar-chatgpt-u-otros-llm-para-operar">¿Puedo usar ChatGPT u otros LLM para operar?</h3>
+<p>Los LLM pueden ayudar a resumir noticias, clasificar el sentimiento y escribir o revisar código, pero no tienen una visión fiable de los precios futuros. Trata sus resultados como un dato más que hay que probar, y desconfía de los backtests que puedan estar contaminados por los datos de entrenamiento del modelo.</p>
+<h3 id="por-qu-fracasan-las-estrategias-de-trading-con-machine-learning">¿Por qué fracasan las estrategias de trading con machine learning?</h3>
+<p>Los motivos habituales son el sobreajuste al ruido, las filtraciones de datos en la validación, los cambios en las condiciones de mercado y unos costos de operación que superan una ventaja prevista pequeña.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Trading algorítmico y cuantitativo</div><b>Sobreajuste</b><span>Por qué fracasan en real tantos backtests brillantes: curve fitting, pruebas múltiples, parámetros inestables, deflated Sharpe y cómo evitar el sobreajuste.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/backtesting/"><div class="k">Trading algorítmico y cuantitativo</div><b>Backtesting</b><span>Cómo hacer backtesting sin engañarte: calidad de datos, sesgo de supervivencia y de anticipación, costos, análisis walk-forward y métricas clave.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">Trading algorítmico y cuantitativo</div><b>Datos de mercado</b><span>Datos de mercado para traders: ticks frente a barras, feeds de Nivel 1, 2 y 3, fuentes históricas, costos y licencias, marcas de tiempo y limpieza de datos.</span></a><a class="card" href="/es/encyclopedia/fundamental-analysis/market-sentiment-indicators/"><div class="k">Análisis fundamental y macro</div><b>Indicadores de sentimiento</b><span>Cómo medir el sentimiento con el informe COT, el ratio put/call, el VIX, la encuesta AAII, los índices de miedo y codicia y el funding en cripto.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">Trading algorítmico y cuantitativo</div><b>Introducción al trading algorítmico</b><span>Qué es el trading algorítmico, en qué se diferencia el minorista del institucional, el camino de la idea al bot en vivo, lenguajes y expectativas realistas.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/"><small>← Anterior</small>Copy trading y social trading</a><a class="next" href="/es/encyclopedia/algorithmic-trading/market-data-sources/"><small>Siguiente →</small>Datos de mercado</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

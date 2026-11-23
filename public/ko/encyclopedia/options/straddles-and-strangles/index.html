@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스트래들과 스트랭글: 방향 대신 변동성 거래 | PnL Profit</title>
+<meta name="description" content="롱·숏 스트래들과 스트랭글의 구조, 손익분기점 계산, 손익분기점과 예상 변동폭 비교, 실적 발표 거래, 변동성 매도의 꼬리 위험을 설명합니다.">
+<meta name="keywords" content="스트래들 스트랭글 차이, 롱 스트래들, 숏 스트랭글, 스트래들 손익분기점, 실적 발표 스트래들">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/straddles-and-strangles/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="스트래들과 스트랭글: 방향 대신 변동성 거래 | PnL Profit">
+<meta property="og:description" content="롱·숏 스트래들과 스트랭글의 구조, 손익분기점 계산, 손익분기점과 예상 변동폭 비교, 실적 발표 거래, 변동성 매도의 꼬리 위험을 설명합니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/options/straddles-and-strangles/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="스트래들과 스트랭글: 방향 대신 변동성 거래 | PnL Profit">
+<meta name="twitter:description" content="롱·숏 스트래들과 스트랭글의 구조, 손익분기점 계산, 손익분기점과 예상 변동폭 비교, 실적 발표 거래, 변동성 매도의 꼬리 위험을 설명합니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"스트래들과 스트랭글: 방향 대신 변동성 거래","description":"롱·숏 스트래들과 스트랭글의 구조, 손익분기점 계산, 손익분기점과 예상 변동폭 비교, 실적 발표 거래, 변동성 매도의 꼬리 위험을 설명합니다.","keywords":"스트래들 스트랭글 차이, 롱 스트래들, 숏 스트랭글, 스트래들 손익분기점, 실적 발표 스트래들","articleSection":"옵션 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/options/straddles-and-strangles/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"옵션 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"스트래들과 스트랭글","item":"https://pnlpro.fit/ko/encyclopedia/options/straddles-and-strangles/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"스트래들과 스트랭글은 어떻게 다릅니까?","acceptedAnswer":{"@type":"Answer","text":"스트래들은 같은 행사가, 보통 등가격의 콜과 풋을 씁니다. 스트랭글은 행사가가 다른 외가격 콜과 외가격 풋을 쓰므로 더 싸지만 더 큰 움직임이 필요합니다."}},{"@type":"Question","name":"스트래들의 손익분기점은 어떻게 계산합니까?","acceptedAnswer":{"@type":"Answer","text":"상단 손익분기점은 행사가에 총 프리미엄을 더하고, 하단 손익분기점은 행사가에서 총 프리미엄을 뺍니다. $7.80에 산 $100 스트래들의 만기 손익분기점은 $92.20과 $107.80입니다."}},{"@type":"Question","name":"롱 스트래들은 좋은 실적 발표 전략입니까?","acceptedAnswer":{"@type":"Answer","text":"주가가 스트래들 가격에 반영된 것보다 크게 움직일 때만 이익이 나며, 발표 뒤에는 대개 IV가 급락합니다. 주가가 눈에 띄게 움직여도 손실이 나는 실적 발표 스트래들이 많습니다."}},{"@type":"Question","name":"숏 스트랭글은 왜 위험합니까?","acceptedAnswer":{"@type":"Answer","text":"받는 프리미엄은 제한적인데 주가가 급격히 움직이면 매우 큰 손실을 입고, 콜 쪽은 이론적으로 위험이 무제한입니다. 손실이 받은 프리미엄의 몇 배가 될 수 있습니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/options/straddles-and-strangles/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/straddles-and-strangles/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/straddles-and-strangles/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/straddles-and-strangles/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/straddles-and-strangles/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/straddles-and-strangles/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/straddles-and-strangles/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/straddles-and-strangles/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/straddles-and-strangles/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>옵션 트레이딩</h3><ul><li><a href="/ko/encyclopedia/options/options-basics/">옵션 기초</a></li><li><a href="/ko/encyclopedia/options/options-greeks/">옵션 그릭스</a></li><li><a href="/ko/encyclopedia/options/implied-volatility/">내재 변동성</a></li><li><a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">커버드 콜과 CSP</a></li><li><a href="/ko/encyclopedia/options/vertical-spreads/">버티컬 스프레드</a></li><li><a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a></li><li><a href="/ko/encyclopedia/options/straddles-and-strangles/" class="on" aria-current="page">스트래들과 스트랭글</a></li><li><a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a></li><li><a href="/ko/encyclopedia/options/options-expiration-and-assignment/">만기와 배정</a></li><li><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">감마 익스포저와 딜러</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/" class="on">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/options/">옵션 트레이딩</a></div>
+<h1 class="title">스트래들과 스트랭글</h1>
+<div class="meta">6분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>옵션 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/options/options-basics/">옵션 기초</a></li><li><a href="/ko/encyclopedia/options/options-greeks/">옵션 그릭스</a></li><li><a href="/ko/encyclopedia/options/implied-volatility/">내재 변동성</a></li><li><a href="/ko/encyclopedia/options/covered-calls-and-cash-secured-puts/">커버드 콜과 CSP</a></li><li><a href="/ko/encyclopedia/options/vertical-spreads/">버티컬 스프레드</a></li><li><a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a></li><li><a href="/ko/encyclopedia/options/straddles-and-strangles/" class="on" aria-current="page">스트래들과 스트랭글</a></li><li><a href="/ko/encyclopedia/options/0dte-options/">0DTE 옵션</a></li><li><a href="/ko/encyclopedia/options/options-expiration-and-assignment/">만기와 배정</a></li><li><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">감마 익스포저와 딜러</a></li></ul></details>
+<article><p>스트래들은 행사가와 만기가 같은 콜과 풋을 함께 사거나 파는 것이고, 스트랭글은 행사가가 다른 외가격 콜과 외가격 풋으로 같은 일을 하는 것입니다. 매수(롱) 버전은 기초자산이 어느 방향으로든 크게 움직이면 이익이 나고, 매도(숏) 버전은 조용히 머물면 이익이 납니다. 둘 다 움직임의 방향이 아니라 크기를 거래하는 방법이므로, 핵심 질문은 주가의 방향이 아니라 변동성의 가격입니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>롱 스트래들이나 롱 스트랭글은 어느 방향이든 지불한 총 프리미엄보다 큰 움직임이 나오면 이익이 납니다.</li>
+<li>숏 스트래들이나 숏 스트랭글은 프리미엄을 받고 기초자산이 손익분기점 사이에 머물면 이익이 나지만, 큰 움직임에는 크거나 무제한의 손실을 입습니다.</li>
+<li>등가격 스트래들의 가격은 만기까지의 예상 변동폭에 대한 좋은 시장 추정치입니다.</li>
+<li>실적 발표 전에 스트래들을 사는 전략은 내재변동성 하락까지 감안한 뒤에도 실제 움직임이 가격에 반영된 것보다 클 때만 통합니다.</li>
+<li>변동성 매도 전략은 작은 이익을 여러 번 내다가 가끔 매우 큰 손실을 내는 경향이 있습니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">스트래들과 스트랭글 비교</a></li><li><a href="#section-3">롱 스트래들</a></li><li><a href="#section-5">롱 스트랭글</a></li><li><a href="#section-7">손익분기점과 예상 변동폭</a></li><li><a href="#section-8">실적 발표 스트래들</a></li><li><a href="#section-10">숏 스트래들과 숏 스트랭글</a></li><li><a href="#section-12">롱과 숏: 트레이드오프</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">스트래들과 스트랭글 비교</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>특징</th>
+<th>스트래들</th>
+<th>스트랭글</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>행사가</td>
+<td>같은 행사가의 콜과 풋, 보통 등가격</td>
+<td>현재가 위의 OTM 콜과 아래의 OTM 풋</td>
+</tr>
+<tr>
+<td>비용(롱)</td>
+<td>높음</td>
+<td>낮음</td>
+</tr>
+<tr>
+<td>이익에 필요한 움직임</td>
+<td>작음</td>
+<td>큼</td>
+</tr>
+<tr>
+<td>최대 손실(롱)</td>
+<td>지불한 총 프리미엄</td>
+<td>지불한 총 프리미엄</td>
+</tr>
+<tr>
+<td>숏 버전의 위험</td>
+<td>위로 무제한, 아래로 큼</td>
+<td>위로 무제한, 아래로 큼</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-3">롱 스트래들</h2>
+<h3 id="section-4">계산 예시</h3>
+<p>주가가 $100입니다. 둘 다 만기 30일인 $100 콜을 $4.00에, $100 풋을 $3.80에 삽니다. 계약당 100주입니다.</p>
+<ul>
+<li>총 비용: $4.00 + $3.80 = $7.80, 즉 $780.</li>
+<li>상단 손익분기점: $100 + $7.80 = $107.80.</li>
+<li>하단 손익분기점: $100 - $7.80 = $92.20.</li>
+<li>최대 손실: 주가가 정확히 $100에서 마감하면 $780.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>만기 주가</th>
+<th>콜 가치</th>
+<th>풋 가치</th>
+<th>합계 가치</th>
+<th>손익</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$85</td>
+<td>$0</td>
+<td>$15.00</td>
+<td>$15.00</td>
+<td>+$720</td>
+</tr>
+<tr>
+<td>$92.20</td>
+<td>$0</td>
+<td>$7.80</td>
+<td>$7.80</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$100</td>
+<td>$0</td>
+<td>$0</td>
+<td>$0</td>
+<td>-$780</td>
+</tr>
+<tr>
+<td>$107.80</td>
+<td>$7.80</td>
+<td>$0</td>
+<td>$7.80</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$115</td>
+<td>$15.00</td>
+<td>$0</td>
+<td>$15.00</td>
+<td>+$720</td>
+</tr>
+</tbody></table></div>
+<p>본전을 맞추는 데만도 만기까지 주가가 어느 방향으로든 7.8%를 넘게 움직여야 합니다. 만기 전에는 꾸준히 불리하게 작용하는 시간가치 감소와 내재변동성 변화의 영향도 받습니다.</p>
+<h2 id="section-5">롱 스트랭글</h2>
+<h3 id="section-6">계산 예시</h3>
+<p>주가가 $100일 때 $105 콜을 $2.00에, $95 풋을 $1.80에 삽니다.</p>
+<ul>
+<li>총 비용: $3.80, 즉 $380.</li>
+<li>상단 손익분기점: $105 + $3.80 = $108.80.</li>
+<li>하단 손익분기점: $95 - $3.80 = $91.20.</li>
+<li>최대 손실: 만기 주가가 $95와 $105 사이 어디에 있든 $380.</li>
+</ul>
+<p>스트랭글의 비용은 스트래들의 절반에도 못 미치지만, 손익분기점이 더 멀리 있습니다: $92.20과 $107.80 대비 $91.20과 $108.80. 또한 한 지점이 아니라 $10의 넓은 구간 전체에서 프리미엄 전액을 잃습니다.</p>
+<h2 id="section-7">손익분기점과 예상 변동폭</h2>
+<p>등가격 스트래들의 가격은 만기까지 주가가 얼마나 움직일지에 대한 빠른 시장 추정치입니다. 위 예시에서 시장은 약 $7.80, 즉 7.8%의 움직임을 가격에 반영하고 있습니다.</p>
+<p>여기서 스트래들 매수자에게 핵심 질문이 나옵니다. 주가가 시장의 예상보다 더 크게 움직일까요? 스트래들이 $7.80인데 주가가 $6 움직이면, 주가가 많이 움직였는데도 매수자는 손실을 봅니다. 롱 스트래들은 실현 변동성이 내재변동성을 넘어선다는 데 거는 베팅이고, 숏 스트래들은 그 반대에 거는 베팅입니다. 내재변동성과 예상 변동폭의 관계는 <a href="/ko/encyclopedia/options/implied-volatility/">내재변동성</a>에서 다룹니다.</p>
+<h2 id="section-8">실적 발표 스트래들</h2>
+<p>스트래들은 밤사이 큰 움직임이 흔한 실적 발표 전후에 널리 쓰입니다.</p>
+<h3 id="section-9">계산 예시</h3>
+<p>실적 발표 전, $50짜리 주식의 그 주 만기 $50 스트래들 가격이 $4.00로 약 8%의 움직임을 반영하고 있습니다. 내재변동성은 높아져 있습니다.</p>
+<ul>
+<li><strong>주가가 $56로 뛰면(12%):</strong> 콜은 최소 $6.00의 내재가치를 갖습니다. IV가 떨어진 뒤에도 스트래들은 $6.00를 조금 넘는 가치가 있어, 주당 약 $2.00, 즉 $200의 이익이 납니다.</li>
+<li><strong>주가가 $53로 움직이면(6%):</strong> 콜의 내재가치는 $3.00입니다. IV가 무너진 뒤에는 외재가치가 거의 남지 않아 스트래들 가치는 $3.00를 조금 넘는 수준에 그치고, 주당 거의 $1.00의 손실이 납니다.</li>
+</ul>
+<p>옵션 가격에는 이미 움직임에 대한 시장의 추정이 반영되어 있고, 실제 움직임은 그 주변에 넓게 흩어집니다. 어떤 발표는 예상 변동폭의 몇 배에 달하는 움직임을 만들어 매도자에게 큰 타격을 주고, 많은 발표는 그보다 훨씬 작은 움직임에 그쳐 매수자에게 타격을 줍니다. 어떤 실적 발표가 이례적으로 큰 움직임을 낳을지 미리 알 수 있는 믿을 만한 방법은 없습니다. <a href="/ko/encyclopedia/stocks/earnings-trading/">실적 발표 트레이딩</a>을 참고하십시오.</p>
+<h2 id="section-10">숏 스트래들과 숏 스트랭글</h2>
+<p>스트래들이나 스트랭글을 매도하면 프리미엄을 받고, 주가가 손익분기점 사이에 머물면 이익이 납니다. 앞의 스트래들 수치로 보면, $100 숏 스트래들은 $780를 받으며 주가가 정확히 $100에서 마감할 때만 그 전액을 가집니다. $92.20과 $107.80 사이 어디에서든 이익이 납니다.</p>
+<h3 id="section-11">꼬리 위험</h3>
+<p>예상치 못한 뉴스로 주가가 $75로 갭 하락했다고 합시다. 풋의 가치는 $25.00이므로 숏 스트래들은 $25.00 - $7.80 = 주당 $17.20, 즉 $1,720를 잃습니다. 이 손실 한 번이 최대 프리미엄 두 번 이상을 통째로 날립니다. $130로 갭 상승하면 $30.00 - $7.80 = $22.20, 즉 $2,220의 손실이 나고, 위쪽으로는 이론적 한도가 없습니다.</p>
+<p>숏 스트래들과 숏 스트랭글은 음의 감마와 음의 베가를 갖습니다. 주가가 움직일수록 손실이 가속되고, 내재변동성이 오르면 포지션을 되사는 비용이 커집니다. <a href="/ko/encyclopedia/options/options-greeks/">옵션 그릭스</a>를 참고하십시오. 커버되지 않은 옵션을 매도하려면 높은 옵션 승인 단계와 상당한 증거금도 필요하며, 시장 변동성이 커지면 브로커가 증거금 요건을 갑자기 올릴 수 있습니다.</p>
+<p>잘 알려진 개인과 펀드의 파산 사례 가운데 여러 건이 변동성 매도에서 나왔습니다. 변동성 매도는 급격한 시장 움직임이 오기 전까지는 꾸준한 수입처럼 보이는 경우가 많습니다. 2018년 2월 일부 변동성 매도 상품의 붕괴가 한 예입니다. <a href="/ko/encyclopedia/other-markets/volatility-trading-vix/">변동성과 VIX</a>를 참고하십시오. 위험을 제한한 채 변동성 매도 노출을 원하는 트레이더는 보호용 날개를 더한 <a href="/ko/encyclopedia/options/iron-condors-and-butterflies/">아이언 콘도르와 버터플라이</a>를 대신 쓰는 경우가 많습니다.</p>
+<h2 id="section-12">롱과 숏: 트레이드오프</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>롱 스트래들 또는 스트랭글</th>
+<th>숏 스트래들 또는 스트랭글</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이익이 나는 경우</td>
+<td>움직임이 가격에 반영된 것보다 클 때</td>
+<td>움직임이 가격에 반영된 것보다 작을 때</td>
+</tr>
+<tr>
+<td>시간가치 감소</td>
+<td>불리하게 작용</td>
+<td>유리하게 작용</td>
+</tr>
+<tr>
+<td>IV 상승</td>
+<td>도움이 됨</td>
+<td>손해가 됨</td>
+</tr>
+<tr>
+<td>일반적인 승리 패턴</td>
+<td>드물지만 클 수 있는 이익</td>
+<td>잦은 작은 이익, 가끔 큰 손실</td>
+</tr>
+<tr>
+<td>최대 손실</td>
+<td>지불한 프리미엄</td>
+<td>크거나 무제한</td>
+</tr>
+</tbody></table></div>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>&quot;뭔가 큰 일이 온다&quot;는 이유로 스트래들을 산다.</strong> 시장은 대개 이미 알고 있고, 가격에 그것이 반영되어 있습니다.</li>
+<li><strong>IV 크러시를 무시한다.</strong> 이벤트가 끝난 뒤 내재변동성 하락이 적당한 움직임에서 얻은 이익을 지워 버릴 수 있습니다.</li>
+<li><strong>롱 스트래들을 너무 오래 보유한다.</strong> 만기가 가까워지면 시간가치 감소가 빨라지고, 너무 늦게 온 움직임은 도움이 되지 않을 수 있습니다.</li>
+<li><strong>손실 계획 없이 스트랭글을 판다.</strong> 한정되지 않은 위험에 레버리지가 더해지면 받은 프리미엄의 몇 배에 달하는 손실이 날 수 있습니다.</li>
+<li><strong>평범한 날을 기준으로 변동성 매도 규모를 정한다.</strong> 평균적인 한 주가 아니라 드물게 오는 갭 움직임을 기준으로 규모를 정하십시오.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-15">스트래들과 스트랭글은 어떻게 다릅니까?</h3>
+<p>스트래들은 같은 행사가, 보통 등가격의 콜과 풋을 씁니다. 스트랭글은 행사가가 다른 외가격 콜과 외가격 풋을 쓰므로 더 싸지만 더 큰 움직임이 필요합니다.</p>
+<h3 id="section-16">스트래들의 손익분기점은 어떻게 계산합니까?</h3>
+<p>상단 손익분기점은 행사가에 총 프리미엄을 더하고, 하단 손익분기점은 행사가에서 총 프리미엄을 뺍니다. $7.80에 산 $100 스트래들의 만기 손익분기점은 $92.20과 $107.80입니다.</p>
+<h3 id="section-17">롱 스트래들은 좋은 실적 발표 전략입니까?</h3>
+<p>주가가 스트래들 가격에 반영된 것보다 크게 움직일 때만 이익이 나며, 발표 뒤에는 대개 IV가 급락합니다. 주가가 눈에 띄게 움직여도 손실이 나는 실적 발표 스트래들이 많습니다.</p>
+<h3 id="section-18">숏 스트랭글은 왜 위험합니까?</h3>
+<p>받는 프리미엄은 제한적인데 주가가 급격히 움직이면 매우 큰 손실을 입고, 콜 쪽은 이론적으로 위험이 무제한입니다. 손실이 받은 프리미엄의 몇 배가 될 수 있습니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/options/implied-volatility/"><div class="k">옵션 트레이딩</div><b>내재 변동성</b><span>내재변동성의 정의와 역사적 변동성과의 차이, IV 랭크와 IV 백분위, IV 크러시, 변동성 스큐, 예상 변동폭 공식을 예시와 함께 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/options/options-greeks/"><div class="k">옵션 트레이딩</div><b>옵션 그릭스</b><span>델타, 감마, 세타, 베가, 로가 무엇을 측정하는지 계산 예시로 설명하고, 시간과 머니니스에 따른 변화와 포지션 그릭스 읽는 법을 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/stocks/earnings-trading/"><div class="k">주식 트레이딩</div><b>실적 발표 매매</b><span>실적 시즌 매매법: 발표를 안고 갈지 반응을 매매할지, 옵션 예상 변동폭, 갭 앤 고와 페이드, 실적 후 드리프트를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/options/iron-condors-and-butterflies/"><div class="k">옵션 트레이딩</div><b>아이언 콘도르와 버터플라이</b><span>아이언 콘도르, 버터플라이, 아이언 버터플라이, 브로큰 윙 버터플라이의 구조와 손익분기점을 계산 예시로 설명하고 관리법과 핀 리스크를 다룹니다.</span></a><a class="card" href="/ko/encyclopedia/options/options-basics/"><div class="k">옵션 트레이딩</div><b>옵션 기초</b><span>콜과 풋, 행사가, 만기, 프리미엄, 내재가치와 시간가치, 머니니스, 매수자·매도자 손익을 예시로 설명하고 옵션 승인 단계도 정리합니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/options/iron-condors-and-butterflies/"><small>← 이전 글</small>아이언 콘도르와 버터플라이</a><a class="next" href="/ko/encyclopedia/options/0dte-options/"><small>다음 글 →</small>0DTE 옵션</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

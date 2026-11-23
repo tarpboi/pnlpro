@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Алгоритмы исполнения ордеров: TWAP, VWAP, POV и shortfall | PnL Profit</title>
+<meta name="description" content="Как работают алгоритмы исполнения: TWAP, VWAP, POV и implementation shortfall, умная маршрутизация ордеров, измерение проскальзывания и роль исполнения.">
+<meta name="keywords" content="алгоритмы исполнения ордеров, TWAP и VWAP, implementation shortfall, умная маршрутизация ордеров, измерение проскальзывания">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Энциклопедия трейдинга">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Алгоритмы исполнения ордеров: TWAP, VWAP, POV и shortfall | PnL Profit">
+<meta property="og:description" content="Как работают алгоритмы исполнения: TWAP, VWAP, POV и implementation shortfall, умная маршрутизация ордеров, измерение проскальзывания и роль исполнения.">
+<meta property="og:url" content="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/execution-algorithms/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Алгоритмы исполнения ордеров: TWAP, VWAP, POV и shortfall | PnL Profit">
+<meta name="twitter:description" content="Как работают алгоритмы исполнения: TWAP, VWAP, POV и implementation shortfall, умная маршрутизация ордеров, измерение проскальзывания и роль исполнения.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Алгоритмы исполнения ордеров: TWAP, VWAP, POV и shortfall","description":"Как работают алгоритмы исполнения: TWAP, VWAP, POV и implementation shortfall, умная маршрутизация ордеров, измерение проскальзывания и роль исполнения.","keywords":"алгоритмы исполнения ордеров, TWAP и VWAP, implementation shortfall, умная маршрутизация ордеров, измерение проскальзывания","articleSection":"Алгоритмическая и квант-торговля","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/execution-algorithms/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Алгоритмическая и квант-торговля","item":"https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Алгоритмы исполнения","item":"https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/execution-algorithms/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Чем TWAP отличается от VWAP?","acceptedAnswer":{"@type":"Answer","text":"TWAP распределяет ордер равномерно во времени, а VWAP определяет размер каждой части в соответствии с типичным объёмом в это время дня. VWAP обычно торгует активнее у открытия и закрытия, когда проходит основная часть объёма на фондовом рынке."}},{"@type":"Question","name":"Что такое implementation shortfall?","acceptedAnswer":{"@type":"Answer","text":"Это разница между результатом идеальной сделки, мгновенно исполненной по цене решения, и фактическим результатом с учётом проскальзывания, комиссий и стоимости акций, которые так и не были куплены или проданы. Эта мера считается одной из самых полных оценок торговых издержек."}},{"@type":"Question","name":"Нужны ли розничным трейдерам алгоритмы исполнения?","acceptedAnswer":{"@type":"Answer","text":"Большинство розничных ордеров достаточно малы, чтобы на ликвидных рынках хватало простого лимитного ордера. Тактики исполнения, такие как дробление ордеров и уход от волатильных моментов, важнее на тонких рынках и для трейдеров, чьи стратегии торгуют часто."}},{"@type":"Question","name":"Что такое умная маршрутизация ордеров?","acceptedAnswer":{"@type":"Answer","text":"Умная маршрутизация ордеров — это программное обеспечение, которое отправляет каждый ордер или каждую его часть на торговую площадку с наилучшим сочетанием цены, объёма, комиссий и вероятности исполнения."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
+  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Алгоритмическая и квант-торговля</h3><ul><li><a href="/ru/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Введение в алготрейдинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/backtesting/">Бэктестинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Переоптимизация</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/trend-following/">Следование за трендом</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/mean-reversion/">Возврат к среднему</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Парный трейдинг и статарбитраж</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/market-making/">Маркетмейкинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/arbitrage-strategies/">Арбитражные стратегии</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/high-frequency-trading/">Высокочастотная торговля</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/" class="on" aria-current="page">Алгоритмы исполнения</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/building-trading-bots/">Создание торговых ботов</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Копитрейдинг и социальный трейдинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Машинное обучение в трейдинге</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/market-data-sources/">Рыночные данные</a></li></ul><h3>Все темы</h3><ul><li><a href="/ru/encyclopedia/basics/">📘 Основы трейдинга</a></li><li><a href="/ru/encyclopedia/risk-management/">🛡️ Риск- и мани-менеджмент</a></li><li><a href="/ru/encyclopedia/psychology/">🧠 Психология трейдинга</a></li><li><a href="/ru/encyclopedia/technical-analysis/">📈 Технический анализ</a></li><li><a href="/ru/encyclopedia/fundamental-analysis/">🏦 Фундаментальный и макроанализ</a></li><li><a href="/ru/encyclopedia/stocks/">🏛️ Торговля акциями</a></li><li><a href="/ru/encyclopedia/forex/">💱 Торговля на форекс</a></li><li><a href="/ru/encyclopedia/futures/">📊 Торговля фьючерсами</a></li><li><a href="/ru/encyclopedia/options/">🎯 Торговля опционами</a></li><li><a href="/ru/encyclopedia/crypto/">₿ Торговля криптовалютой</a></li><li><a href="/ru/encyclopedia/meme-coins/">🐸 Торговля мемкоинами</a></li><li><a href="/ru/encyclopedia/prediction-markets/">🔮 Рынки предсказаний</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/" class="on">🤖 Алгоритмическая и квант-торговля</a></li><li><a href="/ru/encyclopedia/other-markets/">🛢️ Сырье, облигации и другие рынки</a></li><li><a href="/ru/encyclopedia/trading-business/">⚖️ Проп-фирмы, налоги, регулирование и мошенничество</a></li><li><a href="/ru/encyclopedia/reference/">📖 Справочник</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ru/encyclopedia/">Энциклопедия</a> › <a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a></div>
+<h1 class="title">Алгоритмы исполнения</h1>
+<div class="meta">7 мин чтения · Обновлено 23 нояб. 2026 г.</div>
+<details class="side-m"><summary>Ещё в разделе «Алгоритмическая и квант-торговля»</summary><ul><li><a href="/ru/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Введение в алготрейдинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/backtesting/">Бэктестинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Переоптимизация</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/trend-following/">Следование за трендом</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/mean-reversion/">Возврат к среднему</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Парный трейдинг и статарбитраж</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/market-making/">Маркетмейкинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/arbitrage-strategies/">Арбитражные стратегии</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/high-frequency-trading/">Высокочастотная торговля</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/" class="on" aria-current="page">Алгоритмы исполнения</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/building-trading-bots/">Создание торговых ботов</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Копитрейдинг и социальный трейдинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Машинное обучение в трейдинге</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/market-data-sources/">Рыночные данные</a></li></ul></details>
+<article><p>Алгоритмы исполнения (execution algorithms) — это программы, которые дробят крупный ордер на мелкие части и отправляют их на рынок постепенно, стремясь купить или продать по хорошей средней цене, не сдвигая рынок слишком сильно. Они отвечают на вопрос «как торговать?», а не «чем торговать?». Даже стратегия с настоящим преимуществом может терять деньги из-за плохого исполнения, поэтому эта тема важна для любого систематического трейдера, крупного или мелкого.</p>
+<div class="takeaways"><h2 id="key-takeaways">Ключевые выводы</h2>
+<ul>
+<li>Крупные ордера двигают цены; дробление во времени снижает влияние на рынок, но увеличивает подверженность дрейфу цены.</li>
+<li>TWAP распределяет ордер равномерно во времени, VWAP следует типичному профилю объёма, а POV торгует фиксированную долю текущего объёма.</li>
+<li>Алгоритмы implementation shortfall уравновешивают влияние на рынок и риск того, что цена уйдёт, пока вы ждёте.</li>
+<li>Умная маршрутизация ордеров направляет каждую часть на площадку с лучшей доступной ценой и ликвидностью.</li>
+<li>Измеряйте качество исполнения относительно цены в момент принятия решения о сделке, а не только относительно средней цены дня.</li>
+</ul></div><details class="toc"><summary>Содержание</summary><ol><li><a href="#section-2">Почему исполнение важно</a></li><li><a href="#section-3">Основные типы алгоритмов</a></li><li><a href="#section-8">Умная маршрутизация ордеров</a></li><li><a href="#section-9">Измерение проскальзывания</a></li><li><a href="#implementation-shortfall">Пример с расчётом: implementation shortfall</a></li><li><a href="#section-12">Исполнение для розничных и систематических трейдеров</a></li><li><a href="#common-mistakes">Типичные ошибки</a></li></ol></details>
+<h2 id="section-2">Почему исполнение важно</h2>
+<p>Каждая сделка несёт издержки сверх комиссий:</p>
+<ul>
+<li><strong>Спред:</strong> переход от бида к аску обходится в половину <a href="/ru/encyclopedia/basics/bid-ask-spread-and-liquidity/">спреда между бидом и аском</a> на каждой стороне по сравнению со средней ценой (mid).</li>
+<li><strong>Влияние на рынок (market impact):</strong> крупный ордер поглощает доступную ликвидность и толкает цену. Часть этого движения временна и восстанавливается, когда вы прекращаете торговать; часть постоянна, потому что ваша торговля раскрывает информацию.</li>
+<li><strong>Риск времени:</strong> если вы торгуете медленно, чтобы снизить влияние, цена может уйти от вас по не связанным с вами причинам.</li>
+</ul>
+<p>Проектирование исполнения — это компромисс между влиянием на рынок (торговать медленно) и риском времени (торговать быстро). Классическая формальная модель — подход Алмгрена–Крисса (Almgren-Chriss) примерно 2000 года, который находит график торговли, минимизирующий ожидаемые издержки плюс штраф за их неопределённость.</p>
+<p>Широко цитируемое эмпирическое правило, закон квадратного корня, гласит, что влияние растёт примерно пропорционально квадратному корню из размера ордера относительно дневного объёма:</p>
+<p>Влияние ≈ c × дневная волатильность × √(размер ордера / средний дневной объём)</p>
+<p>где c — константа, которую обычно оценивают примерно в 1. Считайте это грубым ориентиром, а не точным прогнозом.</p>
+<h2 id="section-3">Основные типы алгоритмов</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Алгоритм</th>
+<th>Как торгует</th>
+<th>Сильные стороны</th>
+<th>Слабые стороны</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TWAP (средневзвешенная по времени цена)</td>
+<td>Равные части через регулярные интервалы в течение заданного периода</td>
+<td>Простой, предсказуемый, легко реализовать</td>
+<td>Игнорирует профиль объёма; регулярные части можно обнаружить</td>
+</tr>
+<tr>
+<td>VWAP (средневзвешенная по объёму цена)</td>
+<td>Размер частей соответствует историческому внутридневному профилю объёма</td>
+<td>Торгует больше при высокой ликвидности; совпадает с распространённым бенчмарком</td>
+<td>Опирается на исторический объём; график всё равно фиксированный</td>
+</tr>
+<tr>
+<td>POV (процент от объёма)</td>
+<td>Торгует фиксированную долю, например 10%, рыночного объёма в реальном времени</td>
+<td>Подстраивается под фактическую ликвидность</td>
+<td>Время завершения неизвестно; может гнаться за всплесками объёма</td>
+</tr>
+<tr>
+<td>Implementation shortfall (цена поступления)</td>
+<td>Сначала торгует быстрее, с поправкой на срочность и риск</td>
+<td>Минимизирует издержки относительно цены решения</td>
+<td>Сложнее; больше влияние на рынок в начале</td>
+</tr>
+<tr>
+<td>Поиск ликвидности</td>
+<td>Ищет объём на открытых и скрытых площадках, часто оппортунистически</td>
+<td>Хорош для неликвидных бумаг</td>
+<td>Риск утечки информации</td>
+</tr>
+</tbody></table></div>
+<h3 id="twap">TWAP</h3>
+<p>TWAP делит ордер на равные части, отправляемые через фиксированные интервалы, например по 1,000 акций каждые пять минут. Многие криптобиржи предлагают TWAP-ордера напрямую. Хорошие реализации немного рандомизируют размер частей и время отправки, чтобы другие трейдеры не могли легко распознать паттерн.</p>
+<pre><code class="language-python">import random
+
+def twap_schedule(total_qty, start_ts, end_ts, n_slices, jitter=0.2):
+    &quot;&quot;&quot;Разбить total_qty на n_slices частей, равномерно распределённых между двумя метками времени (в секундах).&quot;&quot;&quot;
+    step = (end_ts - start_ts) / n_slices
+    base, remainder = divmod(total_qty, n_slices)
+    schedule = []
+    for i in range(n_slices):
+        qty = base + (1 if i &lt; remainder else 0)
+        offset = random.uniform(0.0, jitter) * step   # избегаем идеально регулярного паттерна
+        schedule.append((start_ts + i * step + offset, qty))
+    return schedule
+</code></pre>
+<h3 id="vwap">VWAP</h3>
+<p>Объём торгов на большинстве фондовых рынков в течение дня имеет U-образную форму: высокий на открытии и закрытии и ниже в середине дня. Алгоритм VWAP использует исторические профили объёма, чтобы торговать больше, когда рынок наиболее активен. Сама средневзвешенная по объёму цена, описанная в статье <a href="/ru/encyclopedia/technical-analysis/vwap/">VWAP</a>, — ещё и самый распространённый бенчмарк для оценки исполнений.</p>
+<h3 id="pov">POV</h3>
+<p>Алгоритм POV, или алгоритм участия, следит за текущим объёмом и торгует его заданную долю. Если за минуту на рынке проторговано 50,000 акций, а уровень участия составляет 10%, алгоритм стремится купить или продать 5,000. Он подстраивается под реальные условия, но не может обещать, когда ордер будет исполнен полностью.</p>
+<h3 id="implementation-shortfall">Implementation shortfall</h3>
+<p>Понятие implementation shortfall (недобор при реализации), введённое Андре Перольдом (André Perold) в 1988 году, измеряет разницу между доходностью бумажного портфеля, мгновенно исполненного по цене решения, и фактически полученной доходностью. Алгоритмы shortfall стараются минимизировать этот разрыв, обычно торгуя агрессивнее в начале, чтобы снизить подверженность дрейфу.</p>
+<h2 id="section-8">Умная маршрутизация ордеров</h2>
+<p>Многие рынки раздроблены между несколькими биржами и альтернативными площадками. Умный маршрутизатор ордеров (SOR, smart order router) проверяет цены и доступный объём на разных площадках и отправляет каждый дочерний ордер на лучшую из них с учётом комиссий, ребейтов, вероятности исполнения и задержки. В криптовалютах похожую роль играют агрегаторы, работающие с биржами или пулами ликвидности DEX. В США правила вроде Regulation NMS требуют от брокеров не исполнять сделки хуже лучших цен, выставленных на других биржах; в других регионах действуют собственные правила наилучшего исполнения.</p>
+<h2 id="section-9">Измерение проскальзывания</h2>
+<p>Нельзя улучшить исполнение, которое вы не измеряете. Распространённые бенчмарки:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Бенчмарк</th>
+<th>Определение</th>
+<th>Примечания</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Цена поступления (arrival price)</td>
+<td>Средняя цена в момент отправки ордера</td>
+<td>Самая честная мера общих издержек исполнения</td>
+</tr>
+<tr>
+<td>Цена решения</td>
+<td>Цена в момент генерации сигнала стратегией</td>
+<td>Учитывает задержку между сигналом и ордером</td>
+</tr>
+<tr>
+<td>VWAP за интервал</td>
+<td>Рыночный VWAP за время жизни ордера</td>
+<td>Популярен, но его можно «обыграть», просто торгуя в благоприятном направлении</td>
+</tr>
+<tr>
+<td>Закрытие</td>
+<td>Официальная цена закрытия</td>
+<td>Актуален для стратегий с бенчмарком по закрытию</td>
+</tr>
+</tbody></table></div>
+<p>Издержки обычно выражают в базисных пунктах (б. п., bps), где 1 б. п. = 0.01%. Для ордера на покупку проскальзывание = (средняя цена исполнения − бенчмарк) / бенчмарк. Для ордера на продажу знак меняется на противоположный.</p>
+<h2 id="implementation-shortfall">Пример с расчётом: implementation shortfall</h2>
+<p>Стратегия решает купить 10,000 акций, когда цена составляет 50.00 доллара. Стоимость бумажного портфеля — 10,000 × 50.00 = 500,000 долларов.</p>
+<ul>
+<li>Алгоритм покупает 8,000 акций по средней цене 50.12 доллара. Оставшиеся 2,000 акций не исполняются, прежде чем цена убегает до 50.60 доллара, и ордер отменяется.</li>
+<li>Издержки исполнения: 8,000 × (50.12 − 50.00) = 960 долларов.</li>
+<li>Альтернативные издержки по неисполненным акциям: 2,000 × (50.60 − 50.00) = 1,200 долларов.</li>
+<li>Комиссии: 40 долларов.</li>
+<li>Общий shortfall: 960 + 1,200 + 40 = 2,200 долларов, или 2,200 / 500,000 = 0.44% (44 б. п.).</li>
+</ul>
+<p>Если судить только по 8,000 исполненным акциям, ордер выглядел хорошо исполненным, но недобор оставшихся акций обошёлся дороже самого проскальзывания.</p>
+<h3 id="section-11">Оценка влияния на рынок</h3>
+<p>У акции дневная волатильность 2% и средний дневной объём 1,000,000 акций. Ордер на 10,000 акций составляет 1% дневного объёма. Правило квадратного корня с c = 1 даёт влияние около 2% × √0.01 = 2% × 0.1 = 0.2%, или 20 б. п. Увеличение ордера в четыре раза, до 40,000 акций, лишь удваивает оценку влияния, примерно до 40 б. п., потому что √0.04 = 0.2.</p>
+<h2 id="section-12">Исполнение для розничных и систематических трейдеров</h2>
+<p>Розничные ордера обычно малы относительно рыночного объёма, поэтому на ликвидных рынках влияние на цену незначительно. Исполнение всё равно важно:</p>
+<ul>
+<li>Используйте лимитные ордера вместо рыночных там, где это уместно; варианты описаны в статье о <a href="/ru/encyclopedia/basics/order-types/">типах ордеров</a>.</li>
+<li>Избегайте торговли в первые и последние минуты сессии и вокруг важных новостей, когда спреды расширяются.</li>
+<li>На тонких рынках, таких как акции малой капитализации, альткоины или событийные контракты, несколько тысяч долларов могут сдвинуть цену; дробление ордеров помогает.</li>
+<li>Записывайте время сигнала, время ордера, цену исполнения и среднюю цену на каждом шаге, а затем сравнивайте реальные издержки с допущениями бэктеста. См. <a href="/ru/encyclopedia/basics/trading-costs-and-fees/">торговые издержки и комиссии</a>.</li>
+</ul>
+<h2 id="common-mistakes">Типичные ошибки</h2>
+<ul>
+<li><strong>Сравнивать только с VWAP.</strong> Это может скрыть стоимость задержек и неисполненных ордеров.</li>
+<li><strong>Игнорировать неисполненные ордера.</strong> Упущенные сделки по выигрышным позициям — реальные и часто крупные издержки.</li>
+<li><strong>Предсказуемое дробление.</strong> Одинаковые части через одинаковые интервалы можно распознать и торговать против них.</li>
+<li><strong>Рыночные ордера в тонком стакане.</strong> Один ордер может «пройти» несколько ценовых уровней.</li>
+<li><strong>Считать, что исполнения в бэктесте равны реальным.</strong> Всегда сверяйте реальное исполнение с допущениями.</li>
+</ul>
+<h2 id="faq">Часто задаваемые вопросы</h2>
+<h3 id="twap-vwap">Чем TWAP отличается от VWAP?</h3>
+<p>TWAP распределяет ордер равномерно во времени, а VWAP определяет размер каждой части в соответствии с типичным объёмом в это время дня. VWAP обычно торгует активнее у открытия и закрытия, когда проходит основная часть объёма на фондовом рынке.</p>
+<h3 id="implementation-shortfall">Что такое implementation shortfall?</h3>
+<p>Это разница между результатом идеальной сделки, мгновенно исполненной по цене решения, и фактическим результатом с учётом проскальзывания, комиссий и стоимости акций, которые так и не были куплены или проданы. Эта мера считается одной из самых полных оценок торговых издержек.</p>
+<h3 id="section-17">Нужны ли розничным трейдерам алгоритмы исполнения?</h3>
+<p>Большинство розничных ордеров достаточно малы, чтобы на ликвидных рынках хватало простого лимитного ордера. Тактики исполнения, такие как дробление ордеров и уход от волатильных моментов, важнее на тонких рынках и для трейдеров, чьи стратегии торгуют часто.</p>
+<h3 id="section-18">Что такое умная маршрутизация ордеров?</h3>
+<p>Умная маршрутизация ордеров — это программное обеспечение, которое отправляет каждый ордер или каждую его часть на торговую площадку с наилучшим сочетанием цены, объёма, комиссий и вероятности исполнения.</p>
+</article>
+<div class="disclaimer"><strong>Только образовательный материал.</strong> Ничто здесь не является финансовой, инвестиционной, юридической или налоговой консультацией. Торговля сопряжена с высоким риском потерь, а с кредитным плечом можно потерять больше, чем вы внесли. Правила, комиссии и условия площадок меняются: перед сделкой проверяйте актуальные условия у брокера, биржи или регулятора.</div>
+<section class="related"><h2>Похожие статьи</h2><div class="cards"><a class="card" href="/ru/encyclopedia/technical-analysis/vwap/"><div class="k">Технический анализ</div><b>VWAP</b><span>Как рассчитывается VWAP, почему институционалы используют его как бенчмарк, как дейтрейдеры торгуют от него, якорный VWAP, полосы VWAP и ограничения индикатора.</span></a><a class="card" href="/ru/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Основы трейдинга</div><b>Спред и ликвидность</b><span>Что такое бид, аск, спред и средняя цена, как работают ликвидность, проскальзывание и влияние на рынок, почему расширяется спред и как оценить издержки сделки.</span></a><a class="card" href="/ru/encyclopedia/basics/order-types/"><div class="k">Основы трейдинга</div><b>Типы ордеров</b><span>Что делает каждый тип ордера, когда его применять и какие ошибки стоят денег: рыночный, лимитный, стоп, стоп-лимит, трейлинг-стоп, OCO и срок действия.</span></a><a class="card" href="/ru/encyclopedia/basics/trading-costs-and-fees/"><div class="k">Основы трейдинга</div><b>Издержки и комиссии</b><span>Комиссии, спреды, сборы мейкера и тейкера, свопы, фандинг, плата за заём, PFOF, газ, проскальзывание и налоги — с примером расчёта издержек.</span></a><a class="card" href="/ru/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">Алгоритмическая и квант-торговля</div><b>Высокочастотная торговля</b><span>Чем занимаются HFT-фирмы: колокация, гонка за задержками, маркетмейкинг и латентный арбитраж, споры вокруг HFT и почему рознице не угнаться за скоростью.</span></a></div></section>
+<div class="pager"><a href="/ru/encyclopedia/algorithmic-trading/high-frequency-trading/"><small>← Назад</small>Высокочастотная торговля</a><a class="next" href="/ru/encyclopedia/algorithmic-trading/building-trading-bots/"><small>Далее →</small>Создание торговых ботов</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ru/encyclopedia/basics/">Основы трейдинга</a><a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a><a href="/ru/encyclopedia/psychology/">Психология трейдинга</a><a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a><a href="/ru/encyclopedia/fundamental-analysis/">Фундаментальный и макроанализ</a><a href="/ru/encyclopedia/stocks/">Торговля акциями</a><a href="/ru/encyclopedia/forex/">Торговля на форекс</a><a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a><a href="/ru/encyclopedia/options/">Торговля опционами</a><a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a><a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a><a href="/ru/encyclopedia/prediction-markets/">Рынки предсказаний</a><a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a><a href="/ru/encyclopedia/other-markets/">Сырье, облигации и другие рынки</a><a href="/ru/encyclopedia/trading-business/">Проп-фирмы, налоги, регулирование и мошенничество</a><a href="/ru/encyclopedia/reference/">Справочник</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Открытый набор торговых ботов</a></div>
+  <p>PnL Profit Энциклопедия трейдинга: бесплатные независимые объяснения того, как работают крупнейшие рынки. Только образовательный материал, не инвестиционная рекомендация. Контакты: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ru/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Ничего не найдено. Загляните в глоссарий.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

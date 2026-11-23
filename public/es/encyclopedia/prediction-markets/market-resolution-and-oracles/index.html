@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo se resuelven los mercados de predicción: reglas y oráculos</title>
+<meta name="description" content="Cómo se decide el resultado de un mercado de predicción: reglas y fuentes, el oráculo optimista de UMA y las disputas, Chainlink y el riesgo de reglas ambiguas.">
+<meta name="keywords" content="resolución de mercados de predicción, oráculo optimista uma, disputa polymarket, feed de precios chainlink, reglas de resolución del mercado">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Cómo se resuelven los mercados de predicción: reglas y oráculos">
+<meta property="og:description" content="Cómo se decide el resultado de un mercado de predicción: reglas y fuentes, el oráculo optimista de UMA y las disputas, Chainlink y el riesgo de reglas ambiguas.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/prediction-markets/market-resolution-and-oracles/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cómo se resuelven los mercados de predicción: reglas y oráculos">
+<meta name="twitter:description" content="Cómo se decide el resultado de un mercado de predicción: reglas y fuentes, el oráculo optimista de UMA y las disputas, Chainlink y el riesgo de reglas ambiguas.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Cómo se resuelven los mercados de predicción: reglas y oráculos","description":"Cómo se decide el resultado de un mercado de predicción: reglas y fuentes, el oráculo optimista de UMA y las disputas, Chainlink y el riesgo de reglas ambiguas.","keywords":"resolución de mercados de predicción, oráculo optimista uma, disputa polymarket, feed de precios chainlink, reglas de resolución del mercado","articleSection":"Mercados de predicción","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/prediction-markets/market-resolution-and-oracles/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Mercados de predicción","item":"https://pnlpro.fit/es/encyclopedia/prediction-markets/"},{"@type":"ListItem","position":3,"name":"Resolución y oráculos","item":"https://pnlpro.fit/es/encyclopedia/prediction-markets/market-resolution-and-oracles/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Cómo decide Polymarket el resultado de un mercado?","acceptedAnswer":{"@type":"Answer","text":"La mayoría de los mercados de Polymarket se resuelven mediante el oráculo optimista de UMA. Alguien propone un resultado depositando una fianza y, si nadie lo disputa dentro de la ventana de impugnación, se mantiene. Los casos disputados pueden escalar a una votación de los poseedores de tokens UMA."}},{"@type":"Question","name":"¿Qué es un oráculo en un mercado de predicción?","acceptedAnswer":{"@type":"Answer","text":"Un oráculo es un sistema que lleva información del mundo real, como el resultado de unas elecciones o el precio de un activo, a una blockchain para que los contratos inteligentes puedan liquidarse. Algunos ejemplos son el oráculo optimista de UMA para preguntas sobre eventos y los feeds de precios de Chainlink para los precios de cripto."}},{"@type":"Question","name":"¿Qué pasa si un mercado de predicción se resuelve mal?","acceptedAnswer":{"@type":"Answer","text":"En las plataformas basadas en oráculos, los traders pueden disputar un resultado propuesto durante la ventana de impugnación, lo que puede llevar a una votación. En los exchanges regulados se aplican las reglas y los procedimientos de disputa del exchange. Una vez que un mercado se liquida de forma definitiva, normalmente no se revierte."}},{"@type":"Question","name":"¿Por qué perdí mi apuesta cripto al alza si el precio subió en mi exchange?","acceptedAnswer":{"@type":"Answer","text":"La ronda se liquida con el feed de precios que indican sus reglas, como un flujo de precios de Chainlink, y no con la pantalla de un exchange concreto. Pequeñas diferencias entre fuentes pueden decidir una ronda ajustada."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/prediction-markets/market-resolution-and-oracles/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Mercados de predicción</h3><ul><li><a href="/es/encyclopedia/prediction-markets/prediction-markets-explained/">Qué son los mercados de predicción</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-pricing/">Precios y probabilidad</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-platforms/">Comparativa de plataformas</a></li><li><a href="/es/encyclopedia/prediction-markets/market-resolution-and-oracles/" class="on" aria-current="page">Resolución y oráculos</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-strategies/">Panorama de estrategias</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitraje</a></li><li><a href="/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/">Market making</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-regulation/">Regulación</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/" class="on">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a></div>
+<h1 class="title">Resolución de mercados y oráculos</h1>
+<div class="meta">9 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Mercados de predicción</summary><ul><li><a href="/es/encyclopedia/prediction-markets/prediction-markets-explained/">Qué son los mercados de predicción</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-pricing/">Precios y probabilidad</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-platforms/">Comparativa de plataformas</a></li><li><a href="/es/encyclopedia/prediction-markets/market-resolution-and-oracles/" class="on" aria-current="page">Resolución y oráculos</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-strategies/">Panorama de estrategias</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitraje</a></li><li><a href="/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/">Market making</a></li><li><a href="/es/encyclopedia/prediction-markets/prediction-market-regulation/">Regulación</a></li></ul></details>
+<article><p>La resolución es el proceso que decide qué resultado de un <a href="/es/encyclopedia/prediction-markets/prediction-markets-explained/">mercado de predicción</a> ganó y, por lo tanto, qué contratos pagan $1. Los exchanges regulados resuelven los mercados aplicando reglas publicadas a una fuente de datos designada, mientras que muchas plataformas cripto usan un oráculo, un sistema que lleva hechos del mundo real a una blockchain. Como un contrato solo vale lo que su resolución dice que vale, malinterpretar las reglas es una de las formas más comunes en que los traders pierden dinero incluso cuando aciertan el evento.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>Cada mercado tiene reglas escritas que definen la pregunta, el plazo, la fuente de datos y lo que ocurre en los casos límite.</li>
+<li>Polymarket resuelve la mayoría de sus mercados mediante el oráculo optimista de UMA, en el que una respuesta propuesta se mantiene salvo que alguien la impugne depositando una fianza.</li>
+<li>Las rondas cortas de cripto al alza/a la baja, como los mercados de 5 y 15 minutos de Predict.fun, se liquidan con un feed de precios concreto, que puede diferir ligeramente del precio que ves en un exchange.</li>
+<li>La redacción ambigua, la falta de datos y las resoluciones anticipadas o 50/50 son riesgos reales que el precio puede no reflejar.</li>
+<li>Lee las reglas completas, no solo el título, antes de operar.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#qu-contienen-las-reglas-de-resoluci-n">Qué contienen las reglas de resolución</a></li><li><a href="#c-mo-resuelven-los-mercados-los-exchanges-regulados">Cómo resuelven los mercados los exchanges regulados</a></li><li><a href="#c-mo-funciona-el-or-culo-optimista-de-uma">Cómo funciona el oráculo optimista de UMA</a></li><li><a href="#feeds-de-precios-para-las-rondas-cripto">Feeds de precios para las rondas cripto</a></li><li><a href="#riesgo-de-resoluci-n-ambigua">Riesgo de resolución ambigua</a></li><li><a href="#riesgo-de-resoluci-n-y-estrategia">Riesgo de resolución y estrategia</a></li><li><a href="#c-mo-leer-las-reglas-antes-de-operar">Cómo leer las reglas antes de operar</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="qu-contienen-las-reglas-de-resoluci-n">Qué contienen las reglas de resolución</h2>
+<p>El título de un mercado es un resumen. Las reglas que hay debajo son el contrato. Normalmente especifican:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Qué determina</th>
+<th>Ejemplo de trampa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>La pregunta</td>
+<td>Qué tiene que ocurrir exactamente</td>
+<td>&quot;Anunciar&quot; frente a &quot;completar&quot; un acuerdo</td>
+</tr>
+<tr>
+<td>El plazo</td>
+<td>La hora y la zona horaria</td>
+<td>11:59 p. m. hora del Este frente a medianoche UTC</td>
+</tr>
+<tr>
+<td>La fuente</td>
+<td>Qué publicación o feed de datos cuenta</td>
+<td>Un comunicado oficial de un organismo frente a informaciones de prensa</td>
+</tr>
+<tr>
+<td>Casos límite</td>
+<td>Retrasos, cancelaciones, revisiones, empates</td>
+<td>Un evento aplazado, o una cifra revisada un mes después</td>
+</tr>
+<tr>
+<td>Alternativas</td>
+<td>Qué ocurre si la fuente no está disponible</td>
+<td>Resolver 50/50 o a un resultado por defecto</td>
+</tr>
+</tbody></table></div>
+<p>Las plataformas a veces publican aclaraciones después de abrir un mercado. Estas pueden cambiar lo que un trader creía haber comprado, así que revisa si hay actualizaciones en los mercados en los que tienes posiciones.</p>
+<h2 id="c-mo-resuelven-los-mercados-los-exchanges-regulados">Cómo resuelven los mercados los exchanges regulados</h2>
+<p>En un exchange regulado por la CFTC como Kalshi, cuya situación legal se explica en <a href="/es/encyclopedia/prediction-markets/prediction-market-regulation/">regulación de los mercados de predicción</a>, las condiciones de cada contrato se establecen por escrito y se presentan ante el regulador. El exchange designa la fuente, por ejemplo un organismo oficial de estadística en el caso de un contrato sobre inflación, y determina el resultado a partir de esa fuente una vez publicada. Las reglas suelen indicar si cuenta la primera publicación o si importan las revisiones posteriores. Las disputas pasan por los procedimientos propios del exchange y no por una votación pública. La contrapartida es clara: decisiones claras y centralizadas a cambio de confiar en el proceso del exchange.</p>
+<h2 id="c-mo-funciona-el-or-culo-optimista-de-uma">Cómo funciona el oráculo optimista de UMA</h2>
+<p>Polymarket resuelve la mayoría de sus mercados mediante el oráculo optimista de UMA; la <a href="/es/encyclopedia/prediction-markets/prediction-market-platforms/">comparativa de plataformas</a> explica en qué se diferencian otras plataformas. &quot;Optimista&quot; significa que el sistema da por correcta una respuesta propuesta salvo que alguien se oponga. En términos generales, el proceso funciona así:</p>
+<ol>
+<li><strong>Propuesta.</strong> Tras el evento, alguien propone un resultado y deposita una fianza (bond), una suma de dinero que pierde si se demuestra que la propuesta es errónea.</li>
+<li><strong>Ventana de impugnación.</strong> Sigue un período de espera, a menudo de un par de horas. Cualquiera que crea que la propuesta es errónea puede disputarla depositando una fianza equivalente.</li>
+<li><strong>Sin disputa.</strong> Si nadie la disputa, la propuesta se acepta y el mercado se liquida.</li>
+<li><strong>Disputa.</strong> En el esquema de Polymarket, una primera disputa normalmente ha dado lugar a una nueva ronda de propuestas. Una disputa adicional escala al sistema de votación de UMA, donde los poseedores de tokens UMA votan la respuesta correcta durante un período de varios días.</li>
+<li><strong>Liquidación de las fianzas.</strong> El lado que pierde la votación pierde su fianza, y parte de ella va al lado que tenía razón.</li>
+</ol>
+<p>El diseño es barato y rápido cuando los resultados están claros, que es la mayoría de las veces. Sus debilidades aparecen en las preguntas controvertidas. Como la última palabra la tienen los poseedores de tokens, los críticos han argumentado que los grandes poseedores podrían inclinar los resultados a su favor. Una disputa de 2025 muy comentada sobre un mercado relativo a un acuerdo de minerales entre EE. UU. y Ucrania recibió exactamente esta crítica. Los detalles de la resolución pueden cambiar, así que consulta la documentación vigente de la plataforma.</p>
+<h2 id="feeds-de-precios-para-las-rondas-cripto">Feeds de precios para las rondas cripto</h2>
+<p>Los mercados cripto de vencimiento corto preguntan si el precio de una moneda será más alto o más bajo al final de un intervalo que al principio. Necesitan un precio preciso en dos momentos exactos, así que usan un feed de precios en lugar de una propuesta humana.</p>
+<ul>
+<li><strong>Chainlink</strong> opera redes de oráculos descentralizadas que publican precios de activos agregados a partir de muchas fuentes. Las rondas de cripto al alza/a la baja de 5 y 15 minutos de Predict.fun se liquidan con un flujo de precios de Chainlink, y algunos mercados de otras plataformas también usan datos de Chainlink.</li>
+<li><strong>Precios de exchanges.</strong> Algunos mercados hacen referencia en cambio al precio o a la vela de un exchange concreto, como el cierre horario en un exchange determinado.</li>
+</ul>
+<p>Lo que cuenta es el feed que nombran las reglas. Los precios en los distintos exchanges difieren en pequeñas cantidades en cada momento, y un feed agregado puede actualizarse con un calendario ligeramente distinto al del exchange que estás mirando. En una ronda de 5 minutos que se decide por unos pocos dólares, esa diferencia puede invertir el resultado. La guía del blog sobre <a href="/blog/btc-updown-arbitrage-guide.html">mercados BTC up/down</a> analiza estas rondas rápidas.</p>
+<h3 id="ejemplo-pr-ctico-una-ronda-de-15-minutos">Ejemplo práctico: una ronda de 15 minutos</h3>
+<p>Una ronda de Bitcoin de 15 minutos se abre con el feed de liquidación marcando $64,000.00. Compras 50 acciones &quot;Up&quot; a 47 centavos y pagas 50 × $0.47 = $23.50.</p>
+<ul>
+<li>Al cierre, el feed de liquidación marca $64,012.50, así que gana &quot;Up&quot;. Recibes 50 × $1.00 = $50.00, una ganancia de $26.50 antes de comisiones.</li>
+<li>En ese mismo momento, el exchange que estabas mirando mostraba $63,995. Si hubieras operado solo con esa pantalla, podrías haber esperado perder. El resultado sigue al feed que indican las reglas, no a tu pantalla.</li>
+</ul>
+<p>Las reglas también indican qué ocurre si el precio final es exactamente igual al inicial. Algunas rondas consideran el empate como una victoria para uno de los lados; compruébalo antes de operar.</p>
+<h2 id="riesgo-de-resoluci-n-ambigua">Riesgo de resolución ambigua</h2>
+<p>Algunos mercados terminan en zonas grises. Causas habituales:</p>
+<ul>
+<li><strong>Redacción imprecisa.</strong> &quot;¿Se reunirá X con Y?&quot; puede no definir si una llamada telefónica cuenta.</li>
+<li><strong>Problemas con la fuente.</strong> La fuente designada deja de publicar, cambia de metodología o contradice otros informes.</li>
+<li><strong>Cambios en el evento.</strong> Un partido se aplaza, una votación se retrasa o un candidato se retira.</li>
+<li><strong>Resolución anticipada.</strong> Algunas reglas permiten liquidar un mercado antes del plazo una vez que el resultado es seguro.</li>
+<li><strong>Resultados divididos.</strong> Algunas plataformas resuelven los mercados realmente confusos al 50/50, pagando 50 centavos por acción a ambos lados.</li>
+</ul>
+<h3 id="ejemplo-pr-ctico-una-resoluci-n-50-50">Ejemplo práctico: una resolución 50/50</h3>
+<p>Tienes 100 acciones NO compradas a 70 centavos ($70.00). Otro trader tiene 100 acciones YES compradas a 30 centavos ($30.00). El mercado se declara irresoluble y se liquida al 50/50.</p>
+<ul>
+<li>Recibes 100 × $0.50 = $50.00, una pérdida de $20.00.</li>
+<li>El tenedor de YES recibe $50.00, una ganancia de $20.00.</li>
+</ul>
+<p>Ninguno de los dos &quot;acertó&quot; el evento, pero las reglas movieron $20 de uno a otro. Las posiciones compradas lejos de 50 centavos tienen una exposición oculta a este tipo de resultado.</p>
+<h2 id="riesgo-de-resoluci-n-y-estrategia">Riesgo de resolución y estrategia</h2>
+<p>Varias estrategias dependen directamente de la resolución:</p>
+<ul>
+<li><strong>El resolution sniping</strong> compra resultados casi seguros poco antes de la liquidación. Su principal riesgo es precisamente la sorpresa o el tecnicismo poco frecuente que se describe aquí. Consulta el <a href="/es/encyclopedia/prediction-markets/prediction-market-strategies/">panorama de estrategias</a> y la guía del blog sobre <a href="/blog/resolution-sniping-guide.html">resolution sniping</a>.</li>
+<li><strong>El arbitraje entre plataformas</strong> supone que dos plataformas resolverán la &quot;misma&quot; pregunta de la misma manera. Cuando las reglas difieren, ambas patas pueden perder. Consulta <a href="/es/encyclopedia/prediction-markets/prediction-market-arbitrage/">arbitraje en mercados de predicción</a>.</li>
+<li><strong>El market making</strong> cerca de la resolución se enfrenta a traders informados que pueden conocer la respuesta antes que el precio. Consulta <a href="/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/">market making en mercados de predicción</a>.</li>
+</ul>
+<h2 id="c-mo-leer-las-reglas-antes-de-operar">Cómo leer las reglas antes de operar</h2>
+<ol>
+<li>Lee las reglas completas, no el título.</li>
+<li>Anota el plazo exacto y la zona horaria.</li>
+<li>Identifica la fuente de resolución y comprueba que realmente publica lo que exigen las reglas.</li>
+<li>Busca cláusulas sobre casos límite: retrasos, empates y revisiones.</li>
+<li>Revisa si se han añadido aclaraciones o comentarios desde que se abrió el mercado.</li>
+<li>Pregúntate si una persona razonable podría leer la pregunta de dos maneras. Si es así, incorpora ese riesgo a tu <a href="/es/encyclopedia/prediction-markets/prediction-market-pricing/">estimación de probabilidad</a> o descarta el mercado.</li>
+</ol>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Operar el titular.</strong> El título no es el contrato.</li>
+<li><strong>Mirar el precio equivocado.</strong> En las rondas cripto decide el feed de liquidación, no tu exchange favorito.</li>
+<li><strong>Suponer que las disputas siempre corrigen los errores.</strong> Las disputas cuestan dinero y tiempo, y la votación puede no salir como te parece justo.</li>
+<li><strong>Ignorar las zonas horarias.</strong> Un plazo en una zona puede vencer horas antes que en la tuya.</li>
+<li><strong>Vender con descuento por pánico durante una disputa.</strong> Los precios suelen oscilar durante las disputas; conoce el proceso antes de reaccionar.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="c-mo-decide-polymarket-el-resultado-de-un-mercado">¿Cómo decide Polymarket el resultado de un mercado?</h3>
+<p>La mayoría de los mercados de Polymarket se resuelven mediante el oráculo optimista de UMA. Alguien propone un resultado depositando una fianza y, si nadie lo disputa dentro de la ventana de impugnación, se mantiene. Los casos disputados pueden escalar a una votación de los poseedores de tokens UMA.</p>
+<h3 id="qu-es-un-or-culo-en-un-mercado-de-predicci-n">¿Qué es un oráculo en un mercado de predicción?</h3>
+<p>Un oráculo es un sistema que lleva información del mundo real, como el resultado de unas elecciones o el precio de un activo, a una blockchain para que los contratos inteligentes puedan liquidarse. Algunos ejemplos son el oráculo optimista de UMA para preguntas sobre eventos y los feeds de precios de Chainlink para los precios de cripto.</p>
+<h3 id="qu-pasa-si-un-mercado-de-predicci-n-se-resuelve-mal">¿Qué pasa si un mercado de predicción se resuelve mal?</h3>
+<p>En las plataformas basadas en oráculos, los traders pueden disputar un resultado propuesto durante la ventana de impugnación, lo que puede llevar a una votación. En los exchanges regulados se aplican las reglas y los procedimientos de disputa del exchange. Una vez que un mercado se liquida de forma definitiva, normalmente no se revierte.</p>
+<h3 id="por-qu-perd-mi-apuesta-cripto-al-alza-si-el-precio-subi-en-mi-exchange">¿Por qué perdí mi apuesta cripto al alza si el precio subió en mi exchange?</h3>
+<p>La ronda se liquida con el feed de precios que indican sus reglas, como un flujo de precios de Chainlink, y no con la pantalla de un exchange concreto. Pequeñas diferencias entre fuentes pueden decidir una ronda ajustada.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/prediction-markets/prediction-markets-explained/"><div class="k">Mercados de predicción</div><b>Qué son los mercados de predicción</b><span>Qué son los mercados de predicción, cómo funcionan los contratos de $1, su historia de Iowa a Polymarket y Kalshi y en qué difieren de apuestas y opciones.</span></a><a class="card" href="/es/encyclopedia/prediction-markets/prediction-market-platforms/"><div class="k">Mercados de predicción</div><b>Comparativa de plataformas</b><span>Comparativa neutral de Polymarket, Kalshi, Predict.fun, PredictIt, Manifold, Limitless y otras: regulación, garantía, comisiones, tipos de mercado y acceso.</span></a><a class="card" href="/es/encyclopedia/prediction-markets/prediction-market-arbitrage/"><div class="k">Mercados de predicción</div><b>Arbitraje</b><span>Cómo funciona el arbitraje en mercados de predicción: YES/NO y varios resultados, spreads entre plataformas, comisiones, capital inmovilizado y reglas.</span></a><a class="card" href="/es/encyclopedia/prediction-markets/prediction-market-strategies/"><div class="k">Mercados de predicción</div><b>Panorama de estrategias</b><span>Estrategias en mercados de predicción: ventaja informativa, resolution sniping, arbitraje, market making, rondas cripto y copy trading, con sus riesgos.</span></a><a class="card" href="/es/encyclopedia/prediction-markets/prediction-market-pricing/"><div class="k">Mercados de predicción</div><b>Precios y probabilidad</b><span>Cómo se traduce el precio en probabilidad, por qué YES y NO suman $1, overround, conversión de cuotas, comisiones, valor temporal y sesgo favorito-longshot.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/prediction-markets/prediction-market-platforms/"><small>← Anterior</small>Comparativa de plataformas</a><a class="next" href="/es/encyclopedia/prediction-markets/prediction-market-strategies/"><small>Siguiente →</small>Panorama de estrategias</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

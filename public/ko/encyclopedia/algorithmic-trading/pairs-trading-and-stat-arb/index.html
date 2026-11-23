@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>페어 트레이딩과 통계적 차익거래 완전 정리 | PnL Profit</title>
+<meta name="description" content="페어 트레이딩과 통계적 차익거래: 공적분과 상관관계, 헤지 비율, 스프레드 z-점수, 진입·청산 규칙, 엣지 쇠퇴, 2007년 퀀트 지진.">
+<meta name="keywords" content="페어 트레이딩, 통계적 차익거래, 공적분 매매, 페어 트레이딩 전략, 헤지 비율, 2007 퀀트 지진">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="페어 트레이딩과 통계적 차익거래 완전 정리 | PnL Profit">
+<meta property="og:description" content="페어 트레이딩과 통계적 차익거래: 공적분과 상관관계, 헤지 비율, 스프레드 z-점수, 진입·청산 규칙, 엣지 쇠퇴, 2007년 퀀트 지진.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="페어 트레이딩과 통계적 차익거래 완전 정리 | PnL Profit">
+<meta name="twitter:description" content="페어 트레이딩과 통계적 차익거래: 공적분과 상관관계, 헤지 비율, 스프레드 z-점수, 진입·청산 규칙, 엣지 쇠퇴, 2007년 퀀트 지진.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"페어 트레이딩과 통계적 차익거래 완전 정리","description":"페어 트레이딩과 통계적 차익거래: 공적분과 상관관계, 헤지 비율, 스프레드 z-점수, 진입·청산 규칙, 엣지 쇠퇴, 2007년 퀀트 지진.","keywords":"페어 트레이딩, 통계적 차익거래, 공적분 매매, 페어 트레이딩 전략, 헤지 비율, 2007 퀀트 지진","articleSection":"알고리즘·퀀트 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"알고리즘·퀀트 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"페어 트레이딩과 통계적 차익거래","item":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"페어 트레이딩은 무위험인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 두 자산 사이의 관계가 무너질 수 있고, 스프레드가 좁혀지기 전에 더 벌어질 수 있으며, 쏠린 포지션이 갑자기 청산될 수 있습니다. 페어 트레이딩은 시장 방향에 대한 노출을 줄이지만 다른 위험을 더합니다."}},{"@type":"Question","name":"공적분과 상관관계는 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"상관관계는 두 자산의 수익률이 기간마다 함께 움직이는지를 측정합니다. 공적분은 두 가격의 조합이 안정적인 평균으로 돌아오는 경향이 있는 스프레드를 이룬다는 뜻이며, 페어 트레이딩이 의존하는 것은 바로 이것입니다."}},{"@type":"Question","name":"페어 트레이딩에는 어떤 z-점수를 써야 하나요?","acceptedAnswer":{"@type":"Answer","text":"많은 트레이더가 ±2 부근에서 진입하고 0 근처에서 청산하며, ±4 같은 더 큰 값에 손절을 둡니다. 최적의 기준은 비용, 스프레드의 반감기, 페어 자체에 따라 다르며, 표본 외 데이터로 검증해야 합니다."}},{"@type":"Question","name":"페어 트레이딩은 아직도 통하나요?","acceptedAnswer":{"@type":"Answer","text":"학술 연구들은 전략이 널리 알려지면서 단순한 페어 트레이딩 규칙의 수익이 시간이 지나며 줄어들었다는 것을 발견했습니다. 기회는 여전히 있지만, 과거보다 더 작고, 더 빠르고, 경쟁이 더 치열한 경향이 있습니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>알고리즘·퀀트 트레이딩</h3><ul><li><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">알고리즘 트레이딩 입문</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/backtesting/">백테스트</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/trend-following/">추세추종</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/">평균회귀</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">페어 트레이딩과 통계적 차익거래</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-making/">마켓 메이킹</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/">집행 알고리즘</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/">트레이딩 봇 만들기</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">카피·소셜 트레이딩</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">트레이딩과 머신러닝</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/">시장 데이터</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/" class="on">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a></div>
+<h1 class="title">페어 트레이딩과 통계적 차익거래</h1>
+<div class="meta">6분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>알고리즘·퀀트 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">알고리즘 트레이딩 입문</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/backtesting/">백테스트</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/trend-following/">추세추종</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/">평균회귀</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">페어 트레이딩과 통계적 차익거래</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-making/">마켓 메이킹</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/">집행 알고리즘</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/">트레이딩 봇 만들기</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">카피·소셜 트레이딩</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">트레이딩과 머신러닝</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/">시장 데이터</a></li></ul></details>
+<article><p>페어 트레이딩(pairs trading)은 밀접하게 연관된 두 자산의 가격 관계가 이례적으로 크게 벌어졌을 때 한쪽을 사고 다른 쪽을 공매도해, 그 차이가 좁혀지는 데 베팅하는 시장중립 전략입니다. 통계적 차익거래(statistical arbitrage, 스탯 아브)는 이 아이디어를 통계 모델로 선정한 대규모 포지션 포트폴리오로 확장한 것입니다. 둘 다 개별 가격이 아니라 상대 가격에 적용한 <a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/">평균회귀</a>의 한 형태이며, 약해지거나 깨질 수 있는 관계에 의존합니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>페어 트레이딩은 전체 시장의 방향이 아니라 두 자산 사이 스프레드의 변화에서 이익을 얻습니다.</li>
+<li>스프레드 자체가 안정적인 수준으로 돌아오는 경향을 뜻하는 공적분이 상관관계보다 더 중요합니다.</li>
+<li>헤지 비율은 스프레드가 균형을 이루도록 각 자산을 얼마나 매매할지 정합니다.</li>
+<li>진입과 청산은 보통 스프레드의 z-점수로 정의하며, 관계가 깨질 때를 대비한 손절을 더합니다.</li>
+<li>공개된 페어 트레이딩 수익은 시간이 지나며 줄어들었고, 쏠린 통계적 차익거래 포지션은 2007년 8월처럼 격렬하게 청산될 수 있습니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">페어 트레이딩의 작동 방식</a></li><li><a href="#vs">상관관계 vs 공적분</a></li><li><a href="#section-4">스프레드 만들기</a></li><li><a href="#section-7">진입·청산 규칙</a></li><li><a href="#section-8">페어에서 통계적 차익거래로</a></li><li><a href="#section-9">쇠퇴와 쏠림</a></li><li><a href="#section-12">계산 예시</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">페어 트레이딩의 작동 방식</h2>
+<p>고전적인 예는 같은 업종에서 비슷한 사업을 하는 두 기업입니다. 대형 석유 생산 기업 두 곳, 결제 네트워크 두 곳, 같은 회사의 서로 다른 주식 클래스 두 개 같은 경우입니다. 이들의 가격은 많은 공통 요인에 의해 움직입니다. 뚜렷한 이유 없이 한쪽이 다른 쪽에 비해 급등하면, 페어 트레이더는 초과 성과를 낸 쪽을 공매도하고 뒤처진 쪽을 삽니다. 관계가 유지된다면 차이가 좁혀지고, 시장 전체가 오르든 내리든 거래는 이익을 냅니다.</p>
+<p>페어 트레이딩의 기원은 흔히 1980년대 월가 트레이딩 데스크의 퀀트 그룹으로 거슬러 올라가며, Morgan Stanley의 한 팀이 자주 그 시초로 꼽힙니다. 널리 인용되는 2006년 연구에서 Gatev, Goetzmann, Rouwenhorst는 미국 주식에 단순한 규칙을 시험했습니다. 정규화된 가격이 가장 비슷하게 움직인 주식끼리 짝을 지은 뒤, 둘이 벌어지면 매매하는 것입니다. 이들은 과거의 초과 수익을 발견했지만, 표본 후반부에는 수익이 더 낮았다는 것도 발견했으며, 후속 연구들도 같은 패턴을 보고했습니다.</p>
+<h2 id="vs">상관관계 vs 공적분</h2>
+<p>상관관계와 공적분은 자주 혼동되지만, 그 차이는 중요합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>개념</th>
+<th>측정하는 것</th>
+<th>페어 트레이딩에 유용한가?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>상관관계</td>
+<td>두 시계열의 수익률이 기간마다 함께 오르내리는지</td>
+<td>그것만으로는 부족함. 상관관계가 높은 두 주식도 영구적으로 멀어질 수 있음</td>
+</tr>
+<tr>
+<td>공적분</td>
+<td>두 가격 시계열의 어떤 조합(스프레드)이 정상적(stationary)인지, 즉 안정적인 평균으로 돌아오는 경향이 있는지</td>
+<td>그렇다. 페어 트레이딩이 실제로 베팅하는 것이 바로 이것</td>
+</tr>
+</tbody></table></div>
+<p>두 주식은 일간 수익률의 상관관계가 높으면서도, 한쪽이 몇 년에 걸쳐 다른 쪽보다 조금씩 더 빨리 성장할 수 있습니다. 그러면 스프레드는 추세를 띠고, &quot;비싼&quot; 쪽을 공매도한 트레이더는 꾸준히 손실을 봅니다. 반대로 공적분 관계인 시계열은 일간 상관관계가 보통 수준에 그치더라도 안정적인 장기 관계를 유지할 수 있습니다.</p>
+<p>Engle과 Granger가 1987년에 도입한 Engle-Granger 2단계 방법은 흔히 쓰는 검정입니다. 한 가격을 다른 가격에 회귀해 관계를 추정한 뒤, 잔차인 스프레드가 정상적인지 검정합니다. Johansen 검정은 세 개 이상의 자산을 다룹니다. 포트폴리오 전체에서 상관관계가 어떻게 작동하는지는 <a href="/ko/encyclopedia/risk-management/correlation-and-portfolio-risk/">상관관계와 포트폴리오 리스크</a>를 참고하십시오.</p>
+<h2 id="section-4">스프레드 만들기</h2>
+<h3 id="section-5">헤지 비율</h3>
+<p>헤지 비율 β는 자산 A 1단위를 상쇄하려면 자산 B가 몇 단위 필요한지를 나타냅니다. 흔히 룩백 기간 동안 A의 가격을 B의 가격(또는 로그 가격)에 회귀해 추정합니다.</p>
+<p>Spread = Price_A − β × Price_B</p>
+<p>달러 중립 페어는 롱과 숏을 같은 달러 금액으로 보유합니다. 베타 중립 페어는 시장 민감도의 차이를 반영해 조정합니다. 헤지 비율은 시간이 지나며 변하므로, 많은 트레이더가 롤링 윈도우로 다시 추정하거나 칼만 필터로 계속 갱신합니다.</p>
+<h3 id="section-6">반감기</h3>
+<p>반감기(half-life)는 스프레드가 평균에서 벗어난 폭의 절반을 되돌리는 데 보통 얼마나 걸리는지를 추정한 값입니다. 스프레드의 변화량을 직전 수준에 회귀해 구합니다. 반감기가 5~20일이면 스윙 매매에 적합하고, 몇 달에 이르면 자본이 묶이고 관계가 먼저 깨질 가능성이 커집니다.</p>
+<pre><code class="language-python">import numpy as np
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import coint
+
+def pair_stats(a: np.ndarray, b: np.ndarray):
+    &quot;&quot;&quot;a, b: 시점을 맞춘 가격 배열(로그 가격을 쓰는 경우가 많다).&quot;&quot;&quot;
+    beta = sm.OLS(a, sm.add_constant(b)).fit().params[1]
+    spread = a - beta * b
+    coint_p = coint(a, b)[1]          # Engle-Granger 검정. p가 작으면 공적분을 시사한다
+    lagged = spread[:-1]
+    delta = np.diff(spread)
+    lam = sm.OLS(delta, sm.add_constant(lagged)).fit().params[1]
+    half_life = -np.log(2) / lam if lam &lt; 0 else np.inf
+    return beta, coint_p, half_life
+</code></pre>
+<h2 id="section-7">진입·청산 규칙</h2>
+<p>대부분의 페어 시스템은 스프레드의 z-점수, 즉 롤링 평균에서 표준편차 몇 개만큼 떨어져 있는지를 기준으로 매매합니다.</p>
+<ul>
+<li><strong>진입:</strong> z가 약 +2 위로 올라가면 스프레드를 매도하고(A 공매도, B를 β단위 매수), z가 약 −2 아래로 떨어지면 스프레드를 매수합니다.</li>
+<li><strong>청산:</strong> z가 0 근처로 돌아오면 정리합니다.</li>
+<li><strong>손절:</strong> z가 ±4 같은 극단에 이르거나, 거래 기간이 반감기의 몇 배를 넘기면 정리합니다.</li>
+<li><strong>재검정:</strong> 최근 데이터에서 공적분 검정을 통과하지 못하면 그 페어의 매매를 중단합니다.</li>
+</ul>
+<h2 id="section-8">페어에서 통계적 차익거래로</h2>
+<p>통계적 차익거래는 같은 논리를 대규모로 적용합니다. 페어 하나 대신, 통계적 차익거래 펀드는 수백에서 수천 개의 작은 롱·숏 포지션을 보유할 수 있습니다. 흔한 접근법은 다음과 같습니다.</p>
+<ul>
+<li>각 주식을 같은 섹터 동종 기업들의 바스켓과 맞대어 매매하기.</li>
+<li>팩터 모델이나 주성분 분석으로 시장과 섹터의 움직임을 걷어 낸 뒤, 회귀할 것으로 예상되는 잔차 수익률을 매매하기. Avellaneda와 Lee는 2010년 논문에서 미국 주식에 대한 이 접근법을 설명했습니다.</li>
+<li>회귀 신호를 주문 흐름 및 거래량 정보와 결합한 단기 모델.</li>
+</ul>
+<p>이름과 달리, 통계적 차익거래는 <a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a>에서 설명하는 무위험이라는 의미의 차익거래가 아닙니다. 많은 포지션에 걸쳐 평균적으로 성립하는 확률에 의존합니다.</p>
+<h2 id="section-9">쇠퇴와 쏠림</h2>
+<h3 id="section-10">엣지 쇠퇴</h3>
+<p>더 많은 트레이더가 비슷한 모델을 운용할수록, 그들이 노리는 스프레드는 더 빨리 닫히고 기회는 줄어듭니다. 더 빠른 경쟁자들이 가장 깨끗한 신호를 가져갑니다. 한때 몇 주씩 포지션을 보유하던 전략이 이제는 몇 분 안에 움직여야 하거나, 아예 기회가 없을 수 있습니다.</p>
+<h3 id="2007-8">2007년 8월 퀀트 지진</h3>
+<p>2007년 8월 6일 주간에 많은 퀀트 주식 시장중립 펀드가 갑작스럽고 큰 손실을 입었습니다. 잘 알려진 분석에서 Khandani와 Lo는, 하나 이상의 대형 펀드가 아마도 현금을 마련하거나 다른 곳의 위험을 줄이기 위해 포지션을 급히 청산한 것이 유력한 계기였다고 주장했습니다. 많은 펀드가 비슷한 롱·숏 포지션을 들고 있었기 때문에, 강제 매도가 모두에게 한꺼번에 불리한 방향으로 가격을 밀었고, 이것이 추가적인 위험 축소를 촉발했습니다. 손실의 상당 부분은 며칠 안에 회복되었지만, 바닥에서 포지션을 줄인 펀드들은 손실을 확정해 버렸습니다. 교훈은 전략이 시장중립이면서도 집중된 쏠림 위험을 안고 있을 수 있다는 것입니다.</p>
+<h2 id="section-12">계산 예시</h2>
+<p>두 주식의 추정 헤지 비율이 1.2입니다. 과거에 스프레드 A − 1.2 × B의 평균은 2.00달러, 표준편차는 0.50달러였습니다.</p>
+<ul>
+<li>오늘 A는 51.50달러, B는 40.00달러에 거래됩니다. 스프레드 = 51.50 − 1.2 × 40.00 = 51.50 − 48.00 = 3.50달러.</li>
+<li>z = (3.50 − 2.00) / 0.50 = 3.0으로 진입 기준 +2보다 높으므로, 트레이더는 스프레드를 매도합니다. A 1,000주를 공매도(51,500달러)하고 B 1,200주를 매수(48,000달러)합니다.</li>
+<li>2주 뒤 A는 51.00, B는 40.75입니다. 스프레드 = 51.00 − 48.90 = 2.10달러, z = 0.2이므로 트레이더는 청산합니다.</li>
+<li>A 공매도 이익: (51.50 − 51.00) × 1,000 = 500달러. B 매수 이익: (40.75 − 40.00) × 1,200 = 900달러. 합계 1,400달러.</li>
+<li>검산: 스프레드가 3.50에서 2.10으로 1.40달러 줄었고, 스프레드 1,000단위를 곱하면 1,400달러입니다.</li>
+</ul>
+<p>여기서 네 레그의 수수료, 각 레그에서 치른 스프레드, 공매도 주식의 대차 수수료를 빼야 합니다. 공매도의 구조와 비용은 <a href="/ko/encyclopedia/stocks/short-selling/">공매도</a>에서 다룹니다.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>상관관계만으로 페어를 고릅니다.</strong> 상관관계가 높다고 스프레드가 회귀한다는 뜻은 아닙니다.</li>
+<li><strong>수천 개의 페어를 뒤져 백테스트가 가장 좋은 것을 매매합니다.</strong> 후보가 충분히 많으면 일부 페어는 우연히 공적분 관계처럼 보입니다. <a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화와 데이터 스누핑</a>을 참고하십시오.</li>
+<li><strong>구조적 변화를 무시합니다.</strong> 합병, 분사, 새로운 규제, 사업 구성의 변화는 관계를 영구적으로 깨뜨릴 수 있습니다.</li>
+<li><strong>스프레드에 손절이 없습니다.</strong> 깨진 페어는 몇 달씩 계속 벌어질 수 있습니다.</li>
+<li><strong>숏 쪽 비용을 과소평가합니다.</strong> 대차 수수료, 대차 주식 리콜, 공매도 제한은 얇은 엣지를 지워 버릴 수 있습니다.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-15">페어 트레이딩은 무위험인가요?</h3>
+<p>아닙니다. 두 자산 사이의 관계가 무너질 수 있고, 스프레드가 좁혀지기 전에 더 벌어질 수 있으며, 쏠린 포지션이 갑자기 청산될 수 있습니다. 페어 트레이딩은 시장 방향에 대한 노출을 줄이지만 다른 위험을 더합니다.</p>
+<h3 id="section-16">공적분과 상관관계는 무엇이 다른가요?</h3>
+<p>상관관계는 두 자산의 수익률이 기간마다 함께 움직이는지를 측정합니다. 공적분은 두 가격의 조합이 안정적인 평균으로 돌아오는 경향이 있는 스프레드를 이룬다는 뜻이며, 페어 트레이딩이 의존하는 것은 바로 이것입니다.</p>
+<h3 id="z">페어 트레이딩에는 어떤 z-점수를 써야 하나요?</h3>
+<p>많은 트레이더가 ±2 부근에서 진입하고 0 근처에서 청산하며, ±4 같은 더 큰 값에 손절을 둡니다. 최적의 기준은 비용, 스프레드의 반감기, 페어 자체에 따라 다르며, 표본 외 데이터로 검증해야 합니다.</p>
+<h3 id="section-18">페어 트레이딩은 아직도 통하나요?</h3>
+<p>학술 연구들은 전략이 널리 알려지면서 단순한 페어 트레이딩 규칙의 수익이 시간이 지나며 줄어들었다는 것을 발견했습니다. 기회는 여전히 있지만, 과거보다 더 작고, 더 빠르고, 경쟁이 더 치열한 경향이 있습니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">알고리즘·퀀트 트레이딩</div><b>평균회귀</b><span>평균회귀 매매의 원리: 단기 반전, z-점수, 볼린저 밴드·RSI 시스템, 음의 왜도, 국면 위험, 평균회귀가 실패하는 조건을 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/"><div class="k">알고리즘·퀀트 트레이딩</div><b>차익거래 전략</b><span>순수 차익거래와 통계적 차익거래, 지수·ETF·합병 차익거래, 거래소 간·삼각 차익거래, 베이시스 거래, 무위험 차익이 드문 이유를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/risk-management/correlation-and-portfolio-risk/"><div class="k">리스크 관리와 자금 관리</div><b>상관관계와 포트폴리오 리스크</b><span>상관관계 높은 포지션이 하나의 큰 베팅이 되는 이유, 위기 때 상관관계가 급등하는 현상, 분산의 한계, 노출 한도, 헤지와 베타를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/stocks/short-selling/"><div class="k">주식 트레이딩</div><b>공매도</b><span>공매도의 원리: 주식 차입과 대차 수수료, 공매도 잔고, 숏 스퀴즈, 미국 SSR 규정, 배당 대체 지급, 대안을 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">알고리즘·퀀트 트레이딩</div><b>과최적화</b><span>훌륭한 백테스트가 실전에서 실패하는 이유: 커브 피팅, 다중 검정, 불안정한 파라미터, 디플레이티드 샤프 지수, 과최적화 방지법.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/"><small>← 이전 글</small>평균회귀</a><a class="next" href="/ko/encyclopedia/algorithmic-trading/market-making/"><small>다음 글 →</small>마켓 메이킹</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

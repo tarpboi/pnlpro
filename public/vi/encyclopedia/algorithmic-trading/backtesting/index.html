@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cách backtest chiến lược giao dịch đúng cách | PnL Profit</title>
+<meta name="description" content="Cách backtest chiến lược giao dịch mà không tự đánh lừa mình: chất lượng dữ liệu, survivorship bias, look-ahead bias, chi phí, walk-forward và các chỉ số chính.">
+<meta name="keywords" content="backtest, cách backtest chiến lược giao dịch, look-ahead bias, survivorship bias, tỷ lệ sharpe, walk-forward analysis">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Cách backtest chiến lược giao dịch đúng cách | PnL Profit">
+<meta property="og:description" content="Cách backtest chiến lược giao dịch mà không tự đánh lừa mình: chất lượng dữ liệu, survivorship bias, look-ahead bias, chi phí, walk-forward và các chỉ số chính.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/backtesting/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cách backtest chiến lược giao dịch đúng cách | PnL Profit">
+<meta name="twitter:description" content="Cách backtest chiến lược giao dịch mà không tự đánh lừa mình: chất lượng dữ liệu, survivorship bias, look-ahead bias, chi phí, walk-forward và các chỉ số chính.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Cách backtest chiến lược giao dịch đúng cách","description":"Cách backtest chiến lược giao dịch mà không tự đánh lừa mình: chất lượng dữ liệu, survivorship bias, look-ahead bias, chi phí, walk-forward và các chỉ số chính.","keywords":"backtest, cách backtest chiến lược giao dịch, look-ahead bias, survivorship bias, tỷ lệ sharpe, walk-forward analysis","articleSection":"Giao dịch thuật toán và định lượng","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/backtesting/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch thuật toán và định lượng","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Backtest","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/backtesting/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Tỷ lệ Sharpe bao nhiêu là tốt trong backtest?","acceptedAnswer":{"@type":"Answer","text":"Nhiều người trong nghề coi Sharpe quy theo năm trên 1 là triển vọng cho một chiến lược đơn lẻ. Các giá trị backtest rất cao, chẳng hạn trên 3 cho chiến lược theo ngày, thường cho thấy lỗi, look-ahead bias hoặc overfitting hơn là lợi thế thực sự."}},{"@type":"Question","name":"Tôi cần bao nhiêu dữ liệu lịch sử để backtest?","acceptedAnswer":{"@type":"Answer","text":"Đủ để bao gồm các chế độ thị trường khác nhau, như thị trường tăng, giảm và đi ngang và ít nhất một giai đoạn căng thẳng. Với chiến lược theo ngày, điều đó thường nghĩa là mười năm trở lên; với chiến lược trong ngày, ít năm hơn có thể là đủ nếu chúng chứa nhiều giao dịch."}},{"@type":"Question","name":"Backtest và paper trading khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"Backtest phát lại dữ liệu lịch sử, còn paper trading chạy chiến lược trên giá trực tiếp mà không dùng tiền thật. Paper trading phát hiện các vấn đề về thực thi và phần mềm mà backtest không thể."}},{"@type":"Question","name":"Vì sao kết quả thực tế khác kết quả backtest?","acceptedAnswer":{"@type":"Answer","text":"Nguyên nhân thường gặp là chi phí và slippage bị đánh giá thấp, overfitting vào nhiễu lịch sử, thiên lệch trong dữ liệu và hành vi thị trường thay đổi. Một khoảng chênh nào đó là bình thường; khoảng chênh lớn nghĩa là backtest có sai sót."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/backtesting/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/backtesting/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/backtesting/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/backtesting/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/backtesting/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/backtesting/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/backtesting/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/backtesting/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/backtesting/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch thuật toán và định lượng</h3><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/" class="on" aria-current="page">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/" class="on">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a></div>
+<h1 class="title">Cách backtest một chiến lược giao dịch</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch thuật toán và định lượng</summary><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/" class="on" aria-current="page">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul></details>
+<article><p>Backtest là quá trình áp dụng một bộ quy tắc giao dịch lên dữ liệu lịch sử để ước tính chiến lược sẽ hoạt động ra sao. Đây là công cụ nghiên cứu chính của <a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">giao dịch thuật toán</a>, và cũng là nơi dễ tự đánh lừa mình nhất. Một backtest cẩn thận mô hình hóa dữ liệu, chi phí và thời điểm một cách thực tế; một backtest cẩu thả cho ra những con số ấn tượng biến mất ngay khi có tiền thật tham gia.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Backtest chỉ tốt bằng dữ liệu của nó; survivorship bias và look-ahead bias là hai lỗi gây hại nhất.</li>
+<li>Hãy mô hình hóa phí, spread và slippage một cách thận trọng, vì chi phí thường quyết định chiến lược có lãi hay không.</li>
+<li>Giữ lại dữ liệu mà chiến lược chưa từng thấy để kiểm thử ngoài mẫu, và dùng walk-forward cho các chiến lược cần tinh chỉnh lại định kỳ.</li>
+<li>Đánh giá chiến lược bằng nhiều chỉ số cùng lúc: Sharpe, Sortino, drawdown tối đa, profit factor và số lượng giao dịch.</li>
+<li>Một backtest tốt làm tăng độ tin cậy; nó không bao giờ đảm bảo kết quả tương lai.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#backtest-ho-t-ng-nh-th-n-o">Backtest hoạt động như thế nào</a></li><li><a href="#ch-t-l-ng-d-li-u">Chất lượng dữ liệu</a></li><li><a href="#c-c-lo-i-thi-n-l-ch-ph-h-ng-backtest">Các loại thiên lệch phá hỏng backtest</a></li><li><a href="#m-h-nh-h-a-chi-ph-v-slippage">Mô hình hóa chi phí và slippage</a></li><li><a href="#trong-m-u-ngo-i-m-u-v-walk-forward">Trong mẫu, ngoài mẫu và walk-forward</a></li><li><a href="#c-c-ch-s-hi-u-su-t">Các chỉ số hiệu suất</a></li><li><a href="#v-d-minh-h-a">Ví dụ minh họa</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="backtest-ho-t-ng-nh-th-n-o">Backtest hoạt động như thế nào</h2>
+<p>Ở dạng đơn giản nhất, backtest đi qua lịch sử từng nến một. Ở mỗi bước, nó hỏi các quy tắc sẽ làm gì nếu chỉ dùng thông tin có sẵn tại thời điểm đó, ghi lại lệnh và lần khớp mô phỏng, và theo dõi vốn của tài khoản.</p>
+<p>Có hai kiểu thiết kế phổ biến:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Thiết kế</th>
+<th>Cách hoạt động</th>
+<th>Điểm mạnh</th>
+<th>Điểm yếu</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vectorized</td>
+<td>Tính tín hiệu và lợi suất cho toàn bộ chuỗi cùng lúc bằng các phép toán mảng</td>
+<td>Rất nhanh, phù hợp nghiên cứu ban đầu</td>
+<td>Dễ vô tình gây look-ahead bias; khó mô hình hóa việc khớp lệnh, lệnh dừng và giới hạn vị thế</td>
+</tr>
+<tr>
+<td>Event-driven</td>
+<td>Xử lý từng nến hoặc tick như một sự kiện, giống hệ thống chạy thật</td>
+<td>Xử lý lệnh thực tế; code thường tái sử dụng được cho giao dịch thật</td>
+<td>Chậm hơn và tốn công xây dựng hơn</td>
+</tr>
+</tbody></table></div>
+<p>Nhiều nhà nghiên cứu sàng lọc ý tưởng bằng kiểm thử vectorized rồi xác nhận những ý tưởng triển vọng bằng trình mô phỏng event-driven.</p>
+<h2 id="ch-t-l-ng-d-li-u">Chất lượng dữ liệu</h2>
+<p>Dữ liệu xấu cho ra kết quả đầy tự tin nhưng vô nghĩa. Hãy kiểm tra ít nhất những điểm sau, và xem bài về <a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">dữ liệu thị trường</a> để biết thêm:</p>
+<ul>
+<li><strong>Sự kiện doanh nghiệp.</strong> Giá cổ phiếu phải được điều chỉnh theo chia tách và cổ tức, nếu không backtest sẽ thấy những cú sụp đổ giả và bỏ lỡ thu nhập cổ tức.</li>
+<li><strong>Roll của futures.</strong> Chuỗi futures liên tục phải được nối qua các lần đáo hạn hợp đồng một cách nhất quán.</li>
+<li><strong>Tick lỗi và khoảng trống.</strong> Giá in sai, nến bị thiếu và bản ghi trùng lặp tạo ra tín hiệu giả.</li>
+<li><strong>Múi giờ và dấu thời gian.</strong> Trộn giờ sàn, giờ địa phương và UTC có thể làm lệch tín hiệu hàng giờ.</li>
+<li><strong>Cách dựng nến.</strong> Nến ngày từ các nhà cung cấp khác nhau có thể đóng vào những thời điểm khác nhau, đặc biệt trong forex và crypto, vốn giao dịch suốt ngày đêm.</li>
+</ul>
+<h2 id="c-c-lo-i-thi-n-l-ch-ph-h-ng-backtest">Các loại thiên lệch phá hỏng backtest</h2>
+<h3 id="survivorship-bias">Survivorship bias</h3>
+<p>Survivorship bias (thiên lệch người sống sót) xảy ra khi tập tài sản kiểm thử chỉ gồm những tài sản còn tồn tại đến hôm nay. Các công ty đã phá sản, bị hủy niêm yết hoặc bị thâu tóm biến mất khỏi nhiều bộ dữ liệu miễn phí. Một chiến lược chỉ được kiểm thử trên các thành viên chỉ số hiện nay là được kiểm thử trên những kẻ chiến thắng, điều này thổi phồng lợi nhuận, đặc biệt với các chiến lược mua cổ phiếu đã giảm mạnh. Vấn đề tương tự ảnh hưởng đến crypto: hàng nghìn token đã sụp đổ không có trong danh sách các đồng hiện tại. Cách khắc phục là dùng bộ dữ liệu không có survivorship bias, bao gồm cả các công cụ đã chết cùng thành viên chỉ số tại đúng thời điểm (point-in-time).</p>
+<h3 id="look-ahead-bias">Look-ahead bias</h3>
+<p>Look-ahead bias nghĩa là dùng thông tin mà tại thời điểm giao dịch chưa thể có. Các ví dụ phổ biến:</p>
+<ul>
+<li>Dùng giá đóng cửa của một ngày để tạo tín hiệu và đồng thời giả định bạn mua đúng ở mức đóng cửa đó.</li>
+<li>Dùng dữ liệu báo cáo tài chính vào ngày kết thúc kỳ thay vì ngày nó thực sự được công bố.</li>
+<li>Chuẩn hóa dữ liệu bằng các thống kê (trung bình, giá trị lớn nhất) tính trên toàn bộ mẫu, bao gồm cả tương lai.</li>
+<li>Dùng dữ liệu kinh tế đã được điều chỉnh lại thay vì số liệu công bố lần đầu mà các trader thực sự đã thấy.</li>
+</ul>
+<p>Một thói quen hữu ích là dịch mọi tín hiệu tiến lên một nến, để tín hiệu tính ở nến t chỉ được giao dịch sớm nhất ở nến t+1.</p>
+<h3 id="c-c-thi-n-l-ch-kh-c">Các thiên lệch khác</h3>
+<ul>
+<li><strong>Selection bias (thiên lệch chọn lọc):</strong> chỉ kiểm thử trên những thị trường mà bạn đã biết là tăng.</li>
+<li><strong>Data snooping:</strong> kiểm thử nhiều biến thể rồi chỉ báo cáo biến thể tốt nhất. Chủ đề này được trình bày trong <a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">overfitting và data snooping</a>.</li>
+<li><strong>Liquidity bias (thiên lệch thanh khoản):</strong> giả định bạn có thể giao dịch khối lượng lớn ở thị trường mỏng với đúng giá niêm yết.</li>
+</ul>
+<h2 id="m-h-nh-h-a-chi-ph-v-slippage">Mô hình hóa chi phí và slippage</h2>
+<p>Mỗi giao dịch mô phỏng đều phải trả chi phí thực tế:</p>
+<ul>
+<li><strong>Hoa hồng và phí sàn</strong>, bao gồm phí maker/taker trên các sàn crypto.</li>
+<li><strong>Spread.</strong> Mua ở giá ask và bán ở giá bid tốn trọn <a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">bid-ask spread</a> trên mỗi vòng giao dịch.</li>
+<li><strong>Slippage và tác động thị trường.</strong> Lệnh thị trường và lệnh dừng thường khớp tệ hơn giá gần nhất, đặc biệt khi thị trường biến động nhanh và với khối lượng lớn hơn.</li>
+<li><strong>Chi phí tài trợ.</strong> Swap qua đêm, khoản funding của hợp đồng vĩnh viễn và phí vay cổ phiếu khi bán khống.</li>
+</ul>
+<p>Một cách làm hợp lý là ước tính chi phí từ các lần khớp thực tế nếu có thể, rồi chạy lại backtest với chi phí gấp đôi. Nếu chiến lược chỉ hiệu quả ở mức chi phí lạc quan, nhiều khả năng nó không hiệu quả.</p>
+<h2 id="trong-m-u-ngo-i-m-u-v-walk-forward">Trong mẫu, ngoài mẫu và walk-forward</h2>
+<p>Hãy chia lịch sử trước khi bắt đầu. Xây dựng và tinh chỉnh chiến lược trên phần trong mẫu (in-sample), rồi kiểm thử đúng một lần trên phần ngoài mẫu (out-of-sample). Nếu bạn cứ quay lại dữ liệu ngoài mẫu để chỉnh quy tắc, nó không còn là ngoài mẫu nữa.</p>
+<p>Walk-forward analysis lặp lại quy trình này theo thời gian. Ví dụ: tối ưu tham số trên giai đoạn 2015 đến 2018, kiểm thử trên 2019; tối ưu trên 2016 đến 2019, kiểm thử trên 2020; và cứ thế tiếp tục. Nối các giai đoạn kiểm thử lại cho ra một đường vốn ngoài mẫu phản ánh cách chiến lược sẽ được tinh chỉnh lại theo thời gian thực. Chênh lệch lớn giữa kết quả trong mẫu và walk-forward gợi ý có overfitting.</p>
+<h2 id="c-c-ch-s-hi-u-su-t">Các chỉ số hiệu suất</h2>
+<p>Không có con số đơn lẻ nào đủ mô tả một chiến lược. Hãy dùng nhiều chỉ số cùng nhau.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Chỉ số</th>
+<th>Công thức</th>
+<th>Cho bạn biết điều gì</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CAGR</td>
+<td>(Vốn cuối / Vốn đầu)^(1 / số năm) − 1</td>
+<td>Tốc độ tăng trưởng kép hằng năm</td>
+</tr>
+<tr>
+<td>Tỷ lệ Sharpe</td>
+<td>Mean(R − Rf) / StdDev(R − Rf), quy theo năm bằng cách nhân với √(số kỳ mỗi năm)</td>
+<td>Lợi suất trên mỗi đơn vị biến động tổng thể</td>
+</tr>
+<tr>
+<td>Tỷ lệ Sortino</td>
+<td>(Mean(R) − T) / Độ lệch giảm, quy theo năm tương tự</td>
+<td>Lợi suất trên mỗi đơn vị biến động giảm giá</td>
+</tr>
+<tr>
+<td>Drawdown tối đa</td>
+<td>Mức giảm lớn nhất từ đỉnh xuống đáy của vốn, tính theo phần trăm của đỉnh</td>
+<td>Mức đau đớn tệ nhất trong lịch sử</td>
+</tr>
+<tr>
+<td>Profit factor</td>
+<td>Tổng lãi / Tổng lỗ (giá trị tuyệt đối)</td>
+<td>Số đô la thắng trên mỗi đô la thua</td>
+</tr>
+<tr>
+<td>Tỷ lệ thắng và kỳ vọng</td>
+<td>Tỷ lệ giao dịch thắng; lợi nhuận trung bình mỗi giao dịch</td>
+<td>Cách phân bố lợi nhuận</td>
+</tr>
+</tbody></table></div>
+<p>Ở đây R là lợi suất của chiến lược mỗi kỳ, Rf là lãi suất phi rủi ro mỗi kỳ, và T là lợi suất mục tiêu (thường bằng không). Độ lệch giảm (downside deviation) là căn bậc hai của trung bình min(0, R − T)² lấy trên mọi kỳ, nên các kỳ trên mục tiêu được tính bằng không. Với dữ liệu ngày, nhân tỷ lệ theo ngày với √252, khoảng 15.87. Drawdown và toán học phục hồi được trình bày trong <a href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">drawdown và rủi ro phá sản</a>, còn kỳ vọng nằm trong <a href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/">risk/reward và kỳ vọng</a>.</p>
+<p>Các hàm dưới đây tính những chỉ số này từ một chuỗi lợi suất, một đường vốn và một danh sách kết quả giao dịch.</p>
+<pre><code class="language-python">import numpy as np
+
+def sharpe(returns, rf_per_period=0.0, periods_per_year=252):
+    excess = np.asarray(returns) - rf_per_period
+    return np.sqrt(periods_per_year) * excess.mean() / excess.std(ddof=1)
+
+def sortino(returns, target=0.0, periods_per_year=252):
+    r = np.asarray(returns)
+    downside = np.minimum(r - target, 0.0)
+    downside_dev = np.sqrt(np.mean(downside ** 2))
+    return np.sqrt(periods_per_year) * (r.mean() - target) / downside_dev
+
+def max_drawdown(equity):
+    equity = np.asarray(equity, dtype=float)
+    peaks = np.maximum.accumulate(equity)
+    return ((peaks - equity) / peaks).max()
+
+def profit_factor(trade_pnls):
+    pnl = np.asarray(trade_pnls, dtype=float)
+    gross_loss = -pnl[pnl &lt; 0].sum()
+    return pnl[pnl &gt; 0].sum() / gross_loss if gross_loss &gt; 0 else np.inf
+</code></pre>
+<h2 id="v-d-minh-h-a">Ví dụ minh họa</h2>
+<p>Một chiến lược bắt đầu với 10,000 đô la và thực hiện mười giao dịch với các kết quả sau, tính bằng đô la: +300, −200, +150, −100, −250, +400, −150, +200, −300, +250.</p>
+<ul>
+<li><strong>Tổng lãi:</strong> 300 + 150 + 400 + 200 + 250 = 1,300.</li>
+<li><strong>Tổng lỗ:</strong> 200 + 100 + 250 + 150 + 300 = 1,000.</li>
+<li><strong>Profit factor:</strong> 1,300 / 1,000 = 1.30.</li>
+<li><strong>Lợi nhuận ròng:</strong> 300 đô la, nên kỳ vọng là 30 đô la mỗi giao dịch, với tỷ lệ thắng 50%.</li>
+<li><strong>Đường vốn:</strong> 10,300; 10,100; 10,250; 10,150; 9,900; 10,300; 10,150; 10,350; 10,050; 10,300.</li>
+<li><strong>Drawdown tối đa:</strong> từ đỉnh 10,300 xuống đáy 9,900, mức giảm 400 / 10,300 ≈ 3.9%.</li>
+</ul>
+<p>Với các tỷ lệ điều chỉnh theo rủi ro, giả sử một bài kiểm thử dài hơn cho lợi suất trung bình ngày 0.05%, độ lệch chuẩn ngày 1.0% và độ lệch giảm 0.7%, với lãi suất phi rủi ro bằng không. Tỷ lệ Sharpe quy theo năm là 0.05 / 1.0 × 15.87 ≈ 0.79, và tỷ lệ Sortino là 0.05 / 0.7 × 15.87 ≈ 1.13.</p>
+<p>Mười giao dịch là quá ít để tin bất kỳ con số nào trong số này. Theo kinh nghiệm chung, nhiều nhà nghiên cứu muốn có ít nhất vài trăm giao dịch, trải đều qua nhiều điều kiện thị trường, trước khi coi các thống kê là có ý nghĩa.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Giao dịch ngay trên nến tạo ra tín hiệu.</strong> Tín hiệu tính từ giá đóng cửa không thể đồng thời được khớp ở chính giá đóng cửa đó.</li>
+<li><strong>Dùng thành viên chỉ số hiện nay.</strong> Điều này đưa survivorship bias vào mọi kết quả.</li>
+<li><strong>Giả định chi phí bằng không hoặc quá nhỏ.</strong> Các chiến lược vòng quay cao đặc biệt nhạy cảm.</li>
+<li><strong>Dùng lại dữ liệu ngoài mẫu.</strong> Mỗi lần ngó lại biến nó thành dữ liệu trong mẫu.</li>
+<li><strong>Quá ít giao dịch.</strong> Một nhúm lệnh thắng lớn có thể tạo ra backtest ngoạn mục nhưng vô nghĩa.</li>
+<li><strong>Bỏ qua sức chứa (capacity).</strong> Một chiến lược có thể hiệu quả với 1,000 đô la nhưng thất bại ở 100,000 vì lệnh của nó làm giá dịch chuyển.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="t-l-sharpe-bao-nhi-u-l-t-t-trong-backtest">Tỷ lệ Sharpe bao nhiêu là tốt trong backtest?</h3>
+<p>Nhiều người trong nghề coi Sharpe quy theo năm trên 1 là triển vọng cho một chiến lược đơn lẻ. Các giá trị backtest rất cao, chẳng hạn trên 3 cho chiến lược theo ngày, thường cho thấy lỗi, look-ahead bias hoặc overfitting hơn là lợi thế thực sự.</p>
+<h3 id="t-i-c-n-bao-nhi-u-d-li-u-l-ch-s-backtest">Tôi cần bao nhiêu dữ liệu lịch sử để backtest?</h3>
+<p>Đủ để bao gồm các chế độ thị trường khác nhau, như thị trường tăng, giảm và đi ngang và ít nhất một giai đoạn căng thẳng. Với chiến lược theo ngày, điều đó thường nghĩa là mười năm trở lên; với chiến lược trong ngày, ít năm hơn có thể là đủ nếu chúng chứa nhiều giao dịch.</p>
+<h3 id="backtest-v-paper-trading-kh-c-nhau-th-n-o">Backtest và paper trading khác nhau thế nào?</h3>
+<p>Backtest phát lại dữ liệu lịch sử, còn paper trading chạy chiến lược trên giá trực tiếp mà không dùng tiền thật. Paper trading phát hiện các vấn đề về thực thi và phần mềm mà backtest không thể.</p>
+<h3 id="v-sao-k-t-qu-th-c-t-kh-c-k-t-qu-backtest">Vì sao kết quả thực tế khác kết quả backtest?</h3>
+<p>Nguyên nhân thường gặp là chi phí và slippage bị đánh giá thấp, overfitting vào nhiễu lịch sử, thiên lệch trong dữ liệu và hành vi thị trường thay đổi. Một khoảng chênh nào đó là bình thường; khoảng chênh lớn nghĩa là backtest có sai sót.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Overfitting</b><span>Vì sao hầu hết backtest tuyệt đẹp thất bại khi chạy thật: curve fitting, kiểm định đa lần, tham số không ổn định, deflated Sharpe ratio, cách tránh overfitting.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Dữ liệu thị trường</b><span>Dữ liệu thị trường cho trader: tick và bar, luồng Level 1, 2, 3, nguồn dữ liệu lịch sử, chi phí, giấy phép, dấu thời gian, đồng bộ đồng hồ và làm sạch dữ liệu.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Nhập môn giao dịch thuật toán</b><span>Giao dịch thuật toán là gì, khác biệt giữa algo trading cá nhân và tổ chức, lộ trình từ ý tưởng đến bot chạy thật, ngôn ngữ phổ biến và kỳ vọng thực tế.</span></a><a class="card" href="/vi/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">Quản trị rủi ro và vốn</div><b>Drawdown và rủi ro cháy tài khoản</b><span>Drawdown tối đa là gì, cần lãi bao nhiêu để bù khoản lỗ, chuỗi thua có khả năng xảy ra đến đâu và quy mô vị thế thay đổi rủi ro cháy tài khoản ra sao, kèm bảng.</span></a><a class="card" href="/vi/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Quản trị rủi ro và vốn</div><b>Risk/Reward và kỳ vọng</b><span>Bội số R, tỷ lệ thắng và tỷ lệ lãi lỗ kết hợp thành kỳ vọng ra sao. Công thức, bảng tỷ lệ thắng hòa vốn và vì sao tỷ lệ thắng cao vẫn có thể thua tiền.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><small>← Bài trước</small>Nhập môn giao dịch thuật toán</a><a class="next" href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><small>Bài tiếp →</small>Overfitting</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

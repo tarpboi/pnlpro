@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análisis on-chain: flujos de exchanges, MVRV, SOPR y ballenas</title>
+<meta name="description" content="Cómo usar los datos on-chain: flujos de exchanges, seguimiento de ballenas, precio realizado, MVRV, SOPR, stablecoins y los límites de los datos.">
+<meta name="keywords" content="análisis on-chain, ratio mvrv, indicador sopr, precio realizado bitcoin, flujos de entrada y salida de exchanges, seguimiento de ballenas">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/on-chain-analysis/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Análisis on-chain: flujos de exchanges, MVRV, SOPR y ballenas">
+<meta property="og:description" content="Cómo usar los datos on-chain: flujos de exchanges, seguimiento de ballenas, precio realizado, MVRV, SOPR, stablecoins y los límites de los datos.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/crypto/on-chain-analysis/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Análisis on-chain: flujos de exchanges, MVRV, SOPR y ballenas">
+<meta name="twitter:description" content="Cómo usar los datos on-chain: flujos de exchanges, seguimiento de ballenas, precio realizado, MVRV, SOPR, stablecoins y los límites de los datos.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Análisis on-chain: flujos de exchanges, MVRV, SOPR y ballenas","description":"Cómo usar los datos on-chain: flujos de exchanges, seguimiento de ballenas, precio realizado, MVRV, SOPR, stablecoins y los límites de los datos.","keywords":"análisis on-chain, ratio mvrv, indicador sopr, precio realizado bitcoin, flujos de entrada y salida de exchanges, seguimiento de ballenas","articleSection":"Trading de criptomonedas","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/crypto/on-chain-analysis/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading de criptomonedas","item":"https://pnlpro.fit/es/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"Análisis on-chain","item":"https://pnlpro.fit/es/encyclopedia/crypto/on-chain-analysis/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Qué es el análisis on-chain en cripto?","acceptedAnswer":{"@type":"Answer","text":"Es el análisis de los datos públicos de la blockchain, como las transacciones, los saldos y los flujos de los exchanges, para entender cómo se comportan los tenedores y los grandes participantes. Los traders lo usan junto con los gráficos de precio y los datos de derivados."}},{"@type":"Question","name":"¿Qué es el ratio MVRV?","acceptedAnswer":{"@type":"Answer","text":"El MVRV es la capitalización de mercado dividida entre la capitalización realizada, que valora cada moneda al precio al que se movió por última vez. Una lectura superior a 1 significa que el tenedor medio está en beneficio; por debajo de 1 se ha asociado históricamente con mercados bajistas profundos."}},{"@type":"Question","name":"¿Qué significa SOPR?","acceptedAnswer":{"@type":"Answer","text":"El SOPR, o spent output profit ratio, compara el valor de las monedas al gastarse con su valor cuando se movieron por última vez. Por encima de 1 significa que las monedas se venden de media con beneficio, y por debajo de 1, con pérdida."}},{"@type":"Question","name":"¿Las entradas a exchanges son bajistas?","acceptedAnswer":{"@type":"Answer","text":"Las grandes entradas pueden indicar una intención de vender, pero también proceden de transferencias internas de los exchanges, depósitos de colateral y movimientos de custodios. Las tendencias persistentes son más significativas que las transferencias aisladas."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/crypto/on-chain-analysis/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/on-chain-analysis/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/on-chain-analysis/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/on-chain-analysis/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/crypto/on-chain-analysis/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/on-chain-analysis/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/on-chain-analysis/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/on-chain-analysis/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/on-chain-analysis/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading de criptomonedas</h3><ul><li><a href="/es/encyclopedia/crypto/crypto-trading-basics/">Fundamentos del trading cripto</a></li><li><a href="/es/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs. DEX</a></li><li><a href="/es/encyclopedia/crypto/crypto-market-cycles/">Ciclos del mercado cripto</a></li><li><a href="/es/encyclopedia/crypto/perpetual-futures/">Futuros perpetuos</a></li><li><a href="/es/encyclopedia/crypto/funding-rates/">Tasas de financiación</a></li><li><a href="/es/encyclopedia/crypto/crypto-liquidations/">Liquidaciones</a></li><li><a href="/es/encyclopedia/crypto/on-chain-analysis/" class="on" aria-current="page">Análisis on-chain</a></li><li><a href="/es/encyclopedia/crypto/altcoin-trading/">Trading de altcoins</a></li><li><a href="/es/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics y desbloqueos</a></li><li><a href="/es/encyclopedia/crypto/defi-trading/">Trading en DeFi</a></li><li><a href="/es/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV y ataques sándwich</a></li><li><a href="/es/encyclopedia/crypto/crypto-arbitrage/">Arbitraje cripto</a></li><li><a href="/es/encyclopedia/crypto/stablecoins/">Stablecoins</a></li><li><a href="/es/encyclopedia/crypto/crypto-wallet-security/">Seguridad de wallets</a></li><li><a href="/es/encyclopedia/crypto/airdrops-and-points-farming/">Airdrops y puntos</a></li><li><a href="/es/encyclopedia/crypto/nft-trading/">Trading de NFT</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/" class="on">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a></div>
+<h1 class="title">Análisis on-chain</h1>
+<div class="meta">9 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Trading de criptomonedas</summary><ul><li><a href="/es/encyclopedia/crypto/crypto-trading-basics/">Fundamentos del trading cripto</a></li><li><a href="/es/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs. DEX</a></li><li><a href="/es/encyclopedia/crypto/crypto-market-cycles/">Ciclos del mercado cripto</a></li><li><a href="/es/encyclopedia/crypto/perpetual-futures/">Futuros perpetuos</a></li><li><a href="/es/encyclopedia/crypto/funding-rates/">Tasas de financiación</a></li><li><a href="/es/encyclopedia/crypto/crypto-liquidations/">Liquidaciones</a></li><li><a href="/es/encyclopedia/crypto/on-chain-analysis/" class="on" aria-current="page">Análisis on-chain</a></li><li><a href="/es/encyclopedia/crypto/altcoin-trading/">Trading de altcoins</a></li><li><a href="/es/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics y desbloqueos</a></li><li><a href="/es/encyclopedia/crypto/defi-trading/">Trading en DeFi</a></li><li><a href="/es/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV y ataques sándwich</a></li><li><a href="/es/encyclopedia/crypto/crypto-arbitrage/">Arbitraje cripto</a></li><li><a href="/es/encyclopedia/crypto/stablecoins/">Stablecoins</a></li><li><a href="/es/encyclopedia/crypto/crypto-wallet-security/">Seguridad de wallets</a></li><li><a href="/es/encyclopedia/crypto/airdrops-and-points-farming/">Airdrops y puntos</a></li><li><a href="/es/encyclopedia/crypto/nft-trading/">Trading de NFT</a></li></ul></details>
+<article><p>El análisis on-chain es el estudio de los datos registrados en las blockchains públicas, como las transferencias, los saldos de las wallets y el precio al que se movieron las monedas por última vez, para entender cómo se comportan los tenedores. Como todas las transacciones de Bitcoin y Ethereum son públicas, los traders pueden ver cómo fluyen las monedas hacia los exchanges, seguir las wallets grandes y estimar el precio medio de entrada del mercado. Ofrece una visión que ningún mercado de acciones tiene, pero los datos requieren una interpretación cuidadosa y rara vez dan señales de timing precisas.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>Las blockchains son registros públicos, así que los flujos entre wallets y exchanges pueden medirse directamente, aunque la propiedad de las wallets hay que inferirla.</li>
+<li>Las entradas a exchanges suelen interpretarse como posibles ventas, y las salidas como acumulación, pero los movimientos internos de los exchanges pueden distorsionar ambas lecturas.</li>
+<li>El precio realizado estima el precio medio de entrada del mercado; el MVRV compara el valor de mercado con ese costo.</li>
+<li>El SOPR muestra si las monedas que se gastan se mueven, de media, con beneficio o con pérdida.</li>
+<li>Las métricas on-chain funcionan mejor como contexto para situarse en el ciclo, no como disparadores de operaciones a corto plazo.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#qu-son-los-datos-on-chain">Qué son los datos on-chain</a></li><li><a href="#flujos-de-exchanges">Flujos de exchanges</a></li><li><a href="#seguimiento-de-ballenas">Seguimiento de ballenas</a></li><li><a href="#distribuci-n-de-tenedores">Distribución de tenedores</a></li><li><a href="#precio-realizado-mvrv-y-sopr">Precio realizado, MVRV y SOPR</a></li><li><a href="#flujos-de-stablecoins">Flujos de stablecoins</a></li><li><a href="#l-mites-de-los-datos-on-chain">Límites de los datos on-chain</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="qu-son-los-datos-on-chain">Qué son los datos on-chain</h2>
+<p>Cada transacción en una blockchain pública registra las direcciones de envío, las direcciones de recepción, los importes y una marca de tiempo. Las firmas de análisis procesan estos datos en bruto y añaden <strong>etiquetas de wallets</strong>, que son suposiciones sobre quién controla una dirección: un exchange, un fondo, un minero, un bridge, un hacker conocido. Las etiquetas proceden de divulgaciones públicas, depósitos de prueba, heurísticas de agrupamiento (las direcciones que gastan juntas suelen estar controladas por la misma entidad) y trabajo de investigación.</p>
+<p>El análisis on-chain es una forma de <a href="/es/encyclopedia/fundamental-analysis/fundamental-analysis-intro/">análisis fundamental</a> propia de las criptomonedas. Complementa las herramientas basadas en el precio y los datos de derivados, como las <a href="/es/encyclopedia/crypto/funding-rates/">tasas de financiación</a>.</p>
+<h2 id="flujos-de-exchanges">Flujos de exchanges</h2>
+<p>Las <strong>entradas</strong> (inflows) son monedas que se mueven hacia wallets etiquetadas como direcciones de depósito de exchanges. Las <strong>salidas</strong> (outflows) son monedas que salen de los exchanges.</p>
+<p>La lectura habitual:</p>
+<ul>
+<li>Grandes entradas de BTC o ETH pueden indicar que los tenedores se preparan para vender.</li>
+<li>Unas salidas sostenidas pueden indicar que los tenedores están moviendo monedas a almacenamiento a largo plazo, lo que reduce la oferta vendedora en los exchanges.</li>
+<li>Un aumento de los saldos de <strong>stablecoins</strong> en los exchanges puede indicar que llega poder de compra.</li>
+</ul>
+<p>Las salvedades importan. Los exchanges mueven fondos entre hot y cold wallets, consolidan depósitos y trasladan monedas a custodios. Las wallets de custodia de los ETF al contado, las mesas OTC y los bridges de tokens envueltos (wrapped) también generan grandes flujos que no son compras ni ventas. Las monedas enviadas a un exchange pueden usarse como colateral de derivados en lugar de venderse. Una sola transferencia grande es una prueba débil; las tendencias persistentes en muchas wallets son más significativas.</p>
+<h2 id="seguimiento-de-ballenas">Seguimiento de ballenas</h2>
+<p>Las &quot;ballenas&quot; son tenedores de cantidades muy grandes. Los traders vigilan sus wallets en busca de movimientos grandes, y hay servicios de alertas que publican las grandes transferencias en tiempo real.</p>
+<p>Prácticas útiles:</p>
+<ul>
+<li>Comprueba la etiqueta. Muchas transferencias &quot;de ballenas&quot; son exchanges moviendo sus propios fondos.</li>
+<li>Mira el destino. Una transferencia desde una wallet inactiva durante mucho tiempo hacia un exchange es más informativa que una entre dos cold wallets.</li>
+<li>Recuerda que los participantes sofisticados saben que los vigilan. Pueden dividir las transferencias, usar mesas OTC o hacer movimientos visibles para despistar.</li>
+</ul>
+<p>Para copiar wallets en tokens pequeños, consulta <a href="/es/encyclopedia/meme-coins/copy-trading-wallets/">copiar wallets</a>, que explica cómo las wallets aparentemente exitosas pueden ser trampas.</p>
+<h2 id="distribuci-n-de-tenedores">Distribución de tenedores</h2>
+<p>La distribución de tenedores muestra cómo se reparte la oferta entre las direcciones. En Bitcoin, los analistas agrupan las direcciones por tamaño de saldo o por el tiempo que se han mantenido las monedas: <strong>tenedores a largo plazo</strong> (a menudo monedas que no se han movido en 155 días o más, una convención que usan algunos proveedores de análisis) frente a <strong>tenedores a corto plazo</strong>.</p>
+<p>En los tokens más pequeños, la concentración es una señal de riesgo. Si las 10 mayores wallets que no son de exchanges ni de contratos tienen la mayor parte de la oferta, unos pocos vendedores pueden hundir el precio. Excluye siempre las wallets de exchanges, los pools de liquidez, los contratos de vesting y las direcciones de quema antes de juzgar la concentración. Consulta <a href="/es/encyclopedia/crypto/tokenomics-and-token-unlocks/">tokenomics y desbloqueos de tokens</a>.</p>
+<h2 id="precio-realizado-mvrv-y-sopr">Precio realizado, MVRV y SOPR</h2>
+<p>Estas tres métricas proceden del modelo de Bitcoin, en el que cada moneda (técnicamente, cada salida de transacción no gastada, o UTXO) lleva asociado el precio al que se movió por última vez.</p>
+<h3 id="capitalizaci-n-realizada-y-precio-realizado">Capitalización realizada y precio realizado</h3>
+<ul>
+<li><strong>Capitalización de mercado</strong> = precio actual × oferta circulante.</li>
+<li><strong>Capitalización realizada</strong> = la suma del valor de cada moneda al precio al que se movió por última vez.</li>
+<li><strong>Precio realizado</strong> = capitalización realizada / oferta. Aproxima el precio medio de entrada de todos los tenedores.</li>
+</ul>
+<h3 id="mvrv">MVRV</h3>
+<p><strong>MVRV</strong> = capitalización de mercado / capitalización realizada.</p>
+<ul>
+<li>Por encima de 1: el tenedor medio está en beneficio.</li>
+<li>Por debajo de 1: el tenedor medio está en pérdida, algo que históricamente ha ocurrido cerca de los grandes mínimos de los mercados bajistas.</li>
+<li>Los valores muy altos han aparecido históricamente cerca de los máximos de ciclo, aunque los niveles máximos han sido más bajos en cada ciclo sucesivo.</li>
+</ul>
+<h3 id="ejemplo-pr-ctico">Ejemplo práctico</h3>
+<p>Imagina una blockchain diminuta con 4 monedas:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Monedas</th>
+<th>Precio al moverse por última vez</th>
+<th>Valor realizado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>$20,000</td>
+<td>$20,000</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$40,000</td>
+<td>$80,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>$80,000</td>
+<td>$80,000</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td></td>
+<td><strong>$180,000</strong></td>
+</tr>
+</tbody></table></div>
+<ul>
+<li>Capitalización realizada = $180,000. Precio realizado = $180,000 / 4 = $45,000.</li>
+<li>Si el precio de mercado es de $60,000, la capitalización de mercado = 4 × $60,000 = $240,000.</li>
+<li>MVRV = $240,000 / $180,000 = 1.33. El tenedor medio gana alrededor de un 33 por ciento.</li>
+</ul>
+<p>Si la moneda que se movió por última vez a $80,000 se vende a $60,000, realiza una pérdida. Si una de las monedas de $40,000 se vende a $60,000, realiza un beneficio.</p>
+<h3 id="sopr">SOPR</h3>
+<p><strong>SOPR (spent output profit ratio, ratio de beneficio de las salidas gastadas)</strong> = valor de las monedas al gastarse / valor de esas monedas cuando se movieron por última vez.</p>
+<ul>
+<li>Una moneda comprada a $40,000 y vendida a $50,000 tiene un SOPR de 50,000 / 40,000 = 1.25.</li>
+<li>El SOPR diario promedia todas las monedas gastadas ese día.</li>
+<li>Por encima de 1, las monedas se venden de media con beneficio; por debajo de 1, con pérdida.</li>
+</ul>
+<p>En los mercados alcistas, que el SOPR baje hacia 1 y rebote se ha interpretado como que los tenedores se niegan a vender en su punto de equilibrio. En los mercados bajistas, que el SOPR no logre mantenerse por encima de 1 sugiere que los tenedores venden en los rebotes para salir a precio de costo. Algunas variantes filtran por la antigüedad de los tenedores para reducir el ruido.</p>
+<h2 id="flujos-de-stablecoins">Flujos de stablecoins</h2>
+<p>Las <a href="/es/encyclopedia/crypto/stablecoins/">stablecoins</a> funcionan como el efectivo del mundo cripto. Los traders siguen:</p>
+<ul>
+<li><strong>La oferta total de stablecoins.</strong> Su crecimiento indica que entran nuevos dólares en cripto; una oferta decreciente puede indicar que sale dinero.</li>
+<li><strong>La emisión (minting) y la quema (burning)</strong> por parte de los emisores, que muestran a los grandes participantes metiendo o sacando dinero fiat.</li>
+<li><strong>Los flujos por cadena.</strong> Las stablecoins que pasan por un bridge hacia una cadena concreta pueden indicar hacia dónde se dirige la actividad especulativa.</li>
+<li><strong>Las reservas de stablecoins en los exchanges</strong>, una medida aproximada del poder de compra listo para desplegarse.</li>
+</ul>
+<h2 id="l-mites-de-los-datos-on-chain">Límites de los datos on-chain</h2>
+<ul>
+<li><strong>La atribución es probabilística.</strong> Las etiquetas pueden ser erróneas o faltar.</li>
+<li><strong>La actividad off-chain es invisible.</strong> Las operaciones dentro de los exchanges centralizados, la negociación de participaciones de ETF y los acuerdos OTC no aparecen on-chain. Una gran parte del volumen de trading nunca toca la cadena.</li>
+<li><strong>Las monedas perdidas distorsionan la oferta.</strong> Las monedas perdidas hace años cuentan en la oferta y en la capitalización realizada.</li>
+<li><strong>Cambio estructural.</strong> Los ETF, los custodios y las redes de capa 2 han cambiado lo que significan los flujos, así que los umbrales históricos pueden no ser aplicables.</li>
+<li><strong>Cadenas distintas, modelos distintos.</strong> Las métricas diseñadas para el modelo de salidas de Bitcoin no se trasladan limpiamente a cadenas basadas en cuentas como Ethereum o Solana.</li>
+<li><strong>Los proveedores de datos difieren.</strong> Dos proveedores pueden mostrar valores distintos para la &quot;misma&quot; métrica por usar etiquetas y métodos diferentes.</li>
+<li><strong>Sesgo de anticipación en los gráficos.</strong> Los indicadores que &quot;acertaron todos los máximos&quot; suelen estar ajustados a posteriori, una forma de <a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">sobreajuste</a>.</li>
+</ul>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Reaccionar a una sola alerta de ballena</strong> sin comprobar las etiquetas y los destinos.</li>
+<li><strong>Tratar las entradas a exchanges como ventas seguras.</strong></li>
+<li><strong>Usar los umbrales de MVRV o SOPR como puntos exactos de entrada o salida.</strong></li>
+<li><strong>Ignorar la actividad off-chain,</strong> sobre todo los flujos de los ETF, al valorar la demanda.</li>
+<li><strong>Juzgar la concentración de tenedores</strong> sin excluir las wallets de exchanges y de contratos.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="qu-es-el-an-lisis-on-chain-en-cripto">¿Qué es el análisis on-chain en cripto?</h3>
+<p>Es el análisis de los datos públicos de la blockchain, como las transacciones, los saldos y los flujos de los exchanges, para entender cómo se comportan los tenedores y los grandes participantes. Los traders lo usan junto con los gráficos de precio y los datos de derivados.</p>
+<h3 id="qu-es-el-ratio-mvrv">¿Qué es el ratio MVRV?</h3>
+<p>El MVRV es la capitalización de mercado dividida entre la capitalización realizada, que valora cada moneda al precio al que se movió por última vez. Una lectura superior a 1 significa que el tenedor medio está en beneficio; por debajo de 1 se ha asociado históricamente con mercados bajistas profundos.</p>
+<h3 id="qu-significa-sopr">¿Qué significa SOPR?</h3>
+<p>El SOPR, o spent output profit ratio, compara el valor de las monedas al gastarse con su valor cuando se movieron por última vez. Por encima de 1 significa que las monedas se venden de media con beneficio, y por debajo de 1, con pérdida.</p>
+<h3 id="las-entradas-a-exchanges-son-bajistas">¿Las entradas a exchanges son bajistas?</h3>
+<p>Las grandes entradas pueden indicar una intención de vender, pero también proceden de transferencias internas de los exchanges, depósitos de colateral y movimientos de custodios. Las tendencias persistentes son más significativas que las transferencias aisladas.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/crypto/crypto-market-cycles/"><div class="k">Trading de criptomonedas</div><b>Ciclos del mercado cripto</b><span>El ciclo del halving de Bitcoin y sus límites, la dominancia de BTC, la altseason, la rotación sectorial y cómo influyen la macro y los flujos de ETF.</span></a><a class="card" href="/es/encyclopedia/crypto/stablecoins/"><div class="k">Trading de criptomonedas</div><b>Stablecoins</b><span>Cómo funcionan las stablecoins: respaldadas por fiat, por cripto y algorítmicas, el colapso de UST, el depeg de USDC, su uso como colateral y la regulación.</span></a><a class="card" href="/es/encyclopedia/fundamental-analysis/market-sentiment-indicators/"><div class="k">Análisis fundamental y macro</div><b>Indicadores de sentimiento</b><span>Cómo medir el sentimiento con el informe COT, el ratio put/call, el VIX, la encuesta AAII, los índices de miedo y codicia y el funding en cripto.</span></a><a class="card" href="/es/encyclopedia/fundamental-analysis/fundamental-analysis-intro/"><div class="k">Análisis fundamental y macro</div><b>Introducción al análisis fundamental</b><span>Qué es el análisis fundamental, valor intrínseco frente a precio, top-down frente a bottom-up y cómo se aplica a acciones, divisas, materias primas y cripto.</span></a><a class="card" href="/es/encyclopedia/crypto/altcoin-trading/"><div class="k">Trading de criptomonedas</div><b>Trading de altcoins</b><span>Cómo operar altcoins: niveles de liquidez, efecto listado, tokens con low float y FDV alta, beta frente a Bitcoin, narrativas, deslistados y volumen falso.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/crypto/crypto-liquidations/"><small>← Anterior</small>Liquidaciones</a><a class="next" href="/es/encyclopedia/crypto/altcoin-trading/"><small>Siguiente →</small>Trading de altcoins</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo crear un bot de trading: arquitectura, APIs y seguridad</title>
+<meta name="description" content="Cómo se construyen los bots de trading: capas de datos, señal, riesgo y ejecución, APIs REST, WebSocket y FIX, límites de peticiones, seguridad y kill switch.">
+<meta name="keywords" content="cómo crear un bot de trading, arquitectura de bot de trading, bot de trading cripto, API de exchange, seguridad de API keys, kill switch trading">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Cómo crear un bot de trading: arquitectura, APIs y seguridad">
+<meta property="og:description" content="Cómo se construyen los bots de trading: capas de datos, señal, riesgo y ejecución, APIs REST, WebSocket y FIX, límites de peticiones, seguridad y kill switch.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/building-trading-bots/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cómo crear un bot de trading: arquitectura, APIs y seguridad">
+<meta name="twitter:description" content="Cómo se construyen los bots de trading: capas de datos, señal, riesgo y ejecución, APIs REST, WebSocket y FIX, límites de peticiones, seguridad y kill switch.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Cómo crear un bot de trading: arquitectura, APIs y seguridad","description":"Cómo se construyen los bots de trading: capas de datos, señal, riesgo y ejecución, APIs REST, WebSocket y FIX, límites de peticiones, seguridad y kill switch.","keywords":"cómo crear un bot de trading, arquitectura de bot de trading, bot de trading cripto, API de exchange, seguridad de API keys, kill switch trading","articleSection":"Trading algorítmico y cuantitativo","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/building-trading-bots/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading algorítmico y cuantitativo","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Cómo crear bots de trading","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/building-trading-bots/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Qué lenguaje de programación es mejor para un bot de trading?","acceptedAnswer":{"@type":"Answer","text":"Python es la opción más común para los bots minoristas por sus librerías y su facilidad de uso. Los lenguajes más rápidos, como C++, Rust o Java, se usan cuando importa la latencia o volúmenes de mensajes muy altos."}},{"@type":"Question","name":"¿Son rentables los bots de trading?","acceptedAnswer":{"@type":"Answer","text":"Un bot solo automatiza una estrategia; no crea una ventaja. Muchos bots pierden dinero porque la estrategia subyacente no tiene ventaja después de costos, o por fallos de software y de control de riesgo."}},{"@type":"Question","name":"¿Es seguro darle mi API key a un bot de trading?","acceptedAnswer":{"@type":"Answer","text":"Puede ser razonablemente seguro si la clave no puede retirar fondos, está restringida a direcciones IP conocidas y se limita a una subcuenta con fondos acotados. Nunca compartas con servicios de terceros claves con permiso de retiro ni frases semilla de wallets."}},{"@type":"Question","name":"¿Qué es un kill switch en el trading algorítmico?","acceptedAnswer":{"@type":"Answer","text":"Un kill switch es un control que, de forma automática o manual, detiene un sistema de trading, cancela sus órdenes y, si está configurado, cierra las posiciones cuando se superan límites como la pérdida diaria o la frecuencia de órdenes."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading algorítmico y cuantitativo</h3><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/" class="on" aria-current="page">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/" class="on">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a></div>
+<h1 class="title">Cómo crear bots de trading</h1>
+<div class="meta">10 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Trading algorítmico y cuantitativo</summary><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/" class="on" aria-current="page">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul></details>
+<article><p>Un bot de trading es un programa que se conecta a un bróker o exchange, lee <a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">datos de mercado</a>, decide cuándo operar y envía órdenes automáticamente. Construir uno que envíe una orden es fácil; construir uno que se comporte de forma segura cuando los datos llegan tarde, la conexión se cae o la estrategia falla es el verdadero trabajo. Es la parte de ingeniería del <a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">trading algorítmico</a>: la arquitectura estándar, cómo funcionan las APIs de los exchanges y los controles de seguridad que todo bot necesita antes de tocar dinero real.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>Separa el bot en capas: feed de datos, señal, riesgo, ejecución y supervisión.</li>
+<li>Usa streams WebSocket para los datos de mercado y reserva las llamadas REST para las órdenes y las consultas de la cuenta, sin salirte de los límites de peticiones.</li>
+<li>Las API keys deben tener los permisos mínimos necesarios, con los retiros desactivados y restricciones de IP cuando estén disponibles.</li>
+<li>Los límites de riesgo estrictos y un kill switch automático no son opcionales; los fallos de software pueden hacer perder dinero más rápido que cualquier mala operación.</li>
+<li>Ejecuta primero en modo de simulación (dry run) o paper trading, registra todo y compara el comportamiento en vivo con tu backtest.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#arquitectura-del-bot">Arquitectura del bot</a></li><li><a href="#apis-de-exchanges-y-br-kers">APIs de exchanges y brókers</a></li><li><a href="#l-mites-de-peticiones">Límites de peticiones</a></li><li><a href="#seguridad-de-las-api-keys">Seguridad de las API keys</a></li><li><a href="#kill-switches-y-l-mites-de-riesgo">Kill switches y límites de riesgo</a></li><li><a href="#simulaci-n-paper-trading-y-logs">Simulación, paper trading y logs</a></li><li><a href="#despliegue">Despliegue</a></li><li><a href="#herramientas-de-c-digo-abierto">Herramientas de código abierto</a></li><li><a href="#ejemplo-pr-ctico-l-mite-de-peticiones-y-presupuesto-de-riesgo">Ejemplo práctico: límite de peticiones y presupuesto de riesgo</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="arquitectura-del-bot">Arquitectura del bot</h2>
+<p>La mayoría de los bots robustos, desde scripts sencillos hasta sistemas profesionales, comparten los mismos componentes básicos.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Capa</th>
+<th>Función</th>
+<th>Aspectos clave</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Feed de datos</td>
+<td>Recibir precios, libros de órdenes, operaciones y actualizaciones de la cuenta</td>
+<td>Reconexión, huecos, datos desactualizados, marcas de tiempo</td>
+</tr>
+<tr>
+<td>Señal (estrategia)</td>
+<td>Convertir los datos en posiciones u órdenes deseadas</td>
+<td>La misma lógica que en el backtest; sin sesgo de anticipación</td>
+</tr>
+<tr>
+<td>Riesgo</td>
+<td>Comprobar cada orden contra los límites antes de que salga</td>
+<td>Tamaño de posición, exposición, pérdida diaria, controles de coherencia del precio</td>
+</tr>
+<tr>
+<td>Ejecución</td>
+<td>Enviar, modificar y cancelar órdenes; seguir las ejecuciones</td>
+<td>Idempotencia, ejecuciones parciales, reintentos, límites de peticiones</td>
+</tr>
+<tr>
+<td>Estado y almacenamiento</td>
+<td>Mantener coherentes las posiciones, las órdenes y los saldos</td>
+<td>Conciliar con el exchange de forma periódica</td>
+</tr>
+<tr>
+<td>Supervisión</td>
+<td>Alertas, paneles, logs</td>
+<td>Saber en minutos cuándo algo va mal</td>
+</tr>
+</tbody></table></div>
+<p>Mantener las capas separadas significa que puedes reutilizar el mismo código de señales en el <a href="/es/encyclopedia/algorithmic-trading/backtesting/">backtesting</a> y en la operativa real, y que puedes probar la capa de riesgo por separado. La capa de riesgo debe poder bloquear cualquier orden, sin importar lo que quiera la estrategia. La capa de ejecución puede ser tan simple como enviar órdenes limitadas o tan elaborada como la lógica de fraccionamiento descrita en <a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">algoritmos de ejecución</a>.</p>
+<h2 id="apis-de-exchanges-y-br-kers">APIs de exchanges y brókers</h2>
+<h3 id="rest">REST</h3>
+<p>Las APIs REST usan peticiones web estándar. Envías una petición (colocar una orden, consultar saldos) y recibes una respuesta. Son sencillas pero lentas para el streaming de datos, y cada petición cuenta para el límite de peticiones.</p>
+<h3 id="websocket">WebSocket</h3>
+<p>Las conexiones WebSocket permanecen abiertas y te envían las actualizaciones en cuanto ocurren: operaciones, cambios en el libro de órdenes, ejecuciones de órdenes. Son la forma estándar de recibir datos de mercado en tiempo real. Los bots deben gestionar las desconexiones, volver a suscribirse y reconstruir el libro de órdenes local a partir de una instantánea (snapshot) nueva si se pierde alguna actualización, algo que normalmente se detecta mediante números de secuencia.</p>
+<h3 id="fix">FIX</h3>
+<p>El protocolo FIX es el estándar de mensajería consolidado desde hace tiempo en el trading institucional, utilizado por muchos brókers, firmas de futuros y algunos exchanges de cripto para el envío de órdenes y los datos de mercado. Es más complejo de implementar, pero ofrece sesiones estables y menos sobrecarga con volúmenes de mensajes elevados.</p>
+<h3 id="autenticaci-n">Autenticación</h3>
+<p>Los endpoints privados suelen requerir una API key y una firma calculada con un secreto, a menudo basada en HMAC, además de una marca de tiempo. Si el reloj de tu servidor se desfasa, las peticiones pueden ser rechazadas, así que mantén sincronizado el reloj del sistema. Los exchanges de cripto construidos sobre blockchains pueden exigir en cambio firmar las órdenes con la clave privada de una wallet.</p>
+<h2 id="l-mites-de-peticiones">Límites de peticiones</h2>
+<p>Los exchanges limitan cuántas peticiones puedes enviar por segundo o por minuto, a menudo mediante un presupuesto de &quot;peso&quot; (weight) en el que las peticiones pesadas cuestan más. Superar el límite devuelve errores y, si las infracciones se repiten, bloqueos temporales. Buenas prácticas:</p>
+<ul>
+<li>Obtén los datos de mercado de streams WebSocket en lugar de consultar repetidamente endpoints REST.</li>
+<li>Lleva la cuenta de tu propio consumo, a menudo con un contador de tipo token bucket, y reduce el ritmo antes de alcanzar el límite.</li>
+<li>Ante un error por límite de peticiones, espera con retrasos crecientes en lugar de reintentar de inmediato.</li>
+<li>Agrupa operaciones cuando la API lo permita, como cancelar todas las órdenes en una sola llamada.</li>
+</ul>
+<h2 id="seguridad-de-las-api-keys">Seguridad de las API keys</h2>
+<p>Una API key filtrada puede vaciar una cuenta. Trata las claves como las contraseñas de tu banco:</p>
+<ul>
+<li><strong>Desactiva los retiros</strong> en las claves de trading. Un bot rara vez necesita retirar fondos.</li>
+<li><strong>Restringe por dirección IP</strong> para que la clave solo funcione desde tu servidor.</li>
+<li><strong>Aplica el mínimo privilegio:</strong> claves de solo lectura para la supervisión y claves de trading solo donde hagan falta.</li>
+<li><strong>Nunca pongas las claves en el código</strong> ni en repositorios públicos. Cárgalas desde variables de entorno o un gestor de secretos.</li>
+<li><strong>Usa una subcuenta</strong> con fondos limitados para cada bot, si la plataforma lo permite.</li>
+<li><strong>Desconfía de los servicios de bots de terceros</strong> que piden claves con permiso de retiro y de cualquier herramienta que pida la frase semilla de una wallet. Consulta <a href="/es/encyclopedia/crypto/crypto-wallet-security/">seguridad de wallets cripto</a> y, para los bots de swap estilo Telegram, <a href="/es/encyclopedia/meme-coins/meme-coin-trading-bots/">bots de trading de meme coins</a>.</li>
+</ul>
+<h2 id="kill-switches-y-l-mites-de-riesgo">Kill switches y límites de riesgo</h2>
+<p>Los fallos de software pueden ser espectaculares. El 1 de agosto de 2012, el market maker estadounidense Knight Capital desplegó código defectuoso que envió una avalancha de órdenes no deseadas, perdió unos 440 millones de dólares en menos de una hora y la firma tuvo que ser rescatada. Versiones más pequeñas de lo mismo, como un bucle que reenvía órdenes o un error de unidades que opera diez veces el tamaño previsto, les ocurren continuamente a los bots minoristas.</p>
+<p>Todo bot debería tener:</p>
+<ul>
+<li><strong>Tamaño máximo de posición</strong> por instrumento y en total.</li>
+<li><strong>Tamaño máximo de orden</strong> y un collar de precio que rechace las órdenes alejadas del mercado actual.</li>
+<li><strong>Límite de pérdida diaria</strong> que cancele las órdenes, opcionalmente cierre las posiciones y detenga el bot hasta que una persona lo reinicie.</li>
+<li><strong>Límite de frecuencia de órdenes</strong> que detenga el bot si envía muchas más órdenes de las esperadas.</li>
+<li><strong>Control de datos desactualizados</strong> que detenga la operativa si los datos de mercado no se han actualizado durante un tiempo determinado.</li>
+<li><strong>Un kill switch manual</strong> que puedas activar desde tu teléfono.</li>
+</ul>
+<h2 id="simulaci-n-paper-trading-y-logs">Simulación, paper trading y logs</h2>
+<p>Ejecuta primero el sistema completo en modo de simulación (dry run), en el que calcula las órdenes y las registra sin enviarlas, y luego en paper trading o en la testnet del exchange cuando exista. Las testnets suelen comportarse de forma distinta a los mercados reales, con libros más delgados y ejecuciones diferentes, así que trátalas como una prueba de software, no como una prueba de rendimiento.</p>
+<p>Registra cada entrada y cada decisión: datos recibidos, señales, órdenes enviadas, respuestas del exchange, ejecuciones y errores, todo con marcas de tiempo en UTC. Cuando algo sale mal, los logs son la única forma de reconstruir lo ocurrido. Usa identificadores de orden de cliente únicos para que una petición reintentada no pueda crear por accidente una orden duplicada, y concilia periódicamente la visión que tiene tu bot de las posiciones con la del exchange.</p>
+<p>Un bucle principal mínimo muestra cómo encajan las piezas. Los objetos <code>feed</code>, <code>strategy</code> y <code>broker</code> son marcadores de posición para tus propias capas de datos, señal y ejecución.</p>
+<pre><code class="language-python">import logging
+
+MAX_DAILY_LOSS = 300.0      # moneda de la cuenta
+MAX_POSITION = 2_000.0      # nocional absoluto por símbolo
+
+def run(feed, strategy, broker, dry_run=True):
+    start_equity = broker.equity()
+    for tick in feed:                                   # p. ej., mensajes de una cola WebSocket
+        pnl = broker.equity() - start_equity
+        if pnl &lt;= -MAX_DAILY_LOSS:
+            logging.critical(&quot;Daily loss limit hit (%.2f). Stopping.&quot;, pnl)
+            broker.cancel_all()
+            broker.flatten()
+            return                                      # kill switch: esperar a una persona
+        order = strategy.on_tick(tick)
+        if order is None:
+            continue
+        new_pos = broker.position(order.symbol) + order.signed_notional
+        if abs(new_pos) &gt; MAX_POSITION:
+            logging.warning(&quot;Order blocked by position limit: %s&quot;, order)
+        elif dry_run:
+            logging.info(&quot;DRY RUN, would send: %s&quot;, order)
+        else:
+            broker.send(order, client_order_id=order.uid)  # el ID único evita duplicados
+</code></pre>
+<h2 id="despliegue">Despliegue</h2>
+<p>Los bots suelen ejecutarse en un servidor en la nube o en un servidor privado virtual (VPS) cercano a los servidores del exchange, con reinicio automático si se caen. Al reiniciarse, un bot debe cargar primero su estado desde el exchange (órdenes abiertas, posiciones) en lugar de suponer que empieza sin posiciones. Mantén el reloj sincronizado, vigila el uso de memoria y disco y planifica las ventanas de mantenimiento del exchange.</p>
+<h2 id="herramientas-de-c-digo-abierto">Herramientas de código abierto</h2>
+<p>Muchos traders construyen sobre librerías existentes en lugar de empezar desde cero. Entre los ejemplos de código abierto más conocidos están CCXT (una librería unificada para las APIs de muchos exchanges de cripto), Freqtrade y Hummingbot (frameworks de bots de cripto), Backtrader y NautilusTrader (frameworks de backtesting y trading) y el motor LEAN de QuantConnect. Se mencionan como ejemplos, no como recomendaciones; revisa cualquier código que vayas a ejecutar con dinero real. Para una guía específica de una plataforma, consulta la <a href="/blog/polymarket-trading-bot-guide.html">guía de bots de trading en Polymarket</a>.</p>
+<h2 id="ejemplo-pr-ctico-l-mite-de-peticiones-y-presupuesto-de-riesgo">Ejemplo práctico: límite de peticiones y presupuesto de riesgo</h2>
+<p>Un exchange permite un peso de peticiones de 1,200 por minuto (una cifra ilustrativa; consulta la documentación de tu plataforma). Un bot sigue 10 mercados.</p>
+<ul>
+<li>Consultar el libro de órdenes de cada mercado cada segundo con un peso de 5 cuesta 10 × 5 × 60 = 3,000 por minuto, 2.5 veces el límite. El bot sería bloqueado.</li>
+<li>Pasar los datos de mercado a streams WebSocket elimina esas peticiones. Si el bot coloca o cancela entonces unas 40 órdenes por minuto con un peso de 1 cada una, más una consulta de saldo por minuto con un peso de 10, consume unos 50 por minuto, alrededor del 4% del presupuesto.</li>
+</ul>
+<p>En cuanto al riesgo, la cuenta tiene 10,000 dólares. El bot limita la exposición al 20% por mercado (2,000 dólares) y deja de operar con una pérdida diaria del 3% (300 dólares). Aunque todas las posiciones abiertas se movieran bruscamente en contra antes de que saltara el kill switch, el peor escenario queda acotado por esos límites y por la lógica de parada, no por la suerte.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>No tener lógica de reconexión.</strong> Los feeds WebSocket se caen; un bot que deja de actualizarse sin avisar opera con precios desactualizados.</li>
+<li><strong>Suponer que las órdenes se ejecutan.</strong> Gestiona de forma explícita las ejecuciones parciales, los rechazos y las cancelaciones.</li>
+<li><strong>Reintentar sin idempotencia.</strong> Una orden que agotó el tiempo de espera puede haber sido aceptada igualmente; reenviarla puede duplicar la posición.</li>
+<li><strong>Claves con permiso de retiro.</strong> Esto convierte cualquier intrusión en el servidor en una pérdida total.</li>
+<li><strong>Pasar a real sin kill switch.</strong> Los bugs son seguros; los bugs sin límite son opcionales.</li>
+<li><strong>Probar solo en mercados tranquilos.</strong> Los periodos volátiles sacan a la luz condiciones de carrera y problemas con los límites de peticiones.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="qu-lenguaje-de-programaci-n-es-mejor-para-un-bot-de-trading">¿Qué lenguaje de programación es mejor para un bot de trading?</h3>
+<p>Python es la opción más común para los bots minoristas por sus librerías y su facilidad de uso. Los lenguajes más rápidos, como C++, Rust o Java, se usan cuando importa la latencia o volúmenes de mensajes muy altos.</p>
+<h3 id="son-rentables-los-bots-de-trading">¿Son rentables los bots de trading?</h3>
+<p>Un bot solo automatiza una estrategia; no crea una ventaja. Muchos bots pierden dinero porque la estrategia subyacente no tiene ventaja después de costos, o por fallos de software y de control de riesgo.</p>
+<h3 id="es-seguro-darle-mi-api-key-a-un-bot-de-trading">¿Es seguro darle mi API key a un bot de trading?</h3>
+<p>Puede ser razonablemente seguro si la clave no puede retirar fondos, está restringida a direcciones IP conocidas y se limita a una subcuenta con fondos acotados. Nunca compartas con servicios de terceros claves con permiso de retiro ni frases semilla de wallets.</p>
+<h3 id="qu-es-un-kill-switch-en-el-trading-algor-tmico">¿Qué es un kill switch en el trading algorítmico?</h3>
+<p>Un kill switch es un control que, de forma automática o manual, detiene un sistema de trading, cancela sus órdenes y, si está configurado, cierra las posiciones cuando se superan límites como la pérdida diaria o la frecuencia de órdenes.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">Trading algorítmico y cuantitativo</div><b>Introducción al trading algorítmico</b><span>Qué es el trading algorítmico, en qué se diferencia el minorista del institucional, el camino de la idea al bot en vivo, lenguajes y expectativas realistas.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/backtesting/"><div class="k">Trading algorítmico y cuantitativo</div><b>Backtesting</b><span>Cómo hacer backtesting sin engañarte: calidad de datos, sesgo de supervivencia y de anticipación, costos, análisis walk-forward y métricas clave.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">Trading algorítmico y cuantitativo</div><b>Datos de mercado</b><span>Datos de mercado para traders: ticks frente a barras, feeds de Nivel 1, 2 y 3, fuentes históricas, costos y licencias, marcas de tiempo y limpieza de datos.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/execution-algorithms/"><div class="k">Trading algorítmico y cuantitativo</div><b>Algoritmos de ejecución</b><span>Cómo funcionan los algoritmos de ejecución: TWAP, VWAP, POV e implementation shortfall, smart order routing, medición del slippage y su peso en el resultado.</span></a><a class="card" href="/es/encyclopedia/crypto/crypto-wallet-security/"><div class="k">Trading de criptomonedas</div><b>Seguridad de wallets</b><span>Cómo proteger tus criptomonedas: autocustodia, frase semilla, wallets de hardware, aprobaciones de tokens, drainers, phishing, address poisoning y claves API.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/"><small>← Anterior</small>Algoritmos de ejecución</a><a class="next" href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/"><small>Siguiente →</small>Copy trading y social trading</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>加密货币爆仓：强平价格计算与避免方法 | PnL Profit</title>
+<meta name="description" content="加密货币爆仓如何发生：多空强平价格计算、全仓与逐仓保证金、连环爆仓、清算热力图与未平仓合约，以及如何避免被强平。">
+<meta name="keywords" content="加密货币爆仓, 强平价格计算, 如何避免爆仓, 连环爆仓, 全仓和逐仓区别">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/crypto-liquidations/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/crypto-liquidations/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="加密货币爆仓：强平价格计算与避免方法 | PnL Profit">
+<meta property="og:description" content="加密货币爆仓如何发生：多空强平价格计算、全仓与逐仓保证金、连环爆仓、清算热力图与未平仓合约，以及如何避免被强平。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/crypto/crypto-liquidations/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="加密货币爆仓：强平价格计算与避免方法 | PnL Profit">
+<meta name="twitter:description" content="加密货币爆仓如何发生：多空强平价格计算、全仓与逐仓保证金、连环爆仓、清算热力图与未平仓合约，以及如何避免被强平。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"加密货币爆仓：强平价格计算与避免方法","description":"加密货币爆仓如何发生：多空强平价格计算、全仓与逐仓保证金、连环爆仓、清算热力图与未平仓合约，以及如何避免被强平。","keywords":"加密货币爆仓, 强平价格计算, 如何避免爆仓, 连环爆仓, 全仓和逐仓区别","articleSection":"加密货币交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/crypto/crypto-liquidations/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"加密货币交易","item":"https://pnlpro.fit/zh/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"爆仓","item":"https://pnlpro.fit/zh/encyclopedia/crypto/crypto-liquidations/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"强平价格是怎么计算的？","acceptedAnswer":{"@type":"Answer","text":"对于逐仓线性多头，强平价格约为开仓价 × (1 − 1/杠杆 + 维持保证金率)。对于空头，则为开仓价 × (1 + 1/杠杆 − 维持保证金率)。交易所还会考虑手续费和分档保证金率，因此请以交易所显示的数值为准。"}},{"@type":"Question","name":"爆仓后我的钱会怎样？","acceptedAnswer":{"@type":"Answer","text":"你会损失支撑该头寸的保证金，或者在扣除强平费用后几乎全部损失。在逐仓模式下，损失限于该头寸的保证金；在全仓模式下，可能是账户余额的大部分。"}},{"@type":"Question","name":"全仓保证金和逐仓保证金哪个更好？","acceptedAnswer":{"@type":"Answer","text":"逐仓保证金为每个头寸的亏损设定了上限，风险更容易控制。全仓保证金让强平价格更远，但会让整个账户暴露在风险中，一笔失败的交易可能影响所有未平仓头寸。"}},{"@type":"Question","name":"连环爆仓是什么原因造成的？","acceptedAnswer":{"@type":"Answer","text":"价格波动触发强制平仓，而强平以市价单执行，进一步推动价格并触发更多强平。当杠杆、资金费率和未平仓合约都处于高位、流动性又稀薄时，最容易发生连环爆仓。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/crypto/crypto-liquidations/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/crypto-liquidations/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/crypto/crypto-liquidations/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/crypto-liquidations/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/crypto-liquidations/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/crypto-liquidations/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/crypto-liquidations/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/crypto-liquidations/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/crypto-liquidations/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>加密货币交易</h3><ul><li><a href="/zh/encyclopedia/crypto/crypto-trading-basics/">加密货币交易基础</a></li><li><a href="/zh/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX与DEX</a></li><li><a href="/zh/encyclopedia/crypto/crypto-market-cycles/">加密市场周期</a></li><li><a href="/zh/encyclopedia/crypto/perpetual-futures/">永续合约</a></li><li><a href="/zh/encyclopedia/crypto/funding-rates/">资金费率</a></li><li><a href="/zh/encyclopedia/crypto/crypto-liquidations/" class="on" aria-current="page">爆仓</a></li><li><a href="/zh/encyclopedia/crypto/on-chain-analysis/">链上分析</a></li><li><a href="/zh/encyclopedia/crypto/altcoin-trading/">山寨币交易</a></li><li><a href="/zh/encyclopedia/crypto/tokenomics-and-token-unlocks/">代币经济学与解锁</a></li><li><a href="/zh/encyclopedia/crypto/defi-trading/">DeFi交易</a></li><li><a href="/zh/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV与三明治攻击</a></li><li><a href="/zh/encyclopedia/crypto/crypto-arbitrage/">加密货币套利</a></li><li><a href="/zh/encyclopedia/crypto/stablecoins/">稳定币</a></li><li><a href="/zh/encyclopedia/crypto/crypto-wallet-security/">钱包安全</a></li><li><a href="/zh/encyclopedia/crypto/airdrops-and-points-farming/">空投与积分</a></li><li><a href="/zh/encyclopedia/crypto/nft-trading/">NFT交易</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/" class="on">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/crypto/">加密货币交易</a></div>
+<h1 class="title">加密货币爆仓</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>加密货币交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/crypto/crypto-trading-basics/">加密货币交易基础</a></li><li><a href="/zh/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX与DEX</a></li><li><a href="/zh/encyclopedia/crypto/crypto-market-cycles/">加密市场周期</a></li><li><a href="/zh/encyclopedia/crypto/perpetual-futures/">永续合约</a></li><li><a href="/zh/encyclopedia/crypto/funding-rates/">资金费率</a></li><li><a href="/zh/encyclopedia/crypto/crypto-liquidations/" class="on" aria-current="page">爆仓</a></li><li><a href="/zh/encyclopedia/crypto/on-chain-analysis/">链上分析</a></li><li><a href="/zh/encyclopedia/crypto/altcoin-trading/">山寨币交易</a></li><li><a href="/zh/encyclopedia/crypto/tokenomics-and-token-unlocks/">代币经济学与解锁</a></li><li><a href="/zh/encyclopedia/crypto/defi-trading/">DeFi交易</a></li><li><a href="/zh/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV与三明治攻击</a></li><li><a href="/zh/encyclopedia/crypto/crypto-arbitrage/">加密货币套利</a></li><li><a href="/zh/encyclopedia/crypto/stablecoins/">稳定币</a></li><li><a href="/zh/encyclopedia/crypto/crypto-wallet-security/">钱包安全</a></li><li><a href="/zh/encyclopedia/crypto/airdrops-and-points-farming/">空投与积分</a></li><li><a href="/zh/encyclopedia/crypto/nft-trading/">NFT交易</a></li></ul></details>
+<article><p>爆仓（强制平仓，liquidation）是指交易者的保证金低于交易所要求的水平时，其杠杆头寸被强制平掉。在加密市场，永续合约全天候以高杠杆交易，爆仓无时无刻不在发生；在剧烈波动中，爆仓还可能引发一连串的被迫卖出或买入，把价格推到远超基本面所能解释的位置。准确知道自己的强平价格在哪里、为什么在那里，是任何使用杠杆的人最基本的生存技能。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>当你在头寸中的权益降至维持保证金时就会被强平，而不是等到归零。</li>
+<li>在 10 倍杠杆下，逐仓头寸逆向波动约 9.5% 就可能爆仓；在 50 倍杠杆下，大约 1.5%。</li>
+<li>全仓保证金会让强平价格离得更远，但会把整个账户置于风险之中。</li>
+<li>当强平订单把价格推向下一个强平价位密集区时，就会发生连环爆仓。</li>
+<li>避免爆仓最可靠的方法，是降低杠杆，再加上一个远在强平价格之前的止损。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">强平如何运作</a></li><li><a href="#section-3">强平价格计算</a></li><li><a href="#section-8">全仓与逐仓保证金</a></li><li><a href="#section-9">连环爆仓</a></li><li><a href="#section-10">未平仓合约与清算热力图</a></li><li><a href="#section-11">如何避免被强平</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">强平如何运作</h2>
+<p>在<a href="/zh/encyclopedia/crypto/perpetual-futures/">永续合约</a>上开立杠杆头寸时，你需要缴纳初始保证金。交易所还会设定一个<strong>维持保证金率（MMR）</strong>，即你必须保留为权益的头寸价值的一个较小百分比。权益等于保证金加上未实现盈亏，按标记价格计算。</p>
+<p>当权益降至维持保证金要求时，交易所的强平引擎会接管并平掉该头寸。视平台而定，你会损失该头寸的全部保证金，或损失扣除强平费用后的剩余部分。有些交易所会先尝试部分强平，让头寸重新回到维持保证金之上。</p>
+<p><a href="/zh/encyclopedia/basics/leverage-and-margin/">杠杆与保证金</a>的一般原理适用于各个市场。加密市场的特殊之处在于可用的杠杆倍数（部分合约通常为 50 倍到 100 倍甚至更高）、7×24 小时交易的市场，以及爆仓反过来影响价格的速度。</p>
+<h2 id="section-3">强平价格计算</h2>
+<p>以下示例采用 U 本位（USDT 保证金）线性合约、逐仓保证金、0.5% 的维持保证金率，并忽略手续费和资金费。真实交易所使用分档维持保证金率，还可能扣除手续费，这会让强平价格略微靠近开仓价。</p>
+<h3 id="section-4">多头头寸</h3>
+<p>某交易者在永续合约上以 60,000 美元、10 倍杠杆买入 1 枚 BTC。</p>
+<ul>
+<li>名义价值：60,000 美元。初始保证金：6,000 美元。</li>
+<li>在价格 P 时，权益 = $6,000 + (P − $60,000)。</li>
+<li>维持保证金要求 = 0.005 × P。</li>
+</ul>
+<p>当权益等于维持保证金要求时发生强平：</p>
+<p>6,000 + P − 60,000 = 0.005P
+0.995P = 54,000
+P = $54,271.36</p>
+<p>验算：在 54,271.36 美元时，权益 = 6,000 − 5,728.64 = 271.36 美元，而 54,271.36 美元的 0.5% 正是 271.36 美元。该头寸在下跌约 9.55% 后被强平，而不是“10 倍”所暗示的 10%。</p>
+<h3 id="section-5">空头头寸</h3>
+<p>同一交易者改为以 60,000 美元、10 倍杠杆做空 1 枚 BTC。</p>
+<ul>
+<li>在价格 P 时，权益 = $6,000 + ($60,000 − P)。</li>
+</ul>
+<p>6,000 + 60,000 − P = 0.005P
+66,000 = 1.005P
+P = $65,671.64</p>
+<p>验算：在 65,671.64 美元时，权益 = 6,000 − 5,671.64 = 328.36 美元，而 65,671.64 美元的 0.5% 正是 328.36 美元。该空头在上涨约 9.45% 后被强平。</p>
+<h3 id="section-6">简便公式</h3>
+<p>对于逐仓线性头寸，强平价格约为：</p>
+<ul>
+<li>多头：开仓价 × (1 − 1/杠杆 + MMR)</li>
+<li>空头：开仓价 × (1 + 1/杠杆 − MMR)</li>
+</ul>
+<p>以上面的多头为例：60,000 × (1 − 0.1 + 0.005) = 54,300 美元。这个近似值与精确值 54,271.36 美元很接近，用于快速估算没有问题，但以交易所显示的强平价格为准。</p>
+<h3 id="section-7">杠杆如何改变与强平价的距离</h3>
+<p>同样采用 0.5% 的维持保证金率，对于多头：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>杠杆</th>
+<th>距强平的大致波动幅度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2x</td>
+<td>约 50%</td>
+</tr>
+<tr>
+<td>5x</td>
+<td>约 20%</td>
+</tr>
+<tr>
+<td>10x</td>
+<td>约 9.5%</td>
+</tr>
+<tr>
+<td>20x</td>
+<td>约 4.5%</td>
+</tr>
+<tr>
+<td>50x</td>
+<td>约 1.5%</td>
+</tr>
+<tr>
+<td>100x</td>
+<td>约 0.5%</td>
+</tr>
+</tbody></table></div>
+<p>在 20 倍杠杆下，开仓价为 60,000 美元的多头精确强平价格为 (60,000 − 3,000) / 0.995 = 57,286.43 美元。比特币一天波动 4.5% 是常有的事，小币种几分钟内就能波动这么多。在 100 倍杠杆下，正常的市场噪音就足以让头寸爆仓。大额头寸适用更高的维持保证金率，会让这些距离进一步缩小。</p>
+<h2 id="section-8">全仓与逐仓保证金</h2>
+<p>在<strong>逐仓保证金</strong>模式下，你最多只会损失分配给该头寸的保证金。在<strong>全仓保证金</strong>模式下，整个账户余额为所有未平仓头寸提供支撑。</p>
+<p>假设上面的交易者在全仓账户中有 20,000 美元，并以 60,000 美元开立同样的 1 枚 BTC 多单。</p>
+<p>20,000 + P − 60,000 = 0.005P
+0.995P = 40,000
+P = $40,201.01</p>
+<p>强平价格远了很多，但一旦触及，交易者损失的将接近全部 20,000 美元，而不是 6,000 美元。全仓保证金还会把各头寸联系在一起：一笔交易的亏损可能导致另一笔头寸被强平。逐仓保证金让每笔交易的亏损清晰且有上限，许多交易者觉得这样更容易管理。</p>
+<h2 id="section-9">连环爆仓</h2>
+<p>强平订单都是市价单。被强平的多头变成被迫卖出，被强平的空头变成被迫买入。当许多头寸的强平价位相近时，被迫卖出会把价格压向下一个密集区，从而触发更多被迫卖出。这就是多头连环爆仓。向上的版本则是轧空（short squeeze）。</p>
+<p>以下情况更容易发生连环爆仓：</p>
+<ul>
+<li><a href="/zh/encyclopedia/crypto/funding-rates/">资金费率</a>很高，表明杠杆头寸过于拥挤。</li>
+<li>未平仓合约迅速增加。</li>
+<li>流动性稀薄，例如周末或主要交易时区的夜间。</li>
+<li>市场已经过度延伸时遭遇宏观冲击。</li>
+</ul>
+<p>2025年10月10日至11日，美国宣布对中国商品加征新关税后，据数据聚合平台 Coinglass 统计，加密市场 24 小时内爆仓约 190 亿美元，其中大部分为多头，创下有记录以来单日最高纪录。部分山寨币在个别交易平台上短暂跌至远低于此前价格的水平，一些交易所还报告触发了自动减仓（ADL）。更早的大规模连环爆仓发生在 2020年3月和 2021年5月。其他尾部事件见<a href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/">杠杆风险与黑天鹅</a>。</p>
+<h2 id="section-10">未平仓合约与清算热力图</h2>
+<p><strong>未平仓合约（OI）</strong>是尚未平仓的衍生品合约的总数量或总价值。OI 上升意味着有新头寸开立；OI 下降意味着头寸在平仓，其中包括被强平。价格暴跌时 OI 急剧下降，是连环爆仓的典型迹象。</p>
+<p><strong>清算热力图</strong>是数据服务商提供的图表，根据 OI 变化、常见杠杆倍数和价格历史，估算强平价位密集区所在的位置。有些交易者把这些密集区视为价格可能去“猎杀”的“磁铁”。请记住：</p>
+<ul>
+<li>热力图只是估算。除了透明的永续合约 DEX，交易所不会公布单个交易者的强平价格。</li>
+<li>随着交易者开仓、平仓和调整头寸，密集区会移动。</li>
+<li>数据可能不完整；一些交易所以限流方式报告强平数据。</li>
+</ul>
+<p>出于同样的原因，爆仓统计数据也存在低估，因此每日爆仓总额应视为近似值。</p>
+<h2 id="section-11">如何避免被强平</h2>
+<ol>
+<li><strong>使用低杠杆。</strong> 在 2 倍或 3 倍杠杆下，正常波动很少会触及强平价格。</li>
+<li><strong>按风险而非保证金来确定仓位。</strong> 先决定你愿意亏多少，再设定仓位大小，让止损把亏损控制在这个范围内。见<a href="/zh/encyclopedia/risk-management/position-sizing/">仓位管理</a>。</li>
+<li><strong>在远离强平价格的位置设止损。</strong> 在计划好的价位止损，亏损比爆仓少，还能避免强平费用。注意在快速行情中止损可能出现滑点。</li>
+<li><strong>关注标记价格</strong>，而不只是最新成交价。</li>
+<li><strong>把资金费和手续费算进去</strong>，它们会慢慢侵蚀长期持仓的保证金。</li>
+<li><strong>不要条件反射式地给亏损头寸追加保证金。</strong> 这会移动强平价格，但也增加了承担风险的金额。</li>
+<li><strong>衍生品平台上只存放交易资金。</strong></li>
+</ol>
+<p>大多数在加密永续合约上使用高杠杆的散户交易者，长期来看都在亏钱。高杠杆交易还可能让人上瘾。如果交易开始让你感觉像停不下来的赌博，许多国家都有问题赌博援助服务可以提供帮助。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>以为 10 倍杠杆就有 10% 的缓冲。</strong> 维持保证金和手续费会让缓冲更小。</li>
+<li><strong>使用全仓保证金却没意识到</strong>整个余额都暴露在风险中。</li>
+<li><strong>把止损设在强平价格之外</strong>，这样止损永远不会被触发。</li>
+<li><strong>在重大新闻前后或周末使用高杠杆交易。</strong></li>
+<li><strong>以为清算热力图很精确。</strong></li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-14">强平价格是怎么计算的？</h3>
+<p>对于逐仓线性多头，强平价格约为开仓价 × (1 − 1/杠杆 + 维持保证金率)。对于空头，则为开仓价 × (1 + 1/杠杆 − 维持保证金率)。交易所还会考虑手续费和分档保证金率，因此请以交易所显示的数值为准。</p>
+<h3 id="section-15">爆仓后我的钱会怎样？</h3>
+<p>你会损失支撑该头寸的保证金，或者在扣除强平费用后几乎全部损失。在逐仓模式下，损失限于该头寸的保证金；在全仓模式下，可能是账户余额的大部分。</p>
+<h3 id="section-16">全仓保证金和逐仓保证金哪个更好？</h3>
+<p>逐仓保证金为每个头寸的亏损设定了上限，风险更容易控制。全仓保证金让强平价格更远，但会让整个账户暴露在风险中，一笔失败的交易可能影响所有未平仓头寸。</p>
+<h3 id="section-17">连环爆仓是什么原因造成的？</h3>
+<p>价格波动触发强制平仓，而强平以市价单执行，进一步推动价格并触发更多强平。当杠杆、资金费率和未平仓合约都处于高位、流动性又稀薄时，最容易发生连环爆仓。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/crypto/perpetual-futures/"><div class="k">加密货币交易</div><b>永续合约</b><span>加密永续合约如何运作：无到期日、标记价格与指数价格及最新价、资金费、杠杆、保险基金、自动减仓、币本位与U本位，以及永续合约 DEX。</span></a><a class="card" href="/zh/encyclopedia/crypto/funding-rates/"><div class="k">加密货币交易</div><b>资金费率</b><span>永续合约资金费率如何运作：结算周期、资金费的计算与年化、如何解读正负资金费率所反映的市场情绪，以及期现资金费套利的收益与风险。</span></a><a class="card" href="/zh/encyclopedia/basics/leverage-and-margin/"><div class="k">交易基础</div><b>杠杆与保证金</b><span>杠杆和保证金如何运作，初始保证金与维持保证金，追加保证金通知、强制平仓、全仓与逐仓保证金，附计算示例和各地区杠杆上限。</span></a><a class="card" href="/zh/encyclopedia/risk-management/position-sizing/"><div class="k">风险与资金管理</div><b>仓位管理</b><span>如何根据账户风险和止损距离计算仓位大小：固定比例、固定金额与ATR仓位法，附股票、外汇和加密货币的实例演算。</span></a><a class="card" href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/"><div class="k">风险与资金管理</div><b>杠杆风险与黑天鹅</b><span>尾部事件如何让高杠杆交易者爆仓：2015年瑞郎脱钩、2020年负油价、GameStop、LUNA与FTX，以及跳空、流动性枯竭和其中的教训。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/crypto/funding-rates/"><small>← 上一篇</small>资金费率</a><a class="next" href="/zh/encyclopedia/crypto/on-chain-analysis/"><small>下一篇 →</small>链上分析</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

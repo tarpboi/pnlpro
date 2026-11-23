@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI指标详解：超买、超卖与背离 | PnL Profit</title>
+<meta name="description" content="相对强弱指数（RSI）如何计算，超买超卖的真正含义，RSI背离，RSI在趋势中的表现，以及常见的误用。">
+<meta name="keywords" content="RSI指标, 相对强弱指数, RSI超买超卖, RSI背离, RSI参数设置">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="RSI指标详解：超买、超卖与背离 | PnL Profit">
+<meta property="og:description" content="相对强弱指数（RSI）如何计算，超买超卖的真正含义，RSI背离，RSI在趋势中的表现，以及常见的误用。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RSI指标详解：超买、超卖与背离 | PnL Profit">
+<meta name="twitter:description" content="相对强弱指数（RSI）如何计算，超买超卖的真正含义，RSI背离，RSI在趋势中的表现，以及常见的误用。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"RSI指标详解：超买、超卖与背离","description":"相对强弱指数（RSI）如何计算，超买超卖的真正含义，RSI背离，RSI在趋势中的表现，以及常见的误用。","keywords":"RSI指标, 相对强弱指数, RSI超买超卖, RSI背离, RSI参数设置","articleSection":"技术分析","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"技术分析","item":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/"},{"@type":"ListItem","position":3,"name":"RSI","item":"https://pnlpro.fit/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"RSI参数设多少比较好？","acceptedAnswer":{"@type":"Answer","text":"默认的14周期最常用，也是一个合理的起点。较短的参数会让RSI更灵敏、更频繁地触及极端值，较长的参数则让它更平滑；任何改动都应在你所交易的市场和时间周期上进行检验。"}},{"@type":"Question","name":"RSI高于70就意味着要卖出吗？","acceptedAnswer":{"@type":"Answer","text":"不一定。RSI高于70意味着近期涨幅远大于近期跌幅，在强劲的上升趋势中，RSI可能长时间保持在70以上，同时价格持续上涨。"}},{"@type":"Question","name":"什么是RSI背离？","acceptedAnswer":{"@type":"Answer","text":"背离是指价格与RSI朝不同方向运动，例如价格创出更高的高点而RSI形成更低的高点。它暗示动能正在减弱，但很多背离并不会导致反转，所以交易者通常会等待价格确认。"}},{"@type":"Question","name":"RSI比MACD更好吗？","acceptedAnswer":{"@type":"Answer","text":"两者没有优劣之分；它们由同样的收盘价构建，以不同方式衡量动能。RSI的取值限定在0到100之间，极端值一目了然；MACD则没有上下限，侧重于两条移动平均线之间的关系。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/technical-analysis/rsi-relative-strength-index/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>技术分析</h3><ul><li><a href="/zh/encyclopedia/technical-analysis/technical-analysis-intro/">技术分析入门</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-charts/">读懂K线图</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-patterns/">K线形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑与阻力</a></li><li><a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">趋势与市场结构</a></li><li><a href="/zh/encyclopedia/technical-analysis/chart-patterns/">图表形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/moving-averages/">移动平均线</a></li><li><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/" class="on" aria-current="page">RSI</a></li><li><a href="/zh/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/">布林带</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/zh/encyclopedia/technical-analysis/fibonacci-retracement/">斐波那契工具</a></li><li><a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR与波动率</a></li><li><a href="/zh/encyclopedia/technical-analysis/multi-timeframe-analysis/">多周期分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/price-action-trading/">价格行为交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/">成交量分布与市场轮廓</a></li><li><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/">订单流交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/smart-money-concepts/">聪明钱概念（ICT）</a></li><li><a href="/zh/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">艾略特波浪与威科夫</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/" class="on">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/technical-analysis/">技术分析</a></div>
+<h1 class="title">RSI（相对强弱指数）</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>技术分析中的更多文章</summary><ul><li><a href="/zh/encyclopedia/technical-analysis/technical-analysis-intro/">技术分析入门</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-charts/">读懂K线图</a></li><li><a href="/zh/encyclopedia/technical-analysis/candlestick-patterns/">K线形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑与阻力</a></li><li><a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">趋势与市场结构</a></li><li><a href="/zh/encyclopedia/technical-analysis/chart-patterns/">图表形态</a></li><li><a href="/zh/encyclopedia/technical-analysis/moving-averages/">移动平均线</a></li><li><a href="/zh/encyclopedia/technical-analysis/rsi-relative-strength-index/" class="on" aria-current="page">RSI</a></li><li><a href="/zh/encyclopedia/technical-analysis/macd/">MACD</a></li><li><a href="/zh/encyclopedia/technical-analysis/bollinger-bands/">布林带</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/vwap/">VWAP</a></li><li><a href="/zh/encyclopedia/technical-analysis/fibonacci-retracement/">斐波那契工具</a></li><li><a href="/zh/encyclopedia/technical-analysis/atr-and-volatility-indicators/">ATR与波动率</a></li><li><a href="/zh/encyclopedia/technical-analysis/multi-timeframe-analysis/">多周期分析</a></li><li><a href="/zh/encyclopedia/technical-analysis/price-action-trading/">价格行为交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/volume-profile-and-market-profile/">成交量分布与市场轮廓</a></li><li><a href="/zh/encyclopedia/technical-analysis/order-flow-trading/">订单流交易</a></li><li><a href="/zh/encyclopedia/technical-analysis/smart-money-concepts/">聪明钱概念（ICT）</a></li><li><a href="/zh/encyclopedia/technical-analysis/elliott-wave-and-wyckoff/">艾略特波浪与威科夫</a></li></ul></details>
+<article><p>相对强弱指数（Relative Strength Index，RSI）是一种动量震荡指标，它比较近期涨幅与近期跌幅的大小，并把结果表示在0到100的刻度上。读数接近100表示近期以上涨为主；接近0表示以下跌为主。RSI由J. Welles Wilder Jr.提出，发表于他1978年的著作《技术交易系统新概念》（<em>New Concepts in Technical Trading Systems</em>），是所有看盘平台上最受欢迎的指标之一。它衡量的是近期上涨与下跌之间的力量对比，读数偏高或偏低本身并不意味着价格即将反转。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点速览</h2>
+<ul>
+<li>RSI = 100 - 100 / (1 + RS)，其中RS是回溯周期内平均涨幅除以平均跌幅，默认周期为14。</li>
+<li>按惯例，读数高于70称为超买，低于30称为超卖；但在强劲趋势中，RSI可能长时间停留在这些极端区域。</li>
+<li>在上升趋势中，RSI常在大约40至80的区域内摆动；在下降趋势中，则大约在20至60之间，这有助于判断市场状态。</li>
+<li>价格与RSI之间的背离显示动能正在减弱，但很多背离最终并未导致反转。</li>
+<li>RSI是收盘价的一种变换，因此并不能为价格图表增加独立的信息。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#rsi">RSI如何计算</a></li><li><a href="#section-3">计算示例</a></li><li><a href="#section-4">超买与超卖</a></li><li><a href="#rsi">趋势中的RSI：市场状态视角</a></li><li><a href="#section-6">背离</a></li><li><a href="#section-7">参数设置</a></li><li><a href="#common-mistakes">常见错误</a></li><li><a href="#section-9">实证研究怎么说</a></li></ol></details>
+<h2 id="rsi">RSI如何计算</h2>
+<p>RSI考察回溯周期（通常为14根K线）内相邻收盘价之间的变化：</p>
+<ol>
+<li>对每根K线，记录涨幅（若收盘价上涨）或跌幅（若下跌，记为正数）。上涨的K线跌幅记为零，反之亦然。</li>
+<li>计算该周期内的<strong>平均涨幅</strong>和<strong>平均跌幅</strong>。Wilder使用了一种平滑方法：每个新的平均值等于(前一平均值 x 13 + 当前值) / 14。它的表现类似于指数平均，意味着过去的每一根K线仍保有微小的影响。</li>
+<li>计算<strong>RS</strong> = 平均涨幅 / 平均跌幅。</li>
+<li>计算<strong>RSI</strong> = 100 - 100 / (1 + RS)。</li>
+</ol>
+<p>其中的直觉很简单。如果平均涨幅与平均跌幅相等，RS为1，RSI为50。如果涨幅是跌幅的两倍，RSI约为67。如果完全没有下跌，RSI就是100。</p>
+<p>请注意，RSI与&quot;相对强度&quot;（把一只股票与指数作比较的那种含义）并不是一回事。后者有时被称为比较相对强度，是另一种计算方法。</p>
+<h2 id="section-3">计算示例</h2>
+<p>某股票的14日平均涨幅为$1.20，平均跌幅为$0.60。</p>
+<ul>
+<li>RS = 1.20 / 0.60 = 2.00</li>
+<li>RSI = 100 - 100 / (1 + 2) = 100 - 33.33 = <strong>66.67</strong></li>
+</ul>
+<p><strong>第1天：</strong> 股价上涨$2.00。</p>
+<ul>
+<li>新平均涨幅 = (1.20 x 13 + 2.00) / 14 = (15.60 + 2.00) / 14 = 17.60 / 14 = 1.2571</li>
+<li>新平均跌幅 = (0.60 x 13 + 0) / 14 = 7.80 / 14 = 0.5571</li>
+<li>RS = 1.2571 / 0.5571 = 2.2564</li>
+<li>RSI = 100 - 100 / 3.2564 = <strong>69.29</strong></li>
+</ul>
+<p><strong>第2天：</strong> 股价上涨$3.00。</p>
+<ul>
+<li>平均涨幅 = (1.2571 x 13 + 3.00) / 14 = 1.3816</li>
+<li>平均跌幅 = (0.5571 x 13 + 0) / 14 = 0.5173</li>
+<li>RS = 2.6706，因此RSI = <strong>72.76</strong>。现已高于70，进入&quot;超买&quot;区域。</li>
+</ul>
+<p><strong>第3天：</strong> 股价下跌$1.50。</p>
+<ul>
+<li>平均涨幅 = (1.3816 x 13 + 0) / 14 = 1.2829</li>
+<li>平均跌幅 = (0.5173 x 13 + 1.50) / 14 = 0.5875</li>
+<li>RS = 2.1836，因此RSI = <strong>68.59</strong>。</li>
+</ul>
+<p>两个强势上涨日把RSI从约67推到约73，一个温和的下跌日又把它拉回70以下。这个读数告诉你，近期涨幅大于跌幅。它并没有告诉你那波$3的上涨&quot;涨过头了&quot;，也没有说下跌即将到来。</p>
+<h2 id="section-4">超买与超卖</h2>
+<p>惯用的阈值如下：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>读数</th>
+<th>惯用标签</th>
+<th>实际含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高于70</td>
+<td>超买</td>
+<td>近期涨幅远大于近期跌幅</td>
+</tr>
+<tr>
+<td>30至70</td>
+<td>中性</td>
+<td>没有明显失衡</td>
+</tr>
+<tr>
+<td>低于30</td>
+<td>超卖</td>
+<td>近期跌幅远大于近期涨幅</td>
+</tr>
+</tbody></table></div>
+<p>有些交易者使用80和20来获得更严格的信号，在波动较大的资产上尤其如此。</p>
+<p>这些标签具有误导性。&quot;超买&quot;听起来像是价格必然下跌，但它描述的只是近期强劲的动能。强劲的动能往往会延续。一只处于强势上升趋势中的股票，可能在RSI高于70的状态下持续上涨好几周；如果每次RSI上穿70就卖出，意味着一次又一次地过早离场或过早做空。</p>
+<p>逆着极端读数交易，在价格于<a href="/zh/encyclopedia/technical-analysis/support-and-resistance/">支撑与阻力</a>之间来回摆动的<a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">震荡市场</a>中往往效果更好。在趋势市场中，这样做的代价可能很高。</p>
+<h2 id="rsi">趋势中的RSI：市场状态视角</h2>
+<p>一个被广泛使用的观察是，RSI的典型区间会随趋势而移动：</p>
+<ul>
+<li>在<strong>上升趋势</strong>中，RSI往往大致在40到80之间摆动。回调常常在40到50附近止步，而不会跌到30。</li>
+<li>在<strong>下降趋势</strong>中，RSI往往大致在20到60之间摆动。反弹常常在50到60附近停滞，而不会涨到70。</li>
+</ul>
+<p>交易者以两种方式利用这一点：</p>
+<ul>
+<li><strong>判断市场状态。</strong> 如果RSI在回调时始终守在40之上，这与上升趋势相符。如果它在反弹时开始无法触及60，趋势可能正在走弱。</li>
+<li><strong>回调入场。</strong> 在已确立的上升趋势中，RSI回落到40至50区域（而不是30），可以作为买入区，止损设在回调的波段低点下方。</li>
+</ul>
+<p>这些区间是经验法则，而不是固定边界。不同资产和时间周期的表现各不相同。</p>
+<h2 id="section-6">背离</h2>
+<p>当价格与RSI的走向不一致时，就出现了<strong>背离</strong>：</p>
+<ul>
+<li><strong>顶背离（看跌背离）：</strong> 价格创出更高的高点，但RSI形成更低的高点。最近一波上涨的动能弱于前一波。</li>
+<li><strong>底背离（看涨背离）：</strong> 价格创出更低的低点，但RSI形成更高的低点。最近一波下跌的动能减弱。</li>
+</ul>
+<p>有些交易者还关注<strong>隐性背离</strong>，它被解读为趋势延续信号：在上升趋势中，价格形成更高的低点，而RSI形成更低的低点。</p>
+<p>背离描述的是动能减弱，这往往发生在反转之前。但动能可能在趋势延续的同时减弱，在强劲趋势中，背离可能连续出现好几次而不发生任何反转。交易者通常会等待价格本身给出确认，例如一次<a href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/">结构突破</a>或收盘跌破支撑位，然后才根据背离采取行动。</p>
+<h2 id="section-7">参数设置</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>效果</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>14（默认）</td>
+<td>均衡</td>
+<td>通用，适用于任何时间周期</td>
+</tr>
+<tr>
+<td>2至7</td>
+<td>非常灵敏；频繁触及极端值</td>
+<td>短线<a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a>系统，尤其用于股指</td>
+</tr>
+<tr>
+<td>20至25</td>
+<td>更平滑；极端值罕见</td>
+<td>较长期的趋势背景</td>
+</tr>
+</tbody></table></div>
+<p>周期越短，RSI触及70和30的频率就越高。2周期RSI可以在几天之内从10以下摆到90以上。短周期参数因用于在上升趋势的股指中买入短暂下跌的均值回归策略而流行起来。和任何系统一样，这些策略应计入真实成本进行检验，因为它们每笔交易的平均盈利很小，对点差和佣金很敏感。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>把70当成卖出信号。</strong> 在上升趋势中，超买读数很正常。做空它们就是在逆势而行。</li>
+<li><strong>在暴跌中把30当成买入信号。</strong> 在整个急跌过程中，RSI可能一直低于30。&quot;超卖&quot;并不是底部。</li>
+<li><strong>交易每一次背离。</strong> 背离很常见，而且很多都会失败。没有价格确认，它们就是过早的信号，而过早往往意味着错误。</li>
+<li><strong>把RSI与类似的震荡指标组合使用。</strong> RSI、随机指标（KDJ/Stochastics）和<a href="/zh/encyclopedia/technical-analysis/macd/">MACD</a>都由收盘价衍生而来。当它们一致时，大多只是同一信息被重复计算了几次。</li>
+<li><strong>在历史数据上优化阈值。</strong> 因为回测表现最好而选用RSI 11、阈值73和27，是通往<a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a>的经典路径。</li>
+<li><strong>忽视时间周期。</strong> 5分钟图上RSI为80，对日线趋势几乎说明不了什么。</li>
+</ul>
+<h2 id="section-9">实证研究怎么说</h2>
+<p>基于RSI的规则已被检验过很多次，结果不一。在单一资产上采用&quot;低于30买入、高于70卖出&quot;的简单规则，扣除成本后普遍没有表现出可靠的盈利，而且不同市场和时期的结果差异很大。短周期RSI系统试图捕捉的短期反转效应，已在部分股票市场中得到记载，但每笔交易的收益很小，对交易成本高度敏感。与此同时，更广泛的动量研究表明，过去的强势表现往往会在中期内延续，这也是对自动逆着高RSI读数交易保持谨慎的理由。</p>
+<h2 id="faq">常见问题</h2>
+<h3 id="rsi">RSI参数设多少比较好？</h3>
+<p>默认的14周期最常用，也是一个合理的起点。较短的参数会让RSI更灵敏、更频繁地触及极端值，较长的参数则让它更平滑；任何改动都应在你所交易的市场和时间周期上进行检验。</p>
+<h3 id="rsi-70">RSI高于70就意味着要卖出吗？</h3>
+<p>不一定。RSI高于70意味着近期涨幅远大于近期跌幅，在强劲的上升趋势中，RSI可能长时间保持在70以上，同时价格持续上涨。</p>
+<h3 id="rsi">什么是RSI背离？</h3>
+<p>背离是指价格与RSI朝不同方向运动，例如价格创出更高的高点而RSI形成更低的高点。它暗示动能正在减弱，但很多背离并不会导致反转，所以交易者通常会等待价格确认。</p>
+<h3 id="rsi-macd">RSI比MACD更好吗？</h3>
+<p>两者没有优劣之分；它们由同样的收盘价构建，以不同方式衡量动能。RSI的取值限定在0到100之间，极端值一目了然；MACD则没有上下限，侧重于两条移动平均线之间的关系。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/technical-analysis/macd/"><div class="k">技术分析</div><b>MACD</b><span>MACD如何由两条EMA构成，信号线和柱状图反映什么，交易者如何解读交叉与背离，12/26/9参数及滞后问题。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/trends-and-market-structure/"><div class="k">技术分析</div><b>趋势与市场结构</b><span>交易者如何用波段高低点、趋势线、通道、结构突破（BOS）和ADX趋势强度指标来界定上升趋势、下降趋势与震荡区间。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">算法与量化交易</div><b>均值回归</b><span>均值回归交易如何运作：短期反转效应、Z值、布林带与RSI系统、负偏度、市场状态风险，以及策略失效的情形。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/bollinger-bands/"><div class="k">技术分析</div><b>布林带</b><span>布林带如何由20周期均线和2倍标准差构成，布林带收口、沿轨运行、%B、带宽，以及与肯特纳通道的区别。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/moving-averages/"><div class="k">技术分析</div><b>移动平均线</b><span>简单、指数和加权移动平均线如何计算，20、50、200周期均线意味着什么，金叉与死叉，以及均线的滞后取舍。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/technical-analysis/moving-averages/"><small>← 上一篇</small>移动平均线</a><a class="next" href="/zh/encyclopedia/technical-analysis/macd/"><small>下一篇 →</small>MACD</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biến động hàm ý (IV) là gì: IV rank, IV crush và skew | PnL Profit</title>
+<meta name="description" content="Biến động hàm ý là gì, khác biến động lịch sử ra sao, IV rank và IV percentile, IV crush, skew, và công thức mức biến động kỳ vọng kèm ví dụ cụ thể.">
+<meta name="keywords" content="biến động hàm ý, implied volatility là gì, iv crush, iv rank và iv percentile, volatility skew, công thức expected move">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/implied-volatility/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/implied-volatility/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Biến động hàm ý (IV) là gì: IV rank, IV crush và skew | PnL Profit">
+<meta property="og:description" content="Biến động hàm ý là gì, khác biến động lịch sử ra sao, IV rank và IV percentile, IV crush, skew, và công thức mức biến động kỳ vọng kèm ví dụ cụ thể.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/options/implied-volatility/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Biến động hàm ý (IV) là gì: IV rank, IV crush và skew | PnL Profit">
+<meta name="twitter:description" content="Biến động hàm ý là gì, khác biến động lịch sử ra sao, IV rank và IV percentile, IV crush, skew, và công thức mức biến động kỳ vọng kèm ví dụ cụ thể.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Biến động hàm ý (IV) là gì: IV rank, IV crush và skew","description":"Biến động hàm ý là gì, khác biến động lịch sử ra sao, IV rank và IV percentile, IV crush, skew, và công thức mức biến động kỳ vọng kèm ví dụ cụ thể.","keywords":"biến động hàm ý, implied volatility là gì, iv crush, iv rank và iv percentile, volatility skew, công thức expected move","articleSection":"Giao dịch quyền chọn","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/options/implied-volatility/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch quyền chọn","item":"https://pnlpro.fit/vi/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Biến động ngụ ý","item":"https://pnlpro.fit/vi/encyclopedia/options/implied-volatility/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Biến động hàm ý cao là tốt hay xấu?","acceptedAnswer":{"@type":"Answer","text":"Tự nó không tốt cũng không xấu. IV cao làm quyền chọn đắt hơn, điều này có xu hướng có lợi cho người bán và bất lợi cho người mua, nhưng thường báo hiệu thị trường kỳ vọng biến động lớn hơn."}},{"@type":"Question","name":"Nguyên nhân gây ra IV crush là gì?","acceptedAnswer":{"@type":"Answer","text":"IV crush xảy ra khi một sự kiện được chờ đợi, như báo cáo thu nhập, đã qua và sự bất định mà nó mang theo biến mất. Giá quyền chọn giảm khi IV giảm, ngay cả khi cổ phiếu có biến động."}},{"@type":"Question","name":"Làm sao tính mức biến động kỳ vọng từ biến động hàm ý?","acceptedAnswer":{"@type":"Answer","text":"Nhân giá cổ phiếu với IV và với căn bậc hai của số ngày đến hạn chia cho 365. Với cổ phiếu $200 có IV 40 phần trăm, mức biến động kỳ vọng 7 ngày là khoảng $11."}},{"@type":"Question","name":"IV rank và IV percentile khác nhau thế nào?","acceptedAnswer":{"@type":"Answer","text":"IV rank cho biết IV hiện tại nằm ở đâu giữa mức thấp nhất và cao nhất của 52 tuần. IV percentile cho biết tỷ lệ số ngày trong năm qua mà IV thấp hơn mức hiện tại."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/options/implied-volatility/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/implied-volatility/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/implied-volatility/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/implied-volatility/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/implied-volatility/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/implied-volatility/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/implied-volatility/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/options/implied-volatility/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/implied-volatility/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch quyền chọn</h3><ul><li><a href="/vi/encyclopedia/options/options-basics/">Quyền chọn cơ bản</a></li><li><a href="/vi/encyclopedia/options/options-greeks/">Các chỉ số Greeks</a></li><li><a href="/vi/encyclopedia/options/implied-volatility/" class="on" aria-current="page">Biến động ngụ ý</a></li><li><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered call và CSP</a></li><li><a href="/vi/encyclopedia/options/vertical-spreads/">Vertical spread</a></li><li><a href="/vi/encyclopedia/options/iron-condors-and-butterflies/">Iron condor và Butterfly</a></li><li><a href="/vi/encyclopedia/options/straddles-and-strangles/">Straddle và Strangle</a></li><li><a href="/vi/encyclopedia/options/0dte-options/">Quyền chọn 0DTE</a></li><li><a href="/vi/encyclopedia/options/options-expiration-and-assignment/">Đáo hạn và Assignment</a></li><li><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure và dealer</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/" class="on">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a></div>
+<h1 class="title">Biến động hàm ý</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch quyền chọn</summary><ul><li><a href="/vi/encyclopedia/options/options-basics/">Quyền chọn cơ bản</a></li><li><a href="/vi/encyclopedia/options/options-greeks/">Các chỉ số Greeks</a></li><li><a href="/vi/encyclopedia/options/implied-volatility/" class="on" aria-current="page">Biến động ngụ ý</a></li><li><a href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered call và CSP</a></li><li><a href="/vi/encyclopedia/options/vertical-spreads/">Vertical spread</a></li><li><a href="/vi/encyclopedia/options/iron-condors-and-butterflies/">Iron condor và Butterfly</a></li><li><a href="/vi/encyclopedia/options/straddles-and-strangles/">Straddle và Strangle</a></li><li><a href="/vi/encyclopedia/options/0dte-options/">Quyền chọn 0DTE</a></li><li><a href="/vi/encyclopedia/options/options-expiration-and-assignment/">Đáo hạn và Assignment</a></li><li><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure và dealer</a></li></ul></details>
+<article><p>Biến động hàm ý (implied volatility, IV) là mức biến động tương lai mà thị trường đang định giá vào một quyền chọn, được suy ngược từ giá của quyền chọn bằng một mô hình định giá. Nó được biểu diễn bằng phần trăm theo năm và là lý do chính khiến hai quyền chọn có cùng giá thực hiện và cùng ngày đáo hạn có thể có giá chênh lệch rất lớn vào những thời điểm khác nhau. Vì IV tăng trước các sự kiện bất định và giảm sau đó, nó thường quyết định một lệnh quyền chọn có lãi hay không ngang với hướng đi của tài sản cơ sở.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Biến động hàm ý mang tính hướng tới tương lai và đến từ giá quyền chọn; biến động lịch sử mang tính nhìn lại quá khứ và đến từ các biến động giá đã xảy ra.</li>
+<li>IV rank và IV percentile cho biết IV hôm nay đang cao hay thấp so với biên độ trong quá khứ của chính nó.</li>
+<li>IV có xu hướng tăng trước các sự kiện đã định lịch như báo cáo thu nhập và sụp xuống sau đó, hiện tượng này gọi là IV crush.</li>
+<li>Các giá thực hiện khác nhau giao dịch ở IV khác nhau, tạo ra volatility skew hoặc smile phản ánh nhu cầu bảo hiểm và hình dạng của các biến động kỳ vọng.</li>
+<li>Công thức mức biến động kỳ vọng (expected move) chuyển IV thành một vùng giá sơ bộ rộng một độ lệch chuẩn cho một khoảng thời gian nhất định.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#bi-n-ng-l-ch-s-v-bi-n-ng-h-m">Biến động lịch sử và biến động hàm ý</a></li><li><a href="#tr-c-gi-c-v-black-scholes">Trực giác về Black-Scholes</a></li><li><a href="#iv-rank-v-iv-percentile">IV rank và IV percentile</a></li><li><a href="#c-ng-th-c-m-c-bi-n-ng-k-v-ng">Công thức mức biến động kỳ vọng</a></li><li><a href="#iv-crush">IV crush</a></li><li><a href="#volatility-skew-v-smile">Volatility skew và smile</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="bi-n-ng-l-ch-s-v-bi-n-ng-h-m">Biến động lịch sử và biến động hàm ý</h2>
+<p><strong>Biến động lịch sử (HV)</strong>, còn gọi là biến động thực hiện (realized volatility), đo mức giá thực sự đã dao động bao nhiêu trong một cửa sổ thời gian đã qua. Nó thường được tính bằng độ lệch chuẩn của lợi suất hằng ngày, quy ra theo năm.</p>
+<p><strong>Biến động hàm ý</strong> là con số biến động mà khi đưa vào một mô hình định giá quyền chọn sẽ cho ra giá thị trường hiện tại của quyền chọn. Đó là dự báo đồng thuận của thị trường, cộng thêm khoản phí mà người bán đòi hỏi để gánh rủi ro.</p>
+<h3 id="v-d-minh-h-a-quy-bi-n-ng-l-ch-s-ra-theo-n-m">Ví dụ minh họa: quy biến động lịch sử ra theo năm</h3>
+<p>Giả sử lợi suất hằng ngày của một cổ phiếu trong tháng vừa qua có độ lệch chuẩn là 1.5 phần trăm. Một năm có khoảng 252 ngày giao dịch, và biến động tỷ lệ theo căn bậc hai của thời gian.</p>
+<ul>
+<li>Căn bậc hai của 252 = khoảng 15.87</li>
+<li>HV theo năm = 1.5% x 15.87 = khoảng 23.8 phần trăm</li>
+</ul>
+<p>Nếu quyền chọn của cổ phiếu được định giá ở IV 35 phần trăm, thị trường đang kỳ vọng các biến động phía trước lớn hơn mức cổ phiếu đã thể hiện gần đây, có thể vì sắp có một sự kiện. Trong lịch sử, IV của quyền chọn chỉ số có xu hướng nằm trên biến động thực hiện sau đó tính trung bình. Khoảng chênh này, gọi là phần bù rủi ro biến động (volatility risk premium), là một lý do các chiến lược bán quyền chọn đã kiếm được tiền trung bình trong những giai đoạn dài, dù thỉnh thoảng chịu những khoản lỗ lớn.</p>
+<h2 id="tr-c-gi-c-v-black-scholes">Trực giác về Black-Scholes</h2>
+<p>Mô hình Black-Scholes, do Fischer Black và Myron Scholes công bố năm 1973 cùng với công trình liên quan của Robert Merton, định giá một quyền chọn kiểu châu Âu từ sáu đầu vào:</p>
+<ol>
+<li>Giá tài sản cơ sở</li>
+<li>Giá thực hiện</li>
+<li>Thời gian đến khi đáo hạn</li>
+<li>Lãi suất</li>
+<li>Cổ tức</li>
+<li>Biến động</li>
+</ol>
+<p>Năm yếu tố đầu là đã biết. Biến động thì không. Vì vậy thay vì dùng mô hình để tìm giá, nhà giao dịch lấy giá thị trường và giải ngược ra mức biến động khiến mô hình khớp với giá đó. Con số ấy là biến động hàm ý.</p>
+<p>Mô hình giả định, trong số những điều khác, rằng biến động là hằng số và lợi suất tuân theo phân phối hình chuông mượt mà. Thị trường thực có các cú nhảy giá, sụp đổ và biến động thay đổi, đó là lý do các quyền chọn ở giá thực hiện khác nhau cuối cùng có IV khác nhau. Nên hiểu IV là một đơn vị chung để niêm yết giá quyền chọn, chứ không phải một dự báo hoàn hảo.</p>
+<p>IV cao hơn nghĩa là giá quyền chọn cao hơn, cho cả call lẫn put. Giá thay đổi bao nhiêu cho mỗi điểm IV được đo bằng vega, một trong các <a href="/vi/encyclopedia/options/options-greeks/">Greeks của quyền chọn</a>.</p>
+<h2 id="iv-rank-v-iv-percentile">IV rank và IV percentile</h2>
+<p>Một cổ phiếu có IV 40 phần trăm có thể rẻ hoặc đắt tùy thuộc vào mức bình thường của chính cổ phiếu đó. Hai thước đo phổ biến đặt IV vào ngữ cảnh, thường trong vòng một năm qua.</p>
+<ul>
+<li><strong>IV rank</strong> = (IV hiện tại - IV thấp nhất 52 tuần) / (IV cao nhất 52 tuần - IV thấp nhất 52 tuần)</li>
+<li><strong>IV percentile</strong> = tỷ lệ phần trăm số ngày giao dịch trong năm qua mà IV thấp hơn mức hiện tại</li>
+</ul>
+<h3 id="v-d-minh-h-a">Ví dụ minh họa</h3>
+<p>IV của một cổ phiếu dao động từ 20 phần trăm đến 60 phần trăm trong năm qua, và hiện là 30 phần trăm.</p>
+<ul>
+<li>IV rank = (30 - 20) / (60 - 20) = 10 / 40 = 25 phần trăm.</li>
+<li>Nếu IV thấp hơn 30 phần trăm trong 160 trên 252 ngày giao dịch gần nhất, IV percentile = 160 / 252 = khoảng 63 phần trăm.</li>
+</ul>
+<p>Hai thước đo có thể chênh nhau rất nhiều. Một lần vọt lên 60 phần trăm kéo IV rank xuống thấp suốt một năm, trong khi IV percentile ít bị ảnh hưởng hơn bởi một điểm ngoại lai. Nhiều nhà giao dịch thích bán phí khi các chỉ số này cao và mua khi chúng thấp, dù IV cao thường cao là có lý do chính đáng.</p>
+<h2 id="c-ng-th-c-m-c-bi-n-ng-k-v-ng">Công thức mức biến động kỳ vọng</h2>
+<p>IV có thể được chuyển thành một vùng giá sơ bộ. Mức biến động kỳ vọng một độ lệch chuẩn trong một khoảng thời gian là:</p>
+<p>Expected move = Giá x IV x căn bậc hai của (số ngày đến hạn / 365)</p>
+<p>Ngày lịch và 365 là quy ước phổ biến; một số nhà giao dịch dùng ngày giao dịch và 252 thay vào đó.</p>
+<h3 id="v-d-minh-h-a">Ví dụ minh họa</h3>
+<p>Một cổ phiếu có giá $200 với IV 40 phần trăm, và bạn muốn biết mức biến động kỳ vọng trong 7 ngày tới.</p>
+<ul>
+<li>Tỷ lệ ngày: 7 / 365 = 0.01918</li>
+<li>Căn bậc hai: khoảng 0.1385</li>
+<li>Expected move = $200 x 0.40 x 0.1385 = khoảng $11.08</li>
+</ul>
+<p>Thị trường đang hàm ý rằng một biến động khoảng $11, tức 5.5 phần trăm, theo cả hai hướng trong tuần là kết quả xấp xỉ một độ lệch chuẩn. Theo giả định đường cong hình chuông của mô hình, cổ phiếu sẽ kết thúc trong vùng đó khoảng 68 phần trăm số lần. Phân phối lợi suất thực có đuôi dày hơn, nên các biến động lớn hơn xảy ra thường xuyên hơn đường cong hình chuông gợi ý.</p>
+<p>Một cách thay thế nhanh dựa trên thị trường là giá của straddle ngang giá (một call cộng một put cùng giá thực hiện), xấp xỉ quy mô kỳ vọng của biến động cho đến lúc đáo hạn. Xem <a href="/vi/encyclopedia/options/straddles-and-strangles/">straddle và strangle</a> và <a href="/vi/encyclopedia/stocks/earnings-trading/">giao dịch quanh báo cáo thu nhập</a>.</p>
+<h2 id="iv-crush">IV crush</h2>
+<p>Biến động hàm ý thường leo lên trước các sự kiện đã biết, như báo cáo thu nhập, ra mắt sản phẩm, kết quả thử nghiệm thuốc hoặc các cuộc họp của ngân hàng trung ương, vì một biến động lớn là có thể xảy ra. Khi tin đã ra, sự bất định đó biến mất và IV có thể giảm mạnh trong vài phút. Cú giảm này gọi là IV crush.</p>
+<h3 id="v-d-minh-h-a-ng-h-ng-nh-ng-v-n-l">Ví dụ minh họa: đúng hướng nhưng vẫn lỗ</h3>
+<p>Một cổ phiếu có giá $50 vào ngày trước báo cáo thu nhập. Một call giá thực hiện $50 đáo hạn cuối tuần đó có giá $2.10, gần như toàn bộ là giá trị ngoại lai, vì IV đang cao ở mức 90 phần trăm. Sau báo cáo, cổ phiếu tăng lên $51.50. IV sụp xuống 35 phần trăm.</p>
+<ul>
+<li>Call giờ có $1.50 giá trị nội tại cộng với, giả sử, $0.25 giá trị ngoại lai còn lại: khoảng $1.75.</li>
+<li>Lỗ = $2.10 - $1.75 = $0.35 mỗi cổ phiếu, tức $35 mỗi hợp đồng.</li>
+</ul>
+<p>Nhà giao dịch dự đoán đúng hướng, nhưng biến động nhỏ hơn mức giá quyền chọn hàm ý, và việc IV giảm đã xóa sạch khoản lãi. Người mua quyền chọn trước sự kiện cần biến động vượt quá mức đã được định giá sẵn. Người bán hưởng lợi từ cú crush nhưng gánh rủi ro rằng biến động lớn hơn nhiều so với kỳ vọng.</p>
+<h2 id="volatility-skew-v-smile">Volatility skew và smile</h2>
+<p>Nếu Black-Scholes đúng hoàn toàn, mọi giá thực hiện trong cùng một ngày đáo hạn sẽ có cùng IV. Trong thực tế, vẽ IV theo giá thực hiện thường cho ra một đường cong.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Hình dạng</th>
+<th>Mô tả</th>
+<th>Thường gặp ở đâu</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Put skew (smirk)</td>
+<td>Giá thực hiện thấp hơn có IV cao hơn giá thực hiện cao hơn</td>
+<td>Chỉ số cổ phiếu và hầu hết cổ phiếu lớn</td>
+</tr>
+<tr>
+<td>Smile</td>
+<td>Cả put và call nằm rất xa ngoài giá đều có IV cao hơn ATM</td>
+<td>Tiền tệ, một số cổ phiếu riêng lẻ, đôi khi là tiền mã hóa</td>
+</tr>
+<tr>
+<td>Call skew</td>
+<td>Giá thực hiện cao hơn có IV cao hơn</td>
+<td>Một số hàng hóa, và cổ phiếu có tiềm năng bị thâu tóm hoặc squeeze</td>
+</tr>
+</tbody></table></div>
+<p>Put skew của chỉ số cổ phiếu trở nên rõ rệt sau cú sụp đổ tháng 10 năm 1987. Nó phản ánh nhu cầu đều đặn từ các nhà đầu tư mua put làm bảo hiểm danh mục, và xu hướng thị trường giảm nhanh hơn tăng. Kết quả là put OTM trên các chỉ số thường đắt hơn theo thuật ngữ IV so với call OTM cách giá một khoảng tương đương.</p>
+<p>IV cũng thay đổi theo ngày đáo hạn. Cấu trúc kỳ hạn (term structure) của IV thường dốc lên khi thị trường êm ả và có thể đảo ngược trong khủng hoảng, khi IV ngắn hạn vọt lên trên IV dài hạn. Chỉ số VIX đo biến động hàm ý 30 ngày của S&amp;P 500; xem <a href="/vi/encyclopedia/other-markets/volatility-trading-vix/">biến động và VIX</a>.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Mua quyền chọn ngay trước báo cáo thu nhập mà không kiểm tra IV.</strong> Giá có thể đã phản ánh một biến động lớn.</li>
+<li><strong>Chỉ bán quyền chọn vì IV cao.</strong> IV thường cao vì có khả năng cao xảy ra biến động lớn. Phí cao là khoản bù đắp cho rủi ro có thật.</li>
+<li><strong>So sánh IV giữa các cổ phiếu khác nhau mà không có ngữ cảnh.</strong> IV 50 phần trăm có thể bình thường với một công ty công nghệ sinh học nhỏ và cực đoan với một công ty tiện ích. Hãy dùng IV rank hoặc percentile.</li>
+<li><strong>Coi mức biến động kỳ vọng là một ranh giới.</strong> Đó là ước tính một độ lệch chuẩn, và các biến động vượt qua nó xảy ra thường xuyên.</li>
+<li><strong>Bỏ qua skew khi chọn giá thực hiện.</strong> Put OTM của chỉ số tương đối đắt; call OTM tương đối rẻ.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="bi-n-ng-h-m-cao-l-t-t-hay-x-u">Biến động hàm ý cao là tốt hay xấu?</h3>
+<p>Tự nó không tốt cũng không xấu. IV cao làm quyền chọn đắt hơn, điều này có xu hướng có lợi cho người bán và bất lợi cho người mua, nhưng thường báo hiệu thị trường kỳ vọng biến động lớn hơn.</p>
+<h3 id="nguy-n-nh-n-g-y-ra-iv-crush-l-g">Nguyên nhân gây ra IV crush là gì?</h3>
+<p>IV crush xảy ra khi một sự kiện được chờ đợi, như báo cáo thu nhập, đã qua và sự bất định mà nó mang theo biến mất. Giá quyền chọn giảm khi IV giảm, ngay cả khi cổ phiếu có biến động.</p>
+<h3 id="l-m-sao-t-nh-m-c-bi-n-ng-k-v-ng-t-bi-n-ng-h-m">Làm sao tính mức biến động kỳ vọng từ biến động hàm ý?</h3>
+<p>Nhân giá cổ phiếu với IV và với căn bậc hai của số ngày đến hạn chia cho 365. Với cổ phiếu $200 có IV 40 phần trăm, mức biến động kỳ vọng 7 ngày là khoảng $11.</p>
+<h3 id="iv-rank-v-iv-percentile-kh-c-nhau-th-n-o">IV rank và IV percentile khác nhau thế nào?</h3>
+<p>IV rank cho biết IV hiện tại nằm ở đâu giữa mức thấp nhất và cao nhất của 52 tuần. IV percentile cho biết tỷ lệ số ngày trong năm qua mà IV thấp hơn mức hiện tại.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/options/options-greeks/"><div class="k">Giao dịch quyền chọn</div><b>Các chỉ số Greeks</b><span>Delta, gamma, theta, vega và rho đo lường điều gì, kèm ví dụ cụ thể, cách các Greeks thay đổi theo thời gian và moneyness, và cách đọc Greeks của cả vị thế.</span></a><a class="card" href="/vi/encyclopedia/options/options-basics/"><div class="k">Giao dịch quyền chọn</div><b>Quyền chọn cơ bản</b><span>Cách quyền chọn hoạt động: call, put, giá thực hiện, ngày đáo hạn, phí, giá trị nội tại và ngoại lai, moneyness, lãi lỗ người mua và người bán, cấp phê duyệt.</span></a><a class="card" href="/vi/encyclopedia/options/straddles-and-strangles/"><div class="k">Giao dịch quyền chọn</div><b>Straddle và Strangle</b><span>Cách long và short straddle, strangle hoạt động, điểm hòa vốn kèm ví dụ số, hòa vốn so với biến động hàm ý, giao dịch báo cáo thu nhập và rủi ro đuôi.</span></a><a class="card" href="/vi/encyclopedia/stocks/earnings-trading/"><div class="k">Giao dịch cổ phiếu</div><b>Giao dịch mùa báo cáo thu nhập</b><span>Cách trader tiếp cận báo cáo lợi nhuận: giữ qua báo cáo hay giao dịch phản ứng, implied move từ quyền chọn, gap and go so với fade và post-earnings drift.</span></a><a class="card" href="/vi/encyclopedia/other-markets/volatility-trading-vix/"><div class="k">Hàng hóa, trái phiếu và hơn thế</div><b>Biến động và VIX</b><span>VIX đo gì, đường cong futures của nó hoạt động ra sao, vì sao ETP biến động bị decay, chuyện gì xảy ra tháng 2 năm 2018, và rủi ro của mua so với bán biến động.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/options/options-greeks/"><small>← Bài trước</small>Các chỉ số Greeks</a><a class="next" href="/vi/encyclopedia/options/covered-calls-and-cash-secured-puts/"><small>Bài tiếp →</small>Covered call và CSP</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

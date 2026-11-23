@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trading en DeFi: AMM, pérdida impermanente y apalancamiento</title>
+<meta name="description" content="Cómo funciona el trading en DeFi: AMM de producto constante, impacto en el precio, pérdida impermanente con cifras, liquidez concentrada, préstamos y riesgos.">
+<meta name="keywords" content="trading en defi, cómo calcular la pérdida impermanente, cómo funciona un amm, proveedor de liquidez cripto, liquidación en préstamos defi">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/defi-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/defi-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Trading en DeFi: AMM, pérdida impermanente y apalancamiento">
+<meta property="og:description" content="Cómo funciona el trading en DeFi: AMM de producto constante, impacto en el precio, pérdida impermanente con cifras, liquidez concentrada, préstamos y riesgos.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/crypto/defi-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trading en DeFi: AMM, pérdida impermanente y apalancamiento">
+<meta name="twitter:description" content="Cómo funciona el trading en DeFi: AMM de producto constante, impacto en el precio, pérdida impermanente con cifras, liquidez concentrada, préstamos y riesgos.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Trading en DeFi: AMM, pérdida impermanente y apalancamiento","description":"Cómo funciona el trading en DeFi: AMM de producto constante, impacto en el precio, pérdida impermanente con cifras, liquidez concentrada, préstamos y riesgos.","keywords":"trading en defi, cómo calcular la pérdida impermanente, cómo funciona un amm, proveedor de liquidez cripto, liquidación en préstamos defi","articleSection":"Trading de criptomonedas","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/crypto/defi-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading de criptomonedas","item":"https://pnlpro.fit/es/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"Trading en DeFi","item":"https://pnlpro.fit/es/encyclopedia/crypto/defi-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Qué es la pérdida impermanente?","acceptedAnswer":{"@type":"Answer","text":"Es el déficit de valor que sufre un proveedor de liquidez en comparación con simplemente mantener los tokens, causado por el reequilibrio del pool cuando los precios se mueven. En un pool 50/50, que el precio relativo de un token se duplique o se reduzca a la mitad provoca una pérdida de alrededor del 5.7 por ciento frente a mantener."}},{"@type":"Question","name":"¿Cómo fijan los precios los AMM?","acceptedAnswer":{"@type":"Answer","text":"Un AMM de producto constante mantiene fijo el producto de los saldos de sus dos tokens. El precio es la relación entre los saldos, y cada operación desplaza esa relación, así que las operaciones más grandes obtienen precios progresivamente peores."}},{"@type":"Question","name":"¿Es rentable aportar liquidez?","acceptedAnswer":{"@type":"Answer","text":"Puede serlo cuando los ingresos por comisiones superan la pérdida impermanente y los costos, normalmente en pools con un volumen alto en relación con la volatilidad del precio. Muchos LP, sobre todo en pares volátiles y posiciones concentradas, ganan menos de lo que ganarían simplemente manteniendo."}},{"@type":"Question","name":"¿Qué ocurre cuando se liquida un préstamo DeFi?","acceptedAnswer":{"@type":"Answer","text":"Si el factor de salud cae por debajo de 1, los liquidadores reembolsan parte de la deuda y se quedan con el colateral con descuento. El prestatario conserva los fondos prestados, pero pierde ese colateral más el bonus de liquidación."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/crypto/defi-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/defi-trading/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/defi-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/defi-trading/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/crypto/defi-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/defi-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/defi-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/defi-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/defi-trading/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading de criptomonedas</h3><ul><li><a href="/es/encyclopedia/crypto/crypto-trading-basics/">Fundamentos del trading cripto</a></li><li><a href="/es/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs. DEX</a></li><li><a href="/es/encyclopedia/crypto/crypto-market-cycles/">Ciclos del mercado cripto</a></li><li><a href="/es/encyclopedia/crypto/perpetual-futures/">Futuros perpetuos</a></li><li><a href="/es/encyclopedia/crypto/funding-rates/">Tasas de financiación</a></li><li><a href="/es/encyclopedia/crypto/crypto-liquidations/">Liquidaciones</a></li><li><a href="/es/encyclopedia/crypto/on-chain-analysis/">Análisis on-chain</a></li><li><a href="/es/encyclopedia/crypto/altcoin-trading/">Trading de altcoins</a></li><li><a href="/es/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics y desbloqueos</a></li><li><a href="/es/encyclopedia/crypto/defi-trading/" class="on" aria-current="page">Trading en DeFi</a></li><li><a href="/es/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV y ataques sándwich</a></li><li><a href="/es/encyclopedia/crypto/crypto-arbitrage/">Arbitraje cripto</a></li><li><a href="/es/encyclopedia/crypto/stablecoins/">Stablecoins</a></li><li><a href="/es/encyclopedia/crypto/crypto-wallet-security/">Seguridad de wallets</a></li><li><a href="/es/encyclopedia/crypto/airdrops-and-points-farming/">Airdrops y puntos</a></li><li><a href="/es/encyclopedia/crypto/nft-trading/">Trading de NFT</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/" class="on">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a></div>
+<h1 class="title">Trading en DeFi</h1>
+<div class="meta">9 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Trading de criptomonedas</summary><ul><li><a href="/es/encyclopedia/crypto/crypto-trading-basics/">Fundamentos del trading cripto</a></li><li><a href="/es/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs. DEX</a></li><li><a href="/es/encyclopedia/crypto/crypto-market-cycles/">Ciclos del mercado cripto</a></li><li><a href="/es/encyclopedia/crypto/perpetual-futures/">Futuros perpetuos</a></li><li><a href="/es/encyclopedia/crypto/funding-rates/">Tasas de financiación</a></li><li><a href="/es/encyclopedia/crypto/crypto-liquidations/">Liquidaciones</a></li><li><a href="/es/encyclopedia/crypto/on-chain-analysis/">Análisis on-chain</a></li><li><a href="/es/encyclopedia/crypto/altcoin-trading/">Trading de altcoins</a></li><li><a href="/es/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics y desbloqueos</a></li><li><a href="/es/encyclopedia/crypto/defi-trading/" class="on" aria-current="page">Trading en DeFi</a></li><li><a href="/es/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV y ataques sándwich</a></li><li><a href="/es/encyclopedia/crypto/crypto-arbitrage/">Arbitraje cripto</a></li><li><a href="/es/encyclopedia/crypto/stablecoins/">Stablecoins</a></li><li><a href="/es/encyclopedia/crypto/crypto-wallet-security/">Seguridad de wallets</a></li><li><a href="/es/encyclopedia/crypto/airdrops-and-points-farming/">Airdrops y puntos</a></li><li><a href="/es/encyclopedia/crypto/nft-trading/">Trading de NFT</a></li></ul></details>
+<article><p>El trading en DeFi (finanzas descentralizadas) consiste en hacer swaps, prestar, pedir prestado y aportar liquidez mediante contratos inteligentes en una blockchain, en lugar de a través de un exchange o un banco. La pieza central es el creador de mercado automatizado (AMM), un pool de tokens que fija el precio de las operaciones mediante una fórmula. DeFi permite a cualquiera operar cualquier token desde una wallet de autocustodia, pero añade costos y riesgos que no existen en un exchange centralizado, como el impacto en el precio, la pérdida impermanente y los fallos de los contratos inteligentes.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>Un AMM de producto constante mantiene fijo el producto de los saldos de sus dos tokens, por lo que cada operación mueve el precio, y las operaciones más grandes lo mueven más.</li>
+<li>Los proveedores de liquidez ganan comisiones de trading, pero sufren pérdida impermanente cuando los precios se mueven: alrededor del 5.7 por ciento del valor frente a simplemente mantener los tokens si uno de ellos duplica su precio respecto al otro.</li>
+<li>La liquidez concentrada aumenta los ingresos por comisiones por cada dólar, pero amplifica la pérdida impermanente y exige una gestión activa.</li>
+<li>Los préstamos en DeFi permiten a los traders pedir prestado contra un colateral, con liquidación automática cuando el valor del colateral cae demasiado.</li>
+<li>Los errores en los contratos inteligentes, los fallos de los oráculos y los ataques de gobernanza pueden causar pérdidas por muy buena que fuera la operación.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#c-mo-funciona-un-amm-de-producto-constante">Cómo funciona un AMM de producto constante</a></li><li><a href="#aportar-liquidez">Aportar liquidez</a></li><li><a href="#pr-stamos-endeudamiento-y-apalancamiento-on-chain">Préstamos, endeudamiento y apalancamiento on-chain</a></li><li><a href="#el-rendimiento-y-sus-riesgos">El rendimiento y sus riesgos</a></li><li><a href="#riesgos-de-los-contratos-inteligentes-y-de-los-protocolos">Riesgos de los contratos inteligentes y de los protocolos</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="c-mo-funciona-un-amm-de-producto-constante">Cómo funciona un AMM de producto constante</h2>
+<p>El diseño de AMM más común, popularizado por Uniswap, contiene dos tokens, x e y, e impone:</p>
+<p>x × y = k</p>
+<p>donde k se mantiene constante durante un swap (sin contar las comisiones). El precio de x en términos de y es y / x. Para comprar x, añades y y retiras x, manteniendo fijo el producto. Como la curva se vuelve más empinada a medida que se agota uno de los lados, cada unidad adicional cuesta más.</p>
+<p>Consulta <a href="/es/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs DEX</a> para ver cómo se comparan los AMM con los libros de órdenes.</p>
+<h3 id="ejemplo-pr-ctico-impacto-en-el-precio">Ejemplo práctico: impacto en el precio</h3>
+<p>Un pool contiene 100 ETH y 200,000 USDC. k = 100 × 200,000 = 20,000,000, y el precio es 200,000 / 100 = $2,000 por ETH.</p>
+<p>Un trader cambia 10,000 USDC por ETH. Sin contar comisiones:</p>
+<ul>
+<li>Nuevo saldo de USDC: 210,000.</li>
+<li>Nuevo saldo de ETH: 20,000,000 / 210,000 = 95.238 ETH.</li>
+<li>ETH recibido: 100 − 95.238 = 4.762 ETH.</li>
+<li>Precio medio pagado: 10,000 / 4.762 = $2,100, un 5 por ciento por encima del precio inicial.</li>
+<li>Nuevo precio del pool: 210,000 / 95.238 = $2,205.</li>
+</ul>
+<p>Con una comisión del 0.30 por ciento descontada de la entrada, entran en la curva 9,970 USDC y el trader recibe unos 4.748 ETH, a un precio medio de unos $2,106.</p>
+<p>La operación equivalía al 5 por ciento del lado USDC del pool y movió el precio medio un 5 por ciento. Un swap de $1,000 en el mismo pool, después de la comisión, obtiene unos 0.496 ETH a un precio medio de unos $2,016, menos de un 1 por ciento peor. El impacto en el precio crece con el tamaño de la operación en relación con la profundidad del pool, y por eso importa la <a href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/">liquidez</a>.</p>
+<h3 id="tolerancia-de-slippage">Tolerancia de slippage</h3>
+<p>Como otras operaciones pueden ejecutarse antes que la tuya, las interfaces de los DEX te piden una <strong>tolerancia de slippage</strong> (deslizamiento): el peor precio que aceptarás. Si el precio se mueve más allá, la transacción falla en lugar de ejecutarse. Fijarla demasiado amplia invita a los <a href="/es/encyclopedia/crypto/mev-and-sandwich-attacks/">ataques sándwich</a>; demasiado estrecha, y los swaps fallan en mercados volátiles.</p>
+<h2 id="aportar-liquidez">Aportar liquidez</h2>
+<p>Cualquiera puede depositar los dos tokens en un pool, en proporción al precio actual, y recibir una parte de las comisiones de trading. Los proveedores de liquidez (LP) son, en la práctica, creadores de mercado pasivos: siempre cotizan ambos lados.</p>
+<h3 id="p-rdida-impermanente">Pérdida impermanente</h3>
+<p>Cuando el precio se mueve, los arbitrajistas reequilibran el pool. Los LP acaban teniendo más del token que cayó y menos del token que subió. En comparación con simplemente mantener los tokens originales, la posición del LP vale menos. Este déficit se llama <strong>pérdida impermanente (IL)</strong>. Es &quot;impermanente&quot; solo en el sentido de que desaparece si el precio vuelve al punto de partida; si retiras tras un movimiento, es una pérdida real.</p>
+<p>Para un pool 50/50 de producto constante, si la relación de precios cambia en un factor r:</p>
+<p>IL = 2 × √r / (1 + r) − 1</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Cambio de precio de un token respecto al otro</th>
+<th>Pérdida impermanente</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+25% (r = 1.25)</td>
+<td>−0.6%</td>
+</tr>
+<tr>
+<td>+50% (r = 1.5)</td>
+<td>−2.0%</td>
+</tr>
+<tr>
+<td>+100% (r = 2)</td>
+<td>−5.7%</td>
+</tr>
+<tr>
+<td>+200% (r = 3)</td>
+<td>−13.4%</td>
+</tr>
+<tr>
+<td>+300% (r = 4)</td>
+<td>−20.0%</td>
+</tr>
+<tr>
+<td>−50% (r = 0.5)</td>
+<td>−5.7%</td>
+</tr>
+<tr>
+<td>−75% (r = 0.25)</td>
+<td>−20.0%</td>
+</tr>
+</tbody></table></div>
+<h3 id="ejemplo-pr-ctico-p-rdida-impermanente">Ejemplo práctico: pérdida impermanente</h3>
+<p>Un LP deposita 1 ETH y 2,000 USDC cuando ETH vale $2,000. Valor total: $4,000. Su parte del pool tiene k = 1 × 2,000 = 2,000.</p>
+<p>ETH sube a $4,000. El arbitraje reequilibra la posición de modo que x × y = 2,000 e y / x = 4,000:</p>
+<ul>
+<li>x² = 2,000 / 4,000 = 0.5, así que x = 0.7071 ETH.</li>
+<li>y = 4,000 × 0.7071 = 2,828.43 USDC.</li>
+<li>Valor de la posición del LP: 0.7071 × 4,000 + 2,828.43 = $5,656.85.</li>
+</ul>
+<p>Si el LP simplemente hubiera mantenido 1 ETH y 2,000 USDC: 4,000 + 2,000 = $6,000.</p>
+<p>Pérdida impermanente = 5,656.85 / 6,000 − 1 = −5.7 por ciento, o $343.15. El LP sigue ganando respecto a los $4,000 iniciales, pero menos que quien solo mantuvo. Las comisiones ganadas deben superar los $343.15 para que aportar liquidez haya valido la pena.</p>
+<p>Si ETH cae a $1,000, la posición pasa a ser de 1.4142 ETH y 1,414.21 USDC, con un valor de $2,828.43, frente a $3,000 si se hubieran mantenido. El mismo −5.7 por ciento.</p>
+<h3 id="liquidez-concentrada">Liquidez concentrada</h3>
+<p>Los AMM más recientes, empezando por Uniswap v3 en 2021, permiten a los LP colocar la liquidez dentro de un rango de precios elegido. El capital en un rango estrecho gana muchas más comisiones por dólar mientras el precio se mantenga dentro del rango. Pero si el precio sale del rango, la posición se convierte por completo al token más débil y deja de generar comisiones, y la pérdida impermanente dentro del rango es mayor que en un pool de rango completo. La liquidez concentrada se parece más a un market making activo que a una inversión pasiva, y muchos LP rinden menos que simplemente mantener una vez que se cuentan la IL y el gas.</p>
+<h2 id="pr-stamos-endeudamiento-y-apalancamiento-on-chain">Préstamos, endeudamiento y apalancamiento on-chain</h2>
+<p>Los protocolos de préstamos como Aave y Compound permiten a los usuarios depositar colateral y pedir prestados otros activos. Las tasas de interés fluctúan según la oferta y la demanda. Cada activo de colateral tiene un <strong>umbral de liquidación</strong>: la parte de su valor contra la que se puede pedir prestado antes de la liquidación.</p>
+<h3 id="ejemplo-pr-ctico-factor-de-salud">Ejemplo práctico: factor de salud</h3>
+<p>Un trader deposita 10 ETH a $3,000 ($30,000) con un umbral de liquidación del 80 por ciento y pide prestados 15,000 USDC.</p>
+<ul>
+<li>Factor de salud = (valor del colateral × umbral) / deuda = (30,000 × 0.80) / 15,000 = 1.6.</li>
+<li>La liquidación se produce cuando el factor de salud cae por debajo de 1.</li>
+<li>Precio de liquidación: 10 × P × 0.80 = 15,000, así que P = $1,875.</li>
+</ul>
+<p>ETH puede caer un 37.5 por ciento antes de la liquidación. Cuando se produce, los liquidadores reembolsan parte de la deuda y se quedan con el colateral con descuento (el bonus de liquidación), por lo que el trader pierde más que el déficit. Los traders construyen apalancamiento pidiendo prestadas stablecoins, comprando más ETH y volviendo a depositarlo (&quot;looping&quot;), lo que aumenta la exposición y acerca el precio de liquidación. Las cuentas de las <a href="/es/encyclopedia/crypto/crypto-liquidations/">liquidaciones en cripto</a> en los perpetuos se aplican en esencia, aunque las liquidaciones en DeFi dependen de los precios de los oráculos y pueden activarse por errores de estos.</p>
+<h2 id="el-rendimiento-y-sus-riesgos">El rendimiento y sus riesgos</h2>
+<p>Los rendimientos altos anunciados suelen proceder de una de cuatro fuentes: comisiones de trading, demanda de préstamos, emisiones de tokens o apalancamiento. Los rendimientos basados en emisiones se pagan en tokens que a menudo pierden valor. Los rendimientos muy por encima de lo que pagan los mercados de préstamos suelen esconder un riesgo.</p>
+<h2 id="riesgos-de-los-contratos-inteligentes-y-de-los-protocolos">Riesgos de los contratos inteligentes y de los protocolos</h2>
+<ul>
+<li><strong>Errores y exploits.</strong> Se han robado miles de millones de dólares de protocolos DeFi a través de fallos en el código, actualizaciones defectuosas y hackeos de bridges. Las auditorías reducen este riesgo, pero no lo eliminan.</li>
+<li><strong>Manipulación de oráculos.</strong> Los protocolos que dependen de fuentes de precios poco líquidas pueden ser engañados para que valoren mal el colateral.</li>
+<li><strong>Claves de administración y gobernanza.</strong> Un equipo o una votación de los tenedores del token pueden tener la capacidad de modificar los contratos o mover fondos.</li>
+<li><strong>Pérdida de paridad de stablecoins y colaterales.</strong> Ver <a href="/es/encyclopedia/crypto/stablecoins/">stablecoins</a>.</li>
+<li><strong>Riesgo de aprobaciones.</strong> Las aprobaciones de tokens concedidas a un contrato que luego es explotado pueden exponer tu wallet. Ver <a href="/es/encyclopedia/crypto/crypto-wallet-security/">seguridad de wallets</a>.</li>
+</ul>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Hacer swaps de grandes cantidades en pools poco profundos</strong> sin comprobar el impacto en el precio.</li>
+<li><strong>Aportar liquidez por el APR anunciado</strong> sin estimar la pérdida impermanente.</li>
+<li><strong>Hacer looping de apalancamiento</strong> sin un margen de seguridad en el factor de salud.</li>
+<li><strong>Perseguir rendimientos en protocolos nuevos y sin auditar.</strong></li>
+<li><strong>Dejar aprobaciones ilimitadas</strong> en contratos que ya no usas.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="qu-es-la-p-rdida-impermanente">¿Qué es la pérdida impermanente?</h3>
+<p>Es el déficit de valor que sufre un proveedor de liquidez en comparación con simplemente mantener los tokens, causado por el reequilibrio del pool cuando los precios se mueven. En un pool 50/50, que el precio relativo de un token se duplique o se reduzca a la mitad provoca una pérdida de alrededor del 5.7 por ciento frente a mantener.</p>
+<h3 id="c-mo-fijan-los-precios-los-amm">¿Cómo fijan los precios los AMM?</h3>
+<p>Un AMM de producto constante mantiene fijo el producto de los saldos de sus dos tokens. El precio es la relación entre los saldos, y cada operación desplaza esa relación, así que las operaciones más grandes obtienen precios progresivamente peores.</p>
+<h3 id="es-rentable-aportar-liquidez">¿Es rentable aportar liquidez?</h3>
+<p>Puede serlo cuando los ingresos por comisiones superan la pérdida impermanente y los costos, normalmente en pools con un volumen alto en relación con la volatilidad del precio. Muchos LP, sobre todo en pares volátiles y posiciones concentradas, ganan menos de lo que ganarían simplemente manteniendo.</p>
+<h3 id="qu-ocurre-cuando-se-liquida-un-pr-stamo-defi">¿Qué ocurre cuando se liquida un préstamo DeFi?</h3>
+<p>Si el factor de salud cae por debajo de 1, los liquidadores reembolsan parte de la deuda y se quedan con el colateral con descuento. El prestatario conserva los fondos prestados, pero pierde ese colateral más el bonus de liquidación.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/crypto/centralized-vs-decentralized-exchanges/"><div class="k">Trading de criptomonedas</div><b>CEX vs. DEX</b><span>Exchanges centralizados y descentralizados comparados: custodia, riesgo de contraparte, KYC, comisiones, liquidez, agregadores, prueba de reservas y FTX.</span></a><a class="card" href="/es/encyclopedia/crypto/mev-and-sandwich-attacks/"><div class="k">Trading de criptomonedas</div><b>MEV y ataques sándwich</b><span>Qué es el MEV, cómo afectan los ataques sándwich a los swaps en DEX, cómo la tolerancia de slippage fija tu exposición y el papel de los RPC privados y Jito.</span></a><a class="card" href="/es/encyclopedia/crypto/stablecoins/"><div class="k">Trading de criptomonedas</div><b>Stablecoins</b><span>Cómo funcionan las stablecoins: respaldadas por fiat, por cripto y algorítmicas, el colapso de UST, el depeg de USDC, su uso como colateral y la regulación.</span></a><a class="card" href="/es/encyclopedia/crypto/crypto-wallet-security/"><div class="k">Trading de criptomonedas</div><b>Seguridad de wallets</b><span>Cómo proteger tus criptomonedas: autocustodia, frase semilla, wallets de hardware, aprobaciones de tokens, drainers, phishing, address poisoning y claves API.</span></a><a class="card" href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Fundamentos del trading</div><b>Spread y liquidez</b><span>Qué son el bid, el ask, el spread y el precio medio, cómo funcionan la liquidez, el slippage y el impacto de mercado, y cómo medir el costo de cada operación.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/crypto/tokenomics-and-token-unlocks/"><small>← Anterior</small>Tokenomics y desbloqueos</a><a class="next" href="/es/encyclopedia/crypto/mev-and-sandwich-attacks/"><small>Siguiente →</small>MEV y ataques sándwich</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

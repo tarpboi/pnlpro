@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주식 스크리너와 스캐너: 조건식, 예시, 관심종목 | PnL Profit</title>
+<meta name="description" content="주식 스크리너와 실시간 스캐너의 원리, 기본적·기술적 스크리닝, 스윙·단타용 조건식 예시, 관심 종목 목록 만드는 법을 정리합니다.">
+<meta name="keywords" content="주식 스크리너, 종목 스캐너, 단타 종목 검색, 조건검색 설정, 관심종목 만들기">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="주식 스크리너와 스캐너: 조건식, 예시, 관심종목 | PnL Profit">
+<meta property="og:description" content="주식 스크리너와 실시간 스캐너의 원리, 기본적·기술적 스크리닝, 스윙·단타용 조건식 예시, 관심 종목 목록 만드는 법을 정리합니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/stocks/stock-screeners-and-scanners/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="주식 스크리너와 스캐너: 조건식, 예시, 관심종목 | PnL Profit">
+<meta name="twitter:description" content="주식 스크리너와 실시간 스캐너의 원리, 기본적·기술적 스크리닝, 스윙·단타용 조건식 예시, 관심 종목 목록 만드는 법을 정리합니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"주식 스크리너와 스캐너: 조건식, 예시, 관심종목","description":"주식 스크리너와 실시간 스캐너의 원리, 기본적·기술적 스크리닝, 스윙·단타용 조건식 예시, 관심 종목 목록 만드는 법을 정리합니다.","keywords":"주식 스크리너, 종목 스캐너, 단타 종목 검색, 조건검색 설정, 관심종목 만들기","articleSection":"주식 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/stocks/stock-screeners-and-scanners/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"주식 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/stocks/"},{"@type":"ListItem","position":3,"name":"스크리너와 스캐너","item":"https://pnlpro.fit/ko/encyclopedia/stocks/stock-screeners-and-scanners/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"주식 스크리너와 스캐너는 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"스크리너는 흔히 종가 기준 데이터로 고정된 조건에 따라 종목을 걸러 분석 목록을 만듭니다. 스캐너는 장중에 실시간으로 갱신되며 지금 움직이는 종목을 알려 줍니다."}},{"@type":"Question","name":"단타에 좋은 스크리너 설정은 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"흔히 쓰는 단타 조건은 몇 퍼센트 이상의 갭이나 움직임, 평소를 크게 웃도는 상대 거래량, $5 같은 최소 주가, 충분한 평균 거래량, 뉴스 재료입니다. 설정은 전략과 매매하는 종목에 따라 달라집니다."}},{"@type":"Question","name":"무료 주식 스크리너로도 충분한가요?","acceptedAnswer":{"@type":"Answer","text":"종가 기준의 기본적·기술적 스크리닝에는 대개 무료 스크리너로 충분합니다. 무료 데이터는 지연될 수 있어서, 단타용 실시간 스캐너는 유료 데이터가 필요한 경우가 많습니다."}},{"@type":"Question","name":"관심 종목은 몇 개가 적당한가요?","acceptedAnswer":{"@type":"Answer","text":"데이 트레이더 대부분은 하나하나 자세히 따라갈 수 있도록 몇 개, 흔히 10개 미만만 둡니다. 스윙 트레이더는 수십 개를 추적하며 목록을 매주 갱신하기도 합니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/stocks/stock-screeners-and-scanners/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>주식 트레이딩</h3><ul><li><a href="/ko/encyclopedia/stocks/stock-market-basics/">주식 시장 기초</a></li><li><a href="/ko/encyclopedia/stocks/day-trading-stocks/">주식 데이 트레이딩</a></li><li><a href="/ko/encyclopedia/stocks/swing-trading-stocks/">주식 스윙 트레이딩</a></li><li><a href="/ko/encyclopedia/stocks/short-selling/">공매도</a></li><li><a href="/ko/encyclopedia/stocks/penny-stocks-and-small-caps/">동전주와 소형주</a></li><li><a href="/ko/encyclopedia/stocks/premarket-and-after-hours-trading/">프리마켓과 애프터마켓</a></li><li><a href="/ko/encyclopedia/stocks/earnings-trading/">실적 발표 매매</a></li><li><a href="/ko/encyclopedia/stocks/gap-trading/">갭 매매</a></li><li><a href="/ko/encyclopedia/stocks/momentum-trading/">모멘텀 매매</a></li><li><a href="/ko/encyclopedia/stocks/etfs-and-index-trading/">ETF와 지수 트레이딩</a></li><li><a href="/ko/encyclopedia/stocks/stock-screeners-and-scanners/" class="on" aria-current="page">스크리너와 스캐너</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/" class="on">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/stocks/">주식 트레이딩</a></div>
+<h1 class="title">주식 스크리너와 스캐너</h1>
+<div class="meta">5분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>주식 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/stocks/stock-market-basics/">주식 시장 기초</a></li><li><a href="/ko/encyclopedia/stocks/day-trading-stocks/">주식 데이 트레이딩</a></li><li><a href="/ko/encyclopedia/stocks/swing-trading-stocks/">주식 스윙 트레이딩</a></li><li><a href="/ko/encyclopedia/stocks/short-selling/">공매도</a></li><li><a href="/ko/encyclopedia/stocks/penny-stocks-and-small-caps/">동전주와 소형주</a></li><li><a href="/ko/encyclopedia/stocks/premarket-and-after-hours-trading/">프리마켓과 애프터마켓</a></li><li><a href="/ko/encyclopedia/stocks/earnings-trading/">실적 발표 매매</a></li><li><a href="/ko/encyclopedia/stocks/gap-trading/">갭 매매</a></li><li><a href="/ko/encyclopedia/stocks/momentum-trading/">모멘텀 매매</a></li><li><a href="/ko/encyclopedia/stocks/etfs-and-index-trading/">ETF와 지수 트레이딩</a></li><li><a href="/ko/encyclopedia/stocks/stock-screeners-and-scanners/" class="on" aria-current="page">스크리너와 스캐너</a></li></ul></details>
+<article><p>주식 스크리너는 밸류에이션 지표, 가격 추세, 거래량 수준 같은 조건으로 수천 개 종목을 걸러 짧은 목록으로 좁혀 줍니다. 스캐너는 그 실시간 버전으로, 장중 내내 갱신되며 지금 움직이는 종목을 알려 줍니다. 전 세계 상장 주식이 수만 개에 이르기 때문에 트레이더는 스크리닝으로 어디를 볼지 정합니다. 좋은 스크리닝은 시간을 아끼고 규율을 지키게 해 주지만, 후보를 좁혀 줄 뿐 무엇을 사야 하는지 알려 주지는 않습니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>기본적 스크리닝은 밸류에이션, 성장성, 부채 같은 사업 데이터로 거르고, 기술적 스크리닝은 가격, 거래량, 지표로 거릅니다.</li>
+<li>데이 트레이더용 실시간 스캐너는 갭, 비정상적인 상대 거래량, 신고가, 거래 정지를 실시간으로 잡아냅니다.</li>
+<li>모든 스크리닝은 합리적인 비용으로 거래하기에 너무 얇은 종목을 걸러 내는 유동성 필터로 시작해야 합니다.</li>
+<li>관심 종목 목록은 짧고, 종목마다 가격대와 계획이 표시되어 있을 때 가장 효과적입니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">스크리너와 스캐너</a></li><li><a href="#section-3">유동성 필터가 먼저</a></li><li><a href="#section-4">기본적 스크리닝</a></li><li><a href="#section-5">기술적 스크리닝</a></li><li><a href="#section-6">데이 트레이더용 실시간 스캐너</a></li><li><a href="#section-8">관심 종목 목록 만들기</a></li><li><a href="#section-9">스크리닝 검증하기</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">스크리너와 스캐너</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>스크리너</th>
+<th>실시간 스캐너</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>데이터</td>
+<td>종가 기준 가격, 재무 데이터</td>
+<td>실시간 가격, 거래량, 뉴스</td>
+</tr>
+<tr>
+<td>주 사용자</td>
+<td>투자자, 스윙 트레이더</td>
+<td>데이 트레이더, 모멘텀 트레이더</td>
+</tr>
+<tr>
+<td>사용 시점</td>
+<td>저녁, 주말</td>
+<td>프리마켓과 장중</td>
+</tr>
+<tr>
+<td>결과물</td>
+<td>분석할 후보 목록</td>
+<td>지금 움직이는 종목 알림</td>
+</tr>
+<tr>
+<td>조건 예시</td>
+<td>PER, 매출 성장률, 200일 이동평균선 위</td>
+<td>최근 15분 동안 평소의 3배 거래량으로 5% 상승</td>
+</tr>
+</tbody></table></div>
+<p>대부분의 증권사 플랫폼과 차트 서비스는 둘 다 제공합니다. 잘 알려진 예로는 TradingView와 Finviz의 스크리너, thinkorswim과 Interactive Brokers의 Trader Workstation 같은 플랫폼에 내장된 스캐너가 있습니다. 실시간 스캐닝 전문 서비스도 있습니다. <a href="/ko/encyclopedia/trading-business/trading-platforms-and-tools/">트레이딩 플랫폼과 도구</a>를 참고하십시오. 데이터 범위는 특히 미국 외 거래소에서 차이가 나므로, 도구가 내가 거래하는 시장을 다루는지 확인하십시오.</p>
+<h2 id="section-3">유동성 필터가 먼저</h2>
+<p>셋업을 찾기 전에 효율적으로 거래할 수 없는 종목부터 걸러 내십시오. 흔히 쓰는 출발 필터는 다음과 같습니다.</p>
+<ul>
+<li><strong>최소 주가:</strong> 예를 들어 $5나 $10로, 가장 넓은 스프레드와 <a href="/ko/encyclopedia/stocks/penny-stocks-and-small-caps/">동전주</a> 영역을 피합니다.</li>
+<li><strong>최소 일평균 거래량:</strong> 예를 들어 500,000주.</li>
+<li><strong>최소 일평균 거래대금:</strong> 주가 곱하기 평균 거래량입니다. 하루 400,000주가 거래되는 $25짜리 종목의 거래대금은 $25 × 400,000 = 1,000만 달러입니다. 거래대금은 주가 수준이 크게 다른 종목 사이의 유동성을 거래량보다 더 잘 비교해 줍니다.</li>
+<li><strong>시가총액:</strong> 예를 들어 스윙 매매용으로 10억 달러 이상.</li>
+<li><strong>거래소:</strong> 상장 주식만 원한다면 OTC 종목을 제외합니다.</li>
+</ul>
+<p>거래가 얇은 종목은 차트상으로는 멋져 보여도 <a href="/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/">스프레드</a>와 슬리피지를 고려하면 실제로는 매매할 수 없을 수 있습니다.</p>
+<h2 id="section-4">기본적 스크리닝</h2>
+<p>기본적 스크리닝은 재무제표와 애널리스트 추정치에서 나온 기업 데이터로 거릅니다(<a href="/ko/encyclopedia/fundamental-analysis/valuation-ratios/">밸류에이션 지표</a>와 <a href="/ko/encyclopedia/fundamental-analysis/earnings-and-financial-statements/">실적과 재무제표</a> 참고).</p>
+<p>예: &#39;합리적인 가격의 우량주&#39; 스크리닝.</p>
+<ul>
+<li>시가총액 20억 달러 이상.</li>
+<li>선행 PER 20 미만.</li>
+<li>지난 1년 매출 성장률 10% 이상.</li>
+<li>부채비율(D/E) 1 미만.</li>
+<li>잉여현금흐름 플러스.</li>
+</ul>
+<p>이런 스크리닝은 매수 목록이 아니라 분석 목록을 줍니다. 낮은 지표는 싼 종목을 뜻할 수도 있고 어려움에 처한 기업을 뜻할 수도 있습니다. 데이터 제공업체마다 지표를 계산하는 방식도 달라서, 같은 스크리닝이라도 플랫폼마다 다른 종목이 나올 수 있습니다.</p>
+<h2 id="section-5">기술적 스크리닝</h2>
+<p>기술적 스크리닝은 가격과 거래량의 움직임으로 거릅니다. <a href="/ko/encyclopedia/stocks/swing-trading-stocks/">스윙 트레이딩</a>용 스크리닝 예시:</p>
+<p><strong>강한 추세, 고점 부근:</strong></p>
+<ul>
+<li>주가가 50일·200일 <a href="/ko/encyclopedia/technical-analysis/moving-averages/">이동평균선</a> 위.</li>
+<li>50일 이동평균이 200일 이동평균 위.</li>
+<li>주가가 52주 신고가에서 5% 이내.</li>
+<li>평균 거래량 500,000주 이상.</li>
+</ul>
+<p><strong>상승 추세 중 눌림목:</strong></p>
+<ul>
+<li>주가가 200일 이동평균 위.</li>
+<li>주가가 20일 또는 50일 이동평균에서 2% 이내.</li>
+<li>14일 <a href="/ko/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a>가 40~50 사이로, 하락했지만 무너지지는 않은 상태.</li>
+</ul>
+<p><strong>거래량 동반 돌파:</strong></p>
+<ul>
+<li>20일 최고가로 마감.</li>
+<li>오늘 거래량이 50일 평균의 최소 2배.</li>
+</ul>
+<h2 id="section-6">데이 트레이더용 실시간 스캐너</h2>
+<p>데이 트레이더는 장 시작 전부터 장중 내내 스캐너를 돌립니다. 흔한 스캔은 다음과 같습니다.</p>
+<ul>
+<li><strong>프리마켓 갭 종목:</strong> 의미 있는 프리마켓 거래량과 함께 전일 종가 대비 일정 비율 이상 오르거나 내린 종목(<a href="/ko/encyclopedia/stocks/gap-trading/">갭 매매</a> 참고).</li>
+<li><strong>상승률·하락률 상위:</strong> 그날 가장 크게 움직인 종목.</li>
+<li><strong>상대 거래량:</strong> 같은 시간대 평소 거래량을 크게 웃도는 종목(<a href="/ko/encyclopedia/stocks/momentum-trading/">모멘텀 매매</a> 참고).</li>
+<li><strong>신고가·신저가:</strong> 장중, 일간, 52주 고가를 돌파하는 종목.</li>
+<li><strong>거래 정지와 재개:</strong> 변동성이나 뉴스로 거래가 멈춘 종목.</li>
+<li><strong>이상 옵션 거래:</strong> 크거나 비정상적인 옵션 거래량으로, 일부 트레이더는 신호로 보지만 결과는 엇갈립니다.</li>
+</ul>
+<h3 id="section-7">계산 예시: 스캐너 한 줄 읽기</h3>
+<p>오전 9:00에 프리마켓 스캐너에 다음과 같은 종목이 뜹니다.</p>
+<ul>
+<li>전일 종가 $7.20, 현재 프리마켓 가격 $8.10.</li>
+<li>갭: ($8.10 − $7.20) ÷ $7.20 = $0.90 ÷ $7.20 = 12.5%.</li>
+<li>프리마켓 거래량 900,000주. 오전 9:00까지의 평균 프리마켓 거래량이 60,000주이므로 상대 거래량은 900,000 ÷ 60,000 = 15입니다.</li>
+<li>일평균 거래량 200만 주이므로 평균 거래대금은 약 $7.20 × 2,000,000 = 1,440만 달러입니다.</li>
+<li>재료: 계약 체결 발표.</li>
+</ul>
+<p>이 종목은 일반적인 갭 스캔을 통과합니다. 5%를 넘는 갭, 높은 상대 거래량, 충분한 일일 유동성, 분명한 이유가 있습니다. 다음 단계는 가격대(프리마켓 고가와 저가, 전일 고가, 전일 종가)를 표시하고 장 시작 전에 진입, 손절, 수량을 정하는 것입니다.</p>
+<h2 id="section-8">관심 종목 목록 만들기</h2>
+<p>스크리닝 결과는 50개나 200개 종목이 나올 수도 있습니다. 실제로 쓸 수 있는 관심 종목 목록은 훨씬 짧습니다.</p>
+<ol>
+<li><strong>스크리닝 실행:</strong> 장 마감 후나 장 시작 1시간 전처럼 정해진 시간에 돌립니다.</li>
+<li><strong>차트 검토:</strong> 뚜렷한 셋업, 가격대, 재료가 없는 종목은 뺍니다.</li>
+<li><strong>이벤트 확인:</strong> 실적 발표일, 배당락일, 대기 중인 뉴스를 확인합니다(<a href="/ko/encyclopedia/stocks/earnings-trading/">실적 발표 매매</a> 참고).</li>
+<li><strong>상관관계 확인:</strong> 대부분이 한 업종 종목이라면 사실상 하나의 매매를 보고 있는 것입니다(<a href="/ko/encyclopedia/risk-management/correlation-and-portfolio-risk/">상관관계와 포트폴리오 리스크</a> 참고).</li>
+<li><strong>계획 작성:</strong> 종목마다 진입 트리거 가격, 손절가, 목표가, 포지션 크기를 적습니다.</li>
+<li><strong>알림 설정:</strong> 모든 차트를 지켜보는 대신 트리거 가격에 알림을 겁니다.</li>
+</ol>
+<p>데이 트레이더는 보통 3<del>10개 종목을 둡니다. 스윙 트레이더는 10</del>30개를 추적하며 매주 갱신하기도 합니다.</p>
+<h2 id="section-9">스크리닝 검증하기</h2>
+<p>어떤 스크리닝이 과거에 이후 좋은 성과를 낸 종목을 골라냈는지 보려면, 나중에 상장폐지된 기업까지 포함한 과거 데이터가 필요합니다. 오늘 상장된 종목만으로 테스트하면 실패한 기업이 빠져 있어서 생존 편향이 생깁니다. 지표도 수정된 수치가 아니라 각 날짜에 알려져 있던 &#39;시점 기준(point in time)&#39; 데이터여야 합니다. <a href="/ko/encyclopedia/algorithmic-trading/backtesting/">백테스팅</a>을 참고하십시오.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>유동성 필터를 건너뛴다.</strong> 가장 극적으로 움직이는 종목이 가장 매매하기 어려운 경우가 많습니다.</li>
+<li><strong>조건을 너무 많이 건다.</strong> 과거 승자에 맞춘 필터 스무 개는 앞으로는 대개 쓸모 있는 결과를 내지 못합니다.</li>
+<li><strong>스크리닝 결과를 매수 신호로 여긴다.</strong> 스크리닝은 분석의 출발점입니다.</li>
+<li><strong>스크리닝 조건을 매일 바꾼다.</strong> 일관성이 있어야 조건 조합이 어떻게 작동하는지 배울 수 있습니다.</li>
+<li><strong>너무 많은 종목을 지켜본다.</strong> 주의력은 한정되어 있고, 놓친 계획은 충동적인 매매로 이어집니다.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-12">주식 스크리너와 스캐너는 무엇이 다른가요?</h3>
+<p>스크리너는 흔히 종가 기준 데이터로 고정된 조건에 따라 종목을 걸러 분석 목록을 만듭니다. 스캐너는 장중에 실시간으로 갱신되며 지금 움직이는 종목을 알려 줍니다.</p>
+<h3 id="section-13">단타에 좋은 스크리너 설정은 무엇인가요?</h3>
+<p>흔히 쓰는 단타 조건은 몇 퍼센트 이상의 갭이나 움직임, 평소를 크게 웃도는 상대 거래량, $5 같은 최소 주가, 충분한 평균 거래량, 뉴스 재료입니다. 설정은 전략과 매매하는 종목에 따라 달라집니다.</p>
+<h3 id="section-14">무료 주식 스크리너로도 충분한가요?</h3>
+<p>종가 기준의 기본적·기술적 스크리닝에는 대개 무료 스크리너로 충분합니다. 무료 데이터는 지연될 수 있어서, 단타용 실시간 스캐너는 유료 데이터가 필요한 경우가 많습니다.</p>
+<h3 id="section-15">관심 종목은 몇 개가 적당한가요?</h3>
+<p>데이 트레이더 대부분은 하나하나 자세히 따라갈 수 있도록 몇 개, 흔히 10개 미만만 둡니다. 스윙 트레이더는 수십 개를 추적하며 목록을 매주 갱신하기도 합니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/stocks/swing-trading-stocks/"><div class="k">주식 트레이딩</div><b>주식 스윙 트레이딩</b><span>며칠~몇 주 보유하는 주식 스윙 매매: 돌파, 이동평균선 눌림목, 바닥 패턴, 오버나이트·실적 리스크, 포지션 관리 방법을 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/stocks/day-trading-stocks/"><div class="k">주식 트레이딩</div><b>주식 데이 트레이딩</b><span>주식 데이 트레이딩의 원리, 미국 PDT 규칙과 대체 규정, 현금·마진 계좌, T+1 결제, 주요 셋업과 현실적 성공 확률을 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/stocks/gap-trading/"><div class="k">주식 트레이딩</div><b>갭 매매</b><span>가격 갭이 생기는 원리와 매매법: 보통 갭, 돌파 갭, 급진 갭, 소멸 갭, 갭 메우기, 오프닝 레인지 돌파, 갭 스캐너를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/fundamental-analysis/valuation-ratios/"><div class="k">펀더멘털·매크로 분석</div><b>밸류에이션 지표</b><span>PER, PEG, PSR, PBR, EV/EBITDA, FCF 수익률, 배당수익률의 계산과 해석, 업종별 맥락의 중요성과 한계를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/trading-business/trading-platforms-and-tools/"><div class="k">프랍 펌, 세금, 규제, 사기</div><b>플랫폼과 도구</b><span>차트 소프트웨어, MT4/MT5, cTrader, 선물·브로커 플랫폼, 가상자산 터미널, 일지, 스크리너, 비용까지 트레이딩 플랫폼과 도구를 중립적으로 안내합니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/stocks/etfs-and-index-trading/"><small>← 이전 글</small>ETF와 지수 트레이딩</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

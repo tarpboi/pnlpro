@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>交易行情数据详解：Tick、K线与Level 1/2/3 | PnL Profit</title>
+<meta name="description" content="交易者需要了解的行情数据：Tick 与K线数据、Level 1/2/3 行情、历史数据来源、费用与授权、时间戳与时钟同步，以及数据清洗。">
+<meta name="keywords" content="行情数据, tick数据和K线数据, Level 2行情, 历史行情数据, 回测数据清洗">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="交易行情数据详解：Tick、K线与Level 1/2/3 | PnL Profit">
+<meta property="og:description" content="交易者需要了解的行情数据：Tick 与K线数据、Level 1/2/3 行情、历史数据来源、费用与授权、时间戳与时钟同步，以及数据清洗。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-data-sources/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="交易行情数据详解：Tick、K线与Level 1/2/3 | PnL Profit">
+<meta name="twitter:description" content="交易者需要了解的行情数据：Tick 与K线数据、Level 1/2/3 行情、历史数据来源、费用与授权、时间戳与时钟同步，以及数据清洗。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"交易行情数据详解：Tick、K线与Level 1/2/3","description":"交易者需要了解的行情数据：Tick 与K线数据、Level 1/2/3 行情、历史数据来源、费用与授权、时间戳与时钟同步，以及数据清洗。","keywords":"行情数据, tick数据和K线数据, Level 2行情, 历史行情数据, 回测数据清洗","articleSection":"算法与量化交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-data-sources/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"算法与量化交易","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"市场数据","item":"https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-data-sources/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"Level 1 和 Level 2 数据有什么区别？","acceptedAnswer":{"@type":"Answer","text":"Level 1 只显示最优买价、最优卖价和最新成交价。Level 2 显示订单簿买卖双方若干价位上的可成交数量，能让你看到市场深度。"}},{"@type":"Question","name":"在哪里可以获得历史行情数据？","acceptedAnswer":{"@type":"Answer","text":"来源包括交易所、商业数据供应商、券商和平台 API、加密货币交易所 API 以及学术数据库。免费来源适合学习，但在依赖它们之前，要检查复权调整、缺口和幸存者偏差。"}},{"@type":"Question","name":"回测需要 tick 数据吗？","acceptedAnswer":{"@type":"Answer","text":"对大多数日线或波段策略来说不需要，干净的K线数据就足够了。对于日内策略、逼真的成交与滑点建模，以及任何依赖订单簿的策略，tick 或报价数据才是关键。"}},{"@type":"Question","name":"市场数据为什么这么贵？","acceptedAnswer":{"@type":"Answer","text":"交易所和供应商对数据的采集、分发和授权收费，而专业用途和自动化用途通常更贵。个人非专业用户往往可以通过券商以便宜得多的价格获得实时数据。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>算法与量化交易</h3><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/" class="on" aria-current="page">市场数据</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/" class="on">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a></div>
+<h1 class="title">市场数据</h1>
+<div class="meta">阅读约 7 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>算法与量化交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">算法交易入门</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">过拟合</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/trend-following/">趋势跟踪</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/mean-reversion/">均值回归</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">配对交易与统计套利</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/arbitrage-strategies/">套利策略</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/">高频交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">跟单与社交交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/">机器学习与交易</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/" class="on" aria-current="page">市场数据</a></li></ul></details>
+<article><p>市场数据（market data）是交易所和其他交易场所产生的价格、报价、成交和订单簿活动的记录。每个算法策略都要两次依赖它：研究和<a href="/zh/encyclopedia/algorithmic-trading/backtesting/">回测</a>需要历史数据，交易需要实时数据。数据的类型、来源、时间戳的标记方式和清洗方式，对策略实测表现的影响可能与策略逻辑本身一样大。</p>
+<div class="takeaways"><h2 id="key-takeaways">核心要点</h2>
+<ul>
+<li>Tick 数据记录每一笔成交或报价变化；K线数据把活动汇总为一分钟或一天等时间段。</li>
+<li>Level 1 显示最优买价和卖价，Level 2 显示每个价位的深度，Level 3 显示每一笔订单。</li>
+<li>历史数据必须针对拆股、分红和期货换月进行调整，并且应包含已退市的品种。</li>
+<li>专业数据需要授权，费用取决于你的身份和使用方式。</li>
+<li>时间戳、时区和时钟同步会导致许多回测和实盘交易中不易察觉的错误。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#tick-k">Tick 数据与K线数据</a></li><li><a href="#level-1-level-2-level-3">Level 1、Level 2 和 Level 3</a></li><li><a href="#section-4">按类型划分的历史数据来源</a></li><li><a href="#section-5">费用与授权</a></li><li><a href="#section-6">时间戳与时钟同步</a></li><li><a href="#section-7">数据清洗</a></li><li><a href="#section-8">实例：数据调整</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="tick-k">Tick 数据与K线数据</h2>
+<p><strong>Tick 数据</strong>记录每一个单独的事件：每一笔成交（价格、数量、时间，有时还包括主动方向）以及每一次报价更新（买卖价格与挂单量）。它是最详细的数据形式，是日内执行研究、<a href="/zh/encyclopedia/technical-analysis/order-flow-trading/">订单流</a>分析和逼真的成交模拟所必需的。它的数据量也很大，存储和处理都更困难。</p>
+<p><strong>K线数据</strong>把活动汇总为时间段。每根K线记录一个区间（一分钟、一小时或一天）内的开盘价、最高价、最低价、收盘价以及成交量（OHLCV）。K线数据紧凑，足以满足大多数波段和中长线策略的需要。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>K线类型</th>
+<th>K线如何形成</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间K线</td>
+<td>固定时间间隔</td>
+<td>最标准，但开盘时与午间所包含的活动量差异很大</td>
+</tr>
+<tr>
+<td>Tick K线</td>
+<td>固定成交笔数</td>
+<td>市场繁忙时K线更多</td>
+</tr>
+<tr>
+<td>成交量K线</td>
+<td>固定股数或合约数</td>
+<td>按活跃程度采样</td>
+</tr>
+<tr>
+<td>成交额K线</td>
+<td>固定成交金额</td>
+<td>在长期历史中可校正价格变化的影响</td>
+</tr>
+</tbody></table></div>
+<p>K线会隐藏信息。日K线不会告诉你最高价出现在最低价之前还是之后，因此如果回测假设止损和止盈在同一天都被触及，就只能去猜哪个先发生。</p>
+<h2 id="level-1-level-2-level-3">Level 1、Level 2 和 Level 3</h2>
+<p>这些术语描述的是一个行情源能显示多少<a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿</a>内容。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>级别</th>
+<th>内容</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Level 1</td>
+<td>最优买价和卖价（含挂单量）、最新成交价、成交量</td>
+<td>大多数散户交易、看图、简单机器人</td>
+</tr>
+<tr>
+<td>Level 2（按价位）</td>
+<td>买卖双方若干价位上各自的总挂单量</td>
+<td>深度分析、执行、短期策略</td>
+</tr>
+<tr>
+<td>Level 3（逐笔委托）</td>
+<td>每一笔订单，包括新增、修改和撤销</td>
+<td>排队位置建模、做市、研究</td>
+</tr>
+</tbody></table></div>
+<p>在美股市场，还要区分汇总行情和直连专有行情：前者把所有交易所的报价合并成全国最佳买卖报价（NBBO），后者由各交易所单独提供，更快也更详细。加密货币交易所通常通过 WebSocket 提供 Level 2 快照和增量更新，有些还提供逐笔委托级别的数据。</p>
+<h2 id="section-4">按类型划分的历史数据来源</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>来源类型</th>
+<th>提供内容举例</th>
+<th>注意事项</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>直接来自交易所</td>
+<td>官方历史成交、报价和订单簿数据</td>
+<td>最权威；通常昂贵且复杂</td>
+</tr>
+<tr>
+<td>商业数据供应商</td>
+<td>经清洗的多资产历史数据、公司行为、基本面数据</td>
+<td>质量和覆盖范围参差不齐；要检查幸存者偏差的处理方式</td>
+</tr>
+<tr>
+<td>券商和平台 API</td>
+<td>其所提供品种的近期K线和 tick 数据</td>
+<td>方便；历史可能有限，且因券商而异</td>
+</tr>
+<tr>
+<td>加密货币交易所 API</td>
+<td>免费的成交、K线，有时还有订单簿快照</td>
+<td>宕机期间有数据缺口；各交易所不尽相同</td>
+</tr>
+<tr>
+<td>学术数据库</td>
+<td>长期、无幸存者偏差的历史数据，如美股的 CRSP 和美国成交与报价数据 TAQ</td>
+<td>通常通过大学获取</td>
+</tr>
+<tr>
+<td>免费网站</td>
+<td>主要资产的日K线</td>
+<td>适合学习；要检查复权调整、缺口和已退市品种</td>
+</tr>
+</tbody></table></div>
+<p>做股票研究时，要寻找无幸存者偏差、包含已退市公司和时点准确的指数成分的数据。基本面数据要使用时点数据，即反映每个日期当时已知信息的数据，而不是后来的重述数据。</p>
+<p>外汇没有中央交易所，因此散户外汇数据中的“成交量”通常只反映某一家券商或某一个平台的活动。在加密货币领域，一些交易平台报告的成交量历史上曾包含刷量交易，因此要在多个来源之间比较。参见<a href="/zh/encyclopedia/technical-analysis/volume-analysis/">成交量分析</a>。</p>
+<h2 id="section-5">费用与授权</h2>
+<p>市场数据是交易所的一项重要业务。要点如下：</p>
+<ul>
+<li><strong>订阅者分类。</strong> 许多交易所向个人非专业用户收取的费用远低于专业用户。各家定义不同，可能取决于你是否在监管机构注册或是否代他人交易。</li>
+<li><strong>展示用途与非展示用途。</strong> 交易所通常会对自动化系统使用的数据（非展示用途）与在屏幕上显示的数据分别收费。</li>
+<li><strong>再分发。</strong> 大多数授权协议禁止把数据转给他人，包括在网站上发布或转售直接由数据衍生的信号。</li>
+<li><strong>延迟数据。</strong> 延迟约15分钟的数据通常免费或很便宜，但对实盘交易毫无用处。</li>
+</ul>
+<p>收费标准会变化，因此请查阅你的券商、供应商或交易所的最新条款。</p>
+<h2 id="section-6">时间戳与时钟同步</h2>
+<p>时间是最常见的错误来源之一。</p>
+<ul>
+<li><strong>用哪个时间戳？</strong> 一笔成交可能带有交易所的撮合时间、数据发布时间以及你的系统接收时间。在回测中，信号只能使用截至你本应收到数据那一刻的数据。</li>
+<li><strong>时区与夏令时。</strong> 一律以 UTC 存储。不同国家在不同日期切换夏令时，会使当地交易时段相对于 UTC 发生偏移，从而导致来自多个市场的数据错位。</li>
+<li><strong>日K线的定义。</strong> 外汇和加密货币全天候交易，因此“日收盘价”取决于数据提供商选择的截止时间。</li>
+<li><strong>时钟同步。</strong> 实盘系统使用 NTP 同步时钟，通过互联网通常可精确到毫秒以内；或使用 PTP，在合适的网络上可达到微秒级。一些地区的监管机构对交易公司设定了时钟精度要求，对高频交易者的容差最为严格。时钟不同步还会导致交易所 API 拒绝签名请求，如<a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/">搭建交易机器人</a>中所述。</li>
+</ul>
+<h2 id="section-7">数据清洗</h2>
+<p>使用任何数据集之前，都要检查：</p>
+<ul>
+<li><strong>错误报价：</strong> 远离前后价格的成交记录，通常源于错误或特殊的成交类型。</li>
+<li><strong>缺失数据和缺口：</strong> 交易所宕机、节假日、停牌。</li>
+<li><strong>重复记录和乱序记录。</strong></li>
+<li><strong>公司行为：</strong> 拆股、合股、分红、分拆和代码变更。</li>
+<li><strong>期货换月：</strong> 由到期合约拼接而成的连续合约需要一致的调整。</li>
+<li><strong>零价格或负价格：</strong> 通常是错误，不过某些品种确实曾以负价成交，例如2020年4月的 WTI 原油期货。</li>
+</ul>
+<p>过滤规则应当记录在案，并以相同方式应用于研究数据和实时数据。</p>
+<h2 id="section-8">实例：数据调整</h2>
+<h3 id="section-9">拆股</h3>
+<p>某股票价格为600美元，随后进行1拆4的拆股，每股变为四股，股价变为约150美元。在未调整的数据中，这个序列看起来一夜之间暴跌75%。回测会把它当作崩盘，触发根本不存在的止损和均值回归买入信号。</p>
+<p>经拆股调整的数据会把拆股前的所有价格除以4（成交量乘以4），于是拆股前的600变为150，序列保持连续。</p>
+<h3 id="section-10">期货换月</h3>
+<p>一位交易者用季度期货构建连续序列。在换月日，即将到期的合约交易价为4,000，下一个合约为4,020。不做调整直接拼接会产生一个虚假的20点跳空。后复权（back-adjusted）序列会给之前的每个价格都加上20点，从而消除跳空。另一种方法是比例调整，即把之前的价格乘以4,020 / 4,000 = 1.005，它能保持百分比收益不变。</p>
+<h3 id="section-11">数据量</h3>
+<p>单只美股在常规交易时段（每天390分钟）内的一分钟K线，按252个交易日计算，每年产生390 × 252 = 98,280根K线，存储起来很容易。而同一只股票的 tick 和报价数据，对于交易活跃的品种每天可能多达数百万条记录，这就是 tick 级研究需要合适的存储和工具的原因。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>用未调整的价格</strong>做股票回测。</li>
+<li><strong>只使用当前上市的代码，</strong>这会把幸存者偏差带进结果。</li>
+<li><strong>混用</strong>不同数据源的<strong>时区</strong>。</li>
+<li><strong>以为日收盘价放之四海而皆准，</strong>而忽视了24小时交易的市场。</li>
+<li><strong>对需要 tick 级成交模拟的策略用K线数据回测。</strong></li>
+<li><strong>分享或发布数据时忽视授权条款。</strong></li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="level-1-level-2">Level 1 和 Level 2 数据有什么区别？</h3>
+<p>Level 1 只显示最优买价、最优卖价和最新成交价。Level 2 显示订单簿买卖双方若干价位上的可成交数量，能让你看到市场深度。</p>
+<h3 id="section-15">在哪里可以获得历史行情数据？</h3>
+<p>来源包括交易所、商业数据供应商、券商和平台 API、加密货币交易所 API 以及学术数据库。免费来源适合学习，但在依赖它们之前，要检查复权调整、缺口和幸存者偏差。</p>
+<h3 id="tick">回测需要 tick 数据吗？</h3>
+<p>对大多数日线或波段策略来说不需要，干净的K线数据就足够了。对于日内策略、逼真的成交与滑点建模，以及任何依赖订单簿的策略，tick 或报价数据才是关键。</p>
+<h3 id="section-17">市场数据为什么这么贵？</h3>
+<p>交易所和供应商对数据的采集、分发和授权收费，而专业用途和自动化用途通常更贵。个人非专业用户往往可以通过券商以便宜得多的价格获得实时数据。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/algorithmic-trading/backtesting/"><div class="k">算法与量化交易</div><b>回测</b><span>如何回测交易策略而不自欺欺人：数据质量、幸存者偏差与未来函数、交易成本、滚动前推测试，以及关键绩效指标。</span></a><a class="card" href="/zh/encyclopedia/basics/order-book-and-market-depth/"><div class="k">交易基础</div><b>订单簿与市场深度</b><span>限价订单簿和撮合引擎如何运作，价格时间优先原则，Level 1 与 Level 2 行情的区别，如何解读深度，幌骗，以及与做市商市场和 AMM 的对比。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/"><div class="k">算法与量化交易</div><b>搭建交易机器人</b><span>交易机器人如何搭建：数据、信号、风控与执行各层，REST、WebSocket 和 FIX 接口，频率限制，API 密钥安全，紧急停止开关与日志。</span></a><a class="card" href="/zh/encyclopedia/technical-analysis/volume-analysis/"><div class="k">技术分析</div><b>成交量分析</b><span>如何看懂成交量：量价确认、天量高潮、相对成交量、OBV与累积/派发线，以及加密货币和外汇成交量数据的局限。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">算法与量化交易</div><b>高频交易</b><span>高频交易公司到底做什么：托管机房、延迟军备竞赛、电子化做市与延迟套利、相关争议，以及散户为何无法在速度上与之竞争。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/algorithmic-trading/machine-learning-in-trading/"><small>← 上一篇</small>机器学习与交易</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eşli İşlem (Pairs Trading) ve İstatistiksel Arbitraj | PnL Profit</title>
+<meta name="description" content="Eşli işlem ve istatistiksel arbitraj nasıl işler: eşbütünleşme ve korelasyon, hedge oranı, spread z-skoru, giriş-çıkış kuralları ve 2007 quant depremi.">
+<meta name="keywords" content="eşli işlem, pairs trading nedir, istatistiksel arbitraj, eşbütünleşme, hedge oranı, 2007 quant krizi">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Ansiklopedisi">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Eşli İşlem (Pairs Trading) ve İstatistiksel Arbitraj | PnL Profit">
+<meta property="og:description" content="Eşli işlem ve istatistiksel arbitraj nasıl işler: eşbütünleşme ve korelasyon, hedge oranı, spread z-skoru, giriş-çıkış kuralları ve 2007 quant depremi.">
+<meta property="og:url" content="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eşli İşlem (Pairs Trading) ve İstatistiksel Arbitraj | PnL Profit">
+<meta name="twitter:description" content="Eşli işlem ve istatistiksel arbitraj nasıl işler: eşbütünleşme ve korelasyon, hedge oranı, spread z-skoru, giriş-çıkış kuralları ve 2007 quant depremi.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"tr","headline":"Eşli İşlem (Pairs Trading) ve İstatistiksel Arbitraj","description":"Eşli işlem ve istatistiksel arbitraj nasıl işler: eşbütünleşme ve korelasyon, hedge oranı, spread z-skoru, giriş-çıkış kuralları ve 2007 quant depremi.","keywords":"eşli işlem, pairs trading nedir, istatistiksel arbitraj, eşbütünleşme, hedge oranı, 2007 quant krizi","articleSection":"Algoritmik ve Kantitatif İşlem","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ansiklopedi","item":"https://pnlpro.fit/tr/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Algoritmik ve Kantitatif İşlem","item":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Eşli İşlem ve İstatistiksel Arbitraj","item":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"tr","mainEntity":[{"@type":"Question","name":"Eşli işlem risksiz mi?","acceptedAnswer":{"@type":"Answer","text":"Hayır. İki varlık arasındaki ilişki bozulabilir, fark daralmadan önce daha da açılabilir ve kalabalıklaşmış pozisyonlar aniden çözülebilir. Eşli işlem piyasa yönüne olan maruziyeti azaltır, ancak başka riskler ekler."}},{"@type":"Question","name":"Eşbütünleşme ile korelasyon arasındaki fark nedir?","acceptedAnswer":{"@type":"Answer","text":"Korelasyon, iki varlığın getirilerinin dönemden döneme birlikte hareket edip etmediğini ölçer. Eşbütünleşme ise fiyatlarının bir bileşiminin istikrarlı bir ortalamaya dönme eğiliminde olan bir fark oluşturması demektir; eşli işlemin dayandığı şey de budur."}},{"@type":"Question","name":"Eşli işlem için hangi z-skoru kullanmalıyım?","acceptedAnswer":{"@type":"Answer","text":"Pek çok işlemci yaklaşık ±2'de girer, 0'a yakın çıkar ve ±4 gibi daha büyük bir değerde stop kullanır. En iyi eşikler maliyetlere, farkın yarı ömrüne ve eşin kendisine bağlıdır ve örneklem dışı veride test edilmelidir."}},{"@type":"Question","name":"Eşli işlem hâlâ işe yarıyor mu?","acceptedAnswer":{"@type":"Answer","text":"Akademik çalışmalar, strateji yaygın biçimde bilinir hale geldikçe basit eşli işlem kurallarının getirilerinin zamanla azaldığını buldu. Fırsatlar hâlâ var, ancak geçmişe göre daha küçük, daha hızlı ve daha rekabetçi olma eğilimindeler."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/tr/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Ansiklopedi</small></a>
+  <nav class="top"><a href="/tr/encyclopedia/" class="on">Ansiklopedi</a><a href="/tr/encyclopedia/reference/trading-glossary/">Sözlük</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Trading botları</a></nav>
+  <details class="langmenu"><summary aria-label="Dil">🌐 <span>Türkçe</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="tr" lang="tr" class="on" aria-current="true">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150+ makalede arayın  ( / )" autocomplete="off" aria-label="Ansiklopedide ara"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Algoritmik ve Kantitatif İşlem</h3><ul><li><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik İşleme Giriş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Aşırı Optimizasyon</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/trend-following/">Trend Takibi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">Ortalamaya Dönüş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">Eşli İşlem ve İstatistiksel Arbitraj</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-making/">Piyasa Yapıcılığı</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitraj Stratejileri</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/high-frequency-trading/">Yüksek Frekanslı İşlem</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/">Emir Yürütme Algoritmaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/">İşlem Botu Geliştirme</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy Trading ve Sosyal Trading</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Trading'de Makine Öğrenmesi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">Piyasa Verileri</a></li></ul><h3>Tüm konular</h3><ul><li><a href="/tr/encyclopedia/basics/">📘 Trading'in Temelleri</a></li><li><a href="/tr/encyclopedia/risk-management/">🛡️ Risk ve Para Yönetimi</a></li><li><a href="/tr/encyclopedia/psychology/">🧠 Trading Psikolojisi</a></li><li><a href="/tr/encyclopedia/technical-analysis/">📈 Teknik Analiz</a></li><li><a href="/tr/encyclopedia/fundamental-analysis/">🏦 Temel ve Makro Analiz</a></li><li><a href="/tr/encyclopedia/stocks/">🏛️ Hisse Senedi İşlemleri</a></li><li><a href="/tr/encyclopedia/forex/">💱 Forex İşlemleri</a></li><li><a href="/tr/encyclopedia/futures/">📊 Vadeli İşlemler</a></li><li><a href="/tr/encyclopedia/options/">🎯 Opsiyon İşlemleri</a></li><li><a href="/tr/encyclopedia/crypto/">₿ Kripto Para İşlemleri</a></li><li><a href="/tr/encyclopedia/meme-coins/">🐸 Meme Coin İşlemleri</a></li><li><a href="/tr/encyclopedia/prediction-markets/">🔮 Tahmin Piyasaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/" class="on">🤖 Algoritmik ve Kantitatif İşlem</a></li><li><a href="/tr/encyclopedia/other-markets/">🛢️ Emtia, Tahvil ve Diğerleri</a></li><li><a href="/tr/encyclopedia/trading-business/">⚖️ Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a></li><li><a href="/tr/encyclopedia/reference/">📖 Başvuru Kaynakları</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/tr/encyclopedia/">Ansiklopedi</a> › <a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a></div>
+<h1 class="title">Eşli İşlem ve İstatistiksel Arbitraj</h1>
+<div class="meta">7 dk okuma · Güncelleme: 23 Kas 2026</div>
+<details class="side-m"><summary>Algoritmik ve Kantitatif İşlem: diğer makaleler</summary><ul><li><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik İşleme Giriş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Aşırı Optimizasyon</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/trend-following/">Trend Takibi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">Ortalamaya Dönüş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">Eşli İşlem ve İstatistiksel Arbitraj</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-making/">Piyasa Yapıcılığı</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitraj Stratejileri</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/high-frequency-trading/">Yüksek Frekanslı İşlem</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/">Emir Yürütme Algoritmaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/">İşlem Botu Geliştirme</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy Trading ve Sosyal Trading</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Trading'de Makine Öğrenmesi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">Piyasa Verileri</a></li></ul></details>
+<article><p>Eşli işlem (pairs trading), iki varlık arasındaki fiyat ilişkisi alışılmadık ölçüde açıldığında birini alıp yakından ilişkili diğerini açığa satan ve aradaki farkın daralacağına bahse giren piyasa nötr bir stratejidir. İstatistiksel arbitraj (stat arb) ise bu fikri, istatistiksel modellerle seçilmiş pozisyonlardan oluşan büyük portföylere genişletir. Her ikisi de tek tek fiyatlar yerine göreli fiyatlara uygulanan birer <a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">ortalamaya dönüş</a> biçimidir ve her ikisi de zayıflayabilen ya da kopabilen ilişkilere dayanır.</p>
+<div class="takeaways"><h2 id="key-takeaways">Önemli noktalar</h2>
+<ul>
+<li>Eşli işlem, genel piyasanın yönünden değil, iki varlık arasındaki farktaki (spread) değişimlerden kâr eder.</li>
+<li>Eşbütünleşme (cointegration), yani farkın kendisinin istikrarlı bir seviyeye dönme eğilimi, korelasyondan daha önemlidir.</li>
+<li>Hedge oranı, farkın dengeli olması için her varlıktan ne kadar işlem yapılacağını belirler.</li>
+<li>Giriş ve çıkışlar genellikle farkın z-skoruyla, ilişkinin koptuğu durumlar için de stoplarla tanımlanır.</li>
+<li>Yayımlanan eşli işlem kârları zaman içinde azaldı ve kalabalıklaşmış istatistiksel arbitraj pozisyonları, Ağustos 2007&#39;de olduğu gibi, şiddetle çözülebilir.</li>
+</ul></div><details class="toc"><summary>Bu sayfada</summary><ol><li><a href="#e-li-i-lem-nas-l-al-r">Eşli işlem nasıl çalışır?</a></li><li><a href="#korelasyon-ve-e-b-t-nle-me">Korelasyon ve eşbütünleşme</a></li><li><a href="#fark-olu-turmak">Farkı oluşturmak</a></li><li><a href="#giri-ve-k-kurallar">Giriş ve çıkış kuralları</a></li><li><a href="#e-li-i-lemden-istatistiksel-arbitraja">Eşli işlemden istatistiksel arbitraja</a></li><li><a href="#y-pranma-ve-kalabal-kla-ma">Yıpranma ve kalabalıklaşma</a></li><li><a href="#rnek-hesaplama">Örnek hesaplama</a></li><li><a href="#common-mistakes">Sık yapılan hatalar</a></li></ol></details>
+<h2 id="e-li-i-lem-nas-l-al-r">Eşli işlem nasıl çalışır?</h2>
+<p>Klasik örnek, aynı sektörde benzer işlere sahip iki şirkettir: iki büyük petrol üreticisi, iki ödeme ağı veya aynı şirketin iki hisse sınıfı gibi. Fiyatları büyük ölçüde aynı etkenlerle hareket eder. Biri belirgin bir neden olmadan diğerine göre sert yükseldiğinde, eşli işlemci daha iyi performans göstereni açığa satar ve geride kalanı alır. İlişki korunursa fark kapanır ve işlem, piyasa genel olarak yükselse de düşse de kâr eder.</p>
+<p>Eşli işlemin kökeni çoğu zaman 1980&#39;lerde Wall Street işlem masalarındaki kantitatif gruplara dayandırılır ve genellikle Morgan Stanley&#39;deki bir ekip öncü olarak anılır. Sıkça atıf yapılan 2006 tarihli bir çalışmada Gatev, Goetzmann ve Rouwenhorst, ABD hisseleri üzerinde basit bir kuralı test etti: normalize edilmiş fiyatları birlikte en yakın hareket eden hisseleri eşleştirmek, ardından birbirlerinden ayrıştıklarında işlem yapmak. Geçmişte fazla getiri (excess return) buldular, ancak kârların örneklemlerinin sonraki bölümünde daha düşük olduğunu da gördüler; bu kalıp, sonraki çalışmalarda da raporlandı.</p>
+<h2 id="korelasyon-ve-e-b-t-nle-me">Korelasyon ve eşbütünleşme</h2>
+<p>Korelasyon ve eşbütünleşme sıklıkla karıştırılır ve aradaki fark önemlidir.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kavram</th>
+<th>Neyi ölçer</th>
+<th>Eşli işlem için faydalı mı?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Korelasyon</td>
+<td>İki serinin getirilerinin dönemden döneme birlikte yükselip düşüp düşmediğini</td>
+<td>Tek başına yeterli değil. Yüksek korelasyonlu iki hisse kalıcı olarak birbirinden uzaklaşabilir</td>
+</tr>
+<tr>
+<td>Eşbütünleşme</td>
+<td>İki fiyat serisinin bir bileşiminin (farkın) durağan olup olmadığını, yani istikrarlı bir ortalamaya dönme eğilimi gösterip göstermediğini</td>
+<td>Evet. Bir eşli işlemin gerçekte bahse girdiği şey budur</td>
+</tr>
+</tbody></table></div>
+<p>İki hissenin günlük getirileri yüksek korelasyonlu olabilirken biri yıllar boyunca diğerinden yavaş yavaş daha hızlı büyüyebilir. Bu durumda fark trend oluşturur ve &quot;pahalı&quot; olanı açığa satan işlemci sürekli kaybeder. Tersine, eşbütünleşik seriler yalnızca orta düzeyde günlük korelasyona sahip olsalar da istikrarlı bir uzun vadeli ilişkiyi koruyabilir.</p>
+<p>Engle ve Granger&#39;ın 1987&#39;de ortaya koyduğu Engle-Granger iki adımlı yöntemi yaygın bir testtir: ilişkiyi tahmin etmek için bir fiyatı diğerine göre regresyona tabi tutun, ardından kalıntı farkın durağan olup olmadığını test edin. Johansen testi ikiden fazla varlığı ele alır. Korelasyonun bir portföy genelinde nasıl davrandığı için <a href="/tr/encyclopedia/risk-management/correlation-and-portfolio-risk/">korelasyon ve portföy riski</a> makalesine bakın.</p>
+<h2 id="fark-olu-turmak">Farkı oluşturmak</h2>
+<h3 id="hedge-oran">Hedge oranı</h3>
+<p>Hedge oranı β, B varlığının kaç biriminin A varlığının bir birimini dengelediğini söyler. Çoğu zaman A&#39;nın fiyatının B&#39;nin fiyatına (veya log fiyatlara) göre bir geriye bakış penceresi boyunca regresyonuyla tahmin edilir:</p>
+<p>Spread = Price_A − β × Price_B</p>
+<p>Dolar nötr bir eş, uzun ve kısa tarafta eşit dolar tutarları taşır. Beta nötr bir eş ise piyasa duyarlılığındaki farklara göre ayarlanır. Hedge oranları zamanla kayar; bu yüzden pek çok işlemci bunları kayan bir pencerede yeniden tahmin eder ya da sürekli güncellemek için Kalman filtresi kullanır.</p>
+<h3 id="yar-m-r">Yarı ömür</h3>
+<p>Yarı ömür (half-life), farkın ortalamasından bir sapmanın yarısını kapatmasının tipik olarak ne kadar sürdüğünü tahmin eder. Farktaki değişimin farkın önceki seviyesine göre regresyonundan elde edilir. 5 ila 20 günlük bir yarı ömür swing trading&#39;e uygundur; aylarca süren bir yarı ömür ise sermayeyi bağlar ve ilişkinin önce kopma olasılığını artırır.</p>
+<pre><code class="language-python">import numpy as np
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import coint
+
+def pair_stats(a: np.ndarray, b: np.ndarray):
+    &quot;&quot;&quot;a, b: hizalanmış fiyat dizileri (çoğu zaman log fiyatlar kullanılır).&quot;&quot;&quot;
+    beta = sm.OLS(a, sm.add_constant(b)).fit().params[1]
+    spread = a - beta * b
+    coint_p = coint(a, b)[1]          # Engle-Granger testi; küçük p eşbütünleşmeye işaret eder
+    lagged = spread[:-1]
+    delta = np.diff(spread)
+    lam = sm.OLS(delta, sm.add_constant(lagged)).fit().params[1]
+    half_life = -np.log(2) / lam if lam &lt; 0 else np.inf
+    return beta, coint_p, half_life
+</code></pre>
+<h2 id="giri-ve-k-kurallar">Giriş ve çıkış kuralları</h2>
+<p>Çoğu eşli işlem sistemi farkın z-skoruyla, yani farkın kayan ortalamasından standart sapma cinsinden uzaklığıyla işlem yapar.</p>
+<ul>
+<li><strong>Giriş:</strong> z yaklaşık +2&#39;nin üzerine çıktığında farkı açığa satın (A&#39;yı açığa sat, B&#39;den β birim al); z yaklaşık −2&#39;nin altına düştüğünde farkı satın alın.</li>
+<li><strong>Çıkış:</strong> z 0&#39;a yakın bir seviyeye döndüğünde kapatın.</li>
+<li><strong>Stop:</strong> z ±4 gibi bir uç değere ulaşırsa ya da işlem yarı ömrün birkaç katı kadar uzun sürerse kapatın.</li>
+<li><strong>Yeniden test:</strong> eşbütünleşme testi yakın tarihli veride başarısız olursa o eşte işlem yapmayı bırakın.</li>
+</ul>
+<h2 id="e-li-i-lemden-istatistiksel-arbitraja">Eşli işlemden istatistiksel arbitraja</h2>
+<p>İstatistiksel arbitraj aynı mantığı büyük ölçekte uygular. Tek bir eş yerine, bir istatistiksel arbitraj fonu yüzlerce veya binlerce küçük uzun ve kısa pozisyon taşıyabilir. Yaygın yaklaşımlar şunlardır:</p>
+<ul>
+<li>Her hisseyi, sektördeki benzerlerinden oluşan bir sepete karşı işlem yapmak.</li>
+<li>Piyasa ve sektör hareketlerini ayıklamak için faktör modelleri veya temel bileşenler analizi kullanmak, ardından ortalamaya dönmesi beklenen kalıntı getirilerle işlem yapmak. Avellaneda ve Lee bu yaklaşımı ABD hisseleri için 2010 tarihli bir makalede anlattı.</li>
+<li>Ortalamaya dönüş sinyallerini emir akışı ve hacim bilgisiyle birleştiren kısa vadeli modeller.</li>
+</ul>
+<p>Adına rağmen istatistiksel arbitraj, <a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">arbitraj stratejileri</a> makalesinde anlatılan risksiz anlamda bir arbitraj değildir. Çok sayıda pozisyon genelinde ortalamada geçerli olan olasılıklara dayanır.</p>
+<h2 id="y-pranma-ve-kalabal-kla-ma">Yıpranma ve kalabalıklaşma</h2>
+<h3 id="avantaj-n-y-pranmas">Avantajın yıpranması</h3>
+<p>Daha fazla işlemci benzer modeller çalıştırdıkça, hedefledikleri farklar daha hızlı kapanır ve fırsatlar küçülür. Daha hızlı rakipler en temiz sinyalleri kapar. Bir zamanlar pozisyonları haftalarca tutan stratejilerin artık dakikalar içinde harekete geçmesi gerekebilir ya da hiç geçememesi.</p>
+<h3 id="a-ustos-2007-quant-depremi">Ağustos 2007 quant depremi</h3>
+<p>6 Ağustos 2007 haftasında pek çok kantitatif hisse senedi piyasa nötr fonu ani ve büyük kayıplar yaşadı. İyi bilinen bir analizde Khandani ve Lo, olası tetikleyicinin bir veya daha fazla büyük fonun, muhtemelen nakit yaratmak veya başka yerlerde riski azaltmak için, pozisyonlarını hızla çözmesi olduğunu ileri sürdü. Pek çok fon benzer uzun ve kısa portföyler taşıdığından, zorunlu satışlar fiyatları aynı anda hepsinin aleyhine itti ve daha fazla risk azaltımını tetikledi. Kaybın büyük kısmı günler içinde geri döndü, ancak pozisyonlarını dipte kesen fonlar kaybı kalıcı hale getirdi. Ders şudur: bir strateji piyasa nötr olup yine de yoğunlaşmış bir kalabalıklaşma riski taşıyabilir.</p>
+<h2 id="rnek-hesaplama">Örnek hesaplama</h2>
+<p>İki hissenin tahmini hedge oranı 1.2. Geçmişte A − 1.2 × B farkının ortalaması 2.00 dolar, standart sapması 0.50 dolar olmuş.</p>
+<ul>
+<li>Bugün A 51.50 dolardan, B 40.00 dolardan işlem görüyor. Fark = 51.50 − 1.2 × 40.00 = 51.50 − 48.00 = 3.50 dolar.</li>
+<li>z = (3.50 − 2.00) / 0.50 = 3.0; bu +2 giriş seviyesinin üzerinde olduğundan işlemci farkı açığa satar: A&#39;dan 1,000 hisse açığa satar (51,500 dolar) ve B&#39;den 1,200 hisse alır (48,000 dolar).</li>
+<li>İki hafta sonra A 51.00&#39;da, B 40.75&#39;te. Fark = 51.00 − 48.90 = 2.10 dolar, z = 0.2, bu yüzden işlemci çıkar.</li>
+<li>A açığa satış kârı: (51.50 − 51.00) × 1,000 = 500 dolar. B alım kârı: (40.75 − 40.00) × 1,200 = 900 dolar. Toplam 1,400 dolar.</li>
+<li>Sağlama: fark 3.50&#39;den 2.10&#39;a, yani 1.40 dolar düştü; bu da farkın 1,000 birimiyle çarpıldığında 1,400 dolar eder.</li>
+</ul>
+<p>Bundan dört bacağın komisyonlarını, her birinde ödenen spread&#39;i ve açığa satılan hissenin ödünç alma ücretini düşün. Açığa satışın işleyişi ve maliyetleri <a href="/tr/encyclopedia/stocks/short-selling/">açığa satış</a> makalesinde ele alınıyor.</p>
+<h2 id="common-mistakes">Sık yapılan hatalar</h2>
+<ul>
+<li><strong>Eşleri yalnızca korelasyona göre seçmek.</strong> Yüksek korelasyon, farkın ortalamaya döneceği anlamına gelmez.</li>
+<li><strong>Binlerce eşi tarayıp en iyi backtest&#39;lerle işlem yapmak.</strong> Yeterince aday olduğunda bazı eşler tesadüfen eşbütünleşik görünür. Bkz. <a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">aşırı optimizasyon ve veri madenciliği</a>.</li>
+<li><strong>Yapısal değişiklikleri göz ardı etmek.</strong> Birleşmeler, bölünmeler (spin-off), yeni düzenlemeler veya iş karmasındaki bir değişiklik bir ilişkiyi kalıcı olarak koparabilir.</li>
+<li><strong>Fark üzerinde stop olmaması.</strong> Kopmuş bir eş aylarca ayrışmaya devam edebilir.</li>
+<li><strong>Açığa satış tarafının maliyetlerini küçümsemek.</strong> Ödünç alma ücretleri, hisselerin geri çağrılması ve açığa satış kısıtlamaları ince avantajları silebilir.</li>
+</ul>
+<h2 id="faq">Sıkça sorulan sorular</h2>
+<h3 id="e-li-i-lem-risksiz-mi">Eşli işlem risksiz mi?</h3>
+<p>Hayır. İki varlık arasındaki ilişki bozulabilir, fark daralmadan önce daha da açılabilir ve kalabalıklaşmış pozisyonlar aniden çözülebilir. Eşli işlem piyasa yönüne olan maruziyeti azaltır, ancak başka riskler ekler.</p>
+<h3 id="e-b-t-nle-me-ile-korelasyon-aras-ndaki-fark-nedir">Eşbütünleşme ile korelasyon arasındaki fark nedir?</h3>
+<p>Korelasyon, iki varlığın getirilerinin dönemden döneme birlikte hareket edip etmediğini ölçer. Eşbütünleşme ise fiyatlarının bir bileşiminin istikrarlı bir ortalamaya dönme eğiliminde olan bir fark oluşturması demektir; eşli işlemin dayandığı şey de budur.</p>
+<h3 id="e-li-i-lem-i-in-hangi-z-skoru-kullanmal-y-m">Eşli işlem için hangi z-skoru kullanmalıyım?</h3>
+<p>Pek çok işlemci yaklaşık ±2&#39;de girer, 0&#39;a yakın çıkar ve ±4 gibi daha büyük bir değerde stop kullanır. En iyi eşikler maliyetlere, farkın yarı ömrüne ve eşin kendisine bağlıdır ve örneklem dışı veride test edilmelidir.</p>
+<h3 id="e-li-i-lem-h-l-i-e-yar-yor-mu">Eşli işlem hâlâ işe yarıyor mu?</h3>
+<p>Akademik çalışmalar, strateji yaygın biçimde bilinir hale geldikçe basit eşli işlem kurallarının getirilerinin zamanla azaldığını buldu. Fırsatlar hâlâ var, ancak geçmişe göre daha küçük, daha hızlı ve daha rekabetçi olma eğilimindeler.</p>
+</article>
+<div class="disclaimer"><strong>Yalnızca eğitim amaçlıdır.</strong> Buradaki hiçbir içerik finansal, yatırım, hukuki veya vergi tavsiyesi değildir. Alım satım yüksek kayıp riski taşır ve kaldıraçlı ürünlerde yatırdığınızdan fazlasını kaybedebilirsiniz. Kurallar, ücretler ve platform koşulları değişir: işlem yapmadan önce güncel koşulları aracı kurumunuz, borsanız veya düzenleyici kurumla teyit edin.</div>
+<section class="related"><h2>İlgili makaleler</h2><div class="cards"><a class="card" href="/tr/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Ortalamaya Dönüş</b><span>Ortalamaya dönüş stratejisi nasıl işler: kısa vadeli geri dönüş, z-skor, Bollinger Bantları ve RSI sistemleri, negatif çarpıklık, rejim riski ve başarısızlık.</span></a><a class="card" href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Arbitraj Stratejileri</b><span>Saf ve istatistiksel arbitraj, endeks ve ETF arbitrajı, birleşme arbitrajı, borsalar arası ve üçgen arbitraj, baz işlemleri ve risksiz arbitrajın nadirliği.</span></a><a class="card" href="/tr/encyclopedia/risk-management/correlation-and-portfolio-risk/"><div class="k">Risk ve Para Yönetimi</div><b>Korelasyon ve Portföy Riski</b><span>Korelasyonlu pozisyonların neden tek büyük bahis olduğunu, krizlerde korelasyonun sıçramasını, çeşitlendirmenin sınırlarını, hedge ve betayı rakamlarla öğrenin.</span></a><a class="card" href="/tr/encyclopedia/stocks/short-selling/"><div class="k">Hisse Senedi İşlemleri</div><b>Açığa Satış</b><span>Açığa satış nasıl çalışır: hisse bulma ve ödünç alma, ödünç ücretleri, açık pozisyon ve kapatma süresi, short squeeze, SSR kuralı, temettüler ve alternatifler.</span></a><a class="card" href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Aşırı Optimizasyon</b><span>Harika backtest'lerin çoğu neden canlıda çöker: eğri uydurma, çoklu test, kararsız parametreler ve deflated Sharpe oranı; aşırı uyumdan kaçınmanın yolları.</span></a></div></section>
+<div class="pager"><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/"><small>← Önceki</small>Ortalamaya Dönüş</a><a class="next" href="/tr/encyclopedia/algorithmic-trading/market-making/"><small>Sonraki →</small>Piyasa Yapıcılığı</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/tr/encyclopedia/basics/">Trading'in Temelleri</a><a href="/tr/encyclopedia/risk-management/">Risk ve Para Yönetimi</a><a href="/tr/encyclopedia/psychology/">Trading Psikolojisi</a><a href="/tr/encyclopedia/technical-analysis/">Teknik Analiz</a><a href="/tr/encyclopedia/fundamental-analysis/">Temel ve Makro Analiz</a><a href="/tr/encyclopedia/stocks/">Hisse Senedi İşlemleri</a><a href="/tr/encyclopedia/forex/">Forex İşlemleri</a><a href="/tr/encyclopedia/futures/">Vadeli İşlemler</a><a href="/tr/encyclopedia/options/">Opsiyon İşlemleri</a><a href="/tr/encyclopedia/crypto/">Kripto Para İşlemleri</a><a href="/tr/encyclopedia/meme-coins/">Meme Coin İşlemleri</a><a href="/tr/encyclopedia/prediction-markets/">Tahmin Piyasaları</a><a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a><a href="/tr/encyclopedia/other-markets/">Emtia, Tahvil ve Diğerleri</a><a href="/tr/encyclopedia/trading-business/">Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a><a href="/tr/encyclopedia/reference/">Başvuru Kaynakları</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Açık kaynak trading botları</a></div>
+  <p>PnL Profit Trading Ansiklopedisi: büyük piyasaların nasıl işlediğine dair ücretsiz ve bağımsız açıklamalar. Eğitim amaçlıdır, yatırım tavsiyesi değildir. İletişim: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/tr/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sonuç bulunamadı. Sözlüğe göz atın.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

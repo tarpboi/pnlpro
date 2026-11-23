@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gregas das opções: delta, gama, theta, vega e rho | PnL Profit</title>
+<meta name="description" content="O que medem delta, gama, theta, vega e rho, com exemplos práticos, como as gregas mudam com o tempo e o moneyness e como ler as gregas de uma posição.">
+<meta name="keywords" content="gregas das opções, delta gama theta vega, o que é delta de opção, theta decaimento temporal, gregas da posição">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/options-greeks/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/options-greeks/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Gregas das opções: delta, gama, theta, vega e rho | PnL Profit">
+<meta property="og:description" content="O que medem delta, gama, theta, vega e rho, com exemplos práticos, como as gregas mudam com o tempo e o moneyness e como ler as gregas de uma posição.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/options/options-greeks/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gregas das opções: delta, gama, theta, vega e rho | PnL Profit">
+<meta name="twitter:description" content="O que medem delta, gama, theta, vega e rho, com exemplos práticos, como as gregas mudam com o tempo e o moneyness e como ler as gregas de uma posição.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Gregas das opções: delta, gama, theta, vega e rho","description":"O que medem delta, gama, theta, vega e rho, com exemplos práticos, como as gregas mudam com o tempo e o moneyness e como ler as gregas de uma posição.","keywords":"gregas das opções, delta gama theta vega, o que é delta de opção, theta decaimento temporal, gregas da posição","articleSection":"Opções","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/options/options-greeks/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Opções","item":"https://pnlpro.fit/pt/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"As gregas","item":"https://pnlpro.fit/pt/encyclopedia/options/options-greeks/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Qual é um bom delta para comprar opções?","acceptedAnswer":{"@type":"Answer","text":"Não existe um único delta ideal. Opções dentro do dinheiro, de delta mais alto, se comportam mais como a ação e decaem menos em termos percentuais, enquanto opções fora do dinheiro, de delta mais baixo, são mais baratas, mas têm menos chance de terminar dentro do dinheiro."}},{"@type":"Question","name":"Por que o theta aumenta perto do vencimento?","acceptedAnswer":{"@type":"Answer","text":"O valor extrínseco precisa chegar a zero no vencimento. Nas opções no dinheiro, o valor tempo restante se perde em cada vez menos dias, então o decaimento diário cresce à medida que o vencimento se aproxima."}},{"@type":"Question","name":"O que significa gama negativo?","acceptedAnswer":{"@type":"Answer","text":"Gama negativo, que vem da venda de opções, significa que o seu delta anda contra você quando o ativo-objeto se move: você fica mais comprado quando o preço cai e mais vendido quando ele sobe. As perdas podem acelerar em movimentos grandes."}},{"@type":"Question","name":"Qual grega importa mais?","acceptedAnswer":{"@type":"Answer","text":"Depende da estratégia. Traders direcionais acompanham o delta, quem opera prazos curtos acompanha gama e theta, e quem opera em torno de balanços ou outros eventos acompanha o vega mais de perto."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/options/options-greeks/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/options-greeks/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/options-greeks/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/options-greeks/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/options-greeks/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/options/options-greeks/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/options-greeks/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/options-greeks/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/options-greeks/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Opções</h3><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/" class="on" aria-current="page">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Exposição gama e dealers</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/" class="on">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/options/">Opções</a></div>
+<h1 class="title">As gregas das opções</h1>
+<div class="meta">10 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Opções</summary><ul><li><a href="/pt/encyclopedia/options/options-basics/">Fundamentos das opções</a></li><li><a href="/pt/encyclopedia/options/options-greeks/" class="on" aria-current="page">As gregas</a></li><li><a href="/pt/encyclopedia/options/implied-volatility/">Volatilidade implícita</a></li><li><a href="/pt/encyclopedia/options/covered-calls-and-cash-secured-puts/">Lançamento coberto e venda de puts</a></li><li><a href="/pt/encyclopedia/options/vertical-spreads/">Travas verticais</a></li><li><a href="/pt/encyclopedia/options/iron-condors-and-butterflies/">Iron condors e borboletas</a></li><li><a href="/pt/encyclopedia/options/straddles-and-strangles/">Straddles e strangles</a></li><li><a href="/pt/encyclopedia/options/0dte-options/">Opções 0DTE</a></li><li><a href="/pt/encyclopedia/options/options-expiration-and-assignment/">Vencimento e exercício</a></li><li><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Exposição gama e dealers</a></li></ul></details>
+<article><p>As gregas são um conjunto de medidas que descrevem como se espera que o preço de uma opção mude quando um dos fatores muda e os demais ficam iguais. O delta mede a sensibilidade ao preço do ativo-objeto, o gama mede a velocidade com que o próprio delta muda, o theta mede o decaimento temporal, o vega mede a sensibilidade à volatilidade implícita e o rho mede a sensibilidade aos juros. Juntas, elas transformam uma opção de bilhete de loteria em uma posição cujos riscos podem ser medidos, comparados e gerenciados.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>O delta diz aproximadamente quanto o preço de uma opção se move para cada $1 de movimento no ativo-objeto e também funciona como exposição equivalente em ações.</li>
+<li>O gama é a taxa de variação do delta e atinge o máximo nas opções no dinheiro perto do vencimento.</li>
+<li>O theta é o custo diário de carregar uma opção e acelera à medida que o vencimento se aproxima.</li>
+<li>O vega mede a exposição a mudanças na volatilidade implícita, que podem mexer no preço das opções mesmo quando a ação fica parada.</li>
+<li>Somar as gregas de todas as posições dá as gregas da posição, o resumo mais claro daquilo a que uma carteira está realmente exposta.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#uma-op-o-de-refer-ncia">Uma opção de referência</a></li><li><a href="#delta">Delta</a></li><li><a href="#gama">Gama</a></li><li><a href="#theta">Theta</a></li><li><a href="#vega">Vega</a></li><li><a href="#rho">Rho</a></li><li><a href="#como-as-gregas-mudam-em-conjunto">Como as gregas mudam em conjunto</a></li><li><a href="#gregas-da-posi-o">Gregas da posição</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="uma-op-o-de-refer-ncia">Uma opção de referência</h2>
+<p>Os exemplos abaixo usam a mesma opção do começo ao fim. Uma ação está cotada a $100. Uma call com strike de $100 e 30 dias até o vencimento custa $3.50, com volatilidade implícita em torno de 30%. Suas gregas, arredondadas e aproximadamente como um modelo de precificação de opções as daria, são:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Grega</th>
+<th>Valor</th>
+<th>Significado prático</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Delta</td>
+<td>0.52</td>
+<td>A call ganha cerca de $0.52 por ação se a ação subir $1</td>
+</tr>
+<tr>
+<td>Gama</td>
+<td>0.046</td>
+<td>O delta sobe cerca de 0.046 se a ação subir $1</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>-0.06</td>
+<td>A call perde cerca de $0.06 por ação por dia com o decaimento temporal</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>0.11</td>
+<td>A call ganha cerca de $0.11 por ação se a volatilidade implícita subir 1 ponto percentual</td>
+</tr>
+<tr>
+<td>Rho</td>
+<td>0.04</td>
+<td>A call ganha cerca de $0.04 por ação se os juros subirem 1 ponto percentual</td>
+</tr>
+</tbody></table></div>
+<p>As opções padrão sobre ações dos EUA cobrem 100 ações, então multiplique cada número por 100 para obter o efeito em dólares por contrato. Um theta de -0.06 significa cerca de $6 por dia por contrato. As gregas são estimativas de um modelo e mudam continuamente; veja <a href="/pt/encyclopedia/options/options-basics/">fundamentos das opções</a> para a mecânica do contrato.</p>
+<h2 id="delta">Delta</h2>
+<p>O delta é a variação esperada no preço da opção para uma variação de $1 no ativo-objeto. Calls têm delta positivo, entre 0 e 1. Puts têm delta negativo, entre 0 e -1.</p>
+<h3 id="o-que-o-delta-diz">O que o delta diz</h3>
+<ul>
+<li><strong>Sensibilidade ao preço:</strong> com delta de 0.52, uma alta de $1 na ação acrescenta cerca de $0.52 à call, ou $52 por contrato.</li>
+<li><strong>Equivalente em ações:</strong> um contrato com delta de 0.52 se comporta mais ou menos como 52 ações em movimentos pequenos.</li>
+<li><strong>Probabilidade aproximada:</strong> os traders costumam usar o delta como estimativa grosseira da chance de a opção terminar dentro do dinheiro. Uma opção de delta 0.30 costuma ser lida como tendo cerca de 30% de chance. É uma regra prática, não uma probabilidade exata.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Moneyness</th>
+<th>Delta típico da call</th>
+<th>Delta típico da put</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Muito dentro do dinheiro</td>
+<td>Perto de 1.00</td>
+<td>Perto de -1.00</td>
+</tr>
+<tr>
+<td>No dinheiro</td>
+<td>Cerca de 0.50</td>
+<td>Cerca de -0.50</td>
+</tr>
+<tr>
+<td>Muito fora do dinheiro</td>
+<td>Perto de 0</td>
+<td>Perto de 0</td>
+</tr>
+</tbody></table></div>
+<h2 id="gama">Gama</h2>
+<p>O gama é a variação do delta para uma variação de $1 no ativo-objeto. Opções compradas, sejam calls ou puts, sempre têm gama positivo; opções vendidas têm gama negativo.</p>
+<h3 id="exemplo-pr-tico-delta-e-gama-juntos">Exemplo prático: delta e gama juntos</h3>
+<p>A ação sobe de $100 para $101.</p>
+<ul>
+<li>O novo delta fica em cerca de 0.52 + 0.046 = 0.566.</li>
+<li>Como o delta cresceu durante o movimento, a variação de preço é mais bem estimada com o delta médio: 0.52 + (0.5 x 0.046) = 0.543.</li>
+<li>O novo preço da call fica em cerca de $3.50 + $0.543 = $4.04.</li>
+</ul>
+<p>Se, em vez disso, a ação cair $1, o delta cai para cerca de 0.474 e a call perde cerca de 0.52 - 0.023 = $0.497, indo para cerca de $3.00. Gama positivo significa que a call ganha um pouco mais na subida do que perde na descida para um movimento do mesmo tamanho. Quem vende opções tem o oposto: as perdas aceleram quando a ação anda contra.</p>
+<h3 id="como-o-gama-muda">Como o gama muda</h3>
+<p>O gama é máximo nas opções no dinheiro e cresce fortemente à medida que o vencimento se aproxima. Uma opção no dinheiro que vence no mesmo dia pode ver o delta oscilar de cerca de 0.50 para perto de 1 ou de 0 com um movimento pequeno. É por isso que as <a href="/pt/encyclopedia/options/0dte-options/">opções 0DTE</a> são tão sensíveis, e é por isso que o hedge de gama dos dealers pode afetar o mercado do ativo-objeto, como explicado em <a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">exposição gama e hedge dos dealers</a>.</p>
+<h2 id="theta">Theta</h2>
+<p>O theta é a variação no preço da opção com a passagem de um dia, com todo o resto inalterado. Opções compradas têm theta negativo; opções vendidas têm theta positivo. O theta é o custo de carregar o direito que a opção dá a você.</p>
+<h3 id="exemplo-pr-tico">Exemplo prático</h3>
+<p>Carregar a call de referência por 5 dias com a ação parada e a volatilidade inalterada custa cerca de 5 x $0.06 = $0.30 por ação, ou $30 por contrato, levando a call de cerca de $3.50 para cerca de $3.20. Na prática o theta não é constante: ele aumenta à medida que o vencimento se aproxima.</p>
+<h3 id="como-o-theta-muda">Como o theta muda</h3>
+<ul>
+<li><strong>Tempo:</strong> uma opção no dinheiro perde valor extrínseco devagar no início e mais rápido nas últimas semanas. Uma opção de 90 dias pode perder alguns centavos por dia, e o mesmo strike com uma semana restante pode perder várias vezes isso.</li>
+<li><strong>Moneyness:</strong> em dólares, o theta é maior nas opções no dinheiro, que carregam mais valor extrínseco. Opções muito dentro e muito fora do dinheiro têm menos a perder.</li>
+</ul>
+<p>Os vendedores de opções buscam coletar theta. Eles são pagos por isso porque também assumem gama negativo, que é o risco de um movimento grande.</p>
+<h2 id="vega">Vega</h2>
+<p>O vega é a variação no preço da opção para uma variação de 1 ponto percentual na <a href="/pt/encyclopedia/options/implied-volatility/">volatilidade implícita</a>. Opções compradas têm vega positivo; opções vendidas têm vega negativo.</p>
+<h3 id="exemplo-pr-tico">Exemplo prático</h3>
+<p>Antes da divulgação de um balanço, a volatilidade implícita da call de referência sobe de 30% para 36% com a ação parada. A call ganha cerca de 6 x $0.11 = $0.66, indo para cerca de $4.16. Depois do balanço, se a volatilidade implícita voltar para 30%, esses $0.66 somem, mesmo que a ação mal tenha se mexido. Isso se chama IV crush.</p>
+<h3 id="como-o-vega-muda">Como o vega muda</h3>
+<p>O vega é maior nas opções no dinheiro e nas de prazo mais longo, porque há mais tempo para a volatilidade fazer diferença. Uma opção de um ano tem muito mais vega do que uma opção de uma semana no mesmo strike.</p>
+<h2 id="rho">Rho</h2>
+<p>O rho é a variação no preço da opção para uma variação de 1 ponto percentual nos juros. Calls têm rho positivo e puts têm rho negativo, porque juros mais altos tornam relativamente mais atraente carregar uma call do que comprar a ação diretamente. O rho é pequeno nas opções de prazo curto e costuma ser a grega menos importante para o trader pessoa física, mas pesa em opções de prazo longo, como as LEAPS.</p>
+<h2 id="como-as-gregas-mudam-em-conjunto">Como as gregas mudam em conjunto</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Grega</th>
+<th>No dinheiro</th>
+<th>Muito dentro do dinheiro</th>
+<th>Muito fora do dinheiro</th>
+<th>Perto do vencimento (ATM)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Delta</td>
+<td>Cerca de ±0.50</td>
+<td>Perto de ±1.00</td>
+<td>Perto de 0</td>
+<td>Fica perto de ±0.50, mas se torna instável</td>
+</tr>
+<tr>
+<td>Gama</td>
+<td>Máximo</td>
+<td>Baixo</td>
+<td>Baixo</td>
+<td>Sobe fortemente</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>Maior decaimento</td>
+<td>Menor</td>
+<td>Menor</td>
+<td>O decaimento acelera</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>Máximo</td>
+<td>Menor</td>
+<td>Menor</td>
+<td>Cai</td>
+</tr>
+</tbody></table></div>
+<h2 id="gregas-da-posi-o">Gregas da posição</h2>
+<p>As gregas da posição são a soma de cada grega em todas as posições de opções e ações, multiplicada pelo número de contratos e pelo multiplicador. A ação tem delta de 1 por ação e não tem gama, theta nem vega.</p>
+<h3 id="exemplo-pr-tico-uma-carteira-pequena">Exemplo prático: uma carteira pequena</h3>
+<p>Um trader tem:</p>
+<ul>
+<li>5 calls de referência compradas (delta 0.52, gama 0.046, theta -0.06, vega 0.11)</li>
+<li>200 ações da mesma empresa vendidas a descoberto</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Grega</th>
+<th>Calls: 5 x 100 x grega</th>
+<th>Ações</th>
+<th>Total da posição</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Delta</td>
+<td>5 x 100 x 0.52 = +260</td>
+<td>-200</td>
+<td>+60 ações</td>
+</tr>
+<tr>
+<td>Gama</td>
+<td>5 x 100 x 0.046 = +23</td>
+<td>0</td>
+<td>+23 por $1</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>5 x 100 x -0.06 = -$30</td>
+<td>0</td>
+<td>-$30 por dia</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>5 x 100 x 0.11 = +$55</td>
+<td>0</td>
+<td>+$55 por ponto de vol</td>
+</tr>
+</tbody></table></div>
+<p>Lendo a tabela: a posição se comporta neste momento como 60 ações compradas. Se a ação subir $1, o delta sobe para cerca de +83. A posição perde cerca de $30 por dia se nada acontecer e ganha cerca de $55 para cada alta de 1 ponto na volatilidade implícita. É uma posição comprada em gama e em vega que paga theta por esse privilégio. A maioria das plataformas das corretoras mostra as gregas da posição; conferi-las antes e depois de cada operação é um bom hábito.</p>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Tratar o delta como fixo.</strong> O delta muda com o preço, o tempo e a volatilidade. Uma posição neutra agora pode deixar de ser depois de um movimento.</li>
+<li><strong>Ignorar o theta nas opções compradas.</strong> Uma visão direcional correta ainda pode dar prejuízo se o movimento vier tarde demais.</li>
+<li><strong>Esquecer o vega em torno de eventos.</strong> Comprar opções com a volatilidade implícita alta e depois vê-la desabar é uma forma comum de perder dinheiro mesmo acertando a direção.</li>
+<li><strong>Subestimar o gama vendido.</strong> Vender opções perto do vencimento coleta theta rápido, mas um movimento brusco pode gerar perdas grandes rapidamente.</li>
+<li><strong>Confiar cegamente nas gregas do modelo.</strong> As gregas vêm de modelos com premissas. Movimentos grandes, gaps e saltos de volatilidade podem torná-las imprecisas justamente quando mais importam.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="qual-um-bom-delta-para-comprar-op-es">Qual é um bom delta para comprar opções?</h3>
+<p>Não existe um único delta ideal. Opções dentro do dinheiro, de delta mais alto, se comportam mais como a ação e decaem menos em termos percentuais, enquanto opções fora do dinheiro, de delta mais baixo, são mais baratas, mas têm menos chance de terminar dentro do dinheiro.</p>
+<h3 id="por-que-o-theta-aumenta-perto-do-vencimento">Por que o theta aumenta perto do vencimento?</h3>
+<p>O valor extrínseco precisa chegar a zero no vencimento. Nas opções no dinheiro, o valor tempo restante se perde em cada vez menos dias, então o decaimento diário cresce à medida que o vencimento se aproxima.</p>
+<h3 id="o-que-significa-gama-negativo">O que significa gama negativo?</h3>
+<p>Gama negativo, que vem da venda de opções, significa que o seu delta anda contra você quando o ativo-objeto se move: você fica mais comprado quando o preço cai e mais vendido quando ele sobe. As perdas podem acelerar em movimentos grandes.</p>
+<h3 id="qual-grega-importa-mais">Qual grega importa mais?</h3>
+<p>Depende da estratégia. Traders direcionais acompanham o delta, quem opera prazos curtos acompanha gama e theta, e quem opera em torno de balanços ou outros eventos acompanha o vega mais de perto.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/options/options-basics/"><div class="k">Opções</div><b>Fundamentos das opções</b><span>Como funcionam as opções: call, put, strike, vencimento, prêmio, valor intrínseco e extrínseco, moneyness, ganhos de titular e lançador e níveis de aprovação.</span></a><a class="card" href="/pt/encyclopedia/options/implied-volatility/"><div class="k">Opções</div><b>Volatilidade implícita</b><span>O que é volatilidade implícita, como ela difere da histórica, IV rank e IV percentil, IV crush, skew e a fórmula do movimento esperado com exemplos.</span></a><a class="card" href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/"><div class="k">Opções</div><b>Exposição gama e dealers</b><span>Como os market makers fazem delta hedge, gama positivo e negativo, gamma squeeze, como funcionam as estimativas de GEX e seus limites, OPEX, vanna e charm.</span></a><a class="card" href="/pt/encyclopedia/options/0dte-options/"><div class="k">Opções</div><b>Opções 0DTE</b><span>O que são opções 0DTE, por que as opções de SPX, SPY e QQQ do mesmo dia explodiram, como funcionam o gama e o decaimento extremos, estratégias e riscos.</span></a><a class="card" href="/pt/encyclopedia/options/straddles-and-strangles/"><div class="k">Opções</div><b>Straddles e strangles</b><span>Como funcionam straddles e strangles comprados e vendidos, pontos de equilíbrio com números, equilíbrio vs. movimento implícito, balanços e risco de cauda.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/options/options-basics/"><small>← Anterior</small>Fundamentos das opções</a><a class="next" href="/pt/encyclopedia/options/implied-volatility/"><small>Próximo →</small>Volatilidade implícita</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

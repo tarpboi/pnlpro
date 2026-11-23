@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>应对交易亏损与上头：熔断规则与恢复方法 | PnL Profit</title>
+<meta name="description" content="如何应对连续亏损和上头：警示信号、单日亏损上限等熔断规则、大亏之后如何重启、何时该停手，以及赌博问题的危险信号。">
+<meta name="keywords" content="交易上头, 交易亏损怎么办, 连续亏损, 单日亏损上限, 大亏之后如何恢复">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/psychology/handling-losses-and-tilt/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="应对交易亏损与上头：熔断规则与恢复方法 | PnL Profit">
+<meta property="og:description" content="如何应对连续亏损和上头：警示信号、单日亏损上限等熔断规则、大亏之后如何重启、何时该停手，以及赌博问题的危险信号。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/psychology/handling-losses-and-tilt/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="应对交易亏损与上头：熔断规则与恢复方法 | PnL Profit">
+<meta name="twitter:description" content="如何应对连续亏损和上头：警示信号、单日亏损上限等熔断规则、大亏之后如何重启、何时该停手，以及赌博问题的危险信号。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"应对交易亏损与上头：熔断规则与恢复方法","description":"如何应对连续亏损和上头：警示信号、单日亏损上限等熔断规则、大亏之后如何重启、何时该停手，以及赌博问题的危险信号。","keywords":"交易上头, 交易亏损怎么办, 连续亏损, 单日亏损上限, 大亏之后如何恢复","articleSection":"交易心理","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/psychology/handling-losses-and-tilt/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"交易心理","item":"https://pnlpro.fit/zh/encyclopedia/psychology/"},{"@type":"ListItem","position":3,"name":"应对亏损与情绪失控","item":"https://pnlpro.fit/zh/encyclopedia/psychology/handling-losses-and-tilt/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"交易中的\"上头\"是什么？","acceptedAnswer":{"@type":"Answer","text":"上头是一种受挫的状态，通常发生在亏损之后：交易者抛开自己的规则，做出越来越情绪化的决策，比如仓位更大、交易更快、没有有效信号也入场。这个说法来自扑克。"}},{"@type":"Question","name":"大亏之后如何恢复？","acceptedAnswer":{"@type":"Answer","text":"停止交易一段时间，书面复盘发生了什么，把策略亏损与违规区分开，然后以减小后的仓位重新开始，并为重新加大仓位设定明确的条件。试图迅速赢回亏损，通常只会让亏损更大。"}},{"@type":"Question","name":"连续亏损多少笔算正常？","acceptedAnswer":{"@type":"Answer","text":"这取决于你的胜率和交易笔数。胜率为50%时，在100笔交易中，出现连亏五笔或以上的可能性大于不出现的可能性。胜率更低时，连亏八笔或以上也很常见。"}},{"@type":"Question","name":"什么时候应该放弃交易？","acceptedAnswer":{"@type":"Answer","text":"如果你在遵守规则的情况下，在大样本交易中一直亏钱；如果你在用输不起的钱交易；如果交易正在损害你的健康或人际关系；或者如果你表现出赌博问题的迹象，就应该考虑停下来。暂时离开是一个正当且往往明智的选择。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/psychology/handling-losses-and-tilt/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/psychology/handling-losses-and-tilt/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/psychology/handling-losses-and-tilt/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/psychology/handling-losses-and-tilt/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/psychology/handling-losses-and-tilt/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/psychology/handling-losses-and-tilt/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/psychology/handling-losses-and-tilt/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/psychology/handling-losses-and-tilt/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/psychology/handling-losses-and-tilt/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>交易心理</h3><ul><li><a href="/zh/encyclopedia/psychology/trading-psychology-basics/">交易心理基础</a></li><li><a href="/zh/encyclopedia/psychology/cognitive-biases-in-trading/">认知偏差</a></li><li><a href="/zh/encyclopedia/psychology/fomo-and-revenge-trading/">FOMO与报复性交易</a></li><li><a href="/zh/encyclopedia/psychology/trading-journal/">交易日志</a></li><li><a href="/zh/encyclopedia/psychology/discipline-and-routine/">纪律与日常流程</a></li><li><a href="/zh/encyclopedia/psychology/handling-losses-and-tilt/" class="on" aria-current="page">应对亏损与情绪失控</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/" class="on">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/psychology/">交易心理</a></div>
+<h1 class="title">应对亏损与上头</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>交易心理中的更多文章</summary><ul><li><a href="/zh/encyclopedia/psychology/trading-psychology-basics/">交易心理基础</a></li><li><a href="/zh/encyclopedia/psychology/cognitive-biases-in-trading/">认知偏差</a></li><li><a href="/zh/encyclopedia/psychology/fomo-and-revenge-trading/">FOMO与报复性交易</a></li><li><a href="/zh/encyclopedia/psychology/trading-journal/">交易日志</a></li><li><a href="/zh/encyclopedia/psychology/discipline-and-routine/">纪律与日常流程</a></li><li><a href="/zh/encyclopedia/psychology/handling-losses-and-tilt/" class="on" aria-current="page">应对亏损与情绪失控</a></li></ul></details>
+<article><p>上头（tilt）是一种情绪受挫的状态：交易者不再遵守自己的规则，开始做出越来越糟糕的决策，通常发生在一笔亏损或一连串亏损之后。这个说法来自扑克。亏损是交易中无法避免的一部分，但上头会把正常的亏损变成巨额亏损；而交易者如何应对亏损，是影响长期结果最重要的因素之一。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点速览</h2>
+<ul>
+<li>连续亏损是每一种策略（包括盈利的策略）中正常且可预见的一部分。</li>
+<li>上头有可识别的警示信号，比如交易加快、仓位加大和愤怒情绪，而且越早制止越容易。</li>
+<li>单日亏损上限、连续亏损规则等熔断机制，能在上头造成严重损害之前停止交易。</li>
+<li>大亏之后，减小仓位、慢慢恢复，比试图迅速赢回来效果更好。</li>
+<li>追逐亏损、隐瞒交易或借钱交易，是赌博问题的警示信号，而且是可以获得帮助的。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">连续亏损很正常</a></li><li><a href="#section-3">上头是什么样的</a></li><li><a href="#section-4">熔断机制</a></li><li><a href="#section-6">大亏之后如何重启</a></li><li><a href="#section-9">何时应该彻底停止交易</a></li><li><a href="#section-10">赌博问题的警示信号</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">连续亏损很正常</h2>
+<p>每种策略都会亏损，而且亏损会扎堆出现。胜率为50%时，在100笔相互独立的交易中，至少出现一次连亏五笔或以上的概率约为81%，连亏八笔或以上的概率约为17%。胜率为40%时，在100笔交易中出现连亏八笔或以上的概率大约是五五开。这些数字来自<a href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">回撤与破产风险</a>中的表格。</p>
+<p>事先知道这一点，会改变连亏时的感受。连亏五笔并不一定说明策略失效了，也不一定说明你是个糟糕的交易者。这可能只是任何优势都会伴随的波动。重要的是你在连亏期间是否遵守了规则，以及在大样本上的结果是否符合预期。</p>
+<h2 id="section-3">上头是什么样的</h2>
+<p>上头很少会自报家门。它表现为一些相互叠加的细微行为变化。</p>
+<p><strong>行为信号：</strong></p>
+<ul>
+<li>交易加快，分析减少</li>
+<li>为了扳回亏损而加大仓位</li>
+<li>交易那些平时会跳过的机会</li>
+<li>挪动或撤掉止损</li>
+<li>超过单日亏损上限后继续交易</li>
+<li>在交易时段中途更换市场或时间周期</li>
+</ul>
+<p><strong>情绪和身体信号：</strong></p>
+<ul>
+<li>对市场、券商或自己感到愤怒</li>
+<li>觉得市场&quot;欠&quot;你的</li>
+<li>执着于当日的盈亏数字</li>
+<li>紧张、心跳加速、咬紧牙关</li>
+<li>明知该停却难以停手</li>
+</ul>
+<p>报复性交易是上头的一种特定形式，详见<a href="/zh/encyclopedia/psychology/fomo-and-revenge-trading/">FOMO与报复性交易</a>。</p>
+<h2 id="section-4">熔断机制</h2>
+<p>证券交易所在价格极端波动时会启动熔断机制暂停交易。交易者的个人熔断机制起的是同样的作用：在情绪接管之前自动停止交易。它们之所以有效，是因为它们是在你冷静时事先设定的。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>熔断机制</th>
+<th>规则示例</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单日亏损上限</td>
+<td>亏损达−3%或−3R时当天停止交易</td>
+<td>限制糟糕一天的损失</td>
+</tr>
+<tr>
+<td>连续亏损规则</td>
+<td>连亏3笔当天停止；连亏2笔休息30分钟</td>
+<td>及早打断上头</td>
+</tr>
+<tr>
+<td>交易笔数上限</td>
+<td>每天最多5笔交易</td>
+<td>防止连珠炮式反复入场</td>
+</tr>
+<tr>
+<td>每周亏损上限</td>
+<td>亏损达−6%时停到下周</td>
+<td>防止糟糕的一周变成糟糕的一个月</td>
+</tr>
+<tr>
+<td>回撤阈值</td>
+<td>从峰值回撤−10%时仓位减半；−15%时停止交易并复盘</td>
+<td>防止回撤演变成破产</td>
+</tr>
+<tr>
+<td>暂停</td>
+<td>任何超出计划的亏损之后强制休息</td>
+<td>在跳空或违规之后重新调整</td>
+</tr>
+</tbody></table></div>
+<p>有些券商和平台允许你设置亏损上限，或将账户锁定一段时间。使用这些功能会让你在当下很难违反规则。更完整的框架见<a href="/zh/encyclopedia/risk-management/risk-management-fundamentals/">风险管理基础</a>。</p>
+<h3 id="section-5">起身离开</h3>
+<p>最简单的熔断机制是物理上的：关掉交易平台，离开房间。散个步、做做运动，或者做任何与市场无关的事，都能让应激反应平息下来。许多交易者发现，亏损30分钟后做出的决定，与他们亏损后立刻想做的决定截然不同。</p>
+<h2 id="section-6">大亏之后如何重启</h2>
+<p>一笔大额亏损，无论是来自跳空、违规还是一段糟糕的连亏，都会带来想要迅速赚回来的强烈压力。正是这种压力，把大额亏损变成了灾难性亏损。</p>
+<h3 id="section-7">计算示例：慢慢恢复</h3>
+<p>一位交易者的账户从$20,000跌到$16,000，回撤20%。要回到$20,000，需要上涨25%（$4,000 ÷ $16,000）。</p>
+<p>假设该策略的现实优势为每笔交易+0.2R。按每笔交易1%的风险，每笔交易的期望收益约为0.2%，所以平均大约需要110笔交易才能恢复25%。如果采用更谨慎的0.5%风险，每笔交易的期望收益约为0.1%，恢复大约需要220笔交易。</p>
+<p>这可能慢得让人难以忍受，这也是为什么许多交易者会试图把风险翻倍来加快进度。但风险翻倍也会让下一次回撤的规模翻倍，从$16,000再亏损20%，账户就会降到$12,800，需要上涨56%才能恢复。稳扎稳打是唯一能可靠地防止窟窿越挖越深的方法。</p>
+<h3 id="section-8">重启流程</h3>
+<ol>
+<li><strong>停止交易，</strong> 至少当天剩下的时间都不交易，可能要停几天。</li>
+<li><strong>如实写下发生了什么：</strong> 交易本身、违反了哪些规则、诱因是什么。</li>
+<li><strong>把策略亏损与执行亏损区分开。</strong> 这些亏损是在计划之内，还是由违规造成的？你的<a href="/zh/encyclopedia/psychology/trading-journal/">交易日志</a>就是证据。</li>
+<li><strong>减小仓位，</strong> 例如降到平时每笔交易风险的一半，或者在一段设定的时间内用模拟账户交易。</li>
+<li><strong>设定恢复正常的条件，</strong> 比如以减小后的仓位完成10到20笔完全遵守规则的交易，再恢复正常仓位。</li>
+<li><strong>改变一件事，</strong> 比如增加一个本可以更早制止这次事件的熔断机制。</li>
+</ol>
+<h2 id="section-9">何时应该彻底停止交易</h2>
+<p>有时，正确的决定是停下来，要么长时间休息，要么永久退出。理由包括：</p>
+<ul>
+<li><strong>在大样本上亏损。</strong> 如果在规则遵守良好的情况下，数百笔交易的结果仍然为负，那么这个策略很可能没有优势。<a href="/zh/encyclopedia/basics/what-is-trading/">什么是交易</a>中总结的关于散户交易者的证据表明，这是最常见的结果。</li>
+<li><strong>用输不起的钱交易，</strong> 比如房租、用于必需开支的储蓄或借来的钱。</li>
+<li><strong>交易正在损害你的健康、睡眠、工作或人际关系。</strong></li>
+<li><strong>尽管有熔断机制，仍屡次无法遵守自己的规则。</strong></li>
+<li><strong>出现赌博问题的迹象，</strong> 详见下文。</li>
+</ul>
+<p>停下来并不是失败。许多人尝试过交易，发现它不适合自己，然后带着完好无损的资金和身心继续前行。</p>
+<h2 id="section-10">赌博问题的警示信号</h2>
+<p>交易，尤其是使用高杠杆、短期期权、Meme币或极短时间周期的交易，可能演变成一种问题赌博。警示信号包括：</p>
+<ul>
+<li>需要更大仓位或更频繁地交易，才能获得同样的刺激</li>
+<li>追逐亏损，一再试图赢回输掉的钱</li>
+<li>试图减少交易时感到烦躁不安或易怒</li>
+<li>屡次尝试停止或减少交易都没有成功</li>
+<li>即使远离市场，也满脑子都是交易</li>
+<li>用交易来逃避压力、焦虑或低落情绪</li>
+<li>就交易或亏损向家人或朋友撒谎</li>
+<li>借钱、刷信用卡或变卖财物来为交易筹资</li>
+<li>让工作、感情或重要的承诺陷入危险</li>
+</ul>
+<p>如果其中有几条听起来很熟悉，就值得找人谈谈。在大多数国家，都可以通过全国性的赌博求助热线、匿名戒赌会（Gamblers Anonymous）等互助团体，以及医生或心理健康专业人士获得帮助。一些券商和博彩运营商提供自我禁入或账户限额功能，也有工具可以屏蔽对交易和投注网站的访问。越早求助，往往越容易恢复。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>试图当天就把亏损赚回来。</strong></li>
+<li><strong>把统计上正常的连续亏损当作策略失效的证据，</strong> 然后一再更换策略。</li>
+<li><strong>设置了熔断机制，却在触发时推翻它。</strong></li>
+<li><strong>在回撤期间加大仓位，</strong> 想更快恢复。</li>
+<li><strong>对自己隐瞒亏损，</strong> 不做记录；或对他人隐瞒，闭口不谈。</li>
+<li><strong>忽视压力和疲劳的身体信号。</strong></li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-13">交易中的&quot;上头&quot;是什么？</h3>
+<p>上头是一种受挫的状态，通常发生在亏损之后：交易者抛开自己的规则，做出越来越情绪化的决策，比如仓位更大、交易更快、没有有效信号也入场。这个说法来自扑克。</p>
+<h3 id="section-14">大亏之后如何恢复？</h3>
+<p>停止交易一段时间，书面复盘发生了什么，把策略亏损与违规区分开，然后以减小后的仓位重新开始，并为重新加大仓位设定明确的条件。试图迅速赢回亏损，通常只会让亏损更大。</p>
+<h3 id="section-15">连续亏损多少笔算正常？</h3>
+<p>这取决于你的胜率和交易笔数。胜率为50%时，在100笔交易中，出现连亏五笔或以上的可能性大于不出现的可能性。胜率更低时，连亏八笔或以上也很常见。</p>
+<h3 id="section-16">什么时候应该放弃交易？</h3>
+<p>如果你在遵守规则的情况下，在大样本交易中一直亏钱；如果你在用输不起的钱交易；如果交易正在损害你的健康或人际关系；或者如果你表现出赌博问题的迹象，就应该考虑停下来。暂时离开是一个正当且往往明智的选择。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/psychology/fomo-and-revenge-trading/"><div class="k">交易心理</div><b>FOMO与报复性交易</b><span>什么是FOMO和报复性交易，从社交媒体、大阳线到亏损，哪些因素会触发它们，以及阻止它们掏空账户的具体规则。</span></a><a class="card" href="/zh/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">风险与资金管理</div><b>回撤与破产风险</b><span>什么是最大回撤、亏损后需要涨多少才能回本、连续亏损有多常见，以及仓位大小如何改变破产风险，附数据表。</span></a><a class="card" href="/zh/encyclopedia/psychology/trading-psychology-basics/"><div class="k">交易心理</div><b>交易心理基础</b><span>为什么拥有好系统的交易者照样亏钱：恐惧与贪婪、如何面对不确定性、过程导向与结果导向，以及如何建立概率化的交易心态。</span></a><a class="card" href="/zh/encyclopedia/psychology/discipline-and-routine/"><div class="k">交易心理</div><b>纪律与日常流程</b><span>如何建立交易纪律：盘前例行程序、交易检查清单、何时不该交易的规则、睡眠与看盘时间，以及把自动化当作纪律工具。</span></a><a class="card" href="/zh/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">风险与资金管理</div><b>风险管理基础</b><span>为什么风险管理比入场点更重要：单笔风险、每日亏损上限、亏损50%意味着什么，以及交易中主要的风险类型。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/psychology/discipline-and-routine/"><small>← 上一篇</small>纪律与日常流程</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

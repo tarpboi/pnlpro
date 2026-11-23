@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>杠杆与保证金详解：追加保证金与爆仓 | PnL Profit</title>
+<meta name="description" content="杠杆和保证金如何运作，初始保证金与维持保证金，追加保证金通知、强制平仓、全仓与逐仓保证金，附计算示例和各地区杠杆上限。">
+<meta name="keywords" content="杠杆和保证金, 追加保证金是什么, 初始保证金和维持保证金, 全仓和逐仓的区别, 杠杆交易, 爆仓">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/leverage-and-margin/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/leverage-and-margin/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="杠杆与保证金详解：追加保证金与爆仓 | PnL Profit">
+<meta property="og:description" content="杠杆和保证金如何运作，初始保证金与维持保证金，追加保证金通知、强制平仓、全仓与逐仓保证金，附计算示例和各地区杠杆上限。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/basics/leverage-and-margin/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="杠杆与保证金详解：追加保证金与爆仓 | PnL Profit">
+<meta name="twitter:description" content="杠杆和保证金如何运作，初始保证金与维持保证金，追加保证金通知、强制平仓、全仓与逐仓保证金，附计算示例和各地区杠杆上限。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"杠杆与保证金详解：追加保证金与爆仓","description":"杠杆和保证金如何运作，初始保证金与维持保证金，追加保证金通知、强制平仓、全仓与逐仓保证金，附计算示例和各地区杠杆上限。","keywords":"杠杆和保证金, 追加保证金是什么, 初始保证金和维持保证金, 全仓和逐仓的区别, 杠杆交易, 爆仓","articleSection":"交易基础","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/basics/leverage-and-margin/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"交易基础","item":"https://pnlpro.fit/zh/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"杠杆与保证金","item":"https://pnlpro.fit/zh/encyclopedia/basics/leverage-and-margin/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"10 倍杠杆是什么意思？","acceptedAnswer":{"@type":"Answer","text":"这意味着你的仓位是你投入资金的 10 倍。价格变动 1% 会让你的权益变动约 10%，而价格反向变动 10% 就可能让权益归零。"}},{"@type":"Question","name":"初始保证金和维持保证金有什么区别？","acceptedAnswer":{"@type":"Answer","text":"初始保证金是开仓所需的存款。维持保证金是持仓期间必须保持的较低的最低金额；跌破它就会触发追加保证金通知或强制平仓。"}},{"@type":"Question","name":"使用杠杆会亏损超过本金吗？","acceptedAnswer":{"@type":"Answer","text":"在某些账户中会。如果市场跳空越过你的强平价位，亏损可能超过你的保证金。欧盟和英国的零售差价合约客户享有负余额保护，但这并非普遍适用。"}},{"@type":"Question","name":"全仓保证金和逐仓保证金哪个更安全？","acceptedAnswer":{"@type":"Answer","text":"逐仓保证金把每个仓位的亏损限制在分配给它的保证金之内，从而保护账户的其余部分。全仓保证金动用你的全部余额来推迟强平，但一笔糟糕的交易就可能吞噬一切。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/basics/leverage-and-margin/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/leverage-and-margin/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/basics/leverage-and-margin/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/leverage-and-margin/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/leverage-and-margin/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/leverage-and-margin/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/leverage-and-margin/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/leverage-and-margin/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/leverage-and-margin/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>交易基础</h3><ul><li><a href="/zh/encyclopedia/basics/what-is-trading/">什么是交易？</a></li><li><a href="/zh/encyclopedia/basics/financial-markets-overview/">金融市场概览</a></li><li><a href="/zh/encyclopedia/basics/trading-styles/">交易风格</a></li><li><a href="/zh/encyclopedia/basics/order-types/">订单类型</a></li><li><a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿与市场深度</a></li><li><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">点差与流动性</a></li><li><a href="/zh/encyclopedia/basics/leverage-and-margin/" class="on" aria-current="page">杠杆与保证金</a></li><li><a href="/zh/encyclopedia/basics/long-and-short-positions/">做多与做空</a></li><li><a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a></li><li><a href="/zh/encyclopedia/basics/brokers-and-exchanges/">经纪商与交易所</a></li><li><a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a></li><li><a href="/zh/encyclopedia/basics/market-hours-and-sessions/">交易时间与时段</a></li><li><a href="/zh/encyclopedia/basics/how-to-start-trading/">如何开始交易</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/" class="on">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/basics/">交易基础</a></div>
+<h1 class="title">杠杆与保证金</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>交易基础中的更多文章</summary><ul><li><a href="/zh/encyclopedia/basics/what-is-trading/">什么是交易？</a></li><li><a href="/zh/encyclopedia/basics/financial-markets-overview/">金融市场概览</a></li><li><a href="/zh/encyclopedia/basics/trading-styles/">交易风格</a></li><li><a href="/zh/encyclopedia/basics/order-types/">订单类型</a></li><li><a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿与市场深度</a></li><li><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">点差与流动性</a></li><li><a href="/zh/encyclopedia/basics/leverage-and-margin/" class="on" aria-current="page">杠杆与保证金</a></li><li><a href="/zh/encyclopedia/basics/long-and-short-positions/">做多与做空</a></li><li><a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a></li><li><a href="/zh/encyclopedia/basics/brokers-and-exchanges/">经纪商与交易所</a></li><li><a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a></li><li><a href="/zh/encyclopedia/basics/market-hours-and-sessions/">交易时间与时段</a></li><li><a href="/zh/encyclopedia/basics/how-to-start-trading/">如何开始交易</a></li></ul></details>
+<article><p>杠杆是指用少于仓位价值的资金控制一个更大的仓位，而保证金是经纪商或交易所要求你存入的、用于维持该仓位的现金或抵押品。杠杆会把收益和亏损按同一倍数放大，因此对一个高杠杆仓位而言，价格只要小幅反向变动，就可能让账户归零。保证金规则决定了何时要求你追加资金，以及何时替你强制平仓。杠杆是散户交易者迅速亏钱的头号原因。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点总结</h2>
+<ul>
+<li>杠杆等于仓位规模除以你的自有资金；在 10:1 的杠杆下，价格变动 1% 会让你的权益变动 10%。</li>
+<li>初始保证金是开仓所需的资金，维持保证金是持仓所需保持的最低资金。</li>
+<li>权益跌破维持保证金会触发追加保证金通知（margin call），在许多经纪商和加密货币交易所则会直接自动强平。</li>
+<li>全仓保证金让你的全部余额在各仓位间共享，而逐仓保证金把每个仓位的亏损限制在分配给它的保证金之内。</li>
+<li>许多地区的监管机构都对散户杠杆设有上限，这些上限因国家而异，并会随时间调整。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">什么是杠杆</a></li><li><a href="#section-4">初始保证金与维持保证金</a></li><li><a href="#section-5">追加保证金通知与强制平仓</a></li><li><a href="#section-6">计算示例</a></li><li><a href="#section-10">全仓与逐仓保证金</a></li><li><a href="#section-11">监管杠杆上限</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">什么是杠杆</h2>
+<p><strong>杠杆比率 = 仓位价值 / 你的权益。</strong> 如果你用 $5,000 自有资金持有一个 $50,000 的仓位，那么你的杠杆就是 10:1，即 10 倍。</p>
+<p>仓位的其余部分实际上是融资得来的。在股票保证金账户中，经纪商借给你现金并收取利息。在期货、差价合约和加密货币永续合约中，你并不借入全部金额；你缴纳保证金作为履约担保，并承担价格变动的全部盈亏。</p>
+<h3 id="section-3">杠杆如何放大结果</h3>
+<p>价格变动 5% 对你权益的影响（不计成本）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>杠杆</th>
+<th>价格上涨 5% 时的收益</th>
+<th>价格下跌 5% 时的亏损</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1:1</td>
+<td>+5%</td>
+<td>-5%</td>
+</tr>
+<tr>
+<td>5:1</td>
+<td>+25%</td>
+<td>-25%</td>
+</tr>
+<tr>
+<td>10:1</td>
+<td>+50%</td>
+<td>-50%</td>
+</tr>
+<tr>
+<td>20:1</td>
+<td>+100%</td>
+<td>-100%（权益归零）</td>
+</tr>
+<tr>
+<td>50:1</td>
+<td>+250%</td>
+<td>下跌 2% 后即归零</td>
+</tr>
+</tbody></table></div>
+<p>一条实用的经验法则：在杠杆为 L 时，价格反向变动约 1/L 就会抹去你的全部权益。20:1 时是 5% 的变动；100:1 时是 1%。许多资产一天之内就会波动这么多。</p>
+<h2 id="section-4">初始保证金与维持保证金</h2>
+<ul>
+<li><strong>初始保证金</strong>是开仓所需的存款。它可能以仓位的百分比表示（例如 10%），也可能是每份合约的固定金额。</li>
+<li><strong>维持保证金</strong>是持仓期间你必须保持的最低权益。它低于初始保证金。</li>
+</ul>
+<p>你的<strong>权益</strong>等于存款加上或减去未实现盈亏。当权益跌破维持保证金时，经纪商就会采取行动。</p>
+<h2 id="section-5">追加保证金通知与强制平仓</h2>
+<p><strong>追加保证金通知</strong>（margin call）是要求你将账户恢复到规定水平以上，方式是追加资金或减少仓位。传统的股票和期货经纪商可能会给你一段很短的时间来回应，但在快速行情中他们没有义务等待。</p>
+<p><strong>强制平仓</strong>（liquidation，俗称爆仓）是指你的仓位被强行了结。许多差价合约经纪商、外汇经纪商和加密货币交易所在权益触及某个阈值时会自动强平，根本不发通知。在欧盟和英国，零售差价合约经纪商必须在权益跌至所需保证金的 50% 时平仓。加密货币交易所通常在权益降至维持保证金水平时强平，并可能收取强平手续费。参见<a href="/zh/encyclopedia/crypto/crypto-liquidations/">加密货币强平</a>。</p>
+<p>强制平仓并不是保证你只亏掉保证金的安全网。在跳空或快速行情中，平仓价格可能比强平价位更差，在某些账户类型中，你最终还可能欠下债务。负余额保护（negative balance protection）可以防止亏损超过账户余额，它是欧盟和英国零售差价合约客户的强制要求，其他一些经纪商也会提供。</p>
+<h2 id="section-6">计算示例</h2>
+<h3 id="section-7">股票保证金账户（美国模式）</h3>
+<p>在美国，Regulation T 长期以来将股票买入的初始保证金设定为 50%，FINRA 则要求维持保证金至少为 25%，不过许多经纪商的要求更高。</p>
+<p>某交易者用 $10,000 买入价值 $20,000 的股票，借入 $10,000。杠杆为 2:1。</p>
+<ul>
+<li>无论股价如何变动，借款始终是 $10,000。</li>
+<li>当权益 / 仓位价值降至 25% 时，会收到追加保证金通知：(V - 10,000) / V = 0.25。</li>
+<li>求解：V = 10,000 / 0.75 = $13,333.33。</li>
+</ul>
+<p>仓位可以从 $20,000 跌到约 $13,333，即下跌三分之一，才会在 25% 的最低要求处收到追加保证金通知。此时交易者的权益为 $3,333，亏掉了最初 $10,000 的三分之二。</p>
+<h3 id="30-1">30:1 杠杆的外汇交易</h3>
+<p>一标准手 EUR/USD 为 100,000 欧元。在 1.1000 的汇率下，相当于 $110,000 的风险敞口。按欧盟和英国对主要货币对 30:1 的零售杠杆上限，所需保证金为 $110,000 / 30 = $3,666.67。</p>
+<p>110 个点的变动（从 1.1000 到 1.0890）相当于 1% 的变动，损失为 110 x $10 = $1,100。这相当于保证金的 30%。3.3% 的变动就会完全抹去保证金，而经纪商的 50% 强平规则早在那之前就会触发。</p>
+<h3 id="10">10 倍杠杆的加密货币永续合约（逐仓）</h3>
+<p>某交易者投入 $1,000 逐仓保证金，在 $50,000 的价位开立价值 $10,000 的比特币多头仓位，即 0.2 BTC。假设交易所的维持保证金为仓位价值的 0.5%，即 $50。</p>
+<ul>
+<li>当亏损达到约 $1,000 - $50 = $950 时触发强平。</li>
+<li>导致强平的价格跌幅：$950 / 0.2 = $4,750。</li>
+<li>大致强平价格：$50,000 - $4,750 = $45,250，即下跌 9.5%。</li>
+</ul>
+<p>实际交易所使用各自的公式、标记价格和手续费，因此实际强平价位会略有不同。关键在于，一个 10 倍杠杆的仓位在价格变动不到 10% 时就会被平掉，而比特币单日波动达到这一幅度的情况已经出现过很多次。</p>
+<h2 id="section-10">全仓与逐仓保证金</h2>
+<p>这两个术语在加密货币衍生品交易所最为常见，不过其概念也适用于其他地方。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>逐仓保证金</th>
+<th>全仓保证金</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>抵押品</td>
+<td>仅限分配给该仓位的保证金</td>
+<td>你的全部账户余额</td>
+</tr>
+<tr>
+<td>单个仓位的最大亏损</td>
+<td>逐仓保证金（不计跳空和手续费）</td>
+<td>可能是整个账户</td>
+</tr>
+<tr>
+<td>强平距离</td>
+<td>更近，因为支撑仓位的抵押品较少</td>
+<td>更远，因为整个余额都在支撑仓位</td>
+</tr>
+<tr>
+<td>最适合</td>
+<td>限制任何单笔交易造成的损失</td>
+<td>对冲或相互抵消的仓位</td>
+</tr>
+</tbody></table></div>
+<p>全仓保证金能让亏损仓位维持更久，看起来更安全，却可能让一笔糟糕的交易葬送整个账户。逐仓保证金限制了每个仓位的亏损，但会更早被强平。</p>
+<h2 id="section-11">监管杠杆上限</h2>
+<p>许多监管机构都限制了向散户客户提供的杠杆。截至 2026 年，大致情况如下，但规则会变化，且对专业客户有不同规定，请查阅你所在地区的现行规定。</p>
+<ul>
+<li><strong>欧盟和英国（差价合约和点差交易）：</strong> 主要货币对 30:1；非主要货币对、黄金和主要股票指数 20:1；其他大宗商品和次要指数 10:1；个股 5:1；在欧盟，加密货币为 2:1。英国则直接禁止向散户客户销售加密货币衍生品。</li>
+<li><strong>澳大利亚：</strong> 对零售差价合约客户的上限与欧盟类似。</li>
+<li><strong>美国：</strong> 零售外汇杠杆上限为主要货币对 50:1、其他货币对 20:1；不允许向散户提供差价合约；股票保证金受 Regulation T 和 FINRA 规则约束。</li>
+<li><strong>日本：</strong> 零售外汇杠杆上限为 25:1。</li>
+<li><strong>离岸经纪商和交易所：</strong> 有些提供 500:1 或更高的外汇杠杆，以及超过 100 倍的加密货币杠杆。可用杠杆越高，客户保护通常越弱。参见<a href="/zh/encyclopedia/basics/brokers-and-exchanges/">经纪商与交易所</a>。</li>
+</ul>
+<p>期货的杠杆上限是通过交易所的保证金要求间接设定的，这些要求会随波动率变化。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>使用最大可用杠杆。</strong> 经纪商提供的杠杆是上限，而不是建议。实际杠杆应该由你的<a href="/zh/encyclopedia/risk-management/position-sizing/">仓位管理</a>决定，而不是由账户设置决定。</li>
+<li><strong>把保证金与风险混为一谈。</strong> 在 20 倍仓位上投入 $1,000 保证金，并不意味着你在安全地承担 $1,000 的风险；它意味着价格变动 5% 就会结束这笔交易。</li>
+<li><strong>追加保证金来挽救亏损交易。</strong> 为避免强平而反复入金，往往会把小亏变成大亏。</li>
+<li><strong>忽视融资成本。</strong> 隔夜持有的杠杆仓位通常需要支付利息、隔夜利息（swap）或资金费。参见<a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a>。</li>
+<li><strong>忘记跳空风险。</strong> 周末、新闻和停牌都可能让价格越过你的强平价位。历史上的爆仓事件详见<a href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/">杠杆风险与黑天鹅</a>。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="10">10 倍杠杆是什么意思？</h3>
+<p>这意味着你的仓位是你投入资金的 10 倍。价格变动 1% 会让你的权益变动约 10%，而价格反向变动 10% 就可能让权益归零。</p>
+<h3 id="section-15">初始保证金和维持保证金有什么区别？</h3>
+<p>初始保证金是开仓所需的存款。维持保证金是持仓期间必须保持的较低的最低金额；跌破它就会触发追加保证金通知或强制平仓。</p>
+<h3 id="section-16">使用杠杆会亏损超过本金吗？</h3>
+<p>在某些账户中会。如果市场跳空越过你的强平价位，亏损可能超过你的保证金。欧盟和英国的零售差价合约客户享有负余额保护，但这并非普遍适用。</p>
+<h3 id="section-17">全仓保证金和逐仓保证金哪个更安全？</h3>
+<p>逐仓保证金把每个仓位的亏损限制在分配给它的保证金之内，从而保护账户的其余部分。全仓保证金动用你的全部余额来推迟强平，但一笔糟糕的交易就可能吞噬一切。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/basics/long-and-short-positions/"><div class="k">交易基础</div><b>做多与做空</b><span>什么是做多和做空，如何通过融券、差价合约、期货、永续合约和看跌期权做空，为什么空头风险无上限，以及对冲的原理。</span></a><a class="card" href="/zh/encyclopedia/crypto/crypto-liquidations/"><div class="k">加密货币交易</div><b>爆仓</b><span>加密货币爆仓如何发生：多空强平价格计算、全仓与逐仓保证金、连环爆仓、清算热力图与未平仓合约，以及如何避免被强平。</span></a><a class="card" href="/zh/encyclopedia/risk-management/position-sizing/"><div class="k">风险与资金管理</div><b>仓位管理</b><span>如何根据账户风险和止损距离计算仓位大小：固定比例、固定金额与ATR仓位法，附股票、外汇和加密货币的实例演算。</span></a><a class="card" href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/"><div class="k">风险与资金管理</div><b>杠杆风险与黑天鹅</b><span>尾部事件如何让高杠杆交易者爆仓：2015年瑞郎脱钩、2020年负油价、GameStop、LUNA与FTX，以及跳空、流动性枯竭和其中的教训。</span></a><a class="card" href="/zh/encyclopedia/risk-management/risk-management-fundamentals/"><div class="k">风险与资金管理</div><b>风险管理基础</b><span>为什么风险管理比入场点更重要：单笔风险、每日亏损上限、亏损50%意味着什么，以及交易中主要的风险类型。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/"><small>← 上一篇</small>点差与流动性</a><a class="next" href="/zh/encyclopedia/basics/long-and-short-positions/"><small>下一篇 →</small>做多与做空</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gamma 敞口（GEX）与做市商对冲：期权如何影响市场 | PnL Profit</title>
+<meta name="description" content="做市商如何进行 Delta 对冲，做市商正 Gamma 与负 Gamma，Gamma 挤压，GEX 估算的原理与局限，期权到期日（OPEX）效应，以及 Vanna 和 Charm。">
+<meta name="keywords" content="Gamma敞口, GEX 期权, 做市商Gamma, Gamma挤压, 做市商Delta对冲">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="Gamma 敞口（GEX）与做市商对冲：期权如何影响市场 | PnL Profit">
+<meta property="og:description" content="做市商如何进行 Delta 对冲，做市商正 Gamma 与负 Gamma，Gamma 挤压，GEX 估算的原理与局限，期权到期日（OPEX）效应，以及 Vanna 和 Charm。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gamma 敞口（GEX）与做市商对冲：期权如何影响市场 | PnL Profit">
+<meta name="twitter:description" content="做市商如何进行 Delta 对冲，做市商正 Gamma 与负 Gamma，Gamma 挤压，GEX 估算的原理与局限，期权到期日（OPEX）效应，以及 Vanna 和 Charm。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"Gamma 敞口（GEX）与做市商对冲：期权如何影响市场","description":"做市商如何进行 Delta 对冲，做市商正 Gamma 与负 Gamma，Gamma 挤压，GEX 估算的原理与局限，期权到期日（OPEX）效应，以及 Vanna 和 Charm。","keywords":"Gamma敞口, GEX 期权, 做市商Gamma, Gamma挤压, 做市商Delta对冲","articleSection":"期权交易","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"期权交易","item":"https://pnlpro.fit/zh/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Gamma敞口与做市商对冲","item":"https://pnlpro.fit/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"负 Gamma 对市场意味着什么？","acceptedAnswer":{"@type":"Answer","text":"当估算显示做市商处于净负 Gamma 时，他们的对冲需要在价格上涨时买入、下跌时卖出。这可能放大波动、推高波动率，不过其他资金流可能盖过这种影响。"}},{"@type":"Question","name":"什么是 Gamma 挤压？","acceptedAnswer":{"@type":"Answer","text":"当大量买入看涨期权，迫使卖出这些看涨期权的做市商在价格上涨时买入标的，进而推高价格、需要更多买入时，就发生了 Gamma 挤压。在被大量卖空的股票中，它可能与轧空叠加。"}},{"@type":"Question","name":"GEX 有多准确？","acceptedAnswer":{"@type":"Answer","text":"GEX 是一种估算，取决于做市商对每份期权是多头还是空头的假设，而且依赖每天只更新一次的未平仓合约量。不同供应商给出的数字往往不同。"}},{"@type":"Question","name":"为什么股价在到期时会被钉在行权价附近？","acceptedAnswer":{"@type":"Answer","text":"当大量未平仓合约集中在某个行权价附近时，随着到期临近，做市商的对冲可能倾向于让价格保持在附近。研究发现，可交易期权的股票在到期日聚集在行权价附近的频率高于随机情况下的预期。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/options/gamma-exposure-and-dealer-hedging/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>期权交易</h3><ul><li><a href="/zh/encyclopedia/options/options-basics/">期权基础</a></li><li><a href="/zh/encyclopedia/options/options-greeks/">希腊字母</a></li><li><a href="/zh/encyclopedia/options/implied-volatility/">隐含波动率</a></li><li><a href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/">备兑看涨与现金担保看跌</a></li><li><a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a></li><li><a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰式与蝶式</a></li><li><a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a></li><li><a href="/zh/encyclopedia/options/0dte-options/">0DTE期权</a></li><li><a href="/zh/encyclopedia/options/options-expiration-and-assignment/">到期与行权指派</a></li><li><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/" class="on" aria-current="page">Gamma敞口与做市商对冲</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/" class="on">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/options/">期权交易</a></div>
+<h1 class="title">Gamma 敞口与做市商对冲</h1>
+<div class="meta">阅读约 6 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>期权交易中的更多文章</summary><ul><li><a href="/zh/encyclopedia/options/options-basics/">期权基础</a></li><li><a href="/zh/encyclopedia/options/options-greeks/">希腊字母</a></li><li><a href="/zh/encyclopedia/options/implied-volatility/">隐含波动率</a></li><li><a href="/zh/encyclopedia/options/covered-calls-and-cash-secured-puts/">备兑看涨与现金担保看跌</a></li><li><a href="/zh/encyclopedia/options/vertical-spreads/">垂直价差</a></li><li><a href="/zh/encyclopedia/options/iron-condors-and-butterflies/">铁鹰式与蝶式</a></li><li><a href="/zh/encyclopedia/options/straddles-and-strangles/">跨式与宽跨式</a></li><li><a href="/zh/encyclopedia/options/0dte-options/">0DTE期权</a></li><li><a href="/zh/encyclopedia/options/options-expiration-and-assignment/">到期与行权指派</a></li><li><a href="/zh/encyclopedia/options/gamma-exposure-and-dealer-hedging/" class="on" aria-current="page">Gamma敞口与做市商对冲</a></li></ul></details>
+<article><p>Gamma 敞口描述的是：随着标的价格变动，期权交易商（主要是做市商）为保持对冲需要买入或卖出多少标的资产。做市商通常力求保持 Delta 中性，因此他们的对冲交易取决于所持期权的 Gamma。当做市商整体处于负 Gamma（short gamma）时，他们的对冲可能把价格朝既有方向推得更远；当他们处于正 Gamma（long gamma）时，对冲往往会抵消价格波动。交易者会关注 Gamma 敞口（GEX）的估算值，从中寻找波动率的线索，但这些估算建立在经常出错的假设之上。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点总结</h2>
+<ul>
+<li>期权做市商通常通过交易标的来对冲其库存的 Delta，而 Gamma 决定了价格变动时他们需要调整多少。</li>
+<li>做市商净持有正 Gamma 时，对冲意味着逢涨卖出、逢跌买入，这往往会抑制波动。</li>
+<li>做市商净持有负 Gamma 时，对冲意味着追涨杀跌，这可能放大波动，并助推 Gamma 挤压（gamma squeeze）。</li>
+<li>公开的 GEX 数据是估算值，建立在“谁持有哪些期权”的假设上，可能错得离谱。</li>
+<li>月度期权到期以及前后的 Vanna 和 Charm 效应可能改变对冲资金流，但这些只是倾向，并非可靠信号。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">做市商为什么要对冲</a></li><li><a href="#gamma">Gamma 挤压</a></li><li><a href="#gex">GEX 估算的原理</a></li><li><a href="#gex">GEX 的局限</a></li><li><a href="#opex">OPEX 效应</a></li><li><a href="#vanna-charm">简述 Vanna 与 Charm</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">做市商为什么要对冲</h2>
+<p>做市商靠以买价买入、以卖价卖出赚钱，而不是押注方向。当客户买入一张看涨期权时，卖出它的做市商就持有了看涨期权空头，股价上涨时这个头寸会亏钱。为了消除这一方向性风险，做市商会买入一定数量的标的，数量由期权的 Delta 决定。这叫做 Delta 对冲。报价和管理库存的整体业务详见<a href="/zh/encyclopedia/algorithmic-trading/market-making/">做市</a>。</p>
+<p>价格变动时 Delta 会变化，变化速度由 Gamma 衡量。因此，现在正确的对冲在价格变动后就不再正确，做市商必须再次交易。相关定义参见<a href="/zh/encyclopedia/options/options-greeks/">期权希腊字母</a>。</p>
+<h3 id="section-3">实例：对冲看涨期权空头</h3>
+<p>一家做市商在一只现价 $100 的股票上卖出 1,000 张看涨期权合约。每张看涨期权的 Delta 为 0.40，Gamma 为 0.05，每张合约对应 100 股。</p>
+<ul>
+<li><strong>初始对冲</strong>：做市商持有 1,000 x 100 x 0.40 = 40,000 股等值的 Delta 空头，因此买入 40,000 股。</li>
+<li><strong>股价上涨 $1 至 $101</strong>：Delta 升至约 0.45。做市商此时持有 45,000 股等值空头，于是再买入约 1,000 x 100 x 0.05 = 5,000 股。</li>
+<li><strong>如果股价反而下跌 $1 至 $99</strong>：Delta 降至约 0.35，做市商卖出约 5,000 股。</li>
+</ul>
+<p>这家做市商处于负 Gamma。为了保持对冲，它在价格上涨时买入、下跌时卖出。这些交易会顺着市场既有的方向加码。</p>
+<h3 id="gamma">相反的情况：正 Gamma</h3>
+<p>如果做市商是从客户手中买入了 1,000 张这样的看涨期权（例如从卖出备兑看涨的投资者手中），它就会通过卖空 40,000 股来对冲。上涨 $1 时，Delta 增至 0.45，做市商在上涨中再卖出 5,000 股；下跌 $1 时，它在下跌中买回 5,000 股。正 Gamma 对冲会抵消价格波动。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>做市商头寸</th>
+<th>价格上涨时的对冲</th>
+<th>价格下跌时的对冲</th>
+<th>可能的市场影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>净正 Gamma</td>
+<td>卖出</td>
+<td>买入</td>
+<td>抑制波动，可能压缩价格区间</td>
+</tr>
+<tr>
+<td>净负 Gamma</td>
+<td>买入</td>
+<td>卖出</td>
+<td>放大波动，可能推高波动率</td>
+</tr>
+</tbody></table></div>
+<h2 id="gamma">Gamma 挤压</h2>
+<p>当看涨期权（通常是短期虚值合约）遭到大量买入，迫使卖出这些看涨期权的做市商在价格上涨时买入标的，就会发生 Gamma 挤压。他们的买入可能推高价格，进一步提高看涨期权的 Delta，迫使他们买入更多。在期权成交量相对于股票成交量很大的个股中，这种效应最强。</p>
+<p>2021 年 1 月 GameStop 的暴涨常被引为例子：大量买入看涨期权和做市商对冲，为高空头持仓引发的轧空（short squeeze）火上浇油。不过，很难分离出这类行情中有多少来自对冲。轧空的原理参见<a href="/zh/encyclopedia/stocks/short-selling/">卖空</a>，整个事件的更多背景参见<a href="/zh/encyclopedia/risk-management/leverage-risk-and-black-swans/">杠杆风险与黑天鹅</a>。</p>
+<p>Gamma 挤压也可能向下发生：大量买入看跌期权，迫使卖出看跌期权的做市商在下跌中卖出标的。</p>
+<h2 id="gex">GEX 估算的原理</h2>
+<p>GEX 试图估算做市商在某一标的所有行权价和到期日上持有的 Gamma 总量。常见做法是：</p>
+<ol>
+<li>获取每份上市期权的未平仓合约量（open interest）。</li>
+<li>用定价模型计算每份期权的 Gamma。</li>
+<li>假设做市商站在哪一边，最常见的假设是：做市商持有客户卖出的看涨期权（多头），并持有客户买入的看跌期权的对手方（空头）。</li>
+<li>将 Gamma 乘以未平仓合约量和合约乘数，然后加总，通常表示为价格每变动 1% 所需对冲的美元金额。</li>
+</ol>
+<h3 id="gex">实例：解读 GEX 数值</h3>
+<p>假设某项估算显示，一只 $100 股票上的做市商净负 Gamma，相当于价格每变动 $1 对应 20,000 股。如果股价下跌 $2，做市商的净 Delta 会增加 20,000 x 2 = 40,000 股。为了保持中性，他们需要在下跌中卖出约 40,000 股。如果同一估算显示做市商每 $1 持有 20,000 股的正 Gamma，他们就需要在下跌时买入约 40,000 股。</p>
+<p>许多 GEX 工具还会标出一个“Gamma 翻转”（gamma flip）价位，即估算的做市商 Gamma 由正转负的价格。一些交易者预期价格在该水平之上时交易较平稳，在其下方时波动更大。</p>
+<h2 id="gex">GEX 的局限</h2>
+<p>GEX 数据流传很广，但它建立在不确定的输入之上。</p>
+<ul>
+<li><strong>未平仓合约量看不出谁是多头、谁是空头</strong>。公开数据只说明有多少合约未平仓，不说明是做市商还是客户买入的。标准假设是一种简化，在特定行权价或特定时期可能是错的。</li>
+<li><strong>未平仓合约量每天只更新一次</strong>。当日交易，包括 <a href="/zh/encyclopedia/options/0dte-options/">0DTE 期权</a>，要到第二天才会在未平仓合约量中体现。</li>
+<li><strong>做市商的对冲方式多种多样</strong>。他们可能用其他期权、期货或相关资产来抵消 Gamma，而不只是用标的本身。</li>
+<li><strong>Gamma 不是唯一的驱动因素</strong>。基本面消息、宏观资金流和大额订单很容易盖过对冲的影响。</li>
+<li><strong>不同供应商给出的数字不同</strong>。方法各异，而且没有一种经过做市商实际账簿的验证。</li>
+</ul>
+<p>GEX 可以作为一个有用的观察角度，但它不是有可靠历史记录的预测工具，不应单独当作可靠信号。</p>
+<h2 id="opex">OPEX 效应</h2>
+<p>月度期权到期日常被称为 OPEX，对于美国标准股票和指数期权来说，是每月的第三个星期五。大量未平仓合约同时到期，可能突然改变做市商的对冲需求。</p>
+<ul>
+<li><strong>钉住效应</strong>（pinning）：当大量未平仓合约集中在某个行权价附近时，对冲资金流可能倾向于让价格在到期前保持在该行权价附近。包括 Ni、Pearson 和 Poteshman 在内的学术研究证明，有上市期权的股票在到期日聚集在行权价附近的频率高于随机情况下的预期。</li>
+<li><strong>Gamma 释放</strong>（gamma roll-off）：一次大规模到期之后，原本抑制或放大波动的 Gamma 消失了，一些交易者预期随后几天波动率会发生变化。</li>
+</ul>
+<p>每日到期合约的兴起，已把部分这类效应分散到一周之中。到期机制详见<a href="/zh/encyclopedia/options/options-expiration-and-assignment/">期权到期与指派</a>。</p>
+<h2 id="vanna-charm">简述 Vanna 与 Charm</h2>
+<p>有两个二阶希腊字母会在价格不变的情况下影响对冲资金流。</p>
+<ul>
+<li><strong>Vanna</strong> 衡量隐含波动率变化时 Delta 如何变化。如果隐含波动率下降，虚值期权的 Delta 会缩小，做市商因此调整对冲。按照常见假设，做市商卖出了指数看跌期权，并通过卖空期货来对冲；隐含波动率下降会促使他们买回部分对冲头寸，从而支撑价格。参见<a href="/zh/encyclopedia/options/implied-volatility/">隐含波动率</a>。</li>
+<li><strong>Charm</strong> 衡量时间流逝时 Delta 如何变化。随着到期日临近，虚值期权的 Delta 减少，做市商会平掉针对它们的对冲。这也是分析人士会谈论 OPEX 前几天对冲资金流的原因之一。</li>
+</ul>
+<p>这两种效应依赖的，同样是 GEX 本身所依赖的那些关于做市商持仓的不确定假设。</p>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>把 GEX 价位当作支撑和阻力</strong>。它们是模型估算值，不是挂在订单簿里的订单。</li>
+<li><strong>以为做市商总是负 Gamma</strong>。做市商持仓因个股、行权价和时间而异。</li>
+<li><strong>忽视当日交易</strong>。在短期期权占主导的市场中，最重要的资金流可能不会出现在未平仓合约量中。</li>
+<li><strong>把行情过度归因于对冲</strong>。消息面和宏观资金流通常更重要。</li>
+<li><strong>每次 OPEX 都用同样的方式交易</strong>。到期效应并不一致，取决于有多少未平仓合约到期、集中在哪里。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="gamma">负 Gamma 对市场意味着什么？</h3>
+<p>当估算显示做市商处于净负 Gamma 时，他们的对冲需要在价格上涨时买入、下跌时卖出。这可能放大波动、推高波动率，不过其他资金流可能盖过这种影响。</p>
+<h3 id="gamma">什么是 Gamma 挤压？</h3>
+<p>当大量买入看涨期权，迫使卖出这些看涨期权的做市商在价格上涨时买入标的，进而推高价格、需要更多买入时，就发生了 Gamma 挤压。在被大量卖空的股票中，它可能与轧空叠加。</p>
+<h3 id="gex">GEX 有多准确？</h3>
+<p>GEX 是一种估算，取决于做市商对每份期权是多头还是空头的假设，而且依赖每天只更新一次的未平仓合约量。不同供应商给出的数字往往不同。</p>
+<h3 id="section-16">为什么股价在到期时会被钉在行权价附近？</h3>
+<p>当大量未平仓合约集中在某个行权价附近时，随着到期临近，做市商的对冲可能倾向于让价格保持在附近。研究发现，可交易期权的股票在到期日聚集在行权价附近的频率高于随机情况下的预期。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/options/options-greeks/"><div class="k">期权交易</div><b>希腊字母</b><span>Delta、Gamma、Theta、Vega 和 Rho 分别衡量什么，附计算实例，讲解希腊字母如何随时间和价值状态变化，以及如何解读持仓希腊值。</span></a><a class="card" href="/zh/encyclopedia/options/0dte-options/"><div class="k">期权交易</div><b>0DTE期权</b><span>什么是 0DTE 期权，当日到期的 SPX、SPY 和 QQQ 期权为何爆火，极端 Gamma 与时间衰减如何运作，常见策略，以及买卖双方面临的风险。</span></a><a class="card" href="/zh/encyclopedia/algorithmic-trading/market-making/"><div class="k">算法与量化交易</div><b>做市</b><span>教科书式的做市指南：双边报价、赚取点差、库存偏移、逆向选择、排队位置、返佣，以及 Avellaneda-Stoikov 模型。</span></a><a class="card" href="/zh/encyclopedia/basics/market-participants/"><div class="k">交易基础</div><b>市场参与者</b><span>散户、机构、对冲基金、做市商、高频交易公司、套期保值者、央行和巨鲸：各自想要什么，以及你真正在与谁交易。</span></a><a class="card" href="/zh/encyclopedia/options/implied-volatility/"><div class="k">期权交易</div><b>隐含波动率</b><span>什么是隐含波动率，它与历史波动率有何不同，IV Rank 与 IV 百分位、IV 压缩、波动率偏斜，以及预期波动幅度公式和计算实例。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/options/options-expiration-and-assignment/"><small>← 上一篇</small>到期与行权指派</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spread e liquidez: slippage e custo de ida e volta | PnL Profit</title>
+<meta name="description" content="O que são bid, ask, spread e preço médio, como funcionam liquidez, slippage e impacto no preço, por que o spread se alarga e como medir o custo de ida e volta.">
+<meta name="keywords" content="spread bid ask, o que é liquidez no trading, slippage, o que é spread, impacto no preço, custo do spread">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Spread e liquidez: slippage e custo de ida e volta | PnL Profit">
+<meta property="og:description" content="O que são bid, ask, spread e preço médio, como funcionam liquidez, slippage e impacto no preço, por que o spread se alarga e como medir o custo de ida e volta.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Spread e liquidez: slippage e custo de ida e volta | PnL Profit">
+<meta name="twitter:description" content="O que são bid, ask, spread e preço médio, como funcionam liquidez, slippage e impacto no preço, por que o spread se alarga e como medir o custo de ida e volta.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Spread e liquidez: slippage e custo de ida e volta","description":"O que são bid, ask, spread e preço médio, como funcionam liquidez, slippage e impacto no preço, por que o spread se alarga e como medir o custo de ida e volta.","keywords":"spread bid ask, o que é liquidez no trading, slippage, o que é spread, impacto no preço, custo do spread","articleSection":"Fundamentos do trading","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Fundamentos do trading","item":"https://pnlpro.fit/pt/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"Spread e liquidez","item":"https://pnlpro.fit/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"O que é um bom spread?","acceptedAnswer":{"@type":"Answer","text":"Depende do mercado. Os principais pares de moedas e as maiores ações costumam ser negociados com spreads de alguns centésimos de por cento, enquanto small caps, tokens sem liquidez e contratos de nicho podem ter spreads de vários por cento. Compare o spread com o lucro que você espera por operação."}},{"@type":"Question","name":"Como calcular o spread em porcentagem?","acceptedAnswer":{"@type":"Answer","text":"Subtraia o bid do ask, divida pelo preço médio e multiplique por 100. Para um bid de $25.00 e um ask de $25.05, isso dá 0.05 / 25.025 x 100, ou cerca de 0.20%."}},{"@type":"Question","name":"O que causa slippage no trading?","acceptedAnswer":{"@type":"Answer","text":"O slippage acontece quando uma ordem é executada a um preço pior do que o esperado, normalmente porque a ordem é maior do que a quantidade no melhor preço, porque os preços se moveram antes de a ordem chegar ou porque o mercado abriu com gap além de um stop."}},{"@type":"Question","name":"Por que os spreads se alargam à noite?","acceptedAnswer":{"@type":"Answer","text":"Há menos traders e formadores de mercado ativos fora da sessão principal, então há menos concorrência para cotar preços estreitos e cada cotação carrega mais risco. Os spreads também tendem a se alargar em torno de notícias e na virada diária do forex."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Fundamentos do trading</h3><ul><li><a href="/pt/encyclopedia/basics/what-is-trading/">O que é trading?</a></li><li><a href="/pt/encyclopedia/basics/financial-markets-overview/">Panorama dos mercados financeiros</a></li><li><a href="/pt/encyclopedia/basics/trading-styles/">Estilos de trading</a></li><li><a href="/pt/encyclopedia/basics/order-types/">Tipos de ordem</a></li><li><a href="/pt/encyclopedia/basics/order-book-and-market-depth/">Livro de ofertas e profundidade</a></li><li><a href="/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/" class="on" aria-current="page">Spread e liquidez</a></li><li><a href="/pt/encyclopedia/basics/leverage-and-margin/">Alavancagem e margem</a></li><li><a href="/pt/encyclopedia/basics/long-and-short-positions/">Comprado e vendido</a></li><li><a href="/pt/encyclopedia/basics/trading-costs-and-fees/">Custos e taxas de trading</a></li><li><a href="/pt/encyclopedia/basics/brokers-and-exchanges/">Corretoras e bolsas</a></li><li><a href="/pt/encyclopedia/basics/market-participants/">Participantes do mercado</a></li><li><a href="/pt/encyclopedia/basics/market-hours-and-sessions/">Horários e sessões do mercado</a></li><li><a href="/pt/encyclopedia/basics/how-to-start-trading/">Como começar no trading</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/" class="on">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/basics/">Fundamentos do trading</a></div>
+<h1 class="title">Spread e liquidez</h1>
+<div class="meta">8 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Fundamentos do trading</summary><ul><li><a href="/pt/encyclopedia/basics/what-is-trading/">O que é trading?</a></li><li><a href="/pt/encyclopedia/basics/financial-markets-overview/">Panorama dos mercados financeiros</a></li><li><a href="/pt/encyclopedia/basics/trading-styles/">Estilos de trading</a></li><li><a href="/pt/encyclopedia/basics/order-types/">Tipos de ordem</a></li><li><a href="/pt/encyclopedia/basics/order-book-and-market-depth/">Livro de ofertas e profundidade</a></li><li><a href="/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/" class="on" aria-current="page">Spread e liquidez</a></li><li><a href="/pt/encyclopedia/basics/leverage-and-margin/">Alavancagem e margem</a></li><li><a href="/pt/encyclopedia/basics/long-and-short-positions/">Comprado e vendido</a></li><li><a href="/pt/encyclopedia/basics/trading-costs-and-fees/">Custos e taxas de trading</a></li><li><a href="/pt/encyclopedia/basics/brokers-and-exchanges/">Corretoras e bolsas</a></li><li><a href="/pt/encyclopedia/basics/market-participants/">Participantes do mercado</a></li><li><a href="/pt/encyclopedia/basics/market-hours-and-sessions/">Horários e sessões do mercado</a></li><li><a href="/pt/encyclopedia/basics/how-to-start-trading/">Como começar no trading</a></li></ul></details>
+<article><p>O spread entre compra e venda (bid-ask spread) é a diferença entre o preço mais alto que um comprador aceita pagar (o bid) e o preço mais baixo que um vendedor aceita receber (o ask). A liquidez é a facilidade com que um ativo pode ser comprado ou vendido em volume sem mover o preço. Juntos, eles determinam boa parte do custo de cada operação, muitas vezes mais do que a corretagem. Para o trader de curto prazo em especial, entender spreads e slippage é essencial para avaliar se uma estratégia tem alguma chance de dar dinheiro.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>Comprar no ask e vender no bid significa que toda operação de ida e volta começa com uma perda igual ao spread.</li>
+<li>Os spreads costumam ser medidos em centavos, pips, ticks ou como porcentagem do preço médio, e a porcentagem permite comparar mercados diferentes.</li>
+<li>A liquidez tem várias dimensões: spreads estreitos, boa quantidade em cada preço e recuperação rápida depois de negócios grandes.</li>
+<li>Slippage e impacto no preço se somam ao spread quando as ordens são grandes, os mercados são rasos ou os preços estão se movendo rápido.</li>
+<li>Os spreads se alargam em torno de notícias, na abertura e no fechamento dos mercados, em horários de pouca liquidez e em mercados sob estresse.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#bid-ask-spread-e-pre-o-m-dio">Bid, ask, spread e preço médio</a></li><li><a href="#medindo-o-spread">Medindo o spread</a></li><li><a href="#exemplo-pr-tico-o-custo-de-uma-opera-o-de-ida-e-volta">Exemplo prático: o custo de uma operação de ida e volta</a></li><li><a href="#liquidez">Liquidez</a></li><li><a href="#slippage-e-impacto-no-pre-o">Slippage e impacto no preço</a></li><li><a href="#por-que-os-spreads-se-alargam">Por que os spreads se alargam</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="bid-ask-spread-e-pre-o-m-dio">Bid, ask, spread e preço médio</h2>
+<ul>
+<li><strong>Bid (oferta de compra):</strong> o melhor preço pelo qual alguém está disposto a comprar no momento. Se você vende imediatamente, vende no bid.</li>
+<li><strong>Ask (oferta de venda, ou offer):</strong> o melhor preço pelo qual alguém está disposto a vender no momento. Se você compra imediatamente, compra no ask.</li>
+<li><strong>Spread:</strong> ask menos bid.</li>
+<li><strong>Preço médio (mid price):</strong> o ponto intermediário, (bid + ask) / 2. Gráficos e cotações muitas vezes mostram o preço médio ou o último negócio, mas normalmente não é possível negociar no preço médio.</li>
+</ul>
+<p>Esses preços vêm do <a href="/pt/encyclopedia/basics/order-book-and-market-depth/">book de ofertas</a> de uma bolsa ou da cotação de um dealer em mercados de balcão, como o forex.</p>
+<p>O spread é a remuneração de quem fornece liquidez, normalmente os formadores de mercado, que ficam prontos para comprar no bid e vender no ask. Em média eles ganham o spread, mas correm o risco de os preços se moverem contra o estoque que carregam. Veja <a href="/pt/encyclopedia/basics/market-participants/">participantes do mercado</a>.</p>
+<h2 id="medindo-o-spread">Medindo o spread</h2>
+<p>Os spreads de mercados diferentes são cotados em unidades diferentes, então ajuda convertê-los em porcentagem do preço médio ou em pontos-base (um ponto-base é 0.01%).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Exemplo de mercado</th>
+<th>Bid</th>
+<th>Ask</th>
+<th>Spread</th>
+<th>Spread em % do preço médio</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ação de grande capitalização</td>
+<td>$25.00</td>
+<td>$25.05</td>
+<td>$0.05</td>
+<td>cerca de 0.20%</td>
+</tr>
+<tr>
+<td>Ação de baixa capitalização (small cap)</td>
+<td>$2.00</td>
+<td>$2.10</td>
+<td>$0.10</td>
+<td>cerca de 4.9%</td>
+</tr>
+<tr>
+<td>EUR/USD</td>
+<td>1.08500</td>
+<td>1.08510</td>
+<td>1 pip</td>
+<td>cerca de 0.009%</td>
+</tr>
+<tr>
+<td>Contrato de mercado de previsão</td>
+<td>$0.42</td>
+<td>$0.45</td>
+<td>$0.03</td>
+<td>cerca de 6.9%</td>
+</tr>
+</tbody></table></div>
+<p>Cálculos: 0.05 / 25.025 = 0.20%; 0.10 / 2.05 = 4.88%; 0.0001 / 1.08505 = 0.0092%; 0.03 / 0.435 = 6.90%. Os números são ilustrativos, não cotações atuais, mas o padrão é típico: as principais moedas e as ações grandes são baratas de negociar, enquanto small caps, tokens com pouca liquidez e contratos de nicho podem custar vários por cento por operação de ida e volta.</p>
+<h2 id="exemplo-pr-tico-o-custo-de-uma-opera-o-de-ida-e-volta">Exemplo prático: o custo de uma operação de ida e volta</h2>
+<p>Um trader compra 1,000 ações da ação de grande capitalização acima e as vende alguns minutos depois, sem nenhuma mudança de preço.</p>
+<ul>
+<li>Compra no ask: 1,000 x $25.05 = $25,050</li>
+<li>Venda no bid: 1,000 x $25.00 = $25,000</li>
+<li>Perda com o spread: $50</li>
+<li>Some uma corretagem de $1 em cada ponta: custo total de $52</li>
+</ul>
+<p>Isso é 0.21% do valor da posição, pago em uma operação em que o mercado não se mexeu. Um trader que faça isso 10 vezes por dia paga $520 por dia. Em 250 pregões, são $130,000 por ano em custos, com uma posição que gira $25,000 de cada vez.</p>
+<p>A mesma conta vale para o forex. Um lote padrão de EUR/USD (100,000 euros) tem valor de pip de $10, então um spread de 1 pip custa $10 por operação de ida e volta, mais eventual comissão. Em cripto e nos mercados de previsão, o spread costuma ser mais largo e as taxas da bolsa são cobradas por cima. A lista completa de custos está em <a href="/pt/encyclopedia/basics/trading-costs-and-fees/">custos e taxas de trading</a>.</p>
+<h2 id="liquidez">Liquidez</h2>
+<p>Um mercado líquido permite negociar rapidamente, em tamanho razoável, a um preço próximo do último. Os traders costumam pensar a liquidez em três dimensões:</p>
+<ul>
+<li><strong>Estreiteza:</strong> quão estreito é o spread.</li>
+<li><strong>Profundidade:</strong> quanta quantidade há disponível no melhor preço e perto dele.</li>
+<li><strong>Resiliência:</strong> a rapidez com que o book se recompõe depois que um negócio grande consome liquidez.</li>
+</ul>
+<p>Um mercado pode ser estreito, mas raso, mostrando um spread de 1 centavo com só 100 ações de cada lado. Um trader que precisa negociar 10,000 ações se importa mais com a profundidade do que com o spread cotado.</p>
+<p>A liquidez também varia ao longo do tempo. O mesmo ativo pode ser muito líquido na abertura da sua sessão principal e muito raso à noite, em um feriado ou durante um pânico.</p>
+<h2 id="slippage-e-impacto-no-pre-o">Slippage e impacto no preço</h2>
+<p><strong>Slippage</strong> (deslizamento) é a diferença entre o preço que você esperava e o preço que recebeu. Ele vem de três fontes principais:</p>
+<ol>
+<li><strong>Varrer o book.</strong> Uma ordem maior do que a quantidade no melhor preço é executada em vários níveis. Veja o exemplo prático em <a href="/pt/encyclopedia/basics/order-types/">tipos de ordem</a>.</li>
+<li><strong>Latência.</strong> Os preços se movem entre o momento em que você clica e o momento em que sua ordem chega, principalmente em mercados rápidos.</li>
+<li><strong>Gaps.</strong> Um stop que dispara depois de um gap de um dia para o outro ou de fim de semana é executado no primeiro preço disponível.</li>
+</ol>
+<p><strong>Impacto no preço</strong> (market impact) é o efeito mais amplo das suas próprias operações sobre o preço. Uma ordem grande, mesmo dividida em partes, sinaliza demanda e pode empurrar o preço para longe de você. Traders profissionais usam <a href="/pt/encyclopedia/algorithmic-trading/execution-algorithms/">algoritmos de execução</a> para reduzi-lo. Para a maioria das operações de tamanho de varejo em mercados líquidos, o impacto é pequeno, mas em small caps, tokens de baixa capitalização e contratos de eventos rasos, até ordens modestas podem mover os preços de forma perceptível.</p>
+<h2 id="por-que-os-spreads-se-alargam">Por que os spreads se alargam</h2>
+<p>Os formadores de mercado alargam os spreads quando o risco de cotar aumenta. Causas comuns:</p>
+<ul>
+<li><strong>Notícias agendadas.</strong> Antes e logo depois de divulgações como decisões de bancos centrais ou dados econômicos importantes, os dealers retiram ou alargam as cotações. Veja <a href="/pt/encyclopedia/fundamental-analysis/news-trading-and-economic-calendar/">trading de notícias e calendário econômico</a>.</li>
+<li><strong>Horários de pouca liquidez.</strong> As sessões noturnas, a virada diária (rollover) do forex e os fins de semana em cripto têm menos participantes. Veja <a href="/pt/encyclopedia/basics/market-hours-and-sessions/">horários e sessões do mercado</a>.</li>
+<li><strong>Aberturas e fechamentos.</strong> Os primeiros minutos de uma sessão costumam ter spreads mais largos enquanto os preços são descobertos.</li>
+<li><strong>Volatilidade e estresse.</strong> Quando os preços oscilam muito, o risco de carregar estoque dispara, então as cotações se alargam ou desaparecem.</li>
+<li><strong>Pouco interesse.</strong> Ações obscuras, tokens novos e contratos de nicho simplesmente têm menos gente cotando.</li>
+</ul>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Olhar o preço do gráfico em vez do bid e do ask.</strong> Muitos gráficos mostram o preço médio ou o bid, então o preço que você paga pode ser diferente.</li>
+<li><strong>Ignorar o custo do spread porque a corretagem é zero.</strong> Operar com corretagem zero continua custando o spread.</li>
+<li><strong>Usar ordens a mercado em mercados rasos.</strong> Um spread largo somado a um book raso pode gerar slippage severo.</li>
+<li><strong>Operar em torno de notícias sem considerar spreads mais largos.</strong> Stops podem disparar em um salto temporário do spread.</li>
+<li><strong>Julgar a liquidez só pelo volume.</strong> O volume informado pode incluir wash trading em algumas plataformas de cripto e não diz qual profundidade está disponível agora.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="o-que-um-bom-spread">O que é um bom spread?</h3>
+<p>Depende do mercado. Os principais pares de moedas e as maiores ações costumam ser negociados com spreads de alguns centésimos de por cento, enquanto small caps, tokens sem liquidez e contratos de nicho podem ter spreads de vários por cento. Compare o spread com o lucro que você espera por operação.</p>
+<h3 id="como-calcular-o-spread-em-porcentagem">Como calcular o spread em porcentagem?</h3>
+<p>Subtraia o bid do ask, divida pelo preço médio e multiplique por 100. Para um bid de $25.00 e um ask de $25.05, isso dá 0.05 / 25.025 x 100, ou cerca de 0.20%.</p>
+<h3 id="o-que-causa-slippage-no-trading">O que causa slippage no trading?</h3>
+<p>O slippage acontece quando uma ordem é executada a um preço pior do que o esperado, normalmente porque a ordem é maior do que a quantidade no melhor preço, porque os preços se moveram antes de a ordem chegar ou porque o mercado abriu com gap além de um stop.</p>
+<h3 id="por-que-os-spreads-se-alargam-noite">Por que os spreads se alargam à noite?</h3>
+<p>Há menos traders e formadores de mercado ativos fora da sessão principal, então há menos concorrência para cotar preços estreitos e cada cotação carrega mais risco. Os spreads também tendem a se alargar em torno de notícias e na virada diária do forex.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/basics/order-book-and-market-depth/"><div class="k">Fundamentos do trading</div><b>Livro de ofertas e profundidade</b><span>Como funcionam o livro de ofertas e o motor de casamento, prioridade preço-tempo, Level 1 e Level 2, leitura da profundidade, spoofing, dealers e AMMs.</span></a><a class="card" href="/pt/encyclopedia/basics/order-types/"><div class="k">Fundamentos do trading</div><b>Tipos de ordem</b><span>O que cada tipo de ordem faz, quando usar e os erros que custam dinheiro: ordem a mercado, limitada, stop, stop limitada, stop móvel, OCO e validade da ordem.</span></a><a class="card" href="/pt/encyclopedia/basics/trading-costs-and-fees/"><div class="k">Fundamentos do trading</div><b>Custos e taxas de trading</b><span>Corretagem, spread, taxas maker/taker, swap, funding, aluguel, PFOF, gas, slippage e impostos, com um exemplo prático de como os custos se acumulam em escala.</span></a><a class="card" href="/pt/encyclopedia/basics/market-hours-and-sessions/"><div class="k">Fundamentos do trading</div><b>Horários e sessões do mercado</b><span>Quando cada mercado abre: horário das bolsas, horário estendido, sessões do forex, pausas dos futuros, cripto 24/7, gaps, feriados e horário de verão.</span></a><a class="card" href="/pt/encyclopedia/basics/market-participants/"><div class="k">Fundamentos do trading</div><b>Participantes do mercado</b><span>Pessoa física, institucionais, hedge funds, formadores de mercado, HFT, hedgers, bancos centrais e baleias: o que cada um quer e contra quem você opera de fato.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/basics/order-book-and-market-depth/"><small>← Anterior</small>Livro de ofertas e profundidade</a><a class="next" href="/pt/encyclopedia/basics/leverage-and-margin/"><small>Próximo →</small>Alavancagem e margem</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

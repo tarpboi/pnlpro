@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chi phí và phí giao dịch: gánh nặng ẩn trên mỗi lệnh | PnL Profit</title>
+<meta name="description" content="Hoa hồng, spread, phí maker và taker, swap, funding, phí vay, thanh toán cho dòng lệnh, gas, trượt giá và thuế, kèm ví dụ chi phí khi giao dịch quy mô lớn.">
+<meta name="keywords" content="chi phí giao dịch, phí giao dịch là gì, phí maker taker, phí swap qua đêm, payment for order flow, chi phí ẩn khi giao dịch">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/trading-costs-and-fees/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Chi phí và phí giao dịch: gánh nặng ẩn trên mỗi lệnh | PnL Profit">
+<meta property="og:description" content="Hoa hồng, spread, phí maker và taker, swap, funding, phí vay, thanh toán cho dòng lệnh, gas, trượt giá và thuế, kèm ví dụ chi phí khi giao dịch quy mô lớn.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/basics/trading-costs-and-fees/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chi phí và phí giao dịch: gánh nặng ẩn trên mỗi lệnh | PnL Profit">
+<meta name="twitter:description" content="Hoa hồng, spread, phí maker và taker, swap, funding, phí vay, thanh toán cho dòng lệnh, gas, trượt giá và thuế, kèm ví dụ chi phí khi giao dịch quy mô lớn.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Chi phí và phí giao dịch: gánh nặng ẩn trên mỗi lệnh","description":"Hoa hồng, spread, phí maker và taker, swap, funding, phí vay, thanh toán cho dòng lệnh, gas, trượt giá và thuế, kèm ví dụ chi phí khi giao dịch quy mô lớn.","keywords":"chi phí giao dịch, phí giao dịch là gì, phí maker taker, phí swap qua đêm, payment for order flow, chi phí ẩn khi giao dịch","articleSection":"Kiến thức giao dịch cơ bản","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/basics/trading-costs-and-fees/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Kiến thức giao dịch cơ bản","item":"https://pnlpro.fit/vi/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"Chi phí và phí giao dịch","item":"https://pnlpro.fit/vi/encyclopedia/basics/trading-costs-and-fees/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Giao dịch không hoa hồng có thực sự miễn phí không?","acceptedAnswer":{"@type":"Answer","text":"Không. Các broker không tính hoa hồng vẫn kiếm tiền qua spread, thanh toán cho dòng lệnh, lãi trên tiền mặt, cho vay ký quỹ, quy đổi tiền tệ và các khoản phí khác. Bạn cũng phải trả các chi phí thị trường như trượt giá."}},{"@type":"Question","name":"Phí maker và taker là gì?","acceptedAnswer":{"@type":"Answer","text":"Phí maker áp dụng cho lệnh nằm chờ trong sổ lệnh và thêm thanh khoản. Phí taker áp dụng cho lệnh khớp ngay với các lệnh sẵn có. Phí maker thường thấp hơn."}},{"@type":"Question","name":"Phí swap qua đêm là gì?","acceptedAnswer":{"@type":"Answer","text":"Đó là khoản phí tài trợ hằng ngày, hoặc đôi khi là khoản có, áp dụng cho các vị thế forex, CFD và spread bet dùng đòn bẩy được giữ qua thời điểm rollover hằng ngày. Nó dựa trên lãi suất cộng với biên độ của broker."}},{"@type":"Question","name":"Chi phí giao dịch ảnh hưởng đến lợi nhuận bao nhiêu?","acceptedAnswer":{"@type":"Answer","text":"Tùy tần suất giao dịch. Chi phí 0.1% mỗi vòng là nhỏ với người giao dịch vài lần một tháng nhưng có thể ngốn phần lớn hoặc toàn bộ lợi nhuận gộp của người giao dịch hàng chục lần mỗi ngày."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/basics/trading-costs-and-fees/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/trading-costs-and-fees/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/basics/trading-costs-and-fees/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/trading-costs-and-fees/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/trading-costs-and-fees/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/trading-costs-and-fees/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/trading-costs-and-fees/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/basics/trading-costs-and-fees/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/trading-costs-and-fees/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Kiến thức giao dịch cơ bản</h3><ul><li><a href="/vi/encyclopedia/basics/what-is-trading/">Giao dịch là gì?</a></li><li><a href="/vi/encyclopedia/basics/financial-markets-overview/">Tổng quan thị trường tài chính</a></li><li><a href="/vi/encyclopedia/basics/trading-styles/">Phong cách giao dịch</a></li><li><a href="/vi/encyclopedia/basics/order-types/">Các loại lệnh</a></li><li><a href="/vi/encyclopedia/basics/order-book-and-market-depth/">Sổ lệnh và độ sâu thị trường</a></li><li><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread và thanh khoản</a></li><li><a href="/vi/encyclopedia/basics/leverage-and-margin/">Đòn bẩy và ký quỹ</a></li><li><a href="/vi/encyclopedia/basics/long-and-short-positions/">Long và Short</a></li><li><a href="/vi/encyclopedia/basics/trading-costs-and-fees/" class="on" aria-current="page">Chi phí và phí giao dịch</a></li><li><a href="/vi/encyclopedia/basics/brokers-and-exchanges/">Broker và sàn giao dịch</a></li><li><a href="/vi/encyclopedia/basics/market-participants/">Các bên tham gia thị trường</a></li><li><a href="/vi/encyclopedia/basics/market-hours-and-sessions/">Giờ và phiên giao dịch</a></li><li><a href="/vi/encyclopedia/basics/how-to-start-trading/">Cách bắt đầu giao dịch</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/" class="on">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a></div>
+<h1 class="title">Chi phí và phí giao dịch</h1>
+<div class="meta">10 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Kiến thức giao dịch cơ bản</summary><ul><li><a href="/vi/encyclopedia/basics/what-is-trading/">Giao dịch là gì?</a></li><li><a href="/vi/encyclopedia/basics/financial-markets-overview/">Tổng quan thị trường tài chính</a></li><li><a href="/vi/encyclopedia/basics/trading-styles/">Phong cách giao dịch</a></li><li><a href="/vi/encyclopedia/basics/order-types/">Các loại lệnh</a></li><li><a href="/vi/encyclopedia/basics/order-book-and-market-depth/">Sổ lệnh và độ sâu thị trường</a></li><li><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread và thanh khoản</a></li><li><a href="/vi/encyclopedia/basics/leverage-and-margin/">Đòn bẩy và ký quỹ</a></li><li><a href="/vi/encyclopedia/basics/long-and-short-positions/">Long và Short</a></li><li><a href="/vi/encyclopedia/basics/trading-costs-and-fees/" class="on" aria-current="page">Chi phí và phí giao dịch</a></li><li><a href="/vi/encyclopedia/basics/brokers-and-exchanges/">Broker và sàn giao dịch</a></li><li><a href="/vi/encyclopedia/basics/market-participants/">Các bên tham gia thị trường</a></li><li><a href="/vi/encyclopedia/basics/market-hours-and-sessions/">Giờ và phiên giao dịch</a></li><li><a href="/vi/encyclopedia/basics/how-to-start-trading/">Cách bắt đầu giao dịch</a></li></ul></details>
+<article><p>Chi phí giao dịch là mọi khoản bạn trả để mở, giữ và đóng vị thế, gồm các khoản phí hiển thị như hoa hồng và các khoản khó thấy hơn như spread, trượt giá, chi phí tài trợ và thuế. Riêng lẻ chúng trông nhỏ, thường chỉ một phần nhỏ của một phần trăm. Nhân lên qua hàng trăm hay hàng nghìn lệnh, chúng thường là ranh giới giữa một chiến lược có lãi và một chiến lược thua lỗ. Các chiến lược cá nhân tần suất cao đặc biệt dễ bị tổn thương, vì lợi nhuận kỳ vọng mỗi lệnh của chúng thường nhỏ hơn chi phí mỗi lệnh.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Chi phí chia làm ba nhóm: chi phí để giao dịch (hoa hồng, spread, phí sàn, trượt giá), chi phí để nắm giữ (swap, funding, phí vay, lãi margin) và chi phí trên lợi nhuận (thuế).</li>
+<li>&quot;Không hoa hồng&quot; không có nghĩa là miễn phí; broker kiếm tiền qua spread, thanh toán cho dòng lệnh, chi phí tài trợ và các khoản phí khác.</li>
+<li>Phí maker, cho các lệnh thêm thanh khoản, thường thấp hơn phí taker, cho các lệnh lấy thanh khoản.</li>
+<li>Giữ vị thế dùng đòn bẩy qua đêm làm phát sinh chi phí tài trợ tăng theo thời gian.</li>
+<li>Bạn giao dịch càng thường xuyên, lợi thế cần có trên mỗi lệnh chỉ để hòa vốn càng lớn.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#chi-ph-giao-d-ch">Chi phí để giao dịch</a></li><li><a href="#chi-ph-n-m-gi">Chi phí để nắm giữ</a></li><li><a href="#chi-ph-tr-n-l-i-nhu-n-g-nh-n-ng-thu">Chi phí trên lợi nhuận: gánh nặng thuế</a></li><li><a href="#t-m-t-t-c-c-chi-ph-ph-bi-n">Tóm tắt các chi phí phổ biến</a></li><li><a href="#v-d-minh-h-a-chi-ph-gi-t-ch-t-chi-n-l-c-c-nh-n-t-n-su-t-cao-th-n-o">Ví dụ minh họa: chi phí giết chết chiến lược cá nhân tần suất cao thế nào</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="chi-ph-giao-d-ch">Chi phí để giao dịch</h2>
+<h3 id="hoa-h-ng">Hoa hồng</h3>
+<p>Hoa hồng là khoản phí broker tính theo mỗi lệnh, mỗi cổ phiếu, mỗi hợp đồng hoặc theo phần trăm giá trị lệnh. Nhiều broker chứng khoán ở Mỹ và các nơi khác hiện quảng cáo không hoa hồng với cổ phiếu và ETF. Hợp đồng tương lai và quyền chọn thường tính phí theo hợp đồng, và một số tài khoản forex tính hoa hồng cố định mỗi lot để đổi lấy spread hẹp hơn.</p>
+<h3 id="spread">Spread</h3>
+<p>Mua ở giá ask và bán ở giá bid tốn <a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">chênh lệch giá mua-bán</a> ở mỗi vòng mua rồi bán. Với các tài khoản chỉ có spread, như nhiều tài khoản forex và CFD bán lẻ, spread là nơi broker kiếm phần lớn doanh thu, và nó thường được nới rộng hơn spread của thị trường cơ sở.</p>
+<h3 id="ph-maker-v-taker">Phí maker và taker</h3>
+<p>Nhiều sàn, đặc biệt là crypto và một số thị trường dự đoán, tính phí khác nhau tùy việc lệnh của bạn thêm hay lấy thanh khoản.</p>
+<ul>
+<li>Lệnh <strong>maker</strong> nằm chờ trong <a href="/vi/encyclopedia/basics/order-book-and-market-depth/">sổ lệnh</a> để được khớp. Phí maker thấp hơn, đôi khi bằng không, và một số sàn còn hoàn tiền (rebate).</li>
+<li>Lệnh <strong>taker</strong> khớp ngay với các lệnh đang chờ. Phí taker cao hơn.</li>
+</ul>
+<p>Biểu phí thường giảm khi khối lượng hằng tháng tăng, điều này có lợi cho các trader chuyên nghiệp lớn.</p>
+<h3 id="ph-s-n-v-ph-qu-n-l">Phí sàn và phí quản lý</h3>
+<p>Các sàn, tổ chức thanh toán bù trừ và cơ quan quản lý thu những khoản phí nhỏ mà broker thường chuyển sang khách hàng. Chẳng hạn ở Mỹ, việc bán cổ phiếu chịu một khoản phí giao dịch nhỏ dùng để tài trợ Ủy ban Chứng khoán và Giao dịch (SEC), cộng với phí hoạt động giao dịch của FINRA; mức phí được điều chỉnh định kỳ. Hợp đồng tương lai chịu phí sàn và phí thanh toán bù trừ theo hợp đồng. Đăng ký dữ liệu thị trường là một khoản chi định kỳ khác với trader tích cực.</p>
+<h3 id="thanh-to-n-cho-d-ng-l-nh-pfof">Thanh toán cho dòng lệnh (PFOF)</h3>
+<p>Một số broker chuyển lệnh của khách hàng cho các market maker bán buôn, những bên trả tiền cho broker để được quyền khớp chúng. Việc này gọi là <strong>thanh toán cho dòng lệnh (payment for order flow, PFOF)</strong>. Người ủng hộ cho rằng nó tài trợ cho giao dịch không hoa hồng và thường cho mức giá tốt hơn đôi chút so với báo giá công khai. Người chỉ trích cho rằng nó tạo xung đột lợi ích và có thể khiến khách hàng nhận giá kém hơn mức họ có thể có ở nơi khác. PFOF hợp pháp ở Mỹ kèm yêu cầu công bố thông tin, bị cấm ở Anh, và EU đã thông qua quy định để loại bỏ dần; hãy kiểm tra tình trạng hiện tại ở quốc gia của bạn.</p>
+<h3 id="ph-gas">Phí gas</h3>
+<p>Trên blockchain, mỗi giao dịch đều trả phí mạng, gọi là gas. Trên một số mạng, phí chỉ bằng một phần nhỏ của một cent; trên các mạng khác, phí có thể lên tới vài đô la hoặc hơn khi mạng bận. Trader trên các sàn phi tập trung cũng có thể trả phí ưu tiên hoặc tiền tip để giao dịch được đưa vào nhanh, cộng với phí swap của pool.</p>
+<h3 id="tr-t-gi">Trượt giá</h3>
+<p>Trượt giá là chênh lệch giữa giá kỳ vọng và giá khớp. Đây là một chi phí có thật dù không ai gửi hóa đơn cho bạn. Nó tăng theo quy mô lệnh, biến động và thanh khoản mỏng.</p>
+<h2 id="chi-ph-n-m-gi">Chi phí để nắm giữ</h2>
+<h3 id="chi-ph-t-i-tr-qua-m-v-swap">Chi phí tài trợ qua đêm và swap</h3>
+<p>Các vị thế dùng đòn bẩy trong CFD, spread bet và forex bán lẻ bị tính (hoặc đôi khi được trả) một khoản tài trợ hằng ngày, thường gọi là swap hoặc rollover. Nó thường dựa trên một lãi suất chuẩn cộng với biên độ của broker. Nhiều broker forex tính swap gấp ba vào một ngày trong tuần để bù cho cuối tuần.</p>
+<p><strong>Ví dụ:</strong> một vị thế CFD $10,000 giữ trong 30 ngày với lãi suất tài trợ hằng năm 7% tốn $10,000 x 7% x 30 / 365 = khoảng $57.53.</p>
+<h3 id="t-l-funding">Tỷ lệ funding</h3>
+<p>Hợp đồng tương lai vĩnh cửu crypto dùng các <a href="/vi/encyclopedia/crypto/funding-rates/">khoản thanh toán funding</a> định kỳ giữa bên long và bên short để giữ giá hợp đồng gần giá giao ngay. Chu kỳ thường là mỗi 8 giờ, dù một số sàn dùng 1 giờ. Ở mức 0.01% mỗi 8 giờ, một vị thế $10,000 trả $1 mỗi chu kỳ, tức $3 mỗi ngày và khoảng $90 trong 30 ngày. Tỷ lệ có thể cao hơn nhiều khi xu hướng mạnh.</p>
+<h3 id="ph-vay-v-l-i-margin">Phí vay và lãi margin</h3>
+<p>Người bán khống trả phí để vay cổ phiếu, từ dưới xa 1% một năm với cổ phiếu dễ vay đến mức rất cao với cổ phiếu khó vay. Họ cũng nợ mọi khoản cổ tức được trả trong khi đang short. Trader mua ký quỹ (margin) trả lãi trên khoản vay. Xem <a href="/vi/encyclopedia/basics/long-and-short-positions/">vị thế long và short</a>.</p>
+<h3 id="ph-kh-ng-ho-t-ng-r-t-ti-n-v-quy-i">Phí không hoạt động, rút tiền và quy đổi</h3>
+<p>Một số broker tính phí với tài khoản không hoạt động, việc rút tiền hoặc quy đổi tiền tệ. Phí quy đổi tiền tệ ở mỗi lệnh trên thị trường nước ngoài có thể cộng dồn một cách âm thầm.</p>
+<h2 id="chi-ph-tr-n-l-i-nhu-n-g-nh-n-ng-thu">Chi phí trên lợi nhuận: gánh nặng thuế</h2>
+<p>Thuế làm giảm phần bạn giữ lại. Ở nhiều quốc gia, lãi từ giao dịch ngắn hạn bị đánh thuế cao hơn lãi đầu tư dài hạn, và giao dịch thường xuyên có thể biến khoản lãi dài hạn vốn chịu thuế nhẹ thành khoản lãi ngắn hạn chịu thuế nặng. Quy định khác nhau nhiều theo quốc gia và thay đổi theo thời gian. Xem <a href="/vi/encyclopedia/trading-business/trading-taxes-overview/">tổng quan về thuế giao dịch</a>.</p>
+<h2 id="t-m-t-t-c-c-chi-ph-ph-bi-n">Tóm tắt các chi phí phổ biến</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Chi phí</th>
+<th>Trả khi nào</th>
+<th>Thị trường điển hình</th>
+<th>Có hiện trên sao kê không?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hoa hồng</td>
+<td>Mỗi lệnh</td>
+<td>Cổ phiếu, hợp đồng tương lai, quyền chọn, một số forex</td>
+<td>Có</td>
+</tr>
+<tr>
+<td>Spread</td>
+<td>Mỗi vòng mua rồi bán</td>
+<td>Tất cả</td>
+<td>Thường không có dòng riêng</td>
+</tr>
+<tr>
+<td>Phí maker/taker</td>
+<td>Mỗi lệnh</td>
+<td>Crypto, thị trường dự đoán, một số hợp đồng tương lai</td>
+<td>Có</td>
+</tr>
+<tr>
+<td>Phí sàn/phí quản lý</td>
+<td>Mỗi lệnh</td>
+<td>Cổ phiếu, hợp đồng tương lai, quyền chọn</td>
+<td>Thường có</td>
+</tr>
+<tr>
+<td>Trượt giá</td>
+<td>Mỗi lệnh</td>
+<td>Tất cả</td>
+<td>Không</td>
+</tr>
+<tr>
+<td>Swap/chi phí tài trợ</td>
+<td>Mỗi đêm giữ lệnh</td>
+<td>CFD, forex, spread bet</td>
+<td>Có</td>
+</tr>
+<tr>
+<td>Funding</td>
+<td>Mỗi chu kỳ funding</td>
+<td>Hợp đồng vĩnh cửu crypto</td>
+<td>Có</td>
+</tr>
+<tr>
+<td>Phí vay</td>
+<td>Hằng ngày khi đang short</td>
+<td>Cổ phiếu</td>
+<td>Có</td>
+</tr>
+<tr>
+<td>Gas</td>
+<td>Mỗi giao dịch on-chain</td>
+<td>DeFi, meme coin</td>
+<td>Có, trên on-chain</td>
+</tr>
+<tr>
+<td>Thuế</td>
+<td>Trên lãi đã thực hiện</td>
+<td>Tất cả</td>
+<td>Riêng biệt</td>
+</tr>
+</tbody></table></div>
+<h2 id="v-d-minh-h-a-chi-ph-gi-t-ch-t-chi-n-l-c-c-nh-n-t-n-su-t-cao-th-n-o">Ví dụ minh họa: chi phí giết chết chiến lược cá nhân tần suất cao thế nào</h2>
+<p>Một trader có tài khoản $10,000 scalp một hợp đồng vĩnh cửu crypto, giao dịch $10,000 giá trị danh nghĩa mỗi lệnh (đòn bẩy thực tế 1x). Giả sử các chi phí minh họa sau, nằm trong khoảng thường thấy ở các sàn lớn:</p>
+<ul>
+<li>Phí taker: 0.05% mỗi chiều, tức 0.10% mỗi vòng mua rồi bán = $10</li>
+<li>Spread và trượt giá: 0.02% mỗi vòng = $2</li>
+<li>Tổng chi phí mỗi vòng: $12</li>
+</ul>
+<p>Trader thực hiện 20 vòng mỗi ngày, ngày nào cũng vậy, vì crypto giao dịch 24/7.</p>
+<ul>
+<li>Chi phí hằng ngày: 20 x $12 = $240</li>
+<li>Chi phí hằng tháng (30 ngày): $240 x 30 = $7,200</li>
+<li>Tính theo tỷ lệ tài khoản: $7,200 / $10,000 = 72% mỗi tháng</li>
+</ul>
+<p>Để hòa vốn, chiến lược phải đạt lợi nhuận gộp trung bình trên 0.12% mỗi lệnh, sau khi tính các lệnh thua. Đó là một ngưỡng cao ở thị trường nơi các công ty chuyên nghiệp có phí thấp hơn và kết nối nhanh hơn cạnh tranh cho cùng những biến động nhỏ. Dùng lệnh limit để hưởng phí maker và giao dịch ít thường xuyên hơn đều có ích, nhưng bài học vẫn đứng vững: ở tần suất cao, chi phí thường lớn hơn lợi thế.</p>
+<p>So sánh với một swing trader thực hiện 4 vòng mỗi tháng ở cùng mức chi phí $12: $48 mỗi tháng, tức 0.48% tài khoản. Cùng một cấu trúc chi phí chỉ là gánh nặng nhỏ với phong cách này nhưng lại chí mạng với phong cách khác. Xem <a href="/vi/encyclopedia/basics/trading-styles/">phong cách giao dịch</a>.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Đánh giá broker chỉ qua hoa hồng.</strong> Spread, chi phí tài trợ và chất lượng khớp lệnh thường quan trọng hơn.</li>
+<li><strong>Bỏ qua chi phí trong backtest.</strong> Một chiến lược trông có lãi khi không tính chi phí có thể thua lỗ khi tính vào. Xem <a href="/vi/encyclopedia/algorithmic-trading/backtesting/">backtesting</a>.</li>
+<li><strong>Giữ vị thế dùng đòn bẩy nhiều tháng.</strong> Phí tài trợ cộng dồn thành gánh nặng lớn.</li>
+<li><strong>Giao dịch quá mức sau khi thua.</strong> Mỗi lệnh thêm vào làm tăng chi phí mà không thêm lợi thế.</li>
+<li><strong>Quên thuế cho đến cuối năm.</strong> Lãi ngắn hạn có thể bị đánh thuế nặng, và cần có hồ sơ của mọi lệnh.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="giao-d-ch-kh-ng-hoa-h-ng-c-th-c-s-mi-n-ph-kh-ng">Giao dịch không hoa hồng có thực sự miễn phí không?</h3>
+<p>Không. Các broker không tính hoa hồng vẫn kiếm tiền qua spread, thanh toán cho dòng lệnh, lãi trên tiền mặt, cho vay ký quỹ, quy đổi tiền tệ và các khoản phí khác. Bạn cũng phải trả các chi phí thị trường như trượt giá.</p>
+<h3 id="ph-maker-v-taker-l-g">Phí maker và taker là gì?</h3>
+<p>Phí maker áp dụng cho lệnh nằm chờ trong sổ lệnh và thêm thanh khoản. Phí taker áp dụng cho lệnh khớp ngay với các lệnh sẵn có. Phí maker thường thấp hơn.</p>
+<h3 id="ph-swap-qua-m-l-g">Phí swap qua đêm là gì?</h3>
+<p>Đó là khoản phí tài trợ hằng ngày, hoặc đôi khi là khoản có, áp dụng cho các vị thế forex, CFD và spread bet dùng đòn bẩy được giữ qua thời điểm rollover hằng ngày. Nó dựa trên lãi suất cộng với biên độ của broker.</p>
+<h3 id="chi-ph-giao-d-ch-nh-h-ng-n-l-i-nhu-n-bao-nhi-u">Chi phí giao dịch ảnh hưởng đến lợi nhuận bao nhiêu?</h3>
+<p>Tùy tần suất giao dịch. Chi phí 0.1% mỗi vòng là nhỏ với người giao dịch vài lần một tháng nhưng có thể ngốn phần lớn hoặc toàn bộ lợi nhuận gộp của người giao dịch hàng chục lần mỗi ngày.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Spread và thanh khoản</b><span>Giá bid, ask, spread và giá giữa là gì; thanh khoản, trượt giá và tác động thị trường vận hành ra sao; vì sao spread nới rộng và cách tính chi phí khứ hồi.</span></a><a class="card" href="/vi/encyclopedia/basics/brokers-and-exchanges/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Broker và sàn giao dịch</b><span>Giải thích sàn, broker và dealer: lưu ký tài sản, công ty được cấp phép và offshore, broker kiếm tiền thế nào, bảo vệ nhà đầu tư, checklist, dấu hiệu cảnh báo.</span></a><a class="card" href="/vi/encyclopedia/basics/trading-styles/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Phong cách giao dịch</b><span>So sánh các phong cách giao dịch chính theo thời gian nắm giữ, thời gian bỏ ra, vốn, chi phí và tính cách, kèm ví dụ minh họa chi phí làm thay đổi phép tính.</span></a><a class="card" href="/vi/encyclopedia/crypto/funding-rates/"><div class="k">Giao dịch crypto</div><b>Funding rate</b><span>Cách funding của perpetual futures hoạt động: chu kỳ, cách tính và quy theo năm, đọc funding dương và âm, cùng arbitrage cash-and-carry.</span></a><a class="card" href="/vi/encyclopedia/trading-business/trading-taxes-overview/"><div class="k">Prop firm, thuế, quy định và lừa đảo</div><b>Tổng quan thuế giao dịch</b><span>Hướng dẫn chung về cách đánh thuế lợi nhuận giao dịch: lãi vốn so với thu nhập, thời gian nắm giữ, wash sale Mỹ, Section 1256 và crypto. Không phải tư vấn thuế.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/basics/long-and-short-positions/"><small>← Bài trước</small>Long và Short</a><a class="next" href="/vi/encyclopedia/basics/brokers-and-exchanges/"><small>Bài tiếp →</small>Broker và sàn giao dịch</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

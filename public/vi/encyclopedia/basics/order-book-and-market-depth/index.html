@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sổ lệnh và độ sâu thị trường: cách đọc Level 2 | PnL Profit</title>
+<meta name="description" content="Sổ lệnh giới hạn và công cụ khớp lệnh hoạt động ra sao, ưu tiên giá-thời gian, dữ liệu Level 1 và Level 2, đọc độ sâu, spoofing, thị trường dealer và AMM.">
+<meta name="keywords" content="sổ lệnh, độ sâu thị trường, dữ liệu level 2, sổ lệnh hoạt động thế nào, ưu tiên giá thời gian">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/order-book-and-market-depth/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Sổ lệnh và độ sâu thị trường: cách đọc Level 2 | PnL Profit">
+<meta property="og:description" content="Sổ lệnh giới hạn và công cụ khớp lệnh hoạt động ra sao, ưu tiên giá-thời gian, dữ liệu Level 1 và Level 2, đọc độ sâu, spoofing, thị trường dealer và AMM.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/basics/order-book-and-market-depth/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sổ lệnh và độ sâu thị trường: cách đọc Level 2 | PnL Profit">
+<meta name="twitter:description" content="Sổ lệnh giới hạn và công cụ khớp lệnh hoạt động ra sao, ưu tiên giá-thời gian, dữ liệu Level 1 và Level 2, đọc độ sâu, spoofing, thị trường dealer và AMM.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Sổ lệnh và độ sâu thị trường: cách đọc Level 2","description":"Sổ lệnh giới hạn và công cụ khớp lệnh hoạt động ra sao, ưu tiên giá-thời gian, dữ liệu Level 1 và Level 2, đọc độ sâu, spoofing, thị trường dealer và AMM.","keywords":"sổ lệnh, độ sâu thị trường, dữ liệu level 2, sổ lệnh hoạt động thế nào, ưu tiên giá thời gian","articleSection":"Kiến thức giao dịch cơ bản","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/basics/order-book-and-market-depth/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Kiến thức giao dịch cơ bản","item":"https://pnlpro.fit/vi/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"Sổ lệnh và độ sâu thị trường","item":"https://pnlpro.fit/vi/encyclopedia/basics/order-book-and-market-depth/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Sổ lệnh trong giao dịch là gì?","acceptedAnswer":{"@type":"Answer","text":"Sổ lệnh là danh sách thời gian thực của tất cả lệnh giới hạn mua và bán đang chờ khớp của một công cụ tài chính, sắp xếp theo giá. Nó cho thấy người mua và người bán đang chờ ở đâu và họ muốn giao dịch bao nhiêu."}},{"@type":"Question","name":"Khác biệt giữa dữ liệu Level 1 và Level 2 là gì?","acceptedAnswer":{"@type":"Answer","text":"Level 1 chỉ hiển thị bid và ask tốt nhất cùng khối lượng của chúng và giao dịch gần nhất. Level 2 hiển thị các lệnh đang chờ ở nhiều mức giá mỗi phía, qua đó cho thấy độ sâu thị trường."}},{"@type":"Question","name":"Ưu tiên giá-thời gian hoạt động thế nào?","acceptedAnswer":{"@type":"Answer","text":"Các lệnh ở mức giá tốt hơn được khớp trước. Trong các lệnh cùng mức giá, lệnh đặt sớm nhất được khớp trước, nên việc hủy rồi đặt lại một lệnh sẽ làm mất chỗ của bạn trong hàng đợi."}},{"@type":"Question","name":"Spoofing có bất hợp pháp không?","acceptedAnswer":{"@type":"Answer","text":"Có. Đặt các lệnh mà bạn định hủy để đánh lừa các trader khác là bất hợp pháp ở Mỹ, Anh, EU và nhiều khu vực pháp lý khác, và cơ quan quản lý đã truy tố hành vi này."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/basics/order-book-and-market-depth/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/order-book-and-market-depth/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/basics/order-book-and-market-depth/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/order-book-and-market-depth/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/order-book-and-market-depth/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/order-book-and-market-depth/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/order-book-and-market-depth/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/basics/order-book-and-market-depth/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/order-book-and-market-depth/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Kiến thức giao dịch cơ bản</h3><ul><li><a href="/vi/encyclopedia/basics/what-is-trading/">Giao dịch là gì?</a></li><li><a href="/vi/encyclopedia/basics/financial-markets-overview/">Tổng quan thị trường tài chính</a></li><li><a href="/vi/encyclopedia/basics/trading-styles/">Phong cách giao dịch</a></li><li><a href="/vi/encyclopedia/basics/order-types/">Các loại lệnh</a></li><li><a href="/vi/encyclopedia/basics/order-book-and-market-depth/" class="on" aria-current="page">Sổ lệnh và độ sâu thị trường</a></li><li><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread và thanh khoản</a></li><li><a href="/vi/encyclopedia/basics/leverage-and-margin/">Đòn bẩy và ký quỹ</a></li><li><a href="/vi/encyclopedia/basics/long-and-short-positions/">Long và Short</a></li><li><a href="/vi/encyclopedia/basics/trading-costs-and-fees/">Chi phí và phí giao dịch</a></li><li><a href="/vi/encyclopedia/basics/brokers-and-exchanges/">Broker và sàn giao dịch</a></li><li><a href="/vi/encyclopedia/basics/market-participants/">Các bên tham gia thị trường</a></li><li><a href="/vi/encyclopedia/basics/market-hours-and-sessions/">Giờ và phiên giao dịch</a></li><li><a href="/vi/encyclopedia/basics/how-to-start-trading/">Cách bắt đầu giao dịch</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/" class="on">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a></div>
+<h1 class="title">Sổ lệnh và độ sâu thị trường</h1>
+<div class="meta">10 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Kiến thức giao dịch cơ bản</summary><ul><li><a href="/vi/encyclopedia/basics/what-is-trading/">Giao dịch là gì?</a></li><li><a href="/vi/encyclopedia/basics/financial-markets-overview/">Tổng quan thị trường tài chính</a></li><li><a href="/vi/encyclopedia/basics/trading-styles/">Phong cách giao dịch</a></li><li><a href="/vi/encyclopedia/basics/order-types/">Các loại lệnh</a></li><li><a href="/vi/encyclopedia/basics/order-book-and-market-depth/" class="on" aria-current="page">Sổ lệnh và độ sâu thị trường</a></li><li><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">Spread và thanh khoản</a></li><li><a href="/vi/encyclopedia/basics/leverage-and-margin/">Đòn bẩy và ký quỹ</a></li><li><a href="/vi/encyclopedia/basics/long-and-short-positions/">Long và Short</a></li><li><a href="/vi/encyclopedia/basics/trading-costs-and-fees/">Chi phí và phí giao dịch</a></li><li><a href="/vi/encyclopedia/basics/brokers-and-exchanges/">Broker và sàn giao dịch</a></li><li><a href="/vi/encyclopedia/basics/market-participants/">Các bên tham gia thị trường</a></li><li><a href="/vi/encyclopedia/basics/market-hours-and-sessions/">Giờ và phiên giao dịch</a></li><li><a href="/vi/encyclopedia/basics/how-to-start-trading/">Cách bắt đầu giao dịch</a></li></ul></details>
+<article><p>Sổ lệnh (order book) là danh sách trực tiếp của tất cả lệnh giới hạn mua và bán đang chờ khớp của một công cụ tài chính, sắp xếp theo giá. Hầu hết các sàn chứng khoán, hợp đồng tương lai và crypto đều dùng sổ lệnh, và một công cụ khớp lệnh (matching engine) ghép các lệnh đến với sổ lệnh theo những quy tắc cố định. Độ sâu thị trường (market depth) mô tả khối lượng nằm ở mỗi mức giá gần thị trường hiện tại. Đọc sổ lệnh giúp trader hiểu thanh khoản và chi phí khớp lệnh có khả năng xảy ra, dù những gì hiển thị chỉ là một phần của bức tranh.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Sổ lệnh liệt kê các lệnh bid (lệnh mua) và ask (lệnh bán); bid tốt nhất và ask tốt nhất xác định spread.</li>
+<li>Hầu hết các sàn khớp lệnh theo ưu tiên giá-thời gian: giá tốt hơn được khớp trước, và ở cùng mức giá, lệnh đến sớm hơn được khớp trước.</li>
+<li>Dữ liệu Level 1 chỉ hiển thị bid và ask tốt nhất, còn Level 2 hiển thị khối lượng đang chờ ở nhiều mức giá.</li>
+<li>Độ sâu hiển thị có thể thay đổi trong chớp mắt, và các lệnh giả đặt ra để đánh lừa người khác, gọi là spoofing, là bất hợp pháp ở các thị trường lớn.</li>
+<li>Nhiều thị trường hoàn toàn không dùng sổ lệnh tập trung; forex phần lớn dựa trên dealer, và nhiều sàn crypto dùng nhà tạo lập thị trường tự động (AMM).</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#s-l-nh-gi-i-h-n-ho-t-ng-th-n-o">Sổ lệnh giới hạn hoạt động thế nào</a></li><li><a href="#c-ng-c-kh-p-l-nh-v-u-ti-n-gi-th-i-gian">Công cụ khớp lệnh và ưu tiên giá-thời gian</a></li><li><a href="#level-1-v-level-2-v-level-3">Level 1 và Level 2 (và Level 3)</a></li><li><a href="#c-s-l-nh">Đọc sổ lệnh</a></li><li><a href="#s-n-giao-d-ch-so-v-i-th-tr-ng-otc-v-dealer">Sàn giao dịch so với thị trường OTC và dealer</a></li><li><a href="#amm-i-chi-u">AMM để đối chiếu</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="s-l-nh-gi-i-h-n-ho-t-ng-th-n-o">Sổ lệnh giới hạn hoạt động thế nào</h2>
+<p>Mỗi lệnh đang chờ trong sổ lệnh là một <a href="/vi/encyclopedia/basics/order-types/">lệnh giới hạn</a>: lời chào mua ở mức giá bằng hoặc thấp hơn một giá, hoặc chào bán ở mức giá bằng hoặc cao hơn một giá. Các lệnh mua tạo thành phía <strong>bid</strong> và các lệnh bán tạo thành phía <strong>ask</strong> (hay offer).</p>
+<ul>
+<li><strong>Bid tốt nhất</strong> là mức giá cao nhất mà bất kỳ người mua nào hiện sẵn sàng trả.</li>
+<li><strong>Ask tốt nhất</strong> là mức giá thấp nhất mà bất kỳ người bán nào hiện sẵn sàng chấp nhận.</li>
+<li>Khoảng cách giữa hai mức là <strong>spread</strong>, và điểm giữa là <strong>giá trung bình (mid price)</strong>. Xem <a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">chênh lệch giá mua-bán và thanh khoản</a>.</li>
+</ul>
+<p>Giao dịch chỉ xảy ra khi người mua và người bán đồng ý một mức giá. Các lệnh giới hạn đang chờ cung cấp thanh khoản; các lệnh khớp ngay với chúng, như lệnh thị trường, lấy thanh khoản.</p>
+<h2 id="c-ng-c-kh-p-l-nh-v-u-ti-n-gi-th-i-gian">Công cụ khớp lệnh và ưu tiên giá-thời gian</h2>
+<p><strong>Công cụ khớp lệnh</strong> là phần mềm của sàn nhận lệnh, đối chiếu với sổ lệnh và ghi lại giao dịch. Hầu hết các sàn chứng khoán, crypto và nhiều sàn hợp đồng tương lai dùng <strong>ưu tiên giá-thời gian</strong>:</p>
+<ol>
+<li><strong>Giá trước.</strong> Bid cao hơn được ưu tiên hơn bid thấp hơn; ask thấp hơn được ưu tiên hơn ask cao hơn.</li>
+<li><strong>Thời gian sau.</strong> Trong các lệnh cùng mức giá, lệnh đến trước được khớp trước.</li>
+</ol>
+<p>Đó là lý do trader nói về &quot;vị trí trong hàng đợi&quot;. Hủy rồi đặt lại một lệnh sẽ đưa nó xuống cuối hàng ở mức giá đó. Một số thị trường hợp đồng tương lai dùng phương pháp <strong>pro-rata</strong> thay thế, trong đó các lệnh ở mức giá tốt nhất chia nhau mỗi lượt khớp đến theo tỷ lệ với quy mô của chúng.</p>
+<h3 id="v-d-minh-h-a-kh-p-m-t-l-nh-n">Ví dụ minh họa: khớp một lệnh đến</h3>
+<p>Sổ lệnh của một cổ phiếu trông như sau:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Khối lượng bid</th>
+<th>Giá bid</th>
+<th>Giá ask</th>
+<th>Khối lượng ask</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>300</td>
+<td>$20.00</td>
+<td>$20.02</td>
+<td>200</td>
+</tr>
+<tr>
+<td>500</td>
+<td>$19.99</td>
+<td>$20.03</td>
+<td>400</td>
+</tr>
+<tr>
+<td>800</td>
+<td>$19.98</td>
+<td>$20.05</td>
+<td>1,000</td>
+</tr>
+</tbody></table></div>
+<p>Bid tốt nhất là $20.00 và ask tốt nhất là $20.02, nên spread là 2 cent và giá trung bình là $20.01.</p>
+<p>Bây giờ một trader gửi <strong>lệnh giới hạn mua 500 cổ phiếu ở $20.03</strong>. Công cụ khớp lệnh ghép nó với các ask rẻ nhất trước:</p>
+<ul>
+<li>200 cổ phiếu ở $20.02 (toàn bộ mức đầu tiên)</li>
+<li>300 cổ phiếu ở $20.03 (một phần của mức thứ hai, còn lại 100 cổ phiếu ở đó)</li>
+</ul>
+<p>Lệnh được khớp hoàn toàn ở mức trung bình (200 x $20.02 + 300 x $20.03) / 500 = ($4,004 + $6,009) / 500 = $10,013 / 500 = $20.026.</p>
+<p>Ask tốt nhất mới là $20.03 với 100 cổ phiếu, và spread nới rộng thành 3 cent cho đến khi có người đặt chào bán mới. Nếu cũng trader đó gửi lệnh giới hạn mua 500 ở $20.01 thì lệnh sẽ không khớp với gì cả. Nó sẽ nằm chờ trong sổ lệnh như bid tốt nhất mới, đứng trước các lệnh $20.00.</p>
+<h2 id="level-1-v-level-2-v-level-3">Level 1 và Level 2 (và Level 3)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Cấp dữ liệu</th>
+<th>Hiển thị gì</th>
+<th>Ai thường dùng</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Level 1</td>
+<td>Bid tốt nhất, ask tốt nhất, khối lượng của chúng, giá và khối lượng giao dịch gần nhất</td>
+<td>Hầu hết trader cá nhân; hầu hết broker cung cấp miễn phí</td>
+</tr>
+<tr>
+<td>Level 2 (độ sâu thị trường)</td>
+<td>Khối lượng ở nhiều mức giá mỗi phía, đôi khi theo sàn hoặc market maker</td>
+<td>Day trader và scalper tích cực</td>
+</tr>
+<tr>
+<td>Level 3</td>
+<td>Từng lệnh riêng lẻ, và với thành viên là khả năng nhập và quản lý báo giá</td>
+<td>Thành viên sàn và market maker</td>
+</tr>
+</tbody></table></div>
+<p>Trên nhiều sàn crypto, dữ liệu độ sâu đầy đủ được cung cấp miễn phí. Với chứng khoán và hợp đồng tương lai, dữ liệu Level 2 thường phải trả phí cho sàn. Ở Mỹ, một cổ phiếu giao dịch đồng thời trên nhiều địa điểm, nên một góc nhìn Level 2 hợp nhất kết hợp nhiều sổ lệnh.</p>
+<h2 id="c-s-l-nh">Đọc sổ lệnh</h2>
+<p>Độ sâu cho bạn biết đại khái mình có thể giao dịch bao nhiêu trước khi làm giá di chuyển. Một vài quan sát phổ biến:</p>
+<ul>
+<li><strong>Sổ lệnh mỏng nghĩa là chi phí cao hơn.</strong> Nếu chỉ có khối lượng nhỏ nằm gần giá tốt nhất, một lệnh cỡ vừa sẽ trượt qua nhiều mức giá.</li>
+<li><strong>Các lệnh lớn đang chờ có thể đóng vai trò rào cản tạm thời.</strong> Một bid lớn có thể làm chậm đà giảm chừng nào nó còn đó, nhưng có thể bị hủy bất cứ lúc nào.</li>
+<li><strong>Sự mất cân bằng là bằng chứng yếu.</strong> Khối lượng bên bid nhiều hơn bên ask có thể gợi ý áp lực mua ngắn hạn, nhưng riêng nó thì không đáng tin vì phần lớn khối lượng hiển thị chỉ thoáng qua.</li>
+<li><strong>Sổ lệnh không phải toàn bộ thị trường.</strong> Lệnh iceberg giấu phần lớn khối lượng của chúng, và nhiều tổ chức giao dịch qua thuật toán, dark pool hoặc dealer không bao giờ xuất hiện trong sổ lệnh hiển thị.</li>
+</ul>
+<p>Những trader nghiên cứu chi tiết sổ lệnh và dòng giao dịch đã khớp thực hành <a href="/vi/encyclopedia/technical-analysis/order-flow-trading/">giao dịch theo dòng lệnh</a>.</p>
+<h3 id="l-u-v-spoofing">Lưu ý về spoofing</h3>
+<p><strong>Spoofing</strong> là đặt lệnh mà không có ý định để chúng được khớp, nhằm tạo ấn tượng sai về cung hoặc cầu, rồi hủy chúng. Việc này bất hợp pháp ở Mỹ, Anh, EU và nhiều khu vực pháp lý khác, và cơ quan quản lý đã khởi kiện cả công ty lẫn cá nhân. Với trader đọc sổ lệnh, bài học thực tế là các lệnh lớn hiển thị có thể không phải thật. Hãy coi độ sâu là thông tin về điều có thể xảy ra, không phải lời hứa.</p>
+<h2 id="s-n-giao-d-ch-so-v-i-th-tr-ng-otc-v-dealer">Sàn giao dịch so với thị trường OTC và dealer</h2>
+<p>Không phải thị trường nào cũng dùng sổ lệnh giới hạn tập trung.</p>
+<ul>
+<li><strong>Thị trường sàn</strong> (hầu hết cổ phiếu, hợp đồng tương lai và quyền chọn niêm yết, các sàn crypto tập trung) gom lệnh vào một hoặc nhiều sổ lệnh công khai.</li>
+<li><strong>Thị trường phi tập trung (OTC) hoặc dealer</strong> hoạt động khác. Ở forex và hầu hết thị trường trái phiếu, các dealer như ngân hàng báo giá trực tiếp cho khách hàng, và mỗi dealer tự đặt giá bid và ask. Không có một sổ lệnh duy nhất hiển thị lệnh của mọi người. Nguồn cấp giá của một broker forex bán lẻ là báo giá của chính họ, không phải sổ lệnh công khai. Xem <a href="/vi/encyclopedia/basics/brokers-and-exchanges/">broker và sàn giao dịch</a>.</li>
+</ul>
+<p>Thị trường dealer có thể sâu đối với khách hàng lớn nhưng kém minh bạch hơn, và giá có thể khác nhau giữa các dealer.</p>
+<h2 id="amm-i-chi-u">AMM để đối chiếu</h2>
+<p>Nhiều sàn crypto phi tập trung thay sổ lệnh bằng <strong>nhà tạo lập thị trường tự động (AMM)</strong>. Thay vì ghép người mua và người bán, AMM giữ một pool gồm hai token và đặt giá bằng một công thức. Công thức phổ biến nhất, công thức tích hằng số, giữ cố định tích của hai số dư token (x nhân y bằng k).</p>
+<h3 id="v-d-minh-h-a-mua-t-m-t-pool-amm">Ví dụ minh họa: mua từ một pool AMM</h3>
+<p>Một pool chứa 100 ETH và 300,000 USDC, nên giá ngầm định là 3,000 USDC mỗi ETH và k = 100 x 300,000 = 30,000,000.</p>
+<p>Một trader mua 1 ETH. Sau giao dịch, pool phải chứa 99 ETH, nên phải chứa 30,000,000 / 99 = 303,030.30 USDC. Trader trả 303,030.30 - 300,000 = 3,030.30 USDC, trước phí.</p>
+<p>Giá trung bình đã trả cao hơn giá ban đầu khoảng 1%. Đó là tác động giá (price impact), tương đương việc &quot;đi lên&quot; trong sổ lệnh của AMM, và nó tăng nhanh khi giao dịch lớn so với pool. AMM luôn báo giá, nhưng không thể mang lại sự kiểm soát chính xác như lệnh giới hạn. Chúng cũng khiến trader phơi nhiễm với việc bot chạy trước lệnh (front-running), được trình bày trong <a href="/vi/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV và tấn công sandwich</a>. Để biết thêm về những khác biệt, xem <a href="/vi/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX và DEX</a>.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Tin vào các lệnh lớn hiển thị.</strong> Chúng có thể biến mất ngay khi giá tiến gần.</li>
+<li><strong>Bỏ qua độ sâu trước khi xác định khối lượng lệnh.</strong> Một vị thế dễ vào trong giờ sôi động có thể khó thoát trong giờ vắng.</li>
+<li><strong>Đọc Level 2 của một sàn như toàn bộ thị trường.</strong> Thị trường phân mảnh trải thanh khoản qua nhiều địa điểm.</li>
+<li><strong>Cho rằng báo giá forex là giá của sàn.</strong> Giá forex bán lẻ đến từ broker hoặc các nhà cung cấp thanh khoản của họ.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="s-l-nh-trong-giao-d-ch-l-g">Sổ lệnh trong giao dịch là gì?</h3>
+<p>Sổ lệnh là danh sách thời gian thực của tất cả lệnh giới hạn mua và bán đang chờ khớp của một công cụ tài chính, sắp xếp theo giá. Nó cho thấy người mua và người bán đang chờ ở đâu và họ muốn giao dịch bao nhiêu.</p>
+<h3 id="kh-c-bi-t-gi-a-d-li-u-level-1-v-level-2-l-g">Khác biệt giữa dữ liệu Level 1 và Level 2 là gì?</h3>
+<p>Level 1 chỉ hiển thị bid và ask tốt nhất cùng khối lượng của chúng và giao dịch gần nhất. Level 2 hiển thị các lệnh đang chờ ở nhiều mức giá mỗi phía, qua đó cho thấy độ sâu thị trường.</p>
+<h3 id="u-ti-n-gi-th-i-gian-ho-t-ng-th-n-o">Ưu tiên giá-thời gian hoạt động thế nào?</h3>
+<p>Các lệnh ở mức giá tốt hơn được khớp trước. Trong các lệnh cùng mức giá, lệnh đặt sớm nhất được khớp trước, nên việc hủy rồi đặt lại một lệnh sẽ làm mất chỗ của bạn trong hàng đợi.</p>
+<h3 id="spoofing-c-b-t-h-p-ph-p-kh-ng">Spoofing có bất hợp pháp không?</h3>
+<p>Có. Đặt các lệnh mà bạn định hủy để đánh lừa các trader khác là bất hợp pháp ở Mỹ, Anh, EU và nhiều khu vực pháp lý khác, và cơ quan quản lý đã truy tố hành vi này.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/basics/order-types/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Các loại lệnh</b><span>Mỗi loại lệnh làm gì, khi nào nên dùng và những sai lầm gây tốn tiền: lệnh market, limit, stop, stop-limit, trailing stop, OCO và thời hạn hiệu lực của lệnh.</span></a><a class="card" href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Spread và thanh khoản</b><span>Giá bid, ask, spread và giá giữa là gì; thanh khoản, trượt giá và tác động thị trường vận hành ra sao; vì sao spread nới rộng và cách tính chi phí khứ hồi.</span></a><a class="card" href="/vi/encyclopedia/basics/market-participants/"><div class="k">Kiến thức giao dịch cơ bản</div><b>Các bên tham gia thị trường</b><span>Trader cá nhân, tổ chức, quỹ phòng hộ, market maker, công ty HFT, bên phòng hộ, ngân hàng trung ương và cá voi: mỗi bên muốn gì và bạn thực sự giao dịch với ai.</span></a><a class="card" href="/vi/encyclopedia/technical-analysis/order-flow-trading/"><div class="k">Phân tích kỹ thuật</div><b>Giao dịch order flow</b><span>Giao dịch order flow: time and sales, bậc thang DOM, biểu đồ footprint, delta và delta tích lũy, hấp thụ lệnh, lệnh iceberg và loại dữ liệu bạn cần.</span></a><a class="card" href="/vi/encyclopedia/crypto/centralized-vs-decentralized-exchanges/"><div class="k">Giao dịch crypto</div><b>CEX so với DEX</b><span>So sánh sàn crypto tập trung và phi tập trung: lưu ký, rủi ro đối tác, KYC, phí, thanh khoản, aggregator, proof of reserves và bài học từ vụ sụp đổ FTX.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/basics/order-types/"><small>← Bài trước</small>Các loại lệnh</a><a class="next" href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/"><small>Bài tiếp →</small>Spread và thanh khoản</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

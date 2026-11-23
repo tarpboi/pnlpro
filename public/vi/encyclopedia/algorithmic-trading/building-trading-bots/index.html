@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cách xây dựng bot giao dịch: kiến trúc, API và an toàn | PnL Profit</title>
+<meta name="description" content="Cách xây bot giao dịch: các lớp dữ liệu, tín hiệu, rủi ro, thực thi, API REST, WebSocket và FIX, giới hạn tốc độ, bảo mật API key, kill switch và ghi log.">
+<meta name="keywords" content="cách xây dựng bot giao dịch, kiến trúc bot giao dịch, bot giao dịch crypto, api sàn giao dịch, bảo mật api key, kill switch giao dịch">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Cách xây dựng bot giao dịch: kiến trúc, API và an toàn | PnL Profit">
+<meta property="og:description" content="Cách xây bot giao dịch: các lớp dữ liệu, tín hiệu, rủi ro, thực thi, API REST, WebSocket và FIX, giới hạn tốc độ, bảo mật API key, kill switch và ghi log.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/building-trading-bots/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cách xây dựng bot giao dịch: kiến trúc, API và an toàn | PnL Profit">
+<meta name="twitter:description" content="Cách xây bot giao dịch: các lớp dữ liệu, tín hiệu, rủi ro, thực thi, API REST, WebSocket và FIX, giới hạn tốc độ, bảo mật API key, kill switch và ghi log.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Cách xây dựng bot giao dịch: kiến trúc, API và an toàn","description":"Cách xây bot giao dịch: các lớp dữ liệu, tín hiệu, rủi ro, thực thi, API REST, WebSocket và FIX, giới hạn tốc độ, bảo mật API key, kill switch và ghi log.","keywords":"cách xây dựng bot giao dịch, kiến trúc bot giao dịch, bot giao dịch crypto, api sàn giao dịch, bảo mật api key, kill switch giao dịch","articleSection":"Giao dịch thuật toán và định lượng","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/building-trading-bots/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch thuật toán và định lượng","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Xây dựng bot giao dịch","item":"https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/building-trading-bots/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Ngôn ngữ lập trình nào tốt nhất cho bot giao dịch?","acceptedAnswer":{"@type":"Answer","text":"Python là lựa chọn phổ biến nhất cho bot của trader cá nhân nhờ thư viện phong phú và dễ dùng. Các ngôn ngữ nhanh hơn như C++, Rust hoặc Java được dùng khi độ trễ hoặc tốc độ thông điệp rất cao là vấn đề quan trọng."}},{"@type":"Question","name":"Bot giao dịch có sinh lời không?","acceptedAnswer":{"@type":"Answer","text":"Bot chỉ tự động hóa một chiến lược; nó không tạo ra lợi thế. Nhiều bot thua lỗ vì chiến lược nền tảng không có lợi thế sau chi phí, hoặc do lỗi phần mềm và kiểm soát rủi ro."}},{"@type":"Question","name":"Đưa API key cho bot giao dịch có an toàn không?","acceptedAnswer":{"@type":"Answer","text":"Có thể khá an toàn nếu key không thể rút tiền, bị giới hạn ở các địa chỉ IP đã biết, và chỉ gắn với một tiểu khoản có số tiền giới hạn. Không bao giờ chia sẻ key có quyền rút tiền hoặc seed phrase của ví với dịch vụ bên thứ ba."}},{"@type":"Question","name":"Kill switch trong giao dịch thuật toán là gì?","acceptedAnswer":{"@type":"Answer","text":"Kill switch là cơ chế điều khiển tự động hoặc thủ công để dừng một hệ thống giao dịch, hủy các lệnh của nó và, nếu được cấu hình, đóng vị thế khi vi phạm các giới hạn như mức lỗ trong ngày hoặc tốc độ gửi lệnh."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch thuật toán và định lượng</h3><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/" class="on" aria-current="page">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/" class="on">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a></div>
+<h1 class="title">Xây dựng bot giao dịch</h1>
+<div class="meta">11 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch thuật toán và định lượng</summary><ul><li><a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Nhập môn giao dịch thuật toán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/trend-following/">Bám theo xu hướng</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/mean-reversion/">Hồi quy về trung bình</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading và Stat Arb</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-making/">Làm thị trường</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/arbitrage-strategies/">Chiến lược arbitrage</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/high-frequency-trading/">Giao dịch tần suất cao</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">Thuật toán thực thi lệnh</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/" class="on" aria-current="page">Xây dựng bot giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading và giao dịch xã hội</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning trong giao dịch</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">Dữ liệu thị trường</a></li></ul></details>
+<article><p>Bot giao dịch là chương trình kết nối với broker hoặc sàn, đọc <a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/">dữ liệu thị trường</a>, quyết định khi nào giao dịch và tự động gửi lệnh. Xây một bot đặt được lệnh thì dễ; xây một bot hành xử an toàn khi dữ liệu đến trễ, kết nối bị rớt hoặc chiến lược chạy sai mới là phần việc thực sự. Đây là mặt kỹ thuật của <a href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">giao dịch thuật toán</a>: kiến trúc chuẩn, cách API sàn hoạt động và các biện pháp an toàn mà mọi bot cần có trước khi chạm vào tiền thật.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Tách bot thành các lớp: nguồn dữ liệu, tín hiệu, rủi ro, thực thi và giám sát.</li>
+<li>Dùng luồng WebSocket cho dữ liệu thị trường và để các lệnh gọi REST cho việc đặt lệnh và kiểm tra tài khoản, luôn nằm trong giới hạn tốc độ.</li>
+<li>API key nên có quyền tối thiểu cần thiết, tắt quyền rút tiền và giới hạn theo IP nếu có thể.</li>
+<li>Giới hạn rủi ro cứng và kill switch tự động là bắt buộc; lỗi phần mềm có thể làm mất tiền nhanh hơn bất kỳ giao dịch tệ nào.</li>
+<li>Chạy ở chế độ dry-run hoặc paper trước, ghi log mọi thứ và so sánh hành vi thực tế với backtest của bạn.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#ki-n-tr-c-c-a-bot">Kiến trúc của bot</a></li><li><a href="#api-c-a-s-n-v-broker">API của sàn và broker</a></li><li><a href="#gi-i-h-n-t-c">Giới hạn tốc độ</a></li><li><a href="#b-o-m-t-api-key">Bảo mật API key</a></li><li><a href="#kill-switch-v-gi-i-h-n-r-i-ro">Kill switch và giới hạn rủi ro</a></li><li><a href="#dry-run-paper-trading-v-ghi-log">Dry run, paper trading và ghi log</a></li><li><a href="#tri-n-khai">Triển khai</a></li><li><a href="#c-ng-c-m-ngu-n-m">Công cụ mã nguồn mở</a></li><li><a href="#v-d-minh-h-a-gi-i-h-n-t-c-v-ng-n-s-ch-r-i-ro">Ví dụ minh họa: giới hạn tốc độ và ngân sách rủi ro</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="ki-n-tr-c-c-a-bot">Kiến trúc của bot</h2>
+<p>Hầu hết các bot vững chắc, từ script đơn giản đến hệ thống chuyên nghiệp, đều có chung các khối xây dựng.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Lớp</th>
+<th>Nhiệm vụ</th>
+<th>Mối quan tâm chính</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nguồn dữ liệu</td>
+<td>Nhận giá, sổ lệnh, giao dịch và cập nhật tài khoản</td>
+<td>Kết nối lại, khoảng trống dữ liệu, dữ liệu cũ, dấu thời gian</td>
+</tr>
+<tr>
+<td>Tín hiệu (chiến lược)</td>
+<td>Biến dữ liệu thành vị thế hoặc lệnh mong muốn</td>
+<td>Cùng logic với backtest; không có look-ahead</td>
+</tr>
+<tr>
+<td>Rủi ro</td>
+<td>Kiểm tra mọi lệnh theo các giới hạn trước khi nó được gửi đi</td>
+<td>Quy mô vị thế, mức phơi nhiễm, mức lỗ trong ngày, kiểm tra tính hợp lý của giá</td>
+</tr>
+<tr>
+<td>Thực thi</td>
+<td>Đặt, sửa và hủy lệnh; theo dõi lệnh khớp</td>
+<td>Idempotency, khớp một phần, thử lại, giới hạn tốc độ</td>
+</tr>
+<tr>
+<td>Trạng thái và lưu trữ</td>
+<td>Giữ vị thế, lệnh và số dư nhất quán</td>
+<td>Đối chiếu với sàn định kỳ</td>
+</tr>
+<tr>
+<td>Giám sát</td>
+<td>Cảnh báo, bảng điều khiển, log</td>
+<td>Biết trong vài phút khi có điều gì sai</td>
+</tr>
+</tbody></table></div>
+<p>Giữ các lớp tách biệt nghĩa là bạn có thể dùng lại cùng một đoạn code tín hiệu cho <a href="/vi/encyclopedia/algorithmic-trading/backtesting/">backtesting</a> và giao dịch thật, và có thể kiểm thử riêng lớp rủi ro. Lớp rủi ro phải có khả năng chặn bất kỳ lệnh nào, bất kể chiến lược muốn gì. Lớp thực thi có thể đơn giản như gửi lệnh giới hạn hoặc phức tạp như logic chia nhỏ lệnh mô tả trong <a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/">thuật toán thực thi</a>.</p>
+<h2 id="api-c-a-s-n-v-broker">API của sàn và broker</h2>
+<h3 id="rest">REST</h3>
+<p>API REST dùng các yêu cầu web tiêu chuẩn. Bạn gửi một yêu cầu (đặt lệnh, lấy số dư) và nhận một phản hồi. Chúng đơn giản nhưng chậm với dữ liệu dạng luồng, và mỗi yêu cầu đều tính vào giới hạn tốc độ.</p>
+<h3 id="websocket">WebSocket</h3>
+<p>Kết nối WebSocket luôn mở và đẩy cập nhật đến bạn ngay khi chúng xảy ra: giao dịch, thay đổi sổ lệnh, lệnh khớp. Đây là cách chuẩn để nhận dữ liệu thị trường theo thời gian thực. Bot phải xử lý ngắt kết nối, đăng ký lại, và dựng lại sổ lệnh cục bộ từ một snapshot mới nếu bỏ lỡ bất kỳ cập nhật nào, thường được phát hiện qua số thứ tự (sequence number).</p>
+<h3 id="fix">FIX</h3>
+<p>Giao thức FIX là chuẩn nhắn tin lâu đời trong giao dịch tổ chức, được nhiều broker, công ty futures và một số sàn crypto dùng để đặt lệnh và nhận dữ liệu thị trường. Nó phức tạp hơn để triển khai nhưng cho phiên làm việc ổn định và chi phí thấp hơn khi tốc độ thông điệp cao.</p>
+<h3 id="x-c-th-c">Xác thực</h3>
+<p>Các endpoint riêng tư thường yêu cầu API key và một chữ ký tính bằng secret, thường dựa trên HMAC, cùng với dấu thời gian. Nếu đồng hồ máy chủ của bạn bị lệch, yêu cầu có thể bị từ chối, nên hãy giữ đồng hồ hệ thống được đồng bộ. Các sàn crypto xây trên blockchain có thể thay vào đó yêu cầu ký lệnh bằng khóa riêng của ví.</p>
+<h2 id="gi-i-h-n-t-c">Giới hạn tốc độ</h2>
+<p>Sàn giới hạn số yêu cầu bạn có thể gửi mỗi giây hoặc mỗi phút, thường dưới dạng ngân sách &quot;trọng số&quot; (weight), trong đó các yêu cầu nặng tốn nhiều hơn. Vượt giới hạn sẽ trả về lỗi và, nếu vi phạm lặp lại, bị cấm tạm thời. Thực hành tốt:</p>
+<ul>
+<li>Lấy dữ liệu thị trường từ luồng WebSocket thay vì thăm dò (polling) các endpoint REST.</li>
+<li>Tự theo dõi mức sử dụng của bạn, thường bằng bộ đếm token-bucket, và giảm tốc trước khi chạm giới hạn.</li>
+<li>Khi gặp lỗi giới hạn tốc độ, hãy lùi lại với độ trễ tăng dần thay vì thử lại ngay.</li>
+<li>Gộp các thao tác khi API hỗ trợ, chẳng hạn hủy tất cả lệnh trong một lần gọi.</li>
+</ul>
+<h2 id="b-o-m-t-api-key">Bảo mật API key</h2>
+<p>Một API key bị lộ có thể làm sạch tài khoản. Hãy coi key như mật khẩu ngân hàng của bạn:</p>
+<ul>
+<li><strong>Tắt quyền rút tiền</strong> trên các key giao dịch. Bot hiếm khi cần rút tiền.</li>
+<li><strong>Giới hạn theo địa chỉ IP</strong> để key chỉ hoạt động từ máy chủ của bạn.</li>
+<li><strong>Dùng đặc quyền tối thiểu:</strong> key chỉ đọc cho việc giám sát, key giao dịch chỉ ở nơi cần.</li>
+<li><strong>Không bao giờ để key trong code</strong> hoặc kho mã công khai. Hãy nạp chúng từ biến môi trường hoặc trình quản lý bí mật.</li>
+<li><strong>Dùng tiểu khoản</strong> với số tiền giới hạn cho mỗi bot, nếu nền tảng hỗ trợ.</li>
+<li><strong>Cảnh giác với các dịch vụ bot của bên thứ ba</strong> yêu cầu key có quyền rút tiền, và với bất kỳ công cụ nào đòi cụm từ khôi phục (seed phrase) của ví. Xem <a href="/vi/encyclopedia/crypto/crypto-wallet-security/">bảo mật ví crypto</a> và, với các bot swap kiểu Telegram, <a href="/vi/encyclopedia/meme-coins/meme-coin-trading-bots/">bot giao dịch meme coin</a>.</li>
+</ul>
+<h2 id="kill-switch-v-gi-i-h-n-r-i-ro">Kill switch và giới hạn rủi ro</h2>
+<p>Lỗi phần mềm có thể rất thảm khốc. Vào ngày 1 tháng 8 năm 2012, nhà tạo lập thị trường Mỹ Knight Capital triển khai code lỗi gửi ra một loạt lệnh ngoài ý muốn, mất khoảng 440 triệu đô la trong chưa đầy một giờ và bị đẩy vào cảnh phải được cứu trợ. Những phiên bản nhỏ hơn của chuyện tương tự, như vòng lặp gửi lại lệnh liên tục hoặc lỗi đơn vị khiến giao dịch gấp mười lần quy mô dự định, xảy ra với bot của trader cá nhân thường xuyên.</p>
+<p>Mọi bot nên có:</p>
+<ul>
+<li><strong>Quy mô vị thế tối đa</strong> theo từng công cụ và tổng thể.</li>
+<li><strong>Quy mô lệnh tối đa</strong> và một biên giá (price collar) từ chối các lệnh lệch xa thị trường hiện tại.</li>
+<li><strong>Giới hạn lỗ trong ngày</strong> để hủy lệnh, tùy chọn đóng hết vị thế, và dừng bot cho đến khi con người khởi động lại.</li>
+<li><strong>Giới hạn tốc độ lệnh</strong> để dừng bot nếu nó gửi nhiều lệnh hơn hẳn dự kiến.</li>
+<li><strong>Kiểm tra dữ liệu cũ</strong> để dừng giao dịch nếu dữ liệu thị trường không cập nhật trong một khoảng thời gian đặt trước.</li>
+<li><strong>Một kill switch thủ công</strong> mà bạn có thể kích hoạt từ điện thoại.</li>
+</ul>
+<h2 id="dry-run-paper-trading-v-ghi-log">Dry run, paper trading và ghi log</h2>
+<p>Hãy chạy toàn bộ hệ thống ở chế độ dry-run trước, nơi nó tính lệnh và ghi log mà không gửi đi, rồi chạy paper trading hoặc trên testnet của sàn nếu có. Testnet thường hoạt động khác thị trường thật, với sổ lệnh mỏng hơn và cách khớp khác, nên hãy coi chúng là bài kiểm thử phần mềm, không phải kiểm thử hiệu suất.</p>
+<p>Hãy ghi log mọi đầu vào và quyết định: dữ liệu nhận được, tín hiệu, lệnh đã gửi, phản hồi của sàn, lệnh khớp và lỗi, tất cả kèm dấu thời gian UTC. Khi có sự cố, log là cách duy nhất để dựng lại chuyện gì đã xảy ra. Dùng ID lệnh phía client duy nhất để một yêu cầu thử lại không vô tình tạo ra lệnh trùng, và thường xuyên đối chiếu góc nhìn về vị thế của bot với của sàn.</p>
+<p>Một vòng lặp chính tối giản cho thấy các phần ghép với nhau như thế nào. Các đối tượng <code>feed</code>, <code>strategy</code> và <code>broker</code> là chỗ giữ chỗ cho các lớp dữ liệu, tín hiệu và thực thi của riêng bạn.</p>
+<pre><code class="language-python">import logging
+
+MAX_DAILY_LOSS = 300.0      # đơn vị tiền của tài khoản
+MAX_POSITION = 2_000.0      # giá trị danh nghĩa tuyệt đối cho mỗi mã
+
+def run(feed, strategy, broker, dry_run=True):
+    start_equity = broker.equity()
+    for tick in feed:                                   # ví dụ: thông điệp từ hàng đợi WebSocket
+        pnl = broker.equity() - start_equity
+        if pnl &lt;= -MAX_DAILY_LOSS:
+            logging.critical(&quot;Daily loss limit hit (%.2f). Stopping.&quot;, pnl)
+            broker.cancel_all()
+            broker.flatten()
+            return                                      # kill switch: chờ con người xử lý
+        order = strategy.on_tick(tick)
+        if order is None:
+            continue
+        new_pos = broker.position(order.symbol) + order.signed_notional
+        if abs(new_pos) &gt; MAX_POSITION:
+            logging.warning(&quot;Order blocked by position limit: %s&quot;, order)
+        elif dry_run:
+            logging.info(&quot;DRY RUN, would send: %s&quot;, order)
+        else:
+            broker.send(order, client_order_id=order.uid)  # ID duy nhất ngăn lệnh trùng lặp
+</code></pre>
+<h2 id="tri-n-khai">Triển khai</h2>
+<p>Bot thường chạy trên máy chủ đám mây hoặc máy chủ ảo riêng (VPS) gần máy chủ của sàn, với cơ chế tự khởi động lại khi sập. Khi khởi động lại, bot trước hết phải nạp trạng thái từ sàn (lệnh đang mở, vị thế) thay vì giả định mình bắt đầu từ trạng thái không có vị thế. Hãy giữ đồng hồ đồng bộ, theo dõi mức dùng bộ nhớ và ổ đĩa, và lên kế hoạch cho các khung bảo trì của sàn.</p>
+<h2 id="c-ng-c-m-ngu-n-m">Công cụ mã nguồn mở</h2>
+<p>Nhiều trader xây dựng trên các thư viện có sẵn thay vì bắt đầu từ con số không. Các ví dụ mã nguồn mở nổi tiếng gồm CCXT (thư viện thống nhất cho API của nhiều sàn crypto), Freqtrade và Hummingbot (khung bot crypto), Backtrader và NautilusTrader (khung backtest và giao dịch) và engine LEAN của QuantConnect. Những công cụ này được nêu làm ví dụ, không phải khuyến nghị; hãy xem xét kỹ mọi đoạn code bạn chạy với tiền thật. Để xem hướng dẫn riêng cho từng nền tảng, hãy đọc <a href="/blog/polymarket-trading-bot-guide.html">hướng dẫn bot giao dịch Polymarket</a>.</p>
+<h2 id="v-d-minh-h-a-gi-i-h-n-t-c-v-ng-n-s-ch-r-i-ro">Ví dụ minh họa: giới hạn tốc độ và ngân sách rủi ro</h2>
+<p>Một sàn cho phép trọng số yêu cầu 1,200 mỗi phút (con số minh họa; hãy kiểm tra tài liệu của sàn bạn dùng). Một bot theo dõi 10 thị trường.</p>
+<ul>
+<li>Thăm dò sổ lệnh của từng thị trường mỗi giây với trọng số 5 tốn 10 × 5 × 60 = 3,000 mỗi phút, gấp 2.5 lần giới hạn. Bot sẽ bị cấm.</li>
+<li>Chuyển dữ liệu thị trường sang luồng WebSocket loại bỏ các yêu cầu đó. Nếu bot khi đó đặt hoặc hủy khoảng 40 lệnh mỗi phút với trọng số 1 mỗi lệnh, cộng một lần kiểm tra số dư mỗi phút với trọng số 10, nó dùng khoảng 50 mỗi phút, tức khoảng 4% ngân sách.</li>
+</ul>
+<p>Về rủi ro, tài khoản có 10,000 đô la. Bot giới hạn mức phơi nhiễm ở 20% mỗi thị trường (2,000 đô la) và dừng giao dịch khi lỗ trong ngày đạt 3% (300 đô la). Ngay cả khi mọi vị thế đang mở đều đi ngược mạnh trước khi kill switch kích hoạt, trường hợp xấu nhất vẫn bị giới hạn bởi các mức này và bởi logic dừng, chứ không phải bởi may rủi.</p>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Không có logic kết nối lại.</strong> Luồng WebSocket có thể rớt; một bot âm thầm ngừng cập nhật sẽ giao dịch trên giá cũ.</li>
+<li><strong>Giả định lệnh luôn khớp.</strong> Hãy xử lý rõ ràng khớp một phần, bị từ chối và bị hủy.</li>
+<li><strong>Thử lại mà không có idempotency.</strong> Một lệnh bị hết thời gian chờ vẫn có thể đã được chấp nhận; gửi lại có thể nhân đôi vị thế.</li>
+<li><strong>Key có quyền rút tiền.</strong> Điều này biến mọi vụ xâm nhập máy chủ thành mất sạch.</li>
+<li><strong>Chạy thật mà không có kill switch.</strong> Lỗi chắc chắn sẽ có; lỗi không giới hạn là tùy chọn.</li>
+<li><strong>Chỉ kiểm thử khi thị trường yên ả.</strong> Giai đoạn biến động phơi bày lỗi race condition và vấn đề giới hạn tốc độ.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="ng-n-ng-l-p-tr-nh-n-o-t-t-nh-t-cho-bot-giao-d-ch">Ngôn ngữ lập trình nào tốt nhất cho bot giao dịch?</h3>
+<p>Python là lựa chọn phổ biến nhất cho bot của trader cá nhân nhờ thư viện phong phú và dễ dùng. Các ngôn ngữ nhanh hơn như C++, Rust hoặc Java được dùng khi độ trễ hoặc tốc độ thông điệp rất cao là vấn đề quan trọng.</p>
+<h3 id="bot-giao-d-ch-c-sinh-l-i-kh-ng">Bot giao dịch có sinh lời không?</h3>
+<p>Bot chỉ tự động hóa một chiến lược; nó không tạo ra lợi thế. Nhiều bot thua lỗ vì chiến lược nền tảng không có lợi thế sau chi phí, hoặc do lỗi phần mềm và kiểm soát rủi ro.</p>
+<h3 id="a-api-key-cho-bot-giao-d-ch-c-an-to-n-kh-ng">Đưa API key cho bot giao dịch có an toàn không?</h3>
+<p>Có thể khá an toàn nếu key không thể rút tiền, bị giới hạn ở các địa chỉ IP đã biết, và chỉ gắn với một tiểu khoản có số tiền giới hạn. Không bao giờ chia sẻ key có quyền rút tiền hoặc seed phrase của ví với dịch vụ bên thứ ba.</p>
+<h3 id="kill-switch-trong-giao-d-ch-thu-t-to-n-l-g">Kill switch trong giao dịch thuật toán là gì?</h3>
+<p>Kill switch là cơ chế điều khiển tự động hoặc thủ công để dừng một hệ thống giao dịch, hủy các lệnh của nó và, nếu được cấu hình, đóng vị thế khi vi phạm các giới hạn như mức lỗ trong ngày hoặc tốc độ gửi lệnh.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Nhập môn giao dịch thuật toán</b><span>Giao dịch thuật toán là gì, khác biệt giữa algo trading cá nhân và tổ chức, lộ trình từ ý tưởng đến bot chạy thật, ngôn ngữ phổ biến và kỳ vọng thực tế.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/backtesting/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Backtest</b><span>Cách backtest chiến lược giao dịch mà không tự đánh lừa mình: chất lượng dữ liệu, survivorship bias, look-ahead bias, chi phí, walk-forward và các chỉ số chính.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Dữ liệu thị trường</b><span>Dữ liệu thị trường cho trader: tick và bar, luồng Level 1, 2, 3, nguồn dữ liệu lịch sử, chi phí, giấy phép, dấu thời gian, đồng bộ đồng hồ và làm sạch dữ liệu.</span></a><a class="card" href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/"><div class="k">Giao dịch thuật toán và định lượng</div><b>Thuật toán thực thi lệnh</b><span>Cách thuật toán thực thi hoạt động: TWAP, VWAP, POV, implementation shortfall, định tuyến lệnh thông minh, đo slippage và vì sao thực thi quyết định lợi nhuận.</span></a><a class="card" href="/vi/encyclopedia/crypto/crypto-wallet-security/"><div class="k">Giao dịch crypto</div><b>Bảo mật ví</b><span>Cách trader bảo vệ crypto: tự lưu ký, seed phrase, ví cứng, quyền approve token, wallet drainer, phishing, address poisoning và an toàn API key.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/"><small>← Bài trước</small>Thuật toán thực thi lệnh</a><a class="next" href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/"><small>Bài tiếp →</small>Copy trading và giao dịch xã hội</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

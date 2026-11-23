@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MEVとサンドイッチ攻撃の仕組みと対策 | PnL Profit</title>
+<meta name="description" content="MEVとは何か、サンドイッチ攻撃がDEXのスワップを狙う仕組み、スリッページ許容値とリスクの関係、プライベートRPC・優先手数料・Jitoチップの役割を解説。">
+<meta name="keywords" content="MEV とは, サンドイッチ攻撃, フロントランニング 仮想通貨, スリッページ 設定, MEV 対策 RPC">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="MEVとサンドイッチ攻撃の仕組みと対策 | PnL Profit">
+<meta property="og:description" content="MEVとは何か、サンドイッチ攻撃がDEXのスワップを狙う仕組み、スリッページ許容値とリスクの関係、プライベートRPC・優先手数料・Jitoチップの役割を解説。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MEVとサンドイッチ攻撃の仕組みと対策 | PnL Profit">
+<meta name="twitter:description" content="MEVとは何か、サンドイッチ攻撃がDEXのスワップを狙う仕組み、スリッページ許容値とリスクの関係、プライベートRPC・優先手数料・Jitoチップの役割を解説。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"MEVとサンドイッチ攻撃の仕組みと対策","description":"MEVとは何か、サンドイッチ攻撃がDEXのスワップを狙う仕組み、スリッページ許容値とリスクの関係、プライベートRPC・優先手数料・Jitoチップの役割を解説。","keywords":"MEV とは, サンドイッチ攻撃, フロントランニング 仮想通貨, スリッページ 設定, MEV 対策 RPC","articleSection":"暗号資産トレード","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/crypto/mev-and-sandwich-attacks/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"暗号資産トレード","item":"https://pnlpro.fit/ja/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"MEVとサンドイッチ攻撃","item":"https://pnlpro.fit/ja/encyclopedia/crypto/mev-and-sandwich-attacks/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"暗号資産のサンドイッチ攻撃とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"ボットがあなたのDEXスワップの直前に買いを、直後に売りを入れる攻撃です。あなたの取引は悪化した価格で約定し、ボットはその差額を手にします。"}},{"@type":"Question","name":"サンドイッチ攻撃はどうすれば避けられますか？","acceptedAnswer":{"@type":"Answer","text":"スリッページ許容値を狭くし、MEV保護されたプライベートRPCやバッチオークション型のアグリゲーターを通じてトランザクションを送り、薄いプールでの大きなスワップを避けましょう。取引を分割するのも効果があります。"}},{"@type":"Question","name":"MEVは違法ですか？","acceptedAnswer":{"@type":"Answer","text":"公開ブロックチェーン上でのMEVの抽出は、国によって異なる法的なグレーゾーンにあり、不公正取引（マーケットアビューズ）に関するルールがどう適用されるかについて、規制当局はまだ結論を出していません。プロトコルのバグを悪用するといった一部の形態については、米国で刑事訴追に至った例があります。"}},{"@type":"Question","name":"スリッページ許容値はどのくらいに設定すべきですか？","acceptedAnswer":{"@type":"Answer","text":"取引が約定する範囲で最も低い設定を使いましょう。流動性の高いペアなら1%を大きく下回ることが多いです。ボラティリティの高いトークンではもっと高い設定が必要になることもありますが、余分な1%ごとに、それだけの価値をサンドイッチボットに奪われる可能性があります。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>暗号資産トレード</h3><ul><li><a href="/ja/encyclopedia/crypto/crypto-trading-basics/">暗号資産トレードの基礎</a></li><li><a href="/ja/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEXとDEXの違い</a></li><li><a href="/ja/encyclopedia/crypto/crypto-market-cycles/">暗号資産の市場サイクル</a></li><li><a href="/ja/encyclopedia/crypto/perpetual-futures/">無期限先物</a></li><li><a href="/ja/encyclopedia/crypto/funding-rates/">資金調達率</a></li><li><a href="/ja/encyclopedia/crypto/crypto-liquidations/">清算</a></li><li><a href="/ja/encyclopedia/crypto/on-chain-analysis/">オンチェーン分析</a></li><li><a href="/ja/encyclopedia/crypto/altcoin-trading/">アルトコイン取引</a></li><li><a href="/ja/encyclopedia/crypto/tokenomics-and-token-unlocks/">トークノミクスとアンロック</a></li><li><a href="/ja/encyclopedia/crypto/defi-trading/">DeFiトレード</a></li><li><a href="/ja/encyclopedia/crypto/mev-and-sandwich-attacks/" class="on" aria-current="page">MEVとサンドイッチ攻撃</a></li><li><a href="/ja/encyclopedia/crypto/crypto-arbitrage/">暗号資産のアービトラージ</a></li><li><a href="/ja/encyclopedia/crypto/stablecoins/">ステーブルコイン</a></li><li><a href="/ja/encyclopedia/crypto/crypto-wallet-security/">ウォレットのセキュリティ</a></li><li><a href="/ja/encyclopedia/crypto/airdrops-and-points-farming/">エアドロップとポイント</a></li><li><a href="/ja/encyclopedia/crypto/nft-trading/">NFTトレード</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/" class="on">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/crypto/">暗号資産トレード</a></div>
+<h1 class="title">MEVとサンドイッチ攻撃</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>暗号資産トレードの他の記事</summary><ul><li><a href="/ja/encyclopedia/crypto/crypto-trading-basics/">暗号資産トレードの基礎</a></li><li><a href="/ja/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEXとDEXの違い</a></li><li><a href="/ja/encyclopedia/crypto/crypto-market-cycles/">暗号資産の市場サイクル</a></li><li><a href="/ja/encyclopedia/crypto/perpetual-futures/">無期限先物</a></li><li><a href="/ja/encyclopedia/crypto/funding-rates/">資金調達率</a></li><li><a href="/ja/encyclopedia/crypto/crypto-liquidations/">清算</a></li><li><a href="/ja/encyclopedia/crypto/on-chain-analysis/">オンチェーン分析</a></li><li><a href="/ja/encyclopedia/crypto/altcoin-trading/">アルトコイン取引</a></li><li><a href="/ja/encyclopedia/crypto/tokenomics-and-token-unlocks/">トークノミクスとアンロック</a></li><li><a href="/ja/encyclopedia/crypto/defi-trading/">DeFiトレード</a></li><li><a href="/ja/encyclopedia/crypto/mev-and-sandwich-attacks/" class="on" aria-current="page">MEVとサンドイッチ攻撃</a></li><li><a href="/ja/encyclopedia/crypto/crypto-arbitrage/">暗号資産のアービトラージ</a></li><li><a href="/ja/encyclopedia/crypto/stablecoins/">ステーブルコイン</a></li><li><a href="/ja/encyclopedia/crypto/crypto-wallet-security/">ウォレットのセキュリティ</a></li><li><a href="/ja/encyclopedia/crypto/airdrops-and-points-farming/">エアドロップとポイント</a></li><li><a href="/ja/encyclopedia/crypto/nft-trading/">NFTトレード</a></li></ul></details>
+<article><p>MEV（maximal extractable value、最大抽出可能価値）とは、どのトランザクションをどの順番でブロックに入れるかを選ぶことで得られる利益のことです。DEXの価格をそろえるアービトラージのように、ユーザーにとっておおむね中立的なMEVもあります。トレーダーにとって最も有害なのはサンドイッチ攻撃で、ボットがあなたのスワップの直前に買い、直後に売ることで、あなたはより悪い価格で約定させられます。この仕組みと、スリッページの設定やプライベートなトランザクション経路がそれにどう影響するかを理解しておけば、DEXトレーダーは無視できない金額を節約できます。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>MEVが存在するのは、未処理のトランザクションが承認される前に見え、ブロック生成者がその順番を決められるからです。</li>
+<li>サンドイッチ攻撃は、あなたのスワップの前に価格を押し上げ、後で売り抜けることで、スリッページ許容値が定める上限まで価値を奪います。</li>
+<li>スリッページ許容値を狭く保つこと、大きな取引を分割すること、プライベートなトランザクション経路を使うことが主な対策です。</li>
+<li>ソラナでは、優先手数料やブロック構築サービスへのチップがトランザクションの順番を左右し、同じ構図の一部をなしています。</li>
+<li>中央集権型取引所にはオンチェーンのMEVはありませんが、その代わりに資産保管のリスクがあります。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#mev">MEVとは</a></li><li><a href="#mev">MEVの種類</a></li><li><a href="#section-4">サンドイッチ攻撃の仕組み</a></li><li><a href="#section-6">身を守る方法</a></li><li><a href="#jito">ソラナ：優先手数料とJitoのチップ</a></li><li><a href="#mev">MEVと中央集権型取引所</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="mev">MEVとは</h2>
+<p>ほとんどのブロックチェーンでは、トランザクションはネットワークにブロードキャストされ、ブロック生成者に取り込まれるまで、未処理トランザクションの公開プール（メンプール）で待機します。待機中は、そのトランザクションが何をするのか誰でも見ることができます。ブロック生成者や、その注意を引こうと入札する専門のボットは、その前後に自分のトランザクションを差し込むことができます。</p>
+<p>この用語は、2019年にDaianらが発表した学術論文「Flash Boys 2.0」で、「miner extractable value（マイナー抽出可能価値）」として初めて説明されました。2022年9月にイーサリアムがプルーフ・オブ・ステークに移行した後は、ブロックを生成するのがマイナーではなくバリデーターになったため、「maximal extractable value」が一般的な呼び名になりました。</p>
+<p>現在、イーサリアムのブロックの大半は、最も利益の出るブロックをつくるために競い合い、取り込みの対価をバリデーターに支払う専門の<strong>ビルダー</strong>によって組み立てられています。<strong>サーチャー</strong>と呼ばれるボットがMEVの機会を見つけ、トランザクションのバンドルをビルダーに送ります。この構造は、考え方としては<a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a>のスピード競争に似ていますが、その舞台はブロック内の順番です。</p>
+<h2 id="mev">MEVの種類</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>種類</th>
+<th>何が起きるか</th>
+<th>一般ユーザーへの影響</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DEXアービトラージ</td>
+<td>ボットがプール間や取引所間の価格差を取引で解消する</td>
+<td>ほぼ中立。価格をそろえる</td>
+</tr>
+<tr>
+<td>清算</td>
+<td>ボットが担保不足のDeFiローンの清算を競う</td>
+<td>レンディングプロトコルには必要だが、借り手には厳しい</td>
+</tr>
+<tr>
+<td>フロントランニング</td>
+<td>ボットが利益の出る未処理トランザクションをまねて、その前に割り込む</td>
+<td>元の送信者から機会を奪う</td>
+</tr>
+<tr>
+<td>サンドイッチ攻撃</td>
+<td>ボットがユーザーのスワップの直前と直後に取引する</td>
+<td>価格の悪化を通じてユーザーに直接コストが生じる</td>
+</tr>
+<tr>
+<td>バックランニング</td>
+<td>ボットが大きなトランザクションの直後に取引し、価格の動きを取る</td>
+<td>元のユーザーには通常中立</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-4">サンドイッチ攻撃の仕組み</h2>
+<p>被害者の側から見た流れは次のとおりです。</p>
+<ol>
+<li>あなたがAMMでトークンを買うスワップを送信します。スリッページ許容値は、たとえば5%とします。</li>
+<li>ボットが未処理のスワップを見つけ、あなたの許容値を超えない範囲でどこまで価格を押し上げられるかを計算します。</li>
+<li>ボットの買いがあなたの取引の前に入り、価格を押し上げます。</li>
+<li>あなたのスワップは悪化した価格で約定しますが、まだ許容値の範囲内なので失敗はしません。</li>
+<li>ボットの売りがあなたの取引の直後に入り、あなたの買いでつくられた高い価格で売り抜けます。</li>
+</ol>
+<p>ボットは自らがつくった価格の動きから利益を得て、あなたは本来より少ないトークンしか受け取れません。この攻撃が成り立つのは、<a href="/ja/encyclopedia/crypto/defi-trading/">AMMの価格決定</a>が取引のたびに反応する仕組みだからです。</p>
+<h3 id="section-5">計算例：許容値でさらされる金額</h3>
+<p>手数料差し引き後の見積もりが約4.748 ETHのプールで、10,000 USDCをETHにスワップするとします。</p>
+<ul>
+<li>スリッページ許容値を<strong>5%に設定</strong>すると、受け入れる最低額は4.748 × 0.95 = 4.511 ETHです。サンドイッチ攻撃はこの下限近くまであなたを追い込むことができ、損失は最大で約0.237 ETH、ETH価格$2,000で約$475になります。</li>
+<li>許容値を<strong>0.5%に設定</strong>すると、最低額は4.748 × 0.995 = 4.724 ETHです。サンドイッチ攻撃で失う可能性があるのは最大で約0.024 ETH、約$47です。</li>
+</ul>
+<p>実際には、攻撃者は自分の利益がガス代やチップ、プール手数料を上回る必要があるため、許容値の狭い小さなスワップは攻撃する価値がないことが多いです。最も狙われやすいのは、薄いプールで許容値を広くとった大きなスワップです。</p>
+<h2 id="section-6">身を守る方法</h2>
+<h3 id="section-7">スリッページ許容値を意識して設定する</h3>
+<p>取引が通る範囲で最も狭い許容値を使いましょう。流動性の高い主要ペアなら、1%未満で十分なことが多いです。ボラティリティが高いトークンや取引の少ないトークンではもっと必要になることもありますが、まさにそういうときこそサンドイッチのリスクが最も高くなります。「自動」のスリッページ設定がある画面もありますが、実際にどの値が選ばれているか確認しましょう。</p>
+<h3 id="section-8">プライベートなトランザクション経路を使う</h3>
+<p>いくつかのサービスは、トランザクションを公開メンプールではなくビルダーに直接送るプライベートRPCエンドポイント（ウォレットがトランザクションを送るためのネットワーク上のアドレス）を提供しており、トランザクションが取り込まれるまでボットからは見えません。イーサリアムでは、Flashbots ProtectやMEV Blockerなどがあります。バックランニングで生じた価値の一部をユーザーに還元するサービスもあります。現在では、多くのウォレットがMEV保護を設定項目として提供しています。</p>
+<h3 id="section-9">インテント型やバッチオークション型の取引所を使う</h3>
+<p>CoW Swapなど一部のアグリゲーターは、注文を集めて一律の価格でまとめて決済したり、プロのソルバーに注文の約定を競わせたりしています。この設計により、サンドイッチボットが必要とする順番の優位性がなくなります。アグリゲーターについて詳しくは<a href="/ja/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEXとDEXの違い</a>を参照してください。</p>
+<h3 id="1">1回あたりの取引サイズを減らす</h3>
+<p>AMMでは価格インパクトが取引サイズ以上のペースで大きくなるため、大きな注文を小分けにしたり、指値注文機能を使ったりすれば、インパクトとサンドイッチの採算性の両方を下げられます。</p>
+<h3 id="section-11">結果を確認する</h3>
+<p>スワップの後は、受け取ったトークンを見積もりと比べましょう。ブロックエクスプローラーでは、あなたのトランザクションの直前と直後のトランザクションを確認できます。大きな不足が繰り返し起きるなら、設定や経路を変えるべきサインです。</p>
+<h2 id="jito">ソラナ：優先手数料とJitoのチップ</h2>
+<p>ソラナには従来型の公開メンプールはありませんが、それでも順番は重要です。トランザクションには、計算量の単位ごとに支払う<strong>優先手数料</strong>（priority fee）を含めることができ、これによってバリデーターに先に処理してもらいやすくなります。また、ソラナのバリデーターの大部分はJitoのソフトウェアを稼働させており、ユーザーはバリデーターへの<strong>チップ</strong>（tip）を付けてトランザクションのバンドルを送ることで、順番を保証してもらえます。</p>
+<p>一般のトレーダーにとっての意味は次のとおりです。</p>
+<ul>
+<li>混雑時には、優先手数料を付けないスワップは遅れたり失敗したりすることがあります。</li>
+<li>トレーディングボットやローンチパッドのツールは、優先手数料やチップを自動的に、時には多額に上乗せすることがよくあります。何に支払っているかを確認しましょう。<a href="/ja/encyclopedia/meme-coins/meme-coin-trading-bots/">ミームコインのトレーディングボット</a>を参照してください。</li>
+<li>ソラナでも、特にスリッページ設定の高いミームコインのスワップでサンドイッチ攻撃が起きています。2024年3月、Jitoは有害なMEVに使われていることを理由に公開メンプール機能を停止しましたが、サンドイッチ攻撃はほかの経路で続きました。狭いスリッページとMEV保護された経路が、今も主な対策です。</li>
+</ul>
+<h2 id="mev">MEVと中央集権型取引所</h2>
+<p>中央集権型取引所では、注文は取引所の非公開のサーバー上でマッチングされるため、オンチェーンのMEVは関係ありません。その代わりに、取引所による資産保管や利益相反といった別の問題があります。値動きの速いトークンでは、オンチェーンのフロントランニングを避けるために、カウンターパーティリスクというトレードオフを受け入れるトレーダーもいます。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>ボラティリティの高い取引を一度した後、</strong> スリッページ許容値を高いままにしておくこと。</li>
+<li><strong>公開メンプール経由で、</strong> 浅いプールで大きなスワップをすること。</li>
+<li><strong>ボットの初期設定で非常に高い優先手数料が設定されていることに気づかず、</strong> 支払い続けること。</li>
+<li><strong>失敗したトランザクションにはコストがかからないと思い込むこと。</strong> 多くのチェーンでは、失敗したトランザクションでも手数料がかかります。</li>
+<li><strong>秘密鍵を求めてくる無名の「MEV保護」サービスを信用すること。</strong> 本物の保護サービスが鍵を必要とすることはありません。<a href="/ja/encyclopedia/crypto/crypto-wallet-security/">ウォレットのセキュリティ</a>を参照してください。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-16">暗号資産のサンドイッチ攻撃とは何ですか？</h3>
+<p>ボットがあなたのDEXスワップの直前に買いを、直後に売りを入れる攻撃です。あなたの取引は悪化した価格で約定し、ボットはその差額を手にします。</p>
+<h3 id="section-17">サンドイッチ攻撃はどうすれば避けられますか？</h3>
+<p>スリッページ許容値を狭くし、MEV保護されたプライベートRPCやバッチオークション型のアグリゲーターを通じてトランザクションを送り、薄いプールでの大きなスワップを避けましょう。取引を分割するのも効果があります。</p>
+<h3 id="mev">MEVは違法ですか？</h3>
+<p>公開ブロックチェーン上でのMEVの抽出は、国によって異なる法的なグレーゾーンにあり、不公正取引（マーケットアビューズ）に関するルールがどう適用されるかについて、規制当局はまだ結論を出していません。プロトコルのバグを悪用するといった一部の形態については、米国で刑事訴追に至った例があります。</p>
+<h3 id="section-19">スリッページ許容値はどのくらいに設定すべきですか？</h3>
+<p>取引が約定する範囲で最も低い設定を使いましょう。流動性の高いペアなら1%を大きく下回ることが多いです。ボラティリティの高いトークンではもっと高い設定が必要になることもありますが、余分な1%ごとに、それだけの価値をサンドイッチボットに奪われる可能性があります。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/crypto/defi-trading/"><div class="k">暗号資産トレード</div><b>DeFiトレード</b><span>DeFiトレードの仕組みを解説。定積型AMM、価格インパクト、数値で見るインパーマネントロス、集中流動性、オンチェーンのレンディングとプロトコルのリスク。</span></a><a class="card" href="/ja/encyclopedia/crypto/centralized-vs-decentralized-exchanges/"><div class="k">暗号資産トレード</div><b>CEXとDEXの違い</b><span>中央集権型と分散型の取引所を比較。資産の保管、カウンターパーティリスク、KYC、手数料、流動性、アグリゲーター、プルーフ・オブ・リザーブ、FTXの教訓を解説。</span></a><a class="card" href="/ja/encyclopedia/crypto/crypto-wallet-security/"><div class="k">暗号資産トレード</div><b>ウォレットのセキュリティ</b><span>資産の守り方。セルフカストディ、シードフレーズ、ハードウェアウォレット、トークン承認、ドレイナー、フィッシング、アドレスポイズニング、APIキー管理。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">アルゴリズム取引とクオンツ</div><b>高頻度取引</b><span>高頻度取引業者の業務、コロケーション、レイテンシー競争、マーケットメイクとレイテンシー裁定、論争点、個人が速度で勝てない理由を解説します。</span></a><a class="card" href="/ja/encyclopedia/meme-coins/meme-coin-trading-bots/"><div class="k">ミームコイントレード</div><b>トレーディングボット（Telegram）</b><span>TelegramやWebの取引ボットの機能、秘密鍵の保管方法、一般的な手数料、過去のハッキング事例、より安全な使い方を解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/crypto/defi-trading/"><small>← 前へ</small>DeFiトレード</a><a class="next" href="/ja/encyclopedia/crypto/crypto-arbitrage/"><small>次へ →</small>暗号資産のアービトラージ</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backtest Nasıl Yapılır? Strateji Testinde Doğru Yöntem | PnL Profit</title>
+<meta name="description" content="Kendinizi kandırmadan backtest yapmanın yolu: veri kalitesi, hayatta kalma ve ileriye bakma yanlılığı, maliyetler, walk-forward testi ve temel metrikler.">
+<meta name="keywords" content="backtest nasıl yapılır, geriye dönük test, strateji backtest, ileriye bakma yanlılığı, hayatta kalma yanlılığı, sharpe oranı">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/backtesting/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Ansiklopedisi">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Backtest Nasıl Yapılır? Strateji Testinde Doğru Yöntem | PnL Profit">
+<meta property="og:description" content="Kendinizi kandırmadan backtest yapmanın yolu: veri kalitesi, hayatta kalma ve ileriye bakma yanlılığı, maliyetler, walk-forward testi ve temel metrikler.">
+<meta property="og:url" content="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/backtesting/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Backtest Nasıl Yapılır? Strateji Testinde Doğru Yöntem | PnL Profit">
+<meta name="twitter:description" content="Kendinizi kandırmadan backtest yapmanın yolu: veri kalitesi, hayatta kalma ve ileriye bakma yanlılığı, maliyetler, walk-forward testi ve temel metrikler.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"tr","headline":"Backtest Nasıl Yapılır? Strateji Testinde Doğru Yöntem","description":"Kendinizi kandırmadan backtest yapmanın yolu: veri kalitesi, hayatta kalma ve ileriye bakma yanlılığı, maliyetler, walk-forward testi ve temel metrikler.","keywords":"backtest nasıl yapılır, geriye dönük test, strateji backtest, ileriye bakma yanlılığı, hayatta kalma yanlılığı, sharpe oranı","articleSection":"Algoritmik ve Kantitatif İşlem","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/backtesting/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ansiklopedi","item":"https://pnlpro.fit/tr/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Algoritmik ve Kantitatif İşlem","item":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Backtest","item":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/backtesting/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"tr","mainEntity":[{"@type":"Question","name":"Bir backtest'te iyi bir Sharpe oranı nedir?","acceptedAnswer":{"@type":"Answer","text":"Pek çok uygulayıcı, tek bir strateji için 1'in üzerindeki yıllıklandırılmış Sharpe'ı umut verici kabul eder. Günlük bir strateji için 3'ün üzeri gibi çok yüksek backtest değerleri, gerçek bir avantajdan çok hatalara, ileriye bakma yanlılığına veya aşırı optimizasyona işaret eder."}},{"@type":"Question","name":"Backtest için ne kadar geçmiş veriye ihtiyacım var?","acceptedAnswer":{"@type":"Answer","text":"Yükselen, düşen ve yatay piyasalar ile en az bir stres dönemi gibi farklı piyasa rejimlerini kapsayacak kadar. Günlük stratejiler için bu çoğu zaman on yıl veya daha fazla demektir; gün içi stratejiler için ise çok sayıda işlem içeriyorsa daha az yıl yeterli olabilir."}},{"@type":"Question","name":"Backtest ile kâğıt üzerinde işlem arasındaki fark nedir?","acceptedAnswer":{"@type":"Answer","text":"Backtest geçmiş veriyi yeniden oynatır; kâğıt üzerinde işlem (paper trading) ise stratejiyi gerçek para olmadan canlı fiyatlarla çalıştırır. Kâğıt üzerinde işlem, backtest'in yakalayamadığı emir yürütme ve yazılım sorunlarını yakalar."}},{"@type":"Question","name":"Canlı sonuçlar neden backtest sonuçlarından farklı olur?","acceptedAnswer":{"@type":"Answer","text":"Olağan nedenler, olduğundan düşük tahmin edilen maliyetler ve kayma, geçmişteki gürültüye aşırı uyum, verideki yanlılıklar ve piyasa davranışındaki değişikliklerdir. Bir miktar fark normaldir; büyük bir fark ise backtest'in kusurlu olduğu anlamına gelir."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/tr/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Ansiklopedi</small></a>
+  <nav class="top"><a href="/tr/encyclopedia/" class="on">Ansiklopedi</a><a href="/tr/encyclopedia/reference/trading-glossary/">Sözlük</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Trading botları</a></nav>
+  <details class="langmenu"><summary aria-label="Dil">🌐 <span>Türkçe</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/backtesting/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/backtesting/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/backtesting/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/backtesting/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/backtesting/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/backtesting/" hreflang="tr" lang="tr" class="on" aria-current="true">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/backtesting/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/backtesting/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/backtesting/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150+ makalede arayın  ( / )" autocomplete="off" aria-label="Ansiklopedide ara"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Algoritmik ve Kantitatif İşlem</h3><ul><li><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik İşleme Giriş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/backtesting/" class="on" aria-current="page">Backtest</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Aşırı Optimizasyon</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/trend-following/">Trend Takibi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">Ortalamaya Dönüş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Eşli İşlem ve İstatistiksel Arbitraj</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-making/">Piyasa Yapıcılığı</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitraj Stratejileri</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/high-frequency-trading/">Yüksek Frekanslı İşlem</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/">Emir Yürütme Algoritmaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/">İşlem Botu Geliştirme</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy Trading ve Sosyal Trading</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Trading'de Makine Öğrenmesi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">Piyasa Verileri</a></li></ul><h3>Tüm konular</h3><ul><li><a href="/tr/encyclopedia/basics/">📘 Trading'in Temelleri</a></li><li><a href="/tr/encyclopedia/risk-management/">🛡️ Risk ve Para Yönetimi</a></li><li><a href="/tr/encyclopedia/psychology/">🧠 Trading Psikolojisi</a></li><li><a href="/tr/encyclopedia/technical-analysis/">📈 Teknik Analiz</a></li><li><a href="/tr/encyclopedia/fundamental-analysis/">🏦 Temel ve Makro Analiz</a></li><li><a href="/tr/encyclopedia/stocks/">🏛️ Hisse Senedi İşlemleri</a></li><li><a href="/tr/encyclopedia/forex/">💱 Forex İşlemleri</a></li><li><a href="/tr/encyclopedia/futures/">📊 Vadeli İşlemler</a></li><li><a href="/tr/encyclopedia/options/">🎯 Opsiyon İşlemleri</a></li><li><a href="/tr/encyclopedia/crypto/">₿ Kripto Para İşlemleri</a></li><li><a href="/tr/encyclopedia/meme-coins/">🐸 Meme Coin İşlemleri</a></li><li><a href="/tr/encyclopedia/prediction-markets/">🔮 Tahmin Piyasaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/" class="on">🤖 Algoritmik ve Kantitatif İşlem</a></li><li><a href="/tr/encyclopedia/other-markets/">🛢️ Emtia, Tahvil ve Diğerleri</a></li><li><a href="/tr/encyclopedia/trading-business/">⚖️ Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a></li><li><a href="/tr/encyclopedia/reference/">📖 Başvuru Kaynakları</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/tr/encyclopedia/">Ansiklopedi</a> › <a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a></div>
+<h1 class="title">Bir İşlem Stratejisinin Backtest'i Nasıl Yapılır?</h1>
+<div class="meta">7 dk okuma · Güncelleme: 23 Kas 2026</div>
+<details class="side-m"><summary>Algoritmik ve Kantitatif İşlem: diğer makaleler</summary><ul><li><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik İşleme Giriş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/backtesting/" class="on" aria-current="page">Backtest</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Aşırı Optimizasyon</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/trend-following/">Trend Takibi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">Ortalamaya Dönüş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Eşli İşlem ve İstatistiksel Arbitraj</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-making/">Piyasa Yapıcılığı</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitraj Stratejileri</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/high-frequency-trading/">Yüksek Frekanslı İşlem</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/">Emir Yürütme Algoritmaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/">İşlem Botu Geliştirme</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy Trading ve Sosyal Trading</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Trading'de Makine Öğrenmesi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">Piyasa Verileri</a></li></ul></details>
+<article><p>Backtest (geriye dönük test), bir stratejinin geçmişte nasıl performans göstereceğini tahmin etmek için bir dizi işlem kuralını geçmiş veriye uygulama sürecidir. <a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik işlemin</a> ana araştırma aracıdır ve aynı zamanda kendinizi kandırmanın en kolay olduğu yerdir. Özenli bir backtest veriyi, maliyetleri ve zamanlamayı gerçekçi biçimde modeller; özensiz bir backtest ise gerçek para devreye girdiği anda kaybolan etkileyici rakamlar üretir.</p>
+<div class="takeaways"><h2 id="key-takeaways">Önemli noktalar</h2>
+<ul>
+<li>Bir backtest ancak verisi kadar iyidir; hayatta kalma yanlılığı ve ileriye bakma yanlılığı en çok zarar veren iki hatadır.</li>
+<li>Ücretleri, spread&#39;leri ve kaymayı ihtiyatlı modelleyin, çünkü bir stratejinin kârlı olup olmadığını çoğu zaman maliyetler belirler.</li>
+<li>Örneklem dışı test için stratejinin hiç görmediği veriyi ayırın; düzenli olarak yeniden ayar gerektiren stratejiler için walk-forward analizi kullanın.</li>
+<li>Bir stratejiyi birkaç metriğe birlikte bakarak değerlendirin: Sharpe, Sortino, maksimum düşüş, kâr faktörü ve işlem sayısı.</li>
+<li>İyi bir backtest güveni artırır; gelecekteki sonuçları asla garanti etmez.</li>
+</ul></div><details class="toc"><summary>Bu sayfada</summary><ol><li><a href="#backtest-nas-l-al-r">Backtest nasıl çalışır?</a></li><li><a href="#veri-kalitesi">Veri kalitesi</a></li><li><a href="#backtest-leri-mahveden-yanl-l-klar">Backtest&amp;#39;leri mahveden yanlılıklar</a></li><li><a href="#maliyetleri-ve-kaymay-modellemek">Maliyetleri ve kaymayı modellemek</a></li><li><a href="#rneklem-i-i-rneklem-d-ve-walk-forward">Örneklem içi, örneklem dışı ve walk-forward</a></li><li><a href="#performans-metrikleri">Performans metrikleri</a></li><li><a href="#rnek-hesaplama">Örnek hesaplama</a></li><li><a href="#common-mistakes">Sık yapılan hatalar</a></li></ol></details>
+<h2 id="backtest-nas-l-al-r">Backtest nasıl çalışır?</h2>
+<p>En basit haliyle bir backtest, geçmişte bar bar ilerler. Her adımda kuralların yalnızca o anda mevcut olan bilgiyle ne yapacağını sorar, simüle edilen emirleri ve dolumları kaydeder ve hesabın özsermayesini takip eder.</p>
+<p>İki yaygın tasarım vardır:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tasarım</th>
+<th>Nasıl çalışır</th>
+<th>Güçlü yanları</th>
+<th>Zayıf yanları</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vektörel</td>
+<td>Dizi işlemleriyle tüm seri için sinyalleri ve getirileri tek seferde hesaplar</td>
+<td>Çok hızlı, erken araştırma için iyi</td>
+<td>İleriye bakma yanlılığına düşmek kolay; emir dolumlarını, stopları ve pozisyon limitlerini modellemek zor</td>
+</tr>
+<tr>
+<td>Olay güdümlü</td>
+<td>Her barı veya tick&#39;i, canlı bir sistemin yapacağı gibi bir olay olarak işler</td>
+<td>Gerçekçi emir işleme; kod çoğu zaman canlı işlemde yeniden kullanılabilir</td>
+<td>Daha yavaş ve kurması daha zahmetli</td>
+</tr>
+</tbody></table></div>
+<p>Pek çok araştırmacı fikirleri vektörel testlerle eler, umut vaat edenleri olay güdümlü bir simülatörde doğrular.</p>
+<h2 id="veri-kalitesi">Veri kalitesi</h2>
+<p>Kötü veri, kendinden emin ama anlamsız sonuçlar üretir. En azından aşağıdakileri kontrol edin; daha fazlası için <a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">piyasa verisi</a> makalesine bakın:</p>
+<ul>
+<li><strong>Şirket eylemleri.</strong> Hisse fiyatları bölünmeler ve temettüler için düzeltilmelidir; aksi halde backtest sahte çöküşler görür ve temettü gelirini kaçırır.</li>
+<li><strong>Vadeli işlem devirleri (roll).</strong> Sürekli vadeli işlem serileri, kontrat vade sonları boyunca tutarlı bir şekilde birleştirilmelidir.</li>
+<li><strong>Hatalı tick&#39;ler ve boşluklar.</strong> Hatalı fiyat kayıtları, eksik barlar ve yinelenen kayıtlar sahte sinyaller yaratır.</li>
+<li><strong>Saat dilimleri ve zaman damgaları.</strong> Borsa saatini, yerel saati ve UTC&#39;yi karıştırmak sinyalleri saatlerce kaydırabilir.</li>
+<li><strong>Bar oluşturma.</strong> Farklı veri sağlayıcılarının günlük barları, özellikle günün her saati işlem gören forex ve kriptoda, farklı saatlerde kapanabilir.</li>
+</ul>
+<h2 id="backtest-leri-mahveden-yanl-l-klar">Backtest&#39;leri mahveden yanlılıklar</h2>
+<h3 id="hayatta-kalma-yanl-l-survivorship-bias">Hayatta kalma yanlılığı (survivorship bias)</h3>
+<p>Hayatta kalma yanlılığı, test evreni yalnızca bugün hâlâ var olan varlıkları içerdiğinde ortaya çıkar. İflas eden, borsadan çıkarılan veya satın alınan şirketler pek çok ücretsiz veri setinden kaybolur. Yalnızca bugünkü endeks üyeleri üzerinde test edilen bir strateji kazananlar üzerinde test edilmiş olur; bu da getirileri, özellikle sert düşmüş hisseleri alan stratejilerde, şişirir. Aynı sorun kriptoyu da etkiler: çöken binlerce token güncel coin listelerinde yer almaz. Çözüm, ölü enstrümanları da içeren ve endeks üyeliğini o tarihteki haliyle (point-in-time) veren, hayatta kalma yanlılığından arındırılmış bir veri setidir.</p>
+<h3 id="i-leriye-bakma-yanl-l-look-ahead-bias">İleriye bakma yanlılığı (look-ahead bias)</h3>
+<p>İleriye bakma yanlılığı, işlem anında mevcut olmayacak bilgiyi kullanmak demektir. Yaygın örnekler:</p>
+<ul>
+<li>Bir günün kapanış fiyatını sinyal üretmek için kullanıp aynı kapanıştan alım yaptığınızı da varsaymak.</li>
+<li>Finansal tablo verisini, gerçekte yayımlandığı tarih yerine dönem sonu tarihinde kullanmak.</li>
+<li>Veriyi, gelecek dahil tüm örneklem üzerinden hesaplanmış istatistiklerle (ortalama, maksimum) normalize etmek.</li>
+<li>İşlemcilerin gerçekte gördüğü ilk açıklanan rakamlar yerine revize edilmiş ekonomik verileri kullanmak.</li>
+</ul>
+<p>Faydalı bir alışkanlık, her sinyali bir bar ileri kaydırmaktır; böylece t barında hesaplanan bir sinyal en erken t+1 barında işleme dönüşür.</p>
+<h3 id="di-er-yanl-l-klar">Diğer yanlılıklar</h3>
+<ul>
+<li><strong>Seçim yanlılığı:</strong> yalnızca yükseldiğini zaten bildiğiniz piyasalarda test yapmak.</li>
+<li><strong>Veri madenciliği (data snooping):</strong> pek çok varyasyonu test edip en iyisini raporlamak. Bu konu <a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">aşırı optimizasyon ve veri madenciliği</a> makalesinde ele alınıyor.</li>
+<li><strong>Likidite yanlılığı:</strong> sığ piyasalarda büyük miktarları kotasyon fiyatından işlem yapabileceğinizi varsaymak.</li>
+</ul>
+<h2 id="maliyetleri-ve-kaymay-modellemek">Maliyetleri ve kaymayı modellemek</h2>
+<p>Simüle edilen her işlem gerçekçi maliyetler ödemelidir:</p>
+<ul>
+<li><strong>Komisyonlar ve borsa ücretleri</strong>, kripto platformlarındaki maker/taker ücretleri dahil.</li>
+<li><strong>Spread.</strong> Satış fiyatından (ask) alıp alış fiyatından (bid) satmak, her gidiş-dönüş işlemde <a href="/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/">alış-satış makasının</a> tamamına mal olur.</li>
+<li><strong>Kayma ve piyasa etkisi.</strong> Piyasa emirleri ve stoplar, özellikle hızlı piyasalarda ve büyük miktarlarda, çoğu zaman son fiyattan daha kötü dolar.</li>
+<li><strong>Finansman.</strong> Gecelik swap&#39;lar, perpetual fonlama ödemeleri ve açığa satışlar için hisse ödünç alma ücretleri.</li>
+</ul>
+<p>Mantıklı bir yaklaşım, mümkün olduğunda maliyetleri gerçek dolumlardan tahmin etmek, ardından backtest&#39;i bu maliyetlerin iki katıyla yeniden çalıştırmaktır. Strateji yalnızca iyimser maliyet seviyelerinde işe yarıyorsa, muhtemelen işe yaramıyordur.</p>
+<h2 id="rneklem-i-i-rneklem-d-ve-walk-forward">Örneklem içi, örneklem dışı ve walk-forward</h2>
+<p>Başlamadan önce geçmiş verinizi bölün. Stratejiyi örneklem içi (in-sample) kısımda kurup ayarlayın, ardından örneklem dışı (out-of-sample) kısımda bir kez test edin. Kuralları değiştirmek için örneklem dışı veriye tekrar tekrar dönerseniz, o veri örneklem dışı olmaktan çıkar.</p>
+<p>Walk-forward analizi bu süreci zaman içinde tekrarlar. Örneğin: parametreleri 2015 ile 2018 arasında optimize edin, 2019&#39;da test edin; 2016 ile 2019 arasında optimize edin, 2020&#39;de test edin; ve bu şekilde devam edin. Test dönemlerini birleştirmek, stratejinin gerçek zamanlı olarak nasıl yeniden ayarlanacağını yansıtan örneklem dışı bir özsermaye eğrisi verir. Örneklem içi ve walk-forward sonuçları arasındaki büyük farklar aşırı optimizasyona işaret eder.</p>
+<h2 id="performans-metrikleri">Performans metrikleri</h2>
+<p>Hiçbir tek rakam bir stratejiyi tam olarak anlatmaz. Birkaçını birlikte kullanın.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Metrik</th>
+<th>Formül</th>
+<th>Size ne söyler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CAGR</td>
+<td>(Son özsermaye / Başlangıç özsermayesi)^(1 / yıl) − 1</td>
+<td>Yıllık bileşik büyüme oranı</td>
+</tr>
+<tr>
+<td>Sharpe oranı</td>
+<td>Ortalama(R − Rf) / StdSapma(R − Rf), √(yıldaki dönem sayısı) ile çarpılarak yıllıklandırılır</td>
+<td>Toplam oynaklık birimi başına getiri</td>
+</tr>
+<tr>
+<td>Sortino oranı</td>
+<td>(Ortalama(R) − T) / Aşağı yönlü sapma, aynı şekilde yıllıklandırılır</td>
+<td>Yalnızca aşağı yönlü oynaklık birimi başına getiri</td>
+</tr>
+<tr>
+<td>Maksimum düşüş</td>
+<td>Özsermayede zirveden dibe en büyük düşüş, zirvenin yüzdesi olarak</td>
+<td>Geçmişteki en kötü acı</td>
+</tr>
+<tr>
+<td>Kâr faktörü</td>
+<td>Brüt kâr / Brüt zarar (mutlak değer)</td>
+<td>Kaybedilen her dolara karşı kazanılan dolar</td>
+</tr>
+<tr>
+<td>Kazanma oranı ve beklenti</td>
+<td>Kazançlı işlemlerin payı; işlem başına ortalama kâr</td>
+<td>Getirilerin nasıl dağıldığı</td>
+</tr>
+</tbody></table></div>
+<p>Burada R dönem başına strateji getirisi, Rf dönem başına risksiz faiz oranı, T ise hedef getiridir (çoğu zaman sıfır). Aşağı yönlü sapma, tüm dönemler üzerinden alınan min(0, R − T)² ortalamasının kareköküdür; dolayısıyla hedefin üzerindeki dönemler sıfır sayılır. Günlük veride günlük oranı √252 ile, yani yaklaşık 15.87 ile çarpın. Düşüşler ve toparlanma matematiği <a href="/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">düşüş ve iflas riski</a> makalesinde, beklenti ise <a href="/tr/encyclopedia/risk-management/risk-reward-and-expectancy/">risk/getiri ve beklenti</a> makalesinde ele alınıyor.</p>
+<p>Aşağıdaki fonksiyonlar bu metrikleri bir getiri serisinden, bir özsermaye eğrisinden ve bir işlem sonuçları listesinden hesaplar.</p>
+<pre><code class="language-python">import numpy as np
+
+def sharpe(returns, rf_per_period=0.0, periods_per_year=252):
+    excess = np.asarray(returns) - rf_per_period
+    return np.sqrt(periods_per_year) * excess.mean() / excess.std(ddof=1)
+
+def sortino(returns, target=0.0, periods_per_year=252):
+    r = np.asarray(returns)
+    downside = np.minimum(r - target, 0.0)
+    downside_dev = np.sqrt(np.mean(downside ** 2))
+    return np.sqrt(periods_per_year) * (r.mean() - target) / downside_dev
+
+def max_drawdown(equity):
+    equity = np.asarray(equity, dtype=float)
+    peaks = np.maximum.accumulate(equity)
+    return ((peaks - equity) / peaks).max()
+
+def profit_factor(trade_pnls):
+    pnl = np.asarray(trade_pnls, dtype=float)
+    gross_loss = -pnl[pnl &lt; 0].sum()
+    return pnl[pnl &gt; 0].sum() / gross_loss if gross_loss &gt; 0 else np.inf
+</code></pre>
+<h2 id="rnek-hesaplama">Örnek hesaplama</h2>
+<p>Bir strateji 10,000 dolarla başlıyor ve dolar cinsinden şu sonuçlarla on işlem yapıyor: +300, −200, +150, −100, −250, +400, −150, +200, −300, +250.</p>
+<ul>
+<li><strong>Brüt kâr:</strong> 300 + 150 + 400 + 200 + 250 = 1,300.</li>
+<li><strong>Brüt zarar:</strong> 200 + 100 + 250 + 150 + 300 = 1,000.</li>
+<li><strong>Kâr faktörü:</strong> 1,300 / 1,000 = 1.30.</li>
+<li><strong>Net kâr:</strong> 300 dolar; dolayısıyla 50% kazanma oranıyla işlem başına beklenti 30 dolardır.</li>
+<li><strong>Özsermaye seyri:</strong> 10,300; 10,100; 10,250; 10,150; 9,900; 10,300; 10,150; 10,350; 10,050; 10,300.</li>
+<li><strong>Maksimum düşüş:</strong> 10,300 zirvesinden 9,900 dibine, 400 / 10,300 ≈ 3.9%&#39;luk bir düşüş.</li>
+</ul>
+<p>Riske göre düzeltilmiş oranlar için, daha uzun bir testin risksiz faiz oranı sıfırken 0.05% ortalama günlük getiri, 1.0% günlük standart sapma ve 0.7% aşağı yönlü sapma ürettiğini varsayalım. Yıllıklandırılmış Sharpe oranı 0.05 / 1.0 × 15.87 ≈ 0.79, Sortino oranı ise 0.05 / 0.7 × 15.87 ≈ 1.13 olur.</p>
+<p>On işlem, bu rakamların herhangi birine güvenmek için çok az. Kabaca bir ölçü olarak pek çok araştırmacı, istatistikleri anlamlı kabul etmeden önce farklı piyasa koşullarına yayılmış en az birkaç yüz işlem görmek ister.</p>
+<h2 id="common-mistakes">Sık yapılan hatalar</h2>
+<ul>
+<li><strong>Sinyali üreten bar üzerinde işlem yapmak.</strong> Bir kapanış fiyatından hesaplanan sinyaller aynı kapanış fiyatından dolamaz.</li>
+<li><strong>Bugünkü endeks üyelerini kullanmak.</strong> Bu, her sonuca hayatta kalma yanlılığını gömer.</li>
+<li><strong>Sıfır veya çok küçük maliyet varsayımları.</strong> Yüksek devir hızlı stratejiler bu konuda özellikle hassastır.</li>
+<li><strong>Örneklem dışı veriyi yeniden kullanmak.</strong> Her göz atış onu örneklem içi veriye dönüştürür.</li>
+<li><strong>Çok az işlem.</strong> Bir avuç büyük kazançlı işlem, muhteşem ama anlamsız bir backtest üretebilir.</li>
+<li><strong>Kapasiteyi göz ardı etmek.</strong> Bir strateji 1,000 dolarla işe yarayıp 100,000 dolarda başarısız olabilir, çünkü emirleri fiyatı oynatır.</li>
+</ul>
+<h2 id="faq">Sıkça sorulan sorular</h2>
+<h3 id="bir-backtest-te-iyi-bir-sharpe-oran-nedir">Bir backtest&#39;te iyi bir Sharpe oranı nedir?</h3>
+<p>Pek çok uygulayıcı, tek bir strateji için 1&#39;in üzerindeki yıllıklandırılmış Sharpe&#39;ı umut verici kabul eder. Günlük bir strateji için 3&#39;ün üzeri gibi çok yüksek backtest değerleri, gerçek bir avantajdan çok hatalara, ileriye bakma yanlılığına veya aşırı optimizasyona işaret eder.</p>
+<h3 id="backtest-i-in-ne-kadar-ge-mi-veriye-ihtiyac-m-var">Backtest için ne kadar geçmiş veriye ihtiyacım var?</h3>
+<p>Yükselen, düşen ve yatay piyasalar ile en az bir stres dönemi gibi farklı piyasa rejimlerini kapsayacak kadar. Günlük stratejiler için bu çoğu zaman on yıl veya daha fazla demektir; gün içi stratejiler için ise çok sayıda işlem içeriyorsa daha az yıl yeterli olabilir.</p>
+<h3 id="backtest-ile-k-t-zerinde-i-lem-aras-ndaki-fark-nedir">Backtest ile kâğıt üzerinde işlem arasındaki fark nedir?</h3>
+<p>Backtest geçmiş veriyi yeniden oynatır; kâğıt üzerinde işlem (paper trading) ise stratejiyi gerçek para olmadan canlı fiyatlarla çalıştırır. Kâğıt üzerinde işlem, backtest&#39;in yakalayamadığı emir yürütme ve yazılım sorunlarını yakalar.</p>
+<h3 id="canl-sonu-lar-neden-backtest-sonu-lar-ndan-farkl-olur">Canlı sonuçlar neden backtest sonuçlarından farklı olur?</h3>
+<p>Olağan nedenler, olduğundan düşük tahmin edilen maliyetler ve kayma, geçmişteki gürültüye aşırı uyum, verideki yanlılıklar ve piyasa davranışındaki değişikliklerdir. Bir miktar fark normaldir; büyük bir fark ise backtest&#39;in kusurlu olduğu anlamına gelir.</p>
+</article>
+<div class="disclaimer"><strong>Yalnızca eğitim amaçlıdır.</strong> Buradaki hiçbir içerik finansal, yatırım, hukuki veya vergi tavsiyesi değildir. Alım satım yüksek kayıp riski taşır ve kaldıraçlı ürünlerde yatırdığınızdan fazlasını kaybedebilirsiniz. Kurallar, ücretler ve platform koşulları değişir: işlem yapmadan önce güncel koşulları aracı kurumunuz, borsanız veya düzenleyici kurumla teyit edin.</div>
+<section class="related"><h2>İlgili makaleler</h2><div class="cards"><a class="card" href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Aşırı Optimizasyon</b><span>Harika backtest'lerin çoğu neden canlıda çöker: eğri uydurma, çoklu test, kararsız parametreler ve deflated Sharpe oranı; aşırı uyumdan kaçınmanın yolları.</span></a><a class="card" href="/tr/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Piyasa Verileri</b><span>Trader'lar için piyasa verisi: tick ve bar verisi, Level 1, 2 ve 3 akışları, geçmiş veri kaynakları, maliyet ve lisans, zaman damgaları ve veri temizleme.</span></a><a class="card" href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Algoritmik İşleme Giriş</b><span>Algoritmik işlem nedir, bireysel ve kurumsal algo trading nasıl ayrılır? Fikirden canlı bota giden yol, yaygın programlama dilleri ve gerçekçi beklentiler.</span></a><a class="card" href="/tr/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">Risk ve Para Yönetimi</div><b>Drawdown ve İflas Riski</b><span>Maksimum drawdown nedir, kaybı telafi için ne kadar kazanç gerekir, kayıp serileri ne kadar olasıdır, büyüklük iflas riskini nasıl değiştirir; tablolarla.</span></a><a class="card" href="/tr/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Risk ve Para Yönetimi</div><b>Risk/Getiri ve Beklenti</b><span>R katları, kazanma oranı ve getiri oranı beklenen değeri nasıl oluşturur? Formül, başa baş kazanma oranı tablosu ve yüksek isabetin neden zarar ettirebileceği.</span></a></div></section>
+<div class="pager"><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><small>← Önceki</small>Algoritmik İşleme Giriş</a><a class="next" href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><small>Sonraki →</small>Aşırı Optimizasyon</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/tr/encyclopedia/basics/">Trading'in Temelleri</a><a href="/tr/encyclopedia/risk-management/">Risk ve Para Yönetimi</a><a href="/tr/encyclopedia/psychology/">Trading Psikolojisi</a><a href="/tr/encyclopedia/technical-analysis/">Teknik Analiz</a><a href="/tr/encyclopedia/fundamental-analysis/">Temel ve Makro Analiz</a><a href="/tr/encyclopedia/stocks/">Hisse Senedi İşlemleri</a><a href="/tr/encyclopedia/forex/">Forex İşlemleri</a><a href="/tr/encyclopedia/futures/">Vadeli İşlemler</a><a href="/tr/encyclopedia/options/">Opsiyon İşlemleri</a><a href="/tr/encyclopedia/crypto/">Kripto Para İşlemleri</a><a href="/tr/encyclopedia/meme-coins/">Meme Coin İşlemleri</a><a href="/tr/encyclopedia/prediction-markets/">Tahmin Piyasaları</a><a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a><a href="/tr/encyclopedia/other-markets/">Emtia, Tahvil ve Diğerleri</a><a href="/tr/encyclopedia/trading-business/">Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a><a href="/tr/encyclopedia/reference/">Başvuru Kaynakları</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Açık kaynak trading botları</a></div>
+  <p>PnL Profit Trading Ansiklopedisi: büyük piyasaların nasıl işlediğine dair ücretsiz ve bağımsız açıklamalar. Eğitim amaçlıdır, yatırım tavsiyesi değildir. İletişim: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/tr/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sonuç bulunamadı. Sözlüğe göz atın.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>마켓 메이킹: 스프레드, 재고, 역선택 정리 | PnL Profit</title>
+<meta name="description" content="마켓 메이킹 교과서 가이드: 양방향 호가, 스프레드 수익, 재고 스큐, 역선택, 대기열 순번, 리베이트와 Avellaneda-Stoikov.">
+<meta name="keywords" content="마켓 메이킹, 마켓 메이킹 전략, Avellaneda-Stoikov, 재고 위험, 역선택, 마켓 메이커 스프레드">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="마켓 메이킹: 스프레드, 재고, 역선택 정리 | PnL Profit">
+<meta property="og:description" content="마켓 메이킹 교과서 가이드: 양방향 호가, 스프레드 수익, 재고 스큐, 역선택, 대기열 순번, 리베이트와 Avellaneda-Stoikov.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-making/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="마켓 메이킹: 스프레드, 재고, 역선택 정리 | PnL Profit">
+<meta name="twitter:description" content="마켓 메이킹 교과서 가이드: 양방향 호가, 스프레드 수익, 재고 스큐, 역선택, 대기열 순번, 리베이트와 Avellaneda-Stoikov.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"마켓 메이킹: 스프레드, 재고, 역선택 정리","description":"마켓 메이킹 교과서 가이드: 양방향 호가, 스프레드 수익, 재고 스큐, 역선택, 대기열 순번, 리베이트와 Avellaneda-Stoikov.","keywords":"마켓 메이킹, 마켓 메이킹 전략, Avellaneda-Stoikov, 재고 위험, 역선택, 마켓 메이커 스프레드","articleSection":"알고리즘·퀀트 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-making/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"알고리즘·퀀트 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"마켓 메이킹","item":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-making/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"마켓 메이커는 어떻게 돈을 버나요?","acceptedAnswer":{"@type":"Answer","text":"사는 가격(매수호가)과 파는 가격(매도호가)의 차이에 더해 거래소 리베이트를 법니다. 재고가 불리하게 움직이거나, 가격이 움직이기 직전에 정보 거래자가 호가를 체결해 가면 돈을 잃습니다."}},{"@type":"Question","name":"마켓 메이킹에서 역선택이란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"역선택(adverse selection)은 마켓 메이커의 호가가 가격이 곧 움직일 것을 아는 트레이더에게 더 자주 체결되는 경향을 말합니다. 즉 체결은 평균적으로, 체결되는 순간 보이는 것보다 나쁩니다."}},{"@type":"Question","name":"Avellaneda-Stoikov 모델이란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"마켓 메이커의 매수·매도호가를 정하기 위한 2008년의 학술 모델입니다. 재고가 쌓이는 쪽에서 호가를 멀리 옮기고, 변동성, 위험 회피도, 주문 도착 패턴, 남은 시간에 따라 스프레드를 넓히거나 좁힙니다."}},{"@type":"Question","name":"개인 트레이더도 마켓 메이커가 될 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"누구나 시장 양쪽에 지정가 주문을 걸 수 있습니다. 하지만 유동성이 풍부한 시장에서 속도, 데이터, 수수료 우위를 가진 전문 마켓 메이커와 경쟁하기는 매우 어렵고, 개인의 시도 상당수는 역선택으로 돈을 잃습니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/market-making/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/market-making/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/market-making/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/market-making/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/market-making/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/market-making/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/market-making/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/market-making/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/market-making/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>알고리즘·퀀트 트레이딩</h3><ul><li><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">알고리즘 트레이딩 입문</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/backtesting/">백테스트</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/trend-following/">추세추종</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/">평균회귀</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">페어 트레이딩과 통계적 차익거래</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">마켓 메이킹</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/">집행 알고리즘</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/">트레이딩 봇 만들기</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">카피·소셜 트레이딩</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">트레이딩과 머신러닝</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/">시장 데이터</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/" class="on">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a></div>
+<h1 class="title">마켓 메이킹</h1>
+<div class="meta">6분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>알고리즘·퀀트 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">알고리즘 트레이딩 입문</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/backtesting/">백테스트</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/trend-following/">추세추종</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/">평균회귀</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">페어 트레이딩과 통계적 차익거래</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">마켓 메이킹</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/">집행 알고리즘</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/">트레이딩 봇 만들기</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">카피·소셜 트레이딩</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">트레이딩과 머신러닝</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/">시장 데이터</a></li></ul></details>
+<article><p>마켓 메이킹(market making)은 자산을 사고팔겠다는 호가를 계속 제시하는 사업으로, 현재 가격보다 약간 낮은 매수호가와 약간 높은 매도호가를 냅니다. 마켓 메이커는 재고를 보유하는 위험과 더 많은 정보를 가진 상대방과 거래하는 위험을 관리하면서, 수많은 작은 거래를 통해 그 차이, 즉 스프레드를 버는 것을 목표로 합니다. 이 글은 공개된 학술 문헌에 나오는 표준적인 교과서 관점을 다루며, Avellaneda-Stoikov 모델도 개념 수준에서 소개합니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>마켓 메이커는 호가 스프레드를 벌고, 일부 거래 장소에서는 유동성 공급에 대한 리베이트도 받습니다.</li>
+<li>두 가지 주요 위험은 재고 위험(가격이 움직이는 동안 포지션을 보유하는 것)과 역선택(주로 가격이 불리하게 움직이기 직전에 체결되는 것)입니다.</li>
+<li>마켓 메이커는 원치 않는 재고를 줄이기 위해 호가를 기울이며(스큐), 재고를 0 쪽으로 되돌리는 방향의 호가를 더 공격적으로 냅니다.</li>
+<li>같은 가격의 주문은 보통 선착순으로 체결되므로 대기열 순번과 지연시간이 중요합니다.</li>
+<li>Avellaneda-Stoikov 모델은 재고, 변동성, 위험 회피도, 시간에 따라 호가를 어떻게 옮겨야 하는지 정형화합니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">마켓 메이커가 하는 일</a></li><li><a href="#section-3">마켓 메이커의 수익원</a></li><li><a href="#section-6">위험</a></li><li><a href="#section-9">재고 스큐</a></li><li><a href="#section-10">대기열 순번과 지연시간</a></li><li><a href="#avellaneda-stoikov">Avellaneda-Stoikov 모델</a></li><li><a href="#vs">계산 예시: 스프레드 수입 vs 역선택</a></li><li><a href="#section-16">개인 트레이더의 마켓 메이킹</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">마켓 메이커가 하는 일</h2>
+<p>지정가 <a href="/ko/encyclopedia/basics/order-book-and-market-depth/">호가창</a>에서 마켓 메이커는 양쪽에 대기 지정가 주문을 걸어 둡니다. 즉시 매매하려는 매수자가 오면 마켓 메이커의 매도호가에 삽니다. 매도자가 오면 마켓 메이커의 매수호가에 팝니다. 마켓 메이커가 99.98에 사서 나중에 100.02에 팔면 단위당 0.04를 법니다.</p>
+<p>마켓 메이커는 일부 증권거래소의 스페셜리스트나 지정 마켓 메이커, 옵션 거래소의 유동성 공급자처럼 공식 의무를 지는 지정 회사부터 선물·크립토 거래소의 독립 알고리즘 트레이더까지 다양합니다. 많은 거래소가 수수료 할인이나 리베이트로 유동성 공급자에게 보상합니다. 이들이 누구이며 다른 트레이더들 사이에서 어떤 위치에 있는지는 <a href="/ko/encyclopedia/basics/market-participants/">시장 참여자</a>에서 설명합니다.</p>
+<h2 id="section-3">마켓 메이커의 수익원</h2>
+<h3 id="section-4">스프레드 수익</h3>
+<p>핵심 수입은 <a href="/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/">호가 스프레드</a>입니다. 왕복 거래당 수입은 작으므로, 수익성은 거래량과, 불리한 움직임에서 오는 손실을 스프레드 수입보다 작게 유지하는 데 달려 있습니다.</p>
+<h3 id="section-5">리베이트와 수수료</h3>
+<p>메이커-테이커 요금 체계에서는 대기 주문을 거는 트레이더(메이커)가 더 낮은 수수료를 내거나 리베이트를 받고, 유동성을 가져가는 트레이더(테이커)는 수수료를 냅니다. 일부 마켓 메이커에게는 리베이트가 수익의 상당 부분을 차지합니다. 요금표는 바뀌고 거래 장소와 거래량 구간마다 다르므로, 비용 모델은 반드시 현재 요금표를 써야 합니다.</p>
+<h2 id="section-6">위험</h2>
+<h3 id="section-7">재고 위험</h3>
+<p>체결은 깔끔하게 매수·매도가 번갈아 들어오는 경우가 드뭅니다. 연달아 여러 번 매수한 마켓 메이커는 롱 포지션을 들게 됩니다. 그 뒤 가격이 떨어지면 그 재고에서 난 손실이 스프레드 여러 번치 수입을 넘어설 수 있습니다. 재고 위험은 포지션 규모, 자산의 변동성, 포지션 보유 기간에 따라 커집니다.</p>
+<h3 id="section-8">역선택</h3>
+<p>어떤 상대방은 마켓 메이커보다 더 많이 알거나 더 빨리 반응합니다. 뉴스를 가진 트레이더, 큰 주문을 집행하는 펀드, 다른 거래 장소의 가격 변화를 먼저 본 빠른 트레이더가 그렇습니다. 이들의 거래는 가격이 자기에게 유리하게 움직이기 직전에 들어오는 경향이 있습니다. 마켓 메이커는 &quot;털립니다(picked off)&quot;. 하락 직전에 사고, 상승 직전에 파는 것입니다.</p>
+<p>1985년의 고전적인 모델들이 이를 설명합니다. Glosten-Milgrom 모델에서 정보 거래자와 비정보 거래자가 섞인 비율을 모르는 마켓 메이커는, 비정보 거래자에게서 얻는 이익이 정보 거래자에게 잃는 손실을 상쇄할 만큼 넓은 스프레드를 설정합니다. Kyle 모델은 정보 거래자가 정보를 숨기기 위해 시간에 걸쳐 주문을 나누는 방식과, 가격이 그 정보를 점차 흡수하는 과정을 보여 줍니다. 실무적인 교훈은 이렇습니다. 스프레드의 일부는 더 나은 정보를 가진 상대와 거래하는 위험에 대한 보상이며, 뉴스 발표 전후처럼 그 위험이 커지면 스프레드가 넓어집니다.</p>
+<h2 id="section-9">재고 스큐</h2>
+<p>재고를 관리하기 위해 마켓 메이커는 호가를 시장 가격 중심에 고정하지 않고 양쪽 호가를 함께 옮깁니다.</p>
+<ul>
+<li><strong>롱 재고:</strong> 매수호가와 매도호가를 모두 낮춥니다. 매도호가가 낮아지면 누군가 내게서 살 가능성이 커져 포지션이 줄어듭니다. 매수호가가 낮아지면 내가 더 살 가능성이 줄어듭니다.</li>
+<li><strong>숏 재고:</strong> 반대 효과를 위해 양쪽 호가를 모두 올립니다.</li>
+</ul>
+<p>마켓 메이커는 하드 재고 한도도 정해 두고, 이를 넘으면 한쪽 호가 제시를 멈추거나 선물 계약 같은 관련 종목으로 헤지합니다.</p>
+<h2 id="section-10">대기열 순번과 지연시간</h2>
+<p>대부분의 호가창은 가격-시간 우선 원칙을 씁니다. 같은 가격에서는 가장 먼저 들어온 주문이 먼저 체결됩니다. 여기서 두 가지 결과가 나옵니다.</p>
+<ul>
+<li><strong>대기열 순번에는 가치가 있습니다.</strong> 최우선 매수호가 대기열의 앞쪽에 있는 주문은 가격이 바뀌기 전에 비정보 주문 흐름으로 체결될 가능성이 큽니다. 뒤쪽에 있는 주문은 큰 주문이 그 가격대 전체를 쓸어 갈 때만 체결되는 경향이 있는데, 이는 흔히 가격이 그 가격대를 뚫고 움직이려 한다는 신호입니다.</li>
+<li><strong>지연시간이 중요합니다.</strong> 공정가격이 바뀌면 마켓 메이커는 다른 참여자가 낡은 호가에 매매해 오기 전에 이를 취소하거나 갱신해야 합니다. 느린 참여자일수록 역선택을 더 자주 당합니다. 유동성이 풍부한 시장의 최상위 마켓 메이킹을 <a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a> 회사들이 장악하는 이유 중 하나입니다.</li>
+</ul>
+<h2 id="avellaneda-stoikov">Avellaneda-Stoikov 모델</h2>
+<p>2008년 논문에서 Marco Avellaneda와 Sasha Stoikov는 위험에 페널티를 주면서 기대 이익을 최대화하려는 마켓 메이커를 위한 프레임워크를 제시했습니다. 핵심 아이디어는 전체 수학 없이도 설명할 수 있습니다.</p>
+<h3 id="section-12">유보 가격</h3>
+<p>모델은 먼저 유보 가격(reservation price)을 계산합니다. 현재 재고를 감안했을 때, 마켓 메이커가 1단위를 더 보유하든 말든 상관없는 가격입니다.</p>
+<p>r = s − q × γ × σ² × (T − t)</p>
+<p>여기서 s는 중간가, q는 재고(롱이면 양수), γ는 위험 회피 파라미터, σ는 중간가의 변동성, T − t는 매매 기간의 남은 시간입니다. 마켓 메이커가 롱이면 r이 중간가보다 아래에 놓이므로 호가가 아래로 이동합니다. 재고 스큐를 수식으로 표현한 것입니다.</p>
+<h3 id="section-13">최적 스프레드</h3>
+<p>유보 가격을 중심으로 한 전체 스프레드는 다음과 같습니다.</p>
+<p>δ = γ × σ² × (T − t) + (2 / γ) × ln(1 + γ / k)</p>
+<p>파라미터 k는 호가가 중간가에서 멀어질수록 체결 확률이 얼마나 빨리 떨어지는지를 나타냅니다. 첫째 항은 위험이 클 때 호가를 넓히고, 둘째 항은 더 넓은 스프레드(체결당 더 큰 이익)와 더 적은 체결 사이의 절충을 반영합니다.</p>
+<pre><code class="language-python">import math
+
+def avellaneda_stoikov_quotes(mid, inventory, gamma, sigma, k, time_left):
+    &quot;&quot;&quot;교과서적인 Avellaneda-Stoikov(2008) 매수·매도 호가.&quot;&quot;&quot;
+    reservation = mid - inventory * gamma * sigma**2 * time_left
+    spread = gamma * sigma**2 * time_left + (2 / gamma) * math.log(1 + gamma / k)
+    return reservation - spread / 2, reservation + spread / 2
+
+bid, ask = avellaneda_stoikov_quotes(mid=100, inventory=2, gamma=0.1,
+                                     sigma=2, k=1.5, time_left=0.5)
+print(round(bid, 3), round(ask, 3))   # 98.855 100.345
+</code></pre>
+<p>이 설명용 입력값에서 σ² × (T − t) = 4 × 0.5 = 2이므로, 유보 가격은 100 − 2 × 0.1 × 2 = 99.6이고 스프레드는 0.1 × 2 + 20 × ln(1.0667) ≈ 0.2 + 1.291 = 1.491입니다. 마켓 메이커가 롱이므로 호가는 100이 아니라 99.6 근처에 놓입니다.</p>
+<h3 id="section-14">모델의 한계</h3>
+<p>이 모델은 중간가가 일정한 변동성의 랜덤 워크를 따르고, 체결률이 단순한 지수 곡선을 따르며, 파라미터를 알고 있다고 가정합니다. 실제 시장에는 급등락, 변하는 변동성, 정보 거래 흐름, 대기열 효과가 있습니다. Guéant, Lehalle, Fernandez-Tapia의 연구 같은 후속 연구는 재고 한도와 닫힌 형태의 근사해로 프레임워크를 확장했습니다. 실무자들은 이런 모델을 완성된 전략이 아니라 출발점이 되는 구조로 봅니다.</p>
+<h2 id="vs">계산 예시: 스프레드 수입 vs 역선택</h2>
+<p>마켓 메이커가 한 번에 100단위씩 매수호가 99.98, 매도호가 100.02를 냅니다.</p>
+<ul>
+<li>한 번의 완전한 왕복 거래(99.98에 100단위 매수, 100.02에 100단위 매도)로 수수료 전 100 × 0.04 = 4.00달러를 법니다.</li>
+<li>한 세션 동안 왕복 거래를 10번 완료합니다: 10 × 4.00 = 40.00달러.</li>
+<li>한 번은 99.98에 100단위를 산 뒤 뉴스가 터져 가격이 떨어집니다. 마켓 메이커는 포지션을 줄이려고 99.68에 팝니다: 100 × 0.30 = 30.00달러 손실.</li>
+<li>순이익: 수수료와 리베이트 전 40.00 − 30.00 = 10.00달러.</li>
+</ul>
+<p>불리한 체결 한 번이 세션 스프레드 수입의 4분의 3을 지워 버렸습니다. 불리한 움직임이 두 번 일어나면 그 세션은 손실입니다. 마켓 메이커가 예정된 뉴스 전후에 스프레드를 넓히거나 호가를 거둬들이는 이유, 그리고 각 체결 후 몇 초 동안의 가격 움직임(흔히 마크아웃이라고 부름)을 측정하는 것이 표준 진단 방법인 이유가 여기에 있습니다.</p>
+<h2 id="section-16">개인 트레이더의 마켓 메이킹</h2>
+<p>개인 트레이더도 시장 양쪽에 지정가 주문을 걸 수 있지만, 지연시간과 역선택 때문에 유동성이 풍부하고 빠른 시장에서 경쟁하기는 매우 어렵습니다. 규모가 작거나 새로 생긴 시장은 스프레드가 더 넓은 경우가 있지만, 얇은 유동성과 갑작스러운 급변동을 포함해 그만큼 위험도 큽니다. 예측시장이 그 예입니다. <a href="/ko/encyclopedia/prediction-markets/market-making-on-prediction-markets/">예측시장 마켓 메이킹</a>과 <a href="/blog/prediction-market-making-bot-guide.html">prediction market making bot guide</a>를 참고하십시오.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>스프레드 수입만 세고 마크아웃을 무시합니다.</strong> 체결 뒤에 불리한 움직임이 따라오는 것이 주된 비용입니다.</li>
+<li><strong>재고 한도가 없습니다.</strong> 한쪽으로 쏠린 시장에서는 큰 포지션이 빠르게 쌓일 수 있습니다.</li>
+<li><strong>뉴스 중에도 호가를 냅니다.</strong> 예정된 발표 시점은 정보 거래자와 빠른 트레이더가 가장 활발한 때입니다.</li>
+<li><strong>수수료를 무시합니다.</strong> 메이커 리베이트나 수수료 할인이 없으면 얇은 스프레드로는 비용을 감당하지 못할 수 있습니다.</li>
+<li><strong>취소 로직이 느립니다.</strong> 낡은 호가는 더 빠른 트레이더에게 공짜 옵션입니다.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-19">마켓 메이커는 어떻게 돈을 버나요?</h3>
+<p>사는 가격(매수호가)과 파는 가격(매도호가)의 차이에 더해 거래소 리베이트를 법니다. 재고가 불리하게 움직이거나, 가격이 움직이기 직전에 정보 거래자가 호가를 체결해 가면 돈을 잃습니다.</p>
+<h3 id="section-20">마켓 메이킹에서 역선택이란 무엇인가요?</h3>
+<p>역선택(adverse selection)은 마켓 메이커의 호가가 가격이 곧 움직일 것을 아는 트레이더에게 더 자주 체결되는 경향을 말합니다. 즉 체결은 평균적으로, 체결되는 순간 보이는 것보다 나쁩니다.</p>
+<h3 id="avellaneda-stoikov">Avellaneda-Stoikov 모델이란 무엇인가요?</h3>
+<p>마켓 메이커의 매수·매도호가를 정하기 위한 2008년의 학술 모델입니다. 재고가 쌓이는 쪽에서 호가를 멀리 옮기고, 변동성, 위험 회피도, 주문 도착 패턴, 남은 시간에 따라 스프레드를 넓히거나 좁힙니다.</p>
+<h3 id="section-22">개인 트레이더도 마켓 메이커가 될 수 있나요?</h3>
+<p>누구나 시장 양쪽에 지정가 주문을 걸 수 있습니다. 하지만 유동성이 풍부한 시장에서 속도, 데이터, 수수료 우위를 가진 전문 마켓 메이커와 경쟁하기는 매우 어렵고, 개인의 시도 상당수는 역선택으로 돈을 잃습니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/basics/order-book-and-market-depth/"><div class="k">트레이딩 기초</div><b>호가창과 시장 심도</b><span>지정가 호가창과 매칭 엔진의 원리, 가격·시간 우선 원칙, 레벨 1과 레벨 2, 시장 깊이 읽기, 스푸핑, 딜러 시장과 AMM을 비교합니다.</span></a><a class="card" href="/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">트레이딩 기초</div><b>스프레드와 유동성</b><span>매수호가, 매도호가, 스프레드, 중간가격의 뜻과 유동성·슬리피지·시장 충격의 원리, 스프레드가 벌어지는 이유, 왕복 비용 계산법을 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">알고리즘·퀀트 트레이딩</div><b>고빈도 매매</b><span>고빈도 매매 회사가 하는 일, 코로케이션, 지연시간 경쟁, 마켓 메이킹과 레이턴시 차익거래, 논란, 개인이 경쟁할 수 없는 이유를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/prediction-markets/market-making-on-prediction-markets/"><div class="k">예측 시장</div><b>마켓 메이킹</b><span>예측 시장 마켓 메이킹의 기본 원리를 설명합니다. 양방향 호가, 스프레드 수익, 재고 위험, 뉴스 전후의 역선택, 유동성 보상을 다룹니다.</span></a><a class="card" href="/ko/encyclopedia/basics/market-participants/"><div class="k">트레이딩 기초</div><b>시장 참여자</b><span>개인 트레이더, 기관, 헤지펀드, 마켓 메이커, HFT, 헤저, 중앙은행, 고래가 각자 무엇을 원하며 내가 실제로 누구와 거래하는지 설명합니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"><small>← 이전 글</small>페어 트레이딩과 통계적 차익거래</a><a class="next" href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/"><small>다음 글 →</small>차익거래 전략</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

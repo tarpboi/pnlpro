@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>予測市場のアービトラージ：取引所間とYES/NOの裁定 | PnL Profit</title>
+<meta name="description" content="予測市場のアービトラージの仕組み。YES/NOや複数結果の補完的な裁定、取引所間の価格差、手数料、資金の拘束、ルールの不一致のリスクを解説します。">
+<meta name="keywords" content="予測市場 アービトラージ, Polymarket Kalshi 裁定取引, 取引所間 アービトラージ, YES NO 裁定, スポーツベッティング 裁定 予測市場">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="予測市場のアービトラージ：取引所間とYES/NOの裁定 | PnL Profit">
+<meta property="og:description" content="予測市場のアービトラージの仕組み。YES/NOや複数結果の補完的な裁定、取引所間の価格差、手数料、資金の拘束、ルールの不一致のリスクを解説します。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/prediction-markets/prediction-market-arbitrage/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="予測市場のアービトラージ：取引所間とYES/NOの裁定 | PnL Profit">
+<meta name="twitter:description" content="予測市場のアービトラージの仕組み。YES/NOや複数結果の補完的な裁定、取引所間の価格差、手数料、資金の拘束、ルールの不一致のリスクを解説します。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"予測市場のアービトラージ：取引所間とYES/NOの裁定","description":"予測市場のアービトラージの仕組み。YES/NOや複数結果の補完的な裁定、取引所間の価格差、手数料、資金の拘束、ルールの不一致のリスクを解説します。","keywords":"予測市場 アービトラージ, Polymarket Kalshi 裁定取引, 取引所間 アービトラージ, YES NO 裁定, スポーツベッティング 裁定 予測市場","articleSection":"予測市場","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/prediction-markets/prediction-market-arbitrage/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"予測市場","item":"https://pnlpro.fit/ja/encyclopedia/prediction-markets/"},{"@type":"ListItem","position":3,"name":"予測市場のアービトラージ","item":"https://pnlpro.fit/ja/encyclopedia/prediction-markets/prediction-market-arbitrage/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"予測市場のアービトラージにリスクはないのですか？","acceptedAnswer":{"@type":"Answer","text":"あります。リスクがないのは、両方のレッグが想定どおりの価格で約定し、両方の市場がまったく同じルールのもとで確定する場合だけです。手数料、部分約定、ルールの違い、プラットフォームの破綻、異議申し立てのいずれもが、見かけ上のアービトラージを損失に変える可能性があります。"}},{"@type":"Question","name":"Polymarket–Kalshiのアービトラージはどのような仕組みですか？","acceptedAnswer":{"@type":"Answer","text":"同じイベントが両方のプラットフォームで取引されていて、2つの価格の合計が$1未満なら、安いほうの取引所でYESを、もう一方でNOを買うことができます。利益は両方のレッグの手数料、確定までの期間、そして両方のプラットフォームがイベントを同じように定義し確定させるかどうかで決まります。また、利用条件によって1人で両方を使えない場合もあります。"}},{"@type":"Question","name":"アービトラージとヘッジの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"アービトラージは、結果にかかわらず利益を確定させることを目指します。ヘッジは既存のポジションのリスクを減らすもので、通常はコストがかかります。取引所間アービトラージは、たまたま支払額よりコストが小さいヘッジですが、ルールが一致していないヘッジはそのどちらでもありません。"}},{"@type":"Question","name":"予測市場のアービトラージにはいくら必要ですか？","acceptedAnswer":{"@type":"Answer","text":"1回の取引のエッジは通常、手数料控除後で1契約あたり数セントなので、意味のある利益を得るにはサイズが必要です。しかも資金は複数の取引所に分けられ、確定まで拘束されます。小口の口座では、出金や取引手数料などの固定費が利益の大部分を占めてしまうことがよくあります。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/prediction-markets/prediction-market-arbitrage/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/prediction-markets/prediction-market-arbitrage/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/prediction-markets/prediction-market-arbitrage/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/prediction-markets/prediction-market-arbitrage/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/prediction-markets/prediction-market-arbitrage/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/prediction-markets/prediction-market-arbitrage/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/prediction-markets/prediction-market-arbitrage/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/prediction-markets/prediction-market-arbitrage/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/prediction-markets/prediction-market-arbitrage/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>予測市場</h3><ul><li><a href="/ja/encyclopedia/prediction-markets/prediction-markets-explained/">予測市場とは</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-pricing/">価格と確率</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-platforms/">プラットフォーム比較</a></li><li><a href="/ja/encyclopedia/prediction-markets/market-resolution-and-oracles/">結果確定とオラクル</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-strategies/">戦略の概要</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-arbitrage/" class="on" aria-current="page">予測市場のアービトラージ</a></li><li><a href="/ja/encyclopedia/prediction-markets/market-making-on-prediction-markets/">予測市場のマーケットメイク</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-regulation/">予測市場の規制</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/" class="on">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/prediction-markets/">予測市場</a></div>
+<h1 class="title">予測市場のアービトラージ</h1>
+<div class="meta">約8分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>予測市場の他の記事</summary><ul><li><a href="/ja/encyclopedia/prediction-markets/prediction-markets-explained/">予測市場とは</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-pricing/">価格と確率</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-platforms/">プラットフォーム比較</a></li><li><a href="/ja/encyclopedia/prediction-markets/market-resolution-and-oracles/">結果確定とオラクル</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-strategies/">戦略の概要</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-arbitrage/" class="on" aria-current="page">予測市場のアービトラージ</a></li><li><a href="/ja/encyclopedia/prediction-markets/market-making-on-prediction-markets/">予測市場のマーケットメイク</a></li><li><a href="/ja/encyclopedia/prediction-markets/prediction-market-regulation/">予測市場の規制</a></li></ul></details>
+<article><p>予測市場のアービトラージ（裁定取引）とは、何が起きても一定額を支払う契約の組み合わせを、その金額より安く買うことです。バイナリー契約はどれも$1か$0を支払うので、すべての結果をカバーするポジションの組はちょうど$1の価値があり、その組をそれより安く買える機会は、利益が確定しているように見えます。しかし実際には、手数料、部分約定、確定まで拘束される資金、2つの市場の文言のわずかな違いがあるため、本当にリスクのないアービトラージはまれで、長続きもしません。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>補完的なアービトラージは、1つの市場のすべての結果（YESとNOなど）を合計$1未満で買うものです。</li>
+<li>取引所間アービトラージは、2つの価格の合計が$1未満のときに、一方のプラットフォームでYESを、もう一方でNOを買うものです。</li>
+<li>両方のレッグにかかる手数料が総スプレッドの大部分を食いつぶすことが多いので、計算はコスト控除後で行わなければなりません。</li>
+<li>資金は確定まで拘束されるため、2%の利益も年率で見ると見劣りするリターンになることがあります。</li>
+<li>最大の隠れたリスクはルールの不一致です。同じに見える2つの市場が異なる確定をすることがあり、その場合は両方のレッグで負けることがあります。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">予測市場にアービトラージが存在する理由</a></li><li><a href="#section-3">補完的な結果のアービトラージ</a></li><li><a href="#section-6">取引所間アービトラージ</a></li><li><a href="#section-8">リスク</a></li><li><a href="#section-14">擬似アービトラージと相関する市場</a></li><li><a href="#section-15">他の市場との比較</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">予測市場にアービトラージが存在する理由</h2>
+<p>価格差が生まれるのは、予測市場が分断されているからです。プラットフォームごとにユーザー、担保、手数料体系、利用条件が異なり、資金をプラットフォーム間ですぐに移すことはできません。ステーブルコインで決済する暗号資産の取引所と、ドルで決済する規制された取引所は、両方を使える（あるいは使うことが許される）トレーダーが少ないため、同じ選挙を何日も異なる価格で取引していることがあります。1つのプラットフォーム内でも、ニュースが出たときに板の一方が他方より先に値を変えることで、短時間だけ価格差が生じます。</p>
+<h2 id="section-3">補完的な結果のアービトラージ</h2>
+<h3 id="section-4">バイナリー市場</h3>
+<p>バイナリー市場では、YESシェア1株とNOシェア1株を合わせると必ず$1が支払われます。YESのアスクとNOのアスクの合計が$1を下回っていれば、両方を買うことでその差額が確定します。ほとんどのプラットフォームではYESとNOの板がまとめてマッチングされるので、こうした機会はめったに現れず、現れても数秒しか続きません。</p>
+<h3 id="section-5">複数の結果がある市場</h3>
+<p>互いに排他的な複数の結果がある市場では、ちょうど1つのYESが$1を支払います。すべての結果のYESのアスクの合計が$1未満なら、それぞれを1株ずつ買えば利益が確定します。逆のケースもあります。<em>N</em>個の結果がある市場で、すべての結果のNOを保有すると、1つを除くすべてのNOが勝つので、<em>N</em> − 1ドルが支払われます。NOのアスクの合計が<em>N</em> − 1未満なら、すべてを買うことでその差が確定します。</p>
+<p>見落としやすい結果に注意してください。市場に5人の候補者の名前と「その他」が並んでいるなら、6つすべてを買わなければなりません。1つでも漏れると、アービトラージはただの賭けになります。</p>
+<h2 id="section-6">取引所間アービトラージ</h2>
+<p>より一般的な形は、2つのプラットフォームを組み合わせるものです。同じイベントについて、取引所AがYESを安く売り、取引所BがNOを安く売っていれば、両方を買うことですべての結果をカバーできます。</p>
+<h3 id="section-7">計算例：手数料と資金の拘束を考慮する</h3>
+<p>あるイベントが2つの取引所で取引されています。取引所AではYESが42セント、取引所BではNOが53セントで売りに出ています。それぞれ1,000枚ずつ買います。</p>
+<p><strong>手数料控除前：</strong></p>
+<ul>
+<li>コスト：1,000 × $0.42 + 1,000 × $0.53 = $420.00 + $530.00 = $950.00。</li>
+<li>払戻：必ずどちらか一方が勝ち、1,000 × $1.00 = $1,000.00が支払われます。</li>
+<li>粗利益：$50.00、つまり$950に対して5.26%。</li>
+</ul>
+<p><strong>手数料控除後</strong>（この例での仮定）：</p>
+<ul>
+<li>取引所Aの手数料は1契約あたり1セント：1,000 × $0.01 = $10.00。</li>
+<li>取引所Bの手数料は1契約あたり0.07 × 価格 × (1 − 価格)：0.07 × 0.53 × 0.47 = $0.017437なので、1,000 × $0.017437 = 約$17.44。</li>
+<li>総コスト：$950.00 + $10.00 + $17.44 = $977.44。</li>
+<li>純利益：$1,000.00 − $977.44 = $22.56、つまり2.31%。</li>
+</ul>
+<p><strong>時間を考慮すると：</strong></p>
+<ul>
+<li>イベントが4か月後に確定するなら、2.31%は1年の3分の1をかけて得る利益です。単純な年率に直すと、約2.31 × 3 = 6.9%です。</li>
+<li>現金を他で年4%で運用できるなら、上乗せのリターンは年約2.9ポイントで、これが以下で説明する執行、プラットフォーム、ルールのリスクを取る対価になります。</li>
+</ul>
+<p>入出金の手数料、ブロックチェーンの取引コスト、ドルとステーブルコインの間の通貨換算があれば、利益はさらに減ります。この例では総スプレッドの半分以上が手数料に消えましたが、これは典型的なことです。</p>
+<h2 id="section-8">リスク</h2>
+<h3 id="section-9">ルールの不一致</h3>
+<p>2つの市場は同じに見えても、期限、タイムゾーン、データソース、定義の違いによって異なる確定をすることがあります。両方のレッグで負ける可能性があるため、これが最も危険なリスクです。</p>
+<p><strong>例。</strong> 取引所Aは、ある指名候補者が「3月31日までに承認される」かを問っています。取引所Bは、同じ候補者が「3月31日までに就任宣誓する」かを問っています。あるトレーダーが両者を同じイベントとみなし、AでNOを、BでYESを買います。候補者は3月30日に承認され、4月2日に就任宣誓しました。</p>
+<ul>
+<li>承認は期限前だったので、AのNOは負けます。</li>
+<li>就任宣誓は期限後だったので、BのYESも負けます。</li>
+</ul>
+<p>両方のレッグの払戻はゼロで、トレーダーは上の例の$977.44を全額失います。両方のルールを1行ずつ読んでください。確認すべき点は<a href="/ja/encyclopedia/prediction-markets/market-resolution-and-oracles/">確定とオラクル</a>の記事に挙げています。</p>
+<h3 id="section-10">レッグ・リスク</h3>
+<p>一方の注文が約定し、もう一方が約定しなければ、片側だけの賭けを抱えることになります。特に<a href="/ja/encyclopedia/basics/order-book-and-market-depth/">板</a>が薄いと、2つ目のレッグを完成させる前に価格が動くことがあります。取引前に両側の板の厚さを確認し、薄いほうの板に合わせてサイズを決めることで、このリスクを減らせます。</p>
+<h3 id="section-11">決済とプラットフォームのリスク</h3>
+<ul>
+<li>2つの取引所の決済日が異なることがあり、その場合は一方のレッグの資金が、もう一方を待つ間動かせなくなります。</li>
+<li>プラットフォームは市場を一時停止したり、ルールを変更したり、破綻したりすることがあります。暗号資産の取引所では、<a href="/ja/encyclopedia/crypto/stablecoins/">ステーブルコイン</a>のペッグ外れやスマートコントラクトのバグも追加のリスクです。</li>
+<li>一方の取引所で確定に異議が出ると、もう一方がすでに決済されていても、その払戻が遅れたり変わったりすることがあります。</li>
+</ul>
+<h3 id="section-12">利用条件と合法性</h3>
+<p>多くのトレーダーは、国や州の制限のため、組み合わせる2つの取引所の両方を合法的に使うことができません。アービトラージを完成させるためにジオブロックを回避すると、通常はプラットフォームの規約違反となり、資金が凍結されるおそれがあります。利用条件の概要は<a href="/ja/encyclopedia/prediction-markets/prediction-market-platforms/">プラットフォーム比較</a>と<a href="/ja/encyclopedia/prediction-markets/prediction-market-regulation/">規制の記事</a>で解説しています。</p>
+<h3 id="section-13">競争</h3>
+<p>自動売買のトレーダーが、こうした価格差を絶えずスキャンしています。2つのウェブページを更新している人の目に見えるころには、価格差はたいてい消えているか、手数料の水準を下回るまで縮んでいます。</p>
+<h2 id="section-14">擬似アービトラージと相関する市場</h2>
+<p>アービトラージのように見えても、実際には関係性への賭けにすぎない取引もあります。「候補者Xが勝つ」と「政党Yが勝つ」、あるいは月次の数値の市場と四半期の数値の市場といった組み合わせです。これらはほとんどの場合一緒に動きますが、肝心なケースでこそ乖離することがあります。確定した利益ではなく、<a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">統計的な関係</a>として扱ってください。</p>
+<h2 id="section-15">他の市場との比較</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>特徴</th>
+<th>予測市場のアービトラージ</th>
+<th>スポーツベッティングのアービトラージ</th>
+<th>暗号資産の取引所間アービトラージ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>払戻の確実性</td>
+<td>ルールが一致すれば、カバーした組ごとに$1で固定</td>
+<td>賭けが想定どおりに決済されれば固定</td>
+<td>送金スピード次第</td>
+</tr>
+<tr>
+<td>主な障害</td>
+<td>ルールの不一致、資金の拘束</td>
+<td>ブックメーカーによる勝ち口座の制限</td>
+<td>送金の遅れと手数料</td>
+</tr>
+<tr>
+<td>保有期間</td>
+<td>確定まで、多くは数週間</td>
+<td>イベント終了まで</td>
+<td>数分〜数時間</td>
+</tr>
+</tbody></table></div>
+<p>他の市場でのアービトラージについては<a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a>と<a href="/ja/encyclopedia/crypto/crypto-arbitrage/">暗号資産のアービトラージ</a>を参照してください。取引所間のケースについては、ブログ記事の<a href="/blog/kalshi-arbitrage-bot-guide.html">Kalshi–Polymarketアービトラージ</a>のガイドで取り上げています。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>純利益ではなく粗利益で計算する。</strong> 両方のレッグの手数料に加え、入出金と取引のコストも必ず差し引いてください。</li>
+<li><strong>タイトルが一致していれば信用する。</strong> ルール全文、期限、情報源を比較してください。</li>
+<li><strong>年率リターンを無視する。</strong> 長期間にわたる小さな確定利益は、現金で持っているより悪いことがあります。</li>
+<li><strong>薄いほうの板を超えるサイズで取引する。</strong> 一方のレッグだけが約定すると、方向性のポジションを抱えることになります。</li>
+<li><strong>結果を見落とす。</strong> 「その他」や同点を含め、考えられるすべての結果をカバーしなければなりません。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-18">予測市場のアービトラージにリスクはないのですか？</h3>
+<p>あります。リスクがないのは、両方のレッグが想定どおりの価格で約定し、両方の市場がまったく同じルールのもとで確定する場合だけです。手数料、部分約定、ルールの違い、プラットフォームの破綻、異議申し立てのいずれもが、見かけ上のアービトラージを損失に変える可能性があります。</p>
+<h3 id="polymarket-kalshi">Polymarket–Kalshiのアービトラージはどのような仕組みですか？</h3>
+<p>同じイベントが両方のプラットフォームで取引されていて、2つの価格の合計が$1未満なら、安いほうの取引所でYESを、もう一方でNOを買うことができます。利益は両方のレッグの手数料、確定までの期間、そして両方のプラットフォームがイベントを同じように定義し確定させるかどうかで決まります。また、利用条件によって1人で両方を使えない場合もあります。</p>
+<h3 id="section-20">アービトラージとヘッジの違いは何ですか？</h3>
+<p>アービトラージは、結果にかかわらず利益を確定させることを目指します。ヘッジは既存のポジションのリスクを減らすもので、通常はコストがかかります。取引所間アービトラージは、たまたま支払額よりコストが小さいヘッジですが、ルールが一致していないヘッジはそのどちらでもありません。</p>
+<h3 id="section-21">予測市場のアービトラージにはいくら必要ですか？</h3>
+<p>1回の取引のエッジは通常、手数料控除後で1契約あたり数セントなので、意味のある利益を得るにはサイズが必要です。しかも資金は複数の取引所に分けられ、確定まで拘束されます。小口の口座では、出金や取引手数料などの固定費が利益の大部分を占めてしまうことがよくあります。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/prediction-markets/prediction-market-pricing/"><div class="k">予測市場</div><b>価格と確率</b><span>予測市場の価格が確率にどう対応するか、YESとNOの合計が$1になる理由、オーバーラウンド、オッズ変換、手数料、時間価値、ロングショット・バイアスを例で解説。</span></a><a class="card" href="/ja/encyclopedia/prediction-markets/market-resolution-and-oracles/"><div class="k">予測市場</div><b>結果確定とオラクル</b><span>予測市場の結果の決まり方。確定ルールと情報源、UMAのオプティミスティック・オラクルと異議申し立て、Chainlinkの価格フィード、曖昧なルールのリスク。</span></a><a class="card" href="/ja/encyclopedia/prediction-markets/prediction-market-strategies/"><div class="k">予測市場</div><b>戦略の概要</b><span>予測市場の主な戦略を解説。情報エッジ、レゾリューション・スナイピング、アービトラージ、マーケットメイク、短期の暗号資産ラウンド、コピートレードとそのリスク。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/"><div class="k">アルゴリズム取引とクオンツ</div><b>アービトラージ戦略</b><span>純粋裁定と統計的裁定、指数・ETF裁定、合併裁定、取引所間・三角裁定、ベーシス取引、無リスクの裁定が稀な理由を解説します。</span></a><a class="card" href="/ja/encyclopedia/prediction-markets/prediction-market-platforms/"><div class="k">予測市場</div><b>プラットフォーム比較</b><span>Polymarket、Kalshi、Predict.fun、PredictIt、Manifold、Limitlessを中立比較：規制、担保、手数料、利用条件</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/prediction-markets/prediction-market-strategies/"><small>← 前へ</small>戦略の概要</a><a class="next" href="/ja/encyclopedia/prediction-markets/market-making-on-prediction-markets/"><small>次へ →</small>予測市場のマーケットメイク</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

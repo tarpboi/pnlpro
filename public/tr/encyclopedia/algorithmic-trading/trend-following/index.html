@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trend Takibi Stratejileri: Sistematik Trend İşlemi Nasıl Çalışır</title>
+<meta name="description" content="Trend takibi nasıl çalışır: zaman serisi momentumu, CTA'lar ve yönetilen vadeliler, kırılım ve hareketli ortalama sistemleri, Turtle trader'lar, pozitif çarpıklık.">
+<meta name="keywords" content="trend takibi, trend takip stratejisi, zaman serisi momentumu, yönetilen vadeliler, turtle trading kuralları">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Ansiklopedisi">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="Trend Takibi Stratejileri: Sistematik Trend İşlemi Nasıl Çalışır">
+<meta property="og:description" content="Trend takibi nasıl çalışır: zaman serisi momentumu, CTA'lar ve yönetilen vadeliler, kırılım ve hareketli ortalama sistemleri, Turtle trader'lar, pozitif çarpıklık.">
+<meta property="og:url" content="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/trend-following/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trend Takibi Stratejileri: Sistematik Trend İşlemi Nasıl Çalışır">
+<meta name="twitter:description" content="Trend takibi nasıl çalışır: zaman serisi momentumu, CTA'lar ve yönetilen vadeliler, kırılım ve hareketli ortalama sistemleri, Turtle trader'lar, pozitif çarpıklık.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"tr","headline":"Trend Takibi Stratejileri: Sistematik Trend İşlemi Nasıl Çalışır","description":"Trend takibi nasıl çalışır: zaman serisi momentumu, CTA'lar ve yönetilen vadeliler, kırılım ve hareketli ortalama sistemleri, Turtle trader'lar, pozitif çarpıklık.","keywords":"trend takibi, trend takip stratejisi, zaman serisi momentumu, yönetilen vadeliler, turtle trading kuralları","articleSection":"Algoritmik ve Kantitatif İşlem","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/trend-following/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ansiklopedi","item":"https://pnlpro.fit/tr/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Algoritmik ve Kantitatif İşlem","item":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Trend Takibi","item":"https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/trend-following/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"tr","mainEntity":[{"@type":"Question","name":"Trend takibi hâlâ işe yarıyor mu?","acceptedAnswer":{"@type":"Answer","text":"Trend takibinin birçok piyasada ve onlarca yıl boyunca uzun bir sicili vardır, ancak performans döneme göre çok değişir ve çok yıllı zayıf getiri dönemleri yaşanır. Hiç kimse gelecekteki sonuçları vaat edemez; maliyetler ve kalabalıklaşma getirileri azaltabilir."}},{"@type":"Question","name":"Trend takibi ile momentum arasındaki fark nedir?","acceptedAnswer":{"@type":"Answer","text":"Trend takibi, yani zaman serisi momentumu, her varlığın kendi geçmiş getirisine bakar. Kesitsel momentum varlıkları birbiriyle sıralar ve hepsi düşüyor olsa bile göreli kazananları alır."}},{"@type":"Question","name":"Trend takipçilerinin kazanma oranı neden düşüktür?","acceptedAnswer":{"@type":"Answer","text":"Birçok kırılım hızla tersine döner; bu yüzden sistem sık sık küçük zarar alır. Kâr, tipik zarardan çok daha uzağa giden birkaç büyük trendden gelir; bu da kazanma oranı %50'nin altında olsa bile genel sonucu pozitif yapabilir."}},{"@type":"Question","name":"Trend takibi için en iyi piyasalar hangileridir?","acceptedAnswer":{"@type":"Answer","text":"Profesyonel trend takipçileri genellikle çeşitlendirilmiş bir likit vadeli ve döviz kümesinde işlem yapar. Likidite maliyetleri düşük tutar, çeşitlendirme ise her an bir piyasanın trend yapma olasılığını artırır."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/tr/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Ansiklopedi</small></a>
+  <nav class="top"><a href="/tr/encyclopedia/" class="on">Ansiklopedi</a><a href="/tr/encyclopedia/reference/trading-glossary/">Sözlük</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Trading botları</a></nav>
+  <details class="langmenu"><summary aria-label="Dil">🌐 <span>Türkçe</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/trend-following/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/trend-following/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/trend-following/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/trend-following/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/trend-following/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/trend-following/" hreflang="tr" lang="tr" class="on" aria-current="true">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/trend-following/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/trend-following/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/trend-following/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150+ makalede arayın  ( / )" autocomplete="off" aria-label="Ansiklopedide ara"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Algoritmik ve Kantitatif İşlem</h3><ul><li><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik İşleme Giriş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Aşırı Optimizasyon</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">Trend Takibi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">Ortalamaya Dönüş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Eşli İşlem ve İstatistiksel Arbitraj</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-making/">Piyasa Yapıcılığı</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitraj Stratejileri</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/high-frequency-trading/">Yüksek Frekanslı İşlem</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/">Emir Yürütme Algoritmaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/">İşlem Botu Geliştirme</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy Trading ve Sosyal Trading</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Trading'de Makine Öğrenmesi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">Piyasa Verileri</a></li></ul><h3>Tüm konular</h3><ul><li><a href="/tr/encyclopedia/basics/">📘 Trading'in Temelleri</a></li><li><a href="/tr/encyclopedia/risk-management/">🛡️ Risk ve Para Yönetimi</a></li><li><a href="/tr/encyclopedia/psychology/">🧠 Trading Psikolojisi</a></li><li><a href="/tr/encyclopedia/technical-analysis/">📈 Teknik Analiz</a></li><li><a href="/tr/encyclopedia/fundamental-analysis/">🏦 Temel ve Makro Analiz</a></li><li><a href="/tr/encyclopedia/stocks/">🏛️ Hisse Senedi İşlemleri</a></li><li><a href="/tr/encyclopedia/forex/">💱 Forex İşlemleri</a></li><li><a href="/tr/encyclopedia/futures/">📊 Vadeli İşlemler</a></li><li><a href="/tr/encyclopedia/options/">🎯 Opsiyon İşlemleri</a></li><li><a href="/tr/encyclopedia/crypto/">₿ Kripto Para İşlemleri</a></li><li><a href="/tr/encyclopedia/meme-coins/">🐸 Meme Coin İşlemleri</a></li><li><a href="/tr/encyclopedia/prediction-markets/">🔮 Tahmin Piyasaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/" class="on">🤖 Algoritmik ve Kantitatif İşlem</a></li><li><a href="/tr/encyclopedia/other-markets/">🛢️ Emtia, Tahvil ve Diğerleri</a></li><li><a href="/tr/encyclopedia/trading-business/">⚖️ Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a></li><li><a href="/tr/encyclopedia/reference/">📖 Başvuru Kaynakları</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/tr/encyclopedia/">Ansiklopedi</a> › <a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a></div>
+<h1 class="title">Trend Takibi</h1>
+<div class="meta">6 dk okuma · Güncelleme: 23 Kas 2026</div>
+<details class="side-m"><summary>Algoritmik ve Kantitatif İşlem: diğer makaleler</summary><ul><li><a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik İşleme Giriş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/backtesting/">Backtest</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Aşırı Optimizasyon</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">Trend Takibi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">Ortalamaya Dönüş</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Eşli İşlem ve İstatistiksel Arbitraj</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-making/">Piyasa Yapıcılığı</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitraj Stratejileri</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/high-frequency-trading/">Yüksek Frekanslı İşlem</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/">Emir Yürütme Algoritmaları</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/">İşlem Botu Geliştirme</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy Trading ve Sosyal Trading</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Trading'de Makine Öğrenmesi</a></li><li><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/">Piyasa Verileri</a></li></ul></details>
+<article><p>Trend takibi, fiyatı yükselen varlıkları alan, fiyatı düşen varlıkları satan veya açığa satan ve trend sürdükçe pozisyonları elinde tutan sistematik bir stratejidir. <a href="/tr/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algoritmik işlemin</a> en eski ve en iyi belgelenmiş yaklaşımlarından biridir ve birçok yönetilen vadeli fonu tarafından kullanılır. Sık sık küçük kayıplar, ara sıra büyük kazançlar elde etme eğilimindedir; bu da onu bazı dönemlerde kârlı, bazı dönemlerde ise psikolojik olarak sürdürmesi zor kılar.</p>
+<div class="takeaways"><h2 id="key-takeaways">Önemli noktalar</h2>
+<ul>
+<li>Trend takibi zaman serisi momentumuna dayanır: bir varlığın kendi geçmiş getirisi, tarihsel olarak yakın gelecekteki yönünü tahmin etmeye yardımcı olmuştur.</li>
+<li>Tipik sistemler fiyat kırılımlarını veya hareketli ortalamaları, volatiliteye dayalı pozisyon büyüklüğü ve çok sayıda piyasaya çeşitlendirmeyle birleştirir.</li>
+<li>Getiriler pozitif çarpık olma eğilimindedir: çok sayıda küçük kayıp, birkaç büyük kazanç.</li>
+<li>Bazen yıllarca süren uzun yatay veya zararlı dönemler stratejinin normal bir özelliğidir.</li>
+<li>Trend takibi tarihsel olarak bazı uzun krizlerde iyi performans göstermiştir, ancak ani ve sert çöküşlerde güvenilir bir hedge değildir.</li>
+</ul></div><details class="toc"><summary>Bu sayfada</summary><ol><li><a href="#zaman-serisi-momentumu">Zaman serisi momentumu</a></li><li><a href="#cta-lar-ve-y-netilen-vadeliler">CTA&amp;#39;lar ve yönetilen vadeliler</a></li><li><a href="#yayg-n-trend-sistemleri">Yaygın trend sistemleri</a></li><li><a href="#turtle-trader-lar">Turtle trader&amp;#39;lar</a></li><li><a href="#pozitif-arp-kl-k-ve-uzun-yatay-d-nemler">Pozitif çarpıklık ve uzun yatay dönemler</a></li><li><a href="#al-lm-rnek">Çalışılmış örnek</a></li><li><a href="#common-mistakes">Sık yapılan hatalar</a></li></ol></details>
+<h2 id="zaman-serisi-momentumu">Zaman serisi momentumu</h2>
+<p>Araştırmalarda iki tür momentum görülür. Kesitsel momentum varlıkları birbiriyle karşılaştırır ve göreli kazananları alır; Jegadeesh ve Titman tarafından 1993&#39;te ABD hisselerinde belgelenmiştir ve <a href="/tr/encyclopedia/stocks/momentum-trading/">momentum işlemi</a> makalesinde ele alınır. Zaman serisi momentumu her varlığa tek başına bakar: son birkaç ayın getirisi pozitifse long, negatifse short pozisyon alın.</p>
+<p>Moskowitz, Ooi ve Pedersen 2012 tarihli bir makalede zaman serisi momentumunu hisse endeksleri, dövizler, emtialar ve tahviller dahil onlarca vadeli piyasada belgeledi. Son 12 aylık getirinin bir sonraki ayın getirisini tahmin etme eğiliminde olduğunu, etkinin daha uzun vadelerde kısmen tersine döndüğünü buldular. Önerilen açıklamalar arasında yatırımcıların önce habere yeterince tepki vermeyip sonra aşırı tepki vermesi ile fiyatları uzun süre aynı yöne iten hedge ve risk yönetimi akışları yer alır.</p>
+<h2 id="cta-lar-ve-y-netilen-vadeliler">CTA&#39;lar ve yönetilen vadeliler</h2>
+<p>Birçok profesyonel trend takipçisi, müşteriler adına vadeli işlem yönetmek üzere kayıtlı firmalar olan emtia işlem danışmanlarıdır (CTA). Sektöre çoğu zaman yönetilen vadeliler (managed futures) denir. Tipik çeşitlendirilmiş bir trend programı:</p>
+<ul>
+<li>Geniş bir likit vadeli ve forex piyasası kümesinde işlem yapar: hisse endeksleri, devlet tahvilleri, faiz oranları, dövizler, enerji, metaller ve tarım ürünleri.</li>
+<li>Long ve short pozisyon alır; böylece düşen piyasalarda da yükselenler kadar kazanç sağlayabilir.</li>
+<li>Her pozisyonun büyüklüğünü volatiliteye göre belirler; böylece sakin bir tahvil vadelisi ile oynak bir ham petrol vadelisi kabaca eşit risk katkısı yapar.</li>
+<li>Pozisyonları haftalardan aylara kadar tutar.</li>
+</ul>
+<p>Çeşitlendirme merkezidir. Tek bir piyasa yalnızca ara sıra trend yapar; 50 veya daha fazla piyasada ise genellikle bir şey trend yapıyordur. Trend takibi fonları grup olarak 2008 ve 2022 gibi bazı uzun ayı piyasalarında ve enflasyon şoklarında kazanç kaydetti; strateji bu yüzden bazen &quot;kriz alfası&quot; olarak adlandırılır. Ancak 2010&#39;ların büyük bölümü birçok trend takipçisi için zor bir dönemdi ve önceden trend olmayan ani bir çöküş onlara zarar verebilir.</p>
+<h2 id="yayg-n-trend-sistemleri">Yaygın trend sistemleri</h2>
+<h3 id="k-r-l-m-sistemleri">Kırılım sistemleri</h3>
+<p>Kırılım sistemi, fiyat son N günün en yüksek seviyesinin üzerine çıktığında alır ve son N günün en düşük seviyesinin altına indiğinde açığa satar. En yüksek ve en düşük çizgilerine, sistematik trend işleminin erken öncülerinden Richard Donchian&#39;ın adıyla Donchian kanalı denir. Çıkışlar ters yönde daha kısa bir kanalı veya takip eden bir stopu kullanır.</p>
+<h3 id="hareketli-ortalama-sistemleri">Hareketli ortalama sistemleri</h3>
+<p><a href="/tr/encyclopedia/technical-analysis/moving-averages/">Hareketli ortalama</a> sistemi, hızlı bir ortalama yavaş olanın üzerindeyken (örneğin 50 günlük 200 günlüğün üzerinde) long, altındayken short pozisyona geçer. Varyantlar, fiyatın tek bir ortalamaya göre konumunu veya ortalamanın eğimini kullanır.</p>
+<h3 id="getiriye-dayal-sinyaller">Getiriye dayalı sinyaller</h3>
+<p>Bazı sistemler basitçe son 3, 6 veya 12 aylık getirinin işaretini alır; çoğu zaman tek bir geriye bakışa bağımlılığı azaltmak için birkaç geriye bakışı harmanlar.</p>
+<p>Kırılım mantığı birkaç satırla yazılabilir. Kanal bir bar kaydırılır; böylece sinyal mevcut barın kendi en yükseğini veya en düşüğünü hiç kullanmaz ve her günün pozisyonu bir sonraki günün getirisine uygulanmalıdır.</p>
+<pre><code class="language-python">import pandas as pd
+
+def donchian_positions(close: pd.Series, entry=55, exit=20) -&gt; pd.Series:
+    upper = close.rolling(entry).max().shift(1)
+    lower = close.rolling(entry).min().shift(1)
+    exit_high = close.rolling(exit).max().shift(1)
+    exit_low = close.rolling(exit).min().shift(1)
+    pos, out = 0, []
+    for px, up, lo, xh, xl in zip(close, upper, lower, exit_high, exit_low):
+        if pos == 0 and px &gt; up:
+            pos = 1
+        elif pos == 0 and px &lt; lo:
+            pos = -1
+        elif pos == 1 and px &lt; xl:
+            pos = 0
+        elif pos == -1 and px &gt; xh:
+            pos = 0
+        out.append(pos)
+    return pd.Series(out, index=close.index)
+</code></pre>
+<h2 id="turtle-trader-lar">Turtle trader&#39;lar</h2>
+<p>Trend takibinin en bilinen hikayesi, Chicago&#39;nun başarılı vadeli işlem trader&#39;ı Richard Dennis ve ortağı William Eckhardt ile ilgilidir. 1980&#39;lerin başında işlem yapmanın öğretilip öğretilemeyeceği konusunda anlaşamadılar. Dennis gazete ilanlarıyla bir grup stajyer topladı, onlara kısa bir süre kurallara dayalı bir trend sistemi öğretti ve işlem yapmaları için para verdi. Stajyerler Turtles (Kaplumbağalar) olarak anıldı.</p>
+<p>Eski Turtle&#39;ların sonradan yayımladığı anlatımlar, Donchian kırılımlarına (20 günlük ve 55 günlük bir sürüm), daha kısa ters kırılımlardaki çıkışlara, yakın dönem volatilitenin bir katı uzaklığa yerleştirilen stoplara ve pozisyon büyüklüklerinin her piyasadaki tipik günlük hareketin özsermayenin küçük, sabit bir kesrini temsil edecek şekilde ölçeklendiği bir sisteme dayanıyordu. Stajyerlerin birçoğu kendi fonlarını yönetmeye devam etti. Bu olay, disiplinli bir sistemin sezgiden daha önemli olduğunun kanıtı olarak sıkça anılır; ancak her ünlü başarı hikayesinde olduğu gibi, hayatta kalma yanlılığı da hikayenin nasıl anlatıldığında rol oynar.</p>
+<h2 id="pozitif-arp-kl-k-ve-uzun-yatay-d-nemler">Pozitif çarpıklık ve uzun yatay dönemler</h2>
+<p>Trend takibinin kazanma oranı tipik olarak düşüktür. Birçok kırılım hızla başarısız olur ve küçük zararlarla kapatılır. Kâr, büyük ve kalıcı hareketleri yakalayan bir azınlık işlemden gelir.</p>
+<p>Bu desen pozitif çarpıklık üretir: getiri dağılımının uzun bir sağ kuyruğu vardır. Bu, sık kazanıp ara sıra büyük kaybetme eğiliminde olan <a href="/tr/encyclopedia/algorithmic-trading/mean-reversion/">ortalamaya dönüşün</a> tam tersidir.</p>
+<p>Bedel psikolojiktir. Uzun küçük zarar serileri normaldir ve bir strateji yıllarca yeni bir özsermaye zirvesi görmeden geçebilir. Birçok trader trend sistemlerini tam da bu dönemlerde, bir sonraki büyük trendden hemen önce bırakır.</p>
+<h2 id="al-lm-rnek">Çalışılmış örnek</h2>
+<h3 id="d-k-kazanma-oran-yla-beklenti">Düşük kazanma oranıyla beklenti</h3>
+<p>Bir trend sistemi işlemlerinin %35&#39;ini kazanıyor. Ortalama kazanan 3R, ortalama kaybeden 1R kazandırıyor veya kaybettiriyor; burada R işlem başına riske edilen tutardır.</p>
+<ul>
+<li>Beklenti = 0.35 × 3R − 0.65 × 1R = 1.05R − 0.65R = işlem başına 0.40R.</li>
+<li>İşlem başına 1,000 dolar risk edilirse, bu çok sayıda işlemde işlem başına ortalama 400 dolardır.</li>
+<li>Belirli bir 10 işlemlik dizinin hepsinin kaybeden olma olasılığı 0.65^10 ≈ %1.3&#39;tür. Birkaç yüz işlemde bu kadar uzun bir seri bir noktada olası hale gelir.</li>
+</ul>
+<h3 id="volatiliteye-dayal-b-y-kl-k">Volatiliteye dayalı büyüklük</h3>
+<p>100,000 dolarlık bir hesap işlem başına %1, yani 1,000 dolar riske ediyor. Bir hisse 50 dolardan işlem görüyor ve <a href="/tr/encyclopedia/technical-analysis/atr-and-volatility-indicators/">Ortalama Gerçek Aralığı (ATR)</a> 1.25 dolar. Stop 2 ATR, yani 2.50 dolar uzağa yerleştiriliyor.</p>
+<ul>
+<li>Pozisyon büyüklüğü = 1,000 / 2.50 = 400 hisse, değeri 20,000 dolar.</li>
+<li>ATR&#39;si 0.50 dolar olan daha sakin bir hisse için stop 1.00 dolar uzağa konur ve aynı dolar riski için pozisyon 1,000 hisse olur.</li>
+</ul>
+<p>Sakin ya da oynak, artık her pozisyon benzer risk taşır.</p>
+<h2 id="common-mistakes">Sık yapılan hatalar</h2>
+<ul>
+<li><strong>Tek bir piyasada işlem yapmak.</strong> Çeşitlendirme olmadan uzun yatay dönemler çok uzar.</li>
+<li><strong>Zararlardan sonra sistemi çiğnemek.</strong> Bir sonraki sinyali atlamak çoğu zaman kayıp serisinin bedelini ödeyecek işlemi kaçırmak demektir.</li>
+<li><strong>Geriye bakış sürelerini hassas biçimde optimize etmek.</strong> Trend sinyalleri geniş bir geriye bakış aralığında sağlamdır; ince ayar çoğunlukla gürültüye uyum sağlar.</li>
+<li><strong>Rollover maliyetlerini ve boşlukları göz ardı etmek.</strong> Vadelilerin rollover&#39;ı gerekir ve stoplar gece boyunca boşlukla aşılabilir. Bkz. <a href="/tr/encyclopedia/futures/futures-basics/">vadeli işlem temelleri</a>.</li>
+<li><strong>Pürüzsüz bir özsermaye eğrisi beklemek.</strong> Profesyonel trend programlarında bile %20 veya daha fazla düşüşler yaygın olmuştur.</li>
+</ul>
+<h2 id="faq">Sıkça sorulan sorular</h2>
+<h3 id="trend-takibi-h-l-i-e-yar-yor-mu">Trend takibi hâlâ işe yarıyor mu?</h3>
+<p>Trend takibinin birçok piyasada ve onlarca yıl boyunca uzun bir sicili vardır, ancak performans döneme göre çok değişir ve çok yıllı zayıf getiri dönemleri yaşanır. Hiç kimse gelecekteki sonuçları vaat edemez; maliyetler ve kalabalıklaşma getirileri azaltabilir.</p>
+<h3 id="trend-takibi-ile-momentum-aras-ndaki-fark-nedir">Trend takibi ile momentum arasındaki fark nedir?</h3>
+<p>Trend takibi, yani zaman serisi momentumu, her varlığın kendi geçmiş getirisine bakar. Kesitsel momentum varlıkları birbiriyle sıralar ve hepsi düşüyor olsa bile göreli kazananları alır.</p>
+<h3 id="trend-takip-ilerinin-kazanma-oran-neden-d-kt-r">Trend takipçilerinin kazanma oranı neden düşüktür?</h3>
+<p>Birçok kırılım hızla tersine döner; bu yüzden sistem sık sık küçük zarar alır. Kâr, tipik zarardan çok daha uzağa giden birkaç büyük trendden gelir; bu da kazanma oranı %50&#39;nin altında olsa bile genel sonucu pozitif yapabilir.</p>
+<h3 id="trend-takibi-i-in-en-iyi-piyasalar-hangileridir">Trend takibi için en iyi piyasalar hangileridir?</h3>
+<p>Profesyonel trend takipçileri genellikle çeşitlendirilmiş bir likit vadeli ve döviz kümesinde işlem yapar. Likidite maliyetleri düşük tutar, çeşitlendirme ise her an bir piyasanın trend yapma olasılığını artırır.</p>
+</article>
+<div class="disclaimer"><strong>Yalnızca eğitim amaçlıdır.</strong> Buradaki hiçbir içerik finansal, yatırım, hukuki veya vergi tavsiyesi değildir. Alım satım yüksek kayıp riski taşır ve kaldıraçlı ürünlerde yatırdığınızdan fazlasını kaybedebilirsiniz. Kurallar, ücretler ve platform koşulları değişir: işlem yapmadan önce güncel koşulları aracı kurumunuz, borsanız veya düzenleyici kurumla teyit edin.</div>
+<section class="related"><h2>İlgili makaleler</h2><div class="cards"><a class="card" href="/tr/encyclopedia/technical-analysis/moving-averages/"><div class="k">Teknik Analiz</div><b>Hareketli Ortalamalar</b><span>Basit, üssel ve ağırlıklı hareketli ortalama nasıl hesaplanır, 20, 50 ve 200 periyot ne anlama gelir; altın kesişim, ölüm kesişimi ve gecikme ödünleşimi.</span></a><a class="card" href="/tr/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Algoritmik ve Kantitatif İşlem</div><b>Ortalamaya Dönüş</b><span>Ortalamaya dönüş stratejisi nasıl işler: kısa vadeli geri dönüş, z-skor, Bollinger Bantları ve RSI sistemleri, negatif çarpıklık, rejim riski ve başarısızlık.</span></a><a class="card" href="/tr/encyclopedia/technical-analysis/atr-and-volatility-indicators/"><div class="k">Teknik Analiz</div><b>ATR ve Volatilite</b><span>ATR (ortalama gerçek aralık) nasıl çalışır, stop ve pozisyon büyüklüğünde nasıl kullanılır? Tarihsel volatilite, Keltner Kanalları ve volatilite kümelenmesi.</span></a><a class="card" href="/tr/encyclopedia/stocks/momentum-trading/"><div class="k">Hisse Senedi İşlemleri</div><b>Momentum Trading</b><span>Hisselerde momentum trading nasıl çalışır: katalizörler, göreli hacim, float, kırılımlar ve işlem durdurmalar, araştırmaların söyledikleri ve geç girişin riski.</span></a><a class="card" href="/tr/encyclopedia/futures/futures-basics/"><div class="k">Vadeli İşlemler</div><b>Vadeli İşlemlerin Temelleri</b><span>Vadeli işlem sözleşmeleri nasıl çalışır? Borsalar, kontrat özellikleri, tik değeri, ay kodları, günlük kâr-zarar hesaplaması, teminat, uzlaşma ve kullanıcıları.</span></a></div></section>
+<div class="pager"><a href="/tr/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><small>← Önceki</small>Aşırı Optimizasyon</a><a class="next" href="/tr/encyclopedia/algorithmic-trading/mean-reversion/"><small>Sonraki →</small>Ortalamaya Dönüş</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/tr/encyclopedia/basics/">Trading'in Temelleri</a><a href="/tr/encyclopedia/risk-management/">Risk ve Para Yönetimi</a><a href="/tr/encyclopedia/psychology/">Trading Psikolojisi</a><a href="/tr/encyclopedia/technical-analysis/">Teknik Analiz</a><a href="/tr/encyclopedia/fundamental-analysis/">Temel ve Makro Analiz</a><a href="/tr/encyclopedia/stocks/">Hisse Senedi İşlemleri</a><a href="/tr/encyclopedia/forex/">Forex İşlemleri</a><a href="/tr/encyclopedia/futures/">Vadeli İşlemler</a><a href="/tr/encyclopedia/options/">Opsiyon İşlemleri</a><a href="/tr/encyclopedia/crypto/">Kripto Para İşlemleri</a><a href="/tr/encyclopedia/meme-coins/">Meme Coin İşlemleri</a><a href="/tr/encyclopedia/prediction-markets/">Tahmin Piyasaları</a><a href="/tr/encyclopedia/algorithmic-trading/">Algoritmik ve Kantitatif İşlem</a><a href="/tr/encyclopedia/other-markets/">Emtia, Tahvil ve Diğerleri</a><a href="/tr/encyclopedia/trading-business/">Prop Firmalar, Vergi, Mevzuat ve Dolandırıcılık</a><a href="/tr/encyclopedia/reference/">Başvuru Kaynakları</a><a href="/blog/">Blog (İngilizce)</a><a href="/tr/">Açık kaynak trading botları</a></div>
+  <p>PnL Profit Trading Ansiklopedisi: büyük piyasaların nasıl işlediğine dair ücretsiz ve bağımsız açıklamalar. Eğitim amaçlıdır, yatırım tavsiyesi değildir. İletişim: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/tr/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sonuç bulunamadı. Sözlüğe göz atın.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

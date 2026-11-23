@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phân tích on-chain: dòng tiền sàn, MVRV, SOPR và theo dõi cá voi</title>
+<meta name="description" content="Cách trader dùng dữ liệu blockchain: dòng tiền vào ra sàn, theo dõi cá voi, phân bổ người nắm giữ, realized price, MVRV, SOPR, dòng stablecoin và giới hạn.">
+<meta name="keywords" content="phân tích on-chain, chỉ số mvrv, chỉ báo sopr, realized price bitcoin, dòng tiền vào ra sàn, theo dõi cá voi">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/vi/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/on-chain-analysis/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/on-chain-analysis/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Bách khoa Giao dịch">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Phân tích on-chain: dòng tiền sàn, MVRV, SOPR và theo dõi cá voi">
+<meta property="og:description" content="Cách trader dùng dữ liệu blockchain: dòng tiền vào ra sàn, theo dõi cá voi, phân bổ người nắm giữ, realized price, MVRV, SOPR, dòng stablecoin và giới hạn.">
+<meta property="og:url" content="https://pnlpro.fit/vi/encyclopedia/crypto/on-chain-analysis/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Phân tích on-chain: dòng tiền sàn, MVRV, SOPR và theo dõi cá voi">
+<meta name="twitter:description" content="Cách trader dùng dữ liệu blockchain: dòng tiền vào ra sàn, theo dõi cá voi, phân bổ người nắm giữ, realized price, MVRV, SOPR, dòng stablecoin và giới hạn.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"vi","headline":"Phân tích on-chain: dòng tiền sàn, MVRV, SOPR và theo dõi cá voi","description":"Cách trader dùng dữ liệu blockchain: dòng tiền vào ra sàn, theo dõi cá voi, phân bổ người nắm giữ, realized price, MVRV, SOPR, dòng stablecoin và giới hạn.","keywords":"phân tích on-chain, chỉ số mvrv, chỉ báo sopr, realized price bitcoin, dòng tiền vào ra sàn, theo dõi cá voi","articleSection":"Giao dịch crypto","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/vi/encyclopedia/crypto/on-chain-analysis/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Bách khoa","item":"https://pnlpro.fit/vi/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Giao dịch crypto","item":"https://pnlpro.fit/vi/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"Phân tích on-chain","item":"https://pnlpro.fit/vi/encyclopedia/crypto/on-chain-analysis/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"vi","mainEntity":[{"@type":"Question","name":"Phân tích on-chain trong crypto là gì?","acceptedAnswer":{"@type":"Answer","text":"Đó là việc phân tích dữ liệu blockchain công khai, như giao dịch, số dư và dòng tiền vào ra sàn, để hiểu người nắm giữ và người chơi lớn đang hành xử ra sao. Trader dùng nó cùng với biểu đồ giá và dữ liệu phái sinh."}},{"@type":"Question","name":"Tỷ lệ MVRV là gì?","acceptedAnswer":{"@type":"Answer","text":"MVRV là vốn hóa thị trường chia cho realized cap, vốn định giá mỗi coin theo mức giá lần gần nhất nó di chuyển. Chỉ số trên 1 nghĩa là người nắm giữ trung bình đang có lãi; dưới 1 trong lịch sử gắn với các thị trường gấu sâu."}},{"@type":"Question","name":"SOPR nghĩa là gì?","acceptedAnswer":{"@type":"Answer","text":"SOPR, tỷ lệ lợi nhuận đầu ra đã chi tiêu, so sánh giá trị của coin khi được chi tiêu với giá trị lúc di chuyển gần nhất. Trên 1 nghĩa là coin trung bình đang được bán có lãi, và dưới 1 nghĩa là bán lỗ."}},{"@type":"Question","name":"Inflow vào sàn có phải tín hiệu giảm giá không?","acceptedAnswer":{"@type":"Answer","text":"Inflow lớn có thể báo hiệu ý định bán, nhưng chúng cũng đến từ các luồng chuyển nội bộ của sàn, các khoản nạp tài sản thế chấp và động thái của đơn vị lưu ký. Các xu hướng bền vững có ý nghĩa hơn các lần chuyển đơn lẻ."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/vi/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Bách khoa</small></a>
+  <nav class="top"><a href="/vi/encyclopedia/" class="on">Bách khoa</a><a href="/vi/encyclopedia/reference/trading-glossary/">Thuật ngữ</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch</a></nav>
+  <details class="langmenu"><summary aria-label="Ngôn ngữ">🌐 <span>Tiếng Việt</span></summary><div class="menu"><a href="/encyclopedia/crypto/on-chain-analysis/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/on-chain-analysis/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/on-chain-analysis/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/on-chain-analysis/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/on-chain-analysis/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/on-chain-analysis/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/on-chain-analysis/" hreflang="vi" lang="vi" class="on" aria-current="true">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/on-chain-analysis/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/on-chain-analysis/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Tìm trong hơn 150 bài viết  ( / )" autocomplete="off" aria-label="Tìm kiếm trong bách khoa"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Giao dịch crypto</h3><ul><li><a href="/vi/encyclopedia/crypto/crypto-trading-basics/">Giao dịch crypto cơ bản</a></li><li><a href="/vi/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX so với DEX</a></li><li><a href="/vi/encyclopedia/crypto/crypto-market-cycles/">Chu kỳ thị trường crypto</a></li><li><a href="/vi/encyclopedia/crypto/perpetual-futures/">Hợp đồng vĩnh cửu</a></li><li><a href="/vi/encyclopedia/crypto/funding-rates/">Funding rate</a></li><li><a href="/vi/encyclopedia/crypto/crypto-liquidations/">Thanh lý</a></li><li><a href="/vi/encyclopedia/crypto/on-chain-analysis/" class="on" aria-current="page">Phân tích on-chain</a></li><li><a href="/vi/encyclopedia/crypto/altcoin-trading/">Giao dịch altcoin</a></li><li><a href="/vi/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics và mở khóa token</a></li><li><a href="/vi/encyclopedia/crypto/defi-trading/">Giao dịch DeFi</a></li><li><a href="/vi/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV và tấn công sandwich</a></li><li><a href="/vi/encyclopedia/crypto/crypto-arbitrage/">Arbitrage crypto</a></li><li><a href="/vi/encyclopedia/crypto/stablecoins/">Stablecoin</a></li><li><a href="/vi/encyclopedia/crypto/crypto-wallet-security/">Bảo mật ví</a></li><li><a href="/vi/encyclopedia/crypto/airdrops-and-points-farming/">Airdrop và cày điểm</a></li><li><a href="/vi/encyclopedia/crypto/nft-trading/">Giao dịch NFT</a></li></ul><h3>Tất cả chủ đề</h3><ul><li><a href="/vi/encyclopedia/basics/">📘 Kiến thức giao dịch cơ bản</a></li><li><a href="/vi/encyclopedia/risk-management/">🛡️ Quản trị rủi ro và vốn</a></li><li><a href="/vi/encyclopedia/psychology/">🧠 Tâm lý giao dịch</a></li><li><a href="/vi/encyclopedia/technical-analysis/">📈 Phân tích kỹ thuật</a></li><li><a href="/vi/encyclopedia/fundamental-analysis/">🏦 Phân tích cơ bản và vĩ mô</a></li><li><a href="/vi/encyclopedia/stocks/">🏛️ Giao dịch cổ phiếu</a></li><li><a href="/vi/encyclopedia/forex/">💱 Giao dịch forex</a></li><li><a href="/vi/encyclopedia/futures/">📊 Giao dịch hợp đồng tương lai</a></li><li><a href="/vi/encyclopedia/options/">🎯 Giao dịch quyền chọn</a></li><li><a href="/vi/encyclopedia/crypto/" class="on">₿ Giao dịch crypto</a></li><li><a href="/vi/encyclopedia/meme-coins/">🐸 Giao dịch meme coin</a></li><li><a href="/vi/encyclopedia/prediction-markets/">🔮 Thị trường dự đoán</a></li><li><a href="/vi/encyclopedia/algorithmic-trading/">🤖 Giao dịch thuật toán và định lượng</a></li><li><a href="/vi/encyclopedia/other-markets/">🛢️ Hàng hóa, trái phiếu và hơn thế</a></li><li><a href="/vi/encyclopedia/trading-business/">⚖️ Prop firm, thuế, quy định và lừa đảo</a></li><li><a href="/vi/encyclopedia/reference/">📖 Tra cứu</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/vi/encyclopedia/">Bách khoa</a> › <a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a></div>
+<h1 class="title">Phân tích on-chain</h1>
+<div class="meta">10 phút đọc · Cập nhật 23 thg 11, 2026</div>
+<details class="side-m"><summary>Thêm trong Giao dịch crypto</summary><ul><li><a href="/vi/encyclopedia/crypto/crypto-trading-basics/">Giao dịch crypto cơ bản</a></li><li><a href="/vi/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX so với DEX</a></li><li><a href="/vi/encyclopedia/crypto/crypto-market-cycles/">Chu kỳ thị trường crypto</a></li><li><a href="/vi/encyclopedia/crypto/perpetual-futures/">Hợp đồng vĩnh cửu</a></li><li><a href="/vi/encyclopedia/crypto/funding-rates/">Funding rate</a></li><li><a href="/vi/encyclopedia/crypto/crypto-liquidations/">Thanh lý</a></li><li><a href="/vi/encyclopedia/crypto/on-chain-analysis/" class="on" aria-current="page">Phân tích on-chain</a></li><li><a href="/vi/encyclopedia/crypto/altcoin-trading/">Giao dịch altcoin</a></li><li><a href="/vi/encyclopedia/crypto/tokenomics-and-token-unlocks/">Tokenomics và mở khóa token</a></li><li><a href="/vi/encyclopedia/crypto/defi-trading/">Giao dịch DeFi</a></li><li><a href="/vi/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV và tấn công sandwich</a></li><li><a href="/vi/encyclopedia/crypto/crypto-arbitrage/">Arbitrage crypto</a></li><li><a href="/vi/encyclopedia/crypto/stablecoins/">Stablecoin</a></li><li><a href="/vi/encyclopedia/crypto/crypto-wallet-security/">Bảo mật ví</a></li><li><a href="/vi/encyclopedia/crypto/airdrops-and-points-farming/">Airdrop và cày điểm</a></li><li><a href="/vi/encyclopedia/crypto/nft-trading/">Giao dịch NFT</a></li></ul></details>
+<article><p>Phân tích on-chain là việc nghiên cứu dữ liệu ghi trên các blockchain công khai, như các lần chuyển, số dư ví và mức giá lần gần nhất coin được di chuyển, để hiểu người nắm giữ đang hành xử ra sao. Vì mọi giao dịch Bitcoin và Ethereum đều công khai, trader có thể theo dõi coin chảy về sàn, theo dõi các ví lớn và ước tính giá vốn trung bình của thị trường. Nó mang lại góc nhìn mà không thị trường chứng khoán nào có, nhưng dữ liệu cần được diễn giải cẩn thận và hiếm khi cho tín hiệu thời điểm chính xác.</p>
+<div class="takeaways"><h2 id="key-takeaways">Những điểm chính</h2>
+<ul>
+<li>Blockchain là sổ cái công khai, nên dòng tiền giữa các ví và sàn có thể đo trực tiếp, dù quyền sở hữu ví phải được suy đoán.</li>
+<li>Dòng tiền vào sàn (inflow) thường được đọc là khả năng bán, và dòng ra (outflow) là tích lũy, nhưng các luồng chuyển nội bộ của sàn có thể làm méo cả hai.</li>
+<li>Realized price ước tính giá vốn trung bình của thị trường; MVRV so sánh giá trị thị trường với giá vốn đó.</li>
+<li>SOPR cho thấy các coin đang được chi tiêu trung bình là đang chốt lời hay chịu lỗ.</li>
+<li>Chỉ số on-chain hoạt động tốt nhất như bối cảnh để định vị chu kỳ, không phải tín hiệu vào lệnh ngắn hạn.</li>
+</ul></div><details class="toc"><summary>Trong trang này</summary><ol><li><a href="#d-li-u-on-chain-l-g">Dữ liệu on-chain là gì</a></li><li><a href="#d-ng-ti-n-v-o-ra-s-n">Dòng tiền vào ra sàn</a></li><li><a href="#theo-d-i-c-voi">Theo dõi cá voi</a></li><li><a href="#ph-n-b-ng-i-n-m-gi">Phân bổ người nắm giữ</a></li><li><a href="#realized-price-mvrv-v-sopr">Realized price, MVRV và SOPR</a></li><li><a href="#d-ng-stablecoin">Dòng stablecoin</a></li><li><a href="#gi-i-h-n-c-a-d-li-u-on-chain">Giới hạn của dữ liệu on-chain</a></li><li><a href="#common-mistakes">Sai lầm thường gặp</a></li></ol></details>
+<h2 id="d-li-u-on-chain-l-g">Dữ liệu on-chain là gì</h2>
+<p>Mỗi giao dịch trên blockchain công khai ghi lại địa chỉ gửi, địa chỉ nhận, số lượng và dấu thời gian. Các công ty phân tích xử lý dữ liệu thô này và thêm <strong>nhãn ví (wallet label)</strong>, là những phỏng đoán về ai kiểm soát một địa chỉ: một sàn, một quỹ, một thợ đào, một bridge, một hacker đã biết. Nhãn đến từ các công bố công khai, các thử nghiệm nạp tiền, phương pháp gom cụm (các địa chỉ chi tiêu cùng nhau thường do cùng một thực thể kiểm soát) và công tác điều tra.</p>
+<p>Phân tích on-chain là một dạng <a href="/vi/encyclopedia/fundamental-analysis/fundamental-analysis-intro/">phân tích cơ bản</a> đặc thù cho crypto. Nó bổ sung cho các công cụ dựa trên giá và dữ liệu phái sinh như <a href="/vi/encyclopedia/crypto/funding-rates/">funding rate</a>.</p>
+<h2 id="d-ng-ti-n-v-o-ra-s-n">Dòng tiền vào ra sàn</h2>
+<p><strong>Inflow</strong> là coin chuyển vào các ví được gắn nhãn là địa chỉ nạp của sàn. <strong>Outflow</strong> là coin rời khỏi sàn.</p>
+<p>Cách đọc phổ biến:</p>
+<ul>
+<li>Inflow lớn của BTC hoặc ETH có thể nghĩa là người nắm giữ đang chuẩn bị bán.</li>
+<li>Outflow kéo dài có thể nghĩa là người nắm giữ đang chuyển coin về kho lưu trữ dài hạn, làm giảm nguồn cung phía bán trên sàn.</li>
+<li>Số dư <strong>stablecoin</strong> trên sàn tăng có thể nghĩa là sức mua đang đổ về.</li>
+</ul>
+<p>Các lưu ý rất quan trọng. Sàn xáo trộn tiền giữa ví nóng và ví lạnh, gộp các khoản nạp và chuyển coin sang đơn vị lưu ký. Ví lưu ký ETF spot, các bàn OTC và bridge token bọc cũng tạo ra các luồng lớn không phải mua hay bán. Coin gửi lên sàn có thể được dùng làm tài sản thế chấp phái sinh thay vì bán. Một lần chuyển lớn đơn lẻ là bằng chứng yếu; các xu hướng bền vững trên nhiều ví có ý nghĩa hơn.</p>
+<h2 id="theo-d-i-c-voi">Theo dõi cá voi</h2>
+<p>&quot;Cá voi&quot; là những người nắm giữ lượng rất lớn. Trader theo dõi các ví cá voi để bắt các động thái lớn, và các dịch vụ cảnh báo công bố các lần chuyển lớn theo thời gian thực.</p>
+<p>Thực hành hữu ích:</p>
+<ul>
+<li>Kiểm tra nhãn. Nhiều lần chuyển &quot;cá voi&quot; thực ra là sàn di chuyển tiền của chính họ.</li>
+<li>Nhìn vào điểm đến. Một lần chuyển từ ví ngủ đông lâu năm lên sàn mang nhiều thông tin hơn một lần chuyển giữa hai ví lạnh.</li>
+<li>Nhớ rằng những người chơi tinh vi biết mình đang bị theo dõi. Họ có thể chia nhỏ các lần chuyển, dùng bàn OTC, hoặc làm những động thái dễ thấy để đánh lạc hướng.</li>
+</ul>
+<p>Về việc sao chép ví trong các token nhỏ, xem <a href="/vi/encyclopedia/meme-coins/copy-trading-wallets/">copy trading ví</a>, nơi trình bày cách những ví trông thành công có thể là cái bẫy.</p>
+<h2 id="ph-n-b-ng-i-n-m-gi">Phân bổ người nắm giữ</h2>
+<p>Phân bổ người nắm giữ cho thấy nguồn cung được trải ra trên các địa chỉ như thế nào. Với Bitcoin, các nhà phân tích nhóm địa chỉ theo quy mô số dư hoặc theo thời gian coin được giữ: <strong>người nắm giữ dài hạn</strong> (thường là coin không di chuyển trong 155 ngày hoặc hơn, một quy ước được một số nhà cung cấp phân tích dùng) so với <strong>người nắm giữ ngắn hạn</strong>.</p>
+<p>Với các token nhỏ hơn, sự tập trung là một tín hiệu rủi ro. Nếu 10 ví hàng đầu không phải sàn và không phải hợp đồng nắm phần lớn nguồn cung, một vài người bán có thể làm sập giá. Luôn loại trừ ví sàn, pool thanh khoản, hợp đồng vesting và địa chỉ đốt trước khi đánh giá mức tập trung. Xem <a href="/vi/encyclopedia/crypto/tokenomics-and-token-unlocks/">tokenomics và mở khóa token</a>.</p>
+<h2 id="realized-price-mvrv-v-sopr">Realized price, MVRV và SOPR</h2>
+<p>Ba chỉ số này xuất phát từ mô hình Bitcoin, nơi mỗi coin (về mặt kỹ thuật là mỗi đầu ra giao dịch chưa chi tiêu) mang theo mức giá lần gần nhất nó được di chuyển.</p>
+<h3 id="realized-cap-v-realized-price">Realized cap và realized price</h3>
+<ul>
+<li><strong>Vốn hóa thị trường</strong> = giá hiện tại × nguồn cung lưu hành.</li>
+<li><strong>Realized cap</strong> = tổng giá trị của mỗi coin tính theo giá lúc nó di chuyển gần nhất.</li>
+<li><strong>Realized price</strong> = realized cap / nguồn cung. Nó xấp xỉ giá vốn trung bình của mọi người nắm giữ.</li>
+</ul>
+<h3 id="mvrv">MVRV</h3>
+<p><strong>MVRV</strong> = vốn hóa thị trường / realized cap.</p>
+<ul>
+<li>Trên 1: người nắm giữ trung bình đang có lãi.</li>
+<li>Dưới 1: người nắm giữ trung bình đang lỗ, điều trong lịch sử từng xảy ra gần các đáy thị trường gấu lớn.</li>
+<li>Giá trị rất cao trong lịch sử từng xuất hiện gần đỉnh chu kỳ, dù mức đỉnh thấp hơn ở mỗi chu kỳ kế tiếp.</li>
+</ul>
+<h3 id="v-d-minh-h-a">Ví dụ minh họa</h3>
+<p>Hãy tưởng tượng một blockchain nhỏ xíu có 4 coin:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Số coin</th>
+<th>Giá lúc di chuyển gần nhất</th>
+<th>Giá trị realized</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>$20,000</td>
+<td>$20,000</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$40,000</td>
+<td>$80,000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>$80,000</td>
+<td>$80,000</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td></td>
+<td><strong>$180,000</strong></td>
+</tr>
+</tbody></table></div>
+<ul>
+<li>Realized cap = $180,000. Realized price = $180,000 / 4 = $45,000.</li>
+<li>Nếu giá thị trường là $60,000, vốn hóa thị trường = 4 × $60,000 = $240,000.</li>
+<li>MVRV = $240,000 / $180,000 = 1.33. Người nắm giữ trung bình đang lãi khoảng 33%.</li>
+</ul>
+<p>Nếu coin di chuyển gần nhất ở $80,000 được bán ở $60,000, nó hiện thực hóa một khoản lỗ. Nếu một trong các coin $40,000 được bán ở $60,000, nó hiện thực hóa một khoản lãi.</p>
+<h3 id="sopr">SOPR</h3>
+<p><strong>SOPR (spent output profit ratio, tỷ lệ lợi nhuận đầu ra đã chi tiêu)</strong> = giá trị coin khi được chi tiêu / giá trị của những coin đó lúc di chuyển gần nhất.</p>
+<ul>
+<li>Một coin mua ở $40,000 và bán ở $50,000 có SOPR là 50,000 / 40,000 = 1.25.</li>
+<li>SOPR hằng ngày lấy trung bình tất cả coin được chi tiêu trong ngày hôm đó.</li>
+<li>Trên 1, coin trung bình đang được bán có lãi; dưới 1, là bán lỗ.</li>
+</ul>
+<p>Trong thị trường bò, SOPR chạm xuống gần 1 rồi bật lên được đọc là người nắm giữ từ chối bán ở mức hòa vốn. Trong thị trường gấu, SOPR không giữ được trên 1 gợi ý người nắm giữ bán vào các nhịp hồi để thoát ở giá vốn. Các biến thể lọc theo tuổi người nắm giữ để giảm nhiễu.</p>
+<h2 id="d-ng-stablecoin">Dòng stablecoin</h2>
+<p><a href="/vi/encyclopedia/crypto/stablecoins/">Stablecoin</a> đóng vai trò tiền mặt của crypto. Trader theo dõi:</p>
+<ul>
+<li><strong>Tổng cung stablecoin.</strong> Tăng trưởng nghĩa là đô la mới đang vào crypto; nguồn cung co lại có thể nghĩa là tiền đang rời đi.</li>
+<li><strong>Mint và burn</strong> của các nhà phát hành, cho thấy người chơi lớn đưa tiền pháp định vào hoặc ra.</li>
+<li><strong>Dòng tiền theo chain.</strong> Stablecoin được bridge sang một chain cụ thể có thể báo hiệu hoạt động đầu cơ đang hướng về đâu.</li>
+<li><strong>Dự trữ stablecoin trên sàn</strong>, một thước đo sơ lược về sức mua sẵn sàng triển khai.</li>
+</ul>
+<h2 id="gi-i-h-n-c-a-d-li-u-on-chain">Giới hạn của dữ liệu on-chain</h2>
+<ul>
+<li><strong>Việc gán danh tính mang tính xác suất.</strong> Nhãn có thể sai hoặc thiếu.</li>
+<li><strong>Hoạt động off-chain vô hình.</strong> Giao dịch bên trong các sàn tập trung, giao dịch cổ phiếu ETF và các thỏa thuận OTC không xuất hiện on-chain. Một phần lớn khối lượng giao dịch không bao giờ chạm tới chain.</li>
+<li><strong>Coin bị mất làm méo nguồn cung.</strong> Coin mất từ nhiều năm trước vẫn được tính vào nguồn cung và realized cap.</li>
+<li><strong>Thay đổi cấu trúc.</strong> ETF, đơn vị lưu ký và các mạng layer-2 đã thay đổi ý nghĩa của các luồng tiền, nên các ngưỡng lịch sử có thể không còn áp dụng.</li>
+<li><strong>Chain khác nhau, mô hình khác nhau.</strong> Các chỉ số xây dựng cho mô hình đầu ra của Bitcoin không ánh xạ gọn sang các chain dựa trên tài khoản như Ethereum hay Solana.</li>
+<li><strong>Các nhà cung cấp dữ liệu khác nhau.</strong> Hai nhà cung cấp có thể hiển thị giá trị khác nhau cho cùng một chỉ số vì nhãn và phương pháp khác nhau.</li>
+<li><strong>Nhìn trước tương lai trong biểu đồ.</strong> Các chỉ báo &quot;gọi đúng mọi đỉnh&quot; thường được tinh chỉnh khi đã biết kết quả, một dạng <a href="/vi/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">overfitting</a>.</li>
+</ul>
+<h2 id="common-mistakes">Sai lầm thường gặp</h2>
+<ul>
+<li><strong>Phản ứng với một cảnh báo cá voi đơn lẻ</strong> mà không kiểm tra nhãn và điểm đến.</li>
+<li><strong>Coi inflow vào sàn là chắc chắn sẽ bán.</strong></li>
+<li><strong>Dùng ngưỡng MVRV hoặc SOPR như điểm vào hoặc ra chính xác.</strong></li>
+<li><strong>Bỏ qua hoạt động off-chain,</strong> nhất là dòng tiền ETF, khi đánh giá cầu.</li>
+<li><strong>Đánh giá mức tập trung người nắm giữ</strong> mà không loại trừ ví sàn và ví hợp đồng.</li>
+</ul>
+<h2 id="faq">Câu hỏi thường gặp</h2>
+<h3 id="ph-n-t-ch-on-chain-trong-crypto-l-g">Phân tích on-chain trong crypto là gì?</h3>
+<p>Đó là việc phân tích dữ liệu blockchain công khai, như giao dịch, số dư và dòng tiền vào ra sàn, để hiểu người nắm giữ và người chơi lớn đang hành xử ra sao. Trader dùng nó cùng với biểu đồ giá và dữ liệu phái sinh.</p>
+<h3 id="t-l-mvrv-l-g">Tỷ lệ MVRV là gì?</h3>
+<p>MVRV là vốn hóa thị trường chia cho realized cap, vốn định giá mỗi coin theo mức giá lần gần nhất nó di chuyển. Chỉ số trên 1 nghĩa là người nắm giữ trung bình đang có lãi; dưới 1 trong lịch sử gắn với các thị trường gấu sâu.</p>
+<h3 id="sopr-ngh-a-l-g">SOPR nghĩa là gì?</h3>
+<p>SOPR, tỷ lệ lợi nhuận đầu ra đã chi tiêu, so sánh giá trị của coin khi được chi tiêu với giá trị lúc di chuyển gần nhất. Trên 1 nghĩa là coin trung bình đang được bán có lãi, và dưới 1 nghĩa là bán lỗ.</p>
+<h3 id="inflow-v-o-s-n-c-ph-i-t-n-hi-u-gi-m-gi-kh-ng">Inflow vào sàn có phải tín hiệu giảm giá không?</h3>
+<p>Inflow lớn có thể báo hiệu ý định bán, nhưng chúng cũng đến từ các luồng chuyển nội bộ của sàn, các khoản nạp tài sản thế chấp và động thái của đơn vị lưu ký. Các xu hướng bền vững có ý nghĩa hơn các lần chuyển đơn lẻ.</p>
+</article>
+<div class="disclaimer"><strong>Chỉ nhằm mục đích giáo dục.</strong> Không nội dung nào ở đây là tư vấn tài chính, đầu tư, pháp lý hay thuế. Giao dịch có rủi ro thua lỗ cao, và với sản phẩm đòn bẩy bạn có thể mất nhiều hơn số tiền đã nạp. Quy định, phí và điều kiện của nền tảng có thể thay đổi: hãy kiểm tra điều khoản hiện hành với nhà môi giới, sàn giao dịch hoặc cơ quan quản lý trước khi giao dịch.</div>
+<section class="related"><h2>Bài viết liên quan</h2><div class="cards"><a class="card" href="/vi/encyclopedia/crypto/crypto-market-cycles/"><div class="k">Giao dịch crypto</div><b>Chu kỳ thị trường crypto</b><span>Chu kỳ halving của Bitcoin và giới hạn của nó, BTC dominance, mùa altcoin, xoay vòng ngành, cùng cách điều kiện vĩ mô và dòng tiền ETF định hình chu kỳ crypto.</span></a><a class="card" href="/vi/encyclopedia/crypto/stablecoins/"><div class="k">Giao dịch crypto</div><b>Stablecoin</b><span>Stablecoin hoạt động ra sao: bảo chứng bằng tiền pháp định, crypto và thuật toán, vụ sụp đổ UST, vụ USDC mất neo, làm tài sản thế chấp, MiCA và luật của Mỹ.</span></a><a class="card" href="/vi/encyclopedia/fundamental-analysis/market-sentiment-indicators/"><div class="k">Phân tích cơ bản và vĩ mô</div><b>Chỉ báo tâm lý thị trường</b><span>Cách trader đo tâm lý bằng báo cáo COT, tỷ lệ put/call, VIX, khảo sát AAII, chỉ số sợ hãi và tham lam, funding và open interest trong crypto, cùng các giới hạn.</span></a><a class="card" href="/vi/encyclopedia/fundamental-analysis/fundamental-analysis-intro/"><div class="k">Phân tích cơ bản và vĩ mô</div><b>Nhập môn phân tích cơ bản</b><span>Phân tích cơ bản là gì, giá trị nội tại khác giá thị trường ra sao, top-down và bottom-up, và cách áp dụng cho cổ phiếu, tiền tệ, hàng hóa và crypto.</span></a><a class="card" href="/vi/encyclopedia/crypto/altcoin-trading/"><div class="k">Giao dịch crypto</div><b>Giao dịch altcoin</b><span>Giao dịch altcoin: các bậc thanh khoản, hiệu ứng niêm yết, token float thấp FDV cao, beta so với Bitcoin, câu chuyện, rủi ro hủy niêm yết và khối lượng giả.</span></a></div></section>
+<div class="pager"><a href="/vi/encyclopedia/crypto/crypto-liquidations/"><small>← Bài trước</small>Thanh lý</a><a class="next" href="/vi/encyclopedia/crypto/altcoin-trading/"><small>Bài tiếp →</small>Giao dịch altcoin</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/vi/encyclopedia/basics/">Kiến thức giao dịch cơ bản</a><a href="/vi/encyclopedia/risk-management/">Quản trị rủi ro và vốn</a><a href="/vi/encyclopedia/psychology/">Tâm lý giao dịch</a><a href="/vi/encyclopedia/technical-analysis/">Phân tích kỹ thuật</a><a href="/vi/encyclopedia/fundamental-analysis/">Phân tích cơ bản và vĩ mô</a><a href="/vi/encyclopedia/stocks/">Giao dịch cổ phiếu</a><a href="/vi/encyclopedia/forex/">Giao dịch forex</a><a href="/vi/encyclopedia/futures/">Giao dịch hợp đồng tương lai</a><a href="/vi/encyclopedia/options/">Giao dịch quyền chọn</a><a href="/vi/encyclopedia/crypto/">Giao dịch crypto</a><a href="/vi/encyclopedia/meme-coins/">Giao dịch meme coin</a><a href="/vi/encyclopedia/prediction-markets/">Thị trường dự đoán</a><a href="/vi/encyclopedia/algorithmic-trading/">Giao dịch thuật toán và định lượng</a><a href="/vi/encyclopedia/other-markets/">Hàng hóa, trái phiếu và hơn thế</a><a href="/vi/encyclopedia/trading-business/">Prop firm, thuế, quy định và lừa đảo</a><a href="/vi/encyclopedia/reference/">Tra cứu</a><a href="/blog/">Blog (tiếng Anh)</a><a href="/vi/">Bot giao dịch mã nguồn mở</a></div>
+  <p>PnL Profit Bách khoa Giao dịch: giải thích miễn phí, độc lập về cách các thị trường lớn vận hành. Nội dung giáo dục, không phải lời khuyên đầu tư. Liên hệ: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/vi/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Không có kết quả. Hãy thử mục thuật ngữ.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

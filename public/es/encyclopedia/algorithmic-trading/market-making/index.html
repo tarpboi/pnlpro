@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market making: spread, inventario y selección adversa | PnL Profit</title>
+<meta name="description" content="Market making de manual: cotizar ambos lados, captura del spread, sesgo por inventario, selección adversa, posición en la cola, rebates y Avellaneda-Stoikov.">
+<meta name="keywords" content="market making, estrategia de market making, modelo Avellaneda-Stoikov, riesgo de inventario, selección adversa, spread del creador de mercado">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-making/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-making/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopedia del Trading">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Market making: spread, inventario y selección adversa | PnL Profit">
+<meta property="og:description" content="Market making de manual: cotizar ambos lados, captura del spread, sesgo por inventario, selección adversa, posición en la cola, rebates y Avellaneda-Stoikov.">
+<meta property="og:url" content="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-making/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Market making: spread, inventario y selección adversa | PnL Profit">
+<meta name="twitter:description" content="Market making de manual: cotizar ambos lados, captura del spread, sesgo por inventario, selección adversa, posición en la cola, rebates y Avellaneda-Stoikov.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"es","headline":"Market making: spread, inventario y selección adversa","description":"Market making de manual: cotizar ambos lados, captura del spread, sesgo por inventario, selección adversa, posición en la cola, rebates y Avellaneda-Stoikov.","keywords":"market making, estrategia de market making, modelo Avellaneda-Stoikov, riesgo de inventario, selección adversa, spread del creador de mercado","articleSection":"Trading algorítmico y cuantitativo","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-making/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopedia","item":"https://pnlpro.fit/es/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading algorítmico y cuantitativo","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Market making","item":"https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-making/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Cómo ganan dinero los market makers?","acceptedAnswer":{"@type":"Answer","text":"Ganan la diferencia entre el precio al que compran (el bid) y el precio al que venden (el ask), más los reembolsos de la bolsa que correspondan. Pierden dinero cuando el inventario se mueve en su contra o cuando traders informados ejecutan sus cotizaciones justo antes de que los precios se muevan."}},{"@type":"Question","name":"¿Qué es la selección adversa en el market making?","acceptedAnswer":{"@type":"Answer","text":"La selección adversa es la tendencia a que las cotizaciones de un market maker sean ejecutadas con más frecuencia por traders que saben que el precio está a punto de moverse. Significa que las ejecuciones son, de media, peores de lo que parecen en el momento en que se producen."}},{"@type":"Question","name":"¿Qué es el modelo de Avellaneda-Stoikov?","acceptedAnswer":{"@type":"Answer","text":"Es un modelo académico de 2008 para fijar el bid y el ask de un market maker. Desplaza las cotizaciones alejándolas del lado en el que se acumula inventario y amplía o estrecha el spread en función de la volatilidad, la aversión al riesgo, el comportamiento de llegada de las órdenes y el tiempo restante."}},{"@type":"Question","name":"¿Pueden los traders minoristas ser market makers?","acceptedAnswer":{"@type":"Answer","text":"Cualquiera puede colocar órdenes limitadas a ambos lados de un mercado. Competir con los market makers profesionales en mercados líquidos es muy difícil por sus ventajas de velocidad, datos y comisiones, y muchos intentos minoristas pierden dinero por la selección adversa."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/es/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopedia</small></a>
+  <nav class="top"><a href="/es/encyclopedia/" class="on">Enciclopedia</a><a href="/es/encyclopedia/reference/trading-glossary/">Glosario</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Español</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/market-making/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/market-making/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/market-making/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/market-making/" hreflang="es" lang="es" class="on" aria-current="true">Español</a><a href="/pt/encyclopedia/algorithmic-trading/market-making/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/market-making/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/market-making/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/market-making/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/market-making/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Busca en más de 150 artículos  ( / )" autocomplete="off" aria-label="Buscar en la enciclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading algorítmico y cuantitativo</h3><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul><h3>Todos los temas</h3><ul><li><a href="/es/encyclopedia/basics/">📘 Fundamentos del trading</a></li><li><a href="/es/encyclopedia/risk-management/">🛡️ Gestión del riesgo y del capital</a></li><li><a href="/es/encyclopedia/psychology/">🧠 Psicología del trading</a></li><li><a href="/es/encyclopedia/technical-analysis/">📈 Análisis técnico</a></li><li><a href="/es/encyclopedia/fundamental-analysis/">🏦 Análisis fundamental y macro</a></li><li><a href="/es/encyclopedia/stocks/">🏛️ Trading de acciones</a></li><li><a href="/es/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/es/encyclopedia/futures/">📊 Trading de futuros</a></li><li><a href="/es/encyclopedia/options/">🎯 Trading de opciones</a></li><li><a href="/es/encyclopedia/crypto/">₿ Trading de criptomonedas</a></li><li><a href="/es/encyclopedia/meme-coins/">🐸 Trading de meme coins</a></li><li><a href="/es/encyclopedia/prediction-markets/">🔮 Mercados de predicción</a></li><li><a href="/es/encyclopedia/algorithmic-trading/" class="on">🤖 Trading algorítmico y cuantitativo</a></li><li><a href="/es/encyclopedia/other-markets/">🛢️ Materias primas, bonos y más</a></li><li><a href="/es/encyclopedia/trading-business/">⚖️ Prop firms, impuestos, regulación y estafas</a></li><li><a href="/es/encyclopedia/reference/">📖 Referencia</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/es/encyclopedia/">Enciclopedia</a> › <a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a></div>
+<h1 class="title">Market making</h1>
+<div class="meta">10 min de lectura · Actualizado 23 nov 2026</div>
+<details class="side-m"><summary>Más en Trading algorítmico y cuantitativo</summary><ul><li><a href="/es/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introducción al trading algorítmico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/es/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Sobreajuste</a></li><li><a href="/es/encyclopedia/algorithmic-trading/trend-following/">Seguimiento de tendencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/mean-reversion/">Reversión a la media</a></li><li><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading y arbitraje estadístico</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-making/" class="on" aria-current="page">Market making</a></li><li><a href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estrategias de arbitraje</a></li><li><a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frecuencia</a></li><li><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de ejecución</a></li><li><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/">Cómo crear bots de trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading y social trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning en trading</a></li><li><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/">Datos de mercado</a></li></ul></details>
+<article><p>El market making (creación de mercado) es el negocio de ofrecer de forma continua comprar y vender un activo, publicando un bid ligeramente por debajo del precio actual y un ask ligeramente por encima. El market maker aspira a ganar la diferencia, el spread, a lo largo de muchas operaciones pequeñas, mientras gestiona el riesgo de mantener inventario y de operar con contrapartes mejor informadas. Este artículo ofrece la visión estándar de manual tal como aparece en la literatura académica pública, incluido el modelo de Avellaneda-Stoikov a nivel conceptual.</p>
+<div class="takeaways"><h2 id="key-takeaways">Puntos clave</h2>
+<ul>
+<li>Un market maker gana el spread bid-ask y, en algunos mercados, reembolsos (rebates) por aportar liquidez.</li>
+<li>Los dos riesgos principales son el riesgo de inventario (mantener una posición mientras los precios se mueven) y la selección adversa (que te ejecuten sobre todo cuando el precio está a punto de moverse en tu contra).</li>
+<li>Los market makers sesgan sus cotizaciones para reducir el inventario no deseado, cotizando de forma más agresiva en el lado que devuelve el inventario hacia cero.</li>
+<li>La posición en la cola y la latencia importan porque las órdenes a un mismo precio suelen ejecutarse por orden de llegada.</li>
+<li>El modelo de Avellaneda-Stoikov formaliza cómo deben desplazarse las cotizaciones en función del inventario, la volatilidad, la aversión al riesgo y el tiempo.</li>
+</ul></div><details class="toc"><summary>En esta página</summary><ol><li><a href="#qu-hacen-los-market-makers">Qué hacen los market makers</a></li><li><a href="#c-mo-ganan-dinero-los-market-makers">Cómo ganan dinero los market makers</a></li><li><a href="#los-riesgos">Los riesgos</a></li><li><a href="#sesgo-por-inventario">Sesgo por inventario</a></li><li><a href="#posici-n-en-la-cola-y-latencia">Posición en la cola y latencia</a></li><li><a href="#el-modelo-de-avellaneda-stoikov">El modelo de Avellaneda-Stoikov</a></li><li><a href="#ejemplo-pr-ctico-ingresos-por-spread-frente-a-selecci-n-adversa">Ejemplo práctico: ingresos por spread frente a selección adversa</a></li><li><a href="#el-market-making-para-traders-minoristas">El market making para traders minoristas</a></li><li><a href="#common-mistakes">Errores comunes</a></li></ol></details>
+<h2 id="qu-hacen-los-market-makers">Qué hacen los market makers</h2>
+<p>En un <a href="/es/encyclopedia/basics/order-book-and-market-depth/">libro de órdenes</a> limitadas, un market maker coloca órdenes limitadas en espera a ambos lados. Cuando llega un comprador que quiere operar de inmediato, compra al ask del market maker. Cuando llega un vendedor, vende al bid del market maker. Si el market maker compra a 99.98 y luego vende a 100.02, gana 0.04 por unidad.</p>
+<p>Los market makers van desde firmas designadas con obligaciones formales, como los especialistas o market makers designados de algunas bolsas de acciones y los proveedores de liquidez en las bolsas de opciones, hasta traders algorítmicos independientes en mercados de futuros y de cripto. Muchas bolsas recompensan a los proveedores de liquidez con descuentos en comisiones o reembolsos. Quiénes son y cómo encajan entre los demás traders se describe en <a href="/es/encyclopedia/basics/market-participants/">participantes del mercado</a>.</p>
+<h2 id="c-mo-ganan-dinero-los-market-makers">Cómo ganan dinero los market makers</h2>
+<h3 id="captura-del-spread">Captura del spread</h3>
+<p>El ingreso principal es el <a href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/">spread bid-ask</a>. El ingreso por cada operación de ida y vuelta es pequeño, así que la rentabilidad depende del volumen y de que las pérdidas por movimientos adversos sean menores que los ingresos por spread.</p>
+<h3 id="reembolsos-y-comisiones">Reembolsos y comisiones</h3>
+<p>Con el esquema de precios maker-taker, los traders que colocan órdenes en espera (makers) pagan comisiones más bajas o reciben un reembolso, mientras que los que toman liquidez pagan una comisión. Para algunos market makers, los reembolsos son una parte significativa de los ingresos. Las tablas de comisiones cambian y varían según el mercado y el nivel de volumen, así que cualquier modelo de costos debe usar la tabla vigente.</p>
+<h2 id="los-riesgos">Los riesgos</h2>
+<h3 id="riesgo-de-inventario">Riesgo de inventario</h3>
+<p>Las ejecuciones rara vez llegan en pares ordenados y alternos de compra y venta. Un market maker que compra varias veces seguidas acaba largo. Si después el precio cae, la pérdida sobre ese inventario puede superar los ingresos de muchos spreads. El riesgo de inventario crece con el tamaño de la posición, la volatilidad del activo y el tiempo que se mantiene la posición.</p>
+<h3 id="selecci-n-adversa">Selección adversa</h3>
+<p>Algunas contrapartes saben más que el market maker o reaccionan más rápido: un trader con noticias, un fondo que ejecuta una orden grande o un trader rápido que ha visto un cambio de precio en otro mercado. Sus operaciones tienden a llegar justo antes de que el precio se mueva a su favor. Al market maker lo &quot;cazan&quot; (picked off): compra justo antes de una caída o vende justo antes de una subida.</p>
+<p>Los modelos clásicos de 1985 lo describen. En el modelo de Glosten-Milgrom, un market maker que se enfrenta a una mezcla desconocida de traders informados y no informados fija un spread lo bastante amplio para que las ganancias con los no informados compensen las pérdidas frente a los informados. El modelo de Kyle muestra cómo un trader informado reparte sus órdenes en el tiempo para ocultar información y cómo los precios la van absorbiendo gradualmente. La lección práctica: los spreads son en parte una compensación por el riesgo de operar contra información mejor, y se amplían cuando ese riesgo aumenta, como en torno a la publicación de noticias.</p>
+<h2 id="sesgo-por-inventario">Sesgo por inventario</h2>
+<p>Para controlar el inventario, los market makers desplazan ambas cotizaciones en lugar de mantenerlas centradas en el precio de mercado.</p>
+<ul>
+<li><strong>Inventario largo:</strong> bajar tanto el bid como el ask. Un ask más bajo hace más probable que alguien te compre, lo que reduce tu posición. Un bid más bajo hace menos probable que compres más.</li>
+<li><strong>Inventario corto:</strong> subir ambas cotizaciones para lograr el efecto contrario.</li>
+</ul>
+<p>Los market makers también fijan límites de inventario estrictos, a partir de los cuales dejan de cotizar en un lado o cubren la posición con un instrumento relacionado, como un contrato de futuros.</p>
+<h2 id="posici-n-en-la-cola-y-latencia">Posición en la cola y latencia</h2>
+<p>La mayoría de los libros de órdenes usan la prioridad precio-tiempo: a un precio dado, la orden más antigua se ejecuta primero. De ello se derivan dos consecuencias:</p>
+<ul>
+<li><strong>La posición en la cola tiene valor.</strong> Una orden cerca del principio de la cola en el mejor bid tiene más probabilidades de ser ejecutada por flujo no informado antes de que el precio cambie. Una orden al final tiende a ejecutarse solo cuando una orden grande barre todo el nivel, lo que a menudo indica que el precio está a punto de atravesarlo.</li>
+<li><strong>La latencia importa.</strong> Cuando cambia el precio justo, un market maker debe cancelar o actualizar las cotizaciones desactualizadas antes de que otros operen contra ellas. Los participantes más lentos sufren selección adversa con más frecuencia. Esta es una de las razones por las que el market making en el primer nivel de los mercados líquidos está dominado por firmas de <a href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/">trading de alta frecuencia</a>.</li>
+</ul>
+<h2 id="el-modelo-de-avellaneda-stoikov">El modelo de Avellaneda-Stoikov</h2>
+<p>En un artículo de 2008, Marco Avellaneda y Sasha Stoikov describieron un marco para un market maker que quiere maximizar el beneficio esperado penalizando el riesgo. Sus ideas principales pueden exponerse sin las matemáticas completas.</p>
+<h3 id="precio-de-reserva">Precio de reserva</h3>
+<p>El modelo calcula primero un precio de reserva, el precio al que al market maker le resulta indiferente mantener una unidad más, dado su inventario:</p>
+<p>r = s − q × γ × σ² × (T − t)</p>
+<p>Aquí s es el precio medio, q el inventario (positivo cuando está largo), γ un parámetro de aversión al riesgo, σ la volatilidad del precio medio y T − t el tiempo restante del horizonte de negociación. Cuando el market maker está largo, r se sitúa por debajo del precio medio, de modo que las cotizaciones se desplazan hacia abajo, que es el sesgo por inventario expresado como fórmula.</p>
+<h3 id="spread-ptimo">Spread óptimo</h3>
+<p>El spread total en torno al precio de reserva es:</p>
+<p>δ = γ × σ² × (T − t) + (2 / γ) × ln(1 + γ / k)</p>
+<p>El parámetro k describe la rapidez con la que cae la probabilidad de ser ejecutado a medida que las cotizaciones se alejan del precio medio. El primer término amplía las cotizaciones cuando el riesgo es mayor; el segundo refleja el equilibrio entre un spread más amplio (más beneficio por ejecución) y menos ejecuciones.</p>
+<pre><code class="language-python">import math
+
+def avellaneda_stoikov_quotes(mid, inventory, gamma, sigma, k, time_left):
+    &quot;&quot;&quot;Bid y ask de manual según Avellaneda-Stoikov (2008).&quot;&quot;&quot;
+    reservation = mid - inventory * gamma * sigma**2 * time_left
+    spread = gamma * sigma**2 * time_left + (2 / gamma) * math.log(1 + gamma / k)
+    return reservation - spread / 2, reservation + spread / 2
+
+bid, ask = avellaneda_stoikov_quotes(mid=100, inventory=2, gamma=0.1,
+                                     sigma=2, k=1.5, time_left=0.5)
+print(round(bid, 3), round(ask, 3))   # 98.855 100.345
+</code></pre>
+<p>Con estos datos ilustrativos, σ² × (T − t) = 4 × 0.5 = 2, así que el precio de reserva es 100 − 2 × 0.1 × 2 = 99.6, y el spread es 0.1 × 2 + 20 × ln(1.0667) ≈ 0.2 + 1.291 = 1.491. Las cotizaciones se sitúan en torno a 99.6 en lugar de 100 porque el market maker está largo.</p>
+<h3 id="l-mites-del-modelo">Límites del modelo</h3>
+<p>El modelo supone que el precio medio sigue un paseo aleatorio con volatilidad constante, que las tasas de ejecución siguen una curva exponencial simple y que los parámetros son conocidos. Los mercados reales tienen saltos, volatilidad cambiante, flujo informado y efectos de cola. Investigaciones posteriores, como los trabajos de Guéant, Lehalle y Fernandez-Tapia, ampliaron el marco con límites de inventario y aproximaciones en forma cerrada. Los profesionales tratan estos modelos como una estructura de partida, no como una estrategia terminada.</p>
+<h2 id="ejemplo-pr-ctico-ingresos-por-spread-frente-a-selecci-n-adversa">Ejemplo práctico: ingresos por spread frente a selección adversa</h2>
+<p>Un market maker cotiza 99.98 de bid y 100.02 de ask para 100 unidades cada vez.</p>
+<ul>
+<li>Una operación completa de ida y vuelta (comprar 100 a 99.98 y vender 100 a 100.02) gana 100 × 0.04 = 4.00 dólares antes de comisiones.</li>
+<li>A lo largo de una sesión completa 10 operaciones de ida y vuelta: 10 × 4.00 = 40.00 dólares.</li>
+<li>En una ocasión, después de comprar 100 unidades a 99.98, sale una noticia y el precio cae. El market maker vende a 99.68 para cortar la posición: una pérdida de 100 × 0.30 = 30.00 dólares.</li>
+<li>Neto: 40.00 − 30.00 = 10.00 dólares, antes de comisiones y reembolsos.</li>
+</ul>
+<p>Una sola ejecución adversa borró tres cuartas partes de los ingresos por spread de la sesión. Si los movimientos adversos ocurren dos veces, la sesión pierde dinero. Por eso los market makers amplían los spreads o retiran las cotizaciones en torno a las noticias programadas, y por eso medir el movimiento del precio en los segundos posteriores a cada ejecución (lo que suele llamarse markout) es un diagnóstico estándar.</p>
+<h2 id="el-market-making-para-traders-minoristas">El market making para traders minoristas</h2>
+<p>Los traders minoristas pueden colocar órdenes limitadas a ambos lados de un mercado, pero competir en mercados líquidos y rápidos es muy difícil por la latencia y la selección adversa. Los mercados más pequeños o más recientes a veces tienen spreads más amplios, con riesgos proporcionalmente mayores, como la liquidez escasa y los saltos repentinos. Los mercados de predicción son un ejemplo; consulta <a href="/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/">market making en mercados de predicción</a> y la <a href="/blog/prediction-market-making-bot-guide.html">guía de bots de market making en mercados de predicción</a>.</p>
+<h2 id="common-mistakes">Errores comunes</h2>
+<ul>
+<li><strong>Contar los ingresos por spread e ignorar los markouts.</strong> Las ejecuciones seguidas de movimientos adversos son el principal costo.</li>
+<li><strong>No tener límites de inventario.</strong> Un mercado unidireccional puede generar rápidamente una posición grande.</li>
+<li><strong>Cotizar durante las noticias.</strong> Los anuncios programados son el momento en que los traders informados y rápidos están más activos.</li>
+<li><strong>Ignorar las comisiones.</strong> Sin un reembolso de maker o un descuento en comisiones, los spreads estrechos pueden no cubrir los costos.</li>
+<li><strong>Lógica de cancelación lenta.</strong> Las cotizaciones desactualizadas son opciones gratuitas para los traders más rápidos.</li>
+</ul>
+<h2 id="faq">Preguntas frecuentes</h2>
+<h3 id="c-mo-ganan-dinero-los-market-makers">¿Cómo ganan dinero los market makers?</h3>
+<p>Ganan la diferencia entre el precio al que compran (el bid) y el precio al que venden (el ask), más los reembolsos de la bolsa que correspondan. Pierden dinero cuando el inventario se mueve en su contra o cuando traders informados ejecutan sus cotizaciones justo antes de que los precios se muevan.</p>
+<h3 id="qu-es-la-selecci-n-adversa-en-el-market-making">¿Qué es la selección adversa en el market making?</h3>
+<p>La selección adversa es la tendencia a que las cotizaciones de un market maker sean ejecutadas con más frecuencia por traders que saben que el precio está a punto de moverse. Significa que las ejecuciones son, de media, peores de lo que parecen en el momento en que se producen.</p>
+<h3 id="qu-es-el-modelo-de-avellaneda-stoikov">¿Qué es el modelo de Avellaneda-Stoikov?</h3>
+<p>Es un modelo académico de 2008 para fijar el bid y el ask de un market maker. Desplaza las cotizaciones alejándolas del lado en el que se acumula inventario y amplía o estrecha el spread en función de la volatilidad, la aversión al riesgo, el comportamiento de llegada de las órdenes y el tiempo restante.</p>
+<h3 id="pueden-los-traders-minoristas-ser-market-makers">¿Pueden los traders minoristas ser market makers?</h3>
+<p>Cualquiera puede colocar órdenes limitadas a ambos lados de un mercado. Competir con los market makers profesionales en mercados líquidos es muy difícil por sus ventajas de velocidad, datos y comisiones, y muchos intentos minoristas pierden dinero por la selección adversa.</p>
+</article>
+<div class="disclaimer"><strong>Contenido solo educativo.</strong> Nada de lo que aparece aquí es asesoramiento financiero, de inversión, legal ni fiscal. Operar conlleva un alto riesgo de pérdidas, y con productos apalancados puedes perder más de lo que depositas. Las reglas, comisiones y condiciones de las plataformas cambian: consulta los términos vigentes con tu bróker, exchange o regulador antes de operar.</div>
+<section class="related"><h2>Artículos relacionados</h2><div class="cards"><a class="card" href="/es/encyclopedia/basics/order-book-and-market-depth/"><div class="k">Fundamentos del trading</div><b>Libro de órdenes y profundidad</b><span>Cómo funcionan el libro de órdenes y el motor de casamiento, la prioridad precio-tiempo, el Nivel 1 y 2, la profundidad, el spoofing, los dealers y los AMM.</span></a><a class="card" href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Fundamentos del trading</div><b>Spread y liquidez</b><span>Qué son el bid, el ask, el spread y el precio medio, cómo funcionan la liquidez, el slippage y el impacto de mercado, y cómo medir el costo de cada operación.</span></a><a class="card" href="/es/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">Trading algorítmico y cuantitativo</div><b>Trading de alta frecuencia</b><span>Qué hacen las firmas de HFT: coubicación, carrera por la latencia, market making y arbitraje de latencia, polémicas y por qué el minorista no puede competir.</span></a><a class="card" href="/es/encyclopedia/prediction-markets/market-making-on-prediction-markets/"><div class="k">Mercados de predicción</div><b>Market making</b><span>Guía de manual sobre market making en mercados de predicción: cotizar ambos lados, captura del spread, riesgo de inventario, selección adversa y recompensas.</span></a><a class="card" href="/es/encyclopedia/basics/market-participants/"><div class="k">Fundamentos del trading</div><b>Participantes del mercado</b><span>Minoristas, instituciones, hedge funds, creadores de mercado, firmas HFT, coberturistas, bancos centrales y ballenas: qué busca cada uno y contra quién operas.</span></a></div></section>
+<div class="pager"><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"><small>← Anterior</small>Pairs trading y arbitraje estadístico</a><a class="next" href="/es/encyclopedia/algorithmic-trading/arbitrage-strategies/"><small>Siguiente →</small>Estrategias de arbitraje</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/es/encyclopedia/basics/">Fundamentos del trading</a><a href="/es/encyclopedia/risk-management/">Gestión del riesgo y del capital</a><a href="/es/encyclopedia/psychology/">Psicología del trading</a><a href="/es/encyclopedia/technical-analysis/">Análisis técnico</a><a href="/es/encyclopedia/fundamental-analysis/">Análisis fundamental y macro</a><a href="/es/encyclopedia/stocks/">Trading de acciones</a><a href="/es/encyclopedia/forex/">Trading de forex</a><a href="/es/encyclopedia/futures/">Trading de futuros</a><a href="/es/encyclopedia/options/">Trading de opciones</a><a href="/es/encyclopedia/crypto/">Trading de criptomonedas</a><a href="/es/encyclopedia/meme-coins/">Trading de meme coins</a><a href="/es/encyclopedia/prediction-markets/">Mercados de predicción</a><a href="/es/encyclopedia/algorithmic-trading/">Trading algorítmico y cuantitativo</a><a href="/es/encyclopedia/other-markets/">Materias primas, bonos y más</a><a href="/es/encyclopedia/trading-business/">Prop firms, impuestos, regulación y estafas</a><a href="/es/encyclopedia/reference/">Referencia</a><a href="/blog/">Blog (inglés)</a><a href="/es/">Bots de trading de código abierto</a></div>
+  <p>PnL Profit Enciclopedia del Trading: explicaciones gratuitas e independientes de cómo funcionan los principales mercados. Contenido educativo, no asesoramiento financiero. Contacto: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/es/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Sin resultados. Prueba el glosario.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

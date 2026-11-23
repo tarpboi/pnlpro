@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MEV와 샌드위치 공격: 원리와 방어법 | PnL Profit</title>
+<meta name="description" content="MEV의 개념, 샌드위치 공격이 DEX 스왑을 노리는 방식, 슬리피지와 피해 규모, 프라이빗 RPC, 우선 수수료, Jito 팁을 다룹니다.">
+<meta name="keywords" content="mev 코인, 샌드위치 공격, 프런트러닝 코인, 슬리피지 설정, mev 방지 rpc">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="MEV와 샌드위치 공격: 원리와 방어법 | PnL Profit">
+<meta property="og:description" content="MEV의 개념, 샌드위치 공격이 DEX 스왑을 노리는 방식, 슬리피지와 피해 규모, 프라이빗 RPC, 우선 수수료, Jito 팁을 다룹니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/crypto/mev-and-sandwich-attacks/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MEV와 샌드위치 공격: 원리와 방어법 | PnL Profit">
+<meta name="twitter:description" content="MEV의 개념, 샌드위치 공격이 DEX 스왑을 노리는 방식, 슬리피지와 피해 규모, 프라이빗 RPC, 우선 수수료, Jito 팁을 다룹니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"MEV와 샌드위치 공격: 원리와 방어법","description":"MEV의 개념, 샌드위치 공격이 DEX 스왑을 노리는 방식, 슬리피지와 피해 규모, 프라이빗 RPC, 우선 수수료, Jito 팁을 다룹니다.","keywords":"mev 코인, 샌드위치 공격, 프런트러닝 코인, 슬리피지 설정, mev 방지 rpc","articleSection":"암호화폐 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/crypto/mev-and-sandwich-attacks/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"암호화폐 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"MEV와 샌드위치 공격","item":"https://pnlpro.fit/ko/encyclopedia/crypto/mev-and-sandwich-attacks/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"코인에서 샌드위치 공격이란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"봇이 내 DEX 스왑 직전에 매수하고 직후에 매도하는 공격입니다. 내 거래는 더 나쁜 가격에 체결되고, 봇은 그 차이를 가져갑니다."}},{"@type":"Question","name":"샌드위치 공격은 어떻게 피하나요?","acceptedAnswer":{"@type":"Answer","text":"슬리피지 허용치를 좁게 잡고, MEV 보호 프라이빗 RPC나 배치 경매 애그리게이터를 통해 트랜잭션을 보내며, 얇은 풀에서 대형 스왑을 피하세요. 거래를 나누는 것도 도움이 됩니다."}},{"@type":"Question","name":"MEV는 불법인가요?","acceptedAnswer":{"@type":"Answer","text":"공개 블록체인에서의 MEV 추출은 국가마다 다른 법적 회색지대에 있으며, 규제 당국은 시장 남용 규정을 어떻게 적용할지 아직 정리하지 못했습니다. 프로토콜 버그를 악용하는 것 같은 일부 형태는 미국에서 형사 기소로 이어진 적이 있습니다."}},{"@type":"Question","name":"슬리피지 허용치는 얼마로 설정해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"거래가 체결될 수 있는 가장 낮은 값을 쓰세요. 유동성이 풍부한 거래쌍이라면 대개 1퍼센트에 한참 못 미칩니다. 변동성이 큰 토큰은 더 높은 값이 필요할 수 있지만, 1퍼센트를 더할 때마다 그만큼을 샌드위치 봇이 가져갈 수 있습니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/mev-and-sandwich-attacks/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>암호화폐 트레이딩</h3><ul><li><a href="/ko/encyclopedia/crypto/crypto-trading-basics/">암호화폐 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs DEX</a></li><li><a href="/ko/encyclopedia/crypto/crypto-market-cycles/">코인 시장 사이클</a></li><li><a href="/ko/encyclopedia/crypto/perpetual-futures/">무기한 선물</a></li><li><a href="/ko/encyclopedia/crypto/funding-rates/">펀딩비</a></li><li><a href="/ko/encyclopedia/crypto/crypto-liquidations/">청산</a></li><li><a href="/ko/encyclopedia/crypto/on-chain-analysis/">온체인 분석</a></li><li><a href="/ko/encyclopedia/crypto/altcoin-trading/">알트코인 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/tokenomics-and-token-unlocks/">토크노믹스와 언락</a></li><li><a href="/ko/encyclopedia/crypto/defi-trading/">디파이 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/mev-and-sandwich-attacks/" class="on" aria-current="page">MEV와 샌드위치 공격</a></li><li><a href="/ko/encyclopedia/crypto/crypto-arbitrage/">코인 차익거래</a></li><li><a href="/ko/encyclopedia/crypto/stablecoins/">스테이블코인</a></li><li><a href="/ko/encyclopedia/crypto/crypto-wallet-security/">지갑 보안</a></li><li><a href="/ko/encyclopedia/crypto/airdrops-and-points-farming/">에어드랍과 포인트</a></li><li><a href="/ko/encyclopedia/crypto/nft-trading/">NFT 트레이딩</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/" class="on">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a></div>
+<h1 class="title">MEV와 샌드위치 공격</h1>
+<div class="meta">6분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>암호화폐 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/crypto/crypto-trading-basics/">암호화폐 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs DEX</a></li><li><a href="/ko/encyclopedia/crypto/crypto-market-cycles/">코인 시장 사이클</a></li><li><a href="/ko/encyclopedia/crypto/perpetual-futures/">무기한 선물</a></li><li><a href="/ko/encyclopedia/crypto/funding-rates/">펀딩비</a></li><li><a href="/ko/encyclopedia/crypto/crypto-liquidations/">청산</a></li><li><a href="/ko/encyclopedia/crypto/on-chain-analysis/">온체인 분석</a></li><li><a href="/ko/encyclopedia/crypto/altcoin-trading/">알트코인 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/tokenomics-and-token-unlocks/">토크노믹스와 언락</a></li><li><a href="/ko/encyclopedia/crypto/defi-trading/">디파이 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/mev-and-sandwich-attacks/" class="on" aria-current="page">MEV와 샌드위치 공격</a></li><li><a href="/ko/encyclopedia/crypto/crypto-arbitrage/">코인 차익거래</a></li><li><a href="/ko/encyclopedia/crypto/stablecoins/">스테이블코인</a></li><li><a href="/ko/encyclopedia/crypto/crypto-wallet-security/">지갑 보안</a></li><li><a href="/ko/encyclopedia/crypto/airdrops-and-points-farming/">에어드랍과 포인트</a></li><li><a href="/ko/encyclopedia/crypto/nft-trading/">NFT 트레이딩</a></li></ul></details>
+<article><p>MEV(최대 추출 가능 가치, maximal extractable value)는 어떤 트랜잭션을 블록에 넣을지, 어떤 순서로 넣을지를 정함으로써 얻을 수 있는 이익을 말합니다. DEX 가격을 맞춰 주는 차익거래처럼 사용자에게 대체로 중립적인 MEV도 있습니다. 트레이더에게 가장 해로운 것은 샌드위치 공격으로, 봇이 내 스왑 직전에 사고 직후에 팔아서 내가 더 나쁜 가격을 내게 만듭니다. 이 공격의 원리와, 슬리피지 설정과 비공개 트랜잭션 경로가 여기에 어떤 영향을 주는지 이해하면 DEX 트레이더는 적지 않은 돈을 아낄 수 있습니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>MEV는 대기 중인 트랜잭션이 확정되기 전에 노출되고, 블록 생산자가 그 순서를 정할 수 있기 때문에 존재합니다.</li>
+<li>샌드위치 공격은 내 스왑 전에 가격을 밀어 올리고 스왑 후에 팔아, 내 슬리피지 허용치가 정한 한도까지 가치를 빼 갑니다.</li>
+<li>슬리피지 허용치를 좁게 유지하고, 큰 거래는 나누고, 비공개 트랜잭션 경로를 쓰는 것이 주된 방어법입니다.</li>
+<li>솔라나에서는 우선 수수료와 블록 구성 서비스에 내는 팁이 트랜잭션 순서를 바꾸며, 같은 지형의 일부입니다.</li>
+<li>중앙화 거래소에는 온체인 MEV가 없지만, 대신 자산 보관 리스크가 있습니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#mev">MEV란 무엇인가</a></li><li><a href="#mev">MEV의 유형</a></li><li><a href="#section-4">샌드위치 공격의 작동 방식</a></li><li><a href="#section-6">자신을 보호하는 방법</a></li><li><a href="#jito">솔라나: 우선 수수료와 Jito 팁</a></li><li><a href="#mev">MEV와 중앙화 거래소</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="mev">MEV란 무엇인가</h2>
+<p>대부분의 블록체인에서 트랜잭션은 네트워크에 전파된 뒤, 블록 생산자가 포함시키기 전까지 대기 트랜잭션들이 모인 공개 풀(멤풀, mempool)에서 기다립니다. 기다리는 동안 그 트랜잭션이 무엇을 할지는 누구나 볼 수 있습니다. 블록 생산자, 그리고 그들의 선택을 받기 위해 입찰하는 전문 봇들은 그 앞이나 뒤에 자기 트랜잭션을 끼워 넣을 수 있습니다.</p>
+<p>이 용어는 2019년 Daian 등이 쓴 학술 논문 &quot;Flash Boys 2.0&quot;에서 &#39;채굴자 추출 가능 가치(miner extractable value)&#39;로 처음 소개되었습니다. 2022년 9월 이더리움이 지분증명으로 전환한 뒤에는 이제 채굴자가 아니라 검증자가 블록을 생산하기 때문에 &#39;최대 추출 가능 가치(maximal extractable value)&#39;라는 용어가 일반화되었습니다.</p>
+<p>현재 이더리움에서는 대부분의 블록을 전문 <strong>빌더</strong>(builder)가 조립합니다. 빌더들은 가장 수익성 높은 블록을 만들기 위해 경쟁하고, 블록 포함 대가로 검증자에게 돈을 냅니다. <strong>서처</strong>(searcher)라고 불리는 봇들은 MEV 기회를 찾아 트랜잭션 번들을 빌더에게 보냅니다. 이 구조는 <a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a>의 속도 경쟁과 본질적으로 비슷하지만, 블록 순서를 놓고 벌어진다는 점이 다릅니다.</p>
+<h2 id="mev">MEV의 유형</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>유형</th>
+<th>무슨 일이 일어나는가</th>
+<th>일반 사용자에게 미치는 영향</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DEX 차익거래</td>
+<td>봇이 풀이나 거래소 간 가격 차이를 매매로 해소</td>
+<td>대체로 중립적. 가격을 맞춰 줌</td>
+</tr>
+<tr>
+<td>청산</td>
+<td>봇들이 담보가 부족한 디파이 대출을 앞다퉈 청산</td>
+<td>대출 프로토콜에 필요하지만 대출자에게는 가혹함</td>
+</tr>
+<tr>
+<td>프런트러닝</td>
+<td>봇이 수익성 있는 대기 트랜잭션을 복사해 앞질러 감</td>
+<td>원래 발신자의 기회를 빼앗음</td>
+</tr>
+<tr>
+<td>샌드위치 공격</td>
+<td>봇이 사용자 스왑 직전과 직후에 매매</td>
+<td>더 나쁜 가격을 통해 사용자에게 직접적인 비용 발생</td>
+</tr>
+<tr>
+<td>백러닝</td>
+<td>봇이 대형 트랜잭션 직후에 매매해 가격 변동을 취함</td>
+<td>원래 사용자에게는 대개 중립적</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-4">샌드위치 공격의 작동 방식</h2>
+<p>피해자 입장에서 단계별로 보면 다음과 같습니다.</p>
+<ol>
+<li>AMM에서 토큰을 사는 스왑을 슬리피지 허용치를 예컨대 5퍼센트로 설정해 제출합니다.</li>
+<li>봇이 대기 중인 스왑을 보고, 내 허용치를 넘지 않는 선에서 가격을 얼마나 밀어 올릴 수 있는지 계산합니다.</li>
+<li>봇의 매수가 내 거래 앞에 배치되어 가격을 끌어올립니다.</li>
+<li>내 스왑은 더 나쁜 가격에, 하지만 여전히 허용치 안에서 체결되므로 실패하지 않습니다.</li>
+<li>봇의 매도가 내 거래 바로 뒤에, 내 매수가 만든 높아진 가격으로 배치됩니다.</li>
+</ol>
+<p>봇은 자기가 만든 가격 변동으로 이익을 얻고, 나는 원래 받았어야 할 것보다 적은 토큰을 받습니다. 이 공격이 통하는 것은 <a href="/ko/encyclopedia/crypto/defi-trading/">AMM 가격 결정</a>이 거래 하나하나에 반응하는 방식 때문입니다.</p>
+<h3 id="section-5">계산 예시: 허용치가 드러내는 손실 한도</h3>
+<p>수수료 반영 후 약 4.748 ETH가 견적으로 나오는 풀에서 10,000 USDC를 ETH로 스왑한다고 해 봅시다.</p>
+<ul>
+<li>슬리피지 허용치가 <strong>5퍼센트</strong>라면 받아들이는 최소 수량은 4.748 × 0.95 = 4.511 ETH입니다. 샌드위치 공격은 이 하한 근처까지 몰아붙일 수 있어 최대 약 0.237 ETH, ETH 가격이 $2,000일 때 약 $475의 손해를 볼 수 있습니다.</li>
+<li>허용치가 <strong>0.5퍼센트</strong>라면 최소 수량은 4.748 × 0.995 = 4.724 ETH입니다. 샌드위치로 잃을 수 있는 최대치는 약 0.024 ETH, 약 $47입니다.</li>
+</ul>
+<p>실제로는 공격자의 이익이 가스비나 팁, 풀 수수료보다 커야 하므로, 허용치를 좁게 둔 소액 스왑은 공격할 가치가 없는 경우가 많습니다. 얇은 풀에서 허용치를 넓게 둔 대형 스왑이 가장 매력적인 표적입니다.</p>
+<h2 id="section-6">자신을 보호하는 방법</h2>
+<h3 id="section-7">슬리피지 허용치를 신중하게 설정하기</h3>
+<p>거래가 체결될 수 있는 가장 좁은 허용치를 쓰세요. 유동성이 풍부한 주요 거래쌍이라면 1퍼센트에 한참 못 미치는 값으로 충분한 경우가 많습니다. 변동성이 크거나 거래가 적은 토큰은 더 넓게 잡아야 할 수 있는데, 바로 그때 샌드위치 위험이 가장 큽니다. 일부 화면은 &#39;자동&#39; 슬리피지 설정을 제공하니, 실제로 어떤 값이 선택되는지 확인하세요.</p>
+<h3 id="section-8">비공개 트랜잭션 경로 이용하기</h3>
+<p>여러 서비스가 프라이빗 RPC 엔드포인트(지갑이 트랜잭션을 보낼 때 쓰는 네트워크 주소)를 제공합니다. 이를 이용하면 트랜잭션이 공개 멤풀 대신 빌더에게 바로 전달되므로, 블록에 들어가기 전에 봇이 볼 수 없습니다. 이더리움의 예로는 Flashbots Protect와 MEV Blocker가 있습니다. 일부는 백러닝으로 생긴 가치의 일부를 사용자에게 돌려주기도 합니다. 이제 많은 지갑이 MEV 보호를 설정 항목으로 제공합니다.</p>
+<h3 id="section-9">인텐트 기반 또는 배치 경매 방식 이용하기</h3>
+<p>CoW Swap 같은 일부 애그리게이터는 주문을 모아 균일한 가격으로 일괄 정산하거나, 전문 솔버(solver)들이 주문 체결을 놓고 경쟁하게 합니다. 이 구조는 샌드위치 봇에 필요한 순서상의 이점을 없애 줍니다. 애그리게이터에 대해서는 <a href="/ko/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX vs DEX</a>를 참고하세요.</p>
+<h3 id="section-10">트랜잭션당 거래 규모 줄이기</h3>
+<p>AMM에서 가격 충격은 거래 규모보다 빠르게 커지므로, 큰 주문을 작게 나누거나 지정가 주문 기능을 쓰면 가격 충격과 샌드위치 공격의 수익성을 모두 줄일 수 있습니다.</p>
+<h3 id="section-11">결과 확인하기</h3>
+<p>스왑 후에는 받은 토큰 수량을 견적과 비교하세요. 블록 익스플로러에서 내 트랜잭션 바로 앞뒤의 트랜잭션을 볼 수 있습니다. 큰 부족분이 반복된다면 설정이나 경로를 바꿔야 한다는 신호입니다.</p>
+<h2 id="jito">솔라나: 우선 수수료와 Jito 팁</h2>
+<p>솔라나에는 전통적인 공개 멤풀이 없지만, 순서는 여전히 중요합니다. 트랜잭션에는 연산 단위당 지불하는 <strong>우선 수수료</strong>(priority fee)를 붙일 수 있고, 이를 붙이면 검증자가 먼저 처리할 가능성이 높아집니다. 솔라나 검증자의 상당수는 Jito의 소프트웨어도 운영하는데, 이를 통해 사용자는 검증자에게 <strong>팁</strong>(tip)을 주고 트랜잭션 번들의 순서를 보장받을 수 있습니다.</p>
+<p>일반 트레이더에게 이는 다음을 의미합니다.</p>
+<ul>
+<li>혼잡한 시기에는 우선 수수료 없는 스왑이 지연되거나 실패할 수 있습니다.</li>
+<li>트레이딩 봇과 런치패드 도구는 우선 수수료와 팁을 자동으로, 때로는 큰 금액으로 붙이는 경우가 많습니다. 얼마를 내고 있는지 확인하세요. <a href="/ko/encyclopedia/meme-coins/meme-coin-trading-bots/">밈코인 트레이딩 봇</a>을 참고하세요.</li>
+<li>솔라나에서도 샌드위치 공격이 있었고, 특히 슬리피지를 높게 설정한 밈코인 스왑에서 많았습니다. 2024년 3월 Jito는 해로운 MEV에 쓰인다는 이유로 공개 멤풀 기능을 중단했지만, 샌드위치 공격은 다른 경로로 계속되었습니다. 좁은 슬리피지와 MEV 보호 경로가 여전히 주된 방어법입니다.</li>
+</ul>
+<h2 id="mev">MEV와 중앙화 거래소</h2>
+<p>중앙화 거래소에서는 주문이 거래소의 비공개 서버에서 체결되므로 온체인 MEV가 적용되지 않습니다. 대신 거래소의 자산 보관 문제나 이해상충 같은 다른 문제가 그 자리를 차지합니다. 빠르게 움직이는 토큰의 경우, 온체인 프런트러닝을 피하기 위해 거래상대방 위험을 감수하는 트레이더도 있습니다.</p>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li>변동성 큰 거래 한 번 이후 <strong>슬리피지 허용치를 높은 값으로 그대로 두는 것.</strong></li>
+<li>공개 멤풀을 통해 <strong>얕은 풀에서 대형 스왑을 하는 것.</strong></li>
+<li>봇의 기본값으로 설정된 <strong>매우 높은 우선 수수료를</strong> 모르고 내는 것.</li>
+<li><strong>실패한 트랜잭션은 비용이 들지 않는다고 생각하는 것.</strong> 많은 체인에서 실패한 트랜잭션도 수수료를 냅니다.</li>
+<li>개인키를 요구하는 <strong>정체불명의 &#39;MEV 보호&#39; 서비스를 믿는 것.</strong> 진짜 보호 서비스는 키를 절대 요구하지 않습니다. <a href="/ko/encyclopedia/crypto/crypto-wallet-security/">지갑 보안</a>을 참고하세요.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-16">코인에서 샌드위치 공격이란 무엇인가요?</h3>
+<p>봇이 내 DEX 스왑 직전에 매수하고 직후에 매도하는 공격입니다. 내 거래는 더 나쁜 가격에 체결되고, 봇은 그 차이를 가져갑니다.</p>
+<h3 id="section-17">샌드위치 공격은 어떻게 피하나요?</h3>
+<p>슬리피지 허용치를 좁게 잡고, MEV 보호 프라이빗 RPC나 배치 경매 애그리게이터를 통해 트랜잭션을 보내며, 얇은 풀에서 대형 스왑을 피하세요. 거래를 나누는 것도 도움이 됩니다.</p>
+<h3 id="mev">MEV는 불법인가요?</h3>
+<p>공개 블록체인에서의 MEV 추출은 국가마다 다른 법적 회색지대에 있으며, 규제 당국은 시장 남용 규정을 어떻게 적용할지 아직 정리하지 못했습니다. 프로토콜 버그를 악용하는 것 같은 일부 형태는 미국에서 형사 기소로 이어진 적이 있습니다.</p>
+<h3 id="section-19">슬리피지 허용치는 얼마로 설정해야 하나요?</h3>
+<p>거래가 체결될 수 있는 가장 낮은 값을 쓰세요. 유동성이 풍부한 거래쌍이라면 대개 1퍼센트에 한참 못 미칩니다. 변동성이 큰 토큰은 더 높은 값이 필요할 수 있지만, 1퍼센트를 더할 때마다 그만큼을 샌드위치 봇이 가져갈 수 있습니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/crypto/defi-trading/"><div class="k">암호화폐 트레이딩</div><b>디파이 트레이딩</b><span>디파이 트레이딩의 원리: 상수곱 AMM, 가격 충격, 숫자로 보는 비영구적 손실, 집중 유동성, 온체인 대출, 프로토콜 리스크를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/crypto/centralized-vs-decentralized-exchanges/"><div class="k">암호화폐 트레이딩</div><b>CEX vs DEX</b><span>중앙화 거래소와 탈중앙화 거래소 비교: 자산 보관, 거래상대방 위험, KYC, 수수료, 유동성, 애그리게이터, 준비금 증명, FTX의 교훈.</span></a><a class="card" href="/ko/encyclopedia/crypto/crypto-wallet-security/"><div class="k">암호화폐 트레이딩</div><b>지갑 보안</b><span>트레이더의 코인 보호법: 셀프 커스터디, 시드 문구, 하드웨어 지갑, 토큰 승인, 드레이너, 피싱, 주소 오염, API 키 보안을 정리합니다.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">알고리즘·퀀트 트레이딩</div><b>고빈도 매매</b><span>고빈도 매매 회사가 하는 일, 코로케이션, 지연시간 경쟁, 마켓 메이킹과 레이턴시 차익거래, 논란, 개인이 경쟁할 수 없는 이유를 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/meme-coins/meme-coin-trading-bots/"><div class="k">밈코인 트레이딩</div><b>트레이딩 봇(텔레그램)</b><span>텔레그램·웹 트레이딩 봇의 기능, 개인 키 보관 방식, 일반적인 수수료, 과거 해킹 사례, 더 안전하게 쓰는 법을 설명합니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/crypto/defi-trading/"><small>← 이전 글</small>디파이 트레이딩</a><a class="next" href="/ko/encyclopedia/crypto/crypto-arbitrage/"><small>다음 글 →</small>코인 차익거래</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

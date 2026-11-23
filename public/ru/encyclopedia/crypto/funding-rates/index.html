@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ставка финансирования (фандинг) в крипте: как она работает</title>
+<meta name="description" content="Как работает фандинг бессрочных фьючерсов: интервалы, расчет выплат и годовой ставки, положительный и отрицательный фандинг, арбитраж cash-and-carry.">
+<meta name="keywords" content="ставка финансирования, фандинг крипта, положительный и отрицательный фандинг, арбитраж фандинга, как рассчитать фандинг">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ru/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/crypto/funding-rates/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/crypto/funding-rates/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Энциклопедия трейдинга">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Ставка финансирования (фандинг) в крипте: как она работает">
+<meta property="og:description" content="Как работает фандинг бессрочных фьючерсов: интервалы, расчет выплат и годовой ставки, положительный и отрицательный фандинг, арбитраж cash-and-carry.">
+<meta property="og:url" content="https://pnlpro.fit/ru/encyclopedia/crypto/funding-rates/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ставка финансирования (фандинг) в крипте: как она работает">
+<meta name="twitter:description" content="Как работает фандинг бессрочных фьючерсов: интервалы, расчет выплат и годовой ставки, положительный и отрицательный фандинг, арбитраж cash-and-carry.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Ставка финансирования (фандинг) в крипте: как она работает","description":"Как работает фандинг бессрочных фьючерсов: интервалы, расчет выплат и годовой ставки, положительный и отрицательный фандинг, арбитраж cash-and-carry.","keywords":"ставка финансирования, фандинг крипта, положительный и отрицательный фандинг, арбитраж фандинга, как рассчитать фандинг","articleSection":"Торговля криптовалютой","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/crypto/funding-rates/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Торговля криптовалютой","item":"https://pnlpro.fit/ru/encyclopedia/crypto/"},{"@type":"ListItem","position":3,"name":"Ставки финансирования","item":"https://pnlpro.fit/ru/encyclopedia/crypto/funding-rates/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Что означает положительная ставка финансирования?","acceptedAnswer":{"@type":"Answer","text":"Это значит, что бессрочный контракт торгуется выше спотового индекса и лонги платят шортам в каждый интервал финансирования. Обычно это указывает на повышенный спрос на длинные позиции с плечом."}},{"@type":"Question","name":"Как часто выплачивается фандинг?","acceptedAnswer":{"@type":"Answer","text":"Многие крупные биржи выплачивают фандинг каждые восемь часов, но некоторые контракты используют четырехчасовые или часовые интервалы, а многие перп-DEX начисляют его ежечасно или непрерывно. Проверьте спецификацию контракта на своей бирже."}},{"@type":"Question","name":"Как рассчитать выплату фандинга?","acceptedAnswer":{"@type":"Answer","text":"Умножьте номинальную стоимость позиции на ставку финансирования. Позиция на $10,000 при ставке 0.01 процента платит или получает $1 за интервал."}},{"@type":"Question","name":"Арбитраж фандинга безрисковый?","acceptedAnswer":{"@type":"Answer","text":"Нет. Он устраняет большую часть ценового риска, но сохраняет риски того, что фандинг станет отрицательным, что короткую ногу ликвидируют, а также риски торговых комиссий и краха биржи или протокола, где лежит ваш капитал."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
+  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/crypto/funding-rates/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/crypto/funding-rates/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/crypto/funding-rates/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/crypto/funding-rates/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/crypto/funding-rates/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/crypto/funding-rates/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/crypto/funding-rates/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/crypto/funding-rates/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/crypto/funding-rates/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Торговля криптовалютой</h3><ul><li><a href="/ru/encyclopedia/crypto/crypto-trading-basics/">Основы криптотрейдинга</a></li><li><a href="/ru/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX и DEX</a></li><li><a href="/ru/encyclopedia/crypto/crypto-market-cycles/">Циклы крипторынка</a></li><li><a href="/ru/encyclopedia/crypto/perpetual-futures/">Бессрочные фьючерсы</a></li><li><a href="/ru/encyclopedia/crypto/funding-rates/" class="on" aria-current="page">Ставки финансирования</a></li><li><a href="/ru/encyclopedia/crypto/crypto-liquidations/">Ликвидации</a></li><li><a href="/ru/encyclopedia/crypto/on-chain-analysis/">Ончейн-анализ</a></li><li><a href="/ru/encyclopedia/crypto/altcoin-trading/">Торговля альткоинами</a></li><li><a href="/ru/encyclopedia/crypto/tokenomics-and-token-unlocks/">Токеномика и анлоки</a></li><li><a href="/ru/encyclopedia/crypto/defi-trading/">Торговля в DeFi</a></li><li><a href="/ru/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV и сэндвич-атаки</a></li><li><a href="/ru/encyclopedia/crypto/crypto-arbitrage/">Криптоарбитраж</a></li><li><a href="/ru/encyclopedia/crypto/stablecoins/">Стейблкоины</a></li><li><a href="/ru/encyclopedia/crypto/crypto-wallet-security/">Безопасность кошелька</a></li><li><a href="/ru/encyclopedia/crypto/airdrops-and-points-farming/">Аирдропы и поинты</a></li><li><a href="/ru/encyclopedia/crypto/nft-trading/">Торговля NFT</a></li></ul><h3>Все темы</h3><ul><li><a href="/ru/encyclopedia/basics/">📘 Основы трейдинга</a></li><li><a href="/ru/encyclopedia/risk-management/">🛡️ Риск- и мани-менеджмент</a></li><li><a href="/ru/encyclopedia/psychology/">🧠 Психология трейдинга</a></li><li><a href="/ru/encyclopedia/technical-analysis/">📈 Технический анализ</a></li><li><a href="/ru/encyclopedia/fundamental-analysis/">🏦 Фундаментальный и макроанализ</a></li><li><a href="/ru/encyclopedia/stocks/">🏛️ Торговля акциями</a></li><li><a href="/ru/encyclopedia/forex/">💱 Торговля на форекс</a></li><li><a href="/ru/encyclopedia/futures/">📊 Торговля фьючерсами</a></li><li><a href="/ru/encyclopedia/options/">🎯 Торговля опционами</a></li><li><a href="/ru/encyclopedia/crypto/" class="on">₿ Торговля криптовалютой</a></li><li><a href="/ru/encyclopedia/meme-coins/">🐸 Торговля мемкоинами</a></li><li><a href="/ru/encyclopedia/prediction-markets/">🔮 Рынки предсказаний</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/">🤖 Алгоритмическая и квант-торговля</a></li><li><a href="/ru/encyclopedia/other-markets/">🛢️ Сырье, облигации и другие рынки</a></li><li><a href="/ru/encyclopedia/trading-business/">⚖️ Проп-фирмы, налоги, регулирование и мошенничество</a></li><li><a href="/ru/encyclopedia/reference/">📖 Справочник</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ru/encyclopedia/">Энциклопедия</a> › <a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a></div>
+<h1 class="title">Ставки финансирования</h1>
+<div class="meta">6 мин чтения · Обновлено 23 нояб. 2026 г.</div>
+<details class="side-m"><summary>Ещё в разделе «Торговля криптовалютой»</summary><ul><li><a href="/ru/encyclopedia/crypto/crypto-trading-basics/">Основы криптотрейдинга</a></li><li><a href="/ru/encyclopedia/crypto/centralized-vs-decentralized-exchanges/">CEX и DEX</a></li><li><a href="/ru/encyclopedia/crypto/crypto-market-cycles/">Циклы крипторынка</a></li><li><a href="/ru/encyclopedia/crypto/perpetual-futures/">Бессрочные фьючерсы</a></li><li><a href="/ru/encyclopedia/crypto/funding-rates/" class="on" aria-current="page">Ставки финансирования</a></li><li><a href="/ru/encyclopedia/crypto/crypto-liquidations/">Ликвидации</a></li><li><a href="/ru/encyclopedia/crypto/on-chain-analysis/">Ончейн-анализ</a></li><li><a href="/ru/encyclopedia/crypto/altcoin-trading/">Торговля альткоинами</a></li><li><a href="/ru/encyclopedia/crypto/tokenomics-and-token-unlocks/">Токеномика и анлоки</a></li><li><a href="/ru/encyclopedia/crypto/defi-trading/">Торговля в DeFi</a></li><li><a href="/ru/encyclopedia/crypto/mev-and-sandwich-attacks/">MEV и сэндвич-атаки</a></li><li><a href="/ru/encyclopedia/crypto/crypto-arbitrage/">Криптоарбитраж</a></li><li><a href="/ru/encyclopedia/crypto/stablecoins/">Стейблкоины</a></li><li><a href="/ru/encyclopedia/crypto/crypto-wallet-security/">Безопасность кошелька</a></li><li><a href="/ru/encyclopedia/crypto/airdrops-and-points-farming/">Аирдропы и поинты</a></li><li><a href="/ru/encyclopedia/crypto/nft-trading/">Торговля NFT</a></li></ul></details>
+<article><p>Ставка финансирования (funding rate, фандинг) — периодический платеж между трейдерами, держащими длинные и короткие позиции в бессрочном фьючерсе. Когда перп торгуется выше спотового индекса, лонги платят шортам; когда ниже — шорты платят лонгам. Именно фандинг привязывает контракт без экспирации к спотовой цене. Для трейдеров это одновременно издержка (или доход) по каждой удерживаемой позиции и один из самых отслеживаемых индикаторов настроений в крипте.</p>
+<div class="takeaways"><h2 id="key-takeaways">Главное</h2>
+<ul>
+<li>Выплата фандинга = номинал позиции × ставка финансирования; обмен происходит в каждый интервал финансирования.</li>
+<li>Положительный фандинг означает, что лонги платят шортам, и обычно сигнализирует о перегруженности быками; отрицательный — что шорты платят лонгам.</li>
+<li>Интервалы различаются по площадкам и контрактам: распространены восемь часов, но бывает и четырехчасовой, часовой и непрерывный фандинг.</li>
+<li>Ставка, которая кажется крошечной за интервал, может быть большой в годовом выражении: 0.01 процента каждые восемь часов — это около 11 процентов в год.</li>
+<li>Сделки cash-and-carry позволяют собирать фандинг почти без ценового риска, но несут риски комиссий, ликвидации, биржи и смены знака ставки.</li>
+</ul></div><details class="toc"><summary>Содержание</summary><ol><li><a href="#section-2">Как работает фандинг</a></li><li><a href="#section-5">Примеры расчетов</a></li><li><a href="#section-9">Фандинг как индикатор настроений</a></li><li><a href="#cash-and-carry">Арбитраж фандинга (cash-and-carry)</a></li><li><a href="#common-mistakes">Типичные ошибки</a></li></ol></details>
+<h2 id="section-2">Как работает фандинг</h2>
+<p><a href="/ru/encyclopedia/crypto/perpetual-futures/">Бессрочные фьючерсы</a> никогда не рассчитываются, поэтому что-то должно не давать их цене уходить от спота. Фандинг решает эту задачу, заставляя платить перегруженную сторону.</p>
+<p>Если многие трейдеры хотят быть в лонге, покупки поднимают перп выше индексной цены. Положительный фандинг заставляет лонги платить шортам, что отбивает желание открывать новые лонги и вознаграждает шорты, подталкивая перп обратно вниз. Когда в позиции набиваются шорты, происходит обратное.</p>
+<p>На большинстве централизованных бирж фандинг идет напрямую от одной группы трейдеров к другой. Биржа его не забирает, хотя взимает обычные торговые комиссии.</p>
+<h3 id="section-3">Интервалы</h3>
+<ul>
+<li><strong>Восемь часов</strong> — самый распространенный график на крупных биржах, часто в 00:00, 08:00 и 16:00 UTC.</li>
+<li><strong>Четыре часа или один час</strong> применяются для некоторых контрактов, а некоторые биржи сокращают интервал во время экстремальных движений.</li>
+<li><strong>Почасовой или непрерывный</strong> фандинг распространен на перп-DEX.</li>
+</ul>
+<p>На площадках с интервалами вы платите или получаете фандинг, только если держите позицию в момент расчета фандинга. Если открыться через минуту после него и закрыться за минуту до следующего, фандинг не переходит из рук в руки. Смотрите страницу спецификации каждого контракта: интервалы и лимиты различаются по биржам и могут меняться.</p>
+<h3 id="section-4">Как устроен расчет</h3>
+<p>Точные формулы различаются, но распространенная структура такова:</p>
+<p>Ставка финансирования = индекс премии + clamp(процентная ставка − индекс премии, узкий диапазон)</p>
+<ul>
+<li><strong>Индекс премии</strong> измеряет, насколько перп торговался выше или ниже спотового индекса за интервал.</li>
+<li><strong>Процентная составляющая</strong> часто зафиксирована на небольшом значении, обычно 0.01 процента за восемь часов на многих крупных биржах, и отражает разницу в стоимости котируемой и базовой валют.</li>
+<li><strong>Clamp</strong> (ограничение диапазоном) означает, что при небольшой премии фандинг устанавливается на ставке по умолчанию. Поэтому на спокойном рынке многие контракты большую часть времени показывают ровно 0.0100 процента.</li>
+<li>Биржи также ограничивают фандинг максимальным значением за интервал.</li>
+</ul>
+<p>Сама выплата рассчитывается просто:</p>
+<p>Выплата фандинга = номинал позиции × ставка финансирования</p>
+<p>Номинал обычно рассчитывается по маркировочной цене на момент фандинга, поэтому он меняется вместе с ценой.</p>
+<h2 id="section-5">Примеры расчетов</h2>
+<h3 id="section-6">Уплата положительного фандинга</h3>
+<p>У трейдера лонг в перпах ETH на $50,000 номинала. Фандинг составляет +0.03 процента за восемь часов.</p>
+<ul>
+<li>За интервал: $50,000 × 0.0003 = $15, уплаченные шортам.</li>
+<li>За день (три интервала): $45.</li>
+<li>За 10 дней: $450.</li>
+</ul>
+<p>В годовом выражении эта ставка равна 0.03% × 3 × 365 = 32.85 процента от номинала. Если трейдер использовал <a href="/ru/encyclopedia/basics/leverage-and-margin/">плечо</a> 5x, маржа составляет $10,000, так что $450 за 10 дней — это 4.5 процента маржи только на фандинге. Удержание лонга с плечом на перегретом рынке может стоить гораздо больше, чем ожидает большинство трейдеров. Как складываются издержки удержания, показано в статье о <a href="/ru/encyclopedia/basics/trading-costs-and-fees/">торговых издержках и комиссиях</a>.</p>
+<h3 id="section-7">Отрицательный фандинг</h3>
+<p>У трейдера шорт в перпах BTC на $20,000 номинала. Фандинг составляет −0.02 процента за восемь часов. Отрицательный фандинг означает, что шорты платят лонгам, поэтому шорт платит $20,000 × 0.0002 = $4 за интервал, $12 в день. Быть на популярной стороне в любом направлении стоит денег.</p>
+<h3 id="section-8">Годовая ставка по умолчанию</h3>
+<p>0.01% × 3 × 365 = 10.95 процента в год. Поэтому некоторые трейдеры описывают «базовый» фандинг перпов как примерно 11 процентов годовых, которые лонги платят шортам, на площадках с такой ставкой по умолчанию.</p>
+<h2 id="section-9">Фандинг как индикатор настроений</h2>
+<p>Фандинг показывает, какая сторона платит за удержание позиции, поэтому его используют как <a href="/ru/encyclopedia/fundamental-analysis/market-sentiment-indicators/">индикатор настроений</a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Значение фандинга</th>
+<th>Обычная интерпретация</th>
+<th>Оговорка</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Около ставки по умолчанию, стабильно</td>
+<td>Сбалансированное позиционирование</td>
+<td>Сигнала нет</td>
+</tr>
+<tr>
+<td>Сильно положительный и растет</td>
+<td>Перегруженные лонги с плечом; часто на поздней стадии ралли</td>
+<td>В сильных трендах может держаться высоким неделями</td>
+</tr>
+<tr>
+<td>Сильно отрицательный</td>
+<td>Перегруженные шорты; страх или хеджирование</td>
+<td>Создает условия для шорт-сквизов</td>
+</tr>
+<tr>
+<td>Положительный при падении цены</td>
+<td>Лонги добирают на слабости</td>
+<td>Риск каскадов ликвидаций лонгов</td>
+</tr>
+</tbody></table></div>
+<p>Экстремальный фандинг часто совпадает с хрупким позиционированием. Когда множество лонгов с плечом платят высокий фандинг и цена начинает падать, их ликвидации могут пойти каскадом, как объясняется в статье о <a href="/ru/encyclopedia/crypto/crypto-liquidations/">ликвидациях</a>. Многие трейдеры сочетают фандинг с открытым интересом: рост открытого интереса вместе с растущим положительным фандингом говорит о входе новых лонгов с плечом.</p>
+<p>На экстремумах фандинг — контрарианский сигнал, а не инструмент тайминга. Рынки могут долго расти при высоком фандинге.</p>
+<h2 id="cash-and-carry">Арбитраж фандинга (cash-and-carry)</h2>
+<p>Поскольку исторически фандинг чаще был положительным, чем отрицательным, некоторые трейдеры держат рыночно-нейтральную позицию, чтобы собирать его:</p>
+<ol>
+<li>Купить монету на спотовом рынке.</li>
+<li>Открыть шорт на тот же объем в перпе.</li>
+</ol>
+<p>Ценовые движения примерно взаимно компенсируются, а трейдер получает фандинг, пока тот остается положительным. Это разновидность базисной сделки, или cash-and-carry, описанной в статье об <a href="/ru/encyclopedia/crypto/crypto-arbitrage/">арбитраже криптовалют</a>.</p>
+<h3 id="section-11">Пример</h3>
+<ul>
+<li>Купить 1 BTC на споте по $60,000.</li>
+<li>Открыть шорт 1 BTC в перпе по $60,000, внеся маржу $12,000 (5x).</li>
+<li>Общий капитал: $72,000.</li>
+<li>Средний фандинг: +0.01 процента за восемь часов, то есть $6 за интервал, $18 в день.</li>
+<li>За 30 дней: получено $540.</li>
+<li>Комиссии: тейкер на споте 0.10 процента на вход и выход = $120; тейкер в перпе 0.05 процента на вход и выход = $60. Всего $180.</li>
+<li>Итого: $540 − $180 = $360, или 0.5 процента на $72,000 за месяц.</li>
+</ul>
+<h3 id="section-12">Риски</h3>
+<ul>
+<li><strong>Смена знака фандинга.</strong> Если фандинг станет отрицательным, шорт будет платить, а не получать.</li>
+<li><strong>Ликвидация короткой ноги.</strong> Если BTC резко вырастет, маржа шорта сократится, хотя спотовая нога прибавит. Без достаточной маржи или если спот находится на другой площадке, шорт могут ликвидировать, и останется незахеджированный лонг.</li>
+<li><strong>Комиссии.</strong> Сделке нужно несколько дней обычного фандинга только для того, чтобы покрыть издержки на вход и выход.</li>
+<li><strong>Риск биржи.</strong> Капитал находится на централизованных биржах или в DeFi-протоколах. Крах может уничтожить месяцы небольших заработков.</li>
+<li><strong>Перегруженность.</strong> Когда эту сделку проводят крупные фонды и доходные продукты, фандинг сжимается к ставке по умолчанию, снижая доходность.</li>
+</ul>
+<h2 id="common-mistakes">Типичные ошибки</h2>
+<ul>
+<li><strong>Забывать, что фандинг начисляется на номинал</strong>, а не на маржу. При высоком плече фандинг быстро съедает маржу.</li>
+<li><strong>Сравнивать ставки за интервал на площадках с разными интервалами.</strong> 0.01 процента в час — это в восемь раз больше, чем 0.01 процента за восемь часов.</li>
+<li><strong>Считать высокий фандинг автоматическим сигналом на шорт.</strong></li>
+<li><strong>Проводить cash-and-carry без запаса до ликвидации</strong> на короткой ноге.</li>
+<li><strong>Не учитывать, что прогнозный фандинг на экране</strong> может измениться до момента расчета.</li>
+</ul>
+<h2 id="faq">Частые вопросы</h2>
+<h3 id="section-15">Что означает положительная ставка финансирования?</h3>
+<p>Это значит, что бессрочный контракт торгуется выше спотового индекса и лонги платят шортам в каждый интервал финансирования. Обычно это указывает на повышенный спрос на длинные позиции с плечом.</p>
+<h3 id="section-16">Как часто выплачивается фандинг?</h3>
+<p>Многие крупные биржи выплачивают фандинг каждые восемь часов, но некоторые контракты используют четырехчасовые или часовые интервалы, а многие перп-DEX начисляют его ежечасно или непрерывно. Проверьте спецификацию контракта на своей бирже.</p>
+<h3 id="section-17">Как рассчитать выплату фандинга?</h3>
+<p>Умножьте номинальную стоимость позиции на ставку финансирования. Позиция на $10,000 при ставке 0.01 процента платит или получает $1 за интервал.</p>
+<h3 id="section-18">Арбитраж фандинга безрисковый?</h3>
+<p>Нет. Он устраняет большую часть ценового риска, но сохраняет риски того, что фандинг станет отрицательным, что короткую ногу ликвидируют, а также риски торговых комиссий и краха биржи или протокола, где лежит ваш капитал.</p>
+</article>
+<div class="disclaimer"><strong>Только образовательный материал.</strong> Ничто здесь не является финансовой, инвестиционной, юридической или налоговой консультацией. Торговля сопряжена с высоким риском потерь, а с кредитным плечом можно потерять больше, чем вы внесли. Правила, комиссии и условия площадок меняются: перед сделкой проверяйте актуальные условия у брокера, биржи или регулятора.</div>
+<section class="related"><h2>Похожие статьи</h2><div class="cards"><a class="card" href="/ru/encyclopedia/crypto/perpetual-futures/"><div class="k">Торговля криптовалютой</div><b>Бессрочные фьючерсы</b><span>Как работают перпы: без экспирации, mark, index и last price, фандинг, плечо, страховой фонд, автоделеверидж, инверсные и линейные контракты, перп-DEX.</span></a><a class="card" href="/ru/encyclopedia/crypto/crypto-arbitrage/"><div class="k">Торговля криптовалютой</div><b>Криптоарбитраж</b><span>Межбиржевой, треугольный, CEX-DEX арбитраж и cash-and-carry в крипте: примеры с расчетами, а также комиссии, задержки и риски, съедающие большую часть прибыли.</span></a><a class="card" href="/ru/encyclopedia/crypto/crypto-liquidations/"><div class="k">Торговля криптовалютой</div><b>Ликвидации</b><span>Как работают ликвидации в крипте: расчет цены ликвидации для лонга и шорта, кросс- и изолированная маржа, каскады ликвидаций, тепловые карты и открытый интерес.</span></a><a class="card" href="/ru/encyclopedia/fundamental-analysis/market-sentiment-indicators/"><div class="k">Фундаментальный и макроанализ</div><b>Индикаторы настроений</b><span>Как оценивать настроения рынка по отчету COT, put/call ratio, VIX, опросу AAII, индексам страха и жадности, фандингу и открытому интересу — и где их пределы.</span></a><a class="card" href="/ru/encyclopedia/basics/trading-costs-and-fees/"><div class="k">Основы трейдинга</div><b>Издержки и комиссии</b><span>Комиссии, спреды, сборы мейкера и тейкера, свопы, фандинг, плата за заём, PFOF, газ, проскальзывание и налоги — с примером расчёта издержек.</span></a></div></section>
+<div class="pager"><a href="/ru/encyclopedia/crypto/perpetual-futures/"><small>← Назад</small>Бессрочные фьючерсы</a><a class="next" href="/ru/encyclopedia/crypto/crypto-liquidations/"><small>Далее →</small>Ликвидации</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ru/encyclopedia/basics/">Основы трейдинга</a><a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a><a href="/ru/encyclopedia/psychology/">Психология трейдинга</a><a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a><a href="/ru/encyclopedia/fundamental-analysis/">Фундаментальный и макроанализ</a><a href="/ru/encyclopedia/stocks/">Торговля акциями</a><a href="/ru/encyclopedia/forex/">Торговля на форекс</a><a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a><a href="/ru/encyclopedia/options/">Торговля опционами</a><a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a><a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a><a href="/ru/encyclopedia/prediction-markets/">Рынки предсказаний</a><a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a><a href="/ru/encyclopedia/other-markets/">Сырье, облигации и другие рынки</a><a href="/ru/encyclopedia/trading-business/">Проп-фирмы, налоги, регулирование и мошенничество</a><a href="/ru/encyclopedia/reference/">Справочник</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Открытый набор торговых ботов</a></div>
+  <p>PnL Profit Энциклопедия трейдинга: бесплатные независимые объяснения того, как работают крупнейшие рынки. Только образовательный материал, не инвестиционная рекомендация. Контакты: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ru/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Ничего не найдено. Загляните в глоссарий.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

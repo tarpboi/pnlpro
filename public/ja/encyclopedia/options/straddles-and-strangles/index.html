@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ストラドルとストラングル：方向ではなくボラティリティを取引 | PnL Profit</title>
+<meta name="description" content="ストラドルとストラングルの買いと売りの仕組み、損益分岐点の計算例、損益分岐点と予想変動幅の関係、決算トレード、ショート・ボラのテールリスクを解説。">
+<meta name="keywords" content="ストラドル ストラングル 違い, ロング・ストラドル, ショート・ストラングル, ストラドル 損益分岐点, 決算 ストラドル">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/options/straddles-and-strangles/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/options/straddles-and-strangles/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="ストラドルとストラングル：方向ではなくボラティリティを取引 | PnL Profit">
+<meta property="og:description" content="ストラドルとストラングルの買いと売りの仕組み、損益分岐点の計算例、損益分岐点と予想変動幅の関係、決算トレード、ショート・ボラのテールリスクを解説。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/options/straddles-and-strangles/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ストラドルとストラングル：方向ではなくボラティリティを取引 | PnL Profit">
+<meta name="twitter:description" content="ストラドルとストラングルの買いと売りの仕組み、損益分岐点の計算例、損益分岐点と予想変動幅の関係、決算トレード、ショート・ボラのテールリスクを解説。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"ストラドルとストラングル：方向ではなくボラティリティを取引","description":"ストラドルとストラングルの買いと売りの仕組み、損益分岐点の計算例、損益分岐点と予想変動幅の関係、決算トレード、ショート・ボラのテールリスクを解説。","keywords":"ストラドル ストラングル 違い, ロング・ストラドル, ショート・ストラングル, ストラドル 損益分岐点, 決算 ストラドル","articleSection":"オプション取引","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/options/straddles-and-strangles/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"オプション取引","item":"https://pnlpro.fit/ja/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"ストラドルとストラングル","item":"https://pnlpro.fit/ja/encyclopedia/options/straddles-and-strangles/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"ストラドルとストラングルの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"ストラドルは同じ権利行使価格（通常はアット・ザ・マネー）のコールとプットを使います。ストラングルは権利行使価格の異なるアウト・オブ・ザ・マネーのコールとアウト・オブ・ザ・マネーのプットを使うため、安い代わりに、より大きな値動きが必要です。"}},{"@type":"Question","name":"ストラドルの損益分岐点はどう計算しますか？","acceptedAnswer":{"@type":"Answer","text":"権利行使価格にプレミアムの合計を足したものが上側の損益分岐点、引いたものが下側の損益分岐点です。$7.80で買った$100のストラドルの満期時の損益分岐点は$92.20と$107.80です。"}},{"@type":"Question","name":"ロング・ストラドルは決算向きの良い戦略ですか？","acceptedAnswer":{"@type":"Answer","text":"利益が出るのは、株価がストラドルの価格が示唆した以上に動いた場合だけで、決算発表後にはたいていIVが急落します。株価がはっきり動いても損失に終わる決算ストラドルは少なくありません。"}},{"@type":"Question","name":"ショート・ストラングルはなぜ危険なのですか？","acceptedAnswer":{"@type":"Answer","text":"受け取れるプレミアムは限られているのに、株価が急変すると非常に大きな損失に直面し、コール側のリスクは理論上無制限だからです。損失は受け取ったプレミアムの何倍にもなり得ます。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/options/straddles-and-strangles/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/options/straddles-and-strangles/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/options/straddles-and-strangles/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/options/straddles-and-strangles/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/options/straddles-and-strangles/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/options/straddles-and-strangles/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/options/straddles-and-strangles/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/options/straddles-and-strangles/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/options/straddles-and-strangles/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>オプション取引</h3><ul><li><a href="/ja/encyclopedia/options/options-basics/">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/" class="on" aria-current="page">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">ガンマエクスポージャーとディーラー</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/" class="on">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/options/">オプション取引</a></div>
+<h1 class="title">ストラドルとストラングル</h1>
+<div class="meta">約7分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>オプション取引の他の記事</summary><ul><li><a href="/ja/encyclopedia/options/options-basics/">オプションの基礎</a></li><li><a href="/ja/encyclopedia/options/options-greeks/">グリークス</a></li><li><a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a></li><li><a href="/ja/encyclopedia/options/covered-calls-and-cash-secured-puts/">カバードコールとCSP</a></li><li><a href="/ja/encyclopedia/options/vertical-spreads/">バーティカルスプレッド</a></li><li><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアンコンドルとバタフライ</a></li><li><a href="/ja/encyclopedia/options/straddles-and-strangles/" class="on" aria-current="page">ストラドルとストラングル</a></li><li><a href="/ja/encyclopedia/options/0dte-options/">0DTEオプション</a></li><li><a href="/ja/encyclopedia/options/options-expiration-and-assignment/">満期と権利割当</a></li><li><a href="/ja/encyclopedia/options/gamma-exposure-and-dealer-hedging/">ガンマエクスポージャーとディーラー</a></li></ul></details>
+<article><p>ストラドルとは、同じ権利行使価格・同じ満期のコールとプットを同時に買う、または売る取引です。ストラングルも同様ですが、権利行使価格の異なるアウト・オブ・ザ・マネーのコールとアウト・オブ・ザ・マネーのプットを使います。買い（ロング）は原資産がどちらかの方向に大きく動けば利益になり、売り（ショート）は相場が静かなままなら利益になります。どちらも値動きの方向ではなく大きさを取引する方法であり、株価の方向ではなく、ボラティリティの価格が最大の論点になります。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>ロング・ストラドルやロング・ストラングルは、方向を問わず、支払ったプレミアムの合計を上回る値動きがあれば利益になります。</li>
+<li>ショート・ストラドルやショート・ストラングルはプレミアムを受け取り、原資産が損益分岐点の内側にとどまれば利益になりますが、大きな値動きでは大きな、あるいは無制限の損失に直面します。</li>
+<li>アット・ザ・マネーのストラドルの価格は、満期までの予想変動幅を市場が見積もった値としてよい目安になります。</li>
+<li>決算前にストラドルを買って利益が出るのは、インプライド・ボラティリティの低下を考慮したうえで、実際の値動きが織り込まれていた分を上回った場合だけです。</li>
+<li>ショート・ボラティリティ戦略は、多数の小さな利益と、ときおりの非常に大きな損失を生む傾向があります。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">ストラドルとストラングルの違い</a></li><li><a href="#section-3">ロング・ストラドル</a></li><li><a href="#section-5">ロング・ストラングル</a></li><li><a href="#section-7">損益分岐点と予想変動幅</a></li><li><a href="#section-8">決算ストラドル</a></li><li><a href="#section-10">ショート・ストラドルとショート・ストラングル</a></li><li><a href="#section-12">買いか売りか：トレードオフ</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">ストラドルとストラングルの違い</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>特徴</th>
+<th>ストラドル</th>
+<th>ストラングル</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>権利行使価格</td>
+<td>同じ権利行使価格のコールとプット。通常はアット・ザ・マネー</td>
+<td>現在値より上のOTMコールと、下のOTMプット</td>
+</tr>
+<tr>
+<td>コスト（買い）</td>
+<td>高い</td>
+<td>低い</td>
+</tr>
+<tr>
+<td>利益に必要な値動き</td>
+<td>小さい</td>
+<td>大きい</td>
+</tr>
+<tr>
+<td>最大損失（買い）</td>
+<td>支払ったプレミアムの合計</td>
+<td>支払ったプレミアムの合計</td>
+</tr>
+<tr>
+<td>売りの場合のリスク</td>
+<td>上方向は無制限、下方向も大きい</td>
+<td>上方向は無制限、下方向も大きい</td>
+</tr>
+</tbody></table></div>
+<h2 id="section-3">ロング・ストラドル</h2>
+<h3 id="section-4">計算例</h3>
+<p>株価は$100です。$100のコールを$4.00で、$100のプットを$3.80で買います。どちらも残存30日です。1枚はそれぞれ100株分です。</p>
+<ul>
+<li>合計コスト：$4.00 + $3.80 = $7.80、つまり$780。</li>
+<li>上側の損益分岐点：$100 + $7.80 = $107.80。</li>
+<li>下側の損益分岐点：$100 - $7.80 = $92.20。</li>
+<li>最大損失：満期時に株価がちょうど$100なら$780。</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>満期時の株価</th>
+<th>コールの価値</th>
+<th>プットの価値</th>
+<th>合計の価値</th>
+<th>損益</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$85</td>
+<td>$0</td>
+<td>$15.00</td>
+<td>$15.00</td>
+<td>+$720</td>
+</tr>
+<tr>
+<td>$92.20</td>
+<td>$0</td>
+<td>$7.80</td>
+<td>$7.80</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$100</td>
+<td>$0</td>
+<td>$0</td>
+<td>$0</td>
+<td>-$780</td>
+</tr>
+<tr>
+<td>$107.80</td>
+<td>$7.80</td>
+<td>$0</td>
+<td>$7.80</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$115</td>
+<td>$15.00</td>
+<td>$0</td>
+<td>$15.00</td>
+<td>+$720</td>
+</tr>
+</tbody></table></div>
+<p>損益ゼロにするだけでも、満期までに株価がどちらかの方向へ7.8%を超えて動く必要があります。満期前のポジションは、着実に不利に働くタイム・ディケイと、インプライド・ボラティリティの変化の影響も受けます。</p>
+<h2 id="section-5">ロング・ストラングル</h2>
+<h3 id="section-6">計算例</h3>
+<p>株価$100のとき、$105のコールを$2.00で、$95のプットを$1.80で買います。</p>
+<ul>
+<li>合計コスト：$3.80、つまり$380。</li>
+<li>上側の損益分岐点：$105 + $3.80 = $108.80。</li>
+<li>下側の損益分岐点：$95 - $3.80 = $91.20。</li>
+<li>最大損失：満期時に株価が$95から$105の間のどこにあっても$380。</li>
+</ul>
+<p>ストラングルのコストはストラドルの半分未満ですが、損益分岐点は遠くなります。$92.20と$107.80に対して、$91.20と$108.80です。また、プレミアム全額を失うのが1点ではなく、$10という広い範囲になります。</p>
+<h2 id="section-7">損益分岐点と予想変動幅</h2>
+<p>アット・ザ・マネーのストラドルの価格は、満期までに株価がどれだけ動くと予想されているかを市場ベースで手早く見積もる方法です。上の例では、市場は約$7.80、つまり7.8%の値動きを織り込んでいます。</p>
+<p>ここから、ストラドルを買うすべての人にとっての核心的な問いが生まれます。株価は市場の予想以上に動くのか、ということです。ストラドルのコストが$7.80で株価が$6動いた場合、株価は大きく動いたのに買い手は損をします。ロング・ストラドルは実現ボラティリティがインプライド・ボラティリティを上回ることへの賭けであり、ショート・ストラドルはその逆の賭けです。インプライド・ボラティリティと予想変動幅の関係は<a href="/ja/encyclopedia/options/implied-volatility/">インプライド・ボラティリティ</a>で解説しています。</p>
+<h2 id="section-8">決算ストラドル</h2>
+<p>ストラドルは、一晩で大きく動くことが多い決算発表の前後で広く使われます。</p>
+<h3 id="section-9">計算例</h3>
+<p>決算発表の前、株価$50の銘柄で、その週に満期を迎える$50のストラドルが$4.00で取引されており、約8%の値動きを織り込んでいます。インプライド・ボラティリティは上昇しています。</p>
+<ul>
+<li><strong>株価が$56に急騰した場合（12%）：</strong> コールには少なくとも$6.00の本質的価値があります。IVが低下した後でも、ストラドルの価値は$6.00を少し上回り、1株あたり約$2.00、つまり$200の利益です。</li>
+<li><strong>株価が$53に動いた場合（6%）：</strong> コールの本質的価値は$3.00です。IVが急落すると時間価値はほとんど残らないので、ストラドルの価値は$3.00をわずかに上回る程度で、1株あたり$1.00近い損失になります。</li>
+</ul>
+<p>オプション価格にはすでに市場が見込む値動きが反映されており、実際の値動きはその周辺に大きくばらつきます。予想変動幅の数倍動いて売り手に大打撃を与える決算もあれば、はるかに小さな動きにとどまって買い手を苦しめる決算も多くあります。どの決算で大きな値動きが起こるかを事前に確実に知る方法はありません。<a href="/ja/encyclopedia/stocks/earnings-trading/">決算トレード</a>を参照してください。</p>
+<h2 id="section-10">ショート・ストラドルとショート・ストラングル</h2>
+<p>ストラドルやストラングルを売るとプレミアムを受け取り、株価が損益分岐点の間にとどまれば利益になります。先ほどのストラドルの数字を使うと、$100のショート・ストラドルは$780を受け取りますが、その全額を手元に残せるのは株価がちょうど$100で満期を迎えたときだけです。$92.20から$107.80の間ならどこでも利益になります。</p>
+<h3 id="section-11">テールリスク</h3>
+<p>予想外のニュースで株価が$75までギャップダウンしたとします。プットの価値は$25.00になるので、ショート・ストラドルの損失は$25.00 - $7.80 = 1株あたり$17.20、つまり$1,720です。この1回の損失で、最大プレミアム2サイクル分以上が吹き飛びます。$130へのギャップアップなら$30.00 - $7.80 = $22.20、つまり$2,220の損失で、上方向には理論上の上限がありません。</p>
+<p>ショート・ストラドルとショート・ストラングルは、マイナスのガンマとマイナスのベガを持ちます。株価が動くほど損失は加速し、インプライド・ボラティリティが上がればポジションを買い戻すコストも増えます。<a href="/ja/encyclopedia/options/options-greeks/">オプションのグリークス</a>を参照してください。カバーなしのオプションを売るには高いオプション取引レベルと多額の証拠金も必要で、相場のボラティリティが高まると証券会社は証拠金の要件を突然引き上げることがあります。</p>
+<p>個人やファンドのよく知られた破綻のいくつかは、ボラティリティの売りから生じました。ボラティリティの売りは、相場が急変するまでは安定したインカムのように見えることが多いのです。2018年2月の一部のショート・ボラティリティ商品の崩壊はその一例です。<a href="/ja/encyclopedia/other-markets/volatility-trading-vix/">ボラティリティとVIX</a>を参照してください。リスクを限定したうえでショート・ボラティリティのエクスポージャーを取りたいトレーダーは、代わりにプロテクションのウイングを加えた<a href="/ja/encyclopedia/options/iron-condors-and-butterflies/">アイアン・コンドルやバタフライ</a>を使うことがよくあります。</p>
+<h2 id="section-12">買いか売りか：トレードオフ</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>ロング・ストラドル／ストラングル</th>
+<th>ショート・ストラドル／ストラングル</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>利益になるとき</td>
+<td>値動きが織り込まれた分より大きい</td>
+<td>値動きが織り込まれた分より小さい</td>
+</tr>
+<tr>
+<td>タイム・ディケイ</td>
+<td>不利に働く</td>
+<td>有利に働く</td>
+</tr>
+<tr>
+<td>IVの上昇</td>
+<td>プラス</td>
+<td>マイナス</td>
+</tr>
+<tr>
+<td>典型的な勝ちパターン</td>
+<td>まれだが大きくなり得る利益</td>
+<td>頻繁な小さい利益と、ときおりの大きな損失</td>
+</tr>
+<tr>
+<td>最大損失</td>
+<td>支払ったプレミアム</td>
+<td>大きい〜無制限</td>
+</tr>
+</tbody></table></div>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>「何か大きなことが起こりそう」だからストラドルを買う。</strong> たいてい市場はそれを知っており、価格にはすでに反映されています。</li>
+<li><strong>IVクラッシュを無視する。</strong> イベント後のインプライド・ボラティリティの低下は、そこそこの値動きによる利益を帳消しにすることがあります。</li>
+<li><strong>ロング・ストラドルを長く持ちすぎる。</strong> 満期が近づくとタイム・ディケイは加速し、遅すぎる値動きでは役に立たないことがあります。</li>
+<li><strong>損失の計画なしにストラングルを売る。</strong> 限定されていないリスクとレバレッジが組み合わさると、受け取ったプレミアムの何倍もの損失が出ることがあります。</li>
+<li><strong>普段の日を基準にショート・ボラティリティのサイズを決める。</strong> 平均的な1週間ではなく、まれなギャップの値動きを基準にサイズを決めてください。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-15">ストラドルとストラングルの違いは何ですか？</h3>
+<p>ストラドルは同じ権利行使価格（通常はアット・ザ・マネー）のコールとプットを使います。ストラングルは権利行使価格の異なるアウト・オブ・ザ・マネーのコールとアウト・オブ・ザ・マネーのプットを使うため、安い代わりに、より大きな値動きが必要です。</p>
+<h3 id="section-16">ストラドルの損益分岐点はどう計算しますか？</h3>
+<p>権利行使価格にプレミアムの合計を足したものが上側の損益分岐点、引いたものが下側の損益分岐点です。$7.80で買った$100のストラドルの満期時の損益分岐点は$92.20と$107.80です。</p>
+<h3 id="section-17">ロング・ストラドルは決算向きの良い戦略ですか？</h3>
+<p>利益が出るのは、株価がストラドルの価格が示唆した以上に動いた場合だけで、決算発表後にはたいていIVが急落します。株価がはっきり動いても損失に終わる決算ストラドルは少なくありません。</p>
+<h3 id="section-18">ショート・ストラングルはなぜ危険なのですか？</h3>
+<p>受け取れるプレミアムは限られているのに、株価が急変すると非常に大きな損失に直面し、コール側のリスクは理論上無制限だからです。損失は受け取ったプレミアムの何倍にもなり得ます。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/options/implied-volatility/"><div class="k">オプション取引</div><b>インプライド・ボラティリティ</b><span>IVとヒストリカル・ボラティリティの違い、IVランクとIVパーセンタイル、IVクラッシュ、スキュー、予想変動幅の計算式を例を使って解説します。</span></a><a class="card" href="/ja/encyclopedia/options/options-greeks/"><div class="k">オプション取引</div><b>グリークス</b><span>デルタ、ガンマ、セータ、ベガ、ローが何を測るのかを計算例で解説。時間やマネーネスによる変化、ポジション・グリークスの読み方も紹介します。</span></a><a class="card" href="/ja/encyclopedia/stocks/earnings-trading/"><div class="k">株式トレード</div><b>決算トレード</b><span>決算発表をまたぐか反応を狙うか、オプションの予想変動幅、ギャップ・アンド・ゴーと逆張り、決算後ドリフトまで、決算トレードの考え方を解説します。</span></a><a class="card" href="/ja/encyclopedia/options/iron-condors-and-butterflies/"><div class="k">オプション取引</div><b>アイアンコンドルとバタフライ</b><span>アイアン・コンドル、バタフライ、アイアン・バタフライ、ブロークン・ウイング・バタフライの損益と損益分岐点を計算例で解説。管理方法とピン・リスクも。</span></a><a class="card" href="/ja/encyclopedia/options/options-basics/"><div class="k">オプション取引</div><b>オプションの基礎</b><span>コールとプット、権利行使価格、満期、プレミアム、本質的価値と時間価値、マネーネス、買い手と売り手の損益、取引レベルを具体例で解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/options/iron-condors-and-butterflies/"><small>← 前へ</small>アイアンコンドルとバタフライ</a><a class="next" href="/ja/encyclopedia/options/0dte-options/"><small>次へ →</small>0DTEオプション</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

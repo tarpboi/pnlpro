@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>카피 트레이딩과 소셜 트레이딩: 원리와 위험 | PnL Profit</title>
+<meta name="description" content="카피 트레이딩과 소셜 트레이딩의 작동 방식, 리더보드 뒤의 생존 편향과 인센티브 문제, 트랙 레코드 평가법, 팔로워의 슬리피지를 설명합니다.">
+<meta name="keywords" content="카피 트레이딩, 소셜 트레이딩, 카피 트레이딩 수익, 카피 트레이딩 위험, 시그널 리딩방">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 트레이딩 백과사전">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="카피 트레이딩과 소셜 트레이딩: 원리와 위험 | PnL Profit">
+<meta property="og:description" content="카피 트레이딩과 소셜 트레이딩의 작동 방식, 리더보드 뒤의 생존 편향과 인센티브 문제, 트랙 레코드 평가법, 팔로워의 슬리피지를 설명합니다.">
+<meta property="og:url" content="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="카피 트레이딩과 소셜 트레이딩: 원리와 위험 | PnL Profit">
+<meta name="twitter:description" content="카피 트레이딩과 소셜 트레이딩의 작동 방식, 리더보드 뒤의 생존 편향과 인센티브 문제, 트랙 레코드 평가법, 팔로워의 슬리피지를 설명합니다.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ko","headline":"카피 트레이딩과 소셜 트레이딩: 원리와 위험","description":"카피 트레이딩과 소셜 트레이딩의 작동 방식, 리더보드 뒤의 생존 편향과 인센티브 문제, 트랙 레코드 평가법, 팔로워의 슬리피지를 설명합니다.","keywords":"카피 트레이딩, 소셜 트레이딩, 카피 트레이딩 수익, 카피 트레이딩 위험, 시그널 리딩방","articleSection":"알고리즘·퀀트 트레이딩","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"백과사전","item":"https://pnlpro.fit/ko/encyclopedia/"},{"@type":"ListItem","position":2,"name":"알고리즘·퀀트 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"카피·소셜 트레이딩","item":"https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"카피 트레이딩으로 돈을 벌 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"벌 수 있지만, 지연, 슬리피지, 수수료, 그리고 연승 직후의 운 좋은 트레이더를 고르는 경향 때문에 많은 팔로워가 따라 하는 리더보다 덜 법니다. 결과는 길고 리스크가 통제된 기록을 가진 리더를 고르는 데 크게 좌우됩니다."}},{"@type":"Question","name":"카피 트레이딩은 안전한가요?","acceptedAnswer":{"@type":"Answer","text":"카피 트레이딩에는 직접 매매할 때와 같은 시장 위험에, 리더의 결정, 인센티브, 체결 지연에서 오는 추가 위험이 더해집니다. 카피 손절을 걸고 배정 금액을 제한하면 이런 위험을 줄일 수는 있지만 없앨 수는 없습니다."}},{"@type":"Question","name":"카피 트레이딩 리더는 어떻게 돈을 버나요?","acceptedAnswer":{"@type":"Answer","text":"흔한 방식은 팔로워에게 벌어 준 수익의 일부, 구독료, 거래량에 연동된 보수입니다. 수익 배분 모델은 리더가 손실을 분담하지 않는 경우가 많아 위험 감수를 부추길 수 있습니다."}},{"@type":"Question","name":"카피 트레이딩과 소셜 트레이딩은 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"소셜 트레이딩은 플랫폼에서 매매, 아이디어, 성과를 공유하는 넓은 관행입니다. 카피 트레이딩은 내 계좌가 다른 트레이더의 포지션을 자동으로 복제하는 구체적인 기능입니다."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ko/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>백과사전</small></a>
+  <nav class="top"><a href="/ko/encyclopedia/" class="on">백과사전</a><a href="/ko/encyclopedia/reference/trading-glossary/">용어집</a><a href="/blog/">블로그(영문)</a><a href="/ko/">트레이딩 봇</a></nav>
+  <details class="langmenu"><summary aria-label="언어">🌐 <span>한국어</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" hreflang="ko" lang="ko" class="on" aria-current="true">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150개 이상의 글 검색  ( / )" autocomplete="off" aria-label="백과사전 검색"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>알고리즘·퀀트 트레이딩</h3><ul><li><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">알고리즘 트레이딩 입문</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/backtesting/">백테스트</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/trend-following/">추세추종</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/">평균회귀</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">페어 트레이딩과 통계적 차익거래</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-making/">마켓 메이킹</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/">집행 알고리즘</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/">트레이딩 봇 만들기</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" class="on" aria-current="page">카피·소셜 트레이딩</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">트레이딩과 머신러닝</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/">시장 데이터</a></li></ul><h3>전체 주제</h3><ul><li><a href="/ko/encyclopedia/basics/">📘 트레이딩 기초</a></li><li><a href="/ko/encyclopedia/risk-management/">🛡️ 리스크 관리와 자금 관리</a></li><li><a href="/ko/encyclopedia/psychology/">🧠 트레이딩 심리</a></li><li><a href="/ko/encyclopedia/technical-analysis/">📈 기술적 분석</a></li><li><a href="/ko/encyclopedia/fundamental-analysis/">🏦 펀더멘털·매크로 분석</a></li><li><a href="/ko/encyclopedia/stocks/">🏛️ 주식 트레이딩</a></li><li><a href="/ko/encyclopedia/forex/">💱 외환(FX) 트레이딩</a></li><li><a href="/ko/encyclopedia/futures/">📊 선물 트레이딩</a></li><li><a href="/ko/encyclopedia/options/">🎯 옵션 트레이딩</a></li><li><a href="/ko/encyclopedia/crypto/">₿ 암호화폐 트레이딩</a></li><li><a href="/ko/encyclopedia/meme-coins/">🐸 밈코인 트레이딩</a></li><li><a href="/ko/encyclopedia/prediction-markets/">🔮 예측 시장</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/" class="on">🤖 알고리즘·퀀트 트레이딩</a></li><li><a href="/ko/encyclopedia/other-markets/">🛢️ 원자재, 채권 외</a></li><li><a href="/ko/encyclopedia/trading-business/">⚖️ 프랍 펌, 세금, 규제, 사기</a></li><li><a href="/ko/encyclopedia/reference/">📖 참고 자료</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ko/encyclopedia/">백과사전</a> › <a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a></div>
+<h1 class="title">카피 트레이딩과 소셜 트레이딩</h1>
+<div class="meta">6분 분량 · 업데이트 2026년 11월 23일</div>
+<details class="side-m"><summary>알고리즘·퀀트 트레이딩의 다른 글</summary><ul><li><a href="/ko/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">알고리즘 트레이딩 입문</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/backtesting/">백테스트</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">과최적화</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/trend-following/">추세추종</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/mean-reversion/">평균회귀</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">페어 트레이딩과 통계적 차익거래</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-making/">마켓 메이킹</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/arbitrage-strategies/">차익거래 전략</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/high-frequency-trading/">고빈도 매매</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/">집행 알고리즘</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/">트레이딩 봇 만들기</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" class="on" aria-current="page">카피·소셜 트레이딩</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/">트레이딩과 머신러닝</a></li><li><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/">시장 데이터</a></li></ul></details>
+<article><p>카피 트레이딩(copy trading)은 다른 트레이더의 매매를 자신의 계좌에서 자동으로 따라 하는 방식으로, 보통 배정한 금액에 비례해 복사됩니다. 소셜 트레이딩(social trading)은 트레이더들이 포지션, 아이디어, 성과를 공개적으로 공유하는 플랫폼을 아우르는 더 넓은 범주입니다. 카피는 숙련된 트레이더의 성과를 얻는 지름길처럼 보이지만, 생존 편향, 어긋난 인센티브, 체결 지연 때문에 팔로워는 따라 하는 리더보다 덜 버는 경우가 많고, 돈을 잃는 일도 잦습니다.</p>
+<div class="takeaways"><h2 id="key-takeaways">핵심 요약</h2>
+<ul>
+<li>카피 트레이딩은 리더의 매매를 자동으로 복제하지만, 내 결과는 타이밍, 수수료, 슬리피지에도 좌우됩니다.</li>
+<li>리더보드에는 생존 편향이 가득합니다. 트레이더 수가 충분히 많으면 일부는 순전히 운으로 화려한 기록을 냅니다.</li>
+<li>많은 제공자는 손실은 나누지 않으면서 수익이나 거래량에 따라 보수를 받으며, 이는 위험한 행동을 부추길 수 있습니다.</li>
+<li>트랙 레코드는 최고 수익률이 아니라 기간, 낙폭, 레버리지, 거래 횟수, 일관성으로 판단하십시오.</li>
+<li>온체인 카피 트레이딩에는 따라 하는 지갑의 출구 유동성(exit liquidity)이 되는 것을 포함해 고유한 위험이 더해집니다.</li>
+</ul></div><details class="toc"><summary>이 페이지의 내용</summary><ol><li><a href="#section-2">카피 트레이딩의 작동 방식</a></li><li><a href="#section-3">플랫폼 유형</a></li><li><a href="#section-4">생존 편향 문제</a></li><li><a href="#section-5">인센티브 문제</a></li><li><a href="#section-6">트랙 레코드 평가</a></li><li><a href="#section-7">팔로워의 슬리피지와 체결</a></li><li><a href="#section-8">계산 예시</a></li><li><a href="#common-mistakes">흔한 실수</a></li></ol></details>
+<h2 id="section-2">카피 트레이딩의 작동 방식</h2>
+<p>팔로워는 리더(흔히 전략 제공자, 마스터 트레이더, 시그널 제공자라고 부름)를 고르고 자금을 배정합니다. 리더가 포지션을 열거나 닫으면 플랫폼이 팔로워 계좌에 그에 상응하는 주문을 냅니다.</p>
+<p>흔한 배정 방식은 다음과 같습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방식</th>
+<th>매매 규모 결정 방법</th>
+<th>주의할 점</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>비례 방식</td>
+<td>리더 포지션이 리더 계좌에서 차지하는 비율과 같은 비율을 팔로워 배정액에 적용</td>
+<td>배정액이 작으면 최소 거래 단위에 못 미칠 수 있음</td>
+</tr>
+<tr>
+<td>고정 금액</td>
+<td>리더의 규모와 상관없이 매매마다 같은 달러 금액</td>
+<td>리더 자신의 리스크 사이징을 무시함</td>
+</tr>
+<tr>
+<td>고정 배수</td>
+<td>팔로워가 리더 랏(lot) 크기의 배수로 매매</td>
+<td>리더보다 훨씬 큰 위험으로 증폭될 수 있음</td>
+</tr>
+</tbody></table></div>
+<p>대부분의 플랫폼은 배정액이 30% 줄면 카피를 중단하는 것처럼, 카피 관계 전체에 손절을 걸 수 있게 해 줍니다.</p>
+<h2 id="section-3">플랫폼 유형</h2>
+<ul>
+<li><strong>브로커의 소셜 트레이딩 플랫폼.</strong> 잘 알려진 eToro처럼 일부 개인 대상 브로커는 사용자가 다른 사용자의 포트폴리오를 직접 따라 할 수 있게 하며, 대개 CFD나 주식이 대상입니다.</li>
+<li><strong>외환 플랫폼용 시그널 마켓플레이스.</strong> MetaTrader 기반 서비스 등이 시그널 제공자와, 자신의 브로커 계좌로 매매를 복사하는 구독자를 연결합니다.</li>
+<li><strong>크립토 거래소 카피 트레이딩.</strong> 여러 대형 크립토 거래소가 현물과 무기한 선물 트레이더의 카피 트레이딩을 제공하며, 보통 리더에게 수익을 배분합니다.</li>
+<li><strong>텔레그램·디스코드 시그널방.</strong> 제공자가 매매 아이디어를 올리면 팔로워가 직접 또는 봇으로 체결합니다. 검증은 대개 이곳이 가장 허술합니다.</li>
+<li><strong>온체인 카피 트레이딩.</strong> 공개 블록체인 지갑을 추적해 그 지갑의 스왑을 복제하는 도구로, 밈코인 매매와 예측시장에서 흔합니다. <a href="/ko/encyclopedia/meme-coins/copy-trading-wallets/">카피 트레이딩 지갑</a>과 <a href="/blog/polymarket-copy-trading-guide.html">Polymarket copy trading guide</a>를 참고하십시오.</li>
+</ul>
+<p>일부 국가의 규제 당국은 카피 트레이딩을 포트폴리오 관리나 투자 자문의 한 형태로 보고 인가와 공시 요건을 부과합니다. 규칙은 관할권마다 다르고 시간이 지나며 바뀌므로, 거주 지역의 현재 상황을 확인하십시오.</p>
+<h2 id="section-4">생존 편향 문제</h2>
+<p>리더보드는 현재 가장 잘하고 있는 트레이더를 보여 줍니다. 계좌를 날리고 사라진 훨씬 많은 트레이더는 보여 주지 않습니다. 많은 트레이더가 큰 위험을 지면 일부는 순전히 우연으로 엄청난 단기 수익을 내며, 리더보드가 띄워 주는 것이 바로 그들입니다.</p>
+<p>무너지기 전까지는 매끄러워 보이는 전략이 리더보드 상위에 흔합니다.</p>
+<ul>
+<li><strong>마틴게일과 물타기:</strong> 손실 후 포지션 규모를 두 배로 늘리면 작은 이익이 길게 이어지다가 가끔 전액 손실이 납니다.</li>
+<li><strong>손절 없는 그리드 전략:</strong> 박스권에서는 수익이 나지만 강한 추세에서는 파국을 맞습니다.</li>
+<li><strong>변동성 매도:</strong> 옵션을 매도하거나, 작고 꾸준한 수입을 거두지만 드물게 오는 큰 변동에 노출된 포지션을 보유하는 것입니다.</li>
+</ul>
+<p>이런 전략이 대개 나쁘게 끝나는 이유는 <a href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">낙폭과 파산 위험</a>에서 설명합니다.</p>
+<h2 id="section-5">인센티브 문제</h2>
+<p>리더가 보수를 받는 방식이 매매 방식을 결정합니다.</p>
+<ul>
+<li><strong>손실 분담 없는 수익 배분.</strong> 예를 들어 신규 수익의 20%를 받는 리더는 팔로워가 벌면 함께 벌지만, 팔로워가 잃을 때 대가를 치르지 않습니다. 위험을 더 지면 리더의 기대 보수가 올라가므로, 공짜 옵션을 들고 있는 것과 비슷한 구조입니다.</li>
+<li><strong>거래량 기반 보수와 리베이트.</strong> 일부 제공자는 거래량이나 브로커 리베이트로 돈을 벌며, 이는 결과와 상관없이 잦은 매매를 보상합니다.</li>
+<li><strong>팔로워 수가 곧 수입.</strong> 인기는 구독, 강의, 추천 링크로 수익화할 수 있으므로, 리스크를 잘 관리하기보다 좋아 보이는 데 인센티브가 생깁니다. <a href="/ko/encyclopedia/trading-business/trading-education-and-gurus/">강의, 구루, 시그널</a>을 참고하십시오.</li>
+<li><strong>팔로워 앞질러 매매하기(front-running).</strong> 시그널을 올리기 전에 미리 사 둔 제공자는 팔로워들의 매수세에 물량을 넘길 수 있습니다. 시그널방과 온체인에서 알려진 패턴입니다.</li>
+</ul>
+<h2 id="section-6">트랙 레코드 평가</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>점검 항목</th>
+<th>중요한 이유</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>기록 기간</td>
+<td>최소 1년, 가능하면 여러 해에 걸쳐 다양한 시장 상황을 포함해야 함</td>
+</tr>
+<tr>
+<td>최대 낙폭</td>
+<td>팔로워가 얼마나 버텨야 할 수 있는지 보여 줌. 수익률과 비교할 것</td>
+</tr>
+<tr>
+<td>거래 횟수</td>
+<td>운 좋은 거래 몇 건으로도 큰 수익이 날 수 있음. 수백 건의 거래가 더 많은 것을 말해 줌</td>
+</tr>
+<tr>
+<td>레버리지와 포지션 규모</td>
+<td>레버리지가 높으면 한 번의 불리한 움직임으로 계좌가 끝날 수 있음</td>
+</tr>
+<tr>
+<td>일관성</td>
+<td>수익이 여러 달에 고르게 퍼져 있는지, 운 좋은 한 시기에 몰려 있는지</td>
+</tr>
+<tr>
+<td>검증 여부</td>
+<td>실계좌에서 플랫폼이 검증한 결과가 스크린샷보다 훨씬 신뢰할 만함</td>
+</tr>
+<tr>
+<td>평균 손실 vs 평균 이익</td>
+<td>승률이 매우 높은데 드물게 큰 손실이 있다면 마틴게일이나 변동성 매도 위험을 시사함</td>
+</tr>
+<tr>
+<td>카피 운용 자산 규모</td>
+<td>팔로워 자본이 너무 크면 전략을 체결하기 어려워질 수 있음</td>
+</tr>
+</tbody></table></div>
+<p><a href="/ko/encyclopedia/algorithmic-trading/backtesting/">백테스트</a>에서 쓰는 것과 같은 회의적 태도가 여기에도 적용됩니다. 짧고 화려한 기록은 약한 증거입니다.</p>
+<h2 id="section-7">팔로워의 슬리피지와 체결</h2>
+<p>팔로워는 리더보다 늦게, 보통 몇 초에서 몇 분 뒤에 매매합니다. 빠르거나 얇은 시장에서는 그사이 가격이 움직였을 수 있습니다. 많은 팔로워가 한꺼번에 따라 하면 그들의 주문이 합쳐져 모두에게 불리한 쪽으로 가격을 움직일 수 있습니다. 팔로워는 자신의 스프레드와 수수료도 따로 부담하며, 이는 리더의 것과 다를 수 있습니다.</p>
+<h2 id="section-8">계산 예시</h2>
+<h3 id="section-9">리더보드의 생존 편향</h3>
+<p>실력이 전혀 없는 트레이더 1,000명이 있고, 각자 매달 수익을 낼 확률이 50%라고 합시다.</p>
+<ul>
+<li>6개월 연속 수익을 내는 사람의 기대 인원은 1,000 × 0.5^6 = 1,000 / 64 ≈ 15.6, 즉 약 16명입니다.</li>
+<li>이 16명은 리더보드에서 완벽한 6개월 기록을 보여 주겠지만, 그중 누구도 엣지를 갖고 있지 않습니다.</li>
+</ul>
+<h3 id="section-10">따라 하는 비용</h3>
+<p>리더의 평균 거래 수익이 1.5%라고 합시다. 팔로워의 카피는 지연과 자신의 주문 때문에 진입에서 0.6%, 청산에서 0.6% 더 불리하게 체결됩니다.</p>
+<ul>
+<li>팔로워의 평균 총수익: 1.5% − 0.6% − 0.6% = 0.3%.</li>
+<li>리더가 수익의 20%를 가져간다면 팔로워에게는 거래당 약 0.3% × 0.8 = 0.24%가 남습니다. 리더보드에 표시된 1.5%와 비교됩니다.</li>
+<li>슬리피지가 한쪽당 0.8%라면 팔로워는 수수료 전에도 거래당 0.1%를 잃지만, 리더의 기록은 여전히 수익으로 표시됩니다.</li>
+</ul>
+<h2 id="common-mistakes">흔한 실수</h2>
+<ul>
+<li><strong>리더보드 1위를 고릅니다.</strong> 최근 최고 수익률은 최고의 실력이 아니라 최고의 위험을 반영하는 경우가 많습니다.</li>
+<li><strong>리더 한 명에게 전부 배정합니다.</strong> 한 번의 파산으로 배정액 전체를 잃을 수 있습니다.</li>
+<li><strong>카피 손절이 없습니다.</strong> 시작하기 전에 카피 관계마다 최대 낙폭을 정해 두십시오.</li>
+<li><strong>레버리지를 무시합니다.</strong> 높은 레버리지를 쓰는 리더를 따라 하면 나도 같은 레버리지를 지게 됩니다.</li>
+<li><strong>스크린샷을 믿습니다.</strong> 소셜 미디어에 올라온 결과는 조작하거나 골라 보여 주기 쉽습니다. <a href="/ko/encyclopedia/trading-business/trading-scams/">트레이딩 사기</a>를 참고하십시오.</li>
+</ul>
+<h2 id="faq">자주 묻는 질문</h2>
+<h3 id="section-13">카피 트레이딩으로 돈을 벌 수 있나요?</h3>
+<p>벌 수 있지만, 지연, 슬리피지, 수수료, 그리고 연승 직후의 운 좋은 트레이더를 고르는 경향 때문에 많은 팔로워가 따라 하는 리더보다 덜 법니다. 결과는 길고 리스크가 통제된 기록을 가진 리더를 고르는 데 크게 좌우됩니다.</p>
+<h3 id="section-14">카피 트레이딩은 안전한가요?</h3>
+<p>카피 트레이딩에는 직접 매매할 때와 같은 시장 위험에, 리더의 결정, 인센티브, 체결 지연에서 오는 추가 위험이 더해집니다. 카피 손절을 걸고 배정 금액을 제한하면 이런 위험을 줄일 수는 있지만 없앨 수는 없습니다.</p>
+<h3 id="section-15">카피 트레이딩 리더는 어떻게 돈을 버나요?</h3>
+<p>흔한 방식은 팔로워에게 벌어 준 수익의 일부, 구독료, 거래량에 연동된 보수입니다. 수익 배분 모델은 리더가 손실을 분담하지 않는 경우가 많아 위험 감수를 부추길 수 있습니다.</p>
+<h3 id="section-16">카피 트레이딩과 소셜 트레이딩은 무엇이 다른가요?</h3>
+<p>소셜 트레이딩은 플랫폼에서 매매, 아이디어, 성과를 공유하는 넓은 관행입니다. 카피 트레이딩은 내 계좌가 다른 트레이더의 포지션을 자동으로 복제하는 구체적인 기능입니다.</p>
+</article>
+<div class="disclaimer"><strong>교육 목적의 콘텐츠입니다.</strong> 이곳의 어떤 내용도 금융, 투자, 법률 또는 세무 조언이 아닙니다. 트레이딩은 손실 위험이 크며, 레버리지 상품은 입금액보다 큰 손실이 날 수 있습니다. 규칙, 수수료, 플랫폼 조건은 바뀔 수 있으니 거래 전에 브로커, 거래소 또는 감독기관에서 최신 조건을 확인하십시오.</div>
+<section class="related"><h2>관련 글</h2><div class="cards"><a class="card" href="/ko/encyclopedia/meme-coins/copy-trading-wallets/"><div class="k">밈코인 트레이딩</div><b>카피 트레이딩 지갑</b><span>밈코인 지갑 카피 원리, 수익 지갑이 조작되거나 엑시트 유동성 함정으로 쓰이는 방식, 카피 지연과 슬리피지, 실제 손익 판단법을 다룹니다.</span></a><a class="card" href="/ko/encyclopedia/trading-business/trading-education-and-gurus/"><div class="k">프랍 펌, 세금, 규제, 사기</div><b>강의, 구루, 시그널</b><span>트레이딩 강의, 멘토, 시그널 그룹을 평가하는 법: 조작된 스크린샷, 렌트한 럭셔리, 브로커 리베이트, 검증된 수익 기록, 무료로 배우는 방법을 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">리스크 관리와 자금 관리</div><b>낙폭과 파산 위험</b><span>최대 낙폭의 의미, 손실 회복에 필요한 수익률, 연패가 나올 확률, 포지션 크기가 파산 위험을 어떻게 바꾸는지 표로 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/trading-business/trading-scams/"><div class="k">프랍 펌, 세금, 규제, 사기</div><b>트레이딩 사기</b><span>돼지 도살 사기와 가짜 앱부터 AI 봇 폰지, 회수 사기까지 흔한 트레이딩 사기의 수법과 경고 신호, 사기를 당했을 때 해야 할 일을 설명합니다.</span></a><a class="card" href="/ko/encyclopedia/algorithmic-trading/backtesting/"><div class="k">알고리즘·퀀트 트레이딩</div><b>백테스트</b><span>스스로를 속이지 않는 백테스트 방법: 데이터 품질, 생존 편향과 미래 참조 편향, 비용 반영, 워크포워드 테스트, 핵심 성과 지표를 정리합니다.</span></a></div></section>
+<div class="pager"><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/"><small>← 이전 글</small>트레이딩 봇 만들기</a><a class="next" href="/ko/encyclopedia/algorithmic-trading/machine-learning-in-trading/"><small>다음 글 →</small>트레이딩과 머신러닝</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ko/encyclopedia/basics/">트레이딩 기초</a><a href="/ko/encyclopedia/risk-management/">리스크 관리와 자금 관리</a><a href="/ko/encyclopedia/psychology/">트레이딩 심리</a><a href="/ko/encyclopedia/technical-analysis/">기술적 분석</a><a href="/ko/encyclopedia/fundamental-analysis/">펀더멘털·매크로 분석</a><a href="/ko/encyclopedia/stocks/">주식 트레이딩</a><a href="/ko/encyclopedia/forex/">외환(FX) 트레이딩</a><a href="/ko/encyclopedia/futures/">선물 트레이딩</a><a href="/ko/encyclopedia/options/">옵션 트레이딩</a><a href="/ko/encyclopedia/crypto/">암호화폐 트레이딩</a><a href="/ko/encyclopedia/meme-coins/">밈코인 트레이딩</a><a href="/ko/encyclopedia/prediction-markets/">예측 시장</a><a href="/ko/encyclopedia/algorithmic-trading/">알고리즘·퀀트 트레이딩</a><a href="/ko/encyclopedia/other-markets/">원자재, 채권 외</a><a href="/ko/encyclopedia/trading-business/">프랍 펌, 세금, 규제, 사기</a><a href="/ko/encyclopedia/reference/">참고 자료</a><a href="/blog/">블로그(영문)</a><a href="/ko/">오픈소스 트레이딩 봇</a></div>
+  <p>PnL Profit 트레이딩 백과사전: 주요 시장이 어떻게 작동하는지 무료로, 독립적으로 설명합니다. 교육 목적이며 투자 조언이 아닙니다. 연락처: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ko/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">검색 결과가 없습니다. 용어집을 확인해 보세요.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

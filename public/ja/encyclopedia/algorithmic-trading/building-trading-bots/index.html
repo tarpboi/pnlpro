@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>トレーディングボットの作り方：設計・API・安全対策 | PnL Profit</title>
+<meta name="description" content="ボットの構築方法を解説。データ・シグナル・リスク・執行の各層、REST・WebSocket・FIX、レート制限、APIキー管理、キルスイッチ、ログ。">
+<meta name="keywords" content="トレーディングボット 作り方, 自動売買ボット 自作, 仮想通貨 自動売買 bot, 取引所 API, APIキー セキュリティ, キルスイッチ">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/building-trading-bots/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="トレーディングボットの作り方：設計・API・安全対策 | PnL Profit">
+<meta property="og:description" content="ボットの構築方法を解説。データ・シグナル・リスク・執行の各層、REST・WebSocket・FIX、レート制限、APIキー管理、キルスイッチ、ログ。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/building-trading-bots/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="トレーディングボットの作り方：設計・API・安全対策 | PnL Profit">
+<meta name="twitter:description" content="ボットの構築方法を解説。データ・シグナル・リスク・執行の各層、REST・WebSocket・FIX、レート制限、APIキー管理、キルスイッチ、ログ。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"トレーディングボットの作り方：設計・API・安全対策","description":"ボットの構築方法を解説。データ・シグナル・リスク・執行の各層、REST・WebSocket・FIX、レート制限、APIキー管理、キルスイッチ、ログ。","keywords":"トレーディングボット 作り方, 自動売買ボット 自作, 仮想通貨 自動売買 bot, 取引所 API, APIキー セキュリティ, キルスイッチ","articleSection":"アルゴリズム取引とクオンツ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/building-trading-bots/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"アルゴリズム取引とクオンツ","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"トレーディングボットの作り方","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/building-trading-bots/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"トレーディングボットに最適なプログラミング言語は何ですか？","acceptedAnswer":{"@type":"Answer","text":"個人のボットでは、ライブラリの豊富さと使いやすさから Python が最も一般的な選択肢です。レイテンシーや非常に高いメッセージレートが重要な場合は、C++、Rust、Java などのより高速な言語が使われます。"}},{"@type":"Question","name":"トレーディングボットは儲かりますか？","acceptedAnswer":{"@type":"Answer","text":"ボットは戦略を自動化するだけで、エッジを生み出すわけではありません。多くのボットがお金を失うのは、元の戦略にコスト控除後のエッジがないか、ソフトウェアやリスク管理に不備があるためです。"}},{"@type":"Question","name":"トレーディングボットにAPIキーを渡しても安全ですか？","acceptedAnswer":{"@type":"Answer","text":"キーで資金を出金できず、既知のIPアドレスに制限され、資金に上限を設けたサブアカウントに限定されていれば、それなりに安全です。出金権限付きのキーやウォレットのシードフレーズは、絶対にサードパーティのサービスに渡さないでください。"}},{"@type":"Question","name":"アルゴリズム取引におけるキルスイッチとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"キルスイッチとは、1日の損失や注文レートなどの上限を超えたときに、自動または手動で取引システムを停止し、注文を取り消し、設定されていればポジションを決済する制御機能です。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/building-trading-bots/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>アルゴリズム取引とクオンツ</h3><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/" class="on" aria-current="page">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/" class="on">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a></div>
+<h1 class="title">トレーディングボットの作り方</h1>
+<div class="meta">約9分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>アルゴリズム取引とクオンツの他の記事</summary><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/" class="on" aria-current="page">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul></details>
+<article><p>トレーディングボットとは、ブローカーや取引所に接続し、<a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a>を読み取り、いつ取引するかを判断して、自動的に注文を送るプログラムです。注文を出すだけのボットを作るのは簡単です。データが遅れたとき、接続が切れたとき、戦略が誤作動したときにも安全に振る舞うボットを作ることこそが、本当の仕事です。これは<a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引</a>のエンジニアリングの側面であり、標準的なアーキテクチャ、取引所APIの仕組み、そして実際のお金に触れる前にすべてのボットが備えるべき安全装置がその中心です。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>ボットは、データフィード、シグナル、リスク、執行、監視の各層に分けて設計します。</li>
+<li>マーケットデータには WebSocket のストリームを使い、REST の呼び出しは注文と口座の確認に限定して、レート制限の範囲内に収めます。</li>
+<li>APIキーには必要最小限の権限だけを与え、出金を無効にし、可能な場合はIPアドレス制限をかけます。</li>
+<li>ハードなリスク上限と自動キルスイッチは必須です。ソフトウェアの障害は、どんな悪いトレードよりも速くお金を失わせることがあります。</li>
+<li>まずドライランまたはペーパーモードで動かし、すべてをログに記録し、実運用での挙動をバックテストと比較してください。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">ボットのアーキテクチャ</a></li><li><a href="#api">取引所とブローカーのAPI</a></li><li><a href="#section-8">レート制限</a></li><li><a href="#api">APIキーのセキュリティ</a></li><li><a href="#section-10">キルスイッチとリスク上限</a></li><li><a href="#section-11">ドライラン、ペーパートレード、ログ</a></li><li><a href="#section-12">デプロイ</a></li><li><a href="#section-13">オープンソースのツール</a></li><li><a href="#section-14">計算例：レート制限とリスク予算</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">ボットのアーキテクチャ</h2>
+<p>単純なスクリプトからプロのシステムまで、堅牢なボットの多くは同じ構成要素を共有しています。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>層</th>
+<th>役割</th>
+<th>主な注意点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>データフィード</td>
+<td>価格、板情報、約定、口座の更新を受信する</td>
+<td>再接続、欠損、古いデータ、タイムスタンプ</td>
+</tr>
+<tr>
+<td>シグナル（戦略）</td>
+<td>データを目標ポジションや注文に変換する</td>
+<td>バックテストと同じロジック、先読みなし</td>
+</tr>
+<tr>
+<td>リスク</td>
+<td>送信前にすべての注文を上限と照合する</td>
+<td>ポジションサイズ、エクスポージャー、1日の損失、価格の妥当性チェック</td>
+</tr>
+<tr>
+<td>執行</td>
+<td>注文の発注・訂正・取消、約定の追跡</td>
+<td>冪等性、部分約定、リトライ、レート制限</td>
+</tr>
+<tr>
+<td>状態とストレージ</td>
+<td>ポジション、注文、残高の整合性を保つ</td>
+<td>取引所と定期的に照合する</td>
+</tr>
+<tr>
+<td>監視</td>
+<td>アラート、ダッシュボード、ログ</td>
+<td>何か問題があれば数分以内に把握する</td>
+</tr>
+</tbody></table></div>
+<p>層を分けておけば、同じシグナルのコードを<a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a>と実運用の両方で再利用でき、リスク層を単独でテストできます。リスク層は、戦略が何を望んでいようと、あらゆる注文をブロックできるようにしておくべきです。執行層は、指値注文を送るだけの単純なものから、<a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/">執行アルゴリズム</a>で説明している分割ロジックのような複雑なものまでありえます。</p>
+<h2 id="api">取引所とブローカーのAPI</h2>
+<h3 id="rest">REST</h3>
+<p>REST API は標準的なWebリクエストを使います。リクエスト（注文の発注、残高の取得）を送り、レスポンスを受け取ります。シンプルですが、データのストリーミングには遅く、リクエストごとにレート制限の枠を消費します。</p>
+<h3 id="websocket">WebSocket</h3>
+<p>WebSocket の接続は開いたままの状態を保ち、約定、板の変化、注文の約定といった更新を、発生したそばからプッシュしてきます。リアルタイムでマーケットデータを受信する標準的な方法です。ボットは切断に対処し、再購読し、更新の取りこぼしがあった場合（通常はシーケンス番号で検出します）には、新しいスナップショットからローカルの板を再構築しなければなりません。</p>
+<h3 id="fix">FIX</h3>
+<p>FIX プロトコルは機関投資家の取引で長く使われてきたメッセージング標準で、多くのブローカー、先物業者、一部の暗号資産取引所が、注文の入力とマーケットデータに使っています。実装はより複雑ですが、セッションが安定しており、メッセージ量が多い場合のオーバーヘッドが小さくなります。</p>
+<h3 id="section-7">認証</h3>
+<p>プライベートなエンドポイントでは通常、APIキーと、シークレットを使って計算した署名（多くは HMAC ベース）、それにタイムスタンプが必要です。サーバーの時計がずれるとリクエストが拒否されることがあるため、システムの時刻を同期させておいてください。ブロックチェーン上に構築された暗号資産取引所では、代わりにウォレットの秘密鍵で注文に署名する必要がある場合があります。</p>
+<h2 id="section-8">レート制限</h2>
+<p>取引所は、1秒または1分あたりに送れるリクエスト数を制限しています。多くの場合、重いリクエストほど多くを消費する「ウェイト」の予算という形をとります。上限を超えるとエラーが返され、違反を繰り返すと一時的に利用を禁止されます。良い実践例は次のとおりです。</p>
+<ul>
+<li>マーケットデータは、REST のエンドポイントをポーリングするのではなく、WebSocket のストリームから取得する。</li>
+<li>自分の使用量を（多くはトークンバケット方式のカウンターで）追跡し、上限に達する前に速度を落とす。</li>
+<li>レート制限のエラーが出たら、すぐにリトライせず、待ち時間を徐々に延ばしながらバックオフする。</li>
+<li>全注文を1回の呼び出しで取り消すなど、APIが対応していれば操作をまとめて行う。</li>
+</ul>
+<h2 id="api">APIキーのセキュリティ</h2>
+<p>APIキーが漏洩すると、口座が空になることもあります。キーは銀行のパスワードと同じように扱ってください。</p>
+<ul>
+<li>取引用のキーでは<strong>出金を無効にします</strong>。ボットが資金を出金する必要はめったにありません。</li>
+<li><strong>IPアドレスで制限し</strong>、自分のサーバーからしかキーが使えないようにします。</li>
+<li><strong>最小権限の原則を守ります。</strong> 監視には読み取り専用のキーを、取引用のキーは必要な場所だけで使います。</li>
+<li><strong>キーをコードや公開リポジトリに絶対に書かないでください。</strong> 環境変数やシークレットマネージャーから読み込みます。</li>
+<li>取引所が対応していれば、ボットごとに資金を限定した<strong>サブアカウントを使います</strong>。</li>
+<li>出金権限付きのキーを求める<strong>サードパーティのボットサービスや</strong>、ウォレットのシードフレーズを求めるツールには注意してください。<a href="/ja/encyclopedia/crypto/crypto-wallet-security/">暗号資産ウォレットのセキュリティ</a>と、Telegram 型のスワップボットについては<a href="/ja/encyclopedia/meme-coins/meme-coin-trading-bots/">ミームコインのトレーディングボット</a>を参照してください。</li>
+</ul>
+<h2 id="section-10">キルスイッチとリスク上限</h2>
+<p>ソフトウェアの障害は壊滅的になることがあります。2012年8月1日、米国のマーケットメイカーである Knight Capital は欠陥のあるコードを本番環境に導入し、意図しない注文を大量に送信して、1時間足らずで約4億4,000万ドルを失い、救済を受けざるを得なくなりました。注文を再送し続けるループや、意図した10倍のサイズで取引してしまう単位の誤りなど、同じことの小規模版は個人のボットでも日常的に起きています。</p>
+<p>すべてのボットには次のものが必要です。</p>
+<ul>
+<li>銘柄ごとおよび全体の<strong>最大ポジションサイズ</strong>。</li>
+<li><strong>最大注文サイズ</strong>と、現在の市場価格から大きく離れた注文を拒否するプライスカラー。</li>
+<li>注文を取り消し、必要に応じてポジションを解消し、人間が再起動するまでボットを停止させる<strong>1日の損失上限</strong>。</li>
+<li>想定をはるかに超える数の注文を送った場合にボットを停止させる<strong>注文レートの上限</strong>。</li>
+<li>マーケットデータが一定時間更新されなかった場合に取引を停止する<strong>古いデータのチェック</strong>。</li>
+<li>スマートフォンから作動させられる<strong>手動のキルスイッチ</strong>。</li>
+</ul>
+<h2 id="section-11">ドライラン、ペーパートレード、ログ</h2>
+<p>まずはシステム全体をドライランモードで動かします。注文を計算してログに記録するだけで、送信はしないモードです。次に、ペーパートレード、または取引所にテストネットがあればそこで動かします。テストネットは板が薄く約定の仕方も異なるなど、本番の市場とは挙動が違うことが多いため、パフォーマンスのテストではなくソフトウェアのテストとして扱ってください。</p>
+<p>受信したデータ、シグナル、送信した注文、取引所の応答、約定、エラーなど、すべての入力と判断を UTC のタイムスタンプ付きでログに記録します。何か問題が起きたとき、何が起きたかを再現する唯一の手段がログです。リトライしたリクエストが誤って重複注文を作らないよう一意のクライアント注文IDを使い、ボットが把握しているポジションを取引所側のポジションと定期的に照合してください。</p>
+<p>最小限のメインループで、各部品がどう組み合わさるかを示します。<code>feed</code>、<code>strategy</code>、<code>broker</code> の各オブジェクトは、自分で用意するデータ層、シグナル層、執行層のプレースホルダーです。</p>
+<pre><code class="language-python">import logging
+
+MAX_DAILY_LOSS = 300.0      # 口座通貨建て
+MAX_POSITION = 2_000.0      # 銘柄ごとの想定元本（絶対値）
+
+def run(feed, strategy, broker, dry_run=True):
+    start_equity = broker.equity()
+    for tick in feed:                                   # 例：WebSocket キューからのメッセージ
+        pnl = broker.equity() - start_equity
+        if pnl &lt;= -MAX_DAILY_LOSS:
+            logging.critical(&quot;Daily loss limit hit (%.2f). Stopping.&quot;, pnl)
+            broker.cancel_all()
+            broker.flatten()
+            return                                      # キルスイッチ：人間による再開を待つ
+        order = strategy.on_tick(tick)
+        if order is None:
+            continue
+        new_pos = broker.position(order.symbol) + order.signed_notional
+        if abs(new_pos) &gt; MAX_POSITION:
+            logging.warning(&quot;Order blocked by position limit: %s&quot;, order)
+        elif dry_run:
+            logging.info(&quot;DRY RUN, would send: %s&quot;, order)
+        else:
+            broker.send(order, client_order_id=order.uid)  # 一意のIDで重複を防ぐ
+</code></pre>
+<h2 id="section-12">デプロイ</h2>
+<p>ボットは通常、取引所のサーバーに近いクラウドサーバーや VPS（仮想専用サーバー）で動かし、クラッシュ時には自動的に再起動するようにします。再起動の際、ボットはポジションがない状態から始まると仮定するのではなく、まず取引所から状態（未約定の注文、ポジション）を読み込まなければなりません。時刻を同期させ、メモリとディスクの使用量を監視し、取引所のメンテナンス時間に備えておいてください。</p>
+<h2 id="section-13">オープンソースのツール</h2>
+<p>多くのトレーダーは、ゼロから作るのではなく既存のライブラリを土台にしています。よく知られたオープンソースの例としては、CCXT（多数の暗号資産取引所APIを統一的に扱えるライブラリ）、Freqtrade と Hummingbot（暗号資産ボットのフレームワーク）、Backtrader と NautilusTrader（バックテストと取引のフレームワーク）、そして QuantConnect の LEAN エンジンがあります。これらは推奨ではなく例として挙げたものです。実際のお金で動かすコードは、必ず自分で確認してください。プラットフォーム別の解説については、<a href="/blog/polymarket-trading-bot-guide.html">Polymarket trading bot guide</a>を参照してください。</p>
+<h2 id="section-14">計算例：レート制限とリスク予算</h2>
+<p>ある取引所では、1分あたりのリクエストウェイトの上限が1,200だとします（説明用の数字です。利用する取引所のドキュメントを確認してください）。ボットは10の市場を追跡しています。</p>
+<ul>
+<li>各市場の板をウェイト5で毎秒ポーリングすると、1分あたり 10 × 5 × 60 = 3,000 となり、上限の2.5倍です。ボットは利用を禁止されてしまいます。</li>
+<li>マーケットデータを WebSocket のストリームに切り替えれば、これらのリクエストはなくなります。そのうえでボットが1分あたり約40件の注文を発注・取消し（各ウェイト1）、さらに1分に1回の残高確認（ウェイト10）を行うとすると、使用量は1分あたり約50で、予算の約4%です。</li>
+</ul>
+<p>リスクについては、口座に10,000ドルがあるとします。ボットは1市場あたりのエクスポージャーを20%（2,000ドル）に制限し、1日の損失が3%（300ドル）に達したら取引を停止します。キルスイッチが作動する前にすべての保有ポジションが急激に逆行したとしても、最悪のケースは運ではなく、これらの上限と停止ロジックによって抑えられます。</p>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>再接続のロジックがない。</strong> WebSocket のフィードは切断されるものです。黙って更新を止めたボットは、古い価格で取引してしまいます。</li>
+<li><strong>注文が約定すると思い込む。</strong> 部分約定、拒否、取消を明示的に処理してください。</li>
+<li><strong>冪等性なしでリトライする。</strong> タイムアウトした注文が実は受け付けられている場合があり、再送するとポジションが2倍になることがあります。</li>
+<li><strong>出金権限付きのキー。</strong> サーバーが侵害されれば、そのまま全損につながります。</li>
+<li><strong>キルスイッチなしで実運用を始める。</strong> バグは必ず発生します。バグの被害を無制限にするかどうかは選べます。</li>
+<li><strong>穏やかな相場でしかテストしない。</strong> 値動きの激しい時期には、競合状態（レースコンディション）やレート制限の問題が表面化します。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="section-17">トレーディングボットに最適なプログラミング言語は何ですか？</h3>
+<p>個人のボットでは、ライブラリの豊富さと使いやすさから Python が最も一般的な選択肢です。レイテンシーや非常に高いメッセージレートが重要な場合は、C++、Rust、Java などのより高速な言語が使われます。</p>
+<h3 id="section-18">トレーディングボットは儲かりますか？</h3>
+<p>ボットは戦略を自動化するだけで、エッジを生み出すわけではありません。多くのボットがお金を失うのは、元の戦略にコスト控除後のエッジがないか、ソフトウェアやリスク管理に不備があるためです。</p>
+<h3 id="api">トレーディングボットにAPIキーを渡しても安全ですか？</h3>
+<p>キーで資金を出金できず、既知のIPアドレスに制限され、資金に上限を設けたサブアカウントに限定されていれば、それなりに安全です。出金権限付きのキーやウォレットのシードフレーズは、絶対にサードパーティのサービスに渡さないでください。</p>
+<h3 id="section-20">アルゴリズム取引におけるキルスイッチとは何ですか？</h3>
+<p>キルスイッチとは、1日の損失や注文レートなどの上限を超えたときに、自動または手動で取引システムを停止し、注文を取り消し、設定されていればポジションを決済する制御機能です。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/"><div class="k">アルゴリズム取引とクオンツ</div><b>アルゴリズム取引入門</b><span>アルゴリズム取引の意味、個人と機関投資家の違い、アイデアから実運用までの流れ、主なプログラミング言語、現実的な期待値を解説します。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/backtesting/"><div class="k">アルゴリズム取引とクオンツ</div><b>バックテスト</b><span>自分を欺かないバックテストのやり方を解説。データ品質、生存者バイアスと先読みバイアス、コスト、ウォークフォワード分析、主要指標まで。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/market-data-sources/"><div class="k">アルゴリズム取引とクオンツ</div><b>マーケットデータ</b><span>トレーダー向けにマーケットデータを解説。ティックと足データ、レベル1・2・3、過去データの入手先、費用とライセンス、時刻同期、データクリーニング。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/"><div class="k">アルゴリズム取引とクオンツ</div><b>執行アルゴリズム</b><span>執行アルゴリズムの仕組みを解説。TWAP、VWAP、POV、インプリメンテーション・ショートフォール、SOR、スリッページの測定、執行がリターンを左右する理由。</span></a><a class="card" href="/ja/encyclopedia/crypto/crypto-wallet-security/"><div class="k">暗号資産トレード</div><b>ウォレットのセキュリティ</b><span>資産の守り方。セルフカストディ、シードフレーズ、ハードウェアウォレット、トークン承認、ドレイナー、フィッシング、アドレスポイズニング、APIキー管理。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/"><small>← 前へ</small>執行アルゴリズム</a><a class="next" href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/"><small>次へ →</small>コピートレードとソーシャルトレード</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

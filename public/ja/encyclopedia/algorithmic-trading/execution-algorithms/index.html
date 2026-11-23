@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>執行アルゴリズムとは？TWAP・VWAP・POV・IS | PnL Profit</title>
+<meta name="description" content="執行アルゴリズムの仕組みを解説。TWAP、VWAP、POV、インプリメンテーション・ショートフォール、SOR、スリッページの測定、執行がリターンを左右する理由。">
+<meta name="keywords" content="執行アルゴリズム, TWAP VWAP 違い, インプリメンテーション・ショートフォール, スマートオーダールーティング, スリッページ 計算">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/execution-algorithms/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit トレーディング百科事典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="執行アルゴリズムとは？TWAP・VWAP・POV・IS | PnL Profit">
+<meta property="og:description" content="執行アルゴリズムの仕組みを解説。TWAP、VWAP、POV、インプリメンテーション・ショートフォール、SOR、スリッページの測定、執行がリターンを左右する理由。">
+<meta property="og:url" content="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/execution-algorithms/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="執行アルゴリズムとは？TWAP・VWAP・POV・IS | PnL Profit">
+<meta name="twitter:description" content="執行アルゴリズムの仕組みを解説。TWAP、VWAP、POV、インプリメンテーション・ショートフォール、SOR、スリッページの測定、執行がリターンを左右する理由。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ja","headline":"執行アルゴリズムとは？TWAP・VWAP・POV・IS","description":"執行アルゴリズムの仕組みを解説。TWAP、VWAP、POV、インプリメンテーション・ショートフォール、SOR、スリッページの測定、執行がリターンを左右する理由。","keywords":"執行アルゴリズム, TWAP VWAP 違い, インプリメンテーション・ショートフォール, スマートオーダールーティング, スリッページ 計算","articleSection":"アルゴリズム取引とクオンツ","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/execution-algorithms/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科事典","item":"https://pnlpro.fit/ja/encyclopedia/"},{"@type":"ListItem","position":2,"name":"アルゴリズム取引とクオンツ","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"執行アルゴリズム","item":"https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/execution-algorithms/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"TWAP と VWAP の違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"TWAP は注文を時間に対して均等に分散させ、VWAP はその時間帯の典型的な出来高に応じて各分割のサイズを決めます。VWAP は通常、株式市場の出来高の大半が集中する寄り付きと大引けの近くで多く取引します。"}},{"@type":"Question","name":"インプリメンテーション・ショートフォールとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"意思決定時の価格で即座に執行された理想的な取引の結果と、実際の結果との差のことで、スリッページ、手数料、そして最後まで約定しなかった株式のコストを含みます。取引コストを最も網羅的に測る指標の一つとされています。"}},{"@type":"Question","name":"個人トレーダーに執行アルゴリズムは必要ですか？","acceptedAnswer":{"@type":"Answer","text":"個人の注文の多くは十分に小さいため、流動性の高い市場では単純な指値注文で問題ありません。注文の分割や値動きの激しい時間帯を避けるといった執行の工夫は、薄い市場や、頻繁に取引する戦略を使うトレーダーにとってより重要になります。"}},{"@type":"Question","name":"スマートオーダールーティングとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"スマートオーダールーティングとは、注文、または分割された注文の一つひとつを、価格、数量、手数料、約定の可能性の組み合わせが最も良い取引の場に送るソフトウェアです。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ja/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科事典</small></a>
+  <nav class="top"><a href="/ja/encyclopedia/" class="on">百科事典</a><a href="/ja/encyclopedia/reference/trading-glossary/">用語集</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">トレードボット</a></nav>
+  <details class="langmenu"><summary aria-label="言語">🌐 <span>日本語</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ja" lang="ja" class="on" aria-current="true">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/execution-algorithms/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="150以上の記事を検索  ( / )" autocomplete="off" aria-label="百科事典を検索"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>アルゴリズム取引とクオンツ</h3><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/" class="on" aria-current="page">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul><h3>すべてのテーマ</h3><ul><li><a href="/ja/encyclopedia/basics/">📘 トレードの基礎</a></li><li><a href="/ja/encyclopedia/risk-management/">🛡️ リスク管理と資金管理</a></li><li><a href="/ja/encyclopedia/psychology/">🧠 トレード心理</a></li><li><a href="/ja/encyclopedia/technical-analysis/">📈 テクニカル分析</a></li><li><a href="/ja/encyclopedia/fundamental-analysis/">🏦 ファンダメンタル分析とマクロ分析</a></li><li><a href="/ja/encyclopedia/stocks/">🏛️ 株式トレード</a></li><li><a href="/ja/encyclopedia/forex/">💱 FX（外国為替）</a></li><li><a href="/ja/encyclopedia/futures/">📊 先物取引</a></li><li><a href="/ja/encyclopedia/options/">🎯 オプション取引</a></li><li><a href="/ja/encyclopedia/crypto/">₿ 暗号資産トレード</a></li><li><a href="/ja/encyclopedia/meme-coins/">🐸 ミームコイントレード</a></li><li><a href="/ja/encyclopedia/prediction-markets/">🔮 予測市場</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/" class="on">🤖 アルゴリズム取引とクオンツ</a></li><li><a href="/ja/encyclopedia/other-markets/">🛢️ コモディティ・債券ほか</a></li><li><a href="/ja/encyclopedia/trading-business/">⚖️ プロップファーム・税金・規制・詐欺</a></li><li><a href="/ja/encyclopedia/reference/">📖 リファレンス</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ja/encyclopedia/">百科事典</a> › <a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a></div>
+<h1 class="title">執行アルゴリズム</h1>
+<div class="meta">約7分で読めます · 更新日 2026年11月23日</div>
+<details class="side-m"><summary>アルゴリズム取引とクオンツの他の記事</summary><ul><li><a href="/ja/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">アルゴリズム取引入門</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/backtesting/">バックテスト</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">オーバーフィッティング</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/trend-following/">トレンドフォロー</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/mean-reversion/">平均回帰</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">ペアトレードと統計的裁定</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-making/">マーケットメイク</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/arbitrage-strategies/">アービトラージ戦略</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/">高頻度取引</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/execution-algorithms/" class="on" aria-current="page">執行アルゴリズム</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/">トレーディングボットの作り方</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">コピートレードとソーシャルトレード</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/machine-learning-in-trading/">トレードと機械学習</a></li><li><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/">マーケットデータ</a></li></ul></details>
+<article><p>執行アルゴリズムとは、大口の注文を小さく分割し、時間をかけて市場に送るプログラムのことで、市場を大きく動かすことなく良い平均価格で売買することを目指します。執行アルゴリズムが答えるのは「何を取引すべきか」ではなく「どのように取引すべきか」という問いです。本物のエッジを持つ戦略でも、執行がまずければお金を失うことがあります。そのため、規模の大小を問わず、あらゆるシステムトレーダーにとって重要なテーマです。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点</h2>
+<ul>
+<li>大口注文は価格を動かします。時間をかけて分割すればマーケットインパクトは減りますが、価格がずれていくリスクにさらされる時間は長くなります。</li>
+<li>TWAP は注文を時間に対して均等に分散し、VWAP は典型的な出来高パターンに従い、POV はリアルタイムの出来高の一定割合を取引します。</li>
+<li>インプリメンテーション・ショートフォール型のアルゴリズムは、インパクトと、待っている間に価格が離れていくリスクとのバランスを取ります。</li>
+<li>スマートオーダールーティングは、分割した注文の一つひとつを、その時点で最も価格と流動性の良い取引所に送ります。</li>
+<li>執行の質は、その日の平均価格だけでなく、取引を決めた瞬間の価格と比較して測定してください。</li>
+</ul></div><details class="toc"><summary>このページの内容</summary><ol><li><a href="#section-2">執行が重要な理由</a></li><li><a href="#section-3">主なアルゴリズムの種類</a></li><li><a href="#section-8">スマートオーダールーティング</a></li><li><a href="#section-9">スリッページの測定</a></li><li><a href="#section-10">計算例：インプリメンテーション・ショートフォール</a></li><li><a href="#section-12">個人トレーダーとシステムトレーダーにとっての執行</a></li><li><a href="#common-mistakes">よくある間違い</a></li></ol></details>
+<h2 id="section-2">執行が重要な理由</h2>
+<p>すべての取引には、売買手数料以外にもコストがかかります。</p>
+<ul>
+<li><strong>スプレッド：</strong> ビッドからアスクへとスプレッドをまたぐと、仲値と比べて片道ごとに<a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">ビッド・アスク・スプレッド</a>の半分がコストになります。</li>
+<li><strong>マーケットインパクト：</strong> 大口注文は利用可能な流動性を食いつぶし、価格を押し動かします。その動きの一部は一時的なもので、取引をやめれば戻ります。一部は恒久的なもので、自分の取引が情報を明らかにしてしまうためです。</li>
+<li><strong>タイミングリスク：</strong> インパクトを減らそうとゆっくり取引すると、無関係な理由で価格が不利な方向に離れていくことがあります。</li>
+</ul>
+<p>執行の設計とは、インパクト（ゆっくり取引する）とタイミングリスク（素早く取引する）とのトレードオフです。古典的な理論的枠組みは、2000年頃に発表された Almgren-Chriss モデルで、期待コストにコストの不確実性に対するペナルティを加えたものを最小化する取引スケジュールを求めます。</p>
+<p>広く引用される経験則である「平方根の法則」によれば、インパクトは1日の出来高に対する注文サイズの平方根におおよそ比例して大きくなります。</p>
+<p>Impact ≈ c × daily volatility × √(order size / average daily volume)</p>
+<p>ここで c は定数で、通常は1前後と推定されます。精密な予測ではなく、おおまかな目安として扱ってください。</p>
+<h2 id="section-3">主なアルゴリズムの種類</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>アルゴリズム</th>
+<th>取引の仕方</th>
+<th>長所</th>
+<th>短所</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TWAP（時間加重平均価格）</td>
+<td>一定期間にわたり、等間隔で均等な量に分けて取引する</td>
+<td>シンプルで予測しやすく、構築が容易</td>
+<td>出来高のパターンを無視する。規則的な分割は見破られることがある</td>
+</tr>
+<tr>
+<td>VWAP（出来高加重平均価格）</td>
+<td>過去の日中出来高カーブに合わせたサイズで分割する</td>
+<td>流動性が高いときに多く取引する。一般的なベンチマークに合致する</td>
+<td>過去の出来高に依存する。スケジュールは固定のまま</td>
+</tr>
+<tr>
+<td>POV（出来高参加率）</td>
+<td>リアルタイムの市場出来高の一定割合（たとえば10%）を取引する</td>
+<td>実際の流動性に適応する</td>
+<td>完了時刻がわからない。出来高の急増を追いかけてしまうことがある</td>
+</tr>
+<tr>
+<td>インプリメンテーション・ショートフォール（到着価格）</td>
+<td>最初は速めに取引し、緊急性とリスクに応じて調整する</td>
+<td>意思決定時の価格に対するコストを最小化する</td>
+<td>より複雑。初期のインパクトが大きくなる</td>
+</tr>
+<tr>
+<td>流動性探索型</td>
+<td>公開市場と非公開の取引の場の両方で、多くは機会を見計らってまとまった数量を探す</td>
+<td>流動性の低い銘柄に向く</td>
+<td>情報漏洩のリスク</td>
+</tr>
+</tbody></table></div>
+<h3 id="twap">TWAP</h3>
+<p>TWAP は注文を均等な量に分け、たとえば5分ごとに1,000株というように一定間隔で送ります。多くの暗号資産取引所が TWAP 注文を直接提供しています。優れた実装では、他のトレーダーにパターンを簡単に見破られないよう、分割サイズとタイミングをわずかにランダム化します。</p>
+<pre><code class="language-python">import random
+
+def twap_schedule(total_qty, start_ts, end_ts, n_slices, jitter=0.2):
+    &quot;&quot;&quot;total_qty を n_slices 個に分け、2つのタイムスタンプ（秒）の間に均等に配置する。&quot;&quot;&quot;
+    step = (end_ts - start_ts) / n_slices
+    base, remainder = divmod(total_qty, n_slices)
+    schedule = []
+    for i in range(n_slices):
+        qty = base + (1 if i &lt; remainder else 0)
+        offset = random.uniform(0.0, jitter) * step   # 完全に規則的なパターンを避ける
+        schedule.append((start_ts + i * step + offset, qty))
+    return schedule
+</code></pre>
+<h3 id="vwap">VWAP</h3>
+<p>ほとんどの株式市場では、1日の出来高はU字型を描きます。寄り付きと大引けに多く、昼頃に少なくなります。VWAP アルゴリズムは過去の出来高プロファイルを使い、市場が最も活発なときに多く取引します。出来高加重平均価格そのもの（<a href="/ja/encyclopedia/technical-analysis/vwap/">VWAP</a>で解説）は、約定の良し悪しを判断する最も一般的なベンチマークでもあります。</p>
+<h3 id="pov">POV</h3>
+<p>POV（参加率）アルゴリズムはリアルタイムの出来高を監視し、その一定割合を取引します。市場で1分間に50,000株が取引され、参加率が10%なら、アルゴリズムは5,000株の取引を目指します。実際の状況に適応しますが、注文がいつ完了するかは約束できません。</p>
+<h3 id="section-7">インプリメンテーション・ショートフォール</h3>
+<p>インプリメンテーション・ショートフォールの概念は、1988年に André Perold が提唱したもので、意思決定時の価格で即座に取引したと仮定したペーパーポートフォリオのリターンと、実際に達成したリターンとの差を測定します。ショートフォール型のアルゴリズムは、通常、序盤により積極的に取引して価格のずれにさらされる時間を減らすことで、その差を最小化しようとします。</p>
+<h2 id="section-8">スマートオーダールーティング</h2>
+<p>多くの市場は、複数の取引所や代替的な取引の場に分散しています。スマートオーダールーター（SOR）は、各取引の場の価格と利用可能な数量を確認し、手数料、リベート、約定確率、レイテンシーを考慮したうえで、分割された子注文をそれぞれ最適な場所に送ります。暗号資産では、アグリゲーターが取引所や DEX の流動性プールをまたいで同様の役割を果たしています。米国では、Regulation NMS などのルールにより、ブローカーは他の取引所で表示されているより良い価格を飛ばして取引することを避けなければなりません。他の地域にもそれぞれ最良執行のルールがあります。</p>
+<h2 id="section-9">スリッページの測定</h2>
+<p>測定していない執行を改善することはできません。一般的なベンチマークは次のとおりです。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ベンチマーク</th>
+<th>定義</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>到着価格</td>
+<td>注文を送った時点の仲値</td>
+<td>執行コスト全体を最も正直に測る指標</td>
+</tr>
+<tr>
+<td>意思決定価格</td>
+<td>戦略がシグナルを生成した時点の価格</td>
+<td>シグナルから注文までの遅延を捉える</td>
+</tr>
+<tr>
+<td>期間 VWAP</td>
+<td>注文が出ていた期間中の市場の VWAP</td>
+<td>人気があるが、単に有利な方向に取引するだけで「勝てて」しまうことがある</td>
+</tr>
+<tr>
+<td>終値</td>
+<td>公式の終値</td>
+<td>終値をベンチマークとする戦略に関係する</td>
+</tr>
+</tbody></table></div>
+<p>コストは通常ベーシスポイント（bps）で表し、1 bp = 0.01% です。買い注文の場合、スリッページ = (平均約定価格 − ベンチマーク) / ベンチマーク。売り注文の場合は符号を逆にします。</p>
+<h2 id="section-10">計算例：インプリメンテーション・ショートフォール</h2>
+<p>ある戦略が、価格が50.00ドルのときに10,000株を買うと決定しました。ペーパーポートフォリオの価値は 10,000 × 50.00 = 500,000ドルです。</p>
+<ul>
+<li>アルゴリズムは8,000株を平均50.12ドルで買いました。残りの2,000株は、価格が50.60ドルまで上昇する前に約定せず、注文は取り消されました。</li>
+<li>執行コスト：8,000 × (50.12 − 50.00) = 960ドル。</li>
+<li>未約定株式の機会費用：2,000 × (50.60 − 50.00) = 1,200ドル。</li>
+<li>売買手数料：40ドル。</li>
+<li>ショートフォールの合計：960 + 1,200 + 40 = 2,200ドル、つまり 2,200 / 500,000 = 0.44%（44 bps）。</li>
+</ul>
+<p>約定した8,000株だけで判断すれば、この注文はうまく執行されたように見えました。しかし、残りの株を買い損ねたことのコストは、スリッページそのものより大きかったのです。</p>
+<h3 id="section-11">インパクトの推定</h3>
+<p>ある株式の日次ボラティリティが2%、1日の平均出来高が1,000,000株だとします。10,000株の注文は1日の出来高の1%です。c = 1 とした平方根の法則では、インパクトは約 2% × √0.01 = 2% × 0.1 = 0.2%、つまり20 bps と推定されます。注文を4倍の40,000株にしても、√0.04 = 0.2 なので、推定インパクトは2倍の約40 bps にしかなりません。</p>
+<h2 id="section-12">個人トレーダーとシステムトレーダーにとっての執行</h2>
+<p>個人の注文は通常、市場の出来高に比べて小さいため、流動性の高い市場ではインパクトはわずかです。それでも執行は重要です。</p>
+<ul>
+<li>適切な場面では成行注文ではなく指値注文を使いましょう。選択肢については<a href="/ja/encyclopedia/basics/order-types/">注文の種類</a>で説明しています。</li>
+<li>スプレッドが広がる取引時間の最初と最後の数分間や、重要なニュースの前後での取引は避けましょう。</li>
+<li>小型株、アルトコイン、イベント契約などの薄い市場では、数千ドルで価格が動くことがあります。注文を分割すると効果があります。</li>
+<li>各段階でシグナルの時刻、注文の時刻、約定価格、仲値をログに記録し、実運用のコストをバックテストの想定と比較しましょう。<a href="/ja/encyclopedia/basics/trading-costs-and-fees/">取引コストと手数料</a>を参照してください。</li>
+</ul>
+<h2 id="common-mistakes">よくある間違い</h2>
+<ul>
+<li><strong>VWAP だけを基準に測定する。</strong> 遅延や約定しなかった注文のコストが隠れてしまうことがあります。</li>
+<li><strong>未約定の注文を無視する。</strong> 上昇した銘柄を買い損ねることは、現実の、しかもしばしば大きなコストです。</li>
+<li><strong>予測可能な分割。</strong> 同じサイズを同じ間隔で出すと見破られ、逆手に取られることがあります。</li>
+<li><strong>薄い板で成行注文を使う。</strong> 1つの注文で複数の価格帯を食い上がってしまうことがあります。</li>
+<li><strong>バックテストの約定が実運用の約定と同じだと思い込む。</strong> 実際の執行を常に想定と照合してください。</li>
+</ul>
+<h2 id="faq">よくある質問</h2>
+<h3 id="twap-vwap">TWAP と VWAP の違いは何ですか？</h3>
+<p>TWAP は注文を時間に対して均等に分散させ、VWAP はその時間帯の典型的な出来高に応じて各分割のサイズを決めます。VWAP は通常、株式市場の出来高の大半が集中する寄り付きと大引けの近くで多く取引します。</p>
+<h3 id="section-16">インプリメンテーション・ショートフォールとは何ですか？</h3>
+<p>意思決定時の価格で即座に執行された理想的な取引の結果と、実際の結果との差のことで、スリッページ、手数料、そして最後まで約定しなかった株式のコストを含みます。取引コストを最も網羅的に測る指標の一つとされています。</p>
+<h3 id="section-17">個人トレーダーに執行アルゴリズムは必要ですか？</h3>
+<p>個人の注文の多くは十分に小さいため、流動性の高い市場では単純な指値注文で問題ありません。注文の分割や値動きの激しい時間帯を避けるといった執行の工夫は、薄い市場や、頻繁に取引する戦略を使うトレーダーにとってより重要になります。</p>
+<h3 id="section-18">スマートオーダールーティングとは何ですか？</h3>
+<p>スマートオーダールーティングとは、注文、または分割された注文の一つひとつを、価格、数量、手数料、約定の可能性の組み合わせが最も良い取引の場に送るソフトウェアです。</p>
+</article>
+<div class="disclaimer"><strong>教育目的のコンテンツです。</strong>本サイトの内容は、金融・投資・法律・税務に関する助言ではありません。トレードには大きな損失リスクがあり、レバレッジ商品では入金額を超える損失が生じることがあります。ルール、手数料、プラットフォームの条件は変わります。取引の前に、ご利用の証券会社、取引所、規制当局で最新の条件をご確認ください。</div>
+<section class="related"><h2>関連記事</h2><div class="cards"><a class="card" href="/ja/encyclopedia/technical-analysis/vwap/"><div class="k">テクニカル分析</div><b>VWAP</b><span>VWAPの計算方法、機関投資家がベンチマークに使う理由、デイトレードでの活用法、アンカードVWAP、VWAPバンド、そしてこの指標の限界を解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">トレードの基礎</div><b>スプレッドと流動性</b><span>ビッド・アスク・スプレッド・仲値の意味、流動性とスリッページ、マーケットインパクトの仕組み、スプレッドが広がる理由、往復コストの計算方法を解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/order-types/"><div class="k">トレードの基礎</div><b>注文の種類</b><span>成行、指値、逆指値、ストップリミット、トレーリングストップ、OCO、執行条件まで、各注文方法の仕組みと使いどころ、損につながる失敗を解説します。</span></a><a class="card" href="/ja/encyclopedia/basics/trading-costs-and-fees/"><div class="k">トレードの基礎</div><b>取引コストと手数料</b><span>手数料、スプレッド、メイカー・テイカー手数料、スワップ、ファンディング、貸株料、PFOF、ガス代、スリッページ、税金まで、取引コストを計算例とともに解説します。</span></a><a class="card" href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">アルゴリズム取引とクオンツ</div><b>高頻度取引</b><span>高頻度取引業者の業務、コロケーション、レイテンシー競争、マーケットメイクとレイテンシー裁定、論争点、個人が速度で勝てない理由を解説します。</span></a></div></section>
+<div class="pager"><a href="/ja/encyclopedia/algorithmic-trading/high-frequency-trading/"><small>← 前へ</small>高頻度取引</a><a class="next" href="/ja/encyclopedia/algorithmic-trading/building-trading-bots/"><small>次へ →</small>トレーディングボットの作り方</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ja/encyclopedia/basics/">トレードの基礎</a><a href="/ja/encyclopedia/risk-management/">リスク管理と資金管理</a><a href="/ja/encyclopedia/psychology/">トレード心理</a><a href="/ja/encyclopedia/technical-analysis/">テクニカル分析</a><a href="/ja/encyclopedia/fundamental-analysis/">ファンダメンタル分析とマクロ分析</a><a href="/ja/encyclopedia/stocks/">株式トレード</a><a href="/ja/encyclopedia/forex/">FX（外国為替）</a><a href="/ja/encyclopedia/futures/">先物取引</a><a href="/ja/encyclopedia/options/">オプション取引</a><a href="/ja/encyclopedia/crypto/">暗号資産トレード</a><a href="/ja/encyclopedia/meme-coins/">ミームコイントレード</a><a href="/ja/encyclopedia/prediction-markets/">予測市場</a><a href="/ja/encyclopedia/algorithmic-trading/">アルゴリズム取引とクオンツ</a><a href="/ja/encyclopedia/other-markets/">コモディティ・債券ほか</a><a href="/ja/encyclopedia/trading-business/">プロップファーム・税金・規制・詐欺</a><a href="/ja/encyclopedia/reference/">リファレンス</a><a href="/blog/">ブログ（英語）</a><a href="/ja/">オープンソースのトレードボット</a></div>
+  <p>PnL Profit トレーディング百科事典：主要な市場の仕組みを無料かつ独立した立場で解説します。教育目的であり、投資助言ではありません。 連絡先: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ja/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">該当する記事がありません。用語集もご覧ください。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

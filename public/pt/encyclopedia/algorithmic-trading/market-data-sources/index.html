@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dados de mercado: tick, barras, Nível 1, 2 e 3 explicados | PnL Profit</title>
+<meta name="description" content="Dados de mercado: tick vs barras, Nível 1, 2 e 3, fontes históricas, custos e licenças, timestamps, sincronização de relógio e limpeza dos dados.">
+<meta name="keywords" content="dados de mercado, dados tick a tick, level 2 book de ofertas, dados históricos de mercado, limpeza de dados para backtest">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/market-data-sources/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Enciclopédia do Trading">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Dados de mercado: tick, barras, Nível 1, 2 e 3 explicados | PnL Profit">
+<meta property="og:description" content="Dados de mercado: tick vs barras, Nível 1, 2 e 3, fontes históricas, custos e licenças, timestamps, sincronização de relógio e limpeza dos dados.">
+<meta property="og:url" content="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-data-sources/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dados de mercado: tick, barras, Nível 1, 2 e 3 explicados | PnL Profit">
+<meta name="twitter:description" content="Dados de mercado: tick vs barras, Nível 1, 2 e 3, fontes históricas, custos e licenças, timestamps, sincronização de relógio e limpeza dos dados.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"pt-BR","headline":"Dados de mercado: tick, barras, Nível 1, 2 e 3 explicados","description":"Dados de mercado: tick vs barras, Nível 1, 2 e 3, fontes históricas, custos e licenças, timestamps, sincronização de relógio e limpeza dos dados.","keywords":"dados de mercado, dados tick a tick, level 2 book de ofertas, dados históricos de mercado, limpeza de dados para backtest","articleSection":"Trading algorítmico e quantitativo","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-data-sources/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Enciclopédia","item":"https://pnlpro.fit/pt/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Trading algorítmico e quantitativo","item":"https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Dados de mercado","item":"https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/market-data-sources/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Qual é a diferença entre dados de Nível 1 e de Nível 2?","acceptedAnswer":{"@type":"Answer","text":"O Nível 1 mostra apenas o melhor bid, o melhor ask e o último negócio. O Nível 2 mostra a quantidade disponível em vários níveis de preço de cada lado do livro de ofertas, dando uma visão da profundidade do mercado."}},{"@type":"Question","name":"Onde consigo dados históricos de mercado?","acceptedAnswer":{"@type":"Answer","text":"As fontes incluem bolsas, fornecedores comerciais de dados, APIs de corretoras e plataformas, APIs de exchanges de cripto e bases acadêmicas. Fontes gratuitas servem para aprender, mas verifique ajustes, lacunas e viés de sobrevivência antes de confiar nelas."}},{"@type":"Question","name":"Preciso de dados tick a tick para fazer backtest?","acceptedAnswer":{"@type":"Answer","text":"Não para a maioria das estratégias diárias ou de swing trade, em que dados em barras limpos bastam. Dados de ticks ou de cotações importam para estratégias intradiárias, para a modelagem realista de execuções e slippage e para tudo o que depende do livro de ofertas."}},{"@type":"Question","name":"Por que os dados de mercado são tão caros?","acceptedAnswer":{"@type":"Answer","text":"Bolsas e fornecedores cobram pela coleta, distribuição e licenciamento dos dados, e os usos profissionais e automatizados normalmente custam mais. Usuários individuais não profissionais muitas vezes conseguem dados em tempo real bem mais baratos por meio da corretora."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/pt/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Enciclopédia</small></a>
+  <nav class="top"><a href="/pt/encyclopedia/" class="on">Enciclopédia</a><a href="/pt/encyclopedia/reference/trading-glossary/">Glossário</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading</a></nav>
+  <details class="langmenu"><summary aria-label="Idioma">🌐 <span>Português</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="pt-BR" lang="pt-BR" class="on" aria-current="true">Português</a><a href="/tr/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/market-data-sources/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Pesquise mais de 150 artigos  ( / )" autocomplete="off" aria-label="Pesquisar na enciclopédia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Trading algorítmico e quantitativo</h3><ul><li><a href="/pt/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introdução ao trading algorítmico</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/trend-following/">Trend following</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/mean-reversion/">Reversão à média</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading e arbitragem estatística</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estratégias de arbitragem</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frequência</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de execução</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/building-trading-bots/">Como criar robôs de trading</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading e social trading</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning no trading</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/market-data-sources/" class="on" aria-current="page">Dados de mercado</a></li></ul><h3>Todos os temas</h3><ul><li><a href="/pt/encyclopedia/basics/">📘 Fundamentos do trading</a></li><li><a href="/pt/encyclopedia/risk-management/">🛡️ Gestão de risco e de capital</a></li><li><a href="/pt/encyclopedia/psychology/">🧠 Psicologia do trading</a></li><li><a href="/pt/encyclopedia/technical-analysis/">📈 Análise técnica</a></li><li><a href="/pt/encyclopedia/fundamental-analysis/">🏦 Análise fundamentalista e macro</a></li><li><a href="/pt/encyclopedia/stocks/">🏛️ Trading de ações</a></li><li><a href="/pt/encyclopedia/forex/">💱 Trading de forex</a></li><li><a href="/pt/encyclopedia/futures/">📊 Mercado futuro</a></li><li><a href="/pt/encyclopedia/options/">🎯 Opções</a></li><li><a href="/pt/encyclopedia/crypto/">₿ Trading de cripto</a></li><li><a href="/pt/encyclopedia/meme-coins/">🐸 Trading de memecoins</a></li><li><a href="/pt/encyclopedia/prediction-markets/">🔮 Mercados de previsão</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/" class="on">🤖 Trading algorítmico e quantitativo</a></li><li><a href="/pt/encyclopedia/other-markets/">🛢️ Commodities, renda fixa e mais</a></li><li><a href="/pt/encyclopedia/trading-business/">⚖️ Mesas proprietárias, impostos, regulação e golpes</a></li><li><a href="/pt/encyclopedia/reference/">📖 Referência</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/pt/encyclopedia/">Enciclopédia</a> › <a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a></div>
+<h1 class="title">Dados de mercado</h1>
+<div class="meta">9 min de leitura · Atualizado em 23 de nov. de 2026</div>
+<details class="side-m"><summary>Mais em Trading algorítmico e quantitativo</summary><ul><li><a href="/pt/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Introdução ao trading algorítmico</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/trend-following/">Trend following</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/mean-reversion/">Reversão à média</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs trading e arbitragem estatística</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/market-making/">Market making</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/arbitrage-strategies/">Estratégias de arbitragem</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/high-frequency-trading/">Trading de alta frequência</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/execution-algorithms/">Algoritmos de execução</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/building-trading-bots/">Como criar robôs de trading</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy trading e social trading</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine learning no trading</a></li><li><a href="/pt/encyclopedia/algorithmic-trading/market-data-sources/" class="on" aria-current="page">Dados de mercado</a></li></ul></details>
+<article><p>Dados de mercado são o registro de preços, cotações, negócios e da atividade do livro de ofertas gerados pelas bolsas e por outras plataformas de negociação. Toda estratégia algorítmica depende deles duas vezes: dados históricos para a pesquisa e o <a href="/pt/encyclopedia/algorithmic-trading/backtesting/">backtesting</a>, e dados ao vivo para operar. O tipo de dado, de onde ele vem, como recebe o timestamp e como é limpo podem mudar o desempenho medido de uma estratégia tanto quanto a própria lógica da estratégia.</p>
+<div class="takeaways"><h2 id="key-takeaways">Principais pontos</h2>
+<ul>
+<li>Dados tick a tick registram cada negócio ou mudança de cotação; dados em barras resumem a atividade em períodos como um minuto ou um dia.</li>
+<li>O Nível 1 mostra o melhor bid e o melhor ask, o Nível 2 mostra a profundidade em cada preço e o Nível 3 mostra as ordens individuais.</li>
+<li>Os dados históricos precisam ser ajustados por desdobramentos, dividendos e rolagens de futuros, e devem incluir instrumentos deslistados.</li>
+<li>Dados profissionais são licenciados, e as taxas dependem de quem você é e de como os usa.</li>
+<li>Timestamps, fusos horários e sincronização de relógio causam muitos erros sutis no backtest e na operação real.</li>
+</ul></div><details class="toc"><summary>Nesta página</summary><ol><li><a href="#dados-tick-a-tick-vs-dados-em-barras">Dados tick a tick vs dados em barras</a></li><li><a href="#n-vel-1-n-vel-2-e-n-vel-3">Nível 1, Nível 2 e Nível 3</a></li><li><a href="#fontes-de-dados-hist-ricos-por-tipo">Fontes de dados históricos por tipo</a></li><li><a href="#custos-e-licen-as">Custos e licenças</a></li><li><a href="#timestamps-e-sincroniza-o-de-rel-gio">Timestamps e sincronização de relógio</a></li><li><a href="#limpando-os-dados">Limpando os dados</a></li><li><a href="#exemplo-pr-tico-ajustes">Exemplo prático: ajustes</a></li><li><a href="#common-mistakes">Erros comuns</a></li></ol></details>
+<h2 id="dados-tick-a-tick-vs-dados-em-barras">Dados tick a tick vs dados em barras</h2>
+<p><strong>Dados tick a tick</strong> registram cada evento individual: cada negócio (preço, tamanho, horário e, às vezes, o lado agressor) e cada atualização de cotação (preço e tamanho do bid e do ask). É a forma mais detalhada de dado e é necessária para pesquisa de execução intradiária, análise de <a href="/pt/encyclopedia/technical-analysis/order-flow-trading/">fluxo de ordens</a> e simulação realista de execuções. Também é volumosa e mais difícil de armazenar e processar.</p>
+<p><strong>Dados em barras</strong> resumem a atividade em períodos. Uma barra registra os preços de abertura, máxima, mínima e fechamento mais o volume (OHLCV) de cada intervalo: um minuto, uma hora ou um dia. As barras são compactas e suficientes para a maioria das estratégias de swing trade e de posição.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tipo de barra</th>
+<th>Como a barra se forma</th>
+<th>Observações</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Barras de tempo</td>
+<td>Intervalos de tempo fixos</td>
+<td>Padrão, mas contêm quantidades muito diferentes de atividade na abertura e no meio do dia</td>
+</tr>
+<tr>
+<td>Barras de ticks</td>
+<td>Número fixo de negócios</td>
+<td>Mais barras quando o mercado está movimentado</td>
+</tr>
+<tr>
+<td>Barras de volume</td>
+<td>Número fixo de ações ou contratos</td>
+<td>Amostra pela atividade</td>
+</tr>
+<tr>
+<td>Barras de dólar</td>
+<td>Valor negociado fixo</td>
+<td>Ajusta pelas mudanças de preço em históricos longos</td>
+</tr>
+</tbody></table></div>
+<p>As barras escondem informação. Uma barra diária não diz se a máxima veio antes da mínima, então um backtest que supõe que um stop e um alvo foram ambos tocados no mesmo dia precisa adivinhar qual aconteceu primeiro.</p>
+<h2 id="n-vel-1-n-vel-2-e-n-vel-3">Nível 1, Nível 2 e Nível 3</h2>
+<p>Esses termos descrevem o quanto do <a href="/pt/encyclopedia/basics/order-book-and-market-depth/">livro de ofertas</a> um feed mostra.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Nível</th>
+<th>Conteúdo</th>
+<th>Usos típicos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nível 1</td>
+<td>Melhor bid e melhor ask (com tamanhos), último negócio, volume</td>
+<td>A maior parte do trading de varejo, gráficos, robôs simples</td>
+</tr>
+<tr>
+<td>Nível 2 (market by price)</td>
+<td>Tamanho total em cada um de vários níveis de preço de cada lado</td>
+<td>Análise de profundidade, execução, estratégias de curto prazo</td>
+</tr>
+<tr>
+<td>Nível 3 (market by order)</td>
+<td>Cada ordem individual, com inclusões, alterações e cancelamentos</td>
+<td>Modelagem da posição na fila, market making, pesquisa</td>
+</tr>
+</tbody></table></div>
+<p>Nas ações americanas, também existe a distinção entre os feeds consolidados, que combinam as cotações de todas as bolsas em um melhor bid e ask nacional (national best bid and offer), e os feeds proprietários diretos de cada bolsa, que são mais rápidos e detalhados. As exchanges de cripto normalmente oferecem snapshots de Nível 2 e atualizações incrementais por WebSocket, e algumas fornecem dados por ordem.</p>
+<h2 id="fontes-de-dados-hist-ricos-por-tipo">Fontes de dados históricos por tipo</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tipo de fonte</th>
+<th>Exemplos do que fornecem</th>
+<th>Pontos de atenção</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Diretamente das bolsas</td>
+<td>Negócios, cotações e dados do livro de ofertas históricos oficiais</td>
+<td>A fonte mais confiável; muitas vezes cara e complexa</td>
+</tr>
+<tr>
+<td>Fornecedores comerciais de dados</td>
+<td>Histórico limpo de vários ativos, eventos corporativos, fundamentos</td>
+<td>Qualidade e cobertura variam; verifique o tratamento do viés de sobrevivência</td>
+</tr>
+<tr>
+<td>APIs de corretoras e plataformas</td>
+<td>Barras e ticks recentes dos instrumentos que oferecem</td>
+<td>Práticas; o histórico pode ser limitado e específico da corretora</td>
+</tr>
+<tr>
+<td>APIs de exchanges de cripto</td>
+<td>Negócios, barras e às vezes snapshots do livro de ofertas gratuitos</td>
+<td>Lacunas de cobertura durante quedas; cada exchange é diferente</td>
+</tr>
+<tr>
+<td>Bases acadêmicas</td>
+<td>Históricos longos e livres de viés de sobrevivência, como CRSP para ações americanas e TAQ para negócios e cotações nos EUA</td>
+<td>Normalmente acessadas por meio de universidades</td>
+</tr>
+<tr>
+<td>Sites gratuitos</td>
+<td>Barras diárias dos principais ativos</td>
+<td>Servem para aprender; verifique ajustes, lacunas e ativos deslistados</td>
+</tr>
+</tbody></table></div>
+<p>Para pesquisa com ações, procure dados livres de viés de sobrevivência que incluam empresas deslistadas e a composição dos índices na data de cada ponto (point-in-time). Para fundamentos, use dados point-in-time que mostrem o que se sabia em cada data, e não as republicações posteriores.</p>
+<p>O forex não tem uma bolsa central, então o &quot;volume&quot; nos dados de forex de varejo normalmente reflete apenas a atividade de uma corretora ou de uma plataforma. Em cripto, o volume informado por algumas plataformas historicamente incluiu wash trading, então compare entre fontes. Veja <a href="/pt/encyclopedia/technical-analysis/volume-analysis/">análise de volume</a>.</p>
+<h2 id="custos-e-licen-as">Custos e licenças</h2>
+<p>Os dados de mercado são um negócio importante para as bolsas. Pontos principais:</p>
+<ul>
+<li><strong>Classificação do assinante.</strong> Muitas bolsas cobram muito menos de usuários individuais não profissionais do que de usuários profissionais. As definições variam e podem depender de você ser registrado em um regulador ou operar para terceiros.</li>
+<li><strong>Uso em tela vs fora da tela.</strong> As bolsas muitas vezes cobram à parte pelos dados usados por sistemas automatizados (non-display) em comparação com os dados exibidos em tela.</li>
+<li><strong>Redistribuição.</strong> A maioria das licenças proíbe repassar os dados a terceiros, inclusive publicá-los em um site ou revender sinais derivados diretamente deles.</li>
+<li><strong>Dados atrasados.</strong> Dados com atraso de cerca de 15 minutos muitas vezes são gratuitos ou baratos, mas inúteis para operar ao vivo.</li>
+</ul>
+<p>As tabelas de preços mudam, então verifique os termos atuais da sua corretora, do seu fornecedor ou da bolsa.</p>
+<h2 id="timestamps-e-sincroniza-o-de-rel-gio">Timestamps e sincronização de relógio</h2>
+<p>O tempo é uma das fontes de erro mais comuns.</p>
+<ul>
+<li><strong>Qual timestamp?</strong> Um negócio pode trazer o horário de casamento na bolsa, o horário em que o dado foi publicado e o horário em que o seu sistema o recebeu. Nos backtests, os sinais devem usar apenas os dados disponíveis no momento em que você os teria recebido.</li>
+<li><strong>Fusos horários e horário de verão.</strong> Armazene tudo em UTC. As mudanças de horário de verão deslocam os horários locais das sessões em relação ao UTC em datas diferentes em países diferentes, o que pode desalinhar dados de vários mercados.</li>
+<li><strong>Definição da barra diária.</strong> Forex e cripto negociam sem parar, dia e noite, então o &quot;fechamento diário&quot; depende do horário de corte escolhido pelo fornecedor.</li>
+<li><strong>Sincronização de relógio.</strong> Os sistemas ao vivo sincronizam seus relógios usando NTP, que normalmente tem precisão de milissegundos pela internet, ou PTP, que pode chegar a microssegundos em redes adequadas. Reguladores de algumas regiões impõem exigências de precisão de relógio às empresas de trading, com as tolerâncias mais rígidas para os traders de alta frequência. Relógios dessincronizados também podem fazer com que as APIs das exchanges rejeitem requisições assinadas, como mencionado em <a href="/pt/encyclopedia/algorithmic-trading/building-trading-bots/">como construir robôs de trading</a>.</li>
+</ul>
+<h2 id="limpando-os-dados">Limpando os dados</h2>
+<p>Antes de usar qualquer base de dados, verifique:</p>
+<ul>
+<li><strong>Ticks ruins:</strong> negócios registrados muito longe dos preços ao redor, muitas vezes por erro ou por tipos de negócio incomuns.</li>
+<li><strong>Dados faltando e lacunas:</strong> quedas da bolsa, feriados, negociação suspensa.</li>
+<li><strong>Registros duplicados e fora de ordem.</strong></li>
+<li><strong>Eventos corporativos:</strong> desdobramentos, grupamentos, dividendos, cisões e mudanças de ticker.</li>
+<li><strong>Rolagens de futuros:</strong> contratos contínuos emendados a partir de contratos que vencem precisam de ajuste consistente.</li>
+<li><strong>Preços zero ou negativos:</strong> normalmente são erros, embora alguns instrumentos, como os futuros de petróleo WTI em abril de 2020, tenham de fato sido negociados abaixo de zero.</li>
+</ul>
+<p>Os filtros devem ser documentados e aplicados da mesma forma aos dados de pesquisa e aos dados ao vivo.</p>
+<h2 id="exemplo-pr-tico-ajustes">Exemplo prático: ajustes</h2>
+<h3 id="um-desdobramento">Um desdobramento</h3>
+<p>Uma ação é negociada a 600 dólares e depois passa por um desdobramento de 4 para 1, então cada ação vira quatro ações e o preço passa a cerca de 150 dólares. Nos dados não ajustados, a série parece cair 75% de um dia para o outro. Um backtest trataria isso como um crash, disparando stop losses e sinais de compra de reversão à média que nunca existiram.</p>
+<p>Os dados ajustados por desdobramento dividem por 4 todos os preços anteriores ao desdobramento (e multiplicam os volumes por 4), de modo que os 600 anteriores viram 150 e a série fica contínua.</p>
+<h3 id="uma-rolagem-de-futuros">Uma rolagem de futuros</h3>
+<p>Um trader monta uma série contínua a partir de futuros trimestrais. Na data da rolagem, o contrato que vence é negociado a 4,000 e o contrato seguinte a 4,020. Emendá-los sem ajuste cria um salto falso de 20 pontos. Uma série com ajuste retroativo (back-adjusted) soma 20 pontos a todos os preços anteriores, eliminando o salto. O ajuste por razão, que multiplica os preços anteriores por 4,020 / 4,000 = 1.005, é uma alternativa que preserva os retornos percentuais.</p>
+<h3 id="volume-de-dados">Volume de dados</h3>
+<p>Barras de um minuto de uma única ação americana durante o pregão regular (390 minutos por dia) ao longo de 252 dias úteis produzem 390 × 252 = 98,280 barras por ano, o que é fácil de armazenar. Os dados de ticks e de cotações da mesma ação podem chegar a milhões de registros por dia nos papéis mais negociados, e é por isso que a pesquisa no nível de tick exige armazenamento e ferramentas adequados.</p>
+<h2 id="common-mistakes">Erros comuns</h2>
+<ul>
+<li><strong>Usar preços não ajustados</strong> em backtests de ações.</li>
+<li><strong>Usar apenas os tickers listados hoje,</strong> o que embute viés de sobrevivência nos resultados.</li>
+<li><strong>Misturar fusos horários</strong> entre fontes de dados.</li>
+<li><strong>Supor que o fechamento diário é universal</strong> em mercados que funcionam 24 horas.</li>
+<li><strong>Fazer backtest com dados em barras de estratégias que precisam de execuções no nível de tick.</strong></li>
+<li><strong>Ignorar os termos de licença</strong> ao compartilhar ou publicar dados.</li>
+</ul>
+<h2 id="faq">Perguntas frequentes</h2>
+<h3 id="qual-a-diferen-a-entre-dados-de-n-vel-1-e-de-n-vel-2">Qual é a diferença entre dados de Nível 1 e de Nível 2?</h3>
+<p>O Nível 1 mostra apenas o melhor bid, o melhor ask e o último negócio. O Nível 2 mostra a quantidade disponível em vários níveis de preço de cada lado do livro de ofertas, dando uma visão da profundidade do mercado.</p>
+<h3 id="onde-consigo-dados-hist-ricos-de-mercado">Onde consigo dados históricos de mercado?</h3>
+<p>As fontes incluem bolsas, fornecedores comerciais de dados, APIs de corretoras e plataformas, APIs de exchanges de cripto e bases acadêmicas. Fontes gratuitas servem para aprender, mas verifique ajustes, lacunas e viés de sobrevivência antes de confiar nelas.</p>
+<h3 id="preciso-de-dados-tick-a-tick-para-fazer-backtest">Preciso de dados tick a tick para fazer backtest?</h3>
+<p>Não para a maioria das estratégias diárias ou de swing trade, em que dados em barras limpos bastam. Dados de ticks ou de cotações importam para estratégias intradiárias, para a modelagem realista de execuções e slippage e para tudo o que depende do livro de ofertas.</p>
+<h3 id="por-que-os-dados-de-mercado-s-o-t-o-caros">Por que os dados de mercado são tão caros?</h3>
+<p>Bolsas e fornecedores cobram pela coleta, distribuição e licenciamento dos dados, e os usos profissionais e automatizados normalmente custam mais. Usuários individuais não profissionais muitas vezes conseguem dados em tempo real bem mais baratos por meio da corretora.</p>
+</article>
+<div class="disclaimer"><strong>Conteúdo apenas educativo.</strong> Nada aqui é recomendação financeira, de investimento, jurídica ou tributária. Operar envolve alto risco de perda, e com produtos alavancados você pode perder mais do que depositou. Regras, taxas e condições das plataformas mudam: confira os termos atuais com sua corretora, exchange ou regulador antes de operar.</div>
+<section class="related"><h2>Artigos relacionados</h2><div class="cards"><a class="card" href="/pt/encyclopedia/algorithmic-trading/backtesting/"><div class="k">Trading algorítmico e quantitativo</div><b>Backtesting</b><span>Como fazer backtest de uma estratégia sem se enganar: qualidade dos dados, viés de sobrevivência e look-ahead, custos, walk-forward e as principais métricas.</span></a><a class="card" href="/pt/encyclopedia/basics/order-book-and-market-depth/"><div class="k">Fundamentos do trading</div><b>Livro de ofertas e profundidade</b><span>Como funcionam o livro de ofertas e o motor de casamento, prioridade preço-tempo, Level 1 e Level 2, leitura da profundidade, spoofing, dealers e AMMs.</span></a><a class="card" href="/pt/encyclopedia/algorithmic-trading/building-trading-bots/"><div class="k">Trading algorítmico e quantitativo</div><b>Como criar robôs de trading</b><span>Como robôs de trading são feitos: camadas de dados, sinal, risco e execução, APIs REST, WebSocket e FIX, rate limits, API keys, kill switch e logs.</span></a><a class="card" href="/pt/encyclopedia/technical-analysis/volume-analysis/"><div class="k">Análise técnica</div><b>Análise de volume</b><span>Como ler o volume: confirmação, clímax, volume relativo, OBV e acumulação/distribuição, além dos limites dos dados de volume em cripto e forex.</span></a><a class="card" href="/pt/encyclopedia/algorithmic-trading/high-frequency-trading/"><div class="k">Trading algorítmico e quantitativo</div><b>Trading de alta frequência</b><span>O que fazem as empresas de HFT: colocation, corrida pela latência, market making, arbitragem de latência, polêmicas e por que o varejo não compete.</span></a></div></section>
+<div class="pager"><a href="/pt/encyclopedia/algorithmic-trading/machine-learning-in-trading/"><small>← Anterior</small>Machine learning no trading</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/pt/encyclopedia/basics/">Fundamentos do trading</a><a href="/pt/encyclopedia/risk-management/">Gestão de risco e de capital</a><a href="/pt/encyclopedia/psychology/">Psicologia do trading</a><a href="/pt/encyclopedia/technical-analysis/">Análise técnica</a><a href="/pt/encyclopedia/fundamental-analysis/">Análise fundamentalista e macro</a><a href="/pt/encyclopedia/stocks/">Trading de ações</a><a href="/pt/encyclopedia/forex/">Trading de forex</a><a href="/pt/encyclopedia/futures/">Mercado futuro</a><a href="/pt/encyclopedia/options/">Opções</a><a href="/pt/encyclopedia/crypto/">Trading de cripto</a><a href="/pt/encyclopedia/meme-coins/">Trading de memecoins</a><a href="/pt/encyclopedia/prediction-markets/">Mercados de previsão</a><a href="/pt/encyclopedia/algorithmic-trading/">Trading algorítmico e quantitativo</a><a href="/pt/encyclopedia/other-markets/">Commodities, renda fixa e mais</a><a href="/pt/encyclopedia/trading-business/">Mesas proprietárias, impostos, regulação e golpes</a><a href="/pt/encyclopedia/reference/">Referência</a><a href="/blog/">Blog (inglês)</a><a href="/pt/">Bots de trading de código aberto</a></div>
+  <p>PnL Profit Enciclopédia do Trading: explicações gratuitas e independentes de como funcionam os principais mercados. Conteúdo educativo, não recomendação de investimento. Contato: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/pt/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Nenhum resultado. Tente o glossário.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

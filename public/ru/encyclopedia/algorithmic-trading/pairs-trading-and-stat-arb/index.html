@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Парный трейдинг и статистический арбитраж: как это работает</title>
+<meta name="description" content="Как работают парный трейдинг и статарбитраж: коинтеграция и корреляция, коэффициент хеджирования, z-score спреда, правила входа и выхода, quant quake 2007.">
+<meta name="keywords" content="парный трейдинг, статистический арбитраж, коинтеграция в трейдинге, стратегия парной торговли, коэффициент хеджирования, quant quake 2007">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Энциклопедия трейдинга">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Парный трейдинг и статистический арбитраж: как это работает">
+<meta property="og:description" content="Как работают парный трейдинг и статарбитраж: коинтеграция и корреляция, коэффициент хеджирования, z-score спреда, правила входа и выхода, quant quake 2007.">
+<meta property="og:url" content="https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Парный трейдинг и статистический арбитраж: как это работает">
+<meta name="twitter:description" content="Как работают парный трейдинг и статарбитраж: коинтеграция и корреляция, коэффициент хеджирования, z-score спреда, правила входа и выхода, quant quake 2007.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Парный трейдинг и статистический арбитраж: как это работает","description":"Как работают парный трейдинг и статарбитраж: коинтеграция и корреляция, коэффициент хеджирования, z-score спреда, правила входа и выхода, quant quake 2007.","keywords":"парный трейдинг, статистический арбитраж, коинтеграция в трейдинге, стратегия парной торговли, коэффициент хеджирования, quant quake 2007","articleSection":"Алгоритмическая и квант-торговля","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Алгоритмическая и квант-торговля","item":"https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Парный трейдинг и статарбитраж","item":"https://pnlpro.fit/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Парный трейдинг безрисковый?","acceptedAnswer":{"@type":"Answer","text":"Нет. Взаимосвязь между двумя активами может разрушиться, спред может расшириться ещё сильнее, прежде чем сузится, а скученные позиции могут внезапно закрываться. Парный трейдинг снижает зависимость от направления рынка, но добавляет другие риски."}},{"@type":"Question","name":"Чем коинтеграция отличается от корреляции?","acceptedAnswer":{"@type":"Answer","text":"Корреляция показывает, движутся ли доходности двух активов вместе от периода к периоду. Коинтеграция означает, что некоторая комбинация их цен образует спред, склонный возвращаться к стабильному среднему, — именно на это опирается парная сделка."}},{"@type":"Question","name":"Какой z-score использовать в парном трейдинге?","acceptedAnswer":{"@type":"Answer","text":"Многие трейдеры входят при значениях около ±2 и выходят около 0, со стопом на большем значении, например ±4. Лучшие пороги зависят от издержек, периода полураспада спреда и самой пары и должны проверяться вне выборки."}},{"@type":"Question","name":"Работает ли парный трейдинг сегодня?","acceptedAnswer":{"@type":"Answer","text":"Академические исследования показали, что доходность простых правил парного трейдинга со временем снижалась по мере того, как стратегия становилась широко известной. Возможности по-прежнему есть, но они, как правило, меньше, быстрее исчезают и требуют большей конкуренции, чем в прошлом."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
+  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Алгоритмическая и квант-торговля</h3><ul><li><a href="/ru/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Введение в алготрейдинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/backtesting/">Бэктестинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Переоптимизация</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/trend-following/">Следование за трендом</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/mean-reversion/">Возврат к среднему</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">Парный трейдинг и статарбитраж</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/market-making/">Маркетмейкинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/arbitrage-strategies/">Арбитражные стратегии</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/high-frequency-trading/">Высокочастотная торговля</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/">Алгоритмы исполнения</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/building-trading-bots/">Создание торговых ботов</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Копитрейдинг и социальный трейдинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Машинное обучение в трейдинге</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/market-data-sources/">Рыночные данные</a></li></ul><h3>Все темы</h3><ul><li><a href="/ru/encyclopedia/basics/">📘 Основы трейдинга</a></li><li><a href="/ru/encyclopedia/risk-management/">🛡️ Риск- и мани-менеджмент</a></li><li><a href="/ru/encyclopedia/psychology/">🧠 Психология трейдинга</a></li><li><a href="/ru/encyclopedia/technical-analysis/">📈 Технический анализ</a></li><li><a href="/ru/encyclopedia/fundamental-analysis/">🏦 Фундаментальный и макроанализ</a></li><li><a href="/ru/encyclopedia/stocks/">🏛️ Торговля акциями</a></li><li><a href="/ru/encyclopedia/forex/">💱 Торговля на форекс</a></li><li><a href="/ru/encyclopedia/futures/">📊 Торговля фьючерсами</a></li><li><a href="/ru/encyclopedia/options/">🎯 Торговля опционами</a></li><li><a href="/ru/encyclopedia/crypto/">₿ Торговля криптовалютой</a></li><li><a href="/ru/encyclopedia/meme-coins/">🐸 Торговля мемкоинами</a></li><li><a href="/ru/encyclopedia/prediction-markets/">🔮 Рынки предсказаний</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/" class="on">🤖 Алгоритмическая и квант-торговля</a></li><li><a href="/ru/encyclopedia/other-markets/">🛢️ Сырье, облигации и другие рынки</a></li><li><a href="/ru/encyclopedia/trading-business/">⚖️ Проп-фирмы, налоги, регулирование и мошенничество</a></li><li><a href="/ru/encyclopedia/reference/">📖 Справочник</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/ru/encyclopedia/">Энциклопедия</a> › <a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a></div>
+<h1 class="title">Парный трейдинг и статистический арбитраж</h1>
+<div class="meta">7 мин чтения · Обновлено 23 нояб. 2026 г.</div>
+<details class="side-m"><summary>Ещё в разделе «Алгоритмическая и квант-торговля»</summary><ul><li><a href="/ru/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Введение в алготрейдинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/backtesting/">Бэктестинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Переоптимизация</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/trend-following/">Следование за трендом</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/mean-reversion/">Возврат к среднему</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/" class="on" aria-current="page">Парный трейдинг и статарбитраж</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/market-making/">Маркетмейкинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/arbitrage-strategies/">Арбитражные стратегии</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/high-frequency-trading/">Высокочастотная торговля</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/execution-algorithms/">Алгоритмы исполнения</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/building-trading-bots/">Создание торговых ботов</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Копитрейдинг и социальный трейдинг</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Машинное обучение в трейдинге</a></li><li><a href="/ru/encyclopedia/algorithmic-trading/market-data-sources/">Рыночные данные</a></li></ul></details>
+<article><p>Парный трейдинг (pairs trading) — это рыночно-нейтральная стратегия, при которой покупают один актив и открывают короткую позицию по тесно связанному с ним активу, когда ценовое соотношение между ними необычно сильно растягивается, в расчёте на то, что разрыв сократится. Статистический арбитраж, или статарбитраж (stat arb), распространяет эту идею на большие портфели позиций, отобранных с помощью статистических моделей. Оба подхода — это формы <a href="/ru/encyclopedia/algorithmic-trading/mean-reversion/">возврата к среднему</a>, применённые к относительным ценам вместо отдельных цен, и оба зависят от взаимосвязей, которые могут ослабнуть или разрушиться.</p>
+<div class="takeaways"><h2 id="key-takeaways">Ключевые выводы</h2>
+<ul>
+<li>Парный трейдинг зарабатывает на изменении спреда между двумя активами, а не на направлении рынка в целом.</li>
+<li>Коинтеграция, то есть склонность самого спреда возвращаться к стабильному уровню, важнее корреляции.</li>
+<li>Коэффициент хеджирования определяет, сколько каждого актива торговать, чтобы спред был сбалансирован.</li>
+<li>Входы и выходы обычно определяются по z-score спреда, плюс стопы на случай разрыва взаимосвязи.</li>
+<li>Опубликованная доходность парного трейдинга со временем снижалась, а скученные позиции статарбитража могут закрываться обвально, как в августе 2007 года.</li>
+</ul></div><details class="toc"><summary>Содержание</summary><ol><li><a href="#section-2">Как работает парный трейдинг</a></li><li><a href="#section-3">Корреляция и коинтеграция</a></li><li><a href="#section-4">Построение спреда</a></li><li><a href="#section-7">Правила входа и выхода</a></li><li><a href="#section-8">От пар к статистическому арбитражу</a></li><li><a href="#section-9">Деградация и скученность</a></li><li><a href="#section-12">Пример с расчётом</a></li><li><a href="#common-mistakes">Типичные ошибки</a></li></ol></details>
+<h2 id="section-2">Как работает парный трейдинг</h2>
+<p>Классический пример — две компании одной отрасли со схожим бизнесом, например два крупных нефтедобытчика, две платёжные сети или два класса акций одной компании. Их цены определяются многими одними и теми же факторами. Когда одна из них без явной причины резко вырастает относительно другой, парный трейдер шортит опередившую и покупает отстающую. Если взаимосвязь сохраняется, разрыв закрывается, и сделка приносит прибыль независимо от того, растёт рынок в целом или падает.</p>
+<p>Происхождение парного трейдинга часто возводят к количественным группам в торговых подразделениях Уолл-стрит в 1980-х годах, причём чаще всего называют команду Morgan Stanley. В широко цитируемом исследовании 2006 года Гатев, Гётцманн и Рувенхорст (Gatev, Goetzmann, Rouwenhorst) протестировали простое правило на американских акциях: объединять в пары акции, нормализованные цены которых двигались наиболее синхронно, и торговать, когда они расходятся. Они обнаружили исторически избыточную доходность, но также выяснили, что прибыль в более поздней части выборки была ниже, — эту закономерность отмечали и последующие исследования.</p>
+<h2 id="section-3">Корреляция и коинтеграция</h2>
+<p>Корреляцию и коинтеграцию часто путают, а разница между ними важна.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Понятие</th>
+<th>Что измеряет</th>
+<th>Полезно для пар?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Корреляция</td>
+<td>Движутся ли доходности двух рядов вверх и вниз вместе от периода к периоду</td>
+<td>Само по себе недостаточно. Две сильно коррелированные акции могут навсегда разойтись</td>
+</tr>
+<tr>
+<td>Коинтеграция</td>
+<td>Является ли некоторая комбинация двух ценовых рядов (спред) стационарной, то есть склонной возвращаться к стабильному среднему</td>
+<td>Да. Именно на это на самом деле ставит парная сделка</td>
+</tr>
+</tbody></table></div>
+<p>У двух акций может быть сильно коррелированная дневная доходность, при этом одна годами медленно растёт быстрее другой. Тогда спред трендует, и трейдер, шортящий «дорогую» акцию, стабильно теряет. И наоборот, коинтегрированные ряды могут иметь лишь умеренную дневную корреляцию, но сохранять стабильную долгосрочную взаимосвязь.</p>
+<p>Распространённый тест — двухшаговый метод Энгла–Грейнджера (Engle-Granger), предложенный Энглом и Грейнджером в 1987 году: регрессировать одну цену на другую для оценки взаимосвязи, а затем проверить, стационарен ли остаточный спред. Тест Йохансена (Johansen) работает с более чем двумя активами. О том, как ведёт себя корреляция в портфеле, читайте в статье <a href="/ru/encyclopedia/risk-management/correlation-and-portfolio-risk/">корреляция и риск портфеля</a>.</p>
+<h2 id="section-4">Построение спреда</h2>
+<h3 id="section-5">Коэффициент хеджирования</h3>
+<p>Коэффициент хеджирования β показывает, сколько единиц актива B компенсируют одну единицу актива A. Его часто оценивают регрессией цены A на цену B (или логарифмов цен) на окне расчёта:</p>
+<p>Спред = Price_A − β × Price_B</p>
+<p>Долларово-нейтральная пара держит равные суммы в длинной и короткой позициях. Бета-нейтральная пара делает поправку на различия в чувствительности к рынку. Коэффициенты хеджирования дрейфуют, поэтому многие трейдеры переоценивают их на скользящем окне или используют фильтр Калмана для непрерывного обновления.</p>
+<h3 id="section-6">Период полураспада</h3>
+<p>Период полураспада (half-life) оценивает, сколько времени обычно требуется спреду, чтобы закрыть половину отклонения от своего среднего. Его получают регрессией изменения спреда на его предыдущий уровень. Период полураспада от 5 до 20 дней подходит для свинг-трейдинга; период в несколько месяцев замораживает капитал и повышает вероятность того, что взаимосвязь разрушится раньше.</p>
+<pre><code class="language-python">import numpy as np
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import coint
+
+def pair_stats(a: np.ndarray, b: np.ndarray):
+    &quot;&quot;&quot;a, b: выровненные массивы цен (часто используют логарифмы цен).&quot;&quot;&quot;
+    beta = sm.OLS(a, sm.add_constant(b)).fit().params[1]
+    spread = a - beta * b
+    coint_p = coint(a, b)[1]          # тест Энгла–Грейнджера; малое p указывает на коинтеграцию
+    lagged = spread[:-1]
+    delta = np.diff(spread)
+    lam = sm.OLS(delta, sm.add_constant(lagged)).fit().params[1]
+    half_life = -np.log(2) / lam if lam &lt; 0 else np.inf
+    return beta, coint_p, half_life
+</code></pre>
+<h2 id="section-7">Правила входа и выхода</h2>
+<p>Большинство парных систем торгуют z-score спреда: его удаление от скользящего среднего в стандартных отклонениях.</p>
+<ul>
+<li><strong>Вход:</strong> продавать спред (шорт A, лонг β единиц B), когда z поднимается выше примерно +2; покупать спред, когда z опускается ниже примерно −2.</li>
+<li><strong>Выход:</strong> закрывать, когда z возвращается к значению около 0.</li>
+<li><strong>Стоп:</strong> закрывать, если z достигает экстремума, например ±4, или если сделка длится в несколько раз дольше периода полураспада.</li>
+<li><strong>Повторная проверка:</strong> прекращать торговлю парой, если тест на коинтеграцию не проходит на свежих данных.</li>
+</ul>
+<h2 id="section-8">От пар к статистическому арбитражу</h2>
+<p>Статистический арбитраж применяет ту же логику в масштабе. Вместо одной пары фонд статарбитража может держать сотни или тысячи небольших длинных и коротких позиций. Распространённые подходы:</p>
+<ul>
+<li>Торговля каждой акцией против корзины аналогов по сектору.</li>
+<li>Использование факторных моделей или метода главных компонент, чтобы убрать рыночные и секторные движения, а затем торговля остаточными доходностями, от которых ожидается возврат. Авелланеда и Ли (Avellaneda, Lee) описали такой подход для американских акций в статье 2010 года.</li>
+<li>Краткосрочные модели, объединяющие сигналы возврата к среднему с информацией о потоке ордеров и объёмах.</li>
+</ul>
+<p>Несмотря на название, статистический арбитраж — это не арбитраж в безрисковом смысле, описанном в статье об <a href="/ru/encyclopedia/algorithmic-trading/arbitrage-strategies/">арбитражных стратегиях</a>. Он опирается на вероятности, которые выполняются в среднем по множеству позиций.</p>
+<h2 id="section-9">Деградация и скученность</h2>
+<h3 id="section-10">Деградация преимущества</h3>
+<p>Чем больше трейдеров используют похожие модели, тем быстрее закрываются целевые спреды и тем меньше остаётся возможностей. Более быстрые конкуренты забирают самые чистые сигналы. Стратегиям, которые когда-то держали позиции неделями, теперь, возможно, приходится действовать за минуты — или не действовать вовсе.</p>
+<h3 id="quant-quake-2007">Quant quake августа 2007 года</h3>
+<p>На неделе, начавшейся 6 августа 2007 г., многие количественные рыночно-нейтральные фонды на акциях понесли внезапные крупные убытки. В известном анализе Хандани и Ло (Khandani, Lo) предположили, что вероятным триггером стало быстрое закрытие позиций одним или несколькими крупными фондами, возможно, чтобы привлечь денежные средства или сократить риск в других местах. Поскольку многие фонды держали похожие длинные и короткие портфели, вынужденные продажи толкнули цены против всех них одновременно, что запустило дальнейшее снижение рисков. Большая часть убытков отыгралась за несколько дней, но фонды, сократившие позиции на дне, зафиксировали их. Урок: стратегия может быть рыночно-нейтральной и при этом нести концентрированный риск скученности.</p>
+<h2 id="section-12">Пример с расчётом</h2>
+<p>У двух акций оценённый коэффициент хеджирования 1.2. Исторически спред A − 1.2 × B в среднем составлял 2.00 доллара со стандартным отклонением 0.50 доллара.</p>
+<ul>
+<li>Сегодня A торгуется по 51.50 доллара, а B — по 40.00 доллара. Спред = 51.50 − 1.2 × 40.00 = 51.50 − 48.00 = 3.50 доллара.</li>
+<li>z = (3.50 − 2.00) / 0.50 = 3.0, выше уровня входа +2, поэтому трейдер продаёт спред: шорт 1,000 акций A (51,500 долларов) и покупка 1,200 акций B (48,000 долларов).</li>
+<li>Через две недели A стоит 51.00, а B — 40.75. Спред = 51.00 − 48.90 = 2.10 доллара, z = 0.2, поэтому трейдер выходит.</li>
+<li>Прибыль по шорту A: (51.50 − 51.00) × 1,000 = 500 долларов. Прибыль по лонгу B: (40.75 − 40.00) × 1,200 = 900 долларов. Итого 1,400 долларов.</li>
+<li>Проверка: спред снизился с 3.50 до 2.10, то есть на 1.40 доллара, умноженные на 1,000 единиц спреда = 1,400 долларов.</li>
+</ul>
+<p>Из этой суммы нужно вычесть комиссии по четырём ногам, спред, уплаченный по каждой из них, и плату за заём акций для шорта. Механика и издержки коротких продаж рассмотрены в статье о <a href="/ru/encyclopedia/stocks/short-selling/">коротких продажах</a>.</p>
+<h2 id="common-mistakes">Типичные ошибки</h2>
+<ul>
+<li><strong>Выбирать пары только по корреляции.</strong> Высокая корреляция не означает, что спред будет возвращаться.</li>
+<li><strong>Перебирать тысячи пар и торговать лучшие бэктесты.</strong> При достаточном числе кандидатов некоторые пары выглядят коинтегрированными случайно. См. <a href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">переобучение и подгонка под данные</a>.</li>
+<li><strong>Игнорировать структурные изменения.</strong> Слияния, выделения, новое регулирование или изменение структуры бизнеса могут навсегда разрушить взаимосвязь.</li>
+<li><strong>Нет стопа по спреду.</strong> Разрушенная пара может расходиться месяцами.</li>
+<li><strong>Недооценивать издержки короткой стороны.</strong> Плата за заём, отзыв бумаг и ограничения на короткие продажи могут стереть тонкое преимущество.</li>
+</ul>
+<h2 id="faq">Часто задаваемые вопросы</h2>
+<h3 id="section-15">Парный трейдинг безрисковый?</h3>
+<p>Нет. Взаимосвязь между двумя активами может разрушиться, спред может расшириться ещё сильнее, прежде чем сузится, а скученные позиции могут внезапно закрываться. Парный трейдинг снижает зависимость от направления рынка, но добавляет другие риски.</p>
+<h3 id="section-16">Чем коинтеграция отличается от корреляции?</h3>
+<p>Корреляция показывает, движутся ли доходности двух активов вместе от периода к периоду. Коинтеграция означает, что некоторая комбинация их цен образует спред, склонный возвращаться к стабильному среднему, — именно на это опирается парная сделка.</p>
+<h3 id="z-score">Какой z-score использовать в парном трейдинге?</h3>
+<p>Многие трейдеры входят при значениях около ±2 и выходят около 0, со стопом на большем значении, например ±4. Лучшие пороги зависят от издержек, периода полураспада спреда и самой пары и должны проверяться вне выборки.</p>
+<h3 id="section-18">Работает ли парный трейдинг сегодня?</h3>
+<p>Академические исследования показали, что доходность простых правил парного трейдинга со временем снижалась по мере того, как стратегия становилась широко известной. Возможности по-прежнему есть, но они, как правило, меньше, быстрее исчезают и требуют большей конкуренции, чем в прошлом.</p>
+</article>
+<div class="disclaimer"><strong>Только образовательный материал.</strong> Ничто здесь не является финансовой, инвестиционной, юридической или налоговой консультацией. Торговля сопряжена с высоким риском потерь, а с кредитным плечом можно потерять больше, чем вы внесли. Правила, комиссии и условия площадок меняются: перед сделкой проверяйте актуальные условия у брокера, биржи или регулятора.</div>
+<section class="related"><h2>Похожие статьи</h2><div class="cards"><a class="card" href="/ru/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Алгоритмическая и квант-торговля</div><b>Возврат к среднему</b><span>Как работает торговля на возврате к среднему: краткосрочный разворот, z-score, системы на полосах Боллинджера и RSI, отрицательная асимметрия и риск режима.</span></a><a class="card" href="/ru/encyclopedia/algorithmic-trading/arbitrage-strategies/"><div class="k">Алгоритмическая и квант-торговля</div><b>Арбитражные стратегии</b><span>Чистый и статистический арбитраж, индексный и ETF-арбитраж, арбитраж слияний, межбиржевой и треугольный арбитраж, базисные сделки и их реальные риски.</span></a><a class="card" href="/ru/encyclopedia/risk-management/correlation-and-portfolio-risk/"><div class="k">Риск- и мани-менеджмент</div><b>Корреляция и риск портфеля</b><span>Почему коррелированные позиции — это одна большая ставка, корреляции растут в кризис, а диверсификация ограничена. Лимиты, хеджирование и бета с расчетами.</span></a><a class="card" href="/ru/encyclopedia/stocks/short-selling/"><div class="k">Торговля акциями</div><b>Короткие продажи</b><span>Как работают короткие продажи: заём акций и плата за него, короткий интерес и days to cover, шорт-сквизы, правило SSR, выплата дивидендов и альтернативы.</span></a><a class="card" href="/ru/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Алгоритмическая и квант-торговля</div><b>Переоптимизация</b><span>Почему отличные бэктесты проваливаются в реальной торговле: подгонка, множественное тестирование, нестабильные параметры, deflated Sharpe и защита от них.</span></a></div></section>
+<div class="pager"><a href="/ru/encyclopedia/algorithmic-trading/mean-reversion/"><small>← Назад</small>Возврат к среднему</a><a class="next" href="/ru/encyclopedia/algorithmic-trading/market-making/"><small>Далее →</small>Маркетмейкинг</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/ru/encyclopedia/basics/">Основы трейдинга</a><a href="/ru/encyclopedia/risk-management/">Риск- и мани-менеджмент</a><a href="/ru/encyclopedia/psychology/">Психология трейдинга</a><a href="/ru/encyclopedia/technical-analysis/">Технический анализ</a><a href="/ru/encyclopedia/fundamental-analysis/">Фундаментальный и макроанализ</a><a href="/ru/encyclopedia/stocks/">Торговля акциями</a><a href="/ru/encyclopedia/forex/">Торговля на форекс</a><a href="/ru/encyclopedia/futures/">Торговля фьючерсами</a><a href="/ru/encyclopedia/options/">Торговля опционами</a><a href="/ru/encyclopedia/crypto/">Торговля криптовалютой</a><a href="/ru/encyclopedia/meme-coins/">Торговля мемкоинами</a><a href="/ru/encyclopedia/prediction-markets/">Рынки предсказаний</a><a href="/ru/encyclopedia/algorithmic-trading/">Алгоритмическая и квант-торговля</a><a href="/ru/encyclopedia/other-markets/">Сырье, облигации и другие рынки</a><a href="/ru/encyclopedia/trading-business/">Проп-фирмы, налоги, регулирование и мошенничество</a><a href="/ru/encyclopedia/reference/">Справочник</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Открытый набор торговых ботов</a></div>
+  <p>PnL Profit Энциклопедия трейдинга: бесплатные независимые объяснения того, как работают крупнейшие рынки. Только образовательный материал, не инвестиционная рекомендация. Контакты: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/ru/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">Ничего не найдено. Загляните в глоссарий.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

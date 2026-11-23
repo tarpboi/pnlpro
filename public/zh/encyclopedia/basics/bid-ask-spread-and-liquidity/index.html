@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>买卖价差与流动性：滑点和往返交易成本 | PnL Profit</title>
+<meta name="description" content="什么是买价、卖价、点差和中间价，流动性、滑点和市场冲击如何运作，点差为何会扩大，以及如何计算一次往返交易的成本。">
+<meta name="keywords" content="买卖价差, 点差是什么, 流动性是什么意思, 滑点, 中间价, 市场冲击成本">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="en" href="https://pnlpro.fit/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="zh-CN" href="https://pnlpro.fit/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="ru" href="https://pnlpro.fit/ru/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="es" href="https://pnlpro.fit/es/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="pt-BR" href="https://pnlpro.fit/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="tr" href="https://pnlpro.fit/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="vi" href="https://pnlpro.fit/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="ja" href="https://pnlpro.fit/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="ko" href="https://pnlpro.fit/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="alternate" hreflang="x-default" href="https://pnlpro.fit/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit 交易百科">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="买卖价差与流动性：滑点和往返交易成本 | PnL Profit">
+<meta property="og:description" content="什么是买价、卖价、点差和中间价，流动性、滑点和市场冲击如何运作，点差为何会扩大，以及如何计算一次往返交易的成本。">
+<meta property="og:url" content="https://pnlpro.fit/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="买卖价差与流动性：滑点和往返交易成本 | PnL Profit">
+<meta name="twitter:description" content="什么是买价、卖价、点差和中间价，流动性、滑点和市场冲击如何运作，点差为何会扩大，以及如何计算一次往返交易的成本。">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-inline-start:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-inline-start:3px solid var(--accent);margin:1.2rem 0;padding-block:.2rem;padding-inline:1rem 0;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-inline-start:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:end}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-inline-start:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+
+.langmenu{position:relative;flex-shrink:0}
+.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
+.langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
+@media (max-width:560px){.langmenu summary span{display:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"zh-CN","headline":"买卖价差与流动性：滑点和往返交易成本","description":"什么是买价、卖价、点差和中间价，流动性、滑点和市场冲击如何运作，点差为何会扩大，以及如何计算一次往返交易的成本。","keywords":"买卖价差, 点差是什么, 流动性是什么意思, 滑点, 中间价, 市场冲击成本","articleSection":"交易基础","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"百科","item":"https://pnlpro.fit/zh/encyclopedia/"},{"@type":"ListItem","position":2,"name":"交易基础","item":"https://pnlpro.fit/zh/encyclopedia/basics/"},{"@type":"ListItem","position":3,"name":"点差与流动性","item":"https://pnlpro.fit/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"多大的买卖价差算合理？","acceptedAnswer":{"@type":"Answer","text":"这取决于市场。主要货币对和最大的股票通常以百分之零点零几的点差交易，而小盘股、流动性差的代币和小众合约的点差可能达到几个百分点。应把点差与你每笔交易的预期利润进行比较。"}},{"@type":"Question","name":"如何计算买卖价差百分比？","acceptedAnswer":{"@type":"Answer","text":"用卖价减去买价，除以中间价，再乘以 100。对于买价 $25.00、卖价 $25.05 的情况，计算式为 0.05 / 25.025 x 100，约为 0.20%。"}},{"@type":"Question","name":"交易中的滑点是怎么产生的？","acceptedAnswer":{"@type":"Answer","text":"当订单以比预期更差的价格成交时，就产生了滑点。通常的原因是订单数量大于最优价位上的挂单量、订单抵达前价格已经变动，或者市场跳空越过了止损价。"}},{"@type":"Question","name":"为什么夜间点差会扩大？","acceptedAnswer":{"@type":"Answer","text":"在主要交易时段之外，活跃的交易者和做市商较少，因此争相给出窄报价的竞争也较少，而每一笔报价承担的风险更大。在新闻发布前后以及外汇每日结算换日时段，点差也往往会扩大。"}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/zh/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>百科</small></a>
+  <nav class="top"><a href="/zh/encyclopedia/" class="on">百科</a><a href="/zh/encyclopedia/reference/trading-glossary/">术语表</a><a href="/blog/">博客(英文)</a><a href="/zh/">机器人工具包</a></nav>
+  <details class="langmenu"><summary aria-label="语言">🌐 <span>中文</span></summary><div class="menu"><a href="/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="zh-CN" lang="zh-CN" class="on" aria-current="true">中文</a><a href="/ru/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="ru" lang="ru">Русский</a><a href="/es/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/basics/bid-ask-spread-and-liquidity/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <div class="search"><input id="q" type="search" placeholder="搜索 150+ 篇文章  ( / )" autocomplete="off" aria-label="搜索百科"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>交易基础</h3><ul><li><a href="/zh/encyclopedia/basics/what-is-trading/">什么是交易？</a></li><li><a href="/zh/encyclopedia/basics/financial-markets-overview/">金融市场概览</a></li><li><a href="/zh/encyclopedia/basics/trading-styles/">交易风格</a></li><li><a href="/zh/encyclopedia/basics/order-types/">订单类型</a></li><li><a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿与市场深度</a></li><li><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/" class="on" aria-current="page">点差与流动性</a></li><li><a href="/zh/encyclopedia/basics/leverage-and-margin/">杠杆与保证金</a></li><li><a href="/zh/encyclopedia/basics/long-and-short-positions/">做多与做空</a></li><li><a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a></li><li><a href="/zh/encyclopedia/basics/brokers-and-exchanges/">经纪商与交易所</a></li><li><a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a></li><li><a href="/zh/encyclopedia/basics/market-hours-and-sessions/">交易时间与时段</a></li><li><a href="/zh/encyclopedia/basics/how-to-start-trading/">如何开始交易</a></li></ul><h3>全部主题</h3><ul><li><a href="/zh/encyclopedia/basics/" class="on">📘 交易基础</a></li><li><a href="/zh/encyclopedia/risk-management/">🛡️ 风险与资金管理</a></li><li><a href="/zh/encyclopedia/psychology/">🧠 交易心理</a></li><li><a href="/zh/encyclopedia/technical-analysis/">📈 技术分析</a></li><li><a href="/zh/encyclopedia/fundamental-analysis/">🏦 基本面与宏观分析</a></li><li><a href="/zh/encyclopedia/stocks/">🏛️ 股票交易</a></li><li><a href="/zh/encyclopedia/forex/">💱 外汇交易</a></li><li><a href="/zh/encyclopedia/futures/">📊 期货交易</a></li><li><a href="/zh/encyclopedia/options/">🎯 期权交易</a></li><li><a href="/zh/encyclopedia/crypto/">₿ 加密货币交易</a></li><li><a href="/zh/encyclopedia/meme-coins/">🐸 Meme币交易</a></li><li><a href="/zh/encyclopedia/prediction-markets/">🔮 预测市场</a></li><li><a href="/zh/encyclopedia/algorithmic-trading/">🤖 算法与量化交易</a></li><li><a href="/zh/encyclopedia/other-markets/">🛢️ 大宗商品、债券及其他</a></li><li><a href="/zh/encyclopedia/trading-business/">⚖️ 自营公司、税务、监管与骗局</a></li><li><a href="/zh/encyclopedia/reference/">📖 参考资料</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/zh/encyclopedia/">百科</a> › <a href="/zh/encyclopedia/basics/">交易基础</a></div>
+<h1 class="title">买卖价差与流动性</h1>
+<div class="meta">阅读约 5 分钟 · 更新于 2026年11月23日</div>
+<details class="side-m"><summary>交易基础中的更多文章</summary><ul><li><a href="/zh/encyclopedia/basics/what-is-trading/">什么是交易？</a></li><li><a href="/zh/encyclopedia/basics/financial-markets-overview/">金融市场概览</a></li><li><a href="/zh/encyclopedia/basics/trading-styles/">交易风格</a></li><li><a href="/zh/encyclopedia/basics/order-types/">订单类型</a></li><li><a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿与市场深度</a></li><li><a href="/zh/encyclopedia/basics/bid-ask-spread-and-liquidity/" class="on" aria-current="page">点差与流动性</a></li><li><a href="/zh/encyclopedia/basics/leverage-and-margin/">杠杆与保证金</a></li><li><a href="/zh/encyclopedia/basics/long-and-short-positions/">做多与做空</a></li><li><a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a></li><li><a href="/zh/encyclopedia/basics/brokers-and-exchanges/">经纪商与交易所</a></li><li><a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a></li><li><a href="/zh/encyclopedia/basics/market-hours-and-sessions/">交易时间与时段</a></li><li><a href="/zh/encyclopedia/basics/how-to-start-trading/">如何开始交易</a></li></ul></details>
+<article><p>买卖价差（bid-ask spread，又称点差）是买方愿意支付的最高价格（买价，bid）与卖方愿意接受的最低价格（卖价，ask）之间的差距。流动性是指一项资产能否在不推动价格的情况下轻松地大量买卖。两者共同决定了每笔交易成本中的很大一部分，往往比佣金还多。尤其对于短线交易者而言，理解点差和滑点，是判断一个策略究竟能否赚钱的关键。</p>
+<div class="takeaways"><h2 id="key-takeaways">要点总结</h2>
+<ul>
+<li>以卖价买入、以买价卖出，意味着每次往返交易一开始就亏损了相当于点差的金额。</li>
+<li>点差通常以美分、点（pip）、最小变动价位（tick）或中间价的百分比来衡量，用百分比表示便于比较不同市场。</li>
+<li>流动性有几个维度：点差窄、每个价位挂单量充足，以及大额交易后恢复迅速。</li>
+<li>当订单规模大、市场清淡或价格快速变动时，滑点和市场冲击会在点差之外进一步增加成本。</li>
+<li>在新闻发布前后、开盘和收盘时段、流动性不足的时段以及市场承压时，点差都会扩大。</li>
+</ul></div><details class="toc"><summary>本页目录</summary><ol><li><a href="#section-2">买价、卖价、点差和中间价</a></li><li><a href="#section-3">衡量点差</a></li><li><a href="#section-4">计算示例：一次往返交易的成本</a></li><li><a href="#section-5">流动性</a></li><li><a href="#section-6">滑点与市场冲击</a></li><li><a href="#section-7">点差为何会扩大</a></li><li><a href="#common-mistakes">常见错误</a></li></ol></details>
+<h2 id="section-2">买价、卖价、点差和中间价</h2>
+<ul>
+<li><strong>买价（bid）：</strong> 当前有人愿意买入的最优价格。如果你立即卖出，就是以买价成交。</li>
+<li><strong>卖价（ask 或 offer）：</strong> 当前有人愿意卖出的最优价格。如果你立即买入，就是以卖价成交。</li>
+<li><strong>点差：</strong> 卖价减去买价。</li>
+<li><strong>中间价：</strong> 两者的中点，即 (bid + ask) / 2。图表和报价通常显示中间价或最新成交价，但你通常无法以中间价成交。</li>
+</ul>
+<p>这些价格来自交易所的<a href="/zh/encyclopedia/basics/order-book-and-market-depth/">订单簿</a>，或者在外汇等场外市场中来自交易商的报价。</p>
+<p>点差是对流动性提供者的补偿，通常是做市商，他们随时准备以买价买入、以卖价卖出。平均而言他们能赚到点差，但要承担价格朝不利于其持有库存的方向变动的风险。参见<a href="/zh/encyclopedia/basics/market-participants/">市场参与者</a>。</p>
+<h2 id="section-3">衡量点差</h2>
+<p>不同市场的点差以不同单位报价，因此把它们换算成中间价的百分比或基点（一个基点为 0.01%）会很有帮助。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>市场示例</th>
+<th>买价</th>
+<th>卖价</th>
+<th>点差</th>
+<th>点差占中间价的百分比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大盘股</td>
+<td>$25.00</td>
+<td>$25.05</td>
+<td>$0.05</td>
+<td>约 0.20%</td>
+</tr>
+<tr>
+<td>小盘股</td>
+<td>$2.00</td>
+<td>$2.10</td>
+<td>$0.10</td>
+<td>约 4.9%</td>
+</tr>
+<tr>
+<td>EUR/USD</td>
+<td>1.08500</td>
+<td>1.08510</td>
+<td>1 个点</td>
+<td>约 0.009%</td>
+</tr>
+<tr>
+<td>预测市场合约</td>
+<td>$0.42</td>
+<td>$0.45</td>
+<td>$0.03</td>
+<td>约 6.9%</td>
+</tr>
+</tbody></table></div>
+<p>计算过程：0.05 / 25.025 = 0.20%；0.10 / 2.05 = 4.88%；0.0001 / 1.08505 = 0.0092%；0.03 / 0.435 = 6.90%。这些数字仅用于说明，并非实时报价，但所呈现的规律很典型：主要货币和大盘股的交易成本很低，而小盘股、流动性差的代币和冷门合约每次往返的成本可能高达几个百分点。</p>
+<h2 id="section-4">计算示例：一次往返交易的成本</h2>
+<p>某交易者买入上表中的大盘股 1,000 股，几分钟后在价格没有变化的情况下卖出。</p>
+<ul>
+<li>以卖价买入：1,000 x $25.05 = $25,050</li>
+<li>以买价卖出：1,000 x $25.00 = $25,000</li>
+<li>点差造成的亏损：$50</li>
+<li>加上单边 $1 的佣金：总成本 $52</li>
+</ul>
+<p>这相当于仓位价值的 0.21%，而且是在市场完全没有变动的一笔交易上付出的。一名交易者每天这样交易 10 次，每天就要支付 $520。按 250 个交易日计算，对于一个每次周转 $25,000 的仓位来说，一年的成本高达 $130,000。</p>
+<p>同样的算法也适用于外汇。一标准手 EUR/USD（100,000 欧元）的每点价值为 $10，因此 1 个点的点差意味着每次往返要花 $10，另加佣金（如有）。在加密货币和预测市场，点差往往更宽，而且还要另外收取交易所手续费。完整的成本清单见<a href="/zh/encyclopedia/basics/trading-costs-and-fees/">交易成本与费用</a>。</p>
+<h2 id="section-5">流动性</h2>
+<p>在流动性好的市场中，你可以快速地、以合理的规模、在接近最新成交价的价格完成交易。交易者通常从三个维度来理解流动性：</p>
+<ul>
+<li><strong>紧密度：</strong> 点差有多窄。</li>
+<li><strong>深度：</strong> 最优价位及其附近有多少可成交数量。</li>
+<li><strong>弹性：</strong> 大额交易消耗流动性后，订单簿多快能重新补满。</li>
+</ul>
+<p>一个市场可能点差很窄但深度很浅，例如点差只有 1 美分，但买卖两边各只挂着 100 股。需要成交 10,000 股的交易者，更关心的是深度而不是报价点差。</p>
+<p>流动性也会随时间变化。同一项资产在其主要交易时段开盘时可能流动性极好，而在夜间、节假日或恐慌期间则可能非常清淡。</p>
+<h2 id="section-6">滑点与市场冲击</h2>
+<p><strong>滑点</strong>是你预期的价格与实际成交价格之间的差额。它主要有三个来源：</p>
+<ol>
+<li><strong>逐档吃单。</strong> 订单数量大于最优价位上的挂单量时，会在多个价位分别成交。参见<a href="/zh/encyclopedia/basics/order-types/">订单类型</a>中的计算示例。</li>
+<li><strong>延迟。</strong> 从你点击下单到订单抵达之间，价格会发生变动，在快速行情中尤其如此。</li>
+<li><strong>跳空。</strong> 在隔夜或周末跳空后触发的止损单，会以第一个可得价格成交。</li>
+</ol>
+<p><strong>市场冲击</strong>是指你自身交易对价格产生的更广泛影响。一笔大额订单即使拆分成多笔，也会暴露需求，把价格推向对你不利的方向。专业交易者使用<a href="/zh/encyclopedia/algorithmic-trading/execution-algorithms/">执行算法</a>来降低冲击。对于流动性好的市场中大多数散户规模的交易，冲击很小；但在小盘股、小市值代币和清淡的事件合约中，即使是中等规模的订单也可能明显推动价格。</p>
+<h2 id="section-7">点差为何会扩大</h2>
+<p>当报价风险上升时，做市商就会扩大点差。常见原因包括：</p>
+<ul>
+<li><strong>预定的新闻发布。</strong> 在央行决议或重要经济数据等发布之前和刚发布之后，交易商会撤回报价或扩大点差。参见<a href="/zh/encyclopedia/fundamental-analysis/news-trading-and-economic-calendar/">新闻交易与经济日历</a>。</li>
+<li><strong>流动性不足的时段。</strong> 隔夜时段、外汇每日结算换日（rollover）时段以及加密货币的周末，参与者都较少。参见<a href="/zh/encyclopedia/basics/market-hours-and-sessions/">市场交易时间与交易时段</a>。</li>
+<li><strong>开盘与收盘。</strong> 交易时段的最初几分钟里，价格仍在发现过程中，点差往往较宽。</li>
+<li><strong>波动与市场压力。</strong> 当价格剧烈波动时，持有库存的风险骤增，因此报价会扩大甚至消失。</li>
+<li><strong>关注度低。</strong> 冷门股票、新代币和小众合约本来就没有多少人报价。</li>
+</ul>
+<h2 id="common-mistakes">常见错误</h2>
+<ul>
+<li><strong>只看图表价格而不看买价和卖价。</strong> 许多图表绘制的是中间价或买价，因此你实际支付的价格可能不同。</li>
+<li><strong>因为零佣金就忽视点差成本。</strong> 零佣金交易依然要付出点差成本。</li>
+<li><strong>在清淡市场使用市价单。</strong> 宽点差加上浅深度，可能造成严重的滑点。</li>
+<li><strong>围绕新闻交易却不考虑点差扩大。</strong> 止损单可能因点差的暂时飙升而被触发。</li>
+<li><strong>仅凭成交量判断流动性。</strong> 在某些加密货币交易平台上，公布的成交量可能包含刷量交易（wash trading），而且成交量并不能告诉你此刻可用的深度。</li>
+</ul>
+<h2 id="faq">常见问题</h2>
+<h3 id="section-10">多大的买卖价差算合理？</h3>
+<p>这取决于市场。主要货币对和最大的股票通常以百分之零点零几的点差交易，而小盘股、流动性差的代币和小众合约的点差可能达到几个百分点。应把点差与你每笔交易的预期利润进行比较。</p>
+<h3 id="section-11">如何计算买卖价差百分比？</h3>
+<p>用卖价减去买价，除以中间价，再乘以 100。对于买价 $25.00、卖价 $25.05 的情况，计算式为 0.05 / 25.025 x 100，约为 0.20%。</p>
+<h3 id="section-12">交易中的滑点是怎么产生的？</h3>
+<p>当订单以比预期更差的价格成交时，就产生了滑点。通常的原因是订单数量大于最优价位上的挂单量、订单抵达前价格已经变动，或者市场跳空越过了止损价。</p>
+<h3 id="section-13">为什么夜间点差会扩大？</h3>
+<p>在主要交易时段之外，活跃的交易者和做市商较少，因此争相给出窄报价的竞争也较少，而每一笔报价承担的风险更大。在新闻发布前后以及外汇每日结算换日时段，点差也往往会扩大。</p>
+</article>
+<div class="disclaimer"><strong>仅供学习参考。</strong>本站内容不构成任何金融、投资、法律或税务建议。交易具有很高的亏损风险，杠杆产品的亏损可能超过你投入的本金。规则、费用和平台细节会变化，交易前请向你的券商、交易所或监管机构核实最新条款。</div>
+<section class="related"><h2>相关文章</h2><div class="cards"><a class="card" href="/zh/encyclopedia/basics/order-book-and-market-depth/"><div class="k">交易基础</div><b>订单簿与市场深度</b><span>限价订单簿和撮合引擎如何运作，价格时间优先原则，Level 1 与 Level 2 行情的区别，如何解读深度，幌骗，以及与做市商市场和 AMM 的对比。</span></a><a class="card" href="/zh/encyclopedia/basics/order-types/"><div class="k">交易基础</div><b>订单类型</b><span>各类订单的作用、适用场景，以及让交易者亏钱的常见错误。涵盖市价单、限价单、止损单、止损限价单、追踪止损、OCO 和订单有效期。</span></a><a class="card" href="/zh/encyclopedia/basics/trading-costs-and-fees/"><div class="k">交易基础</div><b>交易成本与费用</b><span>佣金、点差、maker/taker 手续费、隔夜利息、资金费、融券费、订单流付费、gas 费、滑点和税负，附一个高频交易成本累积的计算示例。</span></a><a class="card" href="/zh/encyclopedia/basics/market-hours-and-sessions/"><div class="k">交易基础</div><b>交易时间与时段</b><span>各市场何时开盘：证券交易所交易时间、盘前盘后、外汇交易时段及重叠时段、期货休市、加密货币 24/7、周末跳空、节假日与夏令时。</span></a><a class="card" href="/zh/encyclopedia/basics/market-participants/"><div class="k">交易基础</div><b>市场参与者</b><span>散户、机构、对冲基金、做市商、高频交易公司、套期保值者、央行和巨鲸：各自想要什么，以及你真正在与谁交易。</span></a></div></section>
+<div class="pager"><a href="/zh/encyclopedia/basics/order-book-and-market-depth/"><small>← 上一篇</small>订单簿与市场深度</a><a class="next" href="/zh/encyclopedia/basics/leverage-and-margin/"><small>下一篇 →</small>杠杆与保证金</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/zh/encyclopedia/basics/">交易基础</a><a href="/zh/encyclopedia/risk-management/">风险与资金管理</a><a href="/zh/encyclopedia/psychology/">交易心理</a><a href="/zh/encyclopedia/technical-analysis/">技术分析</a><a href="/zh/encyclopedia/fundamental-analysis/">基本面与宏观分析</a><a href="/zh/encyclopedia/stocks/">股票交易</a><a href="/zh/encyclopedia/forex/">外汇交易</a><a href="/zh/encyclopedia/futures/">期货交易</a><a href="/zh/encyclopedia/options/">期权交易</a><a href="/zh/encyclopedia/crypto/">加密货币交易</a><a href="/zh/encyclopedia/meme-coins/">Meme币交易</a><a href="/zh/encyclopedia/prediction-markets/">预测市场</a><a href="/zh/encyclopedia/algorithmic-trading/">算法与量化交易</a><a href="/zh/encyclopedia/other-markets/">大宗商品、债券及其他</a><a href="/zh/encyclopedia/trading-business/">自营公司、税务、监管与骗局</a><a href="/zh/encyclopedia/reference/">参考资料</a><a href="/blog/">博客(英文)</a><a href="/zh/">开源交易机器人工具包</a></div>
+  <p>PnL Profit 交易百科：免费、独立地讲解每个主要市场如何运作。仅供学习参考，不构成投资建议。 联系: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/zh/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">没有匹配结果，试试术语表。</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>
