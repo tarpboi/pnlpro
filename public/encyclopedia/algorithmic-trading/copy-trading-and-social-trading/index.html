@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Copy Trading and Social Trading: How It Works and the Risks</title>
+<meta name="description" content="How copy trading and social trading work, the survivorship and incentive problems behind leaderboards, how to judge a track record, and slippage for followers.">
+<meta name="keywords" content="copy trading, social trading, is copy trading profitable, copy trading risks, signal providers">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Encyclopedia">
+<meta property="og:title" content="Copy Trading and Social Trading: How It Works and the Risks">
+<meta property="og:description" content="How copy trading and social trading work, the survivorship and incentive problems behind leaderboards, how to judge a track record, and slippage for followers.">
+<meta property="og:url" content="https://pnlpro.fit/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Copy Trading and Social Trading: How It Works and the Risks">
+<meta name="twitter:description" content="How copy trading and social trading work, the survivorship and incentive problems behind leaderboards, how to judge a track record, and slippage for followers.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-left:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-left:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-left:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-left:3px solid var(--accent);margin:1.2rem 0;padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-left:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:right}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-left:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Copy Trading and Social Trading: How It Works and the Risks","description":"How copy trading and social trading work, the survivorship and incentive problems behind leaderboards, how to judge a track record, and slippage for followers.","keywords":"copy trading, social trading, is copy trading profitable, copy trading risks, signal providers","articleSection":"Algorithmic & Quant Trading","wordCount":1371,"image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Encyclopedia","item":"https://pnlpro.fit/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Algorithmic & Quant Trading","item":"https://pnlpro.fit/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Copy & Social Trading","item":"https://pnlpro.fit/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is copy trading profitable?","acceptedAnswer":{"@type":"Answer","text":"It can be, but many followers earn less than the leaders they copy because of delays, slippage, fees and the tendency to pick lucky traders after a hot streak. Results depend heavily on choosing leaders with long, risk-controlled records."}},{"@type":"Question","name":"Is copy trading safe?","acceptedAnswer":{"@type":"Answer","text":"Copy trading carries the same market risks as trading yourself, plus extra risks from the leader's decisions, incentives and execution delays. Using a copy stop-loss and limiting the amount allocated can reduce, but not remove, those risks."}},{"@type":"Question","name":"How do copy trading leaders get paid?","acceptedAnswer":{"@type":"Answer","text":"Common models are a share of the profits they generate for followers, subscription fees, or payments tied to trading volume. Profit-share models often do not make leaders share in losses, which can encourage risk-taking."}},{"@type":"Question","name":"What is the difference between copy trading and social trading?","acceptedAnswer":{"@type":"Answer","text":"Social trading is the broad practice of sharing trades, ideas and performance on a platform. Copy trading is a specific feature where your account automatically replicates another trader's positions."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Encyclopedia</small></a>
+  <nav class="top"><a href="/encyclopedia/" class="on">Encyclopedia</a><a href="/encyclopedia/reference/trading-glossary/">Glossary</a><a href="/blog/">Blog</a><a href="/">Bot toolkit</a></nav>
+  <div class="search"><input id="q" type="search" placeholder="Search 150+ articles  ( / )" autocomplete="off" aria-label="Search the encyclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Algorithmic &amp; Quant Trading</h3><ul><li><a href="/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algorithmic Trading Intro</a></li><li><a href="/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/encyclopedia/algorithmic-trading/trend-following/">Trend Following</a></li><li><a href="/encyclopedia/algorithmic-trading/mean-reversion/">Mean Reversion</a></li><li><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs Trading &amp; Stat Arb</a></li><li><a href="/encyclopedia/algorithmic-trading/market-making/">Market Making</a></li><li><a href="/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitrage Strategies</a></li><li><a href="/encyclopedia/algorithmic-trading/high-frequency-trading/">High-Frequency Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/execution-algorithms/">Execution Algorithms</a></li><li><a href="/encyclopedia/algorithmic-trading/building-trading-bots/">Building Trading Bots</a></li><li><a href="/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" class="on" aria-current="page">Copy &amp; Social Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine Learning in Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/market-data-sources/">Market Data</a></li></ul><h3>All topics</h3><ul><li><a href="/encyclopedia/basics/">📘 Trading Basics</a></li><li><a href="/encyclopedia/risk-management/">🛡️ Risk &amp; Money Management</a></li><li><a href="/encyclopedia/psychology/">🧠 Trading Psychology</a></li><li><a href="/encyclopedia/technical-analysis/">📈 Technical Analysis</a></li><li><a href="/encyclopedia/fundamental-analysis/">🏦 Fundamental &amp; Macro Analysis</a></li><li><a href="/encyclopedia/stocks/">🏛️ Stock Trading</a></li><li><a href="/encyclopedia/forex/">💱 Forex Trading</a></li><li><a href="/encyclopedia/futures/">📊 Futures Trading</a></li><li><a href="/encyclopedia/options/">🎯 Options Trading</a></li><li><a href="/encyclopedia/crypto/">₿ Crypto Trading</a></li><li><a href="/encyclopedia/meme-coins/">🐸 Meme Coin Trading</a></li><li><a href="/encyclopedia/prediction-markets/">🔮 Prediction Markets</a></li><li><a href="/encyclopedia/algorithmic-trading/" class="on">🤖 Algorithmic &amp; Quant Trading</a></li><li><a href="/encyclopedia/other-markets/">🛢️ Commodities, Bonds &amp; More</a></li><li><a href="/encyclopedia/trading-business/">⚖️ Prop Firms, Tax, Regulation &amp; Scams</a></li><li><a href="/encyclopedia/reference/">📖 Reference</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/encyclopedia/">Encyclopedia</a> › <a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a></div>
+<h1 class="title">Copy Trading and Social Trading</h1>
+<div class="meta">6 min read · Updated Nov 23, 2026</div>
+<details class="side-m"><summary>More in Algorithmic &amp; Quant Trading</summary><ul><li><a href="/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algorithmic Trading Intro</a></li><li><a href="/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/encyclopedia/algorithmic-trading/trend-following/">Trend Following</a></li><li><a href="/encyclopedia/algorithmic-trading/mean-reversion/">Mean Reversion</a></li><li><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs Trading &amp; Stat Arb</a></li><li><a href="/encyclopedia/algorithmic-trading/market-making/">Market Making</a></li><li><a href="/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitrage Strategies</a></li><li><a href="/encyclopedia/algorithmic-trading/high-frequency-trading/">High-Frequency Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/execution-algorithms/">Execution Algorithms</a></li><li><a href="/encyclopedia/algorithmic-trading/building-trading-bots/">Building Trading Bots</a></li><li><a href="/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/" class="on" aria-current="page">Copy &amp; Social Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine Learning in Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/market-data-sources/">Market Data</a></li></ul></details>
+<article><p>Copy trading lets you automatically mirror the trades of another trader in your own account, usually in proportion to the amount you allocate. Social trading is the broader category of platforms where traders share positions, ideas and performance publicly. Copying looks like a shortcut to a skilled trader&#39;s results, but survivorship bias, misaligned incentives and execution delays mean followers often earn less than the leaders they copy, and frequently lose money.</p>
+<div class="takeaways"><h2 id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>Copy trading replicates a leader&#39;s trades automatically; your results also depend on timing, fees and slippage.</li>
+<li>Leaderboards are full of survivorship bias: with enough traders, some will have spectacular records by luck.</li>
+<li>Many providers are paid on profits or volume without sharing losses, which can reward risky behavior.</li>
+<li>Judge a track record by its length, drawdowns, leverage, number of trades and consistency, not by its best returns.</li>
+<li>On-chain copy trading adds risks of its own, including followers becoming exit liquidity for the wallets they copy.</li>
+</ul></div><details class="toc"><summary>On this page</summary><ol><li><a href="#how-copy-trading-works">How copy trading works</a></li><li><a href="#types-of-platforms">Types of platforms</a></li><li><a href="#the-survivorship-problem">The survivorship problem</a></li><li><a href="#incentive-problems">Incentive problems</a></li><li><a href="#evaluating-a-track-record">Evaluating a track record</a></li><li><a href="#slippage-and-execution-for-followers">Slippage and execution for followers</a></li><li><a href="#worked-example">Worked example</a></li><li><a href="#common-mistakes">Common mistakes</a></li></ol></details>
+<h2 id="how-copy-trading-works">How copy trading works</h2>
+<p>A follower chooses a leader (often called a strategy provider, master trader or signal provider) and allocates money. When the leader opens or closes a position, the platform places a corresponding order in the follower&#39;s account.</p>
+<p>Common allocation methods:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>How it sizes trades</th>
+<th>Watch out for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Proportional</td>
+<td>Follower&#39;s position is the same percentage of their allocation as the leader&#39;s is of the leader&#39;s account</td>
+<td>Small allocations may fall below minimum trade sizes</td>
+</tr>
+<tr>
+<td>Fixed amount</td>
+<td>Same dollar amount per trade, regardless of the leader&#39;s size</td>
+<td>Ignores the leader&#39;s own risk sizing</td>
+</tr>
+<tr>
+<td>Fixed multiplier</td>
+<td>Follower trades a multiple of the leader&#39;s lot size</td>
+<td>Can magnify risk far beyond the leader&#39;s</td>
+</tr>
+</tbody></table></div>
+<p>Most platforms let followers set a stop-loss on the whole copy relationship, such as stopping if the allocation falls 30%.</p>
+<h2 id="types-of-platforms">Types of platforms</h2>
+<ul>
+<li><strong>Broker social trading platforms.</strong> Some retail brokers, eToro being a well-known example, let users copy other users&#39; portfolios directly, often in CFDs or shares.</li>
+<li><strong>Signal marketplaces for forex platforms.</strong> MetaTrader-based services and others connect signal providers with subscribers who copy trades into their own broker accounts.</li>
+<li><strong>Crypto exchange copy trading.</strong> Several large crypto exchanges offer copy trading of spot and perpetual futures traders, typically with profit-sharing for the leader.</li>
+<li><strong>Telegram and Discord signal groups.</strong> Providers post trade ideas that followers execute manually or with bots. Verification is usually weakest here.</li>
+<li><strong>On-chain copy trading.</strong> Tools track public blockchain wallets and replicate their swaps, common in meme coin trading and prediction markets. See <a href="/encyclopedia/meme-coins/copy-trading-wallets/">copy trading wallets</a> and the <a href="/blog/polymarket-copy-trading-guide.html">Polymarket copy trading guide</a>.</li>
+</ul>
+<p>Regulators in some countries treat copy trading as a form of portfolio management or investment advice, with licensing and disclosure requirements. Rules differ by jurisdiction and change over time, so check the current status where you live.</p>
+<h2 id="the-survivorship-problem">The survivorship problem</h2>
+<p>Leaderboards show the traders who are currently doing best. They do not show the much larger number who blew up and disappeared. If many traders take high risks, some will produce extraordinary short-term returns purely by chance, and those are exactly the ones the leaderboard promotes.</p>
+<p>Strategies that look smooth until they fail are common at the top of leaderboards:</p>
+<ul>
+<li><strong>Martingale and averaging down:</strong> doubling position size after losses produces a long run of small wins and occasionally a total loss.</li>
+<li><strong>Grid strategies without stops:</strong> profitable in ranges, catastrophic in strong trends.</li>
+<li><strong>Short volatility:</strong> selling options or holding positions that collect small, steady income but are exposed to rare large moves.</li>
+</ul>
+<p>The <a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">drawdown and risk of ruin</a> article explains why these strategies tend to end badly.</p>
+<h2 id="incentive-problems">Incentive problems</h2>
+<p>How a leader is paid shapes how they trade:</p>
+<ul>
+<li><strong>Profit share without loss share.</strong> A leader paid, say, 20% of new profits gains when followers gain but does not pay when they lose. Taking more risk raises the leader&#39;s expected fee, a structure similar to holding a free option.</li>
+<li><strong>Volume-based pay and rebates.</strong> Some providers earn from trading volume or broker rebates, which rewards frequent trading regardless of results.</li>
+<li><strong>Follower count as income.</strong> Popularity can be monetized through subscriptions, courses or referral links, so the incentive is to look good rather than to manage risk well. See <a href="/encyclopedia/trading-business/trading-education-and-gurus/">courses, gurus and signals</a>.</li>
+<li><strong>Front-running followers.</strong> A provider who buys before posting a signal can sell into the followers&#39; buying. This is a known pattern in signal groups and on-chain.</li>
+</ul>
+<h2 id="evaluating-a-track-record">Evaluating a track record</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Length of record</td>
+<td>At least a year, preferably several, including different market conditions</td>
+</tr>
+<tr>
+<td>Maximum drawdown</td>
+<td>Shows how much a follower might have to sit through; compare it with returns</td>
+</tr>
+<tr>
+<td>Number of trades</td>
+<td>A few lucky trades can produce big returns; hundreds of trades say more</td>
+</tr>
+<tr>
+<td>Leverage and position size</td>
+<td>High leverage means a single bad move can end the account</td>
+</tr>
+<tr>
+<td>Consistency</td>
+<td>Are returns spread across many months, or concentrated in one lucky streak?</td>
+</tr>
+<tr>
+<td>Verified vs self-reported</td>
+<td>Platform-verified results from a real account are far more reliable than screenshots</td>
+</tr>
+<tr>
+<td>Average loser vs average winner</td>
+<td>A huge win rate with rare large losses suggests martingale or short-volatility risk</td>
+</tr>
+<tr>
+<td>Assets under copy</td>
+<td>Very large follower capital can make the strategy harder to execute</td>
+</tr>
+</tbody></table></div>
+<p>The same skepticism used in <a href="/encyclopedia/algorithmic-trading/backtesting/">backtesting</a> applies: a short, spectacular record is weak evidence.</p>
+<h2 id="slippage-and-execution-for-followers">Slippage and execution for followers</h2>
+<p>Followers trade after the leader, usually by seconds to minutes. In fast or thin markets, the price may have moved by then. If many followers copy at once, their combined orders can move the price against all of them. Followers also pay their own spread and fees, which may differ from the leader&#39;s.</p>
+<h2 id="worked-example">Worked example</h2>
+<h3 id="survivorship-on-a-leaderboard">Survivorship on a leaderboard</h3>
+<p>Suppose 1,000 traders have no skill at all, and each has a 50% chance of a profitable month.</p>
+<ul>
+<li>The expected number with six profitable months in a row is 1,000 × 0.5^6 = 1,000 / 64 ≈ 15.6, so about 16 traders.</li>
+<li>Those 16 would show a perfect six-month record on a leaderboard, and none of them would have any edge.</li>
+</ul>
+<h3 id="the-cost-of-following">The cost of following</h3>
+<p>A leader&#39;s average trade gains 1.5%. A follower&#39;s copy fills 0.6% worse on entry and 0.6% worse on exit because of delay and their own orders.</p>
+<ul>
+<li>Follower&#39;s average gross trade: 1.5% − 0.6% − 0.6% = 0.3%.</li>
+<li>If the leader takes a 20% profit share, the follower keeps about 0.3% × 0.8 = 0.24% per trade, compared with the 1.5% shown on the leaderboard.</li>
+<li>If slippage were 0.8% per side instead, the follower would lose 0.1% per trade before fees, while the leader&#39;s record still shows a profit.</li>
+</ul>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul>
+<li><strong>Choosing the top of the leaderboard.</strong> The best recent return often reflects the highest risk, not the most skill.</li>
+<li><strong>Allocating everything to one leader.</strong> A single blowup can take the entire allocation.</li>
+<li><strong>No copy stop-loss.</strong> Set a maximum drawdown for each copy relationship before you start.</li>
+<li><strong>Ignoring leverage.</strong> Copying a leader who uses high leverage gives you the same leverage.</li>
+<li><strong>Trusting screenshots.</strong> Results posted on social media are easy to fake or cherry-pick. See <a href="/encyclopedia/trading-business/trading-scams/">trading scams</a>.</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="is-copy-trading-profitable">Is copy trading profitable?</h3>
+<p>It can be, but many followers earn less than the leaders they copy because of delays, slippage, fees and the tendency to pick lucky traders after a hot streak. Results depend heavily on choosing leaders with long, risk-controlled records.</p>
+<h3 id="is-copy-trading-safe">Is copy trading safe?</h3>
+<p>Copy trading carries the same market risks as trading yourself, plus extra risks from the leader&#39;s decisions, incentives and execution delays. Using a copy stop-loss and limiting the amount allocated can reduce, but not remove, those risks.</p>
+<h3 id="how-do-copy-trading-leaders-get-paid">How do copy trading leaders get paid?</h3>
+<p>Common models are a share of the profits they generate for followers, subscription fees, or payments tied to trading volume. Profit-share models often do not make leaders share in losses, which can encourage risk-taking.</p>
+<h3 id="what-is-the-difference-between-copy-trading-and-social-trading">What is the difference between copy trading and social trading?</h3>
+<p>Social trading is the broad practice of sharing trades, ideas and performance on a platform. Copy trading is a specific feature where your account automatically replicates another trader&#39;s positions.</p>
+</article>
+<div class="disclaimer"><strong>Educational content only.</strong> Nothing here is financial, investment, legal or tax advice. Trading carries a high risk of loss, and leveraged products can lose more than you deposit. Rules, fees and platform details change: check current terms with your broker, exchange or regulator before you trade.</div>
+<section class="related"><h2>Related articles</h2><div class="cards"><a class="card" href="/encyclopedia/meme-coins/copy-trading-wallets/"><div class="k">Meme Coin Trading</div><b>Copy Trading Wallets</b><span>How copying meme coin wallets works, how profitable wallets are faked or used as exit-liquidity traps, copy delay and slippage, and judging real PnL.</span></a><a class="card" href="/encyclopedia/trading-business/trading-education-and-gurus/"><div class="k">Prop Firms, Tax, Regulation &amp; Scams</div><b>Courses, Gurus &amp; Signals</b><span>How to evaluate trading courses, mentors and signal groups: fake screenshots, rented luxury, broker rebates, verified track records and free ways to learn.</span></a><a class="card" href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">Risk &amp; Money Management</div><b>Drawdown &amp; Risk of Ruin</b><span>What maximum drawdown is, how much gain recovers a loss, how likely losing streaks are, and how position size changes your risk of ruin, with tables.</span></a><a class="card" href="/encyclopedia/trading-business/trading-scams/"><div class="k">Prop Firms, Tax, Regulation &amp; Scams</div><b>Trading Scams</b><span>How common trading scams work, from pig butchering and fake apps to AI bot Ponzis and recovery fraud, the red flags to watch for, and what to do if scammed.</span></a><a class="card" href="/encyclopedia/algorithmic-trading/backtesting/"><div class="k">Algorithmic &amp; Quant Trading</div><b>Backtesting</b><span>How to backtest a trading strategy without fooling yourself: data quality, survivorship and look-ahead bias, costs, walk-forward testing and key metrics.</span></a></div></section>
+<div class="pager"><a href="/encyclopedia/algorithmic-trading/building-trading-bots/"><small>← Previous</small>Building Trading Bots</a><a class="next" href="/encyclopedia/algorithmic-trading/machine-learning-in-trading/"><small>Next →</small>Machine Learning in Trading</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/encyclopedia/basics/">Trading Basics</a><a href="/encyclopedia/risk-management/">Risk &amp; Money Management</a><a href="/encyclopedia/psychology/">Trading Psychology</a><a href="/encyclopedia/technical-analysis/">Technical Analysis</a><a href="/encyclopedia/fundamental-analysis/">Fundamental &amp; Macro Analysis</a><a href="/encyclopedia/stocks/">Stock Trading</a><a href="/encyclopedia/forex/">Forex Trading</a><a href="/encyclopedia/futures/">Futures Trading</a><a href="/encyclopedia/options/">Options Trading</a><a href="/encyclopedia/crypto/">Crypto Trading</a><a href="/encyclopedia/meme-coins/">Meme Coin Trading</a><a href="/encyclopedia/prediction-markets/">Prediction Markets</a><a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a><a href="/encyclopedia/other-markets/">Commodities, Bonds &amp; More</a><a href="/encyclopedia/trading-business/">Prop Firms, Tax, Regulation &amp; Scams</a><a href="/encyclopedia/reference/">Reference</a><a href="/blog/">Blog</a><a href="/">Open-source bot toolkit</a></div>
+  <p>PnL Profit Trading Encyclopedia: free, independent explanations of how every major market works. Educational content only, not financial advice. Contact: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">No matches. Try the glossary.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

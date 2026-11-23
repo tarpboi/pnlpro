@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trend Following Strategies: How Systematic Trend Trading Works</title>
+<meta name="description" content="How trend following works: time-series momentum, CTAs and managed futures, breakout and moving average systems, the Turtle traders, positive skew and drawdowns.">
+<meta name="keywords" content="trend following, trend following strategy, time series momentum, managed futures, turtle trading rules">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Encyclopedia">
+<meta property="og:title" content="Trend Following Strategies: How Systematic Trend Trading Works">
+<meta property="og:description" content="How trend following works: time-series momentum, CTAs and managed futures, breakout and moving average systems, the Turtle traders, positive skew and drawdowns.">
+<meta property="og:url" content="https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trend Following Strategies: How Systematic Trend Trading Works">
+<meta name="twitter:description" content="How trend following works: time-series momentum, CTAs and managed futures, breakout and moving average systems, the Turtle traders, positive skew and drawdowns.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-left:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-left:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-left:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-left:3px solid var(--accent);margin:1.2rem 0;padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-left:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:right}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-left:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Trend Following Strategies: How Systematic Trend Trading Works","description":"How trend following works: time-series momentum, CTAs and managed futures, breakout and moving average systems, the Turtle traders, positive skew and drawdowns.","keywords":"trend following, trend following strategy, time series momentum, managed futures, turtle trading rules","articleSection":"Algorithmic & Quant Trading","wordCount":1393,"image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Encyclopedia","item":"https://pnlpro.fit/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Algorithmic & Quant Trading","item":"https://pnlpro.fit/encyclopedia/algorithmic-trading/"},{"@type":"ListItem","position":3,"name":"Trend Following","item":"https://pnlpro.fit/encyclopedia/algorithmic-trading/trend-following/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does trend following still work?","acceptedAnswer":{"@type":"Answer","text":"Trend following has a long record across many markets and decades, but performance varies widely by period, with multi-year stretches of weak returns. No one can promise future results, and costs and crowding can reduce returns."}},{"@type":"Question","name":"What is the difference between trend following and momentum?","acceptedAnswer":{"@type":"Answer","text":"Trend following, or time-series momentum, looks at each asset's own past return. Cross-sectional momentum ranks assets against each other and buys the relative winners even if all of them are falling."}},{"@type":"Question","name":"Why do trend followers have low win rates?","acceptedAnswer":{"@type":"Answer","text":"Many breakouts reverse quickly, so the system takes frequent small losses. Profits come from a few large trends that run much further than the typical loss, which can make the overall result positive despite a win rate below 50%."}},{"@type":"Question","name":"What markets are best for trend following?","acceptedAnswer":{"@type":"Answer","text":"Professional trend followers usually trade a diversified set of liquid futures and currencies. Liquidity keeps costs low, and diversification increases the chance that some market is trending at any time."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Encyclopedia</small></a>
+  <nav class="top"><a href="/encyclopedia/" class="on">Encyclopedia</a><a href="/encyclopedia/reference/trading-glossary/">Glossary</a><a href="/blog/">Blog</a><a href="/">Bot toolkit</a></nav>
+  <div class="search"><input id="q" type="search" placeholder="Search 150+ articles  ( / )" autocomplete="off" aria-label="Search the encyclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Algorithmic &amp; Quant Trading</h3><ul><li><a href="/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algorithmic Trading Intro</a></li><li><a href="/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">Trend Following</a></li><li><a href="/encyclopedia/algorithmic-trading/mean-reversion/">Mean Reversion</a></li><li><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs Trading &amp; Stat Arb</a></li><li><a href="/encyclopedia/algorithmic-trading/market-making/">Market Making</a></li><li><a href="/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitrage Strategies</a></li><li><a href="/encyclopedia/algorithmic-trading/high-frequency-trading/">High-Frequency Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/execution-algorithms/">Execution Algorithms</a></li><li><a href="/encyclopedia/algorithmic-trading/building-trading-bots/">Building Trading Bots</a></li><li><a href="/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy &amp; Social Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine Learning in Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/market-data-sources/">Market Data</a></li></ul><h3>All topics</h3><ul><li><a href="/encyclopedia/basics/">📘 Trading Basics</a></li><li><a href="/encyclopedia/risk-management/">🛡️ Risk &amp; Money Management</a></li><li><a href="/encyclopedia/psychology/">🧠 Trading Psychology</a></li><li><a href="/encyclopedia/technical-analysis/">📈 Technical Analysis</a></li><li><a href="/encyclopedia/fundamental-analysis/">🏦 Fundamental &amp; Macro Analysis</a></li><li><a href="/encyclopedia/stocks/">🏛️ Stock Trading</a></li><li><a href="/encyclopedia/forex/">💱 Forex Trading</a></li><li><a href="/encyclopedia/futures/">📊 Futures Trading</a></li><li><a href="/encyclopedia/options/">🎯 Options Trading</a></li><li><a href="/encyclopedia/crypto/">₿ Crypto Trading</a></li><li><a href="/encyclopedia/meme-coins/">🐸 Meme Coin Trading</a></li><li><a href="/encyclopedia/prediction-markets/">🔮 Prediction Markets</a></li><li><a href="/encyclopedia/algorithmic-trading/" class="on">🤖 Algorithmic &amp; Quant Trading</a></li><li><a href="/encyclopedia/other-markets/">🛢️ Commodities, Bonds &amp; More</a></li><li><a href="/encyclopedia/trading-business/">⚖️ Prop Firms, Tax, Regulation &amp; Scams</a></li><li><a href="/encyclopedia/reference/">📖 Reference</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/encyclopedia/">Encyclopedia</a> › <a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a></div>
+<h1 class="title">Trend Following</h1>
+<div class="meta">6 min read · Updated Nov 23, 2026</div>
+<details class="side-m"><summary>More in Algorithmic &amp; Quant Trading</summary><ul><li><a href="/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">Algorithmic Trading Intro</a></li><li><a href="/encyclopedia/algorithmic-trading/backtesting/">Backtesting</a></li><li><a href="/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">Overfitting</a></li><li><a href="/encyclopedia/algorithmic-trading/trend-following/" class="on" aria-current="page">Trend Following</a></li><li><a href="/encyclopedia/algorithmic-trading/mean-reversion/">Mean Reversion</a></li><li><a href="/encyclopedia/algorithmic-trading/pairs-trading-and-stat-arb/">Pairs Trading &amp; Stat Arb</a></li><li><a href="/encyclopedia/algorithmic-trading/market-making/">Market Making</a></li><li><a href="/encyclopedia/algorithmic-trading/arbitrage-strategies/">Arbitrage Strategies</a></li><li><a href="/encyclopedia/algorithmic-trading/high-frequency-trading/">High-Frequency Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/execution-algorithms/">Execution Algorithms</a></li><li><a href="/encyclopedia/algorithmic-trading/building-trading-bots/">Building Trading Bots</a></li><li><a href="/encyclopedia/algorithmic-trading/copy-trading-and-social-trading/">Copy &amp; Social Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/machine-learning-in-trading/">Machine Learning in Trading</a></li><li><a href="/encyclopedia/algorithmic-trading/market-data-sources/">Market Data</a></li></ul></details>
+<article><p>Trend following is a systematic strategy that buys assets whose prices have been rising and sells or shorts assets whose prices have been falling, holding positions as long as the trend continues. It is one of the oldest and best-documented approaches in <a href="/encyclopedia/algorithmic-trading/algorithmic-trading-intro/">algorithmic trading</a>, used by many managed futures funds. It tends to lose small amounts often and win large amounts occasionally, which makes it profitable in some periods and psychologically hard to stick with in others.</p>
+<div class="takeaways"><h2 id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>Trend following rests on time-series momentum: an asset&#39;s own past return has historically helped predict its near-future direction.</li>
+<li>Typical systems use price breakouts or moving averages, combined with volatility-based position sizing and diversification across many markets.</li>
+<li>Returns tend to be positively skewed: many small losses, a few large wins.</li>
+<li>Long flat or losing periods, sometimes lasting years, are a normal feature of the strategy.</li>
+<li>Trend following has historically done well in some prolonged crises, but it is not a reliable hedge in sharp, sudden crashes.</li>
+</ul></div><details class="toc"><summary>On this page</summary><ol><li><a href="#time-series-momentum">Time-series momentum</a></li><li><a href="#ctas-and-managed-futures">CTAs and managed futures</a></li><li><a href="#common-trend-systems">Common trend systems</a></li><li><a href="#the-turtle-traders">The Turtle traders</a></li><li><a href="#positive-skew-and-long-flat-periods">Positive skew and long flat periods</a></li><li><a href="#worked-example">Worked example</a></li><li><a href="#common-mistakes">Common mistakes</a></li></ol></details>
+<h2 id="time-series-momentum">Time-series momentum</h2>
+<p>Two kinds of momentum appear in research. Cross-sectional momentum compares assets with each other and buys the relative winners; it was documented in US stocks by Jegadeesh and Titman in 1993 and is covered in <a href="/encyclopedia/stocks/momentum-trading/">momentum trading</a>. Time-series momentum looks at each asset on its own: if its return over the past several months is positive, go long; if negative, go short.</p>
+<p>In a 2012 paper, Moskowitz, Ooi and Pedersen documented time-series momentum across dozens of futures markets, including equity indices, currencies, commodities and bonds. They found that the past 12-month return tended to predict the next month&#39;s return, with the effect partly reversing over longer horizons. Proposed explanations include investors underreacting to news at first and then overreacting, plus hedging and risk-management flows that push prices in the same direction for extended periods.</p>
+<h2 id="ctas-and-managed-futures">CTAs and managed futures</h2>
+<p>Many professional trend followers are commodity trading advisors (CTAs), firms registered to manage futures trading for clients. The industry is often called managed futures. A typical diversified trend program:</p>
+<ul>
+<li>Trades a broad set of liquid futures and forex markets: stock indices, government bonds, interest rates, currencies, energy, metals and agriculture.</li>
+<li>Takes long and short positions, so it can profit in falling markets as well as rising ones.</li>
+<li>Sizes each position by volatility, so a quiet bond future and a volatile crude oil future contribute roughly equal risk.</li>
+<li>Holds positions for weeks to months.</li>
+</ul>
+<p>Diversification is central. Any single market trends only occasionally; across 50 or more markets, something is usually trending. Trend-following funds as a group posted gains in some prolonged bear markets and inflation shocks, such as 2008 and 2022, which is why the strategy is sometimes called &quot;crisis alpha&quot;. But much of the 2010s was a difficult stretch for many trend followers, and a sudden crash with no prior trend can hurt them.</p>
+<h2 id="common-trend-systems">Common trend systems</h2>
+<h3 id="breakout-systems">Breakout systems</h3>
+<p>A breakout system buys when price rises above its highest level of the last N days and sells short when it falls below the lowest level of the last N days. The highest-high and lowest-low lines are called a Donchian channel, after Richard Donchian, an early pioneer of systematic trend trading. Exits use a shorter channel in the opposite direction or a trailing stop.</p>
+<h3 id="moving-average-systems">Moving-average systems</h3>
+<p>A <a href="/encyclopedia/technical-analysis/moving-averages/">moving-average</a> system goes long when a fast average is above a slow one (for example 50-day above 200-day) and short when it is below. Variants use the price relative to a single average, or the slope of the average.</p>
+<h3 id="return-based-signals">Return-based signals</h3>
+<p>Some systems simply take the sign of the past 3-, 6- or 12-month return, often blending several lookbacks to reduce dependence on any single one.</p>
+<p>The breakout logic can be written in a few lines. The channel is shifted by one bar so the signal never uses the current bar&#39;s own high or low, and each day&#39;s position should be applied to the next day&#39;s return.</p>
+<pre><code class="language-python">import pandas as pd
+
+def donchian_positions(close: pd.Series, entry=55, exit=20) -&gt; pd.Series:
+    upper = close.rolling(entry).max().shift(1)
+    lower = close.rolling(entry).min().shift(1)
+    exit_high = close.rolling(exit).max().shift(1)
+    exit_low = close.rolling(exit).min().shift(1)
+    pos, out = 0, []
+    for px, up, lo, xh, xl in zip(close, upper, lower, exit_high, exit_low):
+        if pos == 0 and px &gt; up:
+            pos = 1
+        elif pos == 0 and px &lt; lo:
+            pos = -1
+        elif pos == 1 and px &lt; xl:
+            pos = 0
+        elif pos == -1 and px &gt; xh:
+            pos = 0
+        out.append(pos)
+    return pd.Series(out, index=close.index)
+</code></pre>
+<h2 id="the-turtle-traders">The Turtle traders</h2>
+<p>The best-known story in trend following involves Richard Dennis, a successful Chicago futures trader, and his partner William Eckhardt. In the early 1980s they disagreed about whether trading could be taught. Dennis recruited a group of trainees through newspaper advertisements, taught them a rules-based trend system for a short period, and gave them money to trade. The trainees became known as the Turtles.</p>
+<p>Accounts later published by former Turtles describe a system built on Donchian breakouts (a 20-day and a 55-day version), exits on shorter opposite breakouts, stops placed a multiple of recent volatility away, and position sizes scaled so that a typical daily move in each market represented a small, fixed fraction of equity. Several of the trainees went on to run their own funds. The episode is often cited as evidence that a disciplined system matters more than intuition, though, as with any famous success story, survivorship plays a part in how it is retold.</p>
+<h2 id="positive-skew-and-long-flat-periods">Positive skew and long flat periods</h2>
+<p>Trend following typically has a low win rate. Many breakouts fail quickly and are closed for small losses. The profits come from a minority of trades that catch large, sustained moves.</p>
+<p>That pattern produces positive skew: the distribution of returns has a long right tail. It is the opposite of <a href="/encyclopedia/algorithmic-trading/mean-reversion/">mean reversion</a>, which tends to win often and lose big occasionally.</p>
+<p>The cost is psychological. Long sequences of small losses are normal, and a strategy can go years without a new equity high. Many traders abandon trend systems in exactly those stretches, just before the next big trend.</p>
+<h2 id="worked-example">Worked example</h2>
+<h3 id="expectancy-with-a-low-win-rate">Expectancy with a low win rate</h3>
+<p>A trend system wins 35% of its trades. The average winner makes 3R and the average loser costs 1R, where R is the amount risked per trade.</p>
+<ul>
+<li>Expectancy = 0.35 × 3R − 0.65 × 1R = 1.05R − 0.65R = 0.40R per trade.</li>
+<li>With 1,000 dollars risked per trade, that is an average of 400 dollars per trade over many trades.</li>
+<li>The chance that any particular run of 10 trades are all losers is 0.65^10 ≈ 1.3%. Over several hundred trades, a streak that long becomes likely at some point.</li>
+</ul>
+<h3 id="volatility-based-sizing">Volatility-based sizing</h3>
+<p>An account of 100,000 dollars risks 1% per trade, or 1,000 dollars. A stock trades at 50 dollars with an <a href="/encyclopedia/technical-analysis/atr-and-volatility-indicators/">Average True Range</a> of 1.25 dollars. The stop is placed 2 ATR away, or 2.50 dollars.</p>
+<ul>
+<li>Position size = 1,000 / 2.50 = 400 shares, worth 20,000 dollars.</li>
+<li>A calmer stock with an ATR of 0.50 dollars would get a stop 1.00 dollar away and a position of 1,000 shares for the same dollar risk.</li>
+</ul>
+<p>Each position, quiet or volatile, now carries similar risk.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul>
+<li><strong>Trading one market.</strong> Without diversification, the long flat periods become very long.</li>
+<li><strong>Overriding the system after losses.</strong> Skipping the next signal often means missing the trade that pays for the losing streak.</li>
+<li><strong>Optimizing lookbacks precisely.</strong> Trend signals are robust across a wide range of lookbacks; fine-tuning mostly fits noise.</li>
+<li><strong>Ignoring roll costs and gaps.</strong> Futures need to be rolled, and stops can be gapped through overnight. See <a href="/encyclopedia/futures/futures-basics/">futures basics</a>.</li>
+<li><strong>Expecting a smooth equity curve.</strong> Drawdowns of 20% or more have been common even for professional trend programs.</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="does-trend-following-still-work">Does trend following still work?</h3>
+<p>Trend following has a long record across many markets and decades, but performance varies widely by period, with multi-year stretches of weak returns. No one can promise future results, and costs and crowding can reduce returns.</p>
+<h3 id="what-is-the-difference-between-trend-following-and-momentum">What is the difference between trend following and momentum?</h3>
+<p>Trend following, or time-series momentum, looks at each asset&#39;s own past return. Cross-sectional momentum ranks assets against each other and buys the relative winners even if all of them are falling.</p>
+<h3 id="why-do-trend-followers-have-low-win-rates">Why do trend followers have low win rates?</h3>
+<p>Many breakouts reverse quickly, so the system takes frequent small losses. Profits come from a few large trends that run much further than the typical loss, which can make the overall result positive despite a win rate below 50%.</p>
+<h3 id="what-markets-are-best-for-trend-following">What markets are best for trend following?</h3>
+<p>Professional trend followers usually trade a diversified set of liquid futures and currencies. Liquidity keeps costs low, and diversification increases the chance that some market is trending at any time.</p>
+</article>
+<div class="disclaimer"><strong>Educational content only.</strong> Nothing here is financial, investment, legal or tax advice. Trading carries a high risk of loss, and leveraged products can lose more than you deposit. Rules, fees and platform details change: check current terms with your broker, exchange or regulator before you trade.</div>
+<section class="related"><h2>Related articles</h2><div class="cards"><a class="card" href="/encyclopedia/technical-analysis/moving-averages/"><div class="k">Technical Analysis</div><b>Moving Averages</b><span>How simple, exponential and weighted moving averages are calculated, what the 20, 50 and 200 periods mean, golden and death crosses, and the lag tradeoff.</span></a><a class="card" href="/encyclopedia/algorithmic-trading/mean-reversion/"><div class="k">Algorithmic &amp; Quant Trading</div><b>Mean Reversion</b><span>How mean reversion trading works: short-term reversal, z-scores, Bollinger Band and RSI systems, negative skew, regime risk and the conditions where it fails.</span></a><a class="card" href="/encyclopedia/technical-analysis/atr-and-volatility-indicators/"><div class="k">Technical Analysis</div><b>ATR &amp; Volatility</b><span>How Average True Range works, using ATR for stops and position sizing, historical volatility, Keltner Channels, and why volatility comes in clusters.</span></a><a class="card" href="/encyclopedia/stocks/momentum-trading/"><div class="k">Stock Trading</div><b>Momentum Trading</b><span>How momentum trading works in stocks: catalysts, relative volume, float, breakouts and halts, what research says, and the risk of chasing extended moves.</span></a><a class="card" href="/encyclopedia/futures/futures-basics/"><div class="k">Futures Trading</div><b>Futures Basics</b><span>How futures contracts work: exchanges, contract specs, tick values, month codes, daily mark-to-market, margin, settlement, and who uses them and why.</span></a></div></section>
+<div class="pager"><a href="/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><small>← Previous</small>Overfitting</a><a class="next" href="/encyclopedia/algorithmic-trading/mean-reversion/"><small>Next →</small>Mean Reversion</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/encyclopedia/basics/">Trading Basics</a><a href="/encyclopedia/risk-management/">Risk &amp; Money Management</a><a href="/encyclopedia/psychology/">Trading Psychology</a><a href="/encyclopedia/technical-analysis/">Technical Analysis</a><a href="/encyclopedia/fundamental-analysis/">Fundamental &amp; Macro Analysis</a><a href="/encyclopedia/stocks/">Stock Trading</a><a href="/encyclopedia/forex/">Forex Trading</a><a href="/encyclopedia/futures/">Futures Trading</a><a href="/encyclopedia/options/">Options Trading</a><a href="/encyclopedia/crypto/">Crypto Trading</a><a href="/encyclopedia/meme-coins/">Meme Coin Trading</a><a href="/encyclopedia/prediction-markets/">Prediction Markets</a><a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a><a href="/encyclopedia/other-markets/">Commodities, Bonds &amp; More</a><a href="/encyclopedia/trading-business/">Prop Firms, Tax, Regulation &amp; Scams</a><a href="/encyclopedia/reference/">Reference</a><a href="/blog/">Blog</a><a href="/">Open-source bot toolkit</a></div>
+  <p>PnL Profit Trading Encyclopedia: free, independent explanations of how every major market works. Educational content only, not financial advice. Contact: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">No matches. Try the glossary.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iron Condors and Butterflies: Construction, Payoff and Management</title>
+<meta name="description" content="How iron condors, butterflies, iron butterflies and broken-wing butterflies work, with payoffs, breakevens and worked numbers, plus management and pin risk.">
+<meta name="keywords" content="iron condor, butterfly spread options, iron butterfly, broken wing butterfly, iron condor example">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/encyclopedia/options/iron-condors-and-butterflies/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Encyclopedia">
+<meta property="og:title" content="Iron Condors and Butterflies: Construction, Payoff and Management">
+<meta property="og:description" content="How iron condors, butterflies, iron butterflies and broken-wing butterflies work, with payoffs, breakevens and worked numbers, plus management and pin risk.">
+<meta property="og:url" content="https://pnlpro.fit/encyclopedia/options/iron-condors-and-butterflies/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Iron Condors and Butterflies: Construction, Payoff and Management">
+<meta name="twitter:description" content="How iron condors, butterflies, iron butterflies and broken-wing butterflies work, with payoffs, breakevens and worked numbers, plus management and pin risk.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-left:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-left:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-left:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-left:3px solid var(--accent);margin:1.2rem 0;padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-left:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:right}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-left:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Iron Condors and Butterflies: Construction, Payoff and Management","description":"How iron condors, butterflies, iron butterflies and broken-wing butterflies work, with payoffs, breakevens and worked numbers, plus management and pin risk.","keywords":"iron condor, butterfly spread options, iron butterfly, broken wing butterfly, iron condor example","articleSection":"Options Trading","wordCount":1620,"image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/encyclopedia/options/iron-condors-and-butterflies/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Encyclopedia","item":"https://pnlpro.fit/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Options Trading","item":"https://pnlpro.fit/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Iron Condors & Butterflies","item":"https://pnlpro.fit/encyclopedia/options/iron-condors-and-butterflies/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does an iron condor make money?","acceptedAnswer":{"@type":"Answer","text":"It collects a credit by selling an out-of-the-money put spread and call spread. If the stock stays between the short strikes until expiration, all options expire worthless and the trader keeps the full credit."}},{"@type":"Question","name":"What is the difference between an iron condor and an iron butterfly?","acceptedAnswer":{"@type":"Answer","text":"An iron condor's short strikes are apart, creating a wide flat profit zone. An iron butterfly sells both short options at the same strike, collecting more credit but peaking at a single price."}},{"@type":"Question","name":"What is the max loss on an iron condor?","acceptedAnswer":{"@type":"Answer","text":"The width of one spread minus the net credit received, times 100. A $5-wide iron condor sold for $1.40 has a maximum loss of $360 per contract."}},{"@type":"Question","name":"When should you close an iron condor?","acceptedAnswer":{"@type":"Answer","text":"Many traders close well before expiration, once a target share of the credit is captured or a preset loss is reached. Holding into the final days increases gamma and pin risk."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Encyclopedia</small></a>
+  <nav class="top"><a href="/encyclopedia/" class="on">Encyclopedia</a><a href="/encyclopedia/reference/trading-glossary/">Glossary</a><a href="/blog/">Blog</a><a href="/">Bot toolkit</a></nav>
+  <div class="search"><input id="q" type="search" placeholder="Search 150+ articles  ( / )" autocomplete="off" aria-label="Search the encyclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Options Trading</h3><ul><li><a href="/encyclopedia/options/options-basics/">Options Basics</a></li><li><a href="/encyclopedia/options/options-greeks/">The Greeks</a></li><li><a href="/encyclopedia/options/implied-volatility/">Implied Volatility</a></li><li><a href="/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered Calls &amp; CSPs</a></li><li><a href="/encyclopedia/options/vertical-spreads/">Vertical Spreads</a></li><li><a href="/encyclopedia/options/iron-condors-and-butterflies/" class="on" aria-current="page">Iron Condors &amp; Butterflies</a></li><li><a href="/encyclopedia/options/straddles-and-strangles/">Straddles &amp; Strangles</a></li><li><a href="/encyclopedia/options/0dte-options/">0DTE Options</a></li><li><a href="/encyclopedia/options/options-expiration-and-assignment/">Expiration &amp; Assignment</a></li><li><a href="/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure &amp; Dealers</a></li></ul><h3>All topics</h3><ul><li><a href="/encyclopedia/basics/">📘 Trading Basics</a></li><li><a href="/encyclopedia/risk-management/">🛡️ Risk &amp; Money Management</a></li><li><a href="/encyclopedia/psychology/">🧠 Trading Psychology</a></li><li><a href="/encyclopedia/technical-analysis/">📈 Technical Analysis</a></li><li><a href="/encyclopedia/fundamental-analysis/">🏦 Fundamental &amp; Macro Analysis</a></li><li><a href="/encyclopedia/stocks/">🏛️ Stock Trading</a></li><li><a href="/encyclopedia/forex/">💱 Forex Trading</a></li><li><a href="/encyclopedia/futures/">📊 Futures Trading</a></li><li><a href="/encyclopedia/options/" class="on">🎯 Options Trading</a></li><li><a href="/encyclopedia/crypto/">₿ Crypto Trading</a></li><li><a href="/encyclopedia/meme-coins/">🐸 Meme Coin Trading</a></li><li><a href="/encyclopedia/prediction-markets/">🔮 Prediction Markets</a></li><li><a href="/encyclopedia/algorithmic-trading/">🤖 Algorithmic &amp; Quant Trading</a></li><li><a href="/encyclopedia/other-markets/">🛢️ Commodities, Bonds &amp; More</a></li><li><a href="/encyclopedia/trading-business/">⚖️ Prop Firms, Tax, Regulation &amp; Scams</a></li><li><a href="/encyclopedia/reference/">📖 Reference</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/encyclopedia/">Encyclopedia</a> › <a href="/encyclopedia/options/">Options Trading</a></div>
+<h1 class="title">Iron Condors and Butterflies</h1>
+<div class="meta">7 min read · Updated Nov 23, 2026</div>
+<details class="side-m"><summary>More in Options Trading</summary><ul><li><a href="/encyclopedia/options/options-basics/">Options Basics</a></li><li><a href="/encyclopedia/options/options-greeks/">The Greeks</a></li><li><a href="/encyclopedia/options/implied-volatility/">Implied Volatility</a></li><li><a href="/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered Calls &amp; CSPs</a></li><li><a href="/encyclopedia/options/vertical-spreads/">Vertical Spreads</a></li><li><a href="/encyclopedia/options/iron-condors-and-butterflies/" class="on" aria-current="page">Iron Condors &amp; Butterflies</a></li><li><a href="/encyclopedia/options/straddles-and-strangles/">Straddles &amp; Strangles</a></li><li><a href="/encyclopedia/options/0dte-options/">0DTE Options</a></li><li><a href="/encyclopedia/options/options-expiration-and-assignment/">Expiration &amp; Assignment</a></li><li><a href="/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure &amp; Dealers</a></li></ul></details>
+<article><p>Iron condors and butterflies are defined-risk options strategies that profit when the underlying stays within a range until expiration. An iron condor combines a bull put spread and a bear call spread to collect a credit across a wide range. A butterfly combines options at three strikes to profit most if the price finishes near one target. Both are popular in quiet, range-bound markets and when implied volatility is high, but they cap gains and can lose their full risk on a single sharp move.</p>
+<div class="takeaways"><h2 id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>An iron condor is a short put spread plus a short call spread, with maximum profit equal to the credit received.</li>
+<li>A butterfly uses three strikes and pays most when the underlying finishes exactly at the middle strike.</li>
+<li>Both strategies have known maximum losses and breakevens, which can be calculated before entry.</li>
+<li>They are short-volatility trades: they benefit from time decay and falling implied volatility and suffer from large moves.</li>
+<li>Pin risk around the short strikes at expiration can leave an unexpected stock position, so many traders close before expiry.</li>
+</ul></div><details class="toc"><summary>On this page</summary><ol><li><a href="#iron-condor-construction">Iron condor construction</a></li><li><a href="#butterfly-construction">Butterfly construction</a></li><li><a href="#iron-butterfly">Iron butterfly</a></li><li><a href="#broken-wing-butterflies">Broken-wing butterflies</a></li><li><a href="#when-traders-use-these-strategies">When traders use these strategies</a></li><li><a href="#managing-positions">Managing positions</a></li><li><a href="#pin-risk">Pin risk</a></li><li><a href="#common-mistakes">Common mistakes</a></li></ol></details>
+<h2 id="iron-condor-construction">Iron condor construction</h2>
+<p>An iron condor has four legs, all with the same expiry:</p>
+<ol>
+<li>Sell an out-of-the-money put.</li>
+<li>Buy a further out-of-the-money put (the protective &quot;wing&quot;).</li>
+<li>Sell an out-of-the-money call.</li>
+<li>Buy a further out-of-the-money call.</li>
+</ol>
+<p>Legs 1 and 2 form a bull put spread; legs 3 and 4 form a bear call spread, both explained in <a href="/encyclopedia/options/vertical-spreads/">vertical spreads</a>. The position collects a net credit.</p>
+<h3 id="worked-example-iron-condor">Worked example: iron condor</h3>
+<p>A stock trades at $100. Option prices are illustrative, and each contract covers 100 shares.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Leg</th>
+<th>Strike</th>
+<th>Price</th>
+<th>Cash flow</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sell put</td>
+<td>$90</td>
+<td>$1.20</td>
+<td>+$1.20</td>
+</tr>
+<tr>
+<td>Buy put</td>
+<td>$85</td>
+<td>$0.50</td>
+<td>-$0.50</td>
+</tr>
+<tr>
+<td>Sell call</td>
+<td>$110</td>
+<td>$1.10</td>
+<td>+$1.10</td>
+</tr>
+<tr>
+<td>Buy call</td>
+<td>$115</td>
+<td>$0.40</td>
+<td>-$0.40</td>
+</tr>
+<tr>
+<td><strong>Net credit</strong></td>
+<td></td>
+<td></td>
+<td><strong>+$1.40</strong></td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><strong>Maximum profit:</strong> $1.40, or $140, if the stock is between $90 and $110 at expiry.</li>
+<li><strong>Maximum loss:</strong> width of one side minus the credit = $5.00 - $1.40 = $3.60, or $360. This happens below $85 or above $115. Only one side can lose at expiry, because the stock cannot be in both places.</li>
+<li><strong>Lower breakeven:</strong> $90 - $1.40 = $88.60.</li>
+<li><strong>Upper breakeven:</strong> $110 + $1.40 = $111.40.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Stock at expiry</th>
+<th>Put spread value</th>
+<th>Call spread value</th>
+<th>Profit or loss</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$80</td>
+<td>$5.00</td>
+<td>$0</td>
+<td>-$360</td>
+</tr>
+<tr>
+<td>$88.60</td>
+<td>$1.40</td>
+<td>$0</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$95</td>
+<td>$0</td>
+<td>$0</td>
+<td>+$140</td>
+</tr>
+<tr>
+<td>$105</td>
+<td>$0</td>
+<td>$0</td>
+<td>+$140</td>
+</tr>
+<tr>
+<td>$111.40</td>
+<td>$0</td>
+<td>$1.40</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$120</td>
+<td>$0</td>
+<td>$5.00</td>
+<td>-$360</td>
+</tr>
+</tbody></table></div>
+<p>The profit or loss is the $1.40 credit minus the value of whichever spread is in the money at expiry, times 100. The trade risks $360 to make $140. That ratio is typical: iron condors tend to win more often than they lose, but each loss is larger than each win.</p>
+<h2 id="butterfly-construction">Butterfly construction</h2>
+<p>A long call butterfly uses three equally spaced strikes:</p>
+<ol>
+<li>Buy one lower-strike call.</li>
+<li>Sell two middle-strike calls.</li>
+<li>Buy one higher-strike call.</li>
+</ol>
+<p>The same shape can be built with puts. The position usually costs a small debit.</p>
+<h3 id="worked-example-long-call-butterfly">Worked example: long call butterfly</h3>
+<p>With the stock at $100:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Leg</th>
+<th>Strike</th>
+<th>Price</th>
+<th>Cash flow</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Buy 1 call</td>
+<td>$95</td>
+<td>$7.00</td>
+<td>-$7.00</td>
+</tr>
+<tr>
+<td>Sell 2 calls</td>
+<td>$100</td>
+<td>$4.00 each</td>
+<td>+$8.00</td>
+</tr>
+<tr>
+<td>Buy 1 call</td>
+<td>$105</td>
+<td>$2.00</td>
+<td>-$2.00</td>
+</tr>
+<tr>
+<td><strong>Net debit</strong></td>
+<td></td>
+<td></td>
+<td><strong>-$1.00</strong></td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><strong>Maximum loss:</strong> $1.00, or $100, if the stock is at or below $95 or at or above $105.</li>
+<li><strong>Maximum profit:</strong> width of one wing minus the debit = $5.00 - $1.00 = $4.00, or $400, if the stock is exactly at $100 at expiry.</li>
+<li><strong>Lower breakeven:</strong> $95 + $1.00 = $96.00.</li>
+<li><strong>Upper breakeven:</strong> $105 - $1.00 = $104.00.</li>
+</ul>
+<p>At $100 at expiry, the $95 call is worth $5.00 and the other calls are worthless, so the position is worth $5.00 against a $1.00 cost. At $102, the $95 call is worth $7.00, the two short $100 calls cost $2.00 each ($4.00 total), and the $105 call is worthless: $7.00 - $4.00 = $3.00, a $2.00 profit. Profit falls off steadily on either side of the middle strike.</p>
+<p>Butterflies are cheap relative to their maximum payoff, but the maximum is reached only in a narrow zone, so most butterflies that are held to expiry finish with less than the full payoff.</p>
+<h2 id="iron-butterfly">Iron butterfly</h2>
+<p>An iron butterfly is an iron condor whose short put and short call share the same strike, usually at the money.</p>
+<h3 id="worked-example">Worked example</h3>
+<p>With the stock at $100: sell the $100 call for $4.00, sell the $100 put for $3.80, buy the $110 call for $1.00 and buy the $90 put for $1.00.</p>
+<ul>
+<li>Net credit: $4.00 + $3.80 - $1.00 - $1.00 = $5.80, or $580.</li>
+<li>Maximum profit: $580, if the stock finishes exactly at $100.</li>
+<li>Maximum loss: $10.00 - $5.80 = $4.20, or $420, below $90 or above $110.</li>
+<li>Breakevens: $100 - $5.80 = $94.20 and $100 + $5.80 = $105.80.</li>
+</ul>
+<p>Compared with the iron condor, the iron butterfly collects much more credit and has a better reward-to-risk ratio, but its profit zone is narrower and peaks at a single price.</p>
+<h2 id="broken-wing-butterflies">Broken-wing butterflies</h2>
+<p>A broken-wing butterfly uses unequal wing widths, which shifts the risk to one side. It can often be opened for a small credit, so there is no loss if the stock moves away in one direction.</p>
+<h3 id="worked-example-call-broken-wing-butterfly">Worked example: call broken-wing butterfly</h3>
+<p>Buy the $95 call for $7.00, sell two $100 calls for $4.00 each, and buy the $110 call for $0.80.</p>
+<ul>
+<li>Net: -$7.00 + $8.00 - $0.80 = +$0.20 credit, or $20.</li>
+<li><strong>Below $95:</strong> all calls expire worthless; profit is the $20 credit.</li>
+<li><strong>At $100:</strong> the $95 call is worth $5.00; profit = $5.00 + $0.20 = $5.20, or $520.</li>
+<li><strong>Above $110:</strong> the position is worth (S - 95) - 2 x (S - 100) + (S - 110) = -$5.00; loss = $5.00 - $0.20 = $4.80, or $480.</li>
+<li><strong>Upper breakeven:</strong> between $100 and $110 the position is worth $105 - S, so the breakeven is where $105 - S + $0.20 = 0, which is $105.20.</li>
+</ul>
+<p>The trade has no downside risk at expiry but a larger loss on a strong rally than a standard butterfly. Put versions shift the risk to the downside.</p>
+<h2 id="when-traders-use-these-strategies">When traders use these strategies</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Why it suits condors and butterflies</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Range-bound market</td>
+<td>Profit depends on the price staying within a zone</td>
+</tr>
+<tr>
+<td>High implied volatility</td>
+<td>Short options collect more premium, and a fall in IV helps</td>
+</tr>
+<tr>
+<td>After an event</td>
+<td>Some traders sell condors once IV is high and the event risk has passed</td>
+</tr>
+<tr>
+<td>Specific price target</td>
+<td>Butterflies can express a view on where the price will settle</td>
+</tr>
+</tbody></table></div>
+<p>These are short-volatility positions with negative gamma and positive theta near the short strikes; see <a href="/encyclopedia/options/options-greeks/">options Greeks</a> and <a href="/encyclopedia/options/implied-volatility/">implied volatility</a>.</p>
+<h2 id="managing-positions">Managing positions</h2>
+<ul>
+<li><strong>Profit targets:</strong> many traders close iron condors once a chosen share of the credit is captured, rather than wait for the last few cents while risk stays high.</li>
+<li><strong>Loss limits:</strong> decide in advance, such as closing when the loss reaches a set multiple of the credit.</li>
+<li><strong>Adjusting:</strong> one common adjustment is rolling the untested side closer to the price to collect more credit. Adjustments add costs and can enlarge risk, so they need rules.</li>
+<li><strong>Closing before expiry:</strong> the last days carry the most gamma risk relative to the remaining premium.</li>
+</ul>
+<h2 id="pin-risk">Pin risk</h2>
+<p>If the stock closes at or very near a short strike at expiration, you cannot be sure whether that option will be exercised. You might be assigned on a short option while your protective long option expires worthless, leaving you with a long or short stock position over the weekend. After-hours moves can make this costly. See <a href="/encyclopedia/options/options-expiration-and-assignment/">options expiration and assignment</a>.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul>
+<li><strong>Treating high win rates as safety.</strong> A condor that wins most months can give back many months of gains in one loss.</li>
+<li><strong>Setting wings too narrow to save commissions or too wide to collect more.</strong> Width directly sets maximum loss.</li>
+<li><strong>Holding through earnings or major news.</strong> A gap can move the stock past a wing overnight.</li>
+<li><strong>Ignoring bid-ask spreads.</strong> Four legs means four spreads to cross on entry and exit.</li>
+<li><strong>Adjusting without a plan.</strong> Repeated rolling can turn a defined-risk trade into a much larger one.</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="how-does-an-iron-condor-make-money">How does an iron condor make money?</h3>
+<p>It collects a credit by selling an out-of-the-money put spread and call spread. If the stock stays between the short strikes until expiration, all options expire worthless and the trader keeps the full credit.</p>
+<h3 id="what-is-the-difference-between-an-iron-condor-and-an-iron-butterfly">What is the difference between an iron condor and an iron butterfly?</h3>
+<p>An iron condor&#39;s short strikes are apart, creating a wide flat profit zone. An iron butterfly sells both short options at the same strike, collecting more credit but peaking at a single price.</p>
+<h3 id="what-is-the-max-loss-on-an-iron-condor">What is the max loss on an iron condor?</h3>
+<p>The width of one spread minus the net credit received, times 100. A $5-wide iron condor sold for $1.40 has a maximum loss of $360 per contract.</p>
+<h3 id="when-should-you-close-an-iron-condor">When should you close an iron condor?</h3>
+<p>Many traders close well before expiration, once a target share of the credit is captured or a preset loss is reached. Holding into the final days increases gamma and pin risk.</p>
+</article>
+<div class="disclaimer"><strong>Educational content only.</strong> Nothing here is financial, investment, legal or tax advice. Trading carries a high risk of loss, and leveraged products can lose more than you deposit. Rules, fees and platform details change: check current terms with your broker, exchange or regulator before you trade.</div>
+<section class="related"><h2>Related articles</h2><div class="cards"><a class="card" href="/encyclopedia/options/vertical-spreads/"><div class="k">Options Trading</div><b>Vertical Spreads</b><span>How vertical spreads work: bull call, bear put, bull put and bear call spreads, with max profit, max loss and breakeven formulas and worked examples.</span></a><a class="card" href="/encyclopedia/options/implied-volatility/"><div class="k">Options Trading</div><b>Implied Volatility</b><span>What implied volatility is, how it differs from historical volatility, IV rank and percentile, IV crush, skew, and the expected move formula with examples.</span></a><a class="card" href="/encyclopedia/options/options-greeks/"><div class="k">Options Trading</div><b>The Greeks</b><span>What delta, gamma, theta, vega and rho measure, with worked examples, how the Greeks change with time and moneyness, and how to read position Greeks.</span></a><a class="card" href="/encyclopedia/options/options-expiration-and-assignment/"><div class="k">Options Trading</div><b>Expiration &amp; Assignment</b><span>How exercise and assignment work, early assignment before dividends, auto-exercise at $0.01 in the money, pin risk, SPX vs SPY settlement and after-hours risk.</span></a><a class="card" href="/encyclopedia/options/straddles-and-strangles/"><div class="k">Options Trading</div><b>Straddles &amp; Strangles</b><span>How long and short straddles and strangles work, breakevens with worked numbers, breakeven vs implied move, earnings trades and short-volatility tail risk.</span></a></div></section>
+<div class="pager"><a href="/encyclopedia/options/vertical-spreads/"><small>← Previous</small>Vertical Spreads</a><a class="next" href="/encyclopedia/options/straddles-and-strangles/"><small>Next →</small>Straddles &amp; Strangles</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/encyclopedia/basics/">Trading Basics</a><a href="/encyclopedia/risk-management/">Risk &amp; Money Management</a><a href="/encyclopedia/psychology/">Trading Psychology</a><a href="/encyclopedia/technical-analysis/">Technical Analysis</a><a href="/encyclopedia/fundamental-analysis/">Fundamental &amp; Macro Analysis</a><a href="/encyclopedia/stocks/">Stock Trading</a><a href="/encyclopedia/forex/">Forex Trading</a><a href="/encyclopedia/futures/">Futures Trading</a><a href="/encyclopedia/options/">Options Trading</a><a href="/encyclopedia/crypto/">Crypto Trading</a><a href="/encyclopedia/meme-coins/">Meme Coin Trading</a><a href="/encyclopedia/prediction-markets/">Prediction Markets</a><a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a><a href="/encyclopedia/other-markets/">Commodities, Bonds &amp; More</a><a href="/encyclopedia/trading-business/">Prop Firms, Tax, Regulation &amp; Scams</a><a href="/encyclopedia/reference/">Reference</a><a href="/blog/">Blog</a><a href="/">Open-source bot toolkit</a></div>
+  <p>PnL Profit Trading Encyclopedia: free, independent explanations of how every major market works. Educational content only, not financial advice. Contact: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">No matches. Try the glossary.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

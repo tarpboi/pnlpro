@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Futures Trading Basics: Contracts, Margin, Ticks and Expiry</title>
+<meta name="description" content="How futures contracts work: exchanges, contract specs, tick values, month codes, daily mark-to-market, margin, settlement, and who uses them and why.">
+<meta name="keywords" content="futures trading for beginners, what is a futures contract, futures tick value, futures month codes, futures margin explained">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/encyclopedia/futures/futures-basics/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Encyclopedia">
+<meta property="og:title" content="Futures Trading Basics: Contracts, Margin, Ticks and Expiry">
+<meta property="og:description" content="How futures contracts work: exchanges, contract specs, tick values, month codes, daily mark-to-market, margin, settlement, and who uses them and why.">
+<meta property="og:url" content="https://pnlpro.fit/encyclopedia/futures/futures-basics/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Futures Trading Basics: Contracts, Margin, Ticks and Expiry">
+<meta name="twitter:description" content="How futures contracts work: exchanges, contract specs, tick values, month codes, daily mark-to-market, margin, settlement, and who uses them and why.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-left:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-left:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-left:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-left:3px solid var(--accent);margin:1.2rem 0;padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-left:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:right}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-left:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Futures Trading Basics: Contracts, Margin, Ticks and Expiry","description":"How futures contracts work: exchanges, contract specs, tick values, month codes, daily mark-to-market, margin, settlement, and who uses them and why.","keywords":"futures trading for beginners, what is a futures contract, futures tick value, futures month codes, futures margin explained","articleSection":"Futures Trading","wordCount":2030,"image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/encyclopedia/futures/futures-basics/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Encyclopedia","item":"https://pnlpro.fit/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Futures Trading","item":"https://pnlpro.fit/encyclopedia/futures/"},{"@type":"ListItem","position":3,"name":"Futures Basics","item":"https://pnlpro.fit/encyclopedia/futures/futures-basics/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much money do you need to trade futures?","acceptedAnswer":{"@type":"Answer","text":"It depends on the contract and broker. Micro contracts such as MES have margin requirements a fraction of the full-size E-mini, so they can be traded with a few thousand dollars, but having enough capital to survive normal swings matters more than meeting the minimum."}},{"@type":"Question","name":"Do futures expire?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every futures contract has a last trading day. Traders who want to keep their exposure close the expiring contract and open the next month, which is called rolling."}},{"@type":"Question","name":"Can you lose more than you deposit trading futures?","acceptedAnswer":{"@type":"Answer","text":"Yes. Because losses are settled daily and positions are leveraged, a large or gapping move can create a negative account balance, and you are liable to your broker for the deficit."}},{"@type":"Question","name":"What is the difference between futures and options?","acceptedAnswer":{"@type":"Answer","text":"A futures contract obligates both sides to transact at the agreed price. An option gives the buyer the right, but not the obligation, to buy or sell, in exchange for paying a premium. See options basics."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Encyclopedia</small></a>
+  <nav class="top"><a href="/encyclopedia/" class="on">Encyclopedia</a><a href="/encyclopedia/reference/trading-glossary/">Glossary</a><a href="/blog/">Blog</a><a href="/">Bot toolkit</a></nav>
+  <div class="search"><input id="q" type="search" placeholder="Search 150+ articles  ( / )" autocomplete="off" aria-label="Search the encyclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Futures Trading</h3><ul><li><a href="/encyclopedia/futures/futures-basics/" class="on" aria-current="page">Futures Basics</a></li><li><a href="/encyclopedia/futures/index-futures/">Index Futures (ES, NQ)</a></li><li><a href="/encyclopedia/futures/commodity-futures/">Commodity Futures</a></li><li><a href="/encyclopedia/futures/contango-backwardation-and-rollover/">Contango, Backwardation &amp; Rollover</a></li><li><a href="/encyclopedia/futures/futures-vs-other-instruments/">Futures vs Stocks, CFDs &amp; Perps</a></li></ul><h3>All topics</h3><ul><li><a href="/encyclopedia/basics/">📘 Trading Basics</a></li><li><a href="/encyclopedia/risk-management/">🛡️ Risk &amp; Money Management</a></li><li><a href="/encyclopedia/psychology/">🧠 Trading Psychology</a></li><li><a href="/encyclopedia/technical-analysis/">📈 Technical Analysis</a></li><li><a href="/encyclopedia/fundamental-analysis/">🏦 Fundamental &amp; Macro Analysis</a></li><li><a href="/encyclopedia/stocks/">🏛️ Stock Trading</a></li><li><a href="/encyclopedia/forex/">💱 Forex Trading</a></li><li><a href="/encyclopedia/futures/" class="on">📊 Futures Trading</a></li><li><a href="/encyclopedia/options/">🎯 Options Trading</a></li><li><a href="/encyclopedia/crypto/">₿ Crypto Trading</a></li><li><a href="/encyclopedia/meme-coins/">🐸 Meme Coin Trading</a></li><li><a href="/encyclopedia/prediction-markets/">🔮 Prediction Markets</a></li><li><a href="/encyclopedia/algorithmic-trading/">🤖 Algorithmic &amp; Quant Trading</a></li><li><a href="/encyclopedia/other-markets/">🛢️ Commodities, Bonds &amp; More</a></li><li><a href="/encyclopedia/trading-business/">⚖️ Prop Firms, Tax, Regulation &amp; Scams</a></li><li><a href="/encyclopedia/reference/">📖 Reference</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/encyclopedia/">Encyclopedia</a> › <a href="/encyclopedia/futures/">Futures Trading</a></div>
+<h1 class="title">Futures Trading Basics</h1>
+<div class="meta">9 min read · Updated Nov 23, 2026</div>
+<details class="side-m"><summary>More in Futures Trading</summary><ul><li><a href="/encyclopedia/futures/futures-basics/" class="on" aria-current="page">Futures Basics</a></li><li><a href="/encyclopedia/futures/index-futures/">Index Futures (ES, NQ)</a></li><li><a href="/encyclopedia/futures/commodity-futures/">Commodity Futures</a></li><li><a href="/encyclopedia/futures/contango-backwardation-and-rollover/">Contango, Backwardation &amp; Rollover</a></li><li><a href="/encyclopedia/futures/futures-vs-other-instruments/">Futures vs Stocks, CFDs &amp; Perps</a></li></ul></details>
+<article><p>A futures contract is a standardized, exchange-traded agreement to buy or sell a fixed quantity of an asset at a set price on a future date. Futures exist on stock indices, interest rates, currencies, energy, metals, grains, livestock and crypto, and they are among the most heavily traded instruments in the world. Because a small deposit controls a large position, futures can magnify both gains and losses, which makes understanding the contract mechanics essential before placing a trade.</p>
+<div class="takeaways"><h2 id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>A futures contract fixes the quantity, quality, expiry and settlement method, so every contract on an exchange is interchangeable with every other.</li>
+<li>Each contract has a tick size and tick value, and those two numbers tell you exactly how much money a price move is worth.</li>
+<li>Gains and losses are settled in cash every day through mark-to-market, so a losing position can trigger a margin call long before expiry.</li>
+<li>Most contracts are closed or rolled before expiry; some settle in cash and some require physical delivery.</li>
+<li>Futures margin is a performance bond, not a loan, and the leverage it provides is large enough to wipe out an account quickly.</li>
+</ul></div><details class="toc"><summary>On this page</summary><ol><li><a href="#what-a-futures-contract-is">What a futures contract is</a></li><li><a href="#the-major-futures-exchanges">The major futures exchanges</a></li><li><a href="#contract-specifications">Contract specifications</a></li><li><a href="#expiry-months-and-month-codes">Expiry months and month codes</a></li><li><a href="#daily-mark-to-market">Daily mark-to-market</a></li><li><a href="#margin-a-performance-bond">Margin: a performance bond</a></li><li><a href="#cash-settlement-vs-physical-delivery">Cash settlement vs physical delivery</a></li><li><a href="#hedgers-vs-speculators">Hedgers vs speculators</a></li><li><a href="#common-mistakes">Common mistakes</a></li></ol></details>
+<h2 id="what-a-futures-contract-is">What a futures contract is</h2>
+<p>At its core, a futures contract is a promise. The buyer (the &quot;long&quot;) agrees to take the asset at the agreed price on the expiry date, and the seller (the &quot;short&quot;) agrees to deliver it. Neither side pays the full price up front. Instead, both post margin with their broker, and the exchange&#39;s clearinghouse stands between them.</p>
+<p>That clearinghouse is a big part of why futures work. Once a trade is matched, the clearinghouse becomes the buyer to every seller and the seller to every buyer. You do not need to trust the person on the other side of your trade, only the clearinghouse and your broker. This is called central clearing, and it is one of the main differences between futures and over-the-counter products such as forwards or many <a href="/encyclopedia/forex/cfds-and-spread-betting/">CFDs</a>.</p>
+<p>Futures evolved from forward contracts used by farmers and merchants. A forward is a private, customized deal. A future is the same idea made standard and tradable on an exchange, which lets anyone enter or exit at any time during trading hours.</p>
+<h2 id="the-major-futures-exchanges">The major futures exchanges</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Exchange group</th>
+<th>Location</th>
+<th>Well-known contracts</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CME Group (CME, CBOT, NYMEX, COMEX)</td>
+<td>United States</td>
+<td>E-mini S&amp;P 500, Treasury futures, WTI crude oil, gold, corn, soybeans</td>
+</tr>
+<tr>
+<td>ICE (Intercontinental Exchange)</td>
+<td>US, UK and Europe</td>
+<td>Brent crude, softs such as coffee, cocoa and sugar, European gas</td>
+</tr>
+<tr>
+<td>Eurex</td>
+<td>Germany</td>
+<td>DAX, Euro Stoxx 50, German government bond (Bund) futures</td>
+</tr>
+<tr>
+<td>Japan Exchange Group (Osaka Exchange)</td>
+<td>Japan</td>
+<td>Nikkei 225 futures</td>
+</tr>
+<tr>
+<td>Others</td>
+<td>Worldwide</td>
+<td>Singapore Exchange, Hong Kong Exchanges, B3 in Brazil, NSE in India</td>
+</tr>
+</tbody></table></div>
+<p>Most retail futures traders access these markets through a futures broker, sometimes called a futures commission merchant (FCM) in the US, or through an introducing broker that clears through one.</p>
+<h2 id="contract-specifications">Contract specifications</h2>
+<p>Every futures contract has a published specification sheet. The fields that matter most to a trader are:</p>
+<ul>
+<li><strong>Underlying and size:</strong> what the contract represents. One CME WTI crude oil contract (CL) is 1,000 barrels. One COMEX gold contract (GC) is 100 troy ounces.</li>
+<li><strong>Multiplier:</strong> for index futures, the dollar value of one index point. The E-mini S&amp;P 500 (ES) is $50 times the index.</li>
+<li><strong>Tick size:</strong> the smallest allowed price change.</li>
+<li><strong>Tick value:</strong> the profit or loss from a one-tick move on one contract. Tick value equals tick size multiplied by contract size or multiplier.</li>
+<li><strong>Contract months and expiry:</strong> which months are listed and when trading stops.</li>
+<li><strong>Settlement method:</strong> cash or physical delivery.</li>
+<li><strong>Trading hours:</strong> many CME contracts trade nearly 24 hours a day, five days a week, with a short daily maintenance break. See <a href="/encyclopedia/basics/market-hours-and-sessions/">market hours and sessions</a>.</li>
+</ul>
+<h3 id="tick-size-and-tick-value-examples">Tick size and tick value examples</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Contract</th>
+<th>Exchange</th>
+<th>Size or multiplier</th>
+<th>Tick size</th>
+<th>Tick value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E-mini S&amp;P 500 (ES)</td>
+<td>CME</td>
+<td>$50 x index</td>
+<td>0.25 point</td>
+<td>$12.50</td>
+</tr>
+<tr>
+<td>Micro E-mini S&amp;P 500 (MES)</td>
+<td>CME</td>
+<td>$5 x index</td>
+<td>0.25 point</td>
+<td>$1.25</td>
+</tr>
+<tr>
+<td>E-mini Nasdaq-100 (NQ)</td>
+<td>CME</td>
+<td>$20 x index</td>
+<td>0.25 point</td>
+<td>$5.00</td>
+</tr>
+<tr>
+<td>Micro E-mini Nasdaq-100 (MNQ)</td>
+<td>CME</td>
+<td>$2 x index</td>
+<td>0.25 point</td>
+<td>$0.50</td>
+</tr>
+<tr>
+<td>WTI crude oil (CL)</td>
+<td>NYMEX</td>
+<td>1,000 barrels</td>
+<td>$0.01 per barrel</td>
+<td>$10.00</td>
+</tr>
+<tr>
+<td>Gold (GC)</td>
+<td>COMEX</td>
+<td>100 troy ounces</td>
+<td>$0.10 per ounce</td>
+<td>$10.00</td>
+</tr>
+<tr>
+<td>Corn (ZC)</td>
+<td>CBOT</td>
+<td>5,000 bushels</td>
+<td>1/4 cent per bushel</td>
+<td>$12.50</td>
+</tr>
+</tbody></table></div>
+<p>Specifications occasionally change, so always confirm them on the exchange&#39;s own contract page before trading.</p>
+<h2 id="expiry-months-and-month-codes">Expiry months and month codes</h2>
+<p>Futures are listed for specific delivery months. Traders and data feeds identify each month with a single letter, combined with the root symbol and the year. For example, ESZ6 is the E-mini S&amp;P 500 expiring in December 2026, and CLF7 is WTI crude for January 2027 delivery.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Month</th>
+<th>Code</th>
+<th>Month</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>January</td>
+<td>F</td>
+<td>July</td>
+<td>N</td>
+</tr>
+<tr>
+<td>February</td>
+<td>G</td>
+<td>August</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>March</td>
+<td>H</td>
+<td>September</td>
+<td>U</td>
+</tr>
+<tr>
+<td>April</td>
+<td>J</td>
+<td>October</td>
+<td>V</td>
+</tr>
+<tr>
+<td>May</td>
+<td>K</td>
+<td>November</td>
+<td>X</td>
+</tr>
+<tr>
+<td>June</td>
+<td>M</td>
+<td>December</td>
+<td>Z</td>
+</tr>
+</tbody></table></div>
+<p>Equity index futures list quarterly months (March, June, September, December). Crude oil lists every month. Grains follow crop-related cycles, such as March, May, July, September and December for corn. The contract with the most volume, usually the nearest one, is called the front month. Moving a position from one month to the next is called rolling, covered in <a href="/encyclopedia/futures/contango-backwardation-and-rollover/">contango, backwardation and rollover</a>.</p>
+<h2 id="daily-mark-to-market">Daily mark-to-market</h2>
+<p>Futures profits and losses are not left to build up until you close. At the end of each trading day the exchange sets a settlement price, and every open position is revalued at that price. Winners have cash added to their account, and losers have cash taken out. This is called mark-to-market, or variation margin.</p>
+<h3 id="worked-example-one-es-contract-over-three-days">Worked example: one ES contract over three days</h3>
+<p>Suppose you buy one ES contract at 5,000.00. The contract&#39;s notional value is 5,000 x $50 = $250,000.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Settlement price</th>
+<th>Change (points)</th>
+<th>Daily P&amp;L</th>
+<th>Running P&amp;L</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Entry</td>
+<td>5,000.00</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Day 1</td>
+<td>5,012.50</td>
+<td>+12.50</td>
+<td>+$625</td>
+<td>+$625</td>
+</tr>
+<tr>
+<td>Day 2</td>
+<td>4,980.00</td>
+<td>-32.50</td>
+<td>-$1,625</td>
+<td>-$1,000</td>
+</tr>
+<tr>
+<td>Day 3</td>
+<td>4,995.25</td>
+<td>+15.25</td>
+<td>+$762.50</td>
+<td>-$237.50</td>
+</tr>
+</tbody></table></div>
+<p>Each point is worth $50, so a 12.50-point gain is 12.50 x $50 = $625. The 32.50-point fall costs 32.50 x $50 = $1,625. On Day 3, 15.25 points is 61 ticks, and 61 x $12.50 = $762.50. If you had traded one MES contract instead, every figure would be one-tenth as large: the running loss after Day 3 would be $23.75.</p>
+<h2 id="margin-a-performance-bond">Margin: a performance bond</h2>
+<p>Futures margin is a good-faith deposit that shows you can cover daily losses. It is not a down payment, and you do not borrow the rest of the contract value or pay interest on it.</p>
+<ul>
+<li><strong>Initial margin</strong> is what you must have to open a position.</li>
+<li><strong>Maintenance margin</strong> is the lower level your account must stay above. If losses push the account below maintenance, you get a margin call and must add funds or reduce the position, or the broker may close it for you.</li>
+<li><strong>Day-trading margin</strong> is a lower amount some brokers allow for positions closed before the session ends. It is set by the broker, not the exchange, and it means even more leverage.</li>
+</ul>
+<p>Exchanges set and change margin requirements based on volatility, and they often raise them sharply during turbulent markets. Brokers can require more than the exchange minimum.</p>
+<h3 id="how-much-leverage-that-is">How much leverage that is</h3>
+<p>Suppose, purely as an illustration, that initial margin on one ES contract were $15,000 against $250,000 of notional value. That is about 16.7 to 1 leverage. A 1 percent fall in the index (50 points) would cost $2,500, about one-sixth of the margin. A 6 percent fall would cost $15,000 and erase the entire deposit. Real margin levels vary over time, so check your broker&#39;s current figures. The general mechanics of leverage are covered in <a href="/encyclopedia/basics/leverage-and-margin/">leverage and margin</a>.</p>
+<h2 id="cash-settlement-vs-physical-delivery">Cash settlement vs physical delivery</h2>
+<p>When a contract expires, it settles in one of two ways.</p>
+<ul>
+<li><strong>Cash-settled</strong> contracts pay or collect the difference between your trade price and a final settlement price. Equity index futures such as ES and NQ settle in cash. No shares change hands.</li>
+<li><strong>Physically delivered</strong> contracts require the short to deliver, and the long to accept, the actual asset at an approved location. WTI crude oil, gold, corn and many Treasury futures are physically delivered.</li>
+</ul>
+<p>Retail traders almost never want delivery. Most brokers require customers to close or roll physically delivered contracts before the first notice day, the first date on which a short can announce intent to deliver. Some brokers will liquidate positions automatically ahead of that date. The risks of holding into delivery are covered in <a href="/encyclopedia/futures/commodity-futures/">commodity futures</a>.</p>
+<h2 id="hedgers-vs-speculators">Hedgers vs speculators</h2>
+<p>Futures markets bring together two broad groups.</p>
+<p><strong>Hedgers</strong> use futures to reduce a risk they already have. A corn farmer expecting to harvest 50,000 bushels can sell 10 corn contracts in spring to lock in a price. If corn falls by harvest, the futures gain offsets the lower price received for the crop. An airline can buy crude oil or heating oil futures to protect against rising fuel costs. A pension fund can sell index futures to reduce stock exposure quickly without selling individual shares.</p>
+<p><strong>Speculators</strong> take on price risk in the hope of profit. They include individual traders, proprietary trading firms, hedge funds and commodity trading advisors (CTAs) that run <a href="/encyclopedia/algorithmic-trading/trend-following/">trend-following</a> systems. Speculators supply liquidity that hedgers need, and they bear risk that hedgers want to shed.</p>
+<p>The US Commodity Futures Trading Commission publishes a weekly Commitments of Traders report that breaks down open positions by trader type. Some traders use it as a sentiment gauge, described in <a href="/encyclopedia/fundamental-analysis/market-sentiment-indicators/">market sentiment indicators</a>.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul>
+<li><strong>Not knowing the tick value.</strong> Trading NQ when you meant MNQ makes every move ten times larger. Check the contract and tick value before every order.</li>
+<li><strong>Sizing on margin rather than notional.</strong> The margin deposit says nothing about risk. A single ES contract moves $250,000 worth of index exposure at a price of 5,000.</li>
+<li><strong>Forgetting expiry and first notice day.</strong> Holding a physically delivered contract too long can lead to forced liquidation or delivery obligations.</li>
+<li><strong>Ignoring overnight sessions.</strong> Nearly 24-hour trading means prices can move a long way while you sleep. Stops can be filled far from their trigger price during fast markets or at the Sunday open.</li>
+<li><strong>Assuming margin is fixed.</strong> Exchanges and brokers can raise margin with little notice, often right when the market is moving against you.</li>
+</ul>
+<p>Futures are a professional-grade product. Evidence from many markets shows that most retail traders who use high leverage at short horizons lose money, and futures leverage is high. Starting with micro contracts and strict <a href="/encyclopedia/risk-management/position-sizing/">position sizing</a> keeps mistakes affordable while you learn.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="how-much-money-do-you-need-to-trade-futures">How much money do you need to trade futures?</h3>
+<p>It depends on the contract and broker. Micro contracts such as MES have margin requirements a fraction of the full-size E-mini, so they can be traded with a few thousand dollars, but having enough capital to survive normal swings matters more than meeting the minimum.</p>
+<h3 id="do-futures-expire">Do futures expire?</h3>
+<p>Yes. Every futures contract has a last trading day. Traders who want to keep their exposure close the expiring contract and open the next month, which is called rolling.</p>
+<h3 id="can-you-lose-more-than-you-deposit-trading-futures">Can you lose more than you deposit trading futures?</h3>
+<p>Yes. Because losses are settled daily and positions are leveraged, a large or gapping move can create a negative account balance, and you are liable to your broker for the deficit.</p>
+<h3 id="what-is-the-difference-between-futures-and-options">What is the difference between futures and options?</h3>
+<p>A futures contract obligates both sides to transact at the agreed price. An option gives the buyer the right, but not the obligation, to buy or sell, in exchange for paying a premium. See <a href="/encyclopedia/options/options-basics/">options basics</a>.</p>
+</article>
+<div class="disclaimer"><strong>Educational content only.</strong> Nothing here is financial, investment, legal or tax advice. Trading carries a high risk of loss, and leveraged products can lose more than you deposit. Rules, fees and platform details change: check current terms with your broker, exchange or regulator before you trade.</div>
+<section class="related"><h2>Related articles</h2><div class="cards"><a class="card" href="/encyclopedia/futures/index-futures/"><div class="k">Futures Trading</div><b>Index Futures (ES, NQ)</b><span>How stock index futures work: E-mini and Micro E-mini S&amp;P 500 and Nasdaq, Dow, Russell, DAX and Nikkei contracts, tick values, fair value and sessions.</span></a><a class="card" href="/encyclopedia/futures/commodity-futures/"><div class="k">Futures Trading</div><b>Commodity Futures</b><span>How commodity futures work across crude oil, natural gas, gold, silver, copper, grains, softs and livestock, with contract sizes, reports and delivery risk.</span></a><a class="card" href="/encyclopedia/futures/contango-backwardation-and-rollover/"><div class="k">Futures Trading</div><b>Contango, Backwardation &amp; Rollover</b><span>What contango and backwardation mean, how roll yield works, how and when to roll futures, why commodity ETFs lag spot, and what happened to oil in April 2020.</span></a><a class="card" href="/encyclopedia/futures/futures-vs-other-instruments/"><div class="k">Futures Trading</div><b>Futures vs Stocks, CFDs &amp; Perps</b><span>How futures compare with stocks, CFDs and crypto perps on leverage, costs, clearing, regulation, US Section 1256 taxes and the pattern day trader rule.</span></a><a class="card" href="/encyclopedia/basics/leverage-and-margin/"><div class="k">Trading Basics</div><b>Leverage &amp; Margin</b><span>How leverage and margin work, initial vs maintenance margin, margin calls, liquidation, cross vs isolated margin, worked examples and regional leverage caps.</span></a></div></section>
+<div class="pager"><span></span><a class="next" href="/encyclopedia/futures/index-futures/"><small>Next →</small>Index Futures (ES, NQ)</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/encyclopedia/basics/">Trading Basics</a><a href="/encyclopedia/risk-management/">Risk &amp; Money Management</a><a href="/encyclopedia/psychology/">Trading Psychology</a><a href="/encyclopedia/technical-analysis/">Technical Analysis</a><a href="/encyclopedia/fundamental-analysis/">Fundamental &amp; Macro Analysis</a><a href="/encyclopedia/stocks/">Stock Trading</a><a href="/encyclopedia/forex/">Forex Trading</a><a href="/encyclopedia/futures/">Futures Trading</a><a href="/encyclopedia/options/">Options Trading</a><a href="/encyclopedia/crypto/">Crypto Trading</a><a href="/encyclopedia/meme-coins/">Meme Coin Trading</a><a href="/encyclopedia/prediction-markets/">Prediction Markets</a><a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a><a href="/encyclopedia/other-markets/">Commodities, Bonds &amp; More</a><a href="/encyclopedia/trading-business/">Prop Firms, Tax, Regulation &amp; Scams</a><a href="/encyclopedia/reference/">Reference</a><a href="/blog/">Blog</a><a href="/">Open-source bot toolkit</a></div>
+  <p>PnL Profit Trading Encyclopedia: free, independent explanations of how every major market works. Educational content only, not financial advice. Contact: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">No matches. Try the glossary.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

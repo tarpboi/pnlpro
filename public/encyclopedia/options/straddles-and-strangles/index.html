@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Straddles and Strangles: Trading Volatility Instead of Direction</title>
+<meta name="description" content="How long and short straddles and strangles work, breakevens with worked numbers, breakeven vs implied move, earnings trades and short-volatility tail risk.">
+<meta name="keywords" content="straddle vs strangle, long straddle, short strangle, straddle breakeven, earnings straddle">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/encyclopedia/options/straddles-and-strangles/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Encyclopedia">
+<meta property="og:title" content="Straddles and Strangles: Trading Volatility Instead of Direction">
+<meta property="og:description" content="How long and short straddles and strangles work, breakevens with worked numbers, breakeven vs implied move, earnings trades and short-volatility tail risk.">
+<meta property="og:url" content="https://pnlpro.fit/encyclopedia/options/straddles-and-strangles/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Straddles and Strangles: Trading Volatility Instead of Direction">
+<meta name="twitter:description" content="How long and short straddles and strangles work, breakevens with worked numbers, breakeven vs implied move, earnings trades and short-volatility tail risk.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-left:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-left:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-left:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-left:3px solid var(--accent);margin:1.2rem 0;padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-left:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:right}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-left:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Straddles and Strangles: Trading Volatility Instead of Direction","description":"How long and short straddles and strangles work, breakevens with worked numbers, breakeven vs implied move, earnings trades and short-volatility tail risk.","keywords":"straddle vs strangle, long straddle, short strangle, straddle breakeven, earnings straddle","articleSection":"Options Trading","wordCount":1401,"image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/encyclopedia/options/straddles-and-strangles/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Encyclopedia","item":"https://pnlpro.fit/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Options Trading","item":"https://pnlpro.fit/encyclopedia/options/"},{"@type":"ListItem","position":3,"name":"Straddles & Strangles","item":"https://pnlpro.fit/encyclopedia/options/straddles-and-strangles/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between a straddle and a strangle?","acceptedAnswer":{"@type":"Answer","text":"A straddle uses a call and a put at the same strike, usually at the money. A strangle uses an out-of-the-money call and an out-of-the-money put at different strikes, so it is cheaper but needs a bigger move."}},{"@type":"Question","name":"How do you calculate the breakeven on a straddle?","acceptedAnswer":{"@type":"Answer","text":"Add the total premium to the strike for the upper breakeven and subtract it from the strike for the lower breakeven. A $100 straddle bought for $7.80 breaks even at $92.20 and $107.80 at expiry."}},{"@type":"Question","name":"Is a long straddle a good earnings strategy?","acceptedAnswer":{"@type":"Answer","text":"It profits only if the stock moves more than the straddle price implied, and IV typically falls sharply after the report. Many earnings straddles lose money even when the stock moves noticeably."}},{"@type":"Question","name":"Why are short strangles risky?","acceptedAnswer":{"@type":"Answer","text":"They collect limited premium but face very large losses if the stock moves sharply, and the call side has theoretically unlimited risk. Losses can be many times the premium received."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Encyclopedia</small></a>
+  <nav class="top"><a href="/encyclopedia/" class="on">Encyclopedia</a><a href="/encyclopedia/reference/trading-glossary/">Glossary</a><a href="/blog/">Blog</a><a href="/">Bot toolkit</a></nav>
+  <div class="search"><input id="q" type="search" placeholder="Search 150+ articles  ( / )" autocomplete="off" aria-label="Search the encyclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Options Trading</h3><ul><li><a href="/encyclopedia/options/options-basics/">Options Basics</a></li><li><a href="/encyclopedia/options/options-greeks/">The Greeks</a></li><li><a href="/encyclopedia/options/implied-volatility/">Implied Volatility</a></li><li><a href="/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered Calls &amp; CSPs</a></li><li><a href="/encyclopedia/options/vertical-spreads/">Vertical Spreads</a></li><li><a href="/encyclopedia/options/iron-condors-and-butterflies/">Iron Condors &amp; Butterflies</a></li><li><a href="/encyclopedia/options/straddles-and-strangles/" class="on" aria-current="page">Straddles &amp; Strangles</a></li><li><a href="/encyclopedia/options/0dte-options/">0DTE Options</a></li><li><a href="/encyclopedia/options/options-expiration-and-assignment/">Expiration &amp; Assignment</a></li><li><a href="/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure &amp; Dealers</a></li></ul><h3>All topics</h3><ul><li><a href="/encyclopedia/basics/">📘 Trading Basics</a></li><li><a href="/encyclopedia/risk-management/">🛡️ Risk &amp; Money Management</a></li><li><a href="/encyclopedia/psychology/">🧠 Trading Psychology</a></li><li><a href="/encyclopedia/technical-analysis/">📈 Technical Analysis</a></li><li><a href="/encyclopedia/fundamental-analysis/">🏦 Fundamental &amp; Macro Analysis</a></li><li><a href="/encyclopedia/stocks/">🏛️ Stock Trading</a></li><li><a href="/encyclopedia/forex/">💱 Forex Trading</a></li><li><a href="/encyclopedia/futures/">📊 Futures Trading</a></li><li><a href="/encyclopedia/options/" class="on">🎯 Options Trading</a></li><li><a href="/encyclopedia/crypto/">₿ Crypto Trading</a></li><li><a href="/encyclopedia/meme-coins/">🐸 Meme Coin Trading</a></li><li><a href="/encyclopedia/prediction-markets/">🔮 Prediction Markets</a></li><li><a href="/encyclopedia/algorithmic-trading/">🤖 Algorithmic &amp; Quant Trading</a></li><li><a href="/encyclopedia/other-markets/">🛢️ Commodities, Bonds &amp; More</a></li><li><a href="/encyclopedia/trading-business/">⚖️ Prop Firms, Tax, Regulation &amp; Scams</a></li><li><a href="/encyclopedia/reference/">📖 Reference</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/encyclopedia/">Encyclopedia</a> › <a href="/encyclopedia/options/">Options Trading</a></div>
+<h1 class="title">Straddles and Strangles</h1>
+<div class="meta">6 min read · Updated Nov 23, 2026</div>
+<details class="side-m"><summary>More in Options Trading</summary><ul><li><a href="/encyclopedia/options/options-basics/">Options Basics</a></li><li><a href="/encyclopedia/options/options-greeks/">The Greeks</a></li><li><a href="/encyclopedia/options/implied-volatility/">Implied Volatility</a></li><li><a href="/encyclopedia/options/covered-calls-and-cash-secured-puts/">Covered Calls &amp; CSPs</a></li><li><a href="/encyclopedia/options/vertical-spreads/">Vertical Spreads</a></li><li><a href="/encyclopedia/options/iron-condors-and-butterflies/">Iron Condors &amp; Butterflies</a></li><li><a href="/encyclopedia/options/straddles-and-strangles/" class="on" aria-current="page">Straddles &amp; Strangles</a></li><li><a href="/encyclopedia/options/0dte-options/">0DTE Options</a></li><li><a href="/encyclopedia/options/options-expiration-and-assignment/">Expiration &amp; Assignment</a></li><li><a href="/encyclopedia/options/gamma-exposure-and-dealer-hedging/">Gamma Exposure &amp; Dealers</a></li></ul></details>
+<article><p>A straddle is the purchase or sale of a call and a put with the same strike and expiry; a strangle does the same with an out-of-the-money call and an out-of-the-money put at different strikes. Long versions profit if the underlying moves a lot in either direction, and short versions profit if it stays quiet. Both are ways to trade the size of a move rather than its direction, which makes the price of volatility, not the direction of the stock, the key question.</p>
+<div class="takeaways"><h2 id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>A long straddle or strangle profits from a move larger than the total premium paid, in either direction.</li>
+<li>A short straddle or strangle collects premium and profits if the underlying stays within the breakevens, but faces large or unlimited losses on big moves.</li>
+<li>The at-the-money straddle price is a good market estimate of the expected move to expiration.</li>
+<li>Buying straddles before earnings works only if the actual move exceeds what was priced in, after accounting for the drop in implied volatility.</li>
+<li>Short-volatility strategies tend to produce many small gains and occasional very large losses.</li>
+</ul></div><details class="toc"><summary>On this page</summary><ol><li><a href="#straddle-vs-strangle">Straddle vs strangle</a></li><li><a href="#long-straddle">Long straddle</a></li><li><a href="#long-strangle">Long strangle</a></li><li><a href="#breakeven-vs-implied-move">Breakeven vs implied move</a></li><li><a href="#earnings-straddles">Earnings straddles</a></li><li><a href="#short-straddles-and-strangles">Short straddles and strangles</a></li><li><a href="#long-vs-short-the-trade-off">Long vs short: the trade-off</a></li><li><a href="#common-mistakes">Common mistakes</a></li></ol></details>
+<h2 id="straddle-vs-strangle">Straddle vs strangle</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Straddle</th>
+<th>Strangle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Strikes</td>
+<td>Call and put at the same strike, usually at the money</td>
+<td>OTM call above and OTM put below the current price</td>
+</tr>
+<tr>
+<td>Cost (long)</td>
+<td>Higher</td>
+<td>Lower</td>
+</tr>
+<tr>
+<td>Move needed to profit</td>
+<td>Smaller</td>
+<td>Larger</td>
+</tr>
+<tr>
+<td>Maximum loss (long)</td>
+<td>Total premium paid</td>
+<td>Total premium paid</td>
+</tr>
+<tr>
+<td>Short version&#39;s risk</td>
+<td>Unlimited above, large below</td>
+<td>Unlimited above, large below</td>
+</tr>
+</tbody></table></div>
+<h2 id="long-straddle">Long straddle</h2>
+<h3 id="worked-example">Worked example</h3>
+<p>A stock trades at $100. You buy the $100 call for $4.00 and the $100 put for $3.80, both expiring in 30 days. Each contract covers 100 shares.</p>
+<ul>
+<li>Total cost: $4.00 + $3.80 = $7.80, or $780.</li>
+<li>Upper breakeven: $100 + $7.80 = $107.80.</li>
+<li>Lower breakeven: $100 - $7.80 = $92.20.</li>
+<li>Maximum loss: $780, if the stock finishes exactly at $100.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Stock at expiry</th>
+<th>Call value</th>
+<th>Put value</th>
+<th>Total value</th>
+<th>Profit or loss</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$85</td>
+<td>$0</td>
+<td>$15.00</td>
+<td>$15.00</td>
+<td>+$720</td>
+</tr>
+<tr>
+<td>$92.20</td>
+<td>$0</td>
+<td>$7.80</td>
+<td>$7.80</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$100</td>
+<td>$0</td>
+<td>$0</td>
+<td>$0</td>
+<td>-$780</td>
+</tr>
+<tr>
+<td>$107.80</td>
+<td>$7.80</td>
+<td>$0</td>
+<td>$7.80</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>$115</td>
+<td>$15.00</td>
+<td>$0</td>
+<td>$15.00</td>
+<td>+$720</td>
+</tr>
+</tbody></table></div>
+<p>The stock must move more than 7.8 percent in either direction by expiry just to break even. Before expiry, the position is also affected by time decay, which works steadily against it, and by changes in implied volatility.</p>
+<h2 id="long-strangle">Long strangle</h2>
+<h3 id="worked-example">Worked example</h3>
+<p>With the stock at $100, buy the $105 call for $2.00 and the $95 put for $1.80.</p>
+<ul>
+<li>Total cost: $3.80, or $380.</li>
+<li>Upper breakeven: $105 + $3.80 = $108.80.</li>
+<li>Lower breakeven: $95 - $3.80 = $91.20.</li>
+<li>Maximum loss: $380, anywhere between $95 and $105 at expiry.</li>
+</ul>
+<p>The strangle costs less than half as much as the straddle, but its breakevens are further away: $91.20 and $108.80 versus $92.20 and $107.80. It loses its full premium across a wide $10 range rather than at a single point.</p>
+<h2 id="breakeven-vs-implied-move">Breakeven vs implied move</h2>
+<p>The at-the-money straddle price is a quick, market-based estimate of how far the stock is expected to move by expiration. In the example above, the market is pricing a move of about $7.80, or 7.8 percent.</p>
+<p>This leads to the central question for any straddle buyer: will the stock move more than the market expects? If the straddle costs $7.80 and the stock moves $6, the buyer loses even though the stock moved a lot. A long straddle is a bet that realized volatility will exceed implied volatility. A short straddle is the opposite bet. The relationship between implied volatility and the expected move is covered in <a href="/encyclopedia/options/implied-volatility/">implied volatility</a>.</p>
+<h2 id="earnings-straddles">Earnings straddles</h2>
+<p>Straddles are widely used around earnings announcements, where a large overnight move is common.</p>
+<h3 id="worked-example">Worked example</h3>
+<p>Before an earnings report, a $50 stock has a $50 straddle expiring that week priced at $4.00, implying a move of about 8 percent. Implied volatility is elevated.</p>
+<ul>
+<li><strong>If the stock jumps to $56 (12 percent):</strong> the call is worth at least $6.00 of intrinsic value. Even after IV drops, the straddle is worth a little over $6.00, a gain of about $2.00 per share, or $200.</li>
+<li><strong>If the stock moves to $53 (6 percent):</strong> the call has $3.00 of intrinsic value. After IV collapses, little extrinsic value remains, so the straddle is worth only slightly more than $3.00, a loss of nearly $1.00 per share.</li>
+</ul>
+<p>Option prices already reflect the market&#39;s estimate of the move, and actual moves scatter widely around it. Some reports produce moves several times the implied move, which hurts sellers badly, while many produce much less, which hurts buyers. There is no reliable way to know in advance which earnings will produce outsized moves. See <a href="/encyclopedia/stocks/earnings-trading/">earnings trading</a>.</p>
+<h2 id="short-straddles-and-strangles">Short straddles and strangles</h2>
+<p>Selling a straddle or strangle collects premium and profits if the stock stays between the breakevens. Using the earlier straddle numbers, a short $100 straddle collects $780 and keeps all of it only if the stock finishes exactly at $100. It profits anywhere between $92.20 and $107.80.</p>
+<h3 id="the-tail-risk">The tail risk</h3>
+<p>Suppose the stock gaps to $75 on unexpected news. The put is worth $25.00, so the short straddle loses $25.00 - $7.80 = $17.20 per share, or $1,720. That single loss wipes out more than two full cycles of maximum premium. A gap to $130 would cost $30.00 - $7.80 = $22.20, or $2,220, and on the upside there is no theoretical limit.</p>
+<p>Short straddles and strangles have negative gamma and negative vega: losses accelerate as the stock moves, and rising implied volatility increases the cost of buying the position back. See <a href="/encyclopedia/options/options-greeks/">options Greeks</a>. Selling uncovered options also requires a high options approval level and substantial margin, and brokers can raise margin requirements suddenly when markets become volatile.</p>
+<p>Several well-known blowups of individuals and funds came from selling volatility, which often looks like steady income until a sharp market move. The February 2018 collapse of some short-volatility products is one example; see <a href="/encyclopedia/other-markets/volatility-trading-vix/">volatility and VIX</a>. Traders who want short-volatility exposure with capped risk often use <a href="/encyclopedia/options/iron-condors-and-butterflies/">iron condors and butterflies</a> instead, which add protective wings.</p>
+<h2 id="long-vs-short-the-trade-off">Long vs short: the trade-off</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Long straddle or strangle</th>
+<th>Short straddle or strangle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Profits when</td>
+<td>The move is larger than priced in</td>
+<td>The move is smaller than priced in</td>
+</tr>
+<tr>
+<td>Time decay</td>
+<td>Works against you</td>
+<td>Works for you</td>
+</tr>
+<tr>
+<td>Rising IV</td>
+<td>Helps</td>
+<td>Hurts</td>
+</tr>
+<tr>
+<td>Typical win pattern</td>
+<td>Infrequent, potentially large wins</td>
+<td>Frequent small wins, occasional large losses</td>
+</tr>
+<tr>
+<td>Maximum loss</td>
+<td>Premium paid</td>
+<td>Large to unlimited</td>
+</tr>
+</tbody></table></div>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul>
+<li><strong>Buying straddles because &quot;something big is coming&quot;.</strong> The market usually knows, and the price already reflects it.</li>
+<li><strong>Ignoring IV crush.</strong> After an event, the drop in implied volatility can wipe out gains from a moderate move.</li>
+<li><strong>Holding long straddles too long.</strong> Time decay accelerates near expiry, and a move that comes too late may not help.</li>
+<li><strong>Selling strangles without a loss plan.</strong> Undefined risk combined with leverage can cause losses many times the premium collected.</li>
+<li><strong>Sizing short volatility on typical days.</strong> Size for the rare gap move, not the average week.</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="what-is-the-difference-between-a-straddle-and-a-strangle">What is the difference between a straddle and a strangle?</h3>
+<p>A straddle uses a call and a put at the same strike, usually at the money. A strangle uses an out-of-the-money call and an out-of-the-money put at different strikes, so it is cheaper but needs a bigger move.</p>
+<h3 id="how-do-you-calculate-the-breakeven-on-a-straddle">How do you calculate the breakeven on a straddle?</h3>
+<p>Add the total premium to the strike for the upper breakeven and subtract it from the strike for the lower breakeven. A $100 straddle bought for $7.80 breaks even at $92.20 and $107.80 at expiry.</p>
+<h3 id="is-a-long-straddle-a-good-earnings-strategy">Is a long straddle a good earnings strategy?</h3>
+<p>It profits only if the stock moves more than the straddle price implied, and IV typically falls sharply after the report. Many earnings straddles lose money even when the stock moves noticeably.</p>
+<h3 id="why-are-short-strangles-risky">Why are short strangles risky?</h3>
+<p>They collect limited premium but face very large losses if the stock moves sharply, and the call side has theoretically unlimited risk. Losses can be many times the premium received.</p>
+</article>
+<div class="disclaimer"><strong>Educational content only.</strong> Nothing here is financial, investment, legal or tax advice. Trading carries a high risk of loss, and leveraged products can lose more than you deposit. Rules, fees and platform details change: check current terms with your broker, exchange or regulator before you trade.</div>
+<section class="related"><h2>Related articles</h2><div class="cards"><a class="card" href="/encyclopedia/options/implied-volatility/"><div class="k">Options Trading</div><b>Implied Volatility</b><span>What implied volatility is, how it differs from historical volatility, IV rank and percentile, IV crush, skew, and the expected move formula with examples.</span></a><a class="card" href="/encyclopedia/options/options-greeks/"><div class="k">Options Trading</div><b>The Greeks</b><span>What delta, gamma, theta, vega and rho measure, with worked examples, how the Greeks change with time and moneyness, and how to read position Greeks.</span></a><a class="card" href="/encyclopedia/stocks/earnings-trading/"><div class="k">Stock Trading</div><b>Earnings Trading</b><span>How traders approach earnings: holding through vs trading the reaction, the options implied move, gap and go vs fade, and post-earnings drift.</span></a><a class="card" href="/encyclopedia/options/iron-condors-and-butterflies/"><div class="k">Options Trading</div><b>Iron Condors &amp; Butterflies</b><span>How iron condors, butterflies, iron butterflies and broken-wing butterflies work, with payoffs, breakevens and worked numbers, plus management and pin risk.</span></a><a class="card" href="/encyclopedia/options/options-basics/"><div class="k">Options Trading</div><b>Options Basics</b><span>How options work: calls, puts, strike, expiry, premium, intrinsic and extrinsic value, moneyness, buyer and seller payoffs with examples, and approval levels.</span></a></div></section>
+<div class="pager"><a href="/encyclopedia/options/iron-condors-and-butterflies/"><small>← Previous</small>Iron Condors &amp; Butterflies</a><a class="next" href="/encyclopedia/options/0dte-options/"><small>Next →</small>0DTE Options</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/encyclopedia/basics/">Trading Basics</a><a href="/encyclopedia/risk-management/">Risk &amp; Money Management</a><a href="/encyclopedia/psychology/">Trading Psychology</a><a href="/encyclopedia/technical-analysis/">Technical Analysis</a><a href="/encyclopedia/fundamental-analysis/">Fundamental &amp; Macro Analysis</a><a href="/encyclopedia/stocks/">Stock Trading</a><a href="/encyclopedia/forex/">Forex Trading</a><a href="/encyclopedia/futures/">Futures Trading</a><a href="/encyclopedia/options/">Options Trading</a><a href="/encyclopedia/crypto/">Crypto Trading</a><a href="/encyclopedia/meme-coins/">Meme Coin Trading</a><a href="/encyclopedia/prediction-markets/">Prediction Markets</a><a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a><a href="/encyclopedia/other-markets/">Commodities, Bonds &amp; More</a><a href="/encyclopedia/trading-business/">Prop Firms, Tax, Regulation &amp; Scams</a><a href="/encyclopedia/reference/">Reference</a><a href="/blog/">Blog</a><a href="/">Open-source bot toolkit</a></div>
+  <p>PnL Profit Trading Encyclopedia: free, independent explanations of how every major market works. Educational content only, not financial advice. Contact: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">No matches. Try the glossary.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

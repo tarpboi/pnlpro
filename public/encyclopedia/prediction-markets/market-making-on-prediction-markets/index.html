@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market Making on Prediction Markets: Spreads, Inventory and Risk</title>
+<meta name="description" content="A textbook guide to market making on prediction markets: quoting both sides, spread capture, inventory risk, adverse selection near news and liquidity rewards.">
+<meta name="keywords" content="prediction market making, polymarket market maker, liquidity rewards, inventory risk, adverse selection">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Encyclopedia">
+<meta property="og:title" content="Market Making on Prediction Markets: Spreads, Inventory and Risk">
+<meta property="og:description" content="A textbook guide to market making on prediction markets: quoting both sides, spread capture, inventory risk, adverse selection near news and liquidity rewards.">
+<meta property="og:url" content="https://pnlpro.fit/encyclopedia/prediction-markets/market-making-on-prediction-markets/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Market Making on Prediction Markets: Spreads, Inventory and Risk">
+<meta name="twitter:description" content="A textbook guide to market making on prediction markets: quoting both sides, spread capture, inventory risk, adverse selection near news and liquidity rewards.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-left:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-left:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-left:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-left:3px solid var(--accent);margin:1.2rem 0;padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-left:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:right}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-left:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Market Making on Prediction Markets: Spreads, Inventory and Risk","description":"A textbook guide to market making on prediction markets: quoting both sides, spread capture, inventory risk, adverse selection near news and liquidity rewards.","keywords":"prediction market making, polymarket market maker, liquidity rewards, inventory risk, adverse selection","articleSection":"Prediction Markets","wordCount":1364,"image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/encyclopedia/prediction-markets/market-making-on-prediction-markets/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Encyclopedia","item":"https://pnlpro.fit/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Prediction Markets","item":"https://pnlpro.fit/encyclopedia/prediction-markets/"},{"@type":"ListItem","position":3,"name":"Market Making","item":"https://pnlpro.fit/encyclopedia/prediction-markets/market-making-on-prediction-markets/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do market makers make money on prediction markets?","acceptedAnswer":{"@type":"Answer","text":"They post bids and asks and earn the spread when other traders buy from their ask and sell to their bid. Some platforms add liquidity rewards or lower maker fees. Losses come from inventory that moves against them and from being picked off by better-informed traders."}},{"@type":"Question","name":"What is inventory risk in market making?","acceptedAnswer":{"@type":"Answer","text":"It is the risk that a market maker accumulates a position on one side, usually because the price is trending, and then loses money as the price keeps moving. On prediction markets, inventory held at resolution pays either $1 or nothing."}},{"@type":"Question","name":"What are liquidity rewards on prediction markets?","acceptedAnswer":{"@type":"Answer","text":"They are incentives some platforms pay to traders who keep resting orders close to the midpoint for a period of time. Rules and amounts change, so check each platform's current program."}},{"@type":"Question","name":"Is market making on prediction markets profitable?","acceptedAnswer":{"@type":"Answer","text":"It can be for well-built, well-controlled operations, but many attempts lose money to adverse selection and inventory swings. Professional market makers rely on automation, fast cancellation and strict risk limits; manual quoting is at a large disadvantage."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Encyclopedia</small></a>
+  <nav class="top"><a href="/encyclopedia/" class="on">Encyclopedia</a><a href="/encyclopedia/reference/trading-glossary/">Glossary</a><a href="/blog/">Blog</a><a href="/">Bot toolkit</a></nav>
+  <div class="search"><input id="q" type="search" placeholder="Search 150+ articles  ( / )" autocomplete="off" aria-label="Search the encyclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Prediction Markets</h3><ul><li><a href="/encyclopedia/prediction-markets/prediction-markets-explained/">Prediction Markets Explained</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-pricing/">Pricing &amp; Probability</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-platforms/">Platforms Compared</a></li><li><a href="/encyclopedia/prediction-markets/market-resolution-and-oracles/">Resolution &amp; Oracles</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-strategies/">Strategies Overview</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitrage</a></li><li><a href="/encyclopedia/prediction-markets/market-making-on-prediction-markets/" class="on" aria-current="page">Market Making</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-regulation/">Regulation</a></li></ul><h3>All topics</h3><ul><li><a href="/encyclopedia/basics/">📘 Trading Basics</a></li><li><a href="/encyclopedia/risk-management/">🛡️ Risk &amp; Money Management</a></li><li><a href="/encyclopedia/psychology/">🧠 Trading Psychology</a></li><li><a href="/encyclopedia/technical-analysis/">📈 Technical Analysis</a></li><li><a href="/encyclopedia/fundamental-analysis/">🏦 Fundamental &amp; Macro Analysis</a></li><li><a href="/encyclopedia/stocks/">🏛️ Stock Trading</a></li><li><a href="/encyclopedia/forex/">💱 Forex Trading</a></li><li><a href="/encyclopedia/futures/">📊 Futures Trading</a></li><li><a href="/encyclopedia/options/">🎯 Options Trading</a></li><li><a href="/encyclopedia/crypto/">₿ Crypto Trading</a></li><li><a href="/encyclopedia/meme-coins/">🐸 Meme Coin Trading</a></li><li><a href="/encyclopedia/prediction-markets/" class="on">🔮 Prediction Markets</a></li><li><a href="/encyclopedia/algorithmic-trading/">🤖 Algorithmic &amp; Quant Trading</a></li><li><a href="/encyclopedia/other-markets/">🛢️ Commodities, Bonds &amp; More</a></li><li><a href="/encyclopedia/trading-business/">⚖️ Prop Firms, Tax, Regulation &amp; Scams</a></li><li><a href="/encyclopedia/reference/">📖 Reference</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/encyclopedia/">Encyclopedia</a> › <a href="/encyclopedia/prediction-markets/">Prediction Markets</a></div>
+<h1 class="title">Market Making on Prediction Markets</h1>
+<div class="meta">6 min read · Updated Nov 23, 2026</div>
+<details class="side-m"><summary>More in Prediction Markets</summary><ul><li><a href="/encyclopedia/prediction-markets/prediction-markets-explained/">Prediction Markets Explained</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-pricing/">Pricing &amp; Probability</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-platforms/">Platforms Compared</a></li><li><a href="/encyclopedia/prediction-markets/market-resolution-and-oracles/">Resolution &amp; Oracles</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-strategies/">Strategies Overview</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-arbitrage/">Arbitrage</a></li><li><a href="/encyclopedia/prediction-markets/market-making-on-prediction-markets/" class="on" aria-current="page">Market Making</a></li><li><a href="/encyclopedia/prediction-markets/prediction-market-regulation/">Regulation</a></li></ul></details>
+<article><p>Market making on a prediction market means continuously posting both a price to buy (a bid) and a price to sell (an ask) on a contract, aiming to earn the gap between them as other traders come and go. Market makers supply the liquidity that lets everyone else trade quickly. The job looks simple, but prediction markets add a hard twist: every contract ends at exactly $0 or $1, so any inventory a market maker is left holding at resolution becomes a full win or a full loss. This article describes the generic, textbook view.</p>
+<div class="takeaways"><h2 id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>A market maker earns the bid-ask spread when buyers and sellers trade against both of its quotes.</li>
+<li>Inventory risk arises when fills come mostly from one side and the price moves against the accumulated position.</li>
+<li>Adverse selection, being traded against by better-informed participants, is most severe around news and near resolution.</li>
+<li>Textbook controls include skewing quotes to reduce inventory, widening or pulling quotes before known events, and hard position limits.</li>
+<li>Some platforms pay liquidity rewards or charge lower fees to makers, but these change and should not hide a losing strategy.</li>
+</ul></div><details class="toc"><summary>On this page</summary><ol><li><a href="#how-market-making-works">How market making works</a></li><li><a href="#inventory-risk">Inventory risk</a></li><li><a href="#adverse-selection">Adverse selection</a></li><li><a href="#liquidity-rewards-and-fees">Liquidity rewards and fees</a></li><li><a href="#prediction-markets-versus-traditional-markets">Prediction markets versus traditional markets</a></li><li><a href="#common-mistakes">Common mistakes</a></li></ol></details>
+<h2 id="how-market-making-works">How market making works</h2>
+<h3 id="quoting-both-sides">Quoting both sides</h3>
+<p>Suppose a YES contract&#39;s fair value is around 50 cents. A market maker might post:</p>
+<ul>
+<li>A bid to buy 100 YES at 48 cents.</li>
+<li>An ask to sell 100 YES at 52 cents.</li>
+</ul>
+<p>The 4 cent gap is the quoted spread. If one trader sells into the bid and another buys from the ask, the market maker has bought at 48 and sold at 52 and holds no position. On platforms that match YES and NO together, selling YES at 52 cents is the same as buying NO at 48 cents, so a market maker can quote either book.</p>
+<h3 id="worked-example-spread-capture">Worked example: spread capture</h3>
+<p>Over a day, the market maker completes 30 round trips of 100 contracts each, buying at 48 cents and selling at 52 cents.</p>
+<ul>
+<li>Profit per round trip: 100 × ($0.52 − $0.48) = $4.00.</li>
+<li>Gross for the day: 30 × $4.00 = $120.00.</li>
+</ul>
+<p>If the venue charges makers nothing and the fair value stays near 50 cents, that is the result. Real days are rarely that tidy, as the next sections show.</p>
+<h2 id="inventory-risk">Inventory risk</h2>
+<p>Fills seldom arrive in neat pairs. When the price drifts down, sellers keep hitting the bid while buyers stay away, and the market maker accumulates YES shares.</p>
+<h3 id="worked-example-a-trending-market">Worked example: a trending market</h3>
+<p>News turns against the YES outcome. Through the afternoon the market maker&#39;s bid is filled repeatedly as the price slides, and it ends up holding 500 YES shares at an average cost of 46 cents. The price settles at 30 cents.</p>
+<ul>
+<li>Unrealized loss: 500 × ($0.46 − $0.30) = $80.00.</li>
+<li>That wipes out 20 of the 30 round trips from the earlier example.</li>
+<li>If the outcome then resolves NO, the loss becomes 500 × $0.46 = $230.00, nearly two days of spread income at the earlier pace.</li>
+</ul>
+<p>Because prediction market contracts finish at $0 or $1, inventory risk does not fade. It sharpens as resolution approaches.</p>
+<h3 id="skewing-quotes">Skewing quotes</h3>
+<p>The standard textbook response is to shift quotes based on inventory. A market maker that is long YES lowers both its bid and ask, making it more likely to sell and less likely to buy more. Academic models, such as the framework by Avellaneda and Stoikov, formalize this idea with a &quot;reservation price&quot; that moves away from the midpoint as inventory grows. The general <a href="/encyclopedia/algorithmic-trading/market-making/">market making</a> article explains the concept without heavy math.</p>
+<h3 id="position-limits">Position limits</h3>
+<p>A hard cap on inventory per market, and across related markets, stops a trending market from turning a market maker into an unwilling directional trader. Once the cap is hit, the maker stops quoting on the side that would add to it.</p>
+<h2 id="adverse-selection">Adverse selection</h2>
+<p>Adverse selection means being filled mostly by traders who know more than you. A market maker&#39;s quote is a free option for anyone with better information: they trade against it only when it is wrong.</p>
+<h3 id="around-news">Around news</h3>
+<p>When a scheduled release, debate, court decision or game event is due, informed or faster traders can react in seconds. A resting quote that was fair before the news may be badly stale after it. Prediction markets are especially exposed because many outcomes jump in a single step rather than drifting.</p>
+<h3 id="near-resolution">Near resolution</h3>
+<p>As an event&#39;s outcome becomes known, the contract&#39;s fair value moves toward $0 or $1, sometimes in moments.</p>
+<p><strong>Example.</strong> A market maker has an ask to sell 200 YES at 60 cents. The decisive result is announced, making YES certain. Before the maker can cancel, a fast trader buys all 200 at 60 cents. The contract resolves at $1, so the maker loses 200 × ($1.00 − $0.60) = $80.00 on that single fill.</p>
+<p>Textbook defenses include:</p>
+<ul>
+<li>Widening spreads or pulling quotes before scheduled events.</li>
+<li>Reducing size as resolution approaches.</li>
+<li>Cancelling quickly when related prices, such as the underlying asset in a crypto round, move sharply.</li>
+<li>Avoiding markets where others clearly have faster or better information.</li>
+</ul>
+<p>The <a href="/encyclopedia/prediction-markets/market-resolution-and-oracles/">resolution and oracles</a> article explains why the final hours carry extra risk.</p>
+<h2 id="liquidity-rewards-and-fees">Liquidity rewards and fees</h2>
+<p>Some prediction market platforms encourage market making with:</p>
+<ul>
+<li><strong>Liquidity rewards.</strong> Payments to traders who keep resting orders within a set distance of the midpoint, often weighted by size, closeness to the midpoint and time on the book.</li>
+<li><strong>Maker fee advantages.</strong> Lower or zero fees for orders that add liquidity, compared with orders that take it. See <a href="/encyclopedia/basics/trading-costs-and-fees/">trading costs and fees</a>.</li>
+<li><strong>Rebates.</strong> A share of fees returned to makers on some venues.</li>
+</ul>
+<p>These programs differ by platform and change often, so read the current rules. Rewards can make a losing strategy look profitable for a while; it is worth measuring spread income, inventory losses and rewards separately.</p>
+<h2 id="prediction-markets-versus-traditional-markets">Prediction markets versus traditional markets</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Stock or futures market making</th>
+<th>Prediction market making</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Final value</td>
+<td>Open-ended</td>
+<td>Exactly $0 or $1</td>
+</tr>
+<tr>
+<td>Price jumps</td>
+<td>Occasional</td>
+<td>Common at news and resolution</td>
+</tr>
+<tr>
+<td>Hedging inventory</td>
+<td>Often possible with related instruments</td>
+<td>Often limited or unavailable</td>
+</tr>
+<tr>
+<td>Competition</td>
+<td>Professional firms, very tight spreads</td>
+<td>Mixed; spreads can be wide on obscure markets</td>
+</tr>
+<tr>
+<td>Fair-value sources</td>
+<td>Many related prices</td>
+<td>Sometimes few, sometimes none</td>
+</tr>
+</tbody></table></div>
+<p>Wide spreads on niche markets attract new market makers, but those spreads often exist because the risk is high and fair value is hard to judge. The <a href="/encyclopedia/basics/order-book-and-market-depth/">order book</a> and <a href="/encyclopedia/basics/bid-ask-spread-and-liquidity/">bid-ask spread</a> articles cover the mechanics that apply in every market.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul>
+<li><strong>Quoting without a view of fair value.</strong> A maker with no estimate of fair value is easy to trade against.</li>
+<li><strong>Leaving quotes up through news.</strong> The biggest losses usually come from a few stale fills.</li>
+<li><strong>No inventory limit.</strong> A trending market can erase weeks of spread income.</li>
+<li><strong>Counting rewards as skill.</strong> Track rewards separately from trading results.</li>
+<li><strong>Making correlated markets independently.</strong> Related markets can all move against you at once.</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="how-do-market-makers-make-money-on-prediction-markets">How do market makers make money on prediction markets?</h3>
+<p>They post bids and asks and earn the spread when other traders buy from their ask and sell to their bid. Some platforms add liquidity rewards or lower maker fees. Losses come from inventory that moves against them and from being picked off by better-informed traders.</p>
+<h3 id="what-is-inventory-risk-in-market-making">What is inventory risk in market making?</h3>
+<p>It is the risk that a market maker accumulates a position on one side, usually because the price is trending, and then loses money as the price keeps moving. On prediction markets, inventory held at resolution pays either $1 or nothing.</p>
+<h3 id="what-are-liquidity-rewards-on-prediction-markets">What are liquidity rewards on prediction markets?</h3>
+<p>They are incentives some platforms pay to traders who keep resting orders close to the midpoint for a period of time. Rules and amounts change, so check each platform&#39;s current program.</p>
+<h3 id="is-market-making-on-prediction-markets-profitable">Is market making on prediction markets profitable?</h3>
+<p>It can be for well-built, well-controlled operations, but many attempts lose money to adverse selection and inventory swings. Professional market makers rely on automation, fast cancellation and strict risk limits; manual quoting is at a large disadvantage.</p>
+</article>
+<div class="disclaimer"><strong>Educational content only.</strong> Nothing here is financial, investment, legal or tax advice. Trading carries a high risk of loss, and leveraged products can lose more than you deposit. Rules, fees and platform details change: check current terms with your broker, exchange or regulator before you trade.</div>
+<section class="related"><h2>Related articles</h2><div class="cards"><a class="card" href="/encyclopedia/algorithmic-trading/market-making/"><div class="k">Algorithmic &amp; Quant Trading</div><b>Market Making</b><span>A textbook guide to market making: quoting both sides, spread capture, inventory skew, adverse selection, queue position, rebates and Avellaneda-Stoikov.</span></a><a class="card" href="/encyclopedia/basics/order-book-and-market-depth/"><div class="k">Trading Basics</div><b>Order Book &amp; Depth</b><span>How a limit order book and matching engine work, price-time priority, Level 1 vs Level 2 data, reading depth, spoofing, dealer markets and AMMs compared.</span></a><a class="card" href="/encyclopedia/basics/bid-ask-spread-and-liquidity/"><div class="k">Trading Basics</div><b>Spread &amp; Liquidity</b><span>What the bid, ask, spread and mid price are, how liquidity, slippage and market impact work, why spreads widen, and how to measure the cost of a round trip.</span></a><a class="card" href="/encyclopedia/prediction-markets/prediction-market-strategies/"><div class="k">Prediction Markets</div><b>Strategies Overview</b><span>The main prediction market strategies: information edge, resolution sniping, arbitrage, market making, short crypto up/down rounds and copy trading, with risks.</span></a><a class="card" href="/encyclopedia/prediction-markets/market-resolution-and-oracles/"><div class="k">Prediction Markets</div><b>Resolution &amp; Oracles</b><span>How prediction market outcomes are decided: resolution rules and sources, UMA's optimistic oracle and disputes, Chainlink price feeds, and ambiguous-rule risk.</span></a></div></section>
+<div class="pager"><a href="/encyclopedia/prediction-markets/prediction-market-arbitrage/"><small>← Previous</small>Arbitrage</a><a class="next" href="/encyclopedia/prediction-markets/prediction-market-regulation/"><small>Next →</small>Regulation</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/encyclopedia/basics/">Trading Basics</a><a href="/encyclopedia/risk-management/">Risk &amp; Money Management</a><a href="/encyclopedia/psychology/">Trading Psychology</a><a href="/encyclopedia/technical-analysis/">Technical Analysis</a><a href="/encyclopedia/fundamental-analysis/">Fundamental &amp; Macro Analysis</a><a href="/encyclopedia/stocks/">Stock Trading</a><a href="/encyclopedia/forex/">Forex Trading</a><a href="/encyclopedia/futures/">Futures Trading</a><a href="/encyclopedia/options/">Options Trading</a><a href="/encyclopedia/crypto/">Crypto Trading</a><a href="/encyclopedia/meme-coins/">Meme Coin Trading</a><a href="/encyclopedia/prediction-markets/">Prediction Markets</a><a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a><a href="/encyclopedia/other-markets/">Commodities, Bonds &amp; More</a><a href="/encyclopedia/trading-business/">Prop Firms, Tax, Regulation &amp; Scams</a><a href="/encyclopedia/reference/">Reference</a><a href="/blog/">Blog</a><a href="/">Open-source bot toolkit</a></div>
+  <p>PnL Profit Trading Encyclopedia: free, independent explanations of how every major market works. Educational content only, not financial advice. Contact: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">No matches. Try the glossary.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

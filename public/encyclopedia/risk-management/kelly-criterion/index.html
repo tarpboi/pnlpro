@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kelly Criterion for Trading and Betting: Formula and Examples</title>
+<meta name="description" content="The Kelly formula for binary bets and its continuous form, worked examples including prediction-market contracts, and why most traders use fractional Kelly.">
+<meta name="keywords" content="kelly criterion, kelly formula, fractional kelly, kelly criterion trading, kelly criterion prediction markets">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Encyclopedia">
+<meta property="og:title" content="Kelly Criterion for Trading and Betting: Formula and Examples">
+<meta property="og:description" content="The Kelly formula for binary bets and its continuous form, worked examples including prediction-market contracts, and why most traders use fractional Kelly.">
+<meta property="og:url" content="https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kelly Criterion for Trading and Betting: Formula and Examples">
+<meta name="twitter:description" content="The Kelly formula for binary bets and its continuous form, worked examples including prediction-market contracts, and why most traders use fractional Kelly.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-left:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-left:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-left:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-left:3px solid var(--accent);margin:1.2rem 0;padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-left:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:right}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-left:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Kelly Criterion for Trading and Betting: Formula and Examples","description":"The Kelly formula for binary bets and its continuous form, worked examples including prediction-market contracts, and why most traders use fractional Kelly.","keywords":"kelly criterion, kelly formula, fractional kelly, kelly criterion trading, kelly criterion prediction markets","articleSection":"Risk & Money Management","wordCount":1683,"image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Encyclopedia","item":"https://pnlpro.fit/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Risk & Money Management","item":"https://pnlpro.fit/encyclopedia/risk-management/"},{"@type":"ListItem","position":3,"name":"Kelly Criterion","item":"https://pnlpro.fit/encyclopedia/risk-management/kelly-criterion/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the Kelly criterion formula?","acceptedAnswer":{"@type":"Answer","text":"For a bet that pays b to 1 with win probability p, the Kelly fraction is f = p − (1 − p) ÷ b. For example, a 60 percent chance at even money gives 0.60 − 0.40 = 0.20, or 20 percent of the bankroll. For continuous returns, an approximation is excess return divided by variance."}},{"@type":"Question","name":"Why use half Kelly instead of full Kelly?","acceptedAnswer":{"@type":"Answer","text":"Half Kelly keeps roughly 75 percent of the long-run growth rate with about half the volatility and much shallower drawdowns. It also protects against the common problem of overestimating your edge, which can push a full-Kelly bettor into overbetting."}},{"@type":"Question","name":"How do you use Kelly in prediction markets?","acceptedAnswer":{"@type":"Answer","text":"If you buy a contract at price c and believe its true probability is p, the Kelly fraction is (p − c) ÷ (1 − c). Buying at $0.40 with a 55 percent belief gives 0.15 ÷ 0.60 = 25 percent of the bankroll. Most traders use a fraction of this and adjust for fees first."}},{"@type":"Question","name":"Can the Kelly criterion lose money?","acceptedAnswer":{"@type":"Answer","text":"Yes. Kelly maximizes long-run growth only if your probability estimates are correct. With an overestimated edge, or simply bad luck over a short period, a Kelly bettor can suffer large drawdowns or losses."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Encyclopedia</small></a>
+  <nav class="top"><a href="/encyclopedia/" class="on">Encyclopedia</a><a href="/encyclopedia/reference/trading-glossary/">Glossary</a><a href="/blog/">Blog</a><a href="/">Bot toolkit</a></nav>
+  <div class="search"><input id="q" type="search" placeholder="Search 150+ articles  ( / )" autocomplete="off" aria-label="Search the encyclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Risk &amp; Money Management</h3><ul><li><a href="/encyclopedia/risk-management/risk-management-fundamentals/">Risk Management Basics</a></li><li><a href="/encyclopedia/risk-management/position-sizing/">Position Sizing</a></li><li><a href="/encyclopedia/risk-management/stop-loss-strategies/">Stop-Loss Strategies</a></li><li><a href="/encyclopedia/risk-management/risk-reward-and-expectancy/">Risk/Reward &amp; Expectancy</a></li><li><a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">Drawdown &amp; Risk of Ruin</a></li><li><a href="/encyclopedia/risk-management/kelly-criterion/" class="on" aria-current="page">Kelly Criterion</a></li><li><a href="/encyclopedia/risk-management/correlation-and-portfolio-risk/">Correlation &amp; Portfolio Risk</a></li><li><a href="/encyclopedia/risk-management/leverage-risk-and-black-swans/">Leverage Risk &amp; Black Swans</a></li><li><a href="/encyclopedia/risk-management/trading-plan/">Writing a Trading Plan</a></li></ul><h3>All topics</h3><ul><li><a href="/encyclopedia/basics/">📘 Trading Basics</a></li><li><a href="/encyclopedia/risk-management/" class="on">🛡️ Risk &amp; Money Management</a></li><li><a href="/encyclopedia/psychology/">🧠 Trading Psychology</a></li><li><a href="/encyclopedia/technical-analysis/">📈 Technical Analysis</a></li><li><a href="/encyclopedia/fundamental-analysis/">🏦 Fundamental &amp; Macro Analysis</a></li><li><a href="/encyclopedia/stocks/">🏛️ Stock Trading</a></li><li><a href="/encyclopedia/forex/">💱 Forex Trading</a></li><li><a href="/encyclopedia/futures/">📊 Futures Trading</a></li><li><a href="/encyclopedia/options/">🎯 Options Trading</a></li><li><a href="/encyclopedia/crypto/">₿ Crypto Trading</a></li><li><a href="/encyclopedia/meme-coins/">🐸 Meme Coin Trading</a></li><li><a href="/encyclopedia/prediction-markets/">🔮 Prediction Markets</a></li><li><a href="/encyclopedia/algorithmic-trading/">🤖 Algorithmic &amp; Quant Trading</a></li><li><a href="/encyclopedia/other-markets/">🛢️ Commodities, Bonds &amp; More</a></li><li><a href="/encyclopedia/trading-business/">⚖️ Prop Firms, Tax, Regulation &amp; Scams</a></li><li><a href="/encyclopedia/reference/">📖 Reference</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/encyclopedia/">Encyclopedia</a> › <a href="/encyclopedia/risk-management/">Risk &amp; Money Management</a></div>
+<h1 class="title">Kelly Criterion</h1>
+<div class="meta">7 min read · Updated Nov 23, 2026</div>
+<details class="side-m"><summary>More in Risk &amp; Money Management</summary><ul><li><a href="/encyclopedia/risk-management/risk-management-fundamentals/">Risk Management Basics</a></li><li><a href="/encyclopedia/risk-management/position-sizing/">Position Sizing</a></li><li><a href="/encyclopedia/risk-management/stop-loss-strategies/">Stop-Loss Strategies</a></li><li><a href="/encyclopedia/risk-management/risk-reward-and-expectancy/">Risk/Reward &amp; Expectancy</a></li><li><a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">Drawdown &amp; Risk of Ruin</a></li><li><a href="/encyclopedia/risk-management/kelly-criterion/" class="on" aria-current="page">Kelly Criterion</a></li><li><a href="/encyclopedia/risk-management/correlation-and-portfolio-risk/">Correlation &amp; Portfolio Risk</a></li><li><a href="/encyclopedia/risk-management/leverage-risk-and-black-swans/">Leverage Risk &amp; Black Swans</a></li><li><a href="/encyclopedia/risk-management/trading-plan/">Writing a Trading Plan</a></li></ul></details>
+<article><p>The Kelly criterion is a formula for choosing what fraction of your capital to bet on an opportunity with a positive edge so that your wealth grows as fast as possible over the long run. It was published by John L. Kelly Jr. of Bell Labs in 1956 and later applied to blackjack and investing by Edward Thorp. It is widely respected as a theoretical guide, but in trading it is very sensitive to errors in your estimate of the edge, which is why most practitioners bet only a fraction of what it recommends.</p>
+<div class="takeaways"><h2 id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>For a simple win-or-lose bet, the Kelly fraction is f* = p − q ÷ b, where p is the win probability, q = 1 − p and b is the net payout per unit staked.</li>
+<li>For a binary contract bought at price c that you believe has true probability p, the Kelly fraction simplifies to (p − c) ÷ (1 − c).</li>
+<li>Betting more than the Kelly fraction lowers long-run growth, and betting about twice Kelly can reduce it to roughly zero or below.</li>
+<li>Half Kelly keeps about three quarters of the growth rate with much smaller drawdowns.</li>
+<li>Kelly is only as good as your probability estimate; overestimating your edge leads directly to overbetting.</li>
+</ul></div><details class="toc"><summary>On this page</summary><ol><li><a href="#what-kelly-maximizes">What Kelly maximizes</a></li><li><a href="#the-formula-for-binary-bets">The formula for binary bets</a></li><li><a href="#kelly-for-prediction-market-contracts">Kelly for prediction-market contracts</a></li><li><a href="#the-continuous-form">The continuous form</a></li><li><a href="#why-traders-use-fractional-kelly">Why traders use fractional Kelly</a></li><li><a href="#kelly-with-multiple-positions">Kelly with multiple positions</a></li><li><a href="#common-mistakes">Common mistakes</a></li></ol></details>
+<h2 id="what-kelly-maximizes">What Kelly maximizes</h2>
+<p>Kelly sizing maximizes the expected logarithm of wealth, which is equivalent to maximizing the long-run compound growth rate. It does not maximize expected profit on the next bet. A strategy that maximized expected profit would bet everything on every favorable opportunity and would eventually go broke after a single loss.</p>
+<p>The key properties are:</p>
+<ul>
+<li>With no edge, the Kelly fraction is zero: don&#39;t bet.</li>
+<li>The larger the edge relative to the payout, the more you bet.</li>
+<li>Kelly never bets the whole bankroll unless a win is certain, so a fixed-fraction Kelly bettor never quite reaches zero in theory.</li>
+</ul>
+<h2 id="the-formula-for-binary-bets">The formula for binary bets</h2>
+<p>For a bet that either wins b units per unit staked or loses the stake:</p>
+<p><em><em>f</em> = p − q ÷ b</em>*</p>
+<p>or equivalently <em><em>f</em> = (b × p − q) ÷ b</em>*, which can be read as &quot;expected profit per unit staked, divided by the payout odds&quot;.</p>
+<ul>
+<li>p = probability of winning</li>
+<li>q = 1 − p = probability of losing</li>
+<li>b = net odds (profit per $1 risked if you win)</li>
+</ul>
+<h3 id="example-1-even-money-bet">Example 1: even-money bet</h3>
+<p>You have a bet that pays 1 to 1 (b = 1) and wins 60 percent of the time.</p>
+<p>f* = 0.60 − 0.40 ÷ 1 = <strong>0.20</strong>, so bet 20 percent of the bankroll each time.</p>
+<p>Here is how the long-run growth rate per bet changes with the fraction bet:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fraction bet</th>
+<th>Long-run growth per bet (approx.)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5%</td>
+<td>+0.9%</td>
+</tr>
+<tr>
+<td>10% (half Kelly)</td>
+<td>+1.5%</td>
+</tr>
+<tr>
+<td>20% (full Kelly)</td>
+<td>+2.0%</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>+1.5%</td>
+</tr>
+<tr>
+<td>40% (double Kelly)</td>
+<td>−0.2%</td>
+</tr>
+</tbody></table></div>
+<p>The growth rate here is the expected log growth, 0.6 × ln(1 + f) + 0.4 × ln(1 − f), which approximates the typical compound rate per bet. Two things stand out. Half Kelly gives up only about a quarter of the growth. And double Kelly, with the same 60 percent edge, produces slightly negative growth: overbetting can turn a winning edge into a losing outcome.</p>
+<h2 id="kelly-for-prediction-market-contracts">Kelly for prediction-market contracts</h2>
+<p>On a binary event contract that pays $1 if the event happens, buying YES at price c means risking c to win 1 − c. The net odds are b = (1 − c) ÷ c. Substituting into the formula gives a simple result:</p>
+<p><em><em>f</em> = (p − c) ÷ (1 − c)</em>*</p>
+<p>where p is your estimate of the true probability.</p>
+<h3 id="example-2-buying-yes">Example 2: buying YES</h3>
+<p>A contract trades at $0.40. After careful research you believe the true probability is 55 percent.</p>
+<ul>
+<li>b = 0.60 ÷ 0.40 = 1.5</li>
+<li>f* = 0.55 − 0.45 ÷ 1.5 = 0.55 − 0.30 = <strong>0.25</strong></li>
+<li>Check with the shortcut: (0.55 − 0.40) ÷ (1 − 0.40) = 0.15 ÷ 0.60 = 0.25</li>
+</ul>
+<p>Full Kelly says stake 25 percent of the bankroll. With a $2,000 bankroll, that is $500, or 1,250 contracts at $0.40. Half Kelly would be $250, or 625 contracts.</p>
+<h3 id="example-3-buying-no">Example 3: buying NO</h3>
+<p>The YES side trades at $0.70, so NO costs about $0.30. You believe the true probability of YES is only 60 percent, so NO has a 40 percent chance.</p>
+<p>Applying the same shortcut to the NO contract: f* = (0.40 − 0.30) ÷ (1 − 0.30) = 0.10 ÷ 0.70 ≈ <strong>0.143</strong>, or about 14 percent of the bankroll.</p>
+<p>These examples ignore fees and the spread. Fees reduce the effective payout, so subtract them before calculating b, or the formula will overstate the bet. Pricing, the spread and fee effects are covered in <a href="/encyclopedia/prediction-markets/prediction-market-pricing/">prediction market pricing</a>. Also note that 25 percent of a bankroll on a single event is a very large bet by most traders&#39; standards, which leads to the main problem with Kelly.</p>
+<h2 id="the-continuous-form">The continuous form</h2>
+<p>For an investment with a continuous range of returns, such as a stock index, a common approximation is:</p>
+<p><em><em>f</em> = (μ − r) ÷ σ²</em>*</p>
+<p>where μ is the expected annual return, r is the risk-free rate and σ is the annual volatility (standard deviation of returns).</p>
+<h3 id="example-4-a-leveraged-index-position">Example 4: a leveraged index position</h3>
+<p>Suppose you expect an asset to return 8 percent a year above the risk-free rate, with 20 percent annual volatility.</p>
+<ul>
+<li>f* = 0.08 ÷ 0.20² = 0.08 ÷ 0.04 = <strong>2.0</strong></li>
+</ul>
+<p>Full Kelly says hold 200 percent of your capital in the asset, using 2x leverage. Under the model&#39;s assumptions, the excess growth rate at full Kelly is (μ − r)² ÷ (2σ²) = 0.0064 ÷ 0.08 = 8 percent a year. At half Kelly (1x, no leverage) the excess growth is 6 percent, or 75 percent of the maximum, with half the volatility. At double Kelly (4x), the excess growth falls to zero.</p>
+<p>The model assumes returns are roughly normally distributed and that the parameters are known. Real markets have fat tails and sudden gaps, which make leveraged Kelly positions riskier than the formula suggests. See <a href="/encyclopedia/risk-management/leverage-risk-and-black-swans/">leverage risk and black swans</a>.</p>
+<h2 id="why-traders-use-fractional-kelly">Why traders use fractional Kelly</h2>
+<h3 id="estimation-error">Estimation error</h3>
+<p>The biggest problem is that p, or μ and σ, are estimates. In a casino game the odds are known. In trading they are guessed from data or judgment, and traders tend to overestimate their edge.</p>
+<p>In the continuous example, suppose the true excess return is 4 percent, not 8 percent. True Kelly is then 1.0, so the trader holding 2.0 is at double Kelly, and their expected excess growth is roughly zero while still suffering large swings.</p>
+<p>In the binary case, suppose you believe a contract priced at $0.50 has a 55 percent chance, so Kelly says bet 10 percent. If the true probability is 50 percent, you have no edge, and betting 10 percent each time produces an expected log growth of about −0.5 percent per bet. Overconfidence about edge, discussed in <a href="/encyclopedia/psychology/cognitive-biases-in-trading/">cognitive biases in trading</a>, turns directly into overbetting.</p>
+<p>Edges found by searching through many backtests are especially likely to be inflated. See <a href="/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/">overfitting and data snooping</a>.</p>
+<h3 id="drawdowns">Drawdowns</h3>
+<p>Even with a correctly estimated edge, full Kelly is a rough ride. Under idealized continuous assumptions, a full-Kelly bettor has about a 50 percent chance of seeing the bankroll fall to half its value at some point. At half Kelly, the chance of a halving falls to about 12.5 percent. Few people can stick with a strategy through a 50 percent drawdown, and the <a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/">drawdown and risk of ruin</a> article shows how quickly recovery gets harder.</p>
+<h3 id="fractional-kelly-in-practice">Fractional Kelly in practice</h3>
+<p>Many professional bettors and traders use a quarter to half Kelly, or simply treat the Kelly fraction as a maximum that should never be exceeded. Because the growth curve is flat near its peak and drops steeply past it, betting less than Kelly costs little growth, while betting more costs a lot. That asymmetry, together with estimation error, makes undersizing the safer mistake.</p>
+<h2 id="kelly-with-multiple-positions">Kelly with multiple positions</h2>
+<p>The simple formulas assume one bet at a time. When several positions are open at once, especially correlated ones, applying full Kelly to each leads to far too much total exposure. Proper multi-asset Kelly sizing requires an estimate of the correlations, which adds another source of error. A practical approach is to cap total exposure and treat correlated positions as one bet. See <a href="/encyclopedia/risk-management/correlation-and-portfolio-risk/">correlation and portfolio risk</a>.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul>
+<li><strong>Plugging in an optimistic win rate.</strong> A few percentage points of overestimate can double the recommended bet.</li>
+<li><strong>Ignoring fees and spreads,</strong> which reduce the real payout and the real edge.</li>
+<li><strong>Applying full Kelly to every position at once,</strong> creating large combined exposure.</li>
+<li><strong>Using Kelly on strategies with unknown or unbounded losses,</strong> such as positions that can gap far past a stop.</li>
+<li><strong>Treating Kelly as a target rather than a ceiling.</strong></li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="what-is-the-kelly-criterion-formula">What is the Kelly criterion formula?</h3>
+<p>For a bet that pays b to 1 with win probability p, the Kelly fraction is f* = p − (1 − p) ÷ b. For example, a 60 percent chance at even money gives 0.60 − 0.40 = 0.20, or 20 percent of the bankroll. For continuous returns, an approximation is excess return divided by variance.</p>
+<h3 id="why-use-half-kelly-instead-of-full-kelly">Why use half Kelly instead of full Kelly?</h3>
+<p>Half Kelly keeps roughly 75 percent of the long-run growth rate with about half the volatility and much shallower drawdowns. It also protects against the common problem of overestimating your edge, which can push a full-Kelly bettor into overbetting.</p>
+<h3 id="how-do-you-use-kelly-in-prediction-markets">How do you use Kelly in prediction markets?</h3>
+<p>If you buy a contract at price c and believe its true probability is p, the Kelly fraction is (p − c) ÷ (1 − c). Buying at $0.40 with a 55 percent belief gives 0.15 ÷ 0.60 = 25 percent of the bankroll. Most traders use a fraction of this and adjust for fees first.</p>
+<h3 id="can-the-kelly-criterion-lose-money">Can the Kelly criterion lose money?</h3>
+<p>Yes. Kelly maximizes long-run growth only if your probability estimates are correct. With an overestimated edge, or simply bad luck over a short period, a Kelly bettor can suffer large drawdowns or losses.</p>
+</article>
+<div class="disclaimer"><strong>Educational content only.</strong> Nothing here is financial, investment, legal or tax advice. Trading carries a high risk of loss, and leveraged products can lose more than you deposit. Rules, fees and platform details change: check current terms with your broker, exchange or regulator before you trade.</div>
+<section class="related"><h2>Related articles</h2><div class="cards"><a class="card" href="/encyclopedia/risk-management/position-sizing/"><div class="k">Risk &amp; Money Management</div><b>Position Sizing</b><span>How to calculate position size from account risk and stop distance: fixed fractional, fixed dollar and ATR sizing, with stock, forex and crypto examples.</span></a><a class="card" href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><div class="k">Risk &amp; Money Management</div><b>Drawdown &amp; Risk of Ruin</b><span>What maximum drawdown is, how much gain recovers a loss, how likely losing streaks are, and how position size changes your risk of ruin, with tables.</span></a><a class="card" href="/encyclopedia/risk-management/risk-reward-and-expectancy/"><div class="k">Risk &amp; Money Management</div><b>Risk/Reward &amp; Expectancy</b><span>How R multiples, win rate and payoff combine into expectancy. The formula, a break-even win rate table, and why a high win rate can still lose money.</span></a><a class="card" href="/encyclopedia/prediction-markets/prediction-market-pricing/"><div class="k">Prediction Markets</div><b>Pricing &amp; Probability</b><span>How prediction market prices map to probability, why YES and NO add to $1, overround, odds conversion, fees, time value and the long-shot bias, with examples.</span></a><a class="card" href="/encyclopedia/algorithmic-trading/overfitting-and-data-snooping/"><div class="k">Algorithmic &amp; Quant Trading</div><b>Overfitting</b><span>Why most great backtests fail live: curve fitting, multiple testing, unstable parameters and the deflated Sharpe ratio, plus ways to avoid overfitting.</span></a></div></section>
+<div class="pager"><a href="/encyclopedia/risk-management/drawdown-and-risk-of-ruin/"><small>← Previous</small>Drawdown &amp; Risk of Ruin</a><a class="next" href="/encyclopedia/risk-management/correlation-and-portfolio-risk/"><small>Next →</small>Correlation &amp; Portfolio Risk</a></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/encyclopedia/basics/">Trading Basics</a><a href="/encyclopedia/risk-management/">Risk &amp; Money Management</a><a href="/encyclopedia/psychology/">Trading Psychology</a><a href="/encyclopedia/technical-analysis/">Technical Analysis</a><a href="/encyclopedia/fundamental-analysis/">Fundamental &amp; Macro Analysis</a><a href="/encyclopedia/stocks/">Stock Trading</a><a href="/encyclopedia/forex/">Forex Trading</a><a href="/encyclopedia/futures/">Futures Trading</a><a href="/encyclopedia/options/">Options Trading</a><a href="/encyclopedia/crypto/">Crypto Trading</a><a href="/encyclopedia/meme-coins/">Meme Coin Trading</a><a href="/encyclopedia/prediction-markets/">Prediction Markets</a><a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a><a href="/encyclopedia/other-markets/">Commodities, Bonds &amp; More</a><a href="/encyclopedia/trading-business/">Prop Firms, Tax, Regulation &amp; Scams</a><a href="/encyclopedia/reference/">Reference</a><a href="/blog/">Blog</a><a href="/">Open-source bot toolkit</a></div>
+  <p>PnL Profit Trading Encyclopedia: free, independent explanations of how every major market works. Educational content only, not financial advice. Contact: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">No matches. Try the glossary.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>

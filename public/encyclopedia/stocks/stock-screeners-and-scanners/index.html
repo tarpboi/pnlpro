@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stock Screeners and Scanners: Criteria, Examples and Watchlists</title>
+<meta name="description" content="How stock screeners and real-time scanners work, fundamental vs technical screens, example criteria for swing and day traders, and building a watchlist.">
+<meta name="keywords" content="stock screener, stock scanner, day trading scanner, best stock screener settings, how to build a watchlist">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="canonical" href="https://pnlpro.fit/encyclopedia/stocks/stock-screeners-and-scanners/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PnL Profit Trading Encyclopedia">
+<meta property="og:title" content="Stock Screeners and Scanners: Criteria, Examples and Watchlists">
+<meta property="og:description" content="How stock screeners and real-time scanners work, fundamental vs technical screens, example criteria for swing and day traders, and building a watchlist.">
+<meta property="og:url" content="https://pnlpro.fit/encyclopedia/stocks/stock-screeners-and-scanners/">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stock Screeners and Scanners: Criteria, Examples and Watchlists">
+<meta name="twitter:description" content="How stock screeners and real-time scanners work, fundamental vs technical screens, example criteria for swing and day traders, and building a watchlist.">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#181822;--border:#23232e;--text:#e4e4e7;--muted:#a1a1aa;--dim:#71717a;--accent:#22c55e;--accent2:#15803d;--warn:#f59e0b}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;object-fit:contain}
+.brand small{color:var(--dim);font-weight:500;font-size:.85rem}
+nav.top{display:flex;gap:18px;font-size:.92rem;margin-left:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+.search{position:relative;margin-left:auto;width:min(340px,100%)}
+.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+.search input:focus{outline:none;border-color:var(--accent)}
+.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
+.results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:32px}
+aside.side{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-size:.9rem;padding-bottom:24px}
+aside.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 10px}
+aside.side ul{list-style:none;margin:0 0 24px;padding:0}aside.side li a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted)}
+aside.side li a:hover{background:var(--surface);color:#fff;text-decoration:none}aside.side li a.on{background:var(--surface);color:var(--accent);font-weight:600}
+details.side-m{display:none}
+main.content{min-width:0;max-width:780px}
+.crumbs{font-size:.85rem;color:var(--dim);margin-bottom:14px}.crumbs a{color:var(--muted)}
+h1.title{font-size:2.2rem;line-height:1.18;letter-spacing:-.02em;margin:0 0 12px;color:#fff}
+.meta{color:var(--dim);font-size:.88rem;margin-bottom:8px}
+.lede{color:var(--muted);font-size:1.08rem}
+article h2{font-size:1.5rem;margin:2.4rem 0 .8rem;color:#fff;letter-spacing:-.01em}
+article h3{font-size:1.18rem;margin:1.8rem 0 .5rem;color:#fff}
+article p{margin:1rem 0}article ul,article ol{padding-left:1.4rem}article li{margin:.4rem 0}article strong{color:#fff}
+article code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1em .4em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+article pre{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:auto;font-size:.88rem;line-height:1.55}
+article pre code{background:none;border:0;padding:0}
+article blockquote{border-left:3px solid var(--accent);margin:1.2rem 0;padding:.2rem 0 .2rem 1rem;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--surface);color:#fff;font-weight:600}tr:last-child td{border-bottom:0}
+.takeaways{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:2px 20px 6px;margin:1.6rem 0}
+.takeaways h2{font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin:1rem 0 .4rem}
+.toc{border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin:1.4rem 0;font-size:.92rem}
+.toc summary{cursor:pointer;color:var(--muted);font-weight:600}.toc ol{margin:.6rem 0 .2rem;padding-left:1.2rem}.toc li{margin:.2rem 0}
+.disclaimer{border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--dim);font-size:.86rem;margin:2.4rem 0 1rem;background:var(--surface)}
+.disclaimer strong{color:var(--muted)}
+.related h2{font-size:1.2rem;color:#fff;margin:2.4rem 0 1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{display:block;border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.card:hover{border-color:var(--accent);text-decoration:none}.card b{display:block;color:#fff;margin-bottom:4px}.card span{color:var(--muted);font-size:.88rem;line-height:1.5;display:block}
+.card .k{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:2rem 0}.pager a{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}.pager small{display:block;color:var(--dim);font-size:.78rem}.pager .next{text-align:right}
+.hero{padding:56px 0 24px;text-align:center}.hero h1{font-size:2.8rem;line-height:1.1;letter-spacing:-.03em;color:#fff;margin:0 0 14px}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:720px;margin:0 auto}
+.hero .stats{display:flex;justify-content:center;gap:28px;margin-top:22px;color:var(--dim);font-size:.9rem}.hero .stats b{color:#fff;font-size:1.2rem;display:block}
+.start{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 8px}
+.start a{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 16px;color:var(--text);font-size:.92rem}.start a:hover{border-color:var(--accent);text-decoration:none}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;padding:28px 0 48px}
+.cat{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface)}
+.cat h2{margin:0 0 6px;font-size:1.2rem}.cat h2 a{color:#fff}.cat .ico{font-size:1.4rem;margin-right:8px}
+.cat p{color:var(--muted);font-size:.9rem;margin:0 0 12px;line-height:1.55}
+.cat ul{list-style:none;padding:0;margin:0;font-size:.9rem}.cat li{padding:3px 0}.cat li a{color:var(--text)}.cat li a:hover{color:var(--accent)}
+.cat .more{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600}
+.catlist{display:grid;gap:12px;margin:24px 0}
+.letters{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}.letters a{border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-weight:600;font-size:.88rem}
+.glossary article ul{list-style:none;padding-left:0}.glossary article li{padding:8px 0;border-bottom:1px solid var(--border);margin:0}
+footer.site{border-top:1px solid var(--border);margin-top:56px;padding:36px 0;color:var(--dim);font-size:.88rem}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 24px;margin-bottom:20px}
+footer.site a{color:var(--muted)}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+  aside.side{display:none}
+  details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
+  details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
+  nav.top{display:none}
+  h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
+  .cats{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Stock Screeners and Scanners: Criteria, Examples and Watchlists","description":"How stock screeners and real-time scanners work, fundamental vs technical screens, example criteria for swing and day traders, and building a watchlist.","keywords":"stock screener, stock scanner, day trading scanner, best stock screener settings, how to build a watchlist","articleSection":"Stock Trading","wordCount":1348,"image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/encyclopedia/stocks/stock-screeners-and-scanners/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Encyclopedia","item":"https://pnlpro.fit/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Stock Trading","item":"https://pnlpro.fit/encyclopedia/stocks/"},{"@type":"ListItem","position":3,"name":"Screeners & Scanners","item":"https://pnlpro.fit/encyclopedia/stocks/stock-screeners-and-scanners/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between a stock screener and a scanner?","acceptedAnswer":{"@type":"Answer","text":"A screener filters stocks on fixed criteria, often with end-of-day data, to build a research list. A scanner updates in real time during the session to flag stocks that are moving now."}},{"@type":"Question","name":"What are good screener settings for day trading?","acceptedAnswer":{"@type":"Answer","text":"Common day trading criteria include a gap or move of several percent, relative volume well above normal, a minimum share price such as $5, sufficient average volume and a news catalyst. Settings depend on your strategy and the stocks you trade."}},{"@type":"Question","name":"Are free stock screeners good enough?","acceptedAnswer":{"@type":"Answer","text":"Free screeners are usually fine for end-of-day fundamental and technical screens. Real-time day trading scanners often need paid data, because free data can be delayed."}},{"@type":"Question","name":"How many stocks should be on a watchlist?","acceptedAnswer":{"@type":"Answer","text":"Most day traders keep a handful, often under 10, so they can follow each closely. Swing traders may track a few dozen and update the list weekly."}}]}</script>
+</head>
+<body class="">
+<header class="site"><div class="wrap">
+  <a class="brand" href="/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Encyclopedia</small></a>
+  <nav class="top"><a href="/encyclopedia/" class="on">Encyclopedia</a><a href="/encyclopedia/reference/trading-glossary/">Glossary</a><a href="/blog/">Blog</a><a href="/">Bot toolkit</a></nav>
+  <div class="search"><input id="q" type="search" placeholder="Search 150+ articles  ( / )" autocomplete="off" aria-label="Search the encyclopedia"><div id="results" class="results" role="listbox"></div></div>
+</div></header>
+<div class="wrap layout">
+<aside class="side"><h3>Stock Trading</h3><ul><li><a href="/encyclopedia/stocks/stock-market-basics/">Stock Market Basics</a></li><li><a href="/encyclopedia/stocks/day-trading-stocks/">Day Trading Stocks</a></li><li><a href="/encyclopedia/stocks/swing-trading-stocks/">Swing Trading Stocks</a></li><li><a href="/encyclopedia/stocks/short-selling/">Short Selling</a></li><li><a href="/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny Stocks &amp; Small Caps</a></li><li><a href="/encyclopedia/stocks/premarket-and-after-hours-trading/">Pre-Market &amp; After-Hours</a></li><li><a href="/encyclopedia/stocks/earnings-trading/">Earnings Trading</a></li><li><a href="/encyclopedia/stocks/gap-trading/">Gap Trading</a></li><li><a href="/encyclopedia/stocks/momentum-trading/">Momentum Trading</a></li><li><a href="/encyclopedia/stocks/etfs-and-index-trading/">ETFs &amp; Index Trading</a></li><li><a href="/encyclopedia/stocks/stock-screeners-and-scanners/" class="on" aria-current="page">Screeners &amp; Scanners</a></li></ul><h3>All topics</h3><ul><li><a href="/encyclopedia/basics/">📘 Trading Basics</a></li><li><a href="/encyclopedia/risk-management/">🛡️ Risk &amp; Money Management</a></li><li><a href="/encyclopedia/psychology/">🧠 Trading Psychology</a></li><li><a href="/encyclopedia/technical-analysis/">📈 Technical Analysis</a></li><li><a href="/encyclopedia/fundamental-analysis/">🏦 Fundamental &amp; Macro Analysis</a></li><li><a href="/encyclopedia/stocks/" class="on">🏛️ Stock Trading</a></li><li><a href="/encyclopedia/forex/">💱 Forex Trading</a></li><li><a href="/encyclopedia/futures/">📊 Futures Trading</a></li><li><a href="/encyclopedia/options/">🎯 Options Trading</a></li><li><a href="/encyclopedia/crypto/">₿ Crypto Trading</a></li><li><a href="/encyclopedia/meme-coins/">🐸 Meme Coin Trading</a></li><li><a href="/encyclopedia/prediction-markets/">🔮 Prediction Markets</a></li><li><a href="/encyclopedia/algorithmic-trading/">🤖 Algorithmic &amp; Quant Trading</a></li><li><a href="/encyclopedia/other-markets/">🛢️ Commodities, Bonds &amp; More</a></li><li><a href="/encyclopedia/trading-business/">⚖️ Prop Firms, Tax, Regulation &amp; Scams</a></li><li><a href="/encyclopedia/reference/">📖 Reference</a></li></ul></aside>
+<main class="content">
+<div class="crumbs"><a href="/encyclopedia/">Encyclopedia</a> › <a href="/encyclopedia/stocks/">Stock Trading</a></div>
+<h1 class="title">Stock Screeners and Scanners</h1>
+<div class="meta">6 min read · Updated Nov 23, 2026</div>
+<details class="side-m"><summary>More in Stock Trading</summary><ul><li><a href="/encyclopedia/stocks/stock-market-basics/">Stock Market Basics</a></li><li><a href="/encyclopedia/stocks/day-trading-stocks/">Day Trading Stocks</a></li><li><a href="/encyclopedia/stocks/swing-trading-stocks/">Swing Trading Stocks</a></li><li><a href="/encyclopedia/stocks/short-selling/">Short Selling</a></li><li><a href="/encyclopedia/stocks/penny-stocks-and-small-caps/">Penny Stocks &amp; Small Caps</a></li><li><a href="/encyclopedia/stocks/premarket-and-after-hours-trading/">Pre-Market &amp; After-Hours</a></li><li><a href="/encyclopedia/stocks/earnings-trading/">Earnings Trading</a></li><li><a href="/encyclopedia/stocks/gap-trading/">Gap Trading</a></li><li><a href="/encyclopedia/stocks/momentum-trading/">Momentum Trading</a></li><li><a href="/encyclopedia/stocks/etfs-and-index-trading/">ETFs &amp; Index Trading</a></li><li><a href="/encyclopedia/stocks/stock-screeners-and-scanners/" class="on" aria-current="page">Screeners &amp; Scanners</a></li></ul></details>
+<article><p>A stock screener filters thousands of stocks down to a short list that meets set criteria, such as a valuation ratio, a price trend or a volume level. A scanner is the real-time version, updating through the session to flag stocks that are moving now. With tens of thousands of listed shares worldwide, screening is how traders decide where to look. A good screen saves time and enforces discipline, but it only narrows the field; it doesn&#39;t tell you what to buy.</p>
+<div class="takeaways"><h2 id="key-takeaways">Key takeaways</h2>
+<ul>
+<li>Fundamental screens filter on business data such as valuation, growth and debt, while technical screens filter on price, volume and indicators.</li>
+<li>Real-time scanners for day traders look for gaps, unusual relative volume, new highs and halts as they happen.</li>
+<li>Every screen should start with liquidity filters to remove stocks that are too thin to trade at a reasonable cost.</li>
+<li>A watchlist works best when it is short, with levels and a plan marked for each name.</li>
+</ul></div><details class="toc"><summary>On this page</summary><ol><li><a href="#screeners-vs-scanners">Screeners vs scanners</a></li><li><a href="#liquidity-filters-come-first">Liquidity filters come first</a></li><li><a href="#fundamental-screens">Fundamental screens</a></li><li><a href="#technical-screens">Technical screens</a></li><li><a href="#real-time-scanners-for-day-traders">Real-time scanners for day traders</a></li><li><a href="#building-a-watchlist">Building a watchlist</a></li><li><a href="#testing-a-screen">Testing a screen</a></li><li><a href="#common-mistakes">Common mistakes</a></li></ol></details>
+<h2 id="screeners-vs-scanners">Screeners vs scanners</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Screener</th>
+<th>Real-time scanner</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Data</td>
+<td>End-of-day prices, fundamentals</td>
+<td>Live prices, volume and news</td>
+</tr>
+<tr>
+<td>Typical user</td>
+<td>Investors, swing traders</td>
+<td>Day traders, momentum traders</td>
+</tr>
+<tr>
+<td>When used</td>
+<td>Evenings, weekends</td>
+<td>Pre-market and during the session</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>Candidate list for research</td>
+<td>Alerts on stocks moving now</td>
+</tr>
+<tr>
+<td>Examples of criteria</td>
+<td>P/E, revenue growth, above 200-day average</td>
+<td>Up 5 percent on 3 times normal volume in the last 15 minutes</td>
+</tr>
+</tbody></table></div>
+<p>Most broker platforms and charting services include both. Well-known examples include the screeners in TradingView and Finviz, and the scanners built into platforms such as thinkorswim and Interactive Brokers&#39; Trader Workstation. Dedicated real-time scanning services also exist. See <a href="/encyclopedia/trading-business/trading-platforms-and-tools/">trading platforms and tools</a>. Data coverage differs, especially for non-US exchanges, so check that a tool covers the markets you trade.</p>
+<h2 id="liquidity-filters-come-first">Liquidity filters come first</h2>
+<p>Before looking for setups, remove stocks you couldn&#39;t trade efficiently. Common starting filters:</p>
+<ul>
+<li><strong>Minimum share price,</strong> for example $5 or $10, to avoid the widest spreads and the <a href="/encyclopedia/stocks/penny-stocks-and-small-caps/">penny stock</a> end of the market.</li>
+<li><strong>Minimum average daily volume,</strong> for example 500,000 shares.</li>
+<li><strong>Minimum average dollar volume,</strong> which is price times average volume. A $25 stock trading 400,000 shares a day has dollar volume of $25 × 400,000 = $10 million. Dollar volume compares liquidity across very different share prices better than share volume does.</li>
+<li><strong>Market cap,</strong> for example above $1 billion for swing trades.</li>
+<li><strong>Exchange,</strong> to exclude OTC stocks if you want only listed shares.</li>
+</ul>
+<p>Thin stocks can look great on a chart and still be untradeable once you account for the <a href="/encyclopedia/basics/bid-ask-spread-and-liquidity/">spread</a> and slippage.</p>
+<h2 id="fundamental-screens">Fundamental screens</h2>
+<p>Fundamental screens filter on company data from financial statements and analyst estimates (see <a href="/encyclopedia/fundamental-analysis/valuation-ratios/">valuation ratios</a> and <a href="/encyclopedia/fundamental-analysis/earnings-and-financial-statements/">earnings and financial statements</a>).</p>
+<p>Example: a &quot;quality at a reasonable price&quot; screen.</p>
+<ul>
+<li>Market cap above $2 billion.</li>
+<li>Forward P/E below 20.</li>
+<li>Revenue growth above 10 percent over the past year.</li>
+<li>Debt-to-equity below 1.</li>
+<li>Positive free cash flow.</li>
+</ul>
+<p>A screen like this gives a research list, not a buy list. Low ratios can signal a cheap stock or a business in trouble. Data providers also calculate ratios differently, so the same screen can return different stocks on different platforms.</p>
+<h2 id="technical-screens">Technical screens</h2>
+<p>Technical screens filter on price and volume behavior. Example screens for <a href="/encyclopedia/stocks/swing-trading-stocks/">swing trading</a>:</p>
+<p><strong>Strong trend, near highs:</strong></p>
+<ul>
+<li>Price above the 50-day and 200-day <a href="/encyclopedia/technical-analysis/moving-averages/">moving averages</a>.</li>
+<li>50-day average above the 200-day average.</li>
+<li>Price within 5 percent of its 52-week high.</li>
+<li>Average volume above 500,000 shares.</li>
+</ul>
+<p><strong>Pullback in an uptrend:</strong></p>
+<ul>
+<li>Price above the 200-day average.</li>
+<li>Price within 2 percent of the 20-day or 50-day average.</li>
+<li>14-day <a href="/encyclopedia/technical-analysis/rsi-relative-strength-index/">RSI</a> between 40 and 50, showing a dip but not a breakdown.</li>
+</ul>
+<p><strong>Volume breakout:</strong></p>
+<ul>
+<li>Price closed at a 20-day high.</li>
+<li>Volume today at least twice the 50-day average.</li>
+</ul>
+<h2 id="real-time-scanners-for-day-traders">Real-time scanners for day traders</h2>
+<p>Day traders run scanners from before the open through the session. Common scans:</p>
+<ul>
+<li><strong>Pre-market gappers:</strong> stocks up or down more than a set percentage from the prior close, with meaningful pre-market volume (see <a href="/encyclopedia/stocks/gap-trading/">gap trading</a>).</li>
+<li><strong>Top gainers and losers:</strong> biggest percentage moves of the session.</li>
+<li><strong>Relative volume:</strong> stocks trading far above their normal volume for the time of day (see <a href="/encyclopedia/stocks/momentum-trading/">momentum trading</a>).</li>
+<li><strong>New highs and lows:</strong> intraday, daily or 52-week highs being broken.</li>
+<li><strong>Halts and resumptions:</strong> stocks paused for volatility or news.</li>
+<li><strong>Unusual options activity:</strong> large or abnormal options volume, which some traders treat as a signal, with mixed results.</li>
+</ul>
+<h3 id="worked-example-reading-a-scanner-row">Worked example: reading a scanner row</h3>
+<p>At 9:00 a.m. a pre-market scanner shows a stock with:</p>
+<ul>
+<li>Prior close $7.20, current pre-market price $8.10.</li>
+<li>Gap: ($8.10 − $7.20) ÷ $7.20 = $0.90 ÷ $7.20 = 12.5 percent.</li>
+<li>Pre-market volume 900,000 shares. Its average pre-market volume by 9:00 a.m. is 60,000 shares, so relative volume is 900,000 ÷ 60,000 = 15.</li>
+<li>Average daily volume 2 million shares, so average dollar volume is about $7.20 × 2,000,000 = $14.4 million.</li>
+<li>Catalyst: a contract announcement.</li>
+</ul>
+<p>This passes a typical gap scan: a gap above 5 percent, heavy relative volume, enough daily liquidity and a clear reason. The next step is to mark levels (pre-market high and low, prior day&#39;s high, prior close) and decide on entries, stops and size before the open.</p>
+<h2 id="building-a-watchlist">Building a watchlist</h2>
+<p>A screen might return 50 or 200 names. A usable watchlist is much shorter.</p>
+<ol>
+<li><strong>Run the screen</strong> at a fixed time, such as after the close or an hour before the open.</li>
+<li><strong>Review charts</strong> and drop anything without a clear setup, level or catalyst.</li>
+<li><strong>Check events:</strong> earnings dates, ex-dividend dates and pending news (see <a href="/encyclopedia/stocks/earnings-trading/">earnings trading</a>).</li>
+<li><strong>Check correlation:</strong> if most names are from one sector, you are effectively looking at one trade (see <a href="/encyclopedia/risk-management/correlation-and-portfolio-risk/">correlation and portfolio risk</a>).</li>
+<li><strong>Write the plan:</strong> for each name, the trigger price, stop, target and position size.</li>
+<li><strong>Set alerts</strong> at trigger levels instead of watching every chart.</li>
+</ol>
+<p>Day traders often keep 3 to 10 names. Swing traders might track 10 to 30 and update weekly.</p>
+<h2 id="testing-a-screen">Testing a screen</h2>
+<p>To see whether a screen has historically picked stocks that went on to do well, you need historical data that includes companies that were later delisted. Testing only today&#39;s listed stocks introduces survivorship bias, because the failures have dropped out. Ratios also need to be &quot;point in time,&quot; meaning what was known on each date, not restated figures. See <a href="/encyclopedia/algorithmic-trading/backtesting/">backtesting</a>.</p>
+<h2 id="common-mistakes">Common mistakes</h2>
+<ul>
+<li><strong>Skipping liquidity filters.</strong> The most dramatic movers are often the hardest to trade.</li>
+<li><strong>Overloading a screen with criteria.</strong> Twenty filters tuned to past winners usually return nothing useful going forward.</li>
+<li><strong>Treating screen output as buy signals.</strong> A screen is a starting point for analysis.</li>
+<li><strong>Changing the screen every day.</strong> Consistency lets you learn how a set of criteria behaves.</li>
+<li><strong>Watching too many names.</strong> Attention is limited, and missed plans lead to impulsive trades.</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="what-is-the-difference-between-a-stock-screener-and-a-scanner">What is the difference between a stock screener and a scanner?</h3>
+<p>A screener filters stocks on fixed criteria, often with end-of-day data, to build a research list. A scanner updates in real time during the session to flag stocks that are moving now.</p>
+<h3 id="what-are-good-screener-settings-for-day-trading">What are good screener settings for day trading?</h3>
+<p>Common day trading criteria include a gap or move of several percent, relative volume well above normal, a minimum share price such as $5, sufficient average volume and a news catalyst. Settings depend on your strategy and the stocks you trade.</p>
+<h3 id="are-free-stock-screeners-good-enough">Are free stock screeners good enough?</h3>
+<p>Free screeners are usually fine for end-of-day fundamental and technical screens. Real-time day trading scanners often need paid data, because free data can be delayed.</p>
+<h3 id="how-many-stocks-should-be-on-a-watchlist">How many stocks should be on a watchlist?</h3>
+<p>Most day traders keep a handful, often under 10, so they can follow each closely. Swing traders may track a few dozen and update the list weekly.</p>
+</article>
+<div class="disclaimer"><strong>Educational content only.</strong> Nothing here is financial, investment, legal or tax advice. Trading carries a high risk of loss, and leveraged products can lose more than you deposit. Rules, fees and platform details change: check current terms with your broker, exchange or regulator before you trade.</div>
+<section class="related"><h2>Related articles</h2><div class="cards"><a class="card" href="/encyclopedia/stocks/swing-trading-stocks/"><div class="k">Stock Trading</div><b>Swing Trading Stocks</b><span>How swing traders hold stocks for days to weeks: breakouts, pullbacks to moving averages, base patterns, overnight and earnings risk, and managing trades.</span></a><a class="card" href="/encyclopedia/stocks/day-trading-stocks/"><div class="k">Stock Trading</div><b>Day Trading Stocks</b><span>How stock day trading works: the US pattern day trader rule and its 2026 replacement, cash vs margin accounts, T+1 settlement, setups and realistic odds.</span></a><a class="card" href="/encyclopedia/stocks/gap-trading/"><div class="k">Stock Trading</div><b>Gap Trading</b><span>How price gaps form and how traders trade them: common, breakaway, runaway and exhaustion gaps, gap fills, the opening range breakout and gap scanners.</span></a><a class="card" href="/encyclopedia/fundamental-analysis/valuation-ratios/"><div class="k">Fundamental &amp; Macro Analysis</div><b>Valuation Ratios</b><span>How to calculate and read P/E, forward P/E, PEG, P/S, P/B, EV/EBITDA, free cash flow yield and dividend yield, why sector context matters, and their limits.</span></a><a class="card" href="/encyclopedia/trading-business/trading-platforms-and-tools/"><div class="k">Prop Firms, Tax, Regulation &amp; Scams</div><b>Platforms &amp; Tools</b><span>A neutral guide to trading platforms and tools: charting, MT4/MT5, cTrader, futures and broker platforms, crypto terminals, journals, screeners and costs.</span></a></div></section>
+<div class="pager"><a href="/encyclopedia/stocks/etfs-and-index-trading/"><small>← Previous</small>ETFs &amp; Index Trading</a><span></span></div>
+</main>
+</div>
+<footer class="site"><div class="wrap">
+  <div class="cols"><a href="/encyclopedia/basics/">Trading Basics</a><a href="/encyclopedia/risk-management/">Risk &amp; Money Management</a><a href="/encyclopedia/psychology/">Trading Psychology</a><a href="/encyclopedia/technical-analysis/">Technical Analysis</a><a href="/encyclopedia/fundamental-analysis/">Fundamental &amp; Macro Analysis</a><a href="/encyclopedia/stocks/">Stock Trading</a><a href="/encyclopedia/forex/">Forex Trading</a><a href="/encyclopedia/futures/">Futures Trading</a><a href="/encyclopedia/options/">Options Trading</a><a href="/encyclopedia/crypto/">Crypto Trading</a><a href="/encyclopedia/meme-coins/">Meme Coin Trading</a><a href="/encyclopedia/prediction-markets/">Prediction Markets</a><a href="/encyclopedia/algorithmic-trading/">Algorithmic &amp; Quant Trading</a><a href="/encyclopedia/other-markets/">Commodities, Bonds &amp; More</a><a href="/encyclopedia/trading-business/">Prop Firms, Tax, Regulation &amp; Scams</a><a href="/encyclopedia/reference/">Reference</a><a href="/blog/">Blog</a><a href="/">Open-source bot toolkit</a></div>
+  <p>PnL Profit Trading Encyclopedia: free, independent explanations of how every major market works. Educational content only, not financial advice. Contact: <a href="https://t.me/tarpboi" target="_blank" rel="noreferrer">Telegram</a>.</p>
+</div></footer>
+<script>
+(function(){var box=document.getElementById('q'),out=document.getElementById('results');if(!box)return;var idx=null,sel=-1;
+function load(){if(idx)return Promise.resolve(idx);return fetch('/encyclopedia/search-index.json').then(function(r){return r.json()}).then(function(j){idx=j;return j})}
+function score(e,terms){var s=0,t=e.t.toLowerCase(),k=e.k.toLowerCase(),d=e.d.toLowerCase();for(var i=0;i<terms.length;i++){var w=terms[i];var hit=0;
+if(t.indexOf(w)===0)hit=12;else if(t.indexOf(w)>=0)hit=8;else if(k.indexOf(w)>=0)hit=5;else if(d.indexOf(w)>=0)hit=2;else if(e.c.toLowerCase().indexOf(w)>=0)hit=1;if(!hit)return 0;s+=hit}return s}
+function render(q){var terms=q.toLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){out.classList.remove('open');return}
+var r=idx.map(function(e){return[score(e,terms),e]}).filter(function(x){return x[0]>0}).sort(function(a,b){return b[0]-a[0]}).slice(0,12);sel=-1;
+out.innerHTML=r.length?r.map(function(x){var e=x[1];return '<a href="'+e.u+'">'+e.t.replace(/</g,'&lt;')+'<small>'+e.c+'</small></a>'}).join(''):'<div class="none">No matches. Try the glossary.</div>';out.classList.add('open')}
+box.addEventListener('focus',load);box.addEventListener('input',function(){load().then(function(){render(box.value)})});
+box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
+else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
+document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
+document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+</script>
+</body>
+</html>
