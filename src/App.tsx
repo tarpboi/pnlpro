@@ -3,7 +3,6 @@ import { Hero } from './components/Hero';
 import { EncyclopediaSection } from './components/EncyclopediaSection';
 import { LiveSignalSection } from './components/LiveSignalSection';
 import { BotsSection } from './components/BotsSection';
-import { ManagedSection } from './components/ManagedSection';
 import { VenuesSection } from './components/VenuesSection';
 import { EngineSection } from './components/EngineSection';
 import { SafetySection } from './components/SafetySection';
@@ -18,10 +17,9 @@ export default function App() {
       <main>
         <Hero />
         <EncyclopediaSection />
-        <LiveSignalSection />
         <BotsSection />
-        <ManagedSection />
         <VenuesSection />
+        <LiveSignalSection />
         <EngineSection />
         <SafetySection />
         <HowItWorksSection />

@@ -1,8 +1,13 @@
 import { TELEGRAM_URL, GITHUB_URL } from '../bots';
 import { useT, interp } from '../messages';
+import { useLang } from '../i18n';
+import { homeCopy } from '../home-copy';
+import { encyclopediaHome, glossaryHref } from './EncyclopediaSection';
 
 export function Footer() {
   const t = useT();
+  const { lang } = useLang();
+  const h = homeCopy(lang);
   return (
     <footer className="border-t border-border-subtle py-12">
       <div className="container-x">
@@ -16,8 +21,10 @@ export function Footer() {
           </div>
 
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-400">
-            <a href="#strategies" className="hover:text-white transition-colors">{t.nav.strategies}</a>
-            <a href="#engine" className="hover:text-white transition-colors">{t.nav.engine}</a>
+            <a href={encyclopediaHome(lang)} className="hover:text-white transition-colors">{t.nav.encyclopedia}</a>
+            <a href={glossaryHref(lang)} className="hover:text-white transition-colors">{h.glossary}</a>
+            <a href="blog/" className="hover:text-white transition-colors">{t.nav.blog}</a>
+            <a href="#strategies" className="hover:text-white transition-colors">{h.bots}</a>
             <a href="#safety" className="hover:text-white transition-colors">{t.nav.safety}</a>
             <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">{t.nav.github}</a>
             <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">{t.nav.telegram}</a>

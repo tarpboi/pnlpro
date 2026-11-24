@@ -57,3 +57,24 @@ export function EncyclopediaSection() {
     </section>
   );
 }
+
+/** Glossary page for the visitor's language (falls back to English with the home page). */
+export function glossaryHref(lang: string): string {
+  return `${encyclopediaHome(lang)}reference/trading-glossary/`;
+}
+
+/** Totals for the hero stats, from the generated encyclopedia data. */
+export const encyclopediaTotals = {
+  articles: encyclopedia.categories.reduce((n, c) => n + c.count, 0),
+  langs: (encyclopedia.langs as string[]).length,
+};
+
+/** Categories with localized name and URL, for the hero's topic chips. */
+export function encyclopediaTopics(lang: string, limit = 6) {
+  return encyclopedia.categories.slice(0, limit).map((c) => ({
+    slug: c.slug,
+    icon: c.icon,
+    name: pick(c.name as Localized, lang),
+    url: pick(c.url as Localized, lang),
+  }));
+}

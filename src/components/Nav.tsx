@@ -2,43 +2,98 @@ import { useState, useRef, useEffect } from 'react';
 import { GITHUB_URL } from '../bots';
 import { useLang, LOCALES, localeOf } from '../i18n';
 import { useT, READY_LANGS } from '../messages';
-import { encyclopediaHome } from './EncyclopediaSection';
+import { encyclopediaHome, glossaryHref } from './EncyclopediaSection';
+import { homeCopy } from '../home-copy';
 
 export function Nav() {
   const t = useT();
   const { lang } = useLang();
+  const h = homeCopy(lang);
+  const [open, setOpen] = useState(false);
+  const links = [
+    { href: encyclopediaHome(lang), label: t.nav.encyclopedia, accent: true },
+    { href: glossaryHref(lang), label: h.glossary },
+    { href: '#strategies', label: h.bots },
+    { href: '#venues', label: t.nav.venues },
+    { href: 'blog/', label: t.nav.blog },
+    { href: '#contact', label: t.nav.contact },
+  ];
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
+
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-lg bg-bg-base/70 border-b border-border-subtle">
-      <nav className="container-x flex items-center justify-between h-16">
-        <a href="#top" className="flex items-center gap-2 font-bold tracking-tight">
-          <img src="/logo-mark.png" alt="PnL Profit" width={34} height={34} className="w-[34px] h-[34px] object-contain" />
+    <header className="sticky top-0 z-50 backdrop-blur-lg bg-bg-base/75 border-b border-border-subtle">
+      <nav className="container-x flex items-center justify-between h-16 gap-4">
+        <a href="#top" className="flex items-center gap-2 font-bold tracking-tight shrink-0">
+          <img src="/logo-mark.png" alt="PnL Profit" width={32} height={32} className="w-8 h-8 object-contain" />
           <span>PnL Profit</span>
         </a>
 
-        <div className="hidden md:flex items-center gap-8 text-sm text-zinc-400">
-          <a href={encyclopediaHome(lang)} className="text-green-400 hover:text-green-300 font-medium transition-colors">{t.nav.encyclopedia}</a>
-          <a href="#strategies" className="hover:text-white transition-colors">{t.nav.strategies}</a>
-          <a href="#managed" className="hover:text-white transition-colors">{t.nav.managed}</a>
-          <a href="#venues" className="hover:text-white transition-colors">{t.nav.venues}</a>
-          <a href="#engine" className="hover:text-white transition-colors">{t.nav.engine}</a>
-          <a href="#safety" className="hover:text-white transition-colors">{t.nav.safety}</a>
-          <a href="blog/" className="hover:text-white transition-colors">{t.nav.blog}</a>
-          <a href="#contact" className="hover:text-white transition-colors">{t.nav.contact}</a>
+        <div className="hidden lg:flex items-center gap-1 text-sm text-zinc-400">
+          {links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className={`rounded-lg px-3 py-2 transition-colors hover:bg-white/5 hover:text-white ${l.accent ? 'text-green-400 font-medium' : ''}`}
+            >
+              {l.label}
+            </a>
+          ))}
         </div>
 
         <div className="flex items-center gap-2">
-          <LangToggle />
-          <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="btn-secondary" aria-label={t.nav.github}>
+          <div className="hidden sm:block"><LangToggle /></div>
+          <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="btn-secondary hidden sm:inline-flex" aria-label={t.nav.github}>
             <GitHubIcon />
-            <span className="hidden sm:inline">{t.nav.github}</span>
+            <span className="hidden xl:inline">{t.nav.github}</span>
           </a>
+          <button
+            type="button"
+            className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border-subtle bg-bg-elevated text-zinc-200"
+            aria-label={h.menu}
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+              {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+            </svg>
+          </button>
         </div>
       </nav>
+
+      {open && (
+        <div className="lg:hidden border-t border-border-subtle bg-bg-base/95 backdrop-blur-xl">
+          <div className="container-x flex flex-col py-3">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className={`rounded-lg px-3 py-3 text-base transition-colors hover:bg-white/5 ${l.accent ? 'text-green-400 font-semibold' : 'text-zinc-200'}`}
+              >
+                {l.label}
+              </a>
+            ))}
+            <div className="mt-2 flex items-center gap-2 border-t border-border-subtle pt-4">
+              <LangToggle full />
+              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="btn-secondary">
+                <GitHubIcon />
+                <span>{t.nav.github}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
 
-function LangToggle() {
+function LangToggle({ full = false }: { full?: boolean }) {
   const { lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -53,7 +108,7 @@ function LangToggle() {
   }, []);
 
   return (
-    <div ref={ref} className="relative hidden sm:block">
+    <div ref={ref} className="relative">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
@@ -63,7 +118,7 @@ function LangToggle() {
         className="inline-flex items-center gap-1.5 rounded-lg border border-border-subtle bg-bg-elevated px-2.5 py-1.5 text-xs font-semibold text-zinc-300 hover:text-white transition-colors"
       >
         <span aria-hidden>{cur.flag}</span>
-        <span className="hidden md:inline">{cur.native}</span>
+        <span className={full ? 'inline' : 'hidden md:inline'}>{cur.native}</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
           <path d="M6 9l6 6 6-6" />
         </svg>
@@ -71,7 +126,7 @@ function LangToggle() {
       {open && (
         <ul
           role="listbox"
-          className="absolute end-0 mt-2 max-h-[70vh] w-44 overflow-auto rounded-xl border border-border-subtle bg-bg-elevated p-1 shadow-2xl z-50"
+          className={`absolute ${full ? 'start-0' : 'end-0'} mt-2 max-h-[70vh] w-44 overflow-auto rounded-xl border border-border-subtle bg-bg-elevated p-1 shadow-2xl z-50`}
         >
           {LOCALES.filter((l) => READY_LANGS.includes(l.code)).map((l) => (
             <li key={l.code}>

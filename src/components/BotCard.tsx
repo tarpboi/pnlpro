@@ -1,9 +1,15 @@
 import type { BotMeta } from '../bots';
 import { accentClasses, TELEGRAM_URL } from '../bots';
+import { useState } from 'react';
 import { useT } from '../messages';
+import { useLang } from '../i18n';
+import { homeCopy } from '../home-copy';
 
 export function BotCard({ bot, index }: { bot: BotMeta; index: number }) {
   const t = useT();
+  const { lang } = useLang();
+  const h = homeCopy(lang);
+  const [open, setOpen] = useState(false);
   const accent = accentClasses[bot.accent];
   const content = t.bots.items[bot.id];
 
@@ -13,7 +19,7 @@ export function BotCard({ bot, index }: { bot: BotMeta; index: number }) {
   }
 
   return (
-    <div className="card p-6 group flex flex-col h-full">
+    <div className="card p-5 group flex flex-col h-full">
       <div className="flex items-start justify-between gap-3 mb-4">
         <div className="flex items-center gap-3">
           <div
@@ -34,26 +40,42 @@ export function BotCard({ bot, index }: { bot: BotMeta; index: number }) {
         <p className={`text-sm font-semibold ${accent.text} leading-snug`}>{content.hook}</p>
       </div>
 
-      <p className="text-sm text-zinc-400 leading-relaxed mb-5 flex-1">{content.description}</p>
-
-      <div className="border-t border-border-subtle pt-3 mb-4">
-        {content.specs.map((spec) => (
-          <div key={spec.label} className="spec-row">
-            <span className="spec-label">{spec.label}</span>
-            <span className="spec-value">{spec.value}</span>
+      {open && (
+        <div className="mb-4">
+          <p className="text-sm text-zinc-400 leading-relaxed mb-4">{content.description}</p>
+          <div className="border-t border-border-subtle pt-2">
+            {content.specs.map((spec) => (
+              <div key={spec.label} className="spec-row">
+                <span className="spec-label">{spec.label}</span>
+                <span className="spec-value">{spec.value}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
-      <a
-        href={TELEGRAM_URL}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg bg-bg-elevated border border-border-subtle hover:border-border-strong hover:bg-zinc-800/60 text-sm font-medium text-zinc-200 transition-all"
-      >
-        <span>{t.bots.cardCta}</span>
-        <span className="font-mono text-xs text-zinc-500">{t.bots.cardCtaSuffix}</span>
-      </a>
+      <div className="mt-auto flex items-center justify-between gap-3 pt-1">
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-300 hover:text-white transition-colors"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden className={`transition-transform ${open ? 'rotate-180' : ''}`}>
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+          {open ? h.hide : h.details}
+        </button>
+        <a
+          href={TELEGRAM_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-green-400 hover:text-green-300 transition-colors"
+        >
+          {t.bots.cardCta}
+          <span aria-hidden>→</span>
+        </a>
+      </div>
     </div>
   );
 }

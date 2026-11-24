@@ -7,11 +7,19 @@ import {
   TELEGRAM_URL,
   type VenueMeta,
 } from '../bots';
+import { useState } from 'react';
 import { useLang } from '../i18n';
 import { useT } from '../messages';
+import { homeCopy, fill } from '../home-copy';
+
+const FIRST = 6;
 
 export function VenuesSection() {
   const t = useT();
+  const { lang } = useLang();
+  const h = homeCopy(lang);
+  const [all, setAll] = useState(false);
+  const shown = all ? venues : venues.slice(0, FIRST);
 
   return (
     <section id="venues" className="py-24 border-t border-border-subtle">
@@ -25,11 +33,18 @@ export function VenuesSection() {
         {/* One flat grid, no per-venue status. The engine is venue-agnostic and each
             venue has its own repo; claiming a live/beta/roadmap state per venue on the
             marketing site is a capability claim we don't want to make here. */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {venues.map((v) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {shown.map((v) => (
             <VenueCard key={v.repo} venue={v} />
           ))}
         </div>
+        {venues.length > FIRST && (
+          <div className="mt-6 flex justify-center">
+            <button type="button" onClick={() => setAll((a) => !a)} className="btn-secondary">
+              {all ? h.showLess : fill(h.showAll, { n: venues.length })}
+            </button>
+          </div>
+        )}
 
         <p className="mt-12 text-sm text-zinc-500 max-w-3xl">
           {t.venues.footnote}{' '}
@@ -51,44 +66,37 @@ function VenueCard({ venue }: { venue: VenueMeta }) {
       href={venueRepoUrl(venue.repo)}
       target="_blank"
       rel="noreferrer"
-      className="card group p-5 flex flex-col gap-4 hover:border-green-500/40 transition-colors"
+      className="card group flex items-center gap-3 p-4 hover:border-green-500/40 transition-colors"
     >
-      <div className="flex items-center gap-2.5 min-w-0">
-        <img
-          src={venueLogo(venue.domain)}
-          alt=""
-          width={20}
-          height={20}
-          loading="lazy"
-          className="w-5 h-5 rounded shrink-0 bg-white/5"
-        />
-        <h4 className="font-bold text-white leading-tight truncate">{venue.name}</h4>
+      <img
+        src={venueLogo(venue.domain)}
+        alt=""
+        width={28}
+        height={28}
+        loading="lazy"
+        className="w-7 h-7 rounded-md shrink-0 bg-white/5"
+      />
+      <div className="min-w-0 flex-1">
+        <div className="font-semibold text-white leading-tight truncate">{venue.name}</div>
+        <div className="text-xs text-zinc-500 truncate">{(venue.type as Record<string, string>)[lang] ?? venue.type.en}</div>
       </div>
-
-      <div className="text-sm text-zinc-500">{(venue.type as Record<string, string>)[lang] ?? venue.type.en}</div>
-
-      <div className="flex flex-col gap-2">
-        <div className="text-[11px] uppercase tracking-wider text-zinc-600 font-semibold">{t.nav.strategies}</div>
-        <div className="flex flex-wrap gap-1.5">
-          {venue.strategies.map((id) => {
-            const bot = botById[id];
-            if (!bot) return null;
-            const accent = accentClasses[bot.accent];
-            return (
-              <span
-                key={id}
-                title={t.bots.items[id]?.title ?? id}
-                className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium ${accent.bg} ${accent.text}`}
-              >
-                <span aria-hidden>{bot.emoji}</span>
-                <span className="hidden md:inline max-w-[7rem] truncate">{t.bots.items[id]?.title ?? id}</span>
-              </span>
-            );
-          })}
-        </div>
+      <div className="flex shrink-0 -space-x-1" title={venue.strategies.map((id) => t.bots.items[id]?.title ?? id).join(', ')}>
+        {venue.strategies.slice(0, 4).map((id) => {
+          const bot = botById[id];
+          if (!bot) return null;
+          const accent = accentClasses[bot.accent];
+          return (
+            <span key={id} className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-[11px] ring-2 ring-bg-surface ${accent.bg}`} aria-hidden>
+              {bot.emoji}
+            </span>
+          );
+        })}
+        {venue.strategies.length > 4 && (
+          <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-zinc-800 px-1 text-[10px] font-semibold text-zinc-300 ring-2 ring-bg-surface">
+            +{venue.strategies.length - 4}
+          </span>
+        )}
       </div>
-
-      <div className="mt-auto text-sm font-medium text-green-400 opacity-0 group-hover:opacity-100 transition-opacity">{t.venues.cardCta}</div>
     </a>
   );
 }
