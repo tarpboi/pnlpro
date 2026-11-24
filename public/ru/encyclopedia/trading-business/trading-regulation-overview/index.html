@@ -40,16 +40,19 @@
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;font-size:17px}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
-header.site{border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
-header.site .wrap{display:flex;align-items:center;gap:16px;height:60px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;white-space:nowrap}.brand:hover{text-decoration:none}
-.brand img{width:30px;height:30px;object-fit:contain}
+header.site{border-bottom:1px solid #1f1f29;background:rgba(10,10,15,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);position:sticky;top:0;z-index:20}
+header.site .wrap{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px;max-width:1280px;padding:0 32px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:-.01em;color:#fff;white-space:nowrap;flex-shrink:0;font-size:1rem}.brand:hover{text-decoration:none}
+.brand img{width:32px;height:32px;object-fit:contain}
 .brand small{color:var(--dim);font-weight:500;font-size:.85rem}
-nav.top{display:flex;gap:18px;font-size:.92rem;margin-inline-start:8px}nav.top a{color:var(--muted)}nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
-.search{position:relative;margin-inline-start:auto;width:min(340px,100%)}
-.search input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 12px;font:inherit;font-size:.92rem}
+nav.top{display:flex;gap:4px;font-size:.875rem;line-height:1.25rem}nav.top a{color:#a1a1aa;padding:8px 12px;border-radius:8px;transition:color .15s,background .15s}nav.top a:hover{color:#fff;background:rgba(255,255,255,.05);text-decoration:none}nav.top a.on{color:#4ade80;font-weight:500}
+.hr{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.sbtn{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 10px;border:1px solid #1f1f29;background:#16161d;border-radius:8px;color:#d4d4d8;cursor:pointer;font:inherit}.sbtn:hover,.sbtn[aria-expanded=true]{color:#fff;border-color:#3f3f46}.sbtn kbd{font:600 .7rem/1 ui-monospace,monospace;color:#71717a;border:1px solid #2a2a35;border-radius:4px;padding:2px 5px}
+.gh{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;background:#16161d;border:1px solid #2a2a35;color:#f4f4f5;font-weight:600;font-size:.875rem;line-height:1.25rem}.gh:hover{background:rgba(39,39,42,.6);text-decoration:none}
+.search{display:none;position:absolute;top:72px;inset-inline-end:32px;width:min(460px,calc(100vw - 32px));z-index:30}header.site.searching .search{display:block}
+.search input{width:100%;background:#16161d;border:1px solid #3f3f46;border-radius:10px;color:var(--text);padding:12px 14px;font:inherit;font-size:.95rem;box-shadow:0 16px 50px rgba(0,0,0,.6)}
 .search input:focus{outline:none;border-color:var(--accent)}
-.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.results{position:absolute;top:52px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-height:70vh;overflow:auto;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .results.open{display:block}.results a{display:block;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
 .results a:hover,.results a.sel{background:var(--surface2);text-decoration:none}.results small{display:block;color:var(--dim);font-size:.78rem}
 .results .none{padding:12px 14px;color:var(--dim);font-size:.9rem}
@@ -127,26 +130,25 @@ footer.site a{color:var(--muted)}
   aside.side{display:none}
   details.side-m{display:block;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.92rem}
   details.side-m summary{cursor:pointer;color:var(--muted);font-weight:600}details.side-m ul{list-style:none;padding:0;margin:8px 0 0}details.side-m li{padding:3px 0}
-  nav.top{display:none}
   h1.title{font-size:1.75rem}.hero h1{font-size:2rem}.hero{padding:36px 0 12px}
   .cats{grid-template-columns:minmax(0,1fr)}
 }
-@media (max-width:560px){.brand small{display:none}header.site .wrap{gap:10px}}
+@media (max-width:640px){header.site .wrap{padding:0 24px;gap:10px}.gh{display:none}.sbtn kbd{display:none}.search{inset-inline-end:16px}}
 
 .navmenu{display:none;position:relative;flex-shrink:0}
-.navmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;width:36px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.navmenu summary{list-style:none;cursor:pointer;border:1px solid #1f1f29;background:#16161d;border-radius:8px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:#e4e4e7}
 .navmenu summary::-webkit-details-marker{display:none}.navmenu[open] summary,.navmenu summary:hover{color:#fff;border-color:var(--muted)}
-.navmenu .menu{position:absolute;top:42px;inset-inline-start:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:200px;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.navmenu .menu a{display:block;padding:10px 12px;border-radius:6px;color:var(--text);font-size:.95rem}
+.navmenu .menu{position:fixed;top:64px;left:0;right:0;background:#0a0a0f;box-shadow:0 20px 40px rgba(0,0,0,.6);border-bottom:1px solid #1f1f29;padding:12px 24px;z-index:40}
+.navmenu .menu a{display:block;padding:12px;border-radius:8px;color:#e4e4e7;font-size:1rem}
 .navmenu .menu a:hover{background:var(--surface2);text-decoration:none}.navmenu .menu a.on{color:var(--accent);font-weight:600}
-@media (max-width:900px){.navmenu{display:block}}
+@media (max-width:1023px){.navmenu{display:block}nav.top{display:none}.gh span{display:none}.gh{padding:10px 12px}}
 .langmenu{position:relative;flex-shrink:0}
-.langmenu summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.85rem;color:var(--muted);white-space:nowrap;user-select:none}
+.langmenu summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;border:1px solid #1f1f29;background:#16161d;border-radius:8px;padding:6px 10px;font-size:.75rem;font-weight:600;color:#d4d4d8;white-space:nowrap;user-select:none}.flag{font-weight:400}
 .langmenu summary::-webkit-details-marker{display:none}.langmenu summary:hover,.langmenu[open] summary{color:#fff;border-color:var(--muted)}
 .langmenu .menu{position:absolute;top:40px;inset-inline-end:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;min-width:170px;max-height:70vh;overflow:auto;z-index:40;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.langmenu .menu a{display:block;padding:6px 10px;border-radius:6px;color:var(--text);font-size:.9rem}
+.langmenu .menu a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;color:#a1a1aa;font-size:.875rem}
 .langmenu .menu a:hover{background:var(--surface2);text-decoration:none}.langmenu .menu a.on{color:var(--accent);font-weight:600}
-@media (max-width:560px){.langmenu summary span{display:none}}
+@media (max-width:767px){.langmenu summary span{display:none}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","inLanguage":"ru","headline":"Финансовые регуляторы и защита инвесторов: гид для трейдера","description":"Кто регулирует трейдинг в мире — от SEC, CFTC и FCA до ESMA, ASIC и MAS, — от чего защищает регулирование, как работают компенсации и как проверить компанию.","keywords":"финансовые регуляторы, защита инвесторов, как проверить регулируется ли брокер, компенсация sipc fscs, регулирование криптовалют mica","articleSection":"Проп-фирмы, налоги, регулирование и мошенничество","image":"https://github.com/user-attachments/assets/2ae5783d-be8e-458d-8da4-1ff82aada3db","mainEntityOfPage":"https://pnlpro.fit/ru/encyclopedia/trading-business/trading-regulation-overview/","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"},"publisher":{"@type":"Organization","name":"PnL Profit","url":"https://pnlpro.fit/","logo":"https://pnlpro.fit/logo-mark.png"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Энциклопедия","item":"https://pnlpro.fit/ru/encyclopedia/"},{"@type":"ListItem","position":2,"name":"Проп-фирмы, налоги, регулирование и мошенничество","item":"https://pnlpro.fit/ru/encyclopedia/trading-business/"},{"@type":"ListItem","position":3,"name":"Регуляторы и защита инвесторов","item":"https://pnlpro.fit/ru/encyclopedia/trading-business/trading-regulation-overview/"}]}</script>
@@ -154,10 +156,14 @@ footer.site a{color:var(--muted)}
 </head>
 <body class="">
 <header class="site"><div class="wrap">
-  <a class="brand" href="/ru/encyclopedia/"><img src="/logo-mark.png" alt="" width="30" height="30"><span>PnL Profit</span><small>Энциклопедия</small></a>
-  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></nav>
-  <details class="navmenu"><summary aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary><div class="menu"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/blog/">Блог (англ.)</a><a href="/ru/">Торговые боты</a></div></details>
-  <details class="langmenu"><summary aria-label="Язык">🌐 <span>Русский</span></summary><div class="menu"><a href="/encyclopedia/trading-business/trading-regulation-overview/" hreflang="en" lang="en">English</a><a href="/zh/encyclopedia/trading-business/trading-regulation-overview/" hreflang="zh-CN" lang="zh-CN">中文</a><a href="/ru/encyclopedia/trading-business/trading-regulation-overview/" hreflang="ru" lang="ru" class="on" aria-current="true">Русский</a><a href="/es/encyclopedia/trading-business/trading-regulation-overview/" hreflang="es" lang="es">Español</a><a href="/pt/encyclopedia/trading-business/trading-regulation-overview/" hreflang="pt-BR" lang="pt-BR">Português</a><a href="/tr/encyclopedia/trading-business/trading-regulation-overview/" hreflang="tr" lang="tr">Türkçe</a><a href="/vi/encyclopedia/trading-business/trading-regulation-overview/" hreflang="vi" lang="vi">Tiếng Việt</a><a href="/ja/encyclopedia/trading-business/trading-regulation-overview/" hreflang="ja" lang="ja">日本語</a><a href="/ko/encyclopedia/trading-business/trading-regulation-overview/" hreflang="ko" lang="ko">한국어</a></div></details>
+  <a class="brand" href="/ru/"><img src="/logo-mark.png" alt="" width="32" height="32"><span>PnL Profit</span></a>
+  <nav class="top"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/ru/#strategies">Торговые боты</a><a href="/ru/#venues">Площадки</a><a href="/blog/">Блог (англ.)</a><a href="/ru/#contact">Контакты</a></nav>
+  <div class="hr">
+    <button class="sbtn" type="button" aria-label="Поиск по энциклопедии" aria-expanded="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><kbd>/</kbd></button>
+    <details class="langmenu"><summary aria-label="Язык"><b class="flag">🇷🇺</b><span>Русский</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><div class="menu"><a href="/encyclopedia/trading-business/trading-regulation-overview/" hreflang="en" lang="en"><b class="flag">🇬🇧</b>English</a><a href="/zh/encyclopedia/trading-business/trading-regulation-overview/" hreflang="zh-CN" lang="zh-CN"><b class="flag">🇨🇳</b>中文</a><a href="/ru/encyclopedia/trading-business/trading-regulation-overview/" hreflang="ru" lang="ru" class="on" aria-current="true"><b class="flag">🇷🇺</b>Русский</a><a href="/es/encyclopedia/trading-business/trading-regulation-overview/" hreflang="es" lang="es"><b class="flag">🇪🇸</b>Español</a><a href="/pt/encyclopedia/trading-business/trading-regulation-overview/" hreflang="pt-BR" lang="pt-BR"><b class="flag">🇧🇷</b>Português</a><a href="/tr/encyclopedia/trading-business/trading-regulation-overview/" hreflang="tr" lang="tr"><b class="flag">🇹🇷</b>Türkçe</a><a href="/vi/encyclopedia/trading-business/trading-regulation-overview/" hreflang="vi" lang="vi"><b class="flag">🇻🇳</b>Tiếng Việt</a><a href="/ja/encyclopedia/trading-business/trading-regulation-overview/" hreflang="ja" lang="ja"><b class="flag">🇯🇵</b>日本語</a><a href="/ko/encyclopedia/trading-business/trading-regulation-overview/" hreflang="ko" lang="ko"><b class="flag">🇰🇷</b>한국어</a></div></details>
+    <a class="gh" href="https://github.com/tarpboi/Prediction-Markets-Trading-Bot-Toolkits" target="_blank" rel="noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-1.93c-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.79 0c2.2-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.07.78 2.15v3.19c0 .31.21.67.8.55 4.56-1.53 7.85-5.84 7.85-10.91C23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub</span></a>
+    <details class="navmenu"><summary aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary><div class="menu"><a href="/ru/encyclopedia/" class="on">Энциклопедия</a><a href="/ru/encyclopedia/reference/trading-glossary/">Глоссарий</a><a href="/ru/#strategies">Торговые боты</a><a href="/ru/#venues">Площадки</a><a href="/blog/">Блог (англ.)</a><a href="/ru/#contact">Контакты</a><a href="https://github.com/tarpboi/Prediction-Markets-Trading-Bot-Toolkits" target="_blank" rel="noreferrer">GitHub</a></div></details>
+  </div>
   <div class="search"><input id="q" type="search" placeholder="Поиск по 150+ статьям  ( / )" autocomplete="off" aria-label="Поиск по энциклопедии"><div id="results" class="results" role="listbox"></div></div>
 </div></header>
 <div class="wrap layout">
@@ -347,7 +353,7 @@ box.addEventListener('focus',load);box.addEventListener('input',function(){load(
 box.addEventListener('keydown',function(ev){var a=out.querySelectorAll('a');if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){if(!a.length)return;ev.preventDefault();sel=(sel+(ev.key==='ArrowDown'?1:-1)+a.length)%a.length;a.forEach(function(x,i){x.classList.toggle('sel',i===sel)})}
 else if(ev.key==='Enter'){var t=a[sel>=0?sel:0];if(t)location.href=t.href}else if(ev.key==='Escape'){out.classList.remove('open');box.blur()}});
 document.addEventListener('click',function(ev){if(!ev.target.closest('.search'))out.classList.remove('open')});
-document.addEventListener('keydown',function(ev){if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();box.focus()}})})();
+var hdr=document.querySelector('header.site'),btn=document.querySelector('.sbtn');function openS(){hdr.classList.add('searching');if(btn)btn.setAttribute('aria-expanded','true');setTimeout(function(){box.focus()},0)}function closeS(){hdr.classList.remove('searching');if(btn)btn.setAttribute('aria-expanded','false');out.classList.remove('open')}if(btn)btn.addEventListener('click',function(ev){ev.stopPropagation();hdr.classList.contains('searching')?closeS():openS()});document.addEventListener('click',function(ev){if(!ev.target.closest('.search')&&!ev.target.closest('.sbtn'))closeS()});document.addEventListener('keydown',function(ev){if(ev.key==='Escape')closeS();if(ev.key==='/'&&document.activeElement!==box&&!/input|textarea/i.test(document.activeElement.tagName)){ev.preventDefault();openS()}})})();
 </script>
 </body>
 </html>
