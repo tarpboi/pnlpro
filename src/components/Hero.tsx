@@ -13,7 +13,7 @@ export function Hero() {
     { value: '10', label: h.statBots },
   ];
   return (
-    <section id="top" className="relative -mt-16 flex min-h-[88vh] flex-col overflow-hidden">
+    <section id="top" className="relative -mt-16 flex min-h-screen min-h-[100svh] flex-col overflow-hidden">
       {/* full-bleed banner video */}
       <video
         className="absolute inset-0 -z-20 h-full w-full object-cover opacity-70"
@@ -31,9 +31,9 @@ export function Hero() {
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-bg-base/95 via-bg-base/50 to-transparent" aria-hidden />
       <div className="pointer-events-none absolute -left-40 top-1/3 -z-10 h-[520px] w-[520px] rounded-full bg-green-500/15 blur-[130px]" aria-hidden />
 
-      <div className="container-x relative flex w-full flex-1 flex-col justify-center pb-12 pt-28">
+      <div className="container-x relative flex w-full flex-1 flex-col justify-center pb-8 pt-24 sm:pb-12 sm:pt-28">
         <div className="max-w-4xl">
-          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-3 py-1.5 text-xs font-medium text-green-300 backdrop-blur-sm">
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-3 py-1.5 text-xs font-medium text-green-300 backdrop-blur-sm">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400" />
             {fill(h.badge, { articles: encyclopediaTotals.articles, langs: encyclopediaTotals.langs })}
           </span>
@@ -44,20 +44,20 @@ export function Hero() {
             <span className="gradient-text">{h.line2}</span>
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300 md:text-xl">{h.description}</p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-300 sm:text-lg md:text-xl">{h.description}</p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href={encyclopediaHome(lang)} className="btn-primary px-6 py-3 text-base">
+          <div className="mt-7 flex flex-wrap items-center gap-2.5 sm:gap-3">
+            <a href={encyclopediaHome(lang)} className="btn-primary px-4 py-2.5 text-sm sm:px-6 sm:py-3 sm:text-base">
               <BookIcon />
               <span>{h.ctaLearn}</span>
             </a>
-            <a href="#strategies" className="btn-secondary px-6 py-3 text-base">
+            <a href="#strategies" className="btn-secondary px-4 py-2.5 text-sm sm:px-6 sm:py-3 sm:text-base">
               <span>{h.ctaBots}</span>
               <span aria-hidden>→</span>
             </a>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-8 hidden sm:block">
             <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">{h.popular}</div>
             <div className="flex flex-wrap gap-2">
               {topics.map((c) => (
@@ -77,11 +77,11 @@ export function Hero() {
 
       {/* stats strip along the bottom edge of the banner */}
       <div className="relative border-t border-white/10 bg-bg-base/60 backdrop-blur-md">
-        <div className="container-x grid w-full grid-cols-2 md:grid-cols-4">
+        <div className="container-x grid w-full grid-cols-4">
           {stats.map((s) => (
-            <div key={s.label} className="px-2 py-5 md:px-5">
-              <div className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">{s.value}</div>
-              <div className="mt-1 text-sm text-zinc-400">{s.label}</div>
+            <div key={s.label} className="px-1 py-3 sm:px-2 sm:py-5 md:px-5">
+              <div className="text-xl font-extrabold tracking-tight text-white sm:text-3xl md:text-4xl">{s.value}</div>
+              <div className="mt-0.5 text-[11px] leading-tight text-zinc-400 sm:mt-1 sm:text-sm">{s.label}</div>
             </div>
           ))}
         </div>
